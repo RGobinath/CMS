@@ -1,0 +1,93 @@
+﻿@model TIPS.Entities.AdmissionManagement
+<style>
+    .InnerTable
+    {
+        font: normal 11px Verdana,Arial,sans-serif;
+        border: none;
+        text-align: left;
+    }
+    .InnerTable th
+    {
+        border: none;
+        border-color: Black;
+        border-collapse: collapse;
+        font: normal 11px Verdana,Arial,sans-serif;
+    }
+    .InnerTable td
+    {
+        border: none;
+        border-color: Black;
+        border-collapse: collapse;
+        font: normal 11px Verdana,Arial,sans-serif;
+    }
+</style>
+@using (Html.BeginForm("Promote", "Home", FormMethod.Post))
+{
+    
+    <h3>
+        Promotion</h3>
+    <hr />
+    <table width="100%" class="InnerTable" cellpadding="4" cellspacing="4">
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                            Campus
+                        </td>
+                        <td>
+                            IB Main
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Section
+                        </td>
+                        <td>
+                            A
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                            Grade
+                        </td>
+                        <td>
+                            1 to 2
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Section
+                        </td>
+                        <td>
+                            @Html.DropDownList("ddlSection", new SelectList(new[]
+                                          {
+                                             new {Value=" ",Text="Select One"},
+                                              new{Value="A",Text="A"},
+                                              new{Value="B",Text="B"},
+                                              new{Value="C",Text="C"},
+                                              new{Value="D",Text="D"},
+                                              new{Value="E",Text="E"},
+                                              new{Value="F",Text="F"},
+                                              new{Value="G",Text="G"},
+                                              new{Value="H",Text="H"},
+                                          },
+                            "Value", "Text", ""), new { @Class = "CSSDropDownList", style = "width:145px;" })
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="Promote" />
+                <input type="button" value="Reset" />
+            </td>
+        </tr>
+    </table>
+    
+}

@@ -1,0 +1,179 @@
+﻿@using CMS.Models.Menu
+@using CMS.Models.Gzip
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="../../Content/BootStrap/Site1.css" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/App_Themes/smoothness/jquery-ui-1.8.22.custom.css")" rel="stylesheet" type="text/css" />
+    @*<link href="@Url.Content("~/Content/ddsmoothmenu/ddsmoothmenu.css")" rel="stylesheet" type="text/css" />*@
+    <script src="@Url.Content("~/Scripts/jquery-1.7.2.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")" type="text/javascript"></script>
+    <script type="text/javascript" src='@Url.Content("~/Scripts/JQueryUI/jquery-ui-1.8.22.custom.min.js")'></script>
+    @*<script type="text/javascript" src="@Url.Content("~/Scripts/dddsmoothmenu/ddsmoothmenu.js")"></script>*@
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jqGridJs/i18n/grid.locale-en.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jqGridJs/jquery.jqGrid.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jqGridJs/jquery.jqGrid.src.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/FusionCharts1/FusionCharts.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/Scripts/jquery-asyncUpload-0.1.js")" type="text/javascript"></script>
+  @*<script src="@Url.Content("~/Scripts/DateTimePicker.js")" type="text/javascript"></script>*@
+    @*<script src="@Url.Content("~/Scripts/DatePicker.js")" type="text/javascript"></script>*@
+    <script src="@Url.Content("~/Scripts/ajaxfileupload.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/ApplicationScript.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jqMsgs.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/json2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/MasterPageScript.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/PasswordValidation.js")" type="text/javascript"></script>
+    @*<script src="@Url.Content("~/Scripts/TimePicker.js")" type="text/javascript"></script>*@
+    <script src="@Url.Content("~/Scripts/iframe.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jqGridJs/grid.common.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jqGridJs/grid.custom.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jqGridJs/grid.formedit.js")" type="text/javascript"></script>
+
+    @*<link href="../../Content/JqgridWithBootsrap/jqGrid.bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/src/css/ui.jqgrid.css" rel="stylesheet" type="text/css" />
+    <script src="../../Content/src/i18n/grid.locale-en.js" type="text/javascript"></script>
+    <link href="../../Content/BootStrap/bootstrap-theme.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/BootStrap/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/BootStrap/BootStrap.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/BootstrapDatePicker/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css" />
+    <script src="../../Content/BootstrapDatePicker/bootstrap-datetimepicker.js" type="text/javascript"></script>
+    <link href="../../Content/font-awesome-4.0.3/css/font-awesome.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />*@
+
+    @*--------------------------------------Bootstrap JqGrid----------------------------------------------*@
+    <link href="../../Content/bootstrap-3.1.1/JqgridWithBootsrap/jqGrid.bootstrap.css" rel="stylesheet" />
+    <link href="../../Content/bootstrap-3.1.1/JqgridWithBootsrap/jquery-ui.css" rel="stylesheet" />
+    <script src="../../Content/bootstrap-3.1.1/JqgridWithBootsrap/jquery-ui.js"></script>
+    @*--------------------------------------Bootstrap Functions----------------------------------------------*@
+    <script src="../../Content/bootstrap-3.1.1/BootstrapFunctions/bootstrap-maxlength.js"></script>
+    <script src="../../Content/bootstrap-3.1.1/BootstrapFunctions/bootstrap-session-timeout.js"></script>
+    <script src="../../Content/bootstrap-3.1.1/BootstrapFunctions/bootstrap.file-input.js"></script>
+    <script src="../../Content/bootstrap-3.1.1/BootstrapFunctions/bootstrapValidator.js"></script>
+    <script src="../../Scripts/Notification/nicEdit.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ui.dropdownchecklist-1.4-min.js")" ></script>
+    @*--------------------------------------------Font Awesome------------------------------------------------*@
+    <link href="../../Content/FontAwesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="../../Content/FontAwesome/css/font-awesome.min.css" rel="stylesheet" />
+    @*--------------------------------------------Fusion Chart------------------------------------------------*@
+    <script src="../../Scripts/FusionCharts.js"></script>
+        @*--------------------------------------Basic Bootstraps----------------------------------------------*@
+    <link href="../../Content/bootstrap-3.1.1/bootstrap-3.1.1-dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="../../Content/bootstrap-3.1.1/bootstrap-3.1.1-dist/css/bootstrap-theme.css" rel="stylesheet" />
+    <script src="../../Content/bootstrap-3.1.1/bootstrap-3.1.1-dist/js/bootstrap.js"></script>
+    @*--------------------------------------Bootstrap Datepicker----------------------------------------------*@
+    <link href="../../Content/bootstrap-3.1.1/datepicker/css/datepicker.css" rel="stylesheet" />
+    <script src="../../Content/bootstrap-3.1.1/datepicker/js/bootstrap-datepicker.js"></script>
+
+
+    <script type="text/javascript" language="javascript">
+        ddsmoothmenu.init({
+            mainmenuid: "smoothmenu2", //Menu DIV id orientation: 'v', //Horizontal or vertical menu: Set to "h" or "v"
+            classname: 'ddsmoothmenu', //class added to   menu's outer DIV //
+            customtheme: ["#B6B6B6"],
+            contentsource: "markup"
+        })
+
+        $(document).ready(function () {
+            // object.onmousemove = function () { TriggerSession(); };
+            //  window.history.forward(1);
+            var defFunc = function defaultFunc(e) {
+                if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                    $("#btnsearch").click();
+                    return false;
+                }
+                return true;
+            }
+            $('input:text', '#srchKeyPress').keypress(defFunc);
+        });
+    </script>
+    <script type="text/javascript">
+
+        //code for expired session
+        var sTimer = null;
+        var eTimer = null;
+
+        function InitializeTimer() {
+
+            //30 minutes
+            //  var interval = 1800000; //time in milliseconds 1000 ms = 1 second
+
+            // 5 min  1800000/6; 
+            var interval = 300000; //time in milliseconds 1000 ms = 1 second
+            settimerFun(interval);
+
+            $('body').ajaxStart(function () {
+                // reset timer on ajax request
+                settimerFun(interval);
+            });
+        }
+        function settimerFun(interval) {
+            if (sTimer)
+                clearTimeout(sTimer);
+
+            sTimer = setTimeout(function () { sExpired(); }, interval);
+        }
+        function sExpired() {
+            //for yes or no dialog
+            $('#div_sexpired').remove();
+            var dialog = $('<div id="div_sexpired"></div>').text("Do you want to extend the session?");
+            $('body').append(dialog);
+
+            $('#div_sexpired').dialog({
+                autoOpen: true,
+                modal: true,
+                title: 'Extend Session',
+                buttons: {
+                    "Yes": function () {
+
+                        //write your logic here for yes button
+                        if (eTimer)
+                            clearTimeout(eTimer);
+                        settimerFun(300000);
+                        $(dialog).dialog('close');
+                        $('#div_sexpired').remove();
+                    },
+                    "No": function () {
+                        //write your logic here for no button
+                        redirtoLogin();
+                    }
+                }
+            });
+        }
+        function redirtoLogin() {
+            //redirect to login page
+            window.location.href = '@Url.Action("LogOff", "Account")';
+        }
+        //end of expired session
+        $(function () {
+            InitializeTimer(); //invoke the timer function
+        });
+
+    </script>
+</head>
+<body>
+@*<div class="panel panel-warning" id="main">*@
+@*   <div class="panel-heading">
+      <h3 class="panel-title">Panel title</h3>
+   </div>*@
+   <div class="panel-body">
+      @RenderBody()
+   </div>
+@*</div>*@
+    @*<div id="main">
+        <table class="CenteredDiv" style="width: 100%;">
+           
+            <tr>
+                <td valign="top">
+                    @RenderBody()
+                </td>
+            </tr>
+        </table>
+    </div>*@
+    <div id="sessionEndDialog" title="Session Expiring" style="display: none;">
+        <p>
+            Your session is about to expire. Click OK to renew your session or Logout to exit
+            from the application.</p>
+    </div>
+</body>
+</html>

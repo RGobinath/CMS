@@ -1,0 +1,115 @@
+﻿@model TIPS.Entities.TransportEntities.FuelRefillDetails
+@{
+    ViewBag.Title = "FuelRefillBulkEntry";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<!-- #section:basics/navbar.layout -->
+<!-- /section:basics/navbar.layout -->
+@using (Html.BeginForm("FuelRefillBulkEntry", "Transport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{   
+    <div class="page-content">
+        <div class="page-content-area">
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-search"></i>&nbsp;Basic Details</div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="space-2">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Ref Number</b></label><br />
+                                            @Model.RefNo
+                                            @Html.HiddenFor(m => m.RefNo)
+                                            @Html.HiddenFor(m => m.Id)
+                                            @Html.HiddenFor(m => m.CreatedDate)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Processed By</b></label><br />
+                                            @Model.ProcessedBy
+                                            @Html.HiddenFor(m => m.ProcessedBy)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b></label><br />
+                                            @Model.Campus
+                                            @Html.HiddenFor(m => m.Campus)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>User Role</b></label><br />
+                                            @Model.UserRole
+                                            @Html.HiddenFor(m => m.UserRole)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Status</b></label><br />
+                                            @Model.Status
+                                            @Html.HiddenFor(m => m.Status)
+                                        </div>
+                                        <div class="col-sm-1">
+                                        <br />
+                                            <button type="submit" class="btn btn-primary btn-block btn-sm" id="btnSubmit">
+                                                <i class="ace-icon fa fa-floppy-o bigger-100"></i>Save
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-1">
+                                        <br />
+                                            <button type="button" class="btn btn-block btn-success btn-sm" id="btnFinish" name="NameFinish"
+                                                onclick="Complete()">
+                                                <i class="fa fa-check-square-o"></i>&nbsp;Complete
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <dic class="space-2"></dic>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Choose Vehicles :</b></label>
+                                            <a id="VehicleSearch" style="cursor: pointer;"><i class="fa fa-search"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="FuelRefillList" class="InnerTable" width="100%">
+                            </table>
+                            <div id="FuelRefillListPager">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="DivVehicleSearch">
+    </div>
+}
+<script src='@Url.Content("/Scripts/Transport/FuelRefillBulkEntry.js")' type="text/javascript"></script>
+<script type="text/javascript">    window.jQuery || document.write("<script src='../assets/js/jquery.min.js'>" + "<" + "/script>"); </script>
+<script type="text/javascript">    if ('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>"); </script>

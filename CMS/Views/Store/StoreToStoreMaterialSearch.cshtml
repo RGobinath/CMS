@@ -1,0 +1,289 @@
+﻿@*@model TIPS.Entities.StoreEntities.StoreMaterialsMaster*@
+@{
+    ViewBag.Title = "MaterialSearch";
+    Layout = null;
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.getJSON("/Store/FillMaterialGroup",
+                 function (fillig) {
+                     var ddlmatgrp = $("#ddlMaterialGroup");
+                     ddlmatgrp.empty();
+                     ddlmatgrp.append($('<option/>',
+                    {
+                        value: "",
+                        text: "Select One"
+                    }));
+                     $.each(fillig, function (index, itemdata) {
+                         ddlmatgrp.append($('<option/>',
+                             {
+                                 value: itemdata.Value,
+                                 text: itemdata.Text
+                             }));
+                     });
+                 });
+        $("#ddlMaterialGroup").change(function () {
+            // $("#ddlMaterialSubGroup").change();
+            var matgrp = $("#ddlMaterialGroup").val();
+            if (matgrp != "") {
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: '@Url.Content("~/Store/FillMaterialSubGroup")?MaterialGroupId=' + matgrp,
+                    success: function (data) {
+                        $("#ddlMaterialSubGroup").empty();
+                        $("#ddlMaterialSubGroup").append("<option value=''> Select One </option>");
+                        for (var i = 0; i < data.length; i++) {
+                            $("#ddlMaterialSubGroup").append("<option value='" + data[i].Value + "'>" + data[i].Text + "</option>");
+                        }
+                    },
+                    dataType: "json"
+                });
+            }
+            else {
+                $("#ddlMaterialSubGroup").empty();
+                $("#ddlMaterialSubGroup").append("<option value=''> Select One </option>");
+            }
+        });
+
+        $("#ddlMaterialSubGroup").change(function () {
+
+            var matgrp = $("#ddlMaterialGroup").val();
+            var matsubgrp = $(this).val();
+            if (matgrp != "") {
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: '@Url.Content("~/Store/FillMaterial")?MaterialGroupId=' + matgrp + "&MaterialSubGroupId=" + matsubgrp,
+                    success: function (data) {
+
+                        $("#ddlMaterial").empty();
+                        $("#ddlMaterial").append("<option value=''> Select One </option>");
+                        for (var i = 0; i < data.length; i++) {
+                            $("#ddlMaterial").append("<option value='" + data[i].Value + "'>" + data[i].Text + "</option>");
+                        }
+                    },
+                    dataType: "json"
+                });
+            }
+            else {
+                $("#ddlMaterial").empty();
+                $("#ddlMaterial").append("<option value=''> Select One </option>");
+            }
+        });
+        var idsOfSelectedRows = [];
+        jQuery("#StoreMaterialsList").jqGrid({
+            url: '/Store/StoreSKUListJqGridForMaterialIssue?FromStore=' + $("#FromStore").val(),
+            datatype: 'json',
+            mtype: 'GET',
+            height: '220',
+            width: '900',
+            shrinkToFit: true,
+            colNames: ['Id', 'Material Group', 'Material Sub Group', 'Material', 'Units', 'Store', 'Available Qty'],
+            colModel: [
+                { name: 'Id', index: 'Id', width: 50, align: 'left', editable: true, hidden: true, edittype: 'text', key: true },
+                { name: 'MaterialGroup', index: 'MaterialGroup', width: 100, align: "left" },
+                { name: 'MaterialSubGroup', index: 'MaterialSubGroup', width: 100, align: 'left' },
+                { name: 'Material', index: 'Material', width: 100, align: 'left' },
+                { name: 'Units', index: 'Units', width: 100, align: 'left' },
+                { name: 'Store', index: 'Store', width: 100, align: 'left' },
+                { name: 'ClosingBalance', index: 'ClosingBalance', width: 100, align: 'left',
+                    cellattr: function (rowId, cellValue, rawObject, cm, rdata) {
+                        if (cellValue == 0) {
+                            return 'class="ui-state-error ui-state-error-text"';
+                        }
+                    }
+                }
+                ],
+            pager: '#StoreMaterialsListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100],
+            sortname: 'Material',
+            sortorder: "",
+            viewrecords: true,
+            multiselect: true,
+            autowidth: true,
+            reloadAfterSubmit: true,
+            caption: 'Storer Materials List',
+            onSelectRow: function (id, status) {
+
+                var index = $.inArray(id, idsOfSelectedRows);
+                if (!status && index >= 0) {
+                    idsOfSelectedRows.splice(index, 1); // remove id from the list
+                } else if (index < 0) {
+                    idsOfSelectedRows.push(id);
+                };
+                var RowList1;
+                var selectedData1;
+                RowList1 = $('#StoreMaterialsList').getGridParam('selarrrow');
+                var Id = $("#Id").val();
+                selectedData1 = $('#StoreMaterialsList').jqGrid('getRowData', id);
+                if (status == true) {
+                    $('#StoreMaterialsList1').jqGrid('addRowData', id, selectedData1);
+                }
+                else {
+                    $('#StoreMaterialsList1').jqGrid('delRowData', id, selectedData1);
+                }
+            },
+            loadComplete: function () {
+                var $this = $(this), i, count;
+                for (i = 0, count = idsOfSelectedRows.length; i < count; i++) {
+                    $this.jqGrid('setSelection', idsOfSelectedRows[i], false);
+                }
+            }
+        });
+        $("#StoreMaterialsList").jqGrid('filterToolbar', { stringResult: false, searchOnEnter: true, beforeSearch: function () {
+            return false;
+        }
+        });
+
+        $("#btnSubmit").click(function () {
+            debugger;
+            var RowList;
+            var selectedData;
+            var skuLst = '';
+            RowList = $('#StoreMaterialsList1').getDataIDs();
+            var Id = $("#Id").val();
+
+            for (var i = 0, list = RowList.length; i < list; i++) {
+                var selectedId = RowList[i];
+                selectedData = $('#StoreMaterialsList1').jqGrid('getRowData', selectedId);
+                skuLst += "&[" + i + "].MaterialGroup=" + encodeURIComponent(selectedData.MaterialGroup)
+                + "&[" + i + "].MaterialSubGroup=" + encodeURIComponent(selectedData.MaterialSubGroup)
+                + "&[" + i + "].Material=" + encodeURIComponent(selectedData.Material)
+                + "&[" + i + "].Units=" + selectedData.Units
+                + "&[" + i + "].IssueId=" + Id
+            }
+            $.ajax({
+                url: '@Url.Content("~/Store/AddMaterialIssueList/")',
+                type: 'POST',
+                dataType: 'json',
+                data: skuLst,
+                success: function (data) {
+                    var Id = $("#Id").val();
+                    idsOfSelectedRows = [''];
+                    $("#MaterialIssueList").setGridParam({ url: '@Url.Content("~/Store/StoreToStoreMaterialIssueListJqGrid")?Id=' + Id }).trigger("reloadGrid");
+                }
+            });
+            $("#StoreMaterialsList1").jqGrid("clearGridData", true).trigger("reloadGrid");
+
+        });
+        $("#btnSubmitAndClose").click(function () {
+            $("#btnSubmit").click();
+            $('#DivMaterialSearch').dialog('close');
+        });
+        jQuery("#StoreMaterialsList1").jqGrid({
+            // url: '/Store/StoreSKUListJqGrid',
+            datatype: 'json',
+            mtype: 'GET',
+            height: '220',
+            width: '1000',
+            shrinkToFit: true,
+            colNames: ['Id', 'Material Group', 'Material Sub Group', 'Material', 'Units', 'Available Qty'],
+            colModel: [
+                                { name: 'Id', index: 'Id', width: 50, align: 'left', editable: true, hidden: true, edittype: 'text', key: true, sortable: false },
+                                { name: "MaterialGroup", index: "MaterialGroup", width: 100, align: "left" },
+                                { name: 'MaterialSubGroup', index: 'MaterialSubGroup', width: 100, align: 'left', sortable: false },
+                                { name: 'Material', index: 'Material', width: 100, align: 'left', sortable: false },
+                                { name: 'Units', index: 'Units', width: 100, align: 'left', sortable: false },
+                                { name: 'ClosingBalance', index: 'ClosingBalance', width: 70 },
+                                ],
+            pager: '#StoreMaterialsList1Pager',
+            sopt: ['bw', 'eq', 'ne', 'lt', 'le', 'gt', 'ge', 'ew', 'cn'],
+            rowNum: '50',
+            rowList: [5, 10, 20, 50, 100],
+            sortname: '',
+            sortorder: "",
+            viewrecords: true,
+            // multiselect: true,
+            closeAfterEdit: true,
+            closeAfterAdd: true,
+            autowidth: true,
+            //  shrinkToFit: true,
+            reloadAfterSubmit: true,
+            caption: 'Selected Materials List'
+        });
+
+        $("#btnSearch").click(function () {
+
+            $("#StoreMaterialsList").clearGridData();
+
+            var MaterialGroupId = $("#ddlMaterialGroup").val();
+            var MaterialSubGroupId = $("#ddlMaterialSubGroup").val();
+            var MaterialId = $("#ddlMaterial").val();
+            $("#StoreMaterialsList").setGridParam(
+                {
+                    datatype: "json",
+                    url: '@Url.Content("~/Store/StoreSKUListJqGridForMaterialIssue/")',
+                    postData: { MaterialGroupId: MaterialGroupId, MaterialSubGroupId: MaterialSubGroupId, MaterialId: MaterialId, Units: '' },
+                    page: 1
+                }).trigger("reloadGrid");
+        });
+        $("#btnReset").click(function () {
+            $("#ddlMaterialGroup").val('');
+            $("#ddlMaterialSubGroup").val('');
+            $("#ddlMaterial").val('');
+            $("#StoreMaterialsList").setGridParam(
+                {
+                    datatype: "json",
+                    url: '@Url.Content("~/Store/StoreSKUListJqGridForMaterialIssue/")',
+                    postData: { MaterialGroupId: 0, MaterialSubGroupId: 0, MaterialId: 0, Units: '' },
+                    page: 1
+                }).trigger("reloadGrid");
+        });
+    });
+</script>
+<table class="WithBorderOnly" width="100%">
+    <tr>
+        <td width="20%">
+            <label class="lblheader">
+                Materials Group
+            </label>
+        </td>
+        <td width="20%">
+            <label class="lblheader">
+                Material Sub Group</label>
+        </td>
+        <td width="20%">
+            <label class="lblheader">
+                Material</label>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DropDownList("ddlMaterialGroup", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownList("ddlMaterialSubGroup", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownList("ddlMaterial", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            <input type="button" id="btnSearch" value="Search" />
+            <input type="button" id="btnReset" value="Reset" />
+        </td>
+    </tr>
+    @* <tr>
+        <td>
+            <input type="button" id="btnSearch" value="Search" />
+            <input type="button" id="btnReset" value="Reset" />
+        </td>
+    </tr>*@
+</table>
+<table id="StoreMaterialsList" class="WithBorderOnly" width="100%">
+</table>
+<div id="StoreMaterialsListPager">
+</div>
+<table>
+    <tr>
+        <td>
+            <input type="button" id="btnSubmit" value="Save" />
+            <input type="button" id="btnSubmitAndClose" value="Save & Close" />
+        </td>
+    </tr>
+</table>
+<table id="StoreMaterialsList1" class="WithBorderOnly">
+</table>
+<div id="StoreMaterialsList1Pager">
+</div>

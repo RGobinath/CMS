@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Transport Management";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script src="@Url.Content("~/Scripts/Transport/TransportManagement.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnNew").click(function () {
+            window.location.href = '@Url.Action("VehicleDistanceCovered", "Transport")';
+        });
+    });
+</script>
+<h3>
+    Tranport Management</h3>
+<br />
+<table class="WithBorderOnly" width="100%">
+    <tr class="PanelHeading">
+        <th colspan="7">
+            Search Criteria
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <input type="button" id="btnNew" value="New" />
+        </td>
+    </tr>
+</table>
+<table id="DistanceCoveredList" class="InnerTable" width="100%">
+</table>
+<div id="DistanceCoveredListPager">
+</div>

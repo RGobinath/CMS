@@ -1,0 +1,572 @@
+﻿@model TIPS.Entities.TaskManagement.TaskSystem
+<script language="javascript" type="text/javascript">
+    $(function () {
+        //        var processBusy = $('<div><div id="processDiv" class="processing"></div>Processing...</div>').appendTo($('body')).dialog({
+        //            autoOpen: false,
+        //            modal: true,
+        //            height: 'auto',
+        //            width: 'auto',
+        //            align: 'center',
+        //            resizable: false,
+        //            draggable: false,
+        //            minWidth: 40,
+        //            minHeight: 35,
+        //            cache: true,
+        //            closeOnEscape: true
+        //        }).ajaxStart(function () {
+        //            $(this).dialog('open');
+        //        })
+        //               .ajaxStop(function () { $(this).dialog('close'); });
+
+        //        window.onbeforeunload = function (e) { processBusy.dialog('open'); };
+        //        $(".ui-dialog-titlebar").hide();
+
+        //        if ($("#processDiv").closest('.ui-dialog').is(':visible')) {
+        //            processBusy.dialog('close');
+        //        }
+
+        $("#GetUserList").button({ icons: { primary: "ui-icon-search"} });
+        $("#btnbkToAvailable").click(function () {
+            $.ajax({
+                url: '/TaskSystem/MoveBackToAvailable?ActivityId=' + $('#ActivityId').val(),
+                type: 'GET',
+                dataType: 'json',
+                traditional: true,
+                success: function (data) {
+                    if (data & data == true) {
+                        SucessMsg("ETask-" + $('#Id').val() + " is moved back to available.", function () { window.location.href = '@Url.Action("TaskSystemInbox", "TaskSystem")' });
+                    } else {
+                    }
+                },
+                error: function (xhr, status, error) {
+                    ErrMsg($.parseJSON(xhr.responseText).Message);
+                }
+            });
+        });
+        if ($('#Status').val() == "Completed" || $('#Status').val() == "Sent") {
+            $('input,select,textarea,button').attr('disabled', true);
+            // $('#btnUploadDoc').removeAttr("disabled");
+            // $('#uploadedFile').removeAttr("disabled");
+            $('#btnbkInbox').removeAttr("disabled");
+            $("#btnReject").hide();
+            $("#btnComplete").hide();
+            //$("#uploadedFile").hide();
+            $("#btnUploadDoc").hide();
+            $("#GetUserList").hide();
+
+        }
+        if ($.trim($("#AlrtDskMsg").val()) != "") { InfoMsg($("#AlrtDskMsg").val()); }
+
+        $('#btnSave').click(function () { $('#isrejction').val(false); if (eTaskValidtion('Save')) { return true; } return false; });
+        $('#btnComplete').click(function () { $('#isrejction').val(false); if (eTaskValidtion('Complete')) { return true; } return false; });
+        $('#btnReject').click(function () { $('#isrejction').val(true); if (eTaskValidtion('Reject')) { return true; } return false; });
+
+        //  $('#btnTaskStatus').show();
+        //        if ($('#activityName').val() == "LogETask" || $('#activityName').val() == "CloseETask") {
+        //            $('#btnTaskStatus').hide();
+        //        }
+
+        function eTaskValidtion(btnType) {
+            TType = $('#TaskType').val();
+            //TSvrty = $('#Severity').val();
+            TPrty = $('#Priority').val();
+            TTStatus = $('#TaskStatus').val();
+            TAsgnd = $('#AssignedTo').val();
+            TSmry = $('#Summary').val();
+            TCmnt = $('#Comments').val();
+            TActName = $('#activityName').val();
+
+            if (TActName == "LogETask" && (btnType == "Save" || btnType == "Complete")) {
+                if (TType != "Select" && TPrty != "Select" && TTStatus != "Select" && !isEmptyorNull(TSmry) && !isEmptyorNull(TAsgnd)) {
+                    return true;
+                } else { ErrMsg("Please enter the mandatory fields.", function () { $("#TaskType").focus(); }); }
+            } else if ((TActName == "ResolveETask" || TActName == "CloseETask")
+             && btnType == "Reject") {
+                if (!isEmptyorNull(TCmnt)) { return true; } else {
+                    ErrMsg("Please enter the comments for rejection.", function () { $("#Comments").focus(); });
+                }
+            } else if ((TActName == "ResolveETask" || TActName == "CloseETask")
+             && btnType == "Complete") {
+                $('#TaskStatus').val('RESOLVED');
+                return true;
+            }
+            else if ((TActName == "ResolveETaskRejection" || TActName == "CloseETaskRejection")
+             && btnType == "Complete") {
+                if (!isEmptyorNull(TCmnt)) { return true; } else { ErrMsg("Please enter the comments for rejection.", function () { $("#Comments").focus(); }); }
+            } // else if (TActName == "CloseETask" && btnType == "Complete") {
+            //                if (TTStatus=="") { return true; } else { ErrMsg("Please enter the comments for rejection."); }
+            //            }
+            return false;
+        }
+
+        bindSelectedVal(document.getElementById("ddTaskType"), $('#TaskType').val());
+        //bindSelectedVal(document.getElementById("ddSeverity"), $('#Severity').val());
+        bindSelectedVal(document.getElementById("ddPriority"), $('#Priority').val());
+        //  bindSelectedVal(document.getElementById("ddTaskStatus"), $('#TaskStatus').val());
+
+        function bindSelectedVal(DrpDwnObj, SelVal) {
+            for (var g = 0; g < DrpDwnObj.options.length; g++) {
+                if (DrpDwnObj.options[g].text == SelVal) {
+                    DrpDwnObj.selectedIndex = g;
+                }
+            }
+        }
+
+        $('#ddTaskType').change(function () {
+            $('#TaskType').val($('#ddTaskType option:selected').text());
+        });
+        //        $('#ddSeverity').change(function () {
+        //            $('#Severity').val($('#ddSeverity option:selected').text());
+        //        });
+
+        $('#ddPriority').change(function () {
+            $('#Priority').val($('#ddPriority option:selected').text());
+        });
+
+        //        $('#ddTaskStatus').change(function () {
+        //            $('#TaskStatus').val($('#ddTaskStatus option:selected').text());
+        //        });
+
+        $('#btnAssign').hide();
+        $('#ddAssignedTo').change(function () {
+            $('#AssignedTo').val($('#ddAssignedTo option:selected').text());
+            if ($('#AssignedTo').val() == "Select") {
+                $('#btnAssign').hide();
+            } else {
+                $('#btnAssign').show();
+            }
+        });
+
+        $('#btnAssign').click(function () {
+            $.ajax({
+                url: '/TaskingSystem/AssignActivityToUser?Id=' + $('#Id').val() + '&ActivityId=' + $('#ActivityId').val() + '&UserId=' + $('#AssignedTo').val(),
+                type: 'GET',
+                dataType: 'json',
+                traditional: true,
+                success: function (data) {
+                    if (data & data == true) {
+                        $('#btnbkInbox').click();
+                    } else {
+                        ErrMsg("ETask-" + $('#Id').val() + " is not assigned. Please try again.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    ErrMsg($.parseJSON(xhr.responseText).Message);
+                }
+            });
+        });
+
+        //        $('#btnAddNote').click(function () {
+        //            $('#add_NoteList').click();
+        //        });
+        
+        if ($('#activityName').val() == "LogETask") {
+            $('#Comments').attr('disabled', 'disabled');
+            //  $("#CommentList").hide();
+        } else {
+            $("#AssignedTo").css("background-color", "#F5F5F5");
+            $("#GetUserList").hide();
+            $('.dpldplAT').attr('disabled', 'disabled');
+            $('.dpldpl').attr('disabled', 'disabled');
+            $("#Summary").attr("readonly", "readonly").css("background-color", "#F5F5F5");
+        }
+
+        function SaveConfigList(isrejction) {
+            return true;
+        };
+
+        $("#btnbkInbox").click(function () {
+            window.location.href = '@Url.Action("TaskSystemInbox", "TaskSystem")';
+        });
+
+        $("#CommentList").jqGrid({
+            mtype: 'GET',
+            url: '/TaskSystem/GetTaskCommentDtlsbyTaskId',
+            postData: { TaskId: $('#Id').val() },
+            datatype: 'json',
+            height: '70',
+            width: '600',
+            shrinkToFit: true,
+            colNames: ['Id', 'TaskId', 'Commented By', 'Comment Date', 'Comment Details', 'ResolutionComments', 'Note'],
+            colModel: [
+                          { name: 'Id', index: 'Id', hidden: true, key: true },
+                          { name: 'TaskId', index: 'TaskId', hidden: true },
+                          { name: 'CommentedBy', index: 'CommentedBy', width: '80', hidden: false },
+                          { name: 'CommentedOn', index: 'CommentedOn', width: '60' },
+                          { name: 'RejectionComments', index: 'RejectionComments' },
+                          { name: 'ResolutionComments', index: 'ResolutionComments', hidden: true },
+                          { name: 'Note', index: 'Note', hidden: true }
+                          ],
+            rowNum: '-1',
+            sortname: 'CommentedOn',
+            sortorder: 'desc',
+            viewrecords: true
+        });
+
+        jQuery.extend(jQuery.jgrid.edit, {
+            ajaxEditOptions: { contentType: "application/json" },
+            recreateForm: true,
+            serializeEditData: function (postData) {
+                if (postData.Note === undefined) { postData.Note = null; }
+                if (postData.TaskId === undefined || postData.TaskId == 0) { postData.TaskId = $('#Id').val(); }
+                return JSON.stringify(postData);
+            }
+        });
+
+        $("#NoteList").jqGrid({
+            mtype: 'GET',
+            url: '/TaskSystem/GetTaskNoteDtlsbyTaskId',
+            postData: { TaskId: $('#Id').val() },
+            datatype: 'json',
+            height: '70',
+            width: '600',
+            shrinkToFit: true,
+            colNames: ['Id', 'TaskId', 'Note Added By', 'Note Date', 'RejectionComments', 'ResolutionComments', 'Note Details'],
+            colModel: [
+                        { name: 'Id', index: 'Id', hidden: true, editable: false, key: true },
+                        { name: 'TaskId', index: 'TaskId', hidden: true, editable: true },
+                        { name: 'CommentedBy', index: 'CommentedBy', width: '80', editable: true, editrules: { edithidden: true, required: true }, editoptions: { readonly: true} },
+                        { name: 'CommentedOn', index: 'CommentedOn', width: '60' },
+                        { name: 'RejectionComments', index: 'RejectionComments', hidden: true },
+                        { name: 'ResolutionComments', index: 'ResolutionComments', hidden: true },
+                        { name: 'Note', index: 'Note', editable: true, edittype: 'textarea', editrules: { required: true }, editoptions: { size: 70, maxlength: 500, rows: "5", cols: "40"} }
+            //  { name: 'DelNote', index: 'DelNote', align: 'center', width: 40, sortable: false, formatter: DelBtnFrmtr}
+                      ],
+            pager: '#NotePage',
+            rowNum: '-1',
+            sortname: 'CommentedOn',
+            sortorder: 'desc',
+            viewrecords: true,
+            //            gridComplete: function () {
+            //                var rds = $("#NoteList").getRowData();
+            //                if (rds.length > 0) {
+            //                    $('.bdelNt').button({ icons: { primary: "ui-icon-trash" }, text: false })
+            //                           .click(function () { DeleteNotes($(this).attr('rowid'), 'Note'); });
+            //                }
+            //            },
+            editurl: "/TaskSystem/SaveTaskComments"
+        }).navGrid('#NotePage', { edit: false, add: true, del: false, refresh: false },
+                { // edit options
+                    width: '450', height: '230', jqModal: true, closeAfterEdit: true, editCaption: 'Edit Note',
+                    beforeShowForm: function (frm) {
+                    },
+                    afterShowForm: function (frm) {
+                        $('#CommentedBy').val($('#loggedInUserId').val());
+                        $('#Note').focus();
+                    }
+                },
+                { // add options
+                    width: '450', height: '230', jqModal: true, closeAfterAdd: true, addCaption: 'Add Note',
+                    beforeShowForm: function (frm) {
+                    },
+                    afterShowForm: function (frm) {
+                        $('#TaskId').val($('#Id').val());
+                        $('#CommentedBy').val($('#loggedInUserId').val());
+                        $('#Note').focus();
+                    }
+                });
+
+        function DelBtnFrmtr(cellvalue, options, rowdata) {
+            var NoteAddedBy;
+            if ($.isArray(rowdata)) { NoteAddedBy = rowdata[2]; } else { NoteAddedBy = rowdata.Task; }
+            if (NoteAddedBy && NoteAddedBy.toUpperCase() == $('#loggedInUserId').val().toUpperCase()) {
+                return "<button id='btnDelNote_" + options.rowId + "'class='bdelNt' rowid='" + options.rowId + "' title='Delete Note' type='button'> Del Note </button>";
+            } else { return ""; }
+        }
+
+        function DeleteNotes(NoteId, CmntsType) {//CmntsTyoe-Comments or Notes
+            $.ajax({
+                url: '/TaskSystem/DeleteComments?NoteId=' + NoteId,
+                type: 'GET',
+                dataType: 'json',
+                traditional: true,
+                success: function (data) {
+                    if (CmntsType == "Comments") {
+                        LoadSetGridParam($('#CommentList'), "/TaskSystem/GetTaskCommentDtlsbyTaskId?TaskId=" + $('#Id').val());
+                        InfoMsg("Comments deleted successfully.");
+                    }
+                    else {
+                        LoadSetGridParam($('#NoteList'), "/TaskSystem/GetTaskNoteDtlsbyTaskId?TaskId=" + $('#Id').val());
+                        InfoMsg("Note deleted successfully.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    ErrMsg($.parseJSON(xhr.responseText).Message);
+                }
+            });
+        }
+
+        //        $('#btnTaskStatus').click(function () {
+        //            $.ajax({
+        //                url: '/TaskSystem/UpdateTicketStatus?TaskId=' + $('#Id').val() + '&TaskStatus=' + $('#TaskStatus').val(),
+        //                type: 'GET',
+        //                dataType: 'json',
+        //                traditional: true,
+        //                success: function (data) {
+        //                    InfoMsg("Task Status changed successfully.");
+        //                },
+        //                error: function (xhr, status, error) {
+        //                    ErrMsg($.parseJSON(xhr.responseText).Message);
+        //                }
+        //            });
+        //        });
+
+        $('#search_NoteList').hide();
+
+        if ($('#Id').val() > 0) {
+            $('#add_NoteList').show();
+        } else {
+            $('#add_NoteList').hide();
+            $('#docPanel').hide();
+            $('#InstanceId').val(0);
+        }
+
+        $("#GetUserList").click(function () {
+            
+            BranchCode = $("#BranchCode").val();
+            LoadPopupDynamicaly("/TaskSystem/TaskUserList?brncd=" + BranchCode, $('#DivUserList'),
+            function () {
+                LoadSetGridParam($('#TaskUserList'), "/TaskSystem/TaskUserListJqGrid?brncd=" + BranchCode, 400)
+            });
+        });
+
+    });
+</script>
+@using (Html.BeginForm("SaveTaskSystem", "TaskSystem", FormMethod.Post, new { id = "innerForm", enctype = "multipart/form-data" }))
+{
+    <h3>
+        e-Task System
+    </h3>
+    
+    <table width="100%" class="WithBorderOnly" id="TicketFormDtls">
+        <tr valign="top">
+            <td width="39%" style="font-weight: bold">
+                <table>
+                    <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+                        <td colspan="2">
+                            e-Task Details
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" style="font-weight: bold">
+                            <label>
+                                Task No
+                            </label>
+                        </td>
+                        <td width="20%">
+                            @Html.TextBox("TaskNo", null, new { @class = "CSSTextBox", style = "width: 90%;border: none;background: transparent", @Readonly = "Readonly" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" style="font-weight: bold">
+                            <label>
+                                Campus
+                            </label>
+                        </td>
+                        <td width="20%">
+                            @Model.BranchCode
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" style="font-weight: bold">
+                            <label>
+                                Reporter
+                            </label>
+                        </td>
+                        <td width="20%">
+                            @Html.TextBox("Reporter", null, new { @class = "CSSTextBox", style = "width: 90%;border: none;background: transparent", @Readonly = "Readonly" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" style="font-weight: bold">
+                            <label>
+                                Created Date
+                            </label>
+                        </td>
+                        <td width="20%">
+                            @Html.TextBox("CreatedDate", null, new { @class = "CSSTextBox", style = "width: 90%;border: none;background: transparent", @Readonly = "Readonly" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" style="font-weight: bold">
+                            <label>
+                                Activity Name
+                            </label>
+                        </td>
+                        <td width="20%">
+                            @Html.TextBox("ActivityFullName", null, new { @class = "CSSTextBox", style = "width: 90%;border: none;background: transparent", @Readonly = "Readonly" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" style="font-weight: bold">
+                            <label>
+                                Activity Status
+                            </label>
+                        </td>
+                        <td width="20%">
+                            @Html.TextBox("Status", null, new { @class = "CSSTextBox", style = "width: 90%;border: none;background: transparent", @Readonly = "Readonly" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" style="font-weight: bold">
+                            <label>
+                                Task Type<span style="color: Red">*</span>
+                            </label>
+                        </td>
+                        <td width="20%">
+                            @Html.DropDownList("ddTaskType", new SelectList(ViewBag.ddTaskType, "Value", "Text"), "Select", new { @Class = "CSSDropDownList dpldpl" })
+                        </td>
+                    </tr>
+                    @*  <tr>
+                        <td width="20%" style="font-weight: bold">
+                            <label>
+                                Module<span style="color: Red">*</span>
+                            </label>
+                        </td>
+                        <td width="20%">
+                            @Html.DropDownList("ddModule", new SelectList(ViewBag.ddModule, "Value", "Text"), "Select", new { @Class = "CSSDropDownList dpldpl" })
+                        </td>
+                    </tr>*@
+                    <tr>
+                        @*
+                        <td width="20%" style="font-weight: bold">
+                            <label>
+                                Severity<span style="color: Red">*</span>
+                            </label>
+                        </td>
+                        <td width="20%">
+                            @Html.DropDownList("ddSeverity", new SelectList(ViewBag.ddSeverity, "Value", "Text"), "Select", new { @Class = "CSSDropDownList dpldpl" })
+                        </td>
+                    *@
+                    </tr>
+                    <tr>
+                        <td width="20%" style="font-weight: bold">
+                            <label>
+                                Priority<span style="color: Red">*</span>
+                            </label>
+                        </td>
+                        <td width="20%">
+                            @Html.DropDownList("ddPriority", new SelectList(ViewBag.ddPriority, "Value", "Text"), "Select", new { @Class = "CSSDropDownList dpldpl" })
+                        </td>
+                    </tr>
+                    @* <tr>
+                        <td width="20%" style="font-weight: bold">
+                            <label>
+                                Task Status<span style="color: Red">*</span>
+                            </label>
+                        </td>
+                        <td width="20%">
+                            @Html.DropDownList("ddTaskStatus", new SelectList(ViewBag.ddTaskStatus, "Value", "Text"), "Select", new { @Class = "CSSDropDownList dpldplTS" })
+                            <input type="button" id="btnTaskStatus" value="Update Status" name="Update Status" />
+                        </td>
+                    </tr>*@
+                    <tr>
+                        <td width="20%" style="font-weight: bold">
+                            <label>
+                                Assigned To<span style="color: Red">*</span>
+                            </label>
+                        </td>
+                        <td width="20%">
+                            @Html.TextBoxFor(m => m.AssignedTo, new { @Class = "CSSTextBox", @Readonly = "Readonly" })
+                            <a id="GetUserList">..</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" style="font-weight: bold">
+                            <label>
+                                Summary<span style="color: Red">*</span>
+                            </label>
+                        </td>
+                        <td width="20%">
+                            @Html.TextArea("Summary", new { rows = 3, cols = 45, @class = "CSSTextArea", @maxlength = "500", @tabindex = "8" })
+                        </td>
+                    </tr>
+                    <tr>
+                        @if (Model.Id > 0 && ViewBag.activityName != "LogETask")
+                        {
+                            <td width="15%" style="font-weight: bold">
+                                <label>
+                                    Comments
+                                </label>
+                            </td>
+                            <td width="85%">
+                                @Html.TextArea("Comments", new { rows = 3, cols = 45, @class = "CSSTextArea", @maxlength = "500", @tabindex = "5" })
+                            </td>
+                        }
+                    </tr>
+                    <tr align="center">
+                        <td colspan="2" align="center" width="100%">
+                            @if (Model.Id == 0 && ViewBag.activityName == "LogETask")
+                            {
+                                <button type="submit" id="btnSave">
+                                    Save
+                                </button> }
+                            else
+                            {
+                                if (ViewBag.activityName == "CloseETask")
+                                {
+                                <button type="submit" id="btnReject">
+                                    Reject
+                                </button> }
+                                <button type="submit" id="btnComplete">
+                                    Complete
+                                </button>
+                            }
+                            <input type="button" id="btnbkInbox" value="Back to Inbox" name="Back to Inbox" />
+                            @*<input type="button" id="btnbkToAvailable" value="Move Back to Available" name="btnbkToAvailable" />*@
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td width="1%" style="font-weight: bold">
+            </td>
+            <td width="50%" style="font-weight: bold">
+                <table>
+                   @* <tr>
+                        <td valign="top">
+                            <table id="NoteList" cellpadding="0" cellspacing="0">
+                            </table>
+                            <div id="NotePage" />
+                        </td>
+                    </tr>*@
+                    <tr>
+                        <td valign="top">
+                            <table id="CommentList" cellpadding="0" cellspacing="0">
+                            </table>
+                        </td>
+                    </tr>
+                    <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+                        <td colspan="4">
+                            Document Library
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            @Html.Partial("DocLibrary")
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td width="10%" style="font-weight: bold">
+            </td>
+        </tr>
+        <tr>
+            @Html.Hidden("Id")
+            @Html.Hidden("InstanceId")
+            @Html.Hidden("loggedInUserId")
+            @Html.Hidden("loggedInUserType")
+            @Html.Hidden("loggedInUserName")
+            @Html.Hidden("isrejction")
+            @Html.Hidden("AlrtDskMsg", TempData["AlrtDskMsg"])
+            @Html.Hidden("activityName")
+            @Html.Hidden("ActivityId")
+            @Html.Hidden("TaskType")
+            @*@Html.Hidden("Severity")*@ 
+            @Html.Hidden("Priority")
+            @Html.Hidden("TaskStatus")
+            @Html.Hidden("AssignedTo")
+            @Html.HiddenFor(m => m.BranchCode)
+        </tr>
+    </table>
+}
+<div id="DivUserList"></div>

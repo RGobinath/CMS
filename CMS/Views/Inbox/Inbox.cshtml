@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Inbox";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <div class="tabbable tabs-left">
+                    <ul id="myTab" class="nav nav-tabs">
+                        
+                        <li class="active"><a href="#shinbox" data-toggle="tab"><i class="fa fa-envelope"></i>&nbsp;&nbsp;Inbox &nbsp<label id="AppInbox1"><b></b></label></a> </li>
+                        @* <li ><a href="#" data-toggle="tab"><i class="fa fa-bell">
+                        </i>&nbsp;Remainder</a> </li>
+                         <li ><a href="#" data-toggle="tab"><i class="ace-icon fa fa-location-arrow">
+                        </i>&nbsp;Sent</a> </li>
+                         <li ><a href="#" data-toggle="tab"><i class="ace-icon fa fa-location-arrow">
+                        </i>&nbsp;Draft</a> </li>*@
+                        <li><a data-toggle="tab" href="#Trash1"><i class="ace-icon fa fa-trash-o red"></i>&nbsp;Trash</a> </li>
+                    </ul>
+
+                    <div class="tab-content col-xs-6.col-sm-10">
+                        <div class="tab-pane in active" id="shinbox">
+                            @Html.Partial("ShowInbox")
+                        </div>
+                        <div class="tab-pane" id="Trash1">
+                            @Html.Partial("Trash")
+                        </div>
+                    </div>
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@* <span id="Inbox" class="label label-danger">&nbsp;<label id="AppInbox"></label></span>  *@
+<script>
+    $(document).ready(function () {
+        InboxCount();
+    });
+    function InboxCount() {
+        debugger;
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            traditional: true,
+            url: '@Url.Content("~/Inbox/GetInboxCount")',
+            success: function (data) {
+                $('#AppInbox1').html(data[0]);
+            }
+        });
+    }
+</script>

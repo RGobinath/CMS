@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="StudAttenPuncAssessment" table="StudAttenPuncAssessment_vw" lazy="true" >
+    <id name="Id" column="Id" type="Int32">
+      <generator class="native" />
+    </id>
+    <property name="Credit" type="decimal" not-null="false" />
+    <property name="Debit" type="decimal" not-null="false" />
+    <property name="FinalMark" type="decimal" not-null="false" />
+    <property name="Assess360Id" type="Int64" not-null="false" />
+  </class>
+</hibernate-mapping>

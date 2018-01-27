@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   namespace="TIPS.Entities.TransportEntities"
+                   assembly="TIPS.Entities.TransportEntities.FinesAndPenalities">
+
+  <class name="TIPS.Entities.TransportEntities.FinesAndPenalities, TIPS.Entities" table="FinesAndPenalities" dynamic-update="true">
+    <cache usage="read-write"/>
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="VehicleId"/>
+    <property name="RefId"/>
+    <property name="Type"/>
+    <property name="VehicleNo"/>
+    <property name="PenalityDate"/>
+    <property name="PenalityArea"/>
+    <property name="PenalityReason"/>
+    <property name="PenalityRupees"/>
+    <property name="PenalityDueDate"/>
+    <property name="PenalityPaidBy"/>
+    <property name="CreatedDate"/>
+    <property name="CreatedBy"/>
+    <property name="DriverName"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Staff Issue List";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+
+        var status = "@ViewBag.status";
+        var IssueGroup = "@ViewBag.IssueGroup";
+        var InformationFor = "@ViewBag.InformationFor";
+        var IsHosteller = "@ViewBag.IsHosteller";
+        var NonCompletedSLA = "@ViewBag.NonCompletedSLA";
+        var CompletedSLA = "@ViewBag.CompletedSLA";
+        var Campus = "@ViewBag.Campus";
+        var expxl = 0;
+
+
+        jQuery("#StaffIssueList").jqGrid({
+            url: '@Url.Content("~/StaffIssues/StaffIssueListJqGrid")?status=' + status + "&IssueGroup=" + IssueGroup + "&InformationFor=" + InformationFor + "&IsHosteller=" + IsHosteller + "&NonCompletedSLA=" + NonCompletedSLA + "&CompletedSLA=" + CompletedSLA + "&Campus=" + Campus + "&expxl=" + expxl,
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'Support Number', 'Issue Group', 'Issue Type','Created By', 'Created Date', 'Status', 'Resolution', 'IssueId',''],
+            colModel: [
+              { name: 'Id', index: 'Id', hidden: true },
+              { name: 'IssueNumber', index: 'IssueNumber', width: 90, sortable: true },
+              { name: 'IssueGroup', index: 'IssueGroup', width: 90, sortable: true },
+              { name: 'IssueType', index: 'IssueType', width: 90, sortable: true },
+              { name: 'CreatedUserName', index: 'CreatedUserName', width: 90, sortable: true },
+              { name: 'CreatedDate', index: 'CreatedDate', width: 90, sortable: true },
+              { name: 'Status', index: 'Status', width: 80, sortable: true },
+              { name: 'Resolution', index: 'Resolution', hidden: true },
+              { name: 'IssueId', index: 'IssueId', hidden: true },
+              { name: 'CreatedBy', index: 'CreatedBy', width: 90, hidden: true },
+              ],
+            pager: '#StaffIssueListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 200, 300, 400],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: '230',
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: 'Staff Issue List',
+            forceFit: true,
+            multiselect: true,
+            loadError: function (xhr, status, error) {
+                $("#StaffIssueListPager").clearGridData();
+                ErrMsg($.parseJSON(xhr.responseText).Message);
+            }
+        });
+        jQuery("#StaffIssueList").navGrid('#StaffIssueListPager', { add: false, edit: false, del: false, search: false, refresh: false });
+        jQuery("#StaffIssueList").jqGrid('navButtonAdd', '#StaffIssueListPager', {
+            caption: "Export To Excel",
+            onClickButton: function () {
+                ExportToExcel();
+            }
+        });
+
+        function ExportToExcel() {
+            expxl = 1;
+            window.open("StaffIssueListJqGrid" + '?status=' + status + "&IssueGroup=" + IssueGroup + "&InformationFor=" + InformationFor + "&IsHosteller=" + IsHosteller + "&NonCompletedSLA=" + NonCompletedSLA + "&CompletedSLA=" + CompletedSLA + "&Campus=" + Campus + "&expxl=" + expxl + '&rows=9999');
+        }
+
+    });
+</script>
+@using (Html.BeginForm("StaffIssueList", "StaffIssues", FormMethod.Post))
+{
+  @*<h3>Staff Issue List</h3>*@
+    <table class="InnerTable" width="100%">
+        <tr>
+            <th width="50%">
+                <label>
+                    Issue List</label>
+            </th>
+        </tr>
+    </table>
+}
+<table id="StaffIssueList" class="InnerTable" width="100%">
+</table>
+<div id="StaffIssueListPager"></div>

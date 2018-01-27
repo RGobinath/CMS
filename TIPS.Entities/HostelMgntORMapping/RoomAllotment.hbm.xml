@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.HostelMgntEntities.RoomAllotment" namespace="TIPS.Entities.HostelMgntEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.HostelMgntEntities.RoomAllotment, TIPS.Entities" table="RoomAllotment_Vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    
+    <property name="StudID" column="StudID" type="Int64"/>
+    <property name="Name" column="Name" type="string"/>
+    <property name="NewId" column="NewId" type="string"/>
+    <property name="Campus" column="Campus" type="string"/>
+    <property name="Grade" column="Grade" type="string"/>
+    <property name="Section" column="Section" type="string"/>
+    <property name="AcademicYear" column="AcademicYear" type="string"/>
+    <property name="HstlMst_Id" column="HstlMst_Id" type="Int64"/>
+    <property name="HostelName" column="HostelName" type="string"/>
+    <property name="HostelType" column="HostelType" type="string"/>
+    <property name="Floor" column="Floor" type="string"/>
+    <property name="SIPNo" column="SIPNo" type="string"/>
+    <property name="BoardingType" column="BoardingType" type="string"/>
+    <property name="RoomMst_Id" column="RoomMst_Id" type="Int64"/>
+    <property name="BedMst_Id" column="BedMst_Id" type="Int64"/>
+    <property name="BedNumber" column="BedNumber" type="string"/>
+    <property name="Room_Allotment" column="Room_Allotment" type="string"/>
+    <property name="ChangeRoomAllotment" column="ChangeRoomAllotment" type="string"/>
+
+  </class>
+</hibernate-mapping>

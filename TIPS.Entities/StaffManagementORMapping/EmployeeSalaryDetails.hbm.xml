@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.EmployeeSalaryDetails" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.EmployeeSalaryDetails, TIPS.Entities" table="EmployeeSalaryDetails" lazy="true" >
+    <id name="Id" column="Id">
+      <generator class="identity" />
+    </id>
+    <property name="EmployeeId">
+      <column name="EmployeeId" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="StaffUserName">
+      <column name="StaffUserName" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Basic_DA">
+      <column name="Basic_DA" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="HRA">
+      <column name="HRA" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="MonthlyGross">
+      <column name="MonthlyGross" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="EmployerPF">
+      <column name="EmployerPF" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="TotalCompensation">
+      <column name="TotalCompensation" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="LOP">
+      <column name="LOP" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="LOP_Basic">
+      <column name="LOP_Basic" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="LOP_HRA">
+      <column name="LOP_HRA" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="EarnedBasic">
+      <column name="EarnedBasic" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="Earned_LOP">
+      <column name="Earned_LOP" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="TotalEarnings">
+      <column name="TotalEarnings" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="PF">
+      <column name="PF" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="TDS">
+      <column name="TDS" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="Mess">
+      <column name="Mess" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="EB">
+      <column name="EB" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="Advance">
+      <column name="Advance" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="Fine">
+      <column name="Fine" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="Others">
+      <column name="Others" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="Total">
+      <column name="Total" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="Reimbursement">
+      <column name="Reimbursement" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="TutorAllowance">
+      <column name="TutorAllowance" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="NetSalary">
+      <column name="NetSalary" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="PaymentMode">
+      <column name="PaymentMode" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="BankAccNum">
+      <column name="BankAccNum" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="PFNo">
+      <column name="PFNo" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="CreatedDate">
+      <column name="CreatedDate" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="CreatedBy">
+      <column name="CreatedBy" sql-type="varchar" not-null="false" />
+    </property>
+    <!--<property name="MonthOfSalary">
+      <column name="MonthOfSalary" sql-type="Int32" not-null="false" />
+    </property>-->
+  </class>
+</hibernate-mapping>

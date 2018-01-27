@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.AssetDetailsTransaction" namespace="TIPS.Entities.AssetDetailsTransaction" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.AssetDetailsTransaction, TIPS.Entities" table="AssetDetailsTransaction" lazy="false" >
+    <id name="AssetTrans_Id" column="AssetTrans_Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="AssetDet_Id" column="AssetDet_Id" type="Int64"></property>
+    <property name="AssetCode" column="AssetCode" type="string"></property>
+    <property name="FromCampus" column="FromCampus" type="string"></property>
+    <property name="FromBlock" column="FromBlock" type="string"></property>
+    <property name="FromLocation" column="FromLocation" type="string"></property>
+    <property name="ToCampus" column="ToCampus" type="string"></property>
+    <property name="ToBlock" column="ToBlock" type="string"></property>
+    <property name="ToLocation" column="ToLocation" type="string"></property>    
+    <property name="Description" column="Description" type="string"></property>
+    <property name="EngineerName" column="EngineerName" type="string"></property>
+    
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime" />
+    <property name="InstalledOn" column="InstalledOn" type="datetime" />
+    
+    <property name="AssetRefId" column="AssetRefId" type="Int64" />
+    <property name="IsSubAsset" column="IsSubAsset" type="bool" />
+  </class>
+</hibernate-mapping>

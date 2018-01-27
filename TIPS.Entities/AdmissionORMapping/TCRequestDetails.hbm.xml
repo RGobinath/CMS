@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.AdmissionEntities.TCRequestDetails" namespace="TIPS.Entities.AdmissionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AdmissionEntities.TCRequestDetails, TIPS.Entities" table="TCRequestDetails" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="ApplicationNo" column="ApplicationNo" type="string"></property>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"/>
+    <property name="Name" column="Name" type="string"/>
+    <property name="AcademicYear" column="AcademicYear" type="string"/>
+    <property name="TransferedDate" column="TransferedDate" type="string"/>
+    <property name="AdmittedClass" column="AdmittedClass" type="string"/>
+    <property name="AdmissionDate" column="AdmissionDate" type="string"/>
+    <property name="QualifiedForPromotion" column="QualifiedForPromotion" type="string"/>
+    <property name="LastDateOfAttendance" column="LastDateOfAttendance" type="string"/>
+    <property name="ReasonForTCRequest" column="ReasonForTCRequest" type="string"/>
+    <property name="IsOtherReason" column="IsOtherReason" type="boolean"/>
+    <property name="ReasonForLeaving" column="ReasonForLeaving" type="string"/>
+    <property name="Conduct" column="Conduct" type="string"/>
+    <!--Newly added for TC Request-->
+    <property name="Initial" column="Initial" type="string" />
+    <property name="NewId" column="NewId" type="string" />
+    <property name="Campus" column="Campus" type="string" />
+    <property name="Grade" column="Grade" type="string" />
+    <property name="Status" column="Status" type="string" />
+    <property name="TCRequestedDate" column="TCRequestedDate" type="string" ></property>
+    <property name="TCRequiredOnDate" column="TCRequiredOnDate" type="string" ></property>
+    <property name="CounselingDate" column="CounselingDate" type="string" ></property>
+    <property name="NoDueFormDate" column="NoDueFormDate" type="string" ></property>
+    <property name="IsNoDueForm" column="IsNoDueForm" type="boolean" ></property>
+    <property name="IsCounselingNeeded" column="IsCounselingNeeded" type="boolean" ></property>
+    <property name="CoordComments" column="CoordComments" type="string" ></property>
+    <property name="ADMCordComments" column="ADMCordComments" type="string" ></property>
+    <property name="RCordComments" column="RCordComments" type="string" ></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime" ></property>
+    <property name="CreatedBy" column="CreatedBy" type="string" ></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime" ></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string" ></property>
+    <property name="LastAttendanceDateCopy" column="LastAttendanceDateCopy" type="datetime" ></property>
+  </class>
+</hibernate-mapping>

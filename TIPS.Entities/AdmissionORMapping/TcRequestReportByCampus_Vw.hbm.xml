@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AdmissionEntities.TcRequestReportByCampus_Vw" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AdmissionEntities.TcRequestReportByCampus_Vw,TIPS.Entities" table="TcRequestReportByCampus_Vw" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="AcademicYear"  column ="AcademicYear" type="string"/>
+    <property name="ReasonForTCRequest"  column ="ReasonForTCRequest" type="string"/>
+    <property name="IBMain"  column ="IBMain" type="Int64"/>
+    <property name="IBKG"  column ="IBKG" type="Int64"/>
+    <property name="ChennaiMain"  column ="ChennaiMain" type="Int64"/>
+    <property name="ChennaiCity"  column ="ChennaiCity" type="Int64"/>
+    <property name="Ernakulam"  column ="Ernakulam" type="Int64"/>
+    <property name="ErnakulamKG"  column ="ErnakulamKG" type="Int64"/>
+    <property name="Karur"  column ="Karur" type="Int64"/>
+    <property name="KarurKG"  column ="KarurKG" type="Int64"/>
+    <property name="Tirupur"  column ="Tirupur" type="Int64"/>
+    <property name="TirupurKG"  column ="TirupurKG" type="Int64"/>
+    <property name="TipsSaran"  column ="TipsSaran" type="Int64"/>
+
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,67 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa fa-search"></i>&nbsp;Attendance Details
+                </div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="space-6">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Search Category</b></label><br />
+                                @Html.DropDownList("ddlserchType", new SelectList(new[] {
+                                    new{Value="",Text="--Select Category--"},                    
+                                    new{Value="Today",Text="Today"},
+                                  new{Value="ThisWeek",Text="This Week"},
+                                  new{Value="LastWeek",Text="Last Week"},
+                                  new{Value="ThisMonth",Text="This Month"},
+                                   new{Value="LastMonth",Text="Last Month"},
+                                 }, "Value", "Text"), new { @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                
+                            </div>
+                            <div class="col-sm-2">
+                               
+                            </div>
+                            <div class="col-sm-2">
+                                
+                            </div>
+                            <div class="col-sm-2">
+                                
+                            </div>
+                            <div class="col-sm-2">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-2">
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <table id="StudAttendanceGrid">
+        </table>
+        <div id="StudAttendanceGridpager">
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/AdmissionScripts/StudentAttendance.js" type="text/javascript"></script>
+<script src="../../assets/js/AceJQMsg.js" type="text/javascript"></script>

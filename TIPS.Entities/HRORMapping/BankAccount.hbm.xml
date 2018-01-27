@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.HRManagementEntities.BankAccount" namespace="TIPS.Entities.HRManagementEntities">
+  <class name="TIPS.Entities.HRManagementEntities.BankAccount, TIPS.Entities" table="BankAccount" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="RequestNo" column="RequestNo" type="string"></property>
+    <property name="CreateDate" column="CreateDate" type="datetime"></property>
+    <property name="ProcessedBy" column="ProcessedBy" type="string"></property>
+    <property name="UserRole" column="UserRole" type="string"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="ActivityFullName" column="ActivityFullName" type="string" not-null="false" />
+    <property name="StaffName" column="StaffName" type="string"></property>
+    <property name="StaffIdNumber" column="StaffIdNumber" type="string"></property>
+    <!--<property name="Campus" column="Campus" type="string"></property>-->
+    <property name="Department" column="Department" type="string"></property>
+    <property name="DateOfBirth" column="DateOfBirth" type="string"></property>
+    <property name="DateOfJoining" column="DateOfJoining" type="string"></property>
+    <property name="Description" column="Description" type="string"></property>
+    <!--<property name="FileType" column="FileType" type="string"></property>-->
+    <property name="ResolveComments" column="ResolveComments" type="string"></property>
+    <property name="InstanceId" column="InstanceId" type="Int64"/>
+    <property name="Performer" column="Performer" type="string"  />
+    <property name="BranchCode" column="BranchCode" type="string"  />
+    <property name="IsIssueCompleted" column="IsIssueCompleted" type="boolean"/>
+    <property name="DeptCode" column="DeptCode" type="string"></property>
+
+  </class>
+
+</hibernate-mapping>

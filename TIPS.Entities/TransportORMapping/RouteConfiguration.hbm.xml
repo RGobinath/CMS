@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.TransportEntities.RouteConfiguration" namespace="TIPS.Entities.TransportEntities">
+	<class name="TIPS.Entities.TransportEntities.RouteConfiguration, TIPS.Entities" table="RouteConfiguration" lazy="false">
+		<id name="Id" column="Id" type="Int64">
+			<generator class="identity"></generator>
+		</id>
+		<property name="RouteMasterId" column="RouteMasterId" type="Int64"></property>
+    <property name="LocationName" column="LocationName" type="string"></property>
+    <!--<property name="LocationDetails" column="LocationDetails" type="string"></property>-->
+		<property name="StopOrderNumber" column="StopOrderNumber" type="Int64"></property>
+		<property name="CreatedBy" column="CreatedBy" type="string"></property>
+		<property name="CreatedDate" column="CreatedDate" type="datetime"></property>
+		<property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+		<property name="ModifiedDate" column="ModifiedDate" type="datetime"></property>
+	</class>
+</hibernate-mapping>

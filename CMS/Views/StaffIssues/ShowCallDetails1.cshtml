@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "ShowCallDetails";
+    Layout = null;    
+}
+@Html.Hidden("viewbagresult", "", new { @Value = ViewBag.Result })
+@Html.Hidden("viewbagheadername", "", new { @Value = ViewBag.HeaderName })
+@Html.Hidden("viewbagperformer", "", new { @Value = ViewBag.Performer })
+@{
+    var rlecode = Session["userrolesarray"] as IEnumerable<string>;
+    var Appcode = Session["Role"] as IEnumerable<string>;
+}
+@if (rlecode.Contains("GRL-HEAD") && Appcode.Contains("SIM"))
+{ 
+        @Html.Hidden("showexcel", "", new { @Value = true })        
+}
+else
+{
+        @Html.Hidden("showexcel", "", new { @Value = false })    
+}
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        <table id="ShowCallDetailsList">
+        </table>
+        <div id="ShowCallDetailsListPager">
+        </div>
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-7">
+            <img src="../../Images/blue.jpg" alt="" height="10px" width="10px" /><label style="font-size: x-small">&nbsp
+                            No Due Date
+            </label>
+            <img src="../../Images/yellow.jpg" alt="" height="10px" width="10px" /><label style="font-size: x-small">&nbsp
+                            Below Due Date
+            </label>
+            &nbsp&nbsp
+                        <img src="../../Images/orange.jpg" alt="" height="10px" width="10px" /><label style="font-size: x-small">&nbsp
+                            Above Due Date(Below 24 hours)</label>
+            &nbsp&nbsp
+                        <img src="../../Images/redblink3.gif" alt="" height="10px" width="10px" /><label
+                            style="font-size: x-small">&nbsp SLA Breached
+                        </label>
+            &nbsp&nbsp
+                        <img src="../../Images/green.jpg" alt="" height="12px" width="12px" /><label style="font-size: x-small">&nbsp
+                            Completed</label>
+        </div>        
+    </div>
+</div>
+<script src="../../Scripts/StaffIssues/ShowCallDetails1.js"></script>
+

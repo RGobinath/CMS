@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "New Survey Answer Master";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <div class="row">
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Survey Question</b></label>
+                                        @Html.DropDownList("ddlSurveyQuestion", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { @Class = "form-control select-sm" })
+                                    </div>
+                                  @*  <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Survey Answer</b></label>
+                                        @Html.TextBox("txtSurveyAnswer", "", new { @Class = "form-control select-sm", @maxlength = "10" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Survey Mark</b></label>
+                                        @Html.TextBox("txtSurveyMark", "", new { @Class = "form-control select-sm", @maxlength = "10" })
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Is Positive</b></label>
+                                        @Html.DropDownList("ddlIsPositive", new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select"},
+                                              new{Value="True",Text="Yes"},
+                                              new{Value="False",Text="No"}                                              
+                                          },
+                            "Value", "Text", ""), new { id = "ddlIsPositive", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Is Active</b></label>
+                                        @Html.DropDownList("ddlIsActive", new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select"},
+                                              new{Value="True",Text="Yes"},
+                                              new{Value="False",Text="No"}                                              
+                                          },
+                            "Value", "Text", ""), new { id = "ddlIsActive", @Class = "form-control select-sm" })
+                                    </div>*@
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-success btn-block btn-sm" id="btnSearch">
+                                            <i class="ace-icon fa fa-search white"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-danger btn-block btn-sm" id="btnReset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <table id="GetJqGridNewsurveyanswerList">
+                </table>
+                <div id="GetJqGridNewsurveyanswerListPager">
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+
+        </div>
+    </div>
+</div>
+            <div id="AddNewSurveyAnswerMasterDetails">
+
+            </div>
+<script src="../../Scripts/StaffManagementScripts/NewSurveyAnsweMaster.js"></script>

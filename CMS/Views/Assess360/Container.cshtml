@@ -1,0 +1,363 @@
+﻿@using TIPS.Entities.Assess
+@model ReportCardFromAssess360VItoVIII
+<style type="text/css">
+    .startPage {
+        background-image: url("../../Images/PDF%20Images/StartPage.jpg");
+        width: 2580px;
+        height: 3600px; /* border: 2px solid;*/
+    }
+
+    .page-breaker {
+        display: block;
+        clear: both;
+        page-break-after: always;
+    }
+
+    .NameDiv {
+        font-size: 45px;
+        font-weight: bold;
+        padding: 10px;
+    }
+
+    .termOneAchievImage {
+        background-image: url("../../Images/PDF%20Images/TermOneAwardsAndAchiev.jpg");
+        width: 2580px;
+        height: 3600px; /* border: 2px solid;*/
+    }
+
+    .termTwoAchievImage {
+        background-image: url("../../Images/PDF%20Images/TermTwoAwardsAndAchiev.jpg");
+        width: 2580px;
+        height: 3600px; /* border: 2px solid;*/
+    }
+
+    .termThreeAchievImage {
+        background-image: url("../../Images/PDF%20Images/TermThreeAwardsAndAchiev.jpg");
+        width: 2580px;
+        height: 3600px; /* border: 2px solid;*/
+    }
+
+    .termOneImage {
+        background-image: url("../../Images/PDF%20Images/TermOne.jpg");
+        width: 2580px;
+        height: 3600px; /* border: 2px solid;*/
+    }
+
+    .IXtermOneImage {
+        background-image: url("../../Images/PDF%20Images/IX_TermOne.jpg");
+        width: 2580px;
+        height: 3600px; /* border: 2px solid;*/
+    }
+
+    .WoLtermOneImage {
+        background-image: url("../../Images/PDF%20Images/WoLTermOne.jpg");
+        width: 2580px;
+        height: 3600px; /* border: 2px solid;*/
+    }
+
+    .WoLIXtermOneImage {
+        background-image: url("../../Images/PDF%20Images/IX_WoLTermOne.jpg");
+        width: 2580px;
+        height: 3600px; /* border: 2px solid;*/
+    }
+
+    .termTwoImage {
+        background-image: url("../../Images/PDF%20Images/TermTwo.jpg");
+        width: 2580px;
+        height: 3600px; /* border: 2px solid;*/
+    }
+
+    .IXtermTwoImage {
+        background-image: url("../../Images/PDF%20Images/IX_TermTwo.jpg");
+        width: 2580px;
+        height: 3600px; /* border: 2px solid;*/
+    }
+
+    .WoLtermTwoImage {
+        background-image: url("../../Images/PDF%20Images/WoLTermTwo.jpg");
+        width: 2580px;
+        height: 3600px; /* border: 2px solid;*/
+    }
+
+    .WoLIXtermTwoImage {
+        background-image: url("../../Images/PDF%20Images/IX_WoLTermTwo.jpg");
+        width: 2580px;
+        height: 3600px; /* border: 2px solid;*/
+    }
+
+    .termThreeImage {
+        background-image: url("../../Images/PDF%20Images/TermThree.jpg");
+        width: 2580px;
+        height: 3600px; /* border: 2px solid;*/
+    }
+
+    .IXtermThreeImage {
+        background-image: url("../../Images/PDF%20Images/IX_TermThree.jpg");
+        width: 2580px;
+        height: 3600px; /* border: 2px solid;*/
+    }
+
+    .WoLtermThreeImage {
+        background-image: url("../../Images/PDF%20Images/WoLTermThree.jpg");
+        width: 2580px;
+        height: 3600px; /* border: 2px solid;*/
+    }
+
+    .WoLIXtermThreeImage {
+        background-image: url("../../Images/PDF%20Images/IX_WoLTermThree.jpg");
+        width: 2580px;
+        height: 3600px; /* border: 2px solid;*/
+    }
+
+    .rightBox {
+        float: left;
+        width: 1000px;
+        margin: 25px 25px 25px 150px;
+        height: 400px; /* border: 2px solid;*/
+    }
+
+    .leftBox {
+        float: right;
+        width: 1000px;
+        margin: 25px 150px 25px 25px;
+        height: 400px; /* border: 2px solid;*/
+    }
+
+    p {
+        font-size: 40px;
+        font-weight: bold;
+        padding: 5px 5px 5px 25px;
+    }
+
+    #star-five {
+        margin: 50px 0;
+        position: relative;
+        display: block;
+        color: red;
+        width: 0px;
+        height: 0px;
+        border-right: 100px solid transparent;
+        border-bottom: 70px solid red;
+        border-left: 100px solid transparent;
+        -moz-transform: rotate(35deg);
+        -webkit-transform: rotate(35deg);
+        -ms-transform: rotate(35deg);
+        -o-transform: rotate(35deg);
+    }
+
+        #star-five:before {
+            border-bottom: 80px solid red;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            position: absolute;
+            height: 0;
+            width: 0;
+            top: -45px;
+            left: -65px;
+            display: block;
+            content: '';
+            -webkit-transform: rotate(-35deg);
+            -moz-transform: rotate(-35deg);
+            -ms-transform: rotate(-35deg);
+            -o-transform: rotate(-35deg);
+        }
+
+        #star-five:after {
+            position: absolute;
+            display: block;
+            color: red;
+            top: 3px;
+            left: -105px;
+            width: 0px;
+            height: 0px;
+            border-right: 100px solid transparent;
+            border-bottom: 70px solid red;
+            border-left: 100px solid transparent;
+            -webkit-transform: rotate(-70deg);
+            -moz-transform: rotate(-70deg);
+            -ms-transform: rotate(-70deg);
+            -o-transform: rotate(-70deg);
+            content: '';
+        }
+</style>
+<div>
+    @{
+        var SemList = (from n in Model.RptMarks
+                       where n.Semester != null
+                       select n).ToList();
+
+        bool has = SemList.Any(RPT => RPT.SubjectName == "HINDI" || RPT.SubjectName == "FRENCH");
+    }
+    @if (Model.Term == "OverAll" || Model.Term == "Cover")
+    {
+        @Html.Partial("StartPage")
+        <div class="page-breaker"></div>
+    }
+    @if (Model.Term == "Sem I" || Model.Term == "OverAll")
+    {
+        if ((Model.Campus == "CHENNAI MAIN" && ((Model.Grade == "IX" && Model.Section == "A") || (Model.Grade == "X" && Model.Section == "A"))) || Model.Campus == "KARUR")
+        {
+            if (has == true)
+            {
+        @Html.Partial("WoLTermOne")
+            }
+            else
+            {
+        @Html.Partial("IXTermOne") 
+            }
+        }
+        else if ((Model.Campus == "CHENNAI MAIN" && ((Model.Grade == "IX" && Model.Section == "B") || (Model.Grade == "X" && Model.Section == "B"))) || Model.Campus == "KARUR")
+        {
+           
+        @Html.Partial("WoLIXTermOne")
+           
+        }
+        else if ((Model.Grade == "IX" && Model.Section == "E") || (Model.Grade == "X" && Model.Section == "A"))
+        {
+
+            if (has == true)
+            {
+        @Html.Partial("IXTermOne")
+            }
+            else
+            {
+        @Html.Partial("WoLIXTermOne")
+            }
+        }
+        else
+        {
+            if (has == true)
+            {
+        @Html.Partial("TermOne")
+            }
+            else
+            {
+        @Html.Partial("WoLTermOne") 
+            }
+        }
+        <div class="page-breaker"></div>
+        @Html.Partial("TermOneAwardsAndAchiev")
+    }
+    @if (Model.Term == "OverAll")
+    {
+        <div class="page-breaker"></div>
+    }
+    @if (Model.Term == "Sem II" || Model.Term == "OverAll")
+    {
+        if (Model.Campus == "CHENNAI MAIN" || Model.Campus == "KARUR")
+        {
+            if (has == true)
+            {
+        @Html.Partial("WoLTermTwo")
+            }
+            else
+            {
+        @Html.Partial("IXTermTwo") 
+            }
+        }
+        else if ((Model.Grade == "IX" && (Model.Section == "A" || Model.Section == "B")) || (Model.Grade == "X" && (Model.Section == "A" || Model.Section == "B")))
+        {
+            if (has == true)
+            {
+        @Html.Partial("IXTermTwo")
+            }
+            else
+            {
+        @Html.Partial("WoLIXTermTwo")
+            }
+        }
+        else
+        {
+            if (has == true)
+            {
+        @Html.Partial("TermTwo")
+            }
+            else
+            {
+        @Html.Partial("WoLTermTwo") 
+            }
+        }
+        <div class="page-breaker"></div>
+        @Html.Partial("TermTwoAwardsAndAchiev")
+        
+    }
+    @if (Model.Term == "OverAll")
+    {
+        <div class="page-breaker"></div>
+    }
+    @if (Model.Term == "Sem III" || Model.Term == "OverAll")
+    {
+        if (Model.Campus == "CHENNAI MAIN" || Model.Campus == "KARUR")
+        {
+            if (has == true)
+            {
+        @Html.Partial("WoLTermThree")
+            }
+            else
+            {
+        @Html.Partial("IXTermThree") 
+            }
+        }
+        else if ((Model.Grade == "IX" && (Model.Section == "A" || Model.Section == "B")) || (Model.Grade == "X" && (Model.Section == "A" || Model.Section == "B")))
+        {
+            if (has == true)
+            {
+        @Html.Partial("IXTermThree")
+            }
+            else
+            {
+        @Html.Partial("WoLIXTermThree")
+            }
+        }
+        else
+        {
+            if (has == true)
+            {
+        @Html.Partial("TermThree")
+            }
+            else
+            { 
+        @Html.Partial("WoLTermThree")
+            }
+        }
+        <div class="page-breaker"></div>
+        @Html.Partial("TermThreeAwardsAndAchiev")
+        
+    }
+    @if (Model.Term == "OverAll")
+    {
+        <div class="page-breaker"></div>
+    }
+    @if (Model.Term == "Cover" || Model.Term == "OverAll")
+    {
+        @Html.Partial("GradeGrid")
+        if ((Model.Grade == "IX" && (Model.Section == "A" || Model.Section == "B")) || (Model.Grade == "X" && (Model.Section == "A" || Model.Section == "B")))
+        {
+            if (SemList.Any(RPT => RPT.SubjectName == "FIRST LANGUAGE AS ENGLISH"))
+            {
+        @Html.Partial("GradeGridEFL")
+            }
+            else
+            {
+        @Html.Partial("GradeGridESL")
+            }
+        @Html.Partial("GradeGridC_Two")
+        @Html.Partial("GradeGridC_Three") 
+        }
+        else if (Model.Grade == "IX" || Model.Grade == "X")
+        {
+            if (SemList.Any(RPT => RPT.SubjectName == "FIRST LANGUAGE AS ENGLISH"))
+            {
+        @Html.Partial("GradeGridEFL")
+            }
+            else
+            {
+        @Html.Partial("GradeGridESL")
+            }
+        @Html.Partial("GradeGridI_Two")
+        @Html.Partial("GradeGridI_Three") 
+        }
+        else { }
+        @Html.Partial("EndPage")
+    }
+</div>

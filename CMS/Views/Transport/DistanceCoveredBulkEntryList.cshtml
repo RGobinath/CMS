@@ -1,0 +1,153 @@
+﻿@{
+    ViewBag.Title = "DistanceCoveredBulkEntryList";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var status = $("#ddlStatus").val();
+        function formateadorLink(cellvalue, options, rowObject) {
+            if (rowObject[7] == "Open") {
+                return "<a href=/Transport/DistanceCoveredBulkEntry?Id=" + rowObject[0] + ">" + cellvalue + "</a>";
+            }
+            else {
+                return "<a href=/Transport/ShowVehicleDistanceCovered?Id=" + rowObject[0] + ">" + cellvalue + "</a>";
+            }
+        }
+
+        $("#Search").click(function () {
+            $("#DistanceCoveredList").clearGridData();
+            status = $("#ddlStatus").val();
+            $("#DistanceCoveredList").setGridParam(
+                {
+                    datatype: "json",
+                    url: '@Url.Content("~/Transport/DistanceCoveredBulkEntryJqGrid")',
+                    postData: { status: status },
+                    page: 1
+                }).trigger("reloadGrid");
+        });
+        $("#btnNew").click(function () {
+            window.location.href = '@Url.Action("DistanceCoveredBulkEntry", "Transport")';
+        });
+        jQuery("#DistanceCoveredList").jqGrid({
+            url: '@Url.Content("~/Transport/DistanceCoveredBulkEntryJqGrid")?status=' + status,
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'Ref No', 'Campus', 'Processed By', 'Created Date', 'User Role', 'Status'],
+            colModel: [
+            //if any column added need to check formateadorLink
+             {name: 'Id', index: 'Id', hidden: true, key: true },
+             { name: 'RefNo', index: 'RefNo', formatter: formateadorLink },
+             { name: 'Campus', index: 'Campus' },
+             { name: 'ProcessedBy', index: 'ProcessedBy' },
+             { name: 'CreatedDate', index: 'CreatedDate', width: 170 },
+           //  { name: 'Description', index: 'Description' },
+             { name: 'UserRole', index: 'UserRole' },
+             { name: 'Status', index: 'Status' },
+             ],
+            pager: '#DistanceCoveredListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: '230',
+            width: 1225,
+            shrinktofit: true,
+            viewrecords: true,
+            caption: 'Distance Covered List',
+//            gridComplete: function() {
+//                var timeOut = 50;
+//                var rowIds = $("#DistanceCoveredList").getDataIDs();
+//                $.each(rowIds, function (index, rowId) {
+//                    setTimeout(function() {
+//                        $("#DistanceCoveredList").expandSubGridRow(rowId);
+//                    }, timeOut);
+//                    timeOut = timeOut + 200;
+//                });
+//            },
+            subGrid: true,
+            subGridOptions: { "plusicon": "ui-icon-triangle-1-e",
+                "minusicon": "ui-icon-triangle-1-s",
+                "openicon": "ui-icon-arrowreturn-1-e",
+                // load the subgrid data only once // and the just show/hide 
+                "reloadOnExpand": false,
+                // select the row when the expand column is clicked 
+                "selectOnExpand": true
+            },
+            subGridRowExpanded: function (SKUList, Id) {
+                var selectedData = $('#DistanceCoveredList').jqGrid('getRowData', Id);
+                if (parseInt(selectedData.TotalCount) == 0) {
+                    InfoMsg("No Items to display");
+                    return false;
+                }
+                else {
+                    var SKUListTable, SKUListPager;
+                    SKUListTable = SKUList + "_t";
+                    SKUListPager = "p_" + SKUListTable;
+                    $("#" + SKUList).html("<table id='" + SKUListTable + "' ></table><div id='" + SKUListPager + "' ></div>");
+                    jQuery("#" + SKUListTable).jqGrid({
+                        url: '@Url.Content("~/Transport/DistanceCoveredListBulkEntryJqGrid")?RefId=' + Id,
+                        datatype: 'json',
+                        mtype: 'GET',
+                        colNames: ['Id', 'RefId', 'Vehicle Id', 'Type', 'Vehicle No', 'Source', 'Destination', 'Trip Count', 'Distance Covered', 'Trip Date', 'Driver Name', ''],
+                        colModel: [
+                        //if any column added need to check formateadorLink
+             {name: 'Id', index: 'Id', hidden: true, key: true },
+             { name: 'RefId', width: 30, index: 'RefId', hidden: true },
+             { name: 'VehicleId', width: 30, index: 'VehicleId', hidden: true },
+             { name: 'Type', index: 'Type' },
+             { name: 'VehicleNo', index: 'VehicleNo' },
+             { name: 'Source', index: 'Source' },
+             { name: 'Destination', index: 'Destination' },
+             { name: 'TripCount', index: 'TripCount' },
+             { name: 'DistanceCovered', index: 'DistanceCovered' },
+             { name: 'TripDate', index: 'TripDate', width: 170 },
+             { name: 'DriverName', index: 'DriverName' },
+             { name: 'Delete', index: 'Delete', width: 30 }
+             ],
+                        pager: '#DistanceCoveredListPager',
+                        rowNum: '100',
+                        rowList: [5, 10, 20, 50, 100, 150, 200],
+                        sortname: 'Id',
+                        sortorder: 'Asc',
+                        height: '230',
+                        width: 1225,
+                        shrinktofit: true,
+                        viewrecords: true,
+                        caption: 'Distance Covered List'
+                    });
+                    jQuery("#" + SKUListTable).jqGrid('navGrid', "#" + SKUListPager, { edit: false, add: false, del: false })
+                }
+            }
+        });
+        $("#DistanceCoveredList").navGrid('#DistanceCoveredListPager', { add: false, edit: false, del: false, search: false, refresh: false });
+    });
+</script>
+<h3>
+    Distance Covered Bulk Entry</h3>
+<table class="WithBorderOnly" width="100%">
+    <tr>
+        <th>
+            Status
+        </th>
+    </tr>
+    <tr>
+        @*  <td>
+            <input type="button" id="btnNew" value="New" />
+        </td>*@
+        <td>
+            @Html.DropDownList("ddlStatus", new SelectList(new[]
+                                          {
+                                              new{Value="Open",Text="Open"},
+                                              new{Value="Completed",Text="Completed"},
+                                          },
+                                   "Value", "Text", "Available"), new { @Class = "CSSDropDownList", style = "width:145px;" })
+            @* </td>
+        <td>*@
+            <input type="button" id="Search" value="Search" />
+        </td>
+    </tr>
+</table>
+<table id="DistanceCoveredList" class="InnerTable" width="100%">
+</table>
+<div id="DistanceCoveredListPager">
+</div>

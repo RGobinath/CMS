@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.VehicleDistanceFuelReport_vw" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.VehicleDistanceFuelReport_vw, TIPS.Entities" table="VehicleDistanceFuelReport_vw" lazy="true" >
+    <id name="Id" column="Id" type="Int32">
+      <generator class="native"/>
+    </id>
+    <property name="VehicleId">
+      <column name="VehicleId" sql-type="Int32" not-null="false" />
+    </property>
+    <property name="Type">
+      <column name="Type" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="VehicleNo">
+      <column name="VehicleNo" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="Campus">
+      <column name="Campus" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="DistanceCovered">
+      <column name="DistanceCovered" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="FuelConsumed">
+      <column name="FuelConsumed" sql-type="decimal" not-null="false" />
+    </property>
+    <!--<property name="Mileage">
+      <column name="Mileage" sql-type="decimal" not-null="false" />
+    </property>-->
+    <property name="Month">
+      <column name="Month" sql-type="int" not-null="false" />
+    </property>
+    <property name="Year">
+      <column name="Year" sql-type="int" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

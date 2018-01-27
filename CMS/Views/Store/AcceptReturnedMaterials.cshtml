@@ -1,0 +1,133 @@
+﻿@model TIPS.Entities.StoreEntities.MaterialReturn
+@{
+    ViewBag.Title = "ShowMaterialReturnList";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script src="@Url.Content("~/Scripts/Store/AcceptReturnedMaterials.js")" type="text/javascript"></script>
+<div class="page-content">
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            @Html.HiddenFor(m => m.MatRetId)
+                            @Html.Hidden("BackUrl", Url.Action("ReturnedMaterialsList", "Store"))
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Criteria</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Ref Num</b>
+                                        </label>
+                                        <div class="space-2">
+                                        </div>
+                                        @Model.ReturnRefNum
+                                        @Html.HiddenFor(m => m.ReturnRefNum)
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Created By</b>
+                                        </label>
+                                        <div class="space-2">
+                                        </div>
+                                        @Model.CreatedBy
+                                        @Html.HiddenFor(m => m.CreatedBy)
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>From Store</b>
+                                        </label>
+                                        <div class="space-2">
+                                        </div>
+                                        @Model.FromStore
+                                        @Html.HiddenFor(m => m.FromStore)
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>To Store</b>
+                                        </label>
+                                        <div class="space-2">
+                                        </div>
+                                        @Model.ToStore
+                                        @Html.HiddenFor(m => m.ToStore)
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Return Status</b>
+                                        </label>
+                                        <div class="space-2">
+                                        </div>
+                                        @Model.ReturnStatus
+                                        @Html.HiddenFor(m => m.ReturnStatus)
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Accepted Status</b>
+                                        </label>
+                                        <div class="space-2">
+                                        </div>
+                                        @Model.AcceptedStatus
+                                        @Html.HiddenFor(m => m.AcceptedStatus)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>DC Number</b>
+                                        </label>
+                                        <div class="space-2">
+                                        </div>
+                                        @Model.DCNumber
+                                        @Html.HiddenFor(m => m.DCNumber)
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Description</b>
+                                        </label>
+                                        @Html.TextAreaFor(m => m.Description, new { id = "Description", rows = 1, cols = 25, @class = "form-control textarea", @readonly = true })
+                                        @Html.HiddenFor(model => model.Description)
+                                    </div>
+                                    <div class="space-16">
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                    <div class="col-sm-2" style="padding-top:2px">
+                                        <button type="button" class="btn btn-success btn-sm" id="Complete" value="Complete">
+                                            <i class="fa fa-check"></i>&nbsp;Complete</button>
+                                    </div>
+                                    <div class="col-sm-2" style="padding-top:2px">
+                                        <button type="button" class="btn btn-purple btn-sm" id="btnBack" value="Back To Inbox">
+                                            <i class="fa fa-arrow-left"></i>&nbsp;Back To Inbox</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="MaterialReturnList">
+                </table>
+                <div id="MaterialReturnListPager">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

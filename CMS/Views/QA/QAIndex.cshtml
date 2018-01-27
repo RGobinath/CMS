@@ -1,0 +1,539 @@
+﻿@{
+    ViewBag.Title = "QAIndex";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<!-- #section:basics/navbar.layout -->
+<!-- /section:basics/navbar.layout -->
+<script src="../../assets/js/jquery.sparkline.min.js"></script>
+<script src="../../assets/js/jquery.easypiechart.min.js"></script>
+<script type="text/javascript">
+    try { ace.settings.check('main-container', 'fixed') } catch (e) { }
+</script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue collapsed">
+                    @*<div class="widget-header widget-header-small">*@
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Pannel
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 14px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            Campus</label>
+                                        @Html.DropDownList("Campus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            Grade</label>
+                                        @Html.DropDownList("Grade", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            Subject</label>
+                                        @Html.DropDownList("Subject", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="form-field-select-1">
+                                            Question</label>
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBox("Question", "", new { @Class = "form-control input-sm" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-question"></i></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-1">
+                                        <label for="form-field-select-1" style="color: White;">
+                                            Dummy</label>
+                                        
+                                        <button class="btn btn-primary btn-info btn-block btn-sm" id="btnSearch" onclick="Search();">
+                                            <i class="ace-icon fa fa-search white"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label for="form-field-select-1" style="color: White;">
+                                            Dummy</label>
+                                        <button class="btn btn-danger btn-warning btn-block btn-sm" id="btnReset" onclick="Reset();">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <div class="tabbable tabs-left">
+                    <ul id="myTab" class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#home" data-toggle="tab"><i class=" menu-icon fa fa-tachometer"></i>&nbsp;Dashboard</a>
+
+                        </li>
+                       
+                        <li>
+                            <a href="#Inbox" onclick="return Status('Inbox');" data-toggle="tab"><i class="menu-icon fa fa-envelope"></i>&nbsp;Inbox</a>
+                        </li>
+                        <li>
+                            <a href="#Inbox" onclick="return Status('Campus');" data-toggle="tab"><i class="menu-icon fa  fa-cog "></i>&nbsp;@ViewBag.Campus </a>
+
+                        </li>
+                        <li>
+                            <a href="#Inbox" onclick="return Status('AllCampus');" data-toggle="tab"><i class="menu-icon fa  fa-cogs"></i>&nbsp;All Campus</a>
+
+                        </li>
+                        <li>
+                            <a href="#Inbox" onclick="return Status('CommonFAQ');" data-toggle="tab"><i class="menu-icon fa fa-comments"></i>&nbsp;Q&A Dashboard</a>
+
+                        </li>
+                         <li>
+                            <a href="#Inbox" onclick="return Status('Answered');" data-toggle="tab"><i class="menu-icon fa fa-check-square-o"></i>&nbsp;Answered Questions</a>
+                        </li>
+                                      <li>
+                                         
+                        @*<div class="box">Box</div>*@
+                        </li>
+
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane " id="Inbox">
+                            <table id="FAQJQGrid">
+                            </table>
+                            <div id="FAQJQGridPager"></div>
+                           
+
+                        </div>
+                        <div class="tab-pane in active" id="home">
+                            <div class="col-xs-3"></div>
+                            <div class="col-xs-6">
+                                <div class="infobox infobox-green infobox-small infobox-dark" onclick="test();" style="margin-right: -2px;">
+
+                                    <!-- #section:pages/dashboard.infobox.easypiechart -->
+                                    @* <div class="easy-pie-chart percentage" data-percent="61" data-size="39">
+                                            <span class="percent">61</span>%
+                                        </div>*@
+                                    <div class="infobox-icon">
+                                        <i class="ace-icon fa fa-envelope"></i>
+
+
+                                        <!-- /section:pages/dashboard.infobox.easypiechart -->
+                                    </div>
+
+                                    <div class="infobox-data">
+                                        <div class="infobox-content">Inbox</div>
+                                       <b> <div class="infobox-content" id="InboxCount">  </div></b>
+
+                                    </div>
+                                </div>
+
+                                <div class="infobox infobox-blue infobox-small infobox-dark" style="margin-right: -2px;">
+                                    <!-- #section:pages/dashboard.infobox.sparkline -->
+                                    @* <div class="infobox-chart">
+                                        <span class="sparkline" data-values="3,4,2,3,4,4,2,2"></span>
+                                    </div>*@
+                                    <div class="infobox-icon">
+                                        <i class="ace-icon  fa  fa-cog"></i>
+                                    </div>
+
+                                    <!-- /section:pages/dashboard.infobox.sparkline -->
+                                    <div class="infobox-data">
+                                        <div class="infobox-content">Campus</div>
+                                       <b> <div class="infobox-content" id="CampusCount"></div></b>
+                                    </div>
+                                </div>
+
+                                <div class="infobox infobox-grey infobox-small infobox-dark" style="margin-right: -2px;">
+                                    <div class="infobox-icon">
+                                        <i class="ace-icon  fa  fa-cogs 2x"></i>
+                                    </div>
+
+                                    <div class="infobox-data">
+                                        <div class="infobox-content">AllCampus</div>
+                                        <b><div class="infobox-content" id="AllCampusCount"></div></b>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-xs-3"></div>
+
+                            <div class="row">
+                                <div class="col-xs-12" style="border: 2px;">
+                                    <div class="col-sm-4">
+                                        <div id="InboxChart"></div>
+                                    </div>
+                                    <div class="col-sm-4"><div id="SuccessRatio"></div></div>
+                                    <div class="col-sm-4"><div id="AllCampusChart"></div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <!-- PAGE CONTENT ENDS -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.page-content-area -->
+    </div>
+
+
+
+    <div id="AnswersPopup"></div>
+
+
+
+</div>
+
+        
+
+
+
+
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='../assets/js/jquery.min.js'>" + "<" + "/script>");
+    </script>
+    <script type="text/javascript">
+        if ('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    </script>
+    <style>
+        .divexample {
+            background: none repeat scroll 0 0 #eee;
+            font-size: 1em !important;
+            margin: 1em 0 !important;
+            overflow: auto !important;
+        }
+        .ui-jqgrid tr.jqgrow td{font-size:10px;}
+
+        
+/*Animated works starts here*/ 
+
+
+/*Animated work ends here*/ 
+
+    </style>
+
+    <link href="@Url.Content("~/Scripts/CSSMENU/styles.css")" rel="stylesheet" type="text/css" />
+    @*<script src="../../Scripts/QA/QAIndexScript.js"></script>*@
+    <script src="@Url.Content("~/Scripts/CSSMENU/menu_jquery.js")" type="text/javascript"></script>
+
+
+
+    @*<script src="@Url.Content("~/Scripts/QA/QAIndexScript.js")" type="text/javascript"></script>*@
+  
+    <script type="text/javascript">
+       
+        jQuery(function ($) {
+
+            //Loading the inbox chart
+            DashboardLoading();
+
+           
+            SuccessRatio
+
+
+            var statusVal = 'Answered';
+            function QuestionLink(cellvalue, options, rowObject) {
+                return "<a style='color:blue' onclick='LoadAnswersPopupbyId(" + rowObject[0] + ")'>" + cellvalue + "</a>";
+            }
+            $(".ui-dialog-titlebar").hide();
+            $('#FAQJQGrid').jqGrid({
+                url: '/QA/AnsweredQuestionJQGrid?Status=Answered',
+                datatype: 'Json',
+                type: 'GET',
+                width: 1080,
+                //autowidth: true,
+                height: 300,
+                colNames: ["Id","QuestionId", "Question", "Question Title", "campus", "Grade", "Subject", "Raised By", "Replies & Viewers"],
+                colModel: [
+                  { name: 'Id', index: 'Id', key: true, hidden: true },
+                   { name: 'QuestionRefId', index: 'QuestionRefId',width:40  },
+                  { name: 'Question', index: 'Question', editable: false, width: "300px", hidden: true },
+                  { name: 'QuestionTitle', index: 'QuestionTitle', editable: false, width: "250px", formatter: QuestionLink },
+                  { name: 'Campus', index: 'Campus', editable: false, width: "60px" },
+                  { name: 'Grade', index: 'Grade', editable: false, width: "20px" },
+                  { name: 'Subject', index: 'Subject', width: "60px" },
+                  { name: '', index: '', editable: false, width: "80px" },
+                  { name: '', index: '', editable: false, width: "40px" },
+
+                ],
+                caption: '<i class="menu-icon fa fa-th-list"></i>&nbsp;QA Details',
+                rowNum: 10,
+                viewrecords: true,
+                rowList: [10, 50],
+                sortorder: 'Asc',
+                sortname: 'Id',
+                pager: 'FAQJQGridPager',
+                loadComplete: function () {
+                    var table = this;
+                    $("tr.jqgrow:odd").css("background", "#f9f9f9");
+                    //$("tr.jqgrow:odd").css("background", "white");
+                    setTimeout(function () {
+                        updatePagerIcons(table);
+                        enableTooltips(table);
+                    }, 0);
+                }
+            });
+           
+            //$('#FAQJQGrid').jqGrid('filterToolbar', { searchOnEnter: true, defaultSearch: "cn" });
+
+            //drop down code starts here
+
+            $.getJSON("/Base/FillAllBranchCode",
+           function (fillig) {
+               var ddlcam = $("#Campus");
+               ddlcam.empty();
+               ddlcam.append($('<option/>',
+           {
+               value: "",
+               text: "Select One"
+
+           }));
+
+               $.each(fillig, function (index, itemdata) {
+                   ddlcam.append($('<option/>',
+           {
+               value: itemdata.Value,
+               text: itemdata.Text
+           }));
+               });
+           });
+
+            $("#Campus").change(function () {
+                var campus = $('#Campus').val();
+                gradeddl();
+                $.ajax({
+                    type: 'GET',
+                    async: false,
+                    dataType: "json",
+                    // url: '/Attendance/DisableDateinDatepicker?Campus=' + campus,
+                    success: function (data) {
+                        HoliDays = data;
+                    }
+                });
+            });
+
+
+            //drop down code ends here
+
+            FillSubject();
+        });
+
+        function updatePagerIcons(table) {
+            var replacement =
+            {
+                'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+            };
+            $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+                var icon = $(this);
+                var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+                if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+            })
+        }
+
+        function enableTooltips(table) {
+            $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+            $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+        }
+
+
+
+        function gradeddl() {
+
+            var campus = $("#Campus").val();
+            $.getJSON("/Admission/Gradeddl1/", { campus: campus },
+        function (modelData) {
+            var select = $("#Grade");
+            select.empty();
+            select.append($('<option/>'
+        , {
+            value: "",
+            text: "Select Grade"
+        }));
+            $.each(modelData, function (index, itemData) {
+
+                select.append($('<option/>',
+        {
+            value: itemData.gradcod,
+            text: itemData.gradcod
+        }));
+            });
+        });
+
+        }
+
+        function FillSubject() {
+
+            $.getJSON("/QA/FillSubjectByUserId",
+        function (modelData) {
+            var select = $("#Subject");
+            select.empty();
+            select.append($('<option/>'
+        , {
+            value: "",
+            text: "Select Subject"
+        }));
+            $.each(modelData, function (index, itemData) {
+
+                select.append($('<option/>',
+        {
+            value: itemData.Value,
+            text: itemData.Text
+        }));
+            });
+        });
+
+        }
+        function LoadAnswersPopupbyId(Id) {
+            debugger;
+            var popupurl = '/QA/QAAnswersPopup?QuestionId=' + Id
+            LoadPopupDynamicaly(popupurl, $('#AnswersPopup'), "", "", 900, "Student Details");
+        }
+
+        function Search() {
+            $("#FAQJQGrid").setGridParam(
+                  {
+                      datatype: "json",
+                      url: '/QA/AnsweredQuestionJQGrid',
+                      type: 'POST',
+                      postData: { Status: statusVal, Campus: $('#Campus').val(), Grade: $('#Grade').val(), Subject: $('#Subject').val(), Question: $('#Question').val() },
+                      page: 1
+                  }).trigger("reloadGrid");
+
+        }
+
+        function Reset() {
+            $('#Campus').val('');
+            $('#Grade').val('');
+            $('#Subject').val('');
+            $('#txtRaisedFrom').val('');
+            $('#txtRaisedTo').val('');
+
+            $("#FAQJQGrid").setGridParam(
+        {
+            datatype: "json",
+            url: '/QA/AnsweredQuestionJQGrid',
+            type: 'POST',
+            postData: { Status: 'Answered', Campus: '', Grade: '', Subject: '', Question: '' },
+            page: 1
+        }).trigger("reloadGrid");
+        }
+
+
+        function Status(status) {
+            statusVal = status;
+            debugger;
+            $("#FAQJQGrid").clearGridData();
+            $("#FAQJQGrid").setGridParam(
+                  {
+                      datatype: "json",
+                      url: '/QA/AnsweredQuestionJQGrid',
+                      type: 'POST',
+                      postData: { status: statusVal },
+                      page: 1
+                  }).trigger("reloadGrid");
+        }
+        function DashboardLoading() {
+            $.ajax({
+                type: 'Get',
+                url: '@Url.Content("~/QA/InboxChart")',
+                success: function (data) {
+
+                    var chart = new FusionCharts("../../Charts/FCF_Pie2D.swf", "Period Year Details", "290", "310");
+                    chart.setDataXML(data);
+                    chart.render("InboxChart");
+
+                },
+                async: false,
+                dataType: "text"
+             });
+            //loading all campus chart
+
+            $.ajax({
+                type: 'Get',
+                url: '@Url.Content("~/QA/QAAllCampusChart")',
+                success: function (data) {
+
+                    var chart = new FusionCharts("../../Charts/FCF_Column2D.swf", "Period Year Details", "290", "310");
+                    chart.setDataXML(data);
+                    chart.render("AllCampusChart");
+
+                },
+                async: false,
+                dataType: "text"
+            });
+
+            //Questions Count
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                traditional: true,
+                url: '@Url.Content("~/QA/QAQuestionCount")',
+                success: function (data) {
+                    debugger;
+
+                    $('#InboxCount').html(data[0]);
+                    $('#CampusCount').html(data[1]);
+                    $('#AllCampusCount').html(data[2]);
+
+
+                },
+
+            });
+
+            //SuccessRatio based on the user
+            $.ajax({
+                type: 'Get',
+                url: '@Url.Content("~/QA/QASuccessRatio")',
+                success: function (data) {
+
+                    var chart = new FusionCharts("../../Charts/FCF_Doughnut2D.swf", "Period Year Details", "290", "310");
+                    chart.setDataXML(data);
+                    chart.render("SuccessRatio");
+
+                },
+                async: false,
+                dataType: "text"
+            });
+            QANotificationCount();
+        }
+
+    </script>
+
+
+
+
+        

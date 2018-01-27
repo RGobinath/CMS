@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.AdmissionEntities.UploadedFilesView" namespace="TIPS.Entities.AdmissionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AdmissionEntities.UploadedFilesView, TIPS.Entities" table="UploadedFiles" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="PreRegNum" column="PreRegNum" type="Int64" not-null ="false"></property>
+
+    <property name="DocumentFor" column="DocumentFor" type="string" not-null ="false"></property>
+    <property name="DocumentType" column="DocumentType" type="string" not-null ="false"></property>
+    <property name="DocumentName" column="DocumentName" type="string" not-null ="false"></property>
+    <property name="Type" column="Type" type="string" not-null ="false"></property>
+    <property name="DocumentSize" column="DocumentSize" type="string" not-null ="false"></property>
+
+    <property name="UploadedDate" column="UploadedDate" type="string" not-null ="false"></property>
+
+    <property name="Name" column="Name" type="string" not-null ="false"></property>
+    <property name="Phone" column="Phone" type="string" not-null ="false"></property>
+
+    <property name="OldFiles" column="OldFiles" type="Int32" not-null ="false"></property>
+
+    <property name="PicturesTabRefId" column="PicturesTabRefId" type="Int64" not-null ="false"></property>
+    <property name="FileDirectory" column="FileDirectory" type="string" not-null ="false"></property>
+    <property name="MonthOfSalary" column="MonthOfSalary" type="Int32" not-null ="false"></property>
+  </class>
+</hibernate-mapping>
+

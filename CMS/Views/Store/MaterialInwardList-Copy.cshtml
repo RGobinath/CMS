@@ -1,0 +1,239 @@
+﻿@model TIPS.Entities.StoreEntities.MaterialInward
+@{
+    ViewBag.Title = "MaterialInwardList";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+       // $("#btnNewMaterialInward").hide();
+        //        $("#btnNewMaterialInward").hide();
+        //        var flag = "@ViewBag.Flag";
+        //        if (flag == "INC") {
+        //            $("#btnNewMaterialInward").show();
+        //        }
+        function formateadorLink(cellvalue, options, rowObject) {
+            if (rowObject[11] == "Open") {
+                return "<a href=/Store/MaterialInward?Id=" + rowObject[0] + ">" + cellvalue + "</a>";
+            }
+            else {
+                return "<a href=/Store/ShowMaterialInward?Id=" + rowObject[0] + ">" + cellvalue + "</a>";
+            }
+        }
+        var status = $("#ddlStatus").val();
+        jQuery("#MaterialInwardList").jqGrid({
+            url: '@Url.Content("~/Store/MaterialInwardListJqGrid")?status=' + status,
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'Inward Number', 'Items Count', 'Supplier', 'PO Number', 'SuppRefNo', 'Invoice Date', 'ReceivedBy', 'Rcvd Date Time', 'Created Date', 'Created By', 'Status'],
+            colModel: [
+            //if any column added need to check formateadorLink
+             { name: 'Id', index: 'Id', hidden: true, key: true },
+             { name: 'InwardNumber', index: 'InwardNumber', formatter: formateadorLink, sortable: true },
+             { name: 'TotalCount', index: 'TotalCount', sortable: true, cellattr: function (rowId, cellValue, rawObject, cm, rdata) {
+                 if (cellValue == 0) {
+                     return 'class="ui-state-error ui-state-error-text"';
+                 }
+             }
+             },
+             { name: 'Supplier', index: 'Supplier', sortable: true },
+             { name: 'PONumber', index: 'PONumber', sortable: true },
+             { name: 'SuppRefNo', index: 'SuppRefNo', sortable: true },
+             { name: 'InvoiceDate', index: 'InvoiceDate', sortable: true },
+             { name: 'ReceivedBy', index: 'ReceivedBy', sortable: true },
+             { name: 'ReceivedDateTime', index: 'ReceivedDateTime', sortable: true, width: 170 },
+             { name: 'CreatedDate', index: 'CreatedDate', sortable: true, width: 170 },
+             { name: 'ProcessedBy', index: 'ProcessedBy', sortable: true },
+             { name: 'Status', index: 'Status', sortable: true },
+             ],
+            pager: '#MaterialInwardListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200 ],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: '230',
+            width: 1225,
+            // autowidth: true,
+            // shrinkToFit: true,
+            viewrecords: true,
+            caption: 'Material Inward List',
+            // forceFit: true,
+            //  multiselect: true
+            subGrid: true,
+            subGridOptions: { "plusicon": "ui-icon-triangle-1-e",
+                "minusicon": "ui-icon-triangle-1-s",
+                "openicon": "ui-icon-arrowreturn-1-e",
+                // load the subgrid data only once // and the just show/hide 
+                "reloadOnExpand": false,
+                // select the row when the expand column is clicked 
+                "selectOnExpand": true
+            },
+            subGridRowExpanded: function (SKUList, Id) {
+
+                var selectedData = $('#MaterialInwardList').jqGrid('getRowData', Id);
+                if (parseInt(selectedData.TotalCount) == 0) {
+                    InfoMsg("No Items to display");
+                    return false;
+                }
+                else {
+                    var SKUListTable, SKUListPager;
+                    SKUListTable = SKUList + "_t";
+                    SKUListPager = "p_" + SKUListTable;
+                    $("#" + SKUList).html("<table id='" + SKUListTable + "' ></table><div id='" + SKUListPager + "' ></div>");
+                    jQuery("#" + SKUListTable).jqGrid({
+                        url: '/Store/MaterialSkuListJqGrid?Id=' + Id,
+                        datatype: 'json',
+                        mtype: 'GET',
+                        colNames: ['SKU Id', 'MaterialRefId', 'Material', 'Material Group', 'Material Sub Group', 'Ord.Units', 'Rcvd.Units', 'Ord.Qty', 'Rcvd.Qty', 'Dmg.Qty', 'Unit Price', 'Total Price', 'Dmg.Desc / Remarks'],
+                        colModel: [
+                    { name: 'SkuId', index: 'SkuId', hidden: true, key: true },
+                    { name: 'MaterialRefId', index: 'MaterialRefId', hidden: true },
+                    { name: 'Material', index: 'Material', width: 90, sortable: true, cellattr: function (rowId, val, rawObject) { return 'title="' + 'Material Group:' + rawObject[3] + ', Material Sub Group:' + rawObject[4] + '"' } },
+                    { name: 'MaterialGroup', index: 'MaterialGroup', width: 90, sortable: true, hidden: true },
+                    { name: 'MaterialSubGroup', index: 'MaterialSubGroup', width: 90, sortable: true, hidden: true },
+                    { name: 'OrderedUnits', index: 'OrderedUnits', width: 90, sortable: true },
+                    { name: 'ReceivedUnits', index: 'ReceivedUnits', width: 90, sortable: true },
+                    { name: 'OrderQty', index: 'OrderQty', width: 90, sortable: true },
+                    { name: 'ReceivedQty', index: 'ReceivedQty', width: 90, sortable: true },
+                    { name: 'DamagedQty', index: 'DamagedQty', width: 90, sortable: true },
+                    { name: 'UnitPrice', index: 'UnitPrice', width: 90, sortable: true },
+                    { name: 'TotalPrice', index: 'TotalPrice', width: 90, sortable: true },
+                    { name: 'DamageDescription', index: 'DamageDescription', width: 150, sortable: true }
+                    ],
+                        pager: SKUListPager,
+                        rowNum: '5',
+                        rowList: [5, 10, 20, 50, 100, 150, 200 ],
+                        sortname: 'SkuId',
+                        sortorder: 'Desc',
+                        height: '130',
+                        width: 1225,
+                        autowidth: true,
+                        shrinkToFit: true,
+                        viewrecords: true,
+                      //  caption: 'Material SKU List',
+                        forceFit: true
+                    });
+                    jQuery("#" + SKUListTable).jqGrid('navGrid', "#" + SKUListPager, { edit: false, add: false, del: false })
+                }
+            }
+        });
+        $("#MaterialInwardList").navGrid('#MaterialInwardListPager', { add: false, edit: false, del: false, search: false, refresh: false });
+        jQuery("#MaterialInwardList").jqGrid('navButtonAdd', '#MaterialInwardListPager', {
+            caption: "Export To Excel",
+            onClickButton: function () {
+                var Supplier = $("#Supplier").val();
+                var SuppRefNo = $("#SuppRefNo").val();
+                var InvoiceDate = $("#InvoiceDate").val();
+                var DCDate = $("#DCDate").val();
+                var PONumber = $("#PONumber").val();
+                var status = $("#ddlStatus").val();
+                window.open("MaterialInwardListJqGrid" + '?Supplier=' + Supplier + '&SuppRefNo=' + SuppRefNo + '&InvoiceDate=' + InvoiceDate + '&DCDate=' + DCDate + '&PONumber=' + PONumber + '&status=' + status + '&rows=9999' + '&ExptXl=1');
+            }
+        });
+
+        $("#btnNewMaterialInward").click(function () {
+            window.location.href = '@Url.Action("MaterialInward", "Store")';
+        });
+
+        $("#btnsearch").click(function () {
+
+            $("#MaterialInwardList").clearGridData();
+
+            var Supplier = $("#Supplier").val();
+            var SuppRefNo = $("#SuppRefNo").val();
+            var InvoiceDate = $("#InvoiceDate").val();
+            var DCDate = $("#DCDate").val();
+            var PONumber = $("#PONumber").val();
+            var status = $("#ddlStatus").val();
+            $("#MaterialInwardList").setGridParam(
+                {
+                    datatype: "json",
+                    url: '@Url.Content("~/Store/MaterialInwardListJqGrid/")',
+                    postData: { Supplier: Supplier, SuppRefNo: SuppRefNo, InvoiceDate: InvoiceDate, DCDate: DCDate, PONumber: PONumber, status: status },
+                    page: 1
+                }).trigger("reloadGrid");
+        });
+
+        $("#reset").click(function () {
+            window.location.href = '@Url.Action("MaterialInwardList", "Store")';
+        });
+
+    });
+
+</script>
+<h3>
+    Material Inward List</h3>
+<table class="WithBorderOnly" width="100%">
+    <tr class="PanelHeading" >
+        <th colspan="7">
+            Search Criteria
+        </th>
+    </tr>
+    <tr>
+        <td width="15%">
+            <label class="lblheader">
+                Supplier</label>
+        </td>
+        <td width="15%">
+            <label class="lblheader">
+                Supplier Ref / Invoice No</label>
+        </td>
+        <td width="15%">
+            <label class="lblheader">
+                Invoice Date</label>
+        </td>
+        <td width="15%">
+            <label class="lblheader">
+                DC Date</label>
+        </td>
+        <td width="15%">
+            <label class="lblheader">
+                PO Number</label>
+        </td>
+        <td>
+            <label class="lblheader">
+                Status
+            </label>
+        </td>
+    </tr>
+    <tr id="srchKeyPress">
+        <td>
+            @Html.TextBoxFor(m => m.Supplier, new { @class = "CSSTextBox" })
+        </td>
+        <td>
+            @Html.TextBoxFor(m => m.SuppRefNo, new { @Class = "CSSTextBox" })
+        </td>
+        <td>
+            @Html.TextBoxFor(m => m.InvoiceDate, new { @Class = "datepicker" })
+        </td>
+        <td>
+            @Html.TextBoxFor(m => m.DCDate, new { @class = "datepicker" })
+        </td>
+        <td>
+            @Html.TextBoxFor(m => m.PONumber, new { @Class = "CSSTextBox" })
+        </td>
+        <td>
+            @Html.DropDownList("ddlStatus", new SelectList(new[]
+                                          {
+                                              new{Value="Open",Text="Open"},
+                                              new{Value="Completed",Text="Completed"},
+                                                                                           
+                                          },
+                                            "Value", "Text", "Open"), new { @Class = "CSSDropDownList", style = "width:145px;" })
+        </td>
+        <td>
+            <input type="button" id="btnsearch" value="Search" />
+            @*</td>
+        <td align="left">*@
+            <input type="button" value="Reset" id="reset" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="button" id="btnNewMaterialInward" value="New Material Inward" />
+        </td>
+    </tr>
+</table>
+<table id="MaterialInwardList" class="InnerTable" width="100%">
+</table>
+<div id="MaterialInwardListPager">
+</div>

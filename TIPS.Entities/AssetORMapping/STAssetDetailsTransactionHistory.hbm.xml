@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.STAssetDetailsTransactionHistory" namespace="TIPS.Entities.AssetEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.STAssetDetailsTransactionHistory, TIPS.Entities" table="STAssetDetailsTransactionHistory" lazy="false" >
+    <id name="History_Id" column="History_Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="FromCampus" column="FromCampus" type="string"></property>
+    <property name="FromBlock" column="FromBlock" type="string"></property>
+    <property name="FromLocation" column="FromLocation" type="string"></property>
+    <property name="ToCampus" column="ToCampus" type="string"></property>
+    <property name="ToBlock" column="ToBlock" type="string"></property>
+    <property name="ToLocation" column="ToLocation" type="string"></property>
+    <property name="TransactionType" column="TransactionType" type="string"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime" />
+    <many-to-one name="STAssetDetails" column="AssetDet_Id" class="TIPS.Entities.AssetEntities.STAssetDetails,TIPS.Entities.AssetEntities" fetch="join" > </many-to-one>
+    <property name="TransactionType_Id" column="TransactionType_Id" type="Int64"></property>    
+    <property name="IdNum" column="IdNum" type="Int64"></property>
+    <property name="InvoiceDetailsId" column="InvoiceDetailsId" type="Int64"></property>
+    <property name="Warranty" column="Warranty" type="string"></property>
+    <property name="Amount" column="Amount" type="decimal"></property>
+    <property name="AssetRefId" column="AssetRefId" type="Int64"></property>
+    <property name="IsSubAsset" column="IsSubAsset" type="bool"></property>
+    <property name="ReceivedAcademicYr" column="ReceivedAcademicYr" type="string"></property>
+  </class>
+</hibernate-mapping>

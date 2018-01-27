@@ -1,0 +1,36 @@
+﻿<script type="text/javascript">
+    //$(document).ready(function () { $('#file1').ace_file_input(); });
+
+</script>
+<div class="row" id="DocumentsSection">
+    <div class="col-xs-12" style="margin-top: 5px; margin-left: 10px;">
+        <div class="col-sm-9">
+            <b>Document Type</b><br />
+            @Html.DropDownList("ddlDocumentType", new SelectList(new[]
+                                          {
+                                              new{Value=" ",Text="Select One"},
+                                              new{Value="Warranty",Text="Warranty"},
+                                              new{Value="PurchaseInvoice",Text="PurchaseInvoice"},
+                                              new{Value="ServiceInvoice",Text="ServiceInvoice"},
+                                              new{Value="Others",Text="Others"}
+                                          },
+          "Value", "Text", ""), new { @Class = "form-control select-sm" })
+        </div>
+    </div>
+    <div class="col-xs-12" style="margin-top: 5px; margin-left: 10px;">
+        <div class="col-sm-9">
+            <b>Document Name</b><br />
+            <input type="file" id="file1" name="file1" />
+        </div>
+    </div>
+    <div class="col-xs-12" style="margin-top: 10px; margin-bottom: 5px;" >
+
+        <div class="col-sm-3"></div>
+        <div class="col-sm-4">
+            <button class="btn btn-block btn-warning" type="button" id="Upload" name="DocUpload" value="Upload" onclick="return (uploadvalidate());">
+                <i class="ace-icon fa fa-upload bigger-110"></i>Upload
+            </button>
+        </div>
+
+    </div>
+</div>

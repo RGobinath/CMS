@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StoreEntities.MaterialGroupMaster_vw" namespace="TIPS.Entities.StoreEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StoreEntities.MaterialSubGroupMaster_vw, TIPS.Entities" table="MaterialSubGroupMaster_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="MaterialGroupId" column="MaterialGroupId" type="Int64"></property>
+    <property name="MaterialGroup" column="MaterialGroup" type="string"></property>
+    <property name="MaterialSubGroup" column="MaterialSubGroup" type="string"></property>
+    <property name="MatSubGrpCode" column="MatSubGrpCode" type="string"></property>
+  </class>
+</hibernate-mapping>

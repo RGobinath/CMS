@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.ParentPortalEntities.NoteAttachment" namespace="TIPS.Entities.NoteAttachment" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.ParentPortalEntities.NoteAttachment, TIPS.Entities" table="NoteAttachment" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="NotePreId" column="NotePreId" type="Int64"></property>
+
+    <property name="Attachment"  type="Serializable" >
+      <column name="Attachment" not-null="true" sql-type="varbinary(MAX)" length="2147483647"></column>
+    </property>
+    <property name="AttachmentName" column="AttachmentName" type="string"></property>
+  </class>
+</hibernate-mapping>
+

@@ -1,0 +1,171 @@
+﻿@{
+    ViewBag.Title = "StudentDetails";
+    Layout = null;
+}
+<script type="text/javascript">
+
+    var idno = "";
+    var name = "";
+    var cname = '@ViewBag.Campus';
+    var grade = '@ViewBag.Grade';
+    var section = '@ViewBag.Section';
+    var ret1 = "";
+
+    function gridload() {
+        $("#StudentList").jqGrid({
+            //url: 'Url.Content("~/Store/StudentDetailsListJqGrid")',
+            postData: { idno: idno, name: name, cname: cname, grade: grade, sect: section },
+            datatype: 'local',
+            type: 'GET',
+            shrinkToFit: false,
+            colNames: ['Id', 'IdNo', 'Name', 'Section', 'Campus Name', 'Grade', 'Is Hosteller'],
+            colModel: [
+              { name: 'Id', index: 'Id', hidden: true },
+              { name: 'id_no', index: 'NewId', width: 110, sortable: true },
+              { name: 'name', index: 'Name', sortable: true },
+              { name: 'section', index: 'Section', width: 50, sortable: true },
+              { name: 'campus_name', index: 'Campus', width: 110, sortable: true },
+              { name: 'grade', index: 'Grade', width: 50, sortable: true },
+              { name: 'IsHosteller', index: 'IsHosteller', formatter: showYesOrNo, width: 50, sortable: true }
+              ],
+            pager: '#StudentPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            width: 850,
+            height: 250,
+            autowidth: true,
+            viewrecords: true,
+            caption: 'Student List',
+            onSelectRow: function (rowid) {
+                if (rowid == null) {
+                    ids = 0;
+                    ret1 = jQuery("#StudentList").jqGrid('getRowData', rowid);
+                    $('#txtStuNum').val(ret1.id_no);
+                    $('#txtstName').val(ret1.name);
+                    $('#txtschool').val(ret1.campus_name);
+                    $('#txtsection').val(ret1.section);
+                    $('#txtgrade').val(ret1.grade);
+                    $('#txtIsHosteller').val(ret1.IsHosteller);
+
+                    $('#DivStudentSearch').dialog('close');
+                } else {
+                    ret1 = jQuery("#StudentList").jqGrid('getRowData', rowid);
+                    $('#txtStuNum').val(ret1.id_no);
+                    $('#txtstName').val(ret1.name);
+                    $('#txtschool').val(ret1.campus_name);
+                    $('#txtsection').val(ret1.section);
+                    $('#txtgrade').val(ret1.grade);
+                    if (ret1.IsHosteller == 'Yes')
+                        $('#IsHosteller').attr("value", "True"); //$("#CheckOne").attr("value", "True");
+                    else
+                        $('#IsHosteller').attr("value", "False");
+                    $('#DivStudentSearch').dialog('close');
+                }
+            }
+        });
+    }
+
+    function showYesOrNo(cellvalue, options, rowObject) {
+        if (cellvalue == 'True') {
+            return 'Yes';
+        }
+        else {
+            return 'No';
+        }
+    }
+    $(document).ready(function () {
+        $("#campus").attr("readonly", true).css("background-color", "#F5F5F5").val(cname);
+        $("#grade").attr("readonly", true).css("background-color", "#F5F5F5").val(grade);
+        $("#section").attr("readonly", true).css("background-color", "#F5F5F5").val(section);
+        //$('#campus').val(cname);
+        //$('#grade').val(grade);
+        $("#Search").click(function () {
+
+            idno = document.getElementById('idno').value;
+            name = document.getElementById('name').value;
+            cname = document.getElementById('campus').value;
+            grade = document.getElementById('grade').value;
+            section = document.getElementById('section').value;
+            var brUrl1 = '@Url.Content("~/Store/StudentDetailsListJqGrid")?idno=' + idno + '&name=' + name + '&cname=' + cname + '&grade=' + grade + '&sect=' + section;
+            LoadSetGridParam($('#StudentList'), brUrl1);
+        });
+
+        $("#reset").click(function () {
+            idno = "";
+            name = "";
+            campus = "";
+            grade = "";
+            section = "";
+            var cname = document.getElementById('campus').value;
+            document.getElementById('idno').value = "";
+            document.getElementById('name').value = "";
+            document.getElementById('section').value = "";
+            var brUrl1 = '@Url.Content("~/Store/StudentDetailsListJqGrid")?idno=' + idno + '&name=' + name + '&cname=' + cname + '&grade=' + grade + '&sect=' + section;
+            LoadSetGridParam($('#StudentList'), brUrl1);
+            gridload();
+        });
+        window.onload = gridload();
+    });
+
+</script>
+<table class="WithBorderOnly" width="100%">
+    <tr>
+        <th style="width: 80px">
+            Student ID
+        </th>
+        <th style="width: 80px">
+            Student Name
+        </th>
+        <th style="width: 80px">
+            Campus
+        </th>
+        <th style="width: 80px">
+            Grade
+        </th>
+        <th style="width: 80px">
+            Section
+        </th>
+    </tr>
+    <tr id="srchKeyPress">
+        <td>
+            @Html.TextBox("idno", "", new { @class = "CSSTextBox", @style = "width: 80px" })
+            @*<input type="text" id="idno"  />*@
+        </td>
+        <td>
+            @Html.TextBox("name", "", new { @class = "CSSTextBox", @style = "width: 80px" })
+            @*<input type="text" id="name" class="CSSTextBox" style="width: 80px" />*@
+        </td>
+        <td>
+            @Html.TextBox("campus", "", new { @class = "CSSTextBox", @style = "width: 80px" })
+            @*<input type="text" id="campus" class="CSSTextBox" style="width: 80px" />*@
+            @Html.Hidden("campus")
+        </td>
+        <td>
+            @Html.TextBox("grade", "", new { @class = "CSSTextBox", @style = "width: 80px" })
+            @*<input type="text" id="grade" class="CSSTextBox" style="width: 80px" />*@
+        </td>
+        <td>
+            @Html.TextBox("section", "", new { @class = "CSSTextBox", @style = "width: 80px" })
+            @*<input type="text" id="section" class="CSSTextBox" style="width: 80px" />*@
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="button" value="Search" id="Search" />
+        </td>
+        <td>
+            <input type="button" value="Reset" id="reset" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6">
+            <br />
+            <table id="StudentList">
+            </table>
+            <div id="StudentPager">
+            </div>
+        </td>
+    </tr>
+</table>

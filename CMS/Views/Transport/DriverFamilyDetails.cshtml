@@ -1,0 +1,86 @@
+﻿@model TIPS.Entities.TransportEntities.DriverMaster
+<div class="row">
+    <div class="col-sm-12">
+        <div id="accordion" class="accordion-style1 panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#DriverFamilyDetails">
+                            <i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down"
+                                data-icon-show="ace-icon fa fa-angle-right"></i>&nbsp;Family Details </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse in" id="DriverFamilyDetails">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>RelationType</b></label><br />
+                                        @Html.HiddenFor(model => model.DriverFamilyDetailsList[0].DriverRegNo, new { @Value = ViewBag.DriverRegNo })
+                                        @Html.HiddenFor(model => model.DriverFamilyDetailsList[0].Id)
+                             
+                                        @Html.DropDownList("familyddl", new SelectList(ViewBag.familyddl, "Relationships", "Relationships"), "Select One", new { @Class = "form-control select-sm" })
+
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Name</b></label><br />
+                                        @Html.TextBoxFor(model => model.DriverFamilyDetailsList[0].FName, new { id = "FMname", @Class = "form-control input-sm", @maxlength = "40" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>DOB</b></label><br />
+                                        @Html.TextBoxFor(model => model.DriverFamilyDetailsList[0].FDob, new { id = "FMDOB", @Class = "form-control date-picker" })
+
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label for="form-field-select-1">
+                                            <b>Age</b></label><br />
+                                        @Html.TextBoxFor(model => model.DriverFamilyDetailsList[0].FAge, new { id = "FMage", @Class = "form-control input-sm" })
+
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Occupation</b></label><br />
+                                        @Html.TextBoxFor(model => model.DriverFamilyDetailsList[0].FOccupation, new { id = "FMoccupation", @Class = "form-control input-sm", @maxlength = "30" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Mobile</b></label><br />
+                                        @Html.TextBoxFor(model => model.DriverFamilyDetailsList[0].ContactNo, new { id = "FMmobile", @Class = "form-control input-sm", @maxlength = "10" })
+                                    </div>
+                                    <div class="space-10"></div>
+                                    <div class="col-sm-1">
+                                        <button type="button" class="btn btn-sm btn-primary" name="famsub" id="addFamily">
+                                            <i class="ace-icon fa fa-arrows"></i>
+                                            <span class="bigger-110">Add</span>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="driverfamilyjqgrid">
+                </table>
+                <div id="driverfamilygridpager">
+                </div>
+                <script type="text/javascript">
+                    var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/Transport/DriverFamilyDetails.js"></script>
+<script src="../../assets/js/AceJQMsg.js"></script>

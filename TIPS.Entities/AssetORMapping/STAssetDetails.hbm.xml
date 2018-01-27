@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.STAssetDetails" namespace="TIPS.Entities.AssetEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.STAssetDetails, TIPS.Entities" table="STAssetDetails" lazy="false" >
+    <id name="AssetDet_Id" column="AssetDet_Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="AssetCode" column="AssetCode" type="string"></property>
+    <property name="AssetType" column="AssetType" type="string"></property>
+    <property name="Model" column="Model" type="string"></property>
+    <property name="Make" column="Make" type="string"></property>
+    <property name="Location" column="Location" type="string"></property>
+    <property name="SerialNo" column="SerialNo" type="string"></property>
+    <property name="SpecificationsDetails" column="SpecificationsDetails" type="string"></property>
+    <property name="Asset_Id" column="Asset_Id" type="Int64"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime" />
+    <many-to-one name="CampusMaster" column="FormId" class="TIPS.Entities.CampusMaster,TIPS.Entities" fetch="join"/>
+    <many-to-one name="StudentTemplateView" column="IdNum" class="TIPS.Entities.AdmissionEntities.StudentTemplateView,TIPS.Entities" cascade="none" insert="false" update="false" fetch="join" not-found="ignore"/>    
+    <property name="TransactionType" column="TransactionType" type="string"></property>
+    <property name="CurrentCampus" column="CurrentCampus" type="string"></property>
+    <property name="CurrentLocation" column="CurrentLocation" type="string"></property>
+    <property name="IsActive" column="IsActive" type="bool"></property>
+    <property name="InstalledOn" column="InstalledOn" type="datetime" />
+    <property name="EngineerName" column="EngineerName" type="string"></property>
+    <property name="FromCampus" column="FromCampus" type="string"></property>
+    <!--<property name="UserType" column="UserType" type="string"></property>-->
+    <property name="IdNum" column="IdNum" type="Int64"></property>
+    <property name="FromBlock" column="FromBlock" type="string"></property>
+    <property name="CurrentBlock" column="CurrentBlock" type="string"></property>
+    <property name="IsStandBy" column="IsStandBy" type="bool"></property>
+    <property name="InvoiceDetailsId" column="InvoiceDetailsId" type="Int64"></property>
+    
+    <property name="Warranty" column="Warranty" type="string"></property>
+    <property name="Amount" column="Amount" type="decimal"></property>
+    <property name="IsExpired" column="IsExpired" type="bool"></property>    
+    <property name="IsSubAssetRequired" column="IsSubAssetRequired" type="bool"></property>
+    <property name="IsSubAsset" column="IsSubAsset" type="bool"></property>
+    <property name="SubAssetType" column="SubAssetType" type="string"></property>
+    <property name="AssetRefId" column="AssetRefId" type="Int64"></property>
+    <property name="ReceivedAcademicYr" column="ReceivedAcademicYr" type="string"></property>
+    
+    <property name="ReceivedDate" column="ReceivedDate" type="datetime"></property>
+    <property name="ReceivedCampus" column="ReceivedCampus" type="string"></property>
+    <property name="ReceivedGrade" column="ReceivedGrade" type="string"></property>
+    <property name="OperatingSystemDtls" column="OperatingSystemDtls" type="string"></property>
+    <property name="LTSize" column="LTSize" type="string"></property>
+    
+
+
+  </class>
+</hibernate-mapping>

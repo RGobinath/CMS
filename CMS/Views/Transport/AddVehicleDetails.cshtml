@@ -1,0 +1,205 @@
+﻿@model TIPS.Entities.TransportEntities.VehicleTypeAndSubType
+@{
+    ViewBag.Title = "AddVehicleDetails";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Add Vehicle Details
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                            @Html.DropDownList("ddlCampus", new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Vehicle No.</b></label>
+                                        @Html.TextBox("VehicleNo", null, new { @class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Fuel Type</b></label>
+                                        @Html.DropDownList("FType",
+                                            new SelectList(new[] { 
+                                                new { Text = "Select", Value = "Select", Seleced = "True" },
+                                                new { Text = "Petrol", Value = "Petrol", Seleced = "false" },
+                                                new { Text = "Diesel", Value = "Diesel", Seleced = "false" },
+                                                new { Text = "Gas", Value = "Gas", Seleced = "false" },
+                                       }, "Text", "Value", "Seleced"),
+                                       new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Engine Type</b></label>
+                                        @Html.TextBox("EngineType", null, new { @class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Engine No.</b></label>
+                                        @Html.TextBox("EngineNo", null, new { @class = "form-control input-sm" })
+                                    </div>
+                                       <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Vehicle Type</b></label>
+                                        @Html.DropDownList("VecType", new SelectList(ViewBag.VehicleTypeddl, "Id", "VehicleType"), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                 
+                                </div>
+
+                                <div class="col-xs-12" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Make</b></label>
+                                        @Html.TextBox("Make", null, new { @class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Type</b></label>
+                                        @Html.TextBox("Type", null, new { @class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Chassis No</b></label>
+                                        @Html.TextBox("Chassisno", null, new { @class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>CC</b></label>
+                                        @Html.TextBox("CC", null, new { @class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>BHP</b></label>
+                                        @Html.TextBox("BHP", null, new { @class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Wheel Base</b></label>
+                                        @Html.TextBox("WheelBase", null, new { @class = "form-control input-sm" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-12" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                       <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>First Registration Date</b></label>
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBox("firstRegDate", "", new { @Class = "form-control date-picker" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Unladen Weight</b></label>
+                                        @Html.TextBox("UnlandenWeight", null, new { @class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Color</b></label>
+                                        @Html.TextBox("Color", null, new { @class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>GVW</b></label>
+                                        @Html.TextBox("GVW", null, new { @class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Modal</b></label>
+                                        @Html.TextBox("Modal", null, new { @class = "form-control input-sm" })
+                                    </div>
+									<div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Vehicle Status</b></label>
+                                        @Html.DropDownList("VecStatus", new SelectList(new[]
+                                          {
+                                               new{Value="",Text="Select"},
+                                              new{Value="Registered",Text="Registered"},
+                                              new{Value="Inactive",Text="Inactive"}                                              
+                                          },
+                            "Value", "Text", ""), new { @Class = "form-control select-sm"})
+                                    </div>
+                                </div>
+                                <div class="col-xs-12" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;border-bottom:1px">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Address</b></label>
+                                        @Html.TextArea("Address", null, new { @class = "form-control input-sm" })
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Rc Attachment</b>
+                                        </label>
+                                        <br />
+                                        <input type="file" name="uploadedFile" id="uploadedFile" value="Browse" />
+                                    </div>
+
+                                    <br />
+
+                                    @*  <div class="col-sm-1">
+                                        <button type="button" class="btn btn-primary btn-block btn-sm" id="btnAddDocuments" onclick="return ValidateExtension()">
+                                            <i class="ace-icon fa fa-plus-square-o white"></i>Add
+                                        </button>
+                                    </div>*@
+
+                                </div>
+                                <div class="col-sm-1" style="margin-left: 543px">
+                                    <br />
+                                    <button class="btn btn-info btn-block btn-sm" id="btnAdd" onclick="AddVehicleType(); return false;">
+                                        <i class="ace-icon fa fa-plus white"></i>Add
+                                    </button>
+                                </div>
+                                <div class="col-sm-1">
+                                    <br />
+                                    <button class="btn btn-danger btn-block btn-sm" id="btnReset">
+                                        <i class="ace-icon fa fa-undo white"></i>Reset
+                                    </button>
+                                </div>
+                                <div class="col-sm-1">
+                                    <br />
+                                    <button class="btn btn-purple btn-block btn-sm" id="btnBack">
+                                        <i class="fa fa-chevron-left fa-lg"></i> Back
+                                       
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="VehicleSubTypeMasterList">
+                </table>
+                <div id="VehicleSubTypeMasterListPager">
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/Transport/AddVehicleDetails.js"></script>

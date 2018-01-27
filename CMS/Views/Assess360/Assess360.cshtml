@@ -1,0 +1,173 @@
+﻿@model TIPS.Entities.Assess.Assess360
+@{
+    ViewBag.Title = "Assess 360";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script src="@Url.Content("/Scripts/Assess360/Assess360.js")" type="text/javascript"></script>
+@using (Html.BeginForm("Assess360", "Assess360", FormMethod.Post, new { id = "innerForm", enctype = "multipart/form-data" }))
+{
+    <div class="page-content">
+        <!-- /section:settings.box -->
+        <div class="page-content-area">
+            @Html.Hidden("BackUrl", Url.Action("Assess360Inbox", "Assess360"))
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="fa fa-th-list"></i>&nbsp;Basic Details</div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Request No</b></label>
+                                            @Html.TextBox("RequestNo", null, new { @class = "form-control input-sm", @Readonly = "Readonly" })
+                                            @Html.Hidden("Staff", "", new { id = "Staff", @Value = Session["UserId"] })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Created Date & Time</b></label>
+                                            @Html.TextBox("DateCreated", null, new { @class = "form-control input-sm", @Readonly = "Readonly" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Processed By</b></label>
+                                            @Html.TextBox("CreatedUserName", null, new { @class = "form-control input-sm", @Readonly = "Readonly" })
+                                            @Html.Hidden("CreatedBy")
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>User Role</b></label>
+                                            @Html.TextBox("UserRole", null, new { @class = "form-control input-sm", @Readonly = "Readonly" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>
+                                                    @if (@Model != null && @Model.Id > 0)
+                                                    {
+                                                        <b><span>Marks Awarded</span></b>
+                                                    }</b></label>
+                                            <div class="space-1">
+                                            </div>
+                                            @if (@Model != null && @Model.Id > 0)
+                                            {
+                                                <b><span id="Assess360MarksAwarded" style="color: red; background-color: white;"></span>
+                                                </b>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b></label>
+                                            @Html.DropDownListFor(model => Model.Campus, new SelectList(Enumerable.Empty<SelectListItem>()), "----Select----", new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Student Name</b></label>
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBox("Name", null, new { @Class = "form-control input-sm", @Readonly = "Readonly" })
+                                                @if (@Model.Id == 0 || @Model.Id == null)
+                                                {
+                                                    <a id="btnStdnPopup" class="input-group-addon"><span style="color: green; cursor: pointer;">
+                                                        <i class="fa fa-search"></i></span></a> 
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>ID Number</b></label>
+                                            @Html.TextBox("IdNo", null, new { @Class = "form-control input-sm", @Readonly = "Readonly" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Grade</b></label>
+                                            @Html.TextBox("Grade", null, new { @Class = "form-control input-sm", @Readonly = "Readonly" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Section</b></label>
+                                            @Html.TextBox("Section", null, new { @Class = "form-control input-sm", @Readonly = "Readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs tab-color-blue background-blue" id="Access360Tab">
+                            <li class="active"><a href="#partialPlaceHolder" id="CharacterBehaviour" data-toggle="tab"
+                                style="font-size: 1.1em"><i class="fa fa-child"></i>&nbsp;Character/Behaviour</a></li>
+                            <li><a href="#partialPlaceHolder" id="HomeWorkRelated" data-toggle="tab" style="font-size: 1.1em">
+                                <i class="fa fa-home"></i>&nbsp;Home work Related</a></li>
+                            <li><a href="#partialPlaceHolder" id="TestsAssessments" data-toggle="tab" style="font-size: 1.1em">
+                                <i class="fa fa-book"></i>&nbsp;Tests/Assessments</a></li>
+                            <li><a href="#partialPlaceHolder" id="StudentMarksTab" data-toggle="tab" style="font-size: 1.1em">
+                                <i class="fa fa-list-alt"></i>&nbsp;Student Marks</a></li>
+                            @if (Model.Campus == "IB MAIN")
+                            {
+                                <li><a href="#partialPlaceHolder" id="StudentAchieveTab" data-toggle="tab" style="font-size: 1.1em">
+                                    <i class="fa fa-trophy"></i>&nbsp;Student Achievement/Award</a></li>
+                            }
+                        </ul>
+                        <div id="partialPlaceHolder">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    @Html.Hidden("Id")
+                    @Html.Hidden("StudentId")
+                    @Html.Hidden("loggedInUserId")
+                    @Html.Hidden("loggedInUserType")
+                    @Html.Hidden("loggedInUserName")
+                    @Html.Hidden("hdnIsCredit")
+                    @Html.Hidden("AcademicYear")
+                    @Html.Hidden("StudentTotalMarks")
+                    @Html.Hidden("StudentTotalMarksObtn")
+                    @*for Component Edit option hidden values*@
+                    @Html.Hidden("Assess360ComponentId")
+                    @Html.Hidden("A360CompCreatedDate")
+                    @Html.HiddenFor(m => m.Campus, new { id = "hdnCampus" })
+                    @if (@Model.Id == 0 || @Model.Id == null)
+                    {                              
+                        <div class="col-sm-4" style="padding-top: 2px">
+                            <button type="button" class="btn btn-primary btn-sm" id="btnAssessSave" name="btnApprove"
+                                value="Save">
+                                <i class="fa fa-save"></i><span class="bigger-110">&nbsp;Save</span>
+                            </button>
+                        </div>
+                    }
+                    <div class="col-sm-4" style="padding-top: 2px">
+                        <button type="button" class="btn btn-purple btn-sm" id="btnAssessBack2Inbox" name="btnApprove"
+                            value="Back to Inbox">
+                            <i class="fa fa-arrow-left"></i><span class="bigger-110">&nbsp;Back to Inbox</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-8"></div>
+            </div>
+        </div>
+    </div>
+}
+<div id="DivStudentSearch">
+</div>
+<div id="DivStaffMasterSearch">
+</div>

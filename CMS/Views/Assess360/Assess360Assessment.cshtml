@@ -1,0 +1,330 @@
+﻿@model TIPS.Entities.Assess.Assess360
+@{
+    ViewBag.Title = "Assess360 Assessment List";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var cam = "";
+        var grade = "";
+        var section = "";
+        var assmntType = "";
+        var sub = "";
+        $("#Search").hide();
+        $("#Campus").change(function () {
+            $("#Search").click();
+        });
+        $("#Grade").change(function () {
+            $("#Search").click();
+        });
+        $("#Section").change(function () {
+            $("#Search").click();
+        });
+        $("#AssessGroup").change(function () {
+            $("#Search").click();
+        });
+        $("#Subject").change(function () {
+            $("#Search").click();
+        });
+        $("#Search").click(function () {
+            $("#Assess360AssessmentList").clearGridData();
+            cam = $("#Campus").val()
+            grade = $("#Grade").val()
+            section = $("#Section").val()
+            assmntType = $("#AssessGroup").val()
+            sub = $("#Subject").val();
+            $("#Assess360AssessmentList").setGridParam(
+                {
+                    datatype: "json",
+                    url: '@Url.Content("~/Assess360/Assess360AssessmentListJqGrid/")',
+                    postData: { cam: cam, grade: grade, section: section, assmntType: assmntType, sub: sub },
+                    page: 1
+                }).trigger("reloadGrid");
+        });
+
+        $("#Reset").click(function () {
+            window.location.href = '@Url.Action("Assess360Assessment", "Assess360")';
+        });
+
+
+        //        $("#Assess360AssessmentList").jqGrid({
+        //            url: 'Url.Content("~/Assess360/Assess360AssessmentListJqGrid")',
+        //            postData: { cam: cam, grade: grade, section: section, assmntType: assmntType, sub: sub },
+        //            datatype: 'json',
+        //            type: 'GET',
+        //            colNames: ['Subject', 'Assignment Name', 'Staff', 'Entered', 'Marks not Entered Count', 'Total No of Students'],
+        //            colModel: [
+        //              { name: 'Subject', index: 'Subject', hidden: false },
+        //              { name: 'AssignmentName', index: 'AssignmentName', hidden: false },
+        //              { name: 'EnteredBy', index: 'EnteredBy', sortable: true },
+        //              { name: 'Entered', index: 'Entered', sortable: true },
+        //              { name: 'NotEntered', index: 'NotEntered', sortable: true },
+        //              { name: 'TotalStudents', index: 'TotalStudents', sortable: true },
+        //             ],
+        //            pager: '#Assess360AssessmentListPager',
+        //            rowNum: '50',
+        //            rowList: [5, 10, 20, 50, 100, 150, 200 ],
+        //            sortname: 'Id',
+        //            sortorder: 'Desc',
+        //            width: 1250,
+        //            height: 250,
+        //            viewrecords: true,
+        //            caption: 'Assessment List Report'
+        //        });
+
+        $("#Assess360AssessmentList").jqGrid({
+            url: '@Url.Content("~/Assess360/Assess360AssessmentListJqGrid")',
+            postData: { cam: cam, grade: grade, section: section, assmntType: assmntType, sub: sub },
+            datatype: 'json',
+            type: 'GET',
+            colNames: ['Id', 'Group Name'],
+            colModel: [
+              { name: 'Id', index: 'Id', hidden: true, key: true },
+              { name: 'GroupName', index: 'GroupName', width: '20', hidden: false, key: true },
+             ],
+            pager: '#Assess360AssessmentListPager',
+            rowNum: '50',
+            rowList: [5, 10, 20, 50, 100, 150, 200 ],
+            viewrecords: true,
+            sortname: 'Id',
+            sortorder: 'Desc',
+            width: 1250,
+            height: 350,
+            caption: 'Assessment Report',
+            subGrid: true,
+            subGridRowExpanded: function (StaffGrid, AssGrpId) {
+
+                // we pass two parameters
+                // subgrid_id is a id of the div tag created within a table
+                // the row_id is the id of the row
+                // If we want to pass additional parameters to the url we can use
+                // the method getRowData(row_id) - which returns associative array in type name-value
+                // here we can easy construct the following
+                var StaffGridTable, StaffGridPager;
+                StaffGridTable = StaffGrid + "_t";
+                StaffGridPager = "p_" + StaffGridTable;
+                cam = $("#Campus").val();
+                grade = $("#Grade").val();
+                section = $("#Section").val();
+                assmntType = $("#AssessGroup").val();
+                sub = $("#Subject").val();
+                $("#" + StaffGrid).html("<table id='" + StaffGridTable + "' ></table><div id='" + StaffGridPager + "' ></div>");
+                jQuery("#" + StaffGridTable).jqGrid({
+                    url: '/Assess360/Assess360AssessmentListGrids?AssGrpId=' + AssGrpId + '&cam=' + cam + '&grade=' + grade + '&section=' + section,
+                    datatype: 'json',
+                    colNames: ['Staff Name'],
+                    colModel: [
+                               { name: 'Staff', index: 'Staff', width: 80, key: true },
+                              ],
+                    rowList: [50, 100, 150],
+                    rowNum: 100,
+                    pager: StaffGridPager,
+                    sortname: 'Staff',
+                    sortorder: 'asc',
+                    width: 1200,
+                    height: 150,
+                    subGrid: true,
+                    subGridRowExpanded: function (StudentGrid, Staff) {
+                        var StudentGridTable, StudentGridPager;
+                        StudentGridTable = StudentGrid + "_t";
+                        StudentGridPager = "p_" + StudentGridTable;
+                        cam = $("#Campus").val();
+                        grade = $("#Grade").val();
+                        section = $("#Section").val();
+                        assmntType = $("#AssessGroup").val();
+                        sub = $("#Subject").val();
+                        $("#" + StudentGrid).html("<table id='" + StudentGridTable + "' ></table><div id='" + StudentGridPager + "' ></div>");
+                        jQuery("#" + StudentGridTable).jqGrid({
+                            url: '/Assess360/Assess360AssessmentListGrids?AssGrpId=' + AssGrpId + '&Staff=' + Staff + '&cam=' + cam + '&grade=' + grade + '&section=' + section,
+                            datatype: 'json',
+                            colNames: ['IDNo', 'Student Name'],
+                            colModel: [
+                               { name: 'IDNo', index: 'IDNo', width: 80, key: true, hidden: true },
+                               { name: 'StudentName', index: 'StudentName', width: 80 },
+
+                              ],
+                            rowNum: 20,
+                            pager: StudentGridPager,
+                            sortname: 'StudentName',
+                            sortorder: 'asc',
+                            width: 1200,
+                            height: 150,
+                            subGrid: true,
+                            subGridRowExpanded: function (SubjectGrid, IDNo) {
+                                var SubjectGridTable, StudentGridPager;
+                                SubjectGridTable = SubjectGrid + "_t";
+                                SubjectGridPager = "p_" + SubjectGridTable;
+                                cam = $("#Campus").val();
+                                grade = $("#Grade").val();
+                                section = $("#Section").val();
+                                assmntType = $("#AssessGroup").val();
+                                sub = $("#Subject").val();
+                                $("#" + SubjectGrid).html("<table id='" + SubjectGridTable + "' ></table><div id='" + SubjectGridPager + "' ></div>");
+                                jQuery("#" + SubjectGridTable).jqGrid({
+                                    url: '/Assess360/Assess360AssessmentListGrids?AssGrpId=' + AssGrpId + '&Staff=' + Staff + '&IDNo=' + IDNo + '&cam=' + cam + '&grade=' + grade + '&section=' + section,
+                                    datatype: 'json',
+                                    colNames: ['Subject'],
+                                    colModel: [
+                               { name: 'Subject', index: 'Subject', width: 80, key: true },
+                              ],
+                                    rowNum: 20,
+                                    pager: SubjectGridPager,
+                                    sortname: 'Subject',
+                                    sortorder: 'asc',
+                                    width: 1200,
+                                    height: 150,
+                                    subGrid: true,
+                                    subGridRowExpanded: function (AssignmentGrid, Subject) {
+                                        var AssignmentGridTable, StudentGridPager;
+                                        AssignmentGridTable = AssignmentGrid + "_t";
+                                        AssignmentGridPager = "p_" + AssignmentGridTable;
+                                        cam = $("#Campus").val();
+                                        grade = $("#Grade").val();
+                                        section = $("#Section").val();
+                                        assmntType = $("#AssessGroup").val();
+                                        sub = $("#Subject").val();
+                                        $("#" + AssignmentGrid).html("<table id='" + AssignmentGridTable + "' ></table><div id='" + AssignmentGridPager + "' ></div>");
+                                        jQuery("#" + AssignmentGridTable).jqGrid({
+                                            url: '/Assess360/Assess360AssessmentListGrids?AssGrpId=' + AssGrpId + '&Staff=' + Staff + '&IDNo=' + IDNo + '&Subject=' + encodeURIComponent(Subject) + '&cam=' + cam + '&grade=' + grade + '&section=' + section,
+                                            datatype: 'json',
+                                            colNames: ['Assignment Name', 'Mark', 'Marks Out Off', 'Date Created', 'Entered By', 'Consolidated Marks'],
+                                            colModel: [
+                                        { name: 'AssignmentName', index: 'AssignmentName', width: 80, key: true },
+                                        { name: 'Mark', index: 'Mark', width: 80 },
+                                        { name: 'MarksOutOff', index: 'MarksOutOff', width: 80 },
+                                        { name: 'DateCreated', index: 'DateCreated', width: 80 },
+                                        { name: 'EnteredBy', index: 'EnteredBy', width: 80 },
+                                        { name: 'ConsolidatedMarks', index: 'ConsolidatedMarks', width: 80 },
+                                       ],
+                                            rowNum: 20,
+                                            pager: AssignmentGridPager,
+                                            sortname: 'AssignmentName',
+                                            sortorder: 'asc',
+                                            width: 1200,
+                                            height: 150
+                                        });
+                                        jQuery("#" + AssignmentGridTable).jqGrid('navGrid', "#" + SubjectGridPager, { edit: false, add: false, del: false })
+                                    }
+                                });
+                                jQuery("#" + SubjectGridTable).jqGrid('navGrid', "#" + SubjectGridPager, { edit: false, add: false, del: false })
+                            }
+
+                        });
+                        jQuery("#" + StudentGridTable).jqGrid('navGrid', "#" + StudentGridPager, { edit: false, add: false, del: false })
+                    }
+                });
+
+                jQuery("#" + StaffGridTable).jqGrid('navGrid', "#" + StaffGridPager, { edit: false, add: false, del: false })
+            }
+            //subGridRowColapsed: function (subgrid_id, row_id) {
+            // this function is called before removing the data
+            //var subgrid_table_id; 
+            //subgrid_table_id = subgrid_id+"_t";
+            //          jQuery("#"+subgrid_table_id).remove();
+            // }
+        });
+        jQuery("#Assess360AssessmentList").jqGrid('navGrid', '#Assess360AssessmentListPager', { add: false, edit: false, del: false });
+
+        $("#Grade").change(function () {
+            GetSubjectsByGrade($(this).val());
+        });
+    });
+
+    function GetSubjectsByGrade(grade) {
+        var sub = $("#Subject");
+        $.ajax({
+            type: 'GET',
+            async: false,
+            dataType: "json",
+            url: '@Url.Content("~/Assess360/GetSubjectsByGrade")?Campus=' + $('#Campus').val() +'&Grade=' + grade,
+            success: function (data) {
+                sub.empty();
+                sub.append("<option value=''> Select </option>");
+                for (var i = 0; i < data.rows.length; i++) {
+
+                    sub.append("<option value='" + data.rows[i].Value + "'>" + data.rows[i].Text + "</option>");
+                }
+            },
+            error: function (xhr, status, error) {
+                ErrMsg($.parseJSON(xhr.responseText).Message);
+            }
+        });
+    }
+</script>
+<h3>
+    Assess360 Assessment List</h3>
+<table width="100%" class="WithBorderOnly" id="Assess360Inbox">
+    <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+        <td colspan="6">
+            Search Panel
+        </td>
+    </tr>
+    <tr>
+        <td width="15%">
+            Campus Name
+        </td>
+        <td width="15%">
+            Grade
+        </td>
+        <td width="15%">
+            Section
+        </td>
+        <td width="15%">
+            Subject
+        </td>
+        <td width="15%">
+            Assessment Type
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DropDownList("Campus", new SelectList(ViewBag.CampusMaster, "Name", "Name"), "Select", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownList("Grade",
+                    new SelectList(new[] { 
+                        new { Text = "Select", Value = "Select", Seleced = "True" },
+                        new { Text = "VI", Value = "VI", Seleced = "false" },
+                        new { Text = "VII", Value = "VII", Seleced = "false" },
+                        new { Text = "VIII", Value = "VIII", Seleced = "false" },
+                        new { Text = "IX", Value = "IX", Seleced = "false" }
+               }, "Text", "Value", "Seleced"),
+               new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownList("Section", new SelectList(new[] { 
+                        new { Text = "Select", Value = "Select", Seleced = "True" },
+                        new { Text = "A", Value = "A", Seleced = "false" },
+                        new { Text = "B", Value = "B", Seleced = "false" },
+                        new { Text = "C", Value = "C", Seleced = "false" },
+                        new { Text = "D", Value = "D", Seleced = "false" }
+               }, "Text", "Value", "Seleced"), new { @Class = "CSSTextBox", style = "width: 80%" })
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.Subject, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "Subject", @Class = "CSSDropDownList" })
+            @*@Html.DropDownList("TASubject", new SelectList(new[] { new { Text = "Select", Value = "Select", Selected = "True" } }, "Text", "Value", "Selected"), new { @Class = "CSSDropDownList" })*@
+        </td>
+        <td>
+            @* @Html.DropDownList("TAAssmntType", new SelectList(new[] { 
+                        new { Text = "Select", Value = "Select", Selected = "True" },
+                        new { Text = "Homework score", Value = "Homework score", Selected = "false" },
+                        new { Text = "Weekly Tests", Value = "Weekly Tests", Selected = "false" },
+                        new { Text = "SLC Assessment", Value = "SLC Assessment", Selected = "false" },
+                        new { Text = "Term Assessment", Value = "Term Assessment", Selected = "false" }}, "Text", "Value", "Seleced"), new { @Class = "CSSDropDownList" })*@
+            @Html.DropDownList("AssessGroup", new SelectList(ViewBag.AssessGroupMaster, "GroupName", "GroupName"), "Select", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            <input type="button" id="Search" value="Search" />
+            <input type="submit" id="reset" value="Reset" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="8">
+            <br />
+            <table id="Assess360AssessmentList">
+            </table>
+            <div id="Assess360AssessmentListPager">
+            </div>
+        </td>
+    </tr>
+</table>

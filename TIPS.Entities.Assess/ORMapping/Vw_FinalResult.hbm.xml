@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Vw_FinalResult" table="Vw_FinalResult" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <!--<generator class="native" />-->
+    </id>
+
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    <property name="Name" column="Name" type="string" />
+    <property name="PreRegNum" column="PreRegNum" type="Int64" />
+    <property name="Subject" column="Subject" type="string" />
+    <property name="Campus" column="Campus" type="string" />
+    <property name="Grade" column="Grade" type="string" />
+    <property name="Section" column="Section" type="string" />
+
+    <property name="SemI" column="[Sem I]" type="string" />
+    <property name="SemII" column="[Sem II]" type="string" />
+     <property name="SemIII" column="[Sem III]" type="string" />
+    <property name="TotalMarks" column="TotalMarks" type="string" />
+  </class>
+</hibernate-mapping>

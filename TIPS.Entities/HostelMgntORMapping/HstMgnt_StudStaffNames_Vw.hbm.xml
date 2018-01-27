@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.HostelMgntEntities.HstMgnt_StudStaffNames_Vw" namespace="TIPS.Entities.HostelMgntEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.HostelMgntEntities.HstMgnt_StudStaffNames_Vw, TIPS.Entities" table="HstMgnt_StudStaffNames_Vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="StudStfID" column="StudStfID" type="Int64"/>
+    <property name="Name" column="Name" type="string"/>
+    <property name="IdNum" column="IdNum" type="string"/>
+    <property name="Campus" column="Campus" type="string"/>
+  </class>
+</hibernate-mapping>

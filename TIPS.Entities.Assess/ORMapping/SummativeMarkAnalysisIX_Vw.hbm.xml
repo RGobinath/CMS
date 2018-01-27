@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.SummativeMarkAnalysisIX_Vw, TIPS.Entities.Assess" table="SummativeMarkAnalysisIX_Vw" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>
+    <property name="Subject" column="Subject" type="string"></property>
+    <property name="ntytohund" column="ntytohund" type="string"></property>
+    <property name="etytonty" column="etytonty" type="string"></property>
+    <property name="svtytoety" column="svtytoety" type="string"></property>
+    <property name="sxtytosvty" column="sxtytosvty" type="string"></property>
+    <property name="ftytosxty" column="ftytosxty" type="string"></property>
+    <property name="frtytofty" column="frtytofty" type="string"></property>
+    <property name="blwfrty" column="blwfrty" type="string"></property>
+    <property name="semester" column="semester" type="string"></property>
+  <property name="TotalStudents" column="TotalStudents" type="Int64"></property>
+  </class>
+</hibernate-mapping>

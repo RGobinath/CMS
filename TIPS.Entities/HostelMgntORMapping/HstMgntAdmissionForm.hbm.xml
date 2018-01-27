@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.HostelMgntEntities.HstMgntAdmissionForm" namespace="TIPS.Entities.HostelMgntEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.HostelMgntEntities.HstMgntAdmissionForm, TIPS.Entities" table="HstMgntTemplate" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="HstIdNo" column="HstIdNo" type="string" />
+    <property name="Hst_Name" column="Hst_Name" type="string" />
+    <property name="HstRoom_No" column="HstRoom_No" type="Int64" />
+    <property name="HstBed_No" column="HstBed_No" type="Int64" />
+    <property name="Stud_Name" column="Stud_Name" type="string" />
+    <property name="Stud_Id" column="Stud_Id" type="Int64" />
+    <property name="Stud_PreRegNum" column="Stud_PreRegNum" type="Int64" />
+    <property name="Stud_NewId" column="Stud_NewId" type="string" />
+    <property name="Stud_Campus" column="Stud_Campus" type="string" />
+    <property name="Stud_Grade" column="Stud_Grade" type="string" />
+    <property name="Stud_Section" column="Stud_Section" type="string" />
+    <property name="Stud_AcademicYear" column="Stud_AcademicYear" type="string" />
+    <property name="Hst_Incharge" column="Hst_Incharge" type="string" />
+
+    <property name="Hst_CreatedBy" column="Hst_CreatedBy" type="string" />
+    <property name="Hst_ModifiedBy" column="Hst_ModifiedBy" type="string" />
+    <property name="Hst_DateCreated" column="Hst_DateCreated" type="datetime" />
+    <property name="Hst_DateModified" column="Hst_DateModified" type="datetime" />
+
+  </class>
+</hibernate-mapping>

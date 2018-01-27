@@ -1,0 +1,323 @@
+﻿@model TIPS.Entities.TransportEntities.VehicleDetails
+@{
+    ViewBag.Title = "Transport Masters";
+    // Layout = "~/Views/Shared/NewMaster.cshtml";
+    Layout = null;
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".tdReturnVia").hide();
+        var VehicleId = $("#hdnVehicleId").val();
+        var Type = $("#Type").val();
+        VehicleDistanceReportChart(VehicleId);
+        function formateadorLink(cellvalue, options, rowObject) {
+            return "<a href=/Transport/ShowVehicleDistanceCovered?Id=" + rowObject[0] + ">" + cellvalue + "</a>";
+        }
+        jQuery("#DistanceCoveredList").jqGrid({
+            url: '@Url.Content("~/Transport/DistanceCoveredListJqGrid")?VehicleId=' + VehicleId,
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'Vehicle Id', 'Vehicle No', 'Route', 'Source', 'Destination', 'Distance Covered', 'Created Date', 'Created By', 'Status'],
+            colModel: [
+            //if any column added need to check formateadorLink
+             {name: 'Id', index: 'Id', hidden: true, key: true },
+             { name: 'VehicleId', width: 30, index: 'VehicleId', hidden: true },
+             { name: 'VehicleNo', index: 'VehicleNo' },
+             { name: 'Route', index: 'Route' },
+             { name: 'Source', index: 'Source', editable: true },
+             { name: 'Destination', index: 'Destination', editable: true },
+             { name: 'DistanceCovered', index: 'DistanceCovered', editable: true },
+             { name: 'CreatedDate', index: 'CreatedDate', width: 170 },
+            //, formatter: 'date', formatoptions: { srcformat: "M/d/y h:i:s a", newformat: "d/m/Y h:i:s a"} },
+             {name: 'CreatedBy', index: 'CreatedBy', width: 170 },
+             { name: 'Status', index: 'Status', hidden: true }
+             ],
+            pager: '#DistanceCoveredListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: '130',
+            width: 750,
+            shrinktofit: true,
+            viewrecords: true,
+            caption: 'Distance Covered List',
+            multiselect: true
+        });
+        $("#DistanceCoveredList").jqGrid('filterToolbar', { searchOnEnter: true });
+        $("#DistanceCoveredList").navGrid('#DistanceCoveredListPager', { add: false, edit: false, del: true, search: false, refresh: false },
+        {},
+        {},
+        { url: '@Url.Content("~/Transport/DeleteDistanceCoveredId")' }
+        );
+
+        $("#DistanceCoveredList").jqGrid('navButtonAdd', '#DistanceCoveredListPager', {
+            caption: "Export Excel", buttonicon: "ui-icon-print",
+            onClickButton: function () {
+                var VehicleNo = $("#gs_VehicleNo").val();
+                var Route = $("#gs_Route").val();
+                var Source = $("#gs_Source").val();
+                var Destination = $("#gs_Destination").val();
+                var DistanceCovered = $("#gs_DistanceCovered").val();
+                var CreatedDate = $("#gs_CreatedDate").val();
+                var CreatedBy = $("#gs_CreatedBy").val();
+                var Status = $("#gs_Status").val();
+                window.open("/Transport/DistanceCoveredListJqGrid" + '?ExportType=Excel'
+                    + '&VehicleNo=' + VehicleNo
+                    + '&Route=' + Route
+                    + '&Source=' + Source
+                    + '&Destination=' + Destination
+                    + '&DistanceCovered=' + DistanceCovered
+                    + '&CreatedDate=' + CreatedDate
+                    + '&CreatedBy=' + CreatedBy
+                    + '&Status=' + Status
+                    + '&rows=9999');
+            }
+        });
+
+        $("#ReturnWay").change(function () {
+            if ($(this).val() == "Deviated")
+                $(".tdReturnVia").show();
+            else {
+                $(".tdReturnVia").hide();
+                $("#ReturnVia").val('');
+                $("#ReturnDistance").val('');
+            }
+        });
+
+        $("#DriverName").autocomplete({
+            source: function (request, response) {
+                var Campus = $("#Campus").val();
+                $.getJSON('/Transport/GetAutoCompleteDriverNamesByCampus?term=' + request.term + '&Campus=' + Campus, function (data) {
+                    // alert(data);
+                    response(data);
+                });
+            },
+            minLength: 1,
+            delay: 100
+        });
+
+        $.getJSON("/Transport/FillRouteByCampus/", { campus: $("#Campus").val() },
+            function (modelData) {
+                var select = $("#RouteNo");
+                select.empty();
+                select.append($('<option/>'
+                               , {
+                                   value: "",
+                                   text: "Select Route"
+                               }));
+                $.each(modelData, function (index, itemData) {
+
+                    select.append($('<option/>',
+                                  {
+                                      value: itemData.Value,
+                                      text: itemData.Text
+                                  }));
+                });
+            });
+
+        $("#RouteNo").change(function () {
+            $.ajax({
+                type: 'POST',
+                url: "/Transport/GetSourceAndDestinationByRoute",
+                data: { Campus: $("#Campus").val(), RouteNo: $(this).val() },
+                success: function (data) {
+                    $("#Source").val(data.Source);
+                    $("#Destination").val(data.Destination);
+                }
+            });
+        });
+
+    });
+
+    function VehicleDistanceCoverdCreate() {
+        debugger;
+        var VehicleId = $("#hdnVehicleId").val();
+        var VehicleNo = $('#VehicleNo').val();
+        var RouteNo = $("#RouteNo").val();
+        var Source = $('#Source').val();
+        var Destination = $('#Destination').val();
+        var DistanceCovered = $('#DistanceCovered').val();
+        var TripDate = $('#TripDate').val();
+        var DriverName = $('#DriverName').val();
+        var Type = $("#Type").val();
+        var ReturnWay = $("#ReturnWay").val();
+        var ReturnVia = $("#ReturnVia").val();
+        var ReturnDistance = $("#ReturnDistance").val();
+        if (VehicleNo == '' || RouteNo == '' || Source == '' || Destination == '' || DistanceCovered == '' || TripDate == '' || DriverName == '' || VehicleId == '' || Type == '' || ReturnWay == '') {
+            ErrMsg("Please fill all the mandatory fields.");
+            return false;
+        }
+
+        if (isNaN(DistanceCovered)) {
+            ErrMsg('Numbers only allowed.');
+            $('#DistanceCovered').focus();
+            return false;
+        }
+
+        if (ReturnWay == "Deviated") {
+            if (ReturnVia == '' || ReturnDistance == '') {
+                ErrMsg("Please type Return Via and Return Distance");
+                $("#ReturnVia").focus();
+                $("#ReturnDistance").focus();
+                return false;
+            }
+
+            if (isNaN(ReturnDistance)) {
+                ErrMsg('Numbers only allowed.');
+                $('#ReturnDistance').focus();
+                return false;
+            }
+
+            DistanceCovered = parseFloat(DistanceCovered) + parseFloat(ReturnDistance);
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: "/Transport/AddVehicleDistanceCovered",
+            data: { VehicleId: VehicleId, Type: Type, VehicleNo: VehicleNo,Route:RouteNo, Source: Source, Destination: Destination, DistanceCovered: DistanceCovered, TripDate: TripDate, DriverName: DriverName },
+            success: function (data) {
+                $("#DistanceCoveredList").trigger('reloadGrid');
+                $("input[type=text], textarea, select").val("");
+            }
+        });
+        VehicleDistanceReportChart(VehicleId);
+    }
+
+    function VehicleDistanceReportChart(VehicleId) {
+        $.ajax({
+            type: 'Get',
+            url: '@Url.Content("~/Transport/VehicleDistanceCoveredReportChart/")?VehicleId=' + VehicleId,
+            success: function (data) {
+                var chart = new FusionCharts("../../Charts/FCF_Column3D.swf", "productSales", "450", "220");
+                chart.setDataXML(data);
+                chart.render("VehicleDistanceChart");
+            },
+            async: false,
+            dataType: "text"
+        });
+    }
+
+</script>
+@using (Html.BeginForm("VehicleDistanceCovered", "Transport", FormMethod.Post, new { enctype = "multipart/m-data" }))
+{
+    <div id="VehicleDistanceCovered">
+        <table width="100%" class="WithBorderOnly">
+            <tr class="PanelHeading">
+                <td colspan="8" class="PanelHeading">
+                    Distance Covered Details
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="lblheader">
+                        Route</label>
+                </td>
+                <td>
+                    <label class="lblheader">
+                        Source</label>
+                </td>
+                <td>
+                    <label class="lblheader">
+                        Destination</label>
+                </td>
+                <td>
+                    <label class="lblheader">
+                        Return Way</label>
+                </td>
+                <td class="tdReturnVia">
+                    <label class="lblheader">
+                        Return Via</label>
+                </td>
+                <td class="tdReturnVia">
+                    <label class="lblheader">
+                        Return Distance</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DropDownList("RouteNo", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList" })
+                </td>
+                <td>
+                    @Html.DropDownList("Source", new SelectList(ViewBag.LocationMaster, "LocationName", "LocationName"), "Select One", new { @Class = "CSSDropDownList" })
+                    <span style="color: Red">*</span>
+                </td>
+                <td>
+                    @Html.DropDownList("Destination", new SelectList(ViewBag.LocationMaster, "LocationName", "LocationName"), "Select One", new { @Class = "CSSDropDownList" })
+                    <span style="color: Red">*</span>
+                </td>
+                <td>
+                    @Html.DropDownList("ReturnWay", new SelectList(new[]
+                                          {
+                                             new {Value="",Text="Select"},
+                                              new{Value="Same",Text="Same"},
+                                              new{Value="Deviated",Text="Deviated"},
+                                          },
+                             "Value", "Text", ""), new { @Class = "CSSDropDownList", style = "width:145px;" })
+                    <span style="color: Red">*</span>
+                </td>
+                <td class="tdReturnVia">
+                    @Html.TextBox("ReturnVia", "", new { @class = "CSSTextBox" })
+                    <span style="color: Red">*</span>
+                </td>
+                <td class="tdReturnVia">
+                    @Html.TextBox("ReturnDistance", "", new { @class = "CSSTextBox" })
+                    <span style="color: Red">*</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="lblheader">
+                        Distance Covered(Kms)</label>
+                </td>
+                <td>
+                    <label class="lblheader">
+                        Trip Date</label>
+                </td>
+                <td>
+                    <label class="lblheader">
+                        Driver Name</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.TextBox("DistanceCovered", "", new { @class = "CSSTextBox" })
+                    <span style="color: Red">*</span>
+                </td>
+                <td>
+                    @Html.TextBox("TripDate", "", new { @class = "datepicker" })
+                    <span style="color: Red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.DriverName, new { @class = "CSSTextBox" })
+                    @*  @Html.DropDownList("DriverName", new SelectList(ViewBag.DriverMaster, "Name", "Name"), "Select One", new { @Class = "CSSDropDownList" })*@
+                    <span style="color: Red">*</span>
+                </td>
+                <td>
+                    @* <input type="button" class="btn btn-mini btn-success" id="btnSave" value="Save" onclick="VehicleDistanceCoverdCreate();return false;" />*@
+                    <button type="button" class="btn btn-mini btn-success" id="btnSave" onclick="VehicleDistanceCoverdCreate();return false;">
+                        <i class="icon-ok" style="vertical-align: middle"></i>Save
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="8">
+                    <table>
+                        <tr>
+                            <td valign="top">
+                                <table id="DistanceCoveredList" class="InnerTable" width="100%">
+                                </table>
+                                <div id="DistanceCoveredListPager">
+                                </div>
+                            </td>
+                            <td>
+                                <div id="VehicleDistanceChart">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+}

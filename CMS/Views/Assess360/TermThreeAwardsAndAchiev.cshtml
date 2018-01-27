@@ -1,0 +1,35 @@
+﻿@using TIPS.Entities.Assess
+@model ReportCardFromAssess360VItoVIII
+@if (Model.RptAchiveAward != null)
+{
+    var SemIIIAwardList = (from n in Model.RptAchiveAward
+                          where n.Semester == "Sem III"
+                          select n).ToList();
+    <table class="termThreeAchievImage">
+        <tr>
+            <td>
+                @if (SemIIIAwardList.Count > 0)
+                {
+                    <div style="margin-top: 350px; margin-left: 200px; height: 200px; width: 1000px;">
+                        <p><b style="color: #ee302f;">@SemIIIAwardList[0].Achievement : </b>@SemIIIAwardList[0].AchievementDescription</p>
+                        <p><b style="color: #ee302f;">@SemIIIAwardList[0].Award : </b>@SemIIIAwardList[0].AwardDescription</p>
+                    </div>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2">
+                <div style="margin: 110px;">
+                    <img usemap="#ChartImageMap" src='@Url.Action("GetChart", new { assessId = Model.AssessId, term = "Sem III" })'
+                alt="Asp.Net Charting generated image"
+                style="width:2100px;height:1500px;border-width:0px;" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @DateTime.Now.ToString("dd'/'MM'/'yyyy")
+            </td>
+        </tr>
+    </table>
+}

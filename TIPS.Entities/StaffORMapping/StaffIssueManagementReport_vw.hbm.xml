@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.StaffEntities.StaffIssueManagementReport_vw" namespace="TIPS.Entities.StaffIssueManagementReport_vw" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffEntities.StaffIssueManagementReport_vw, TIPS.Entities" table="StaffIssueManagementReport_vw" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="Performer" column="Performer" type="string"  />
+    <property name="ProcessRefId" column="ProcessRefId" type="Int64" />
+    <property name="InstanceId" column="InstanceId" type="Int64" />
+    <property name="Available" column="Available" type="Int64" />
+    <property name="Assigned" column="Assigned" type="Int64" />
+    <property name="Resolved" column="Resolved" type="Int64" />
+    <property name="IssueNumber" column="IssueNumber" type="string" />
+    <property name="BranchCode" column="BranchCode" type="string" />
+    <property name="IssueGroup" column="IssueGroup" type="string" />
+    <property name="IssueType" column="IssueType" type="string" />
+    <property name="Description" column="Description" type="string" />
+    <property name="Resolution" column="Resolution" type="string" />
+    <property name="CreatedBy" column="CreatedBy" type="string" />
+    <property name="CreatedDate" column="CreatedDate" type="datetime" />
+    <property name="Status" column="Status" type="string" />
+    <property name="IsIssueCompleted" column="IsIssueCompleted" type="bool" />
+    <property name="DueDate" column="DueDate" type="datetime" />
+    <property name="AssignedDate" column="AssignedDate" type="datetime" />
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime" />
+    <property name="TotalCount" column="Assigned" type="Int64" />
+  </class>
+</hibernate-mapping>

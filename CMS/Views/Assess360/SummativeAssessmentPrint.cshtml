@@ -1,0 +1,345 @@
+﻿@using TIPS.Entities.Assess
+@model SummativeAssessment_vw
+<br />
+<table cellpadding="1" cellspacing="0" style="font-family: sans-serif; font-size: 10px;">
+    <tr>
+        <td align="right" width="15%">
+            <img width="120" height="50" style="float:right" src="@Model.TipsNaceLogo" alt="Tips Logo" />
+        </td>
+        <td align="center" width="70%">
+            <b style="font-size: 15px;">@Model.TipsName</b><br />
+            <br />
+            <b>@Model.Exam</b>
+        </td>
+        <td align="center" width="15%">
+            <img width="120" height="50" style="float:left"  src="@Model.TipsLogo" alt="Tips Logo" />
+        </td>
+    </tr>
+</table>
+<table cellpadding="1" cellspacing="0" style="font-family: sans-serif; font-size: 10px;">
+    <tr>
+        <td align="right">
+            <span style="float: right; padding-bottom: 10px">@String.Format("{0:dd-MMM-yyyy}", Model.ExamDate)</span>
+        </td>
+    </tr>
+</table>
+<table cellpadding="1" cellspacing="0" style="font-family: sans-serif; font-size: 10px;">
+    <tr>
+        <td>
+            <span style="float: left"><b>Name of the student:@Model.Name</b></span>
+            <br />
+            <span style="float: right"><b>Grade:@Model.Grade - @Model.Section</b></span>
+        </td>
+    </tr>
+</table>
+<br />
+<table border="1" cellpadding="1" cellspacing="0" style="font-family: sans-serif;
+    font-size: 10px; height: 400px; width: 200px">
+    <tr>
+        <td>
+            <b>Subject</b>
+        </td>
+        <td align="center">
+            <b>Marks Obtained</b>
+        </td>
+    </tr>
+    @if ((Model.Grade == "X" ||Model.Grade == "IX") && Model.IsCombinedScience == true)
+    {
+        <tr>
+            <td>
+                @(Model.EFL != 0 ? "English(FLE)" : "English(ESL)")
+            </td>
+            <td align="center">
+                @(Model.EFL != 0 ? Model.EFL : Model.ESL)
+            </td>
+        </tr>
+        if (Model.SeclangDesc != null && Model.SeclangDesc != "")
+        {
+             <tr>
+            <td>
+                Language-@Model.SeclangDesc
+            </td>
+            <td align="center">
+                @Model.Language
+            </td>
+        </tr>
+        }
+        <tr>
+            <td>
+                Combined Science
+            </td>
+            <td align="center">
+                @Model.CombinedScience
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Math
+            </td>
+            <td align="center">
+                @Model.Mathematics
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Economics
+            </td>
+            <td align="center">
+                @Model.Economics
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Physical Education
+            </td>
+            <td align="center">
+                @Model.PhysicalEducation
+            </td>
+        </tr>
+        <tr>
+            <td>
+                ICT
+            </td>
+            <td align="center">
+                @Model.ICT
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Total
+            </td>
+            <td align="center">
+                <b>@Model.Total</b>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Over All Average%
+            </td>
+            <td align="center">
+                <b>@Model.Average</b>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Grade
+            </td>
+            <td align="center">
+                <b>@Model.TestGrade</b>
+            </td>
+        </tr>
+    }
+    else
+    {   
+        <tr>
+            <td>
+                @(Model.EFL != 0 ? "English(FLE)" : "English(ESL)")
+            </td>
+            <td align="center">
+                @(Model.EFL != 0 ? Model.EFL : Model.ESL)
+            </td>
+        </tr>
+         if (Model.SeclangDesc != null && Model.SeclangDesc != "")
+        {
+             <tr>
+            <td>
+                Language-@Model.SeclangDesc
+            </td>
+            <td align="center">
+                @Model.Language
+            </td>
+        </tr>
+        }
+        <tr>
+            <td>
+                Math
+            </td>
+            <td align="center">
+                @Model.Mathematics
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Chemistry
+            </td>
+            <td align="center">
+                @Model.Chemistry
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Physics
+            </td>
+            <td align="center">
+                @Model.Physics
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Biology
+            </td>
+            <td align="center">
+                @Model.Biology
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Economics
+            </td>
+            <td align="center">
+                @Model.Economics
+            </td>
+        </tr>
+        <tr>
+            <td>
+                ICT
+            </td>
+            <td align="center">
+                @Model.ICT
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Total
+            </td>
+            <td align="center">
+                <b>@Model.Total</b>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Over All Average%
+            </td>
+            <td align="center">
+                <b>@Model.Average</b>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Grade
+            </td>
+            <td align="center">
+                <b>@Model.TestGrade</b>
+            </td>
+        </tr>
+    }
+</table>
+<br />
+<br />
+<table border="1" cellpadding="1" cellspacing="0" style="font-family: sans-serif;
+    font-size: 10px;">
+    <tr style="border: none">
+        <td colspan="10" align="center">
+            <b>CRITERIA OF ASSESSMENT</b>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" width="15%">
+            Grade
+        </td>
+        <td align="center">
+            A*
+        </td>
+        <td align="center">
+            A
+        </td>
+        <td align="center">
+            B
+        </td>
+        <td align="center">
+            C
+        </td>
+        <td align="center">
+            D
+        </td>
+        <td align="center">
+            E
+        </td>
+        <td align="center">
+            F
+        </td>
+        <td align="center">
+            G
+        </td>
+        <td align="center">
+            U
+        </td>
+    </tr>
+    <tr>
+        <td align="center" width="15%">
+            % of Marks
+        </td>
+        <td align="center">
+            90-100
+        </td>
+        <td align="center">
+            80-89
+        </td>
+        <td align="center">
+            70-79
+        </td>
+        <td align="center">
+            60-69
+        </td>
+        <td align="center">
+            50-59
+        </td>
+        <td align="center">
+            40-49
+        </td>
+        <td align="center">
+            30-39
+        </td>
+        <td align="center">
+            20-29
+        </td>
+        <td align="center">
+            0-19
+        </td>
+    </tr>
+</table>
+<br />
+<br />
+<br />
+<br />
+<table border="1" cellpadding="1" cellspacing="0" style="font-family: sans-serif;
+    font-size: 12px; height: 400px">
+    <tr>
+        <td style="font: italic bold 14px sans-serif" align="center" width="33%">
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <b>Class Teacher</b>
+        </td>
+        <td style="font: italic bold 14px sans-serif" align="center" width="33%">
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <b>MYP Coordinator</b>
+        </td>
+        <td style="font: italic bold 14px sans-serif" align="center" width="33%">
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <b>&nbsp;Head of the school</b>
+        </td>
+        <td style="font: italic bold 14px sans-serif" align="center" width="33%">
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <b>Parent</b>
+        </td>
+    </tr>
+</table>

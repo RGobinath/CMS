@@ -1,0 +1,361 @@
+﻿@model TIPS.Entities.StaffEntities.StaffIssues
+@{
+    ViewBag.Title = "Staff Issue Creation";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script src="@Url.Content("~/Scripts/StaffIssues/StaffIssueCreation.js")" type="text/javascript"></script>
+@using (Html.BeginForm("StaffIssueCreation", "StaffIssues", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="page-content">
+        <div class="page-content-area">
+            @{
+    var rlecode = Session["userrolesarray"] as IEnumerable<string>;
+    var Appcode = Session["Role"] as IEnumerable<string>;
+            }
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span> <span>@Html.Raw(ViewBag.Test)</span>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue collapsed">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-info-circle"></i>&nbsp;Basic Details
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <b>Issue Number</b><br />
+                                            @Model.IssueNumber
+                                            @Html.HiddenFor(m => m.Id)
+                                            @*@Html.Hidden("Id", "", new{@Value = @Model.Id })*@
+                                            @*<input type="hidden" id="Id" name="Id" value="@Model.Id" />*@
+                                            @Html.HiddenFor(m => m.IssueNumber)
+                                            @Html.HiddenFor(m => m.CreatedDate)
+                                            @Html.HiddenFor(m => m.CreatedBy)
+                                            @Html.HiddenFor(m => m.UserRoleName)
+                                            @Html.HiddenFor(m => m.ActivityFullName)
+                                            @Html.HiddenFor(m => m.Status)
+                                            @Html.HiddenFor(m => m.InstanceId)
+                                            @*@Html.HiddenFor(m => m.BranchCode)*@
+                                            @Html.HiddenFor(m => m.ActivityId)
+                                            @Html.Hidden("ReturnUrl", Url.Action("StaffIssueManagement", "StaffIssues"))
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Created Date</b><br />
+                                            @Model.CreatedDate
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Created By</b><br />
+                                            @Model.CreatedUserName
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>User Role</b><br />
+                                            @Model.UserRoleName
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Issue Status</b><br />
+                                            @Model.ActivityFullName
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-tasks"></i>&nbsp;Issue Details
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        @*<div class="col-sm-2">
+                                            <b>Campus</b><br />
+                                            @Model.BranchCode
+                                            @Html.HiddenFor(model => model.BranchCode)
+                                        </div>*@
+                                        @if (Model != null && (Model.Status == "LogIssue") && rlecode.Contains("SICTR") && Appcode.Contains("SIM"))
+                                        {
+                                            <div class="col-sm-2 form-group has-info">
+                                                <label for="form-field-select-1">
+                                                    <b>Campus</b></label><br />
+                                                @Html.DropDownListFor(model => model.BranchCode, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlBranchCode", @Class = "form-control select-sm " })
+                                                @Html.HiddenFor(model => model.BranchCode)
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-sm-2 form-group has-info">
+                                                <label for="form-field-select-1">
+                                                    <b>Campus</b></label><br />
+                                                @Model.BranchCode
+                                                @Html.HiddenFor(model => model.BranchCode)
+                                            </div>
+                                        }
+                                        <div class="col-sm-2 form-group has-info">
+                                            <label for="form-field-select-1">
+                                                <b>Issue Group</b></label><br />
+                                            @if (Model != null && (Model.Status == "LogIssue"))
+                                            {
+                                                @Html.DropDownListFor(model => model.IssueGroup, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlIssueGroup", @Class = "form-control select-sm ", @onchange = "GetIssueType()" })
+                                                @Html.HiddenFor(model => model.IssueGroup)
+                                            }
+                                            else
+                                            {
+                                                @Model.IssueGroup
+                                                @Html.HiddenFor(model => model.IssueGroup)
+                                            }
+                                        </div>
+                                        <div class="col-sm-2 form-group has-info">
+                                            <label for="form-field-select-1">
+                                                <b>Issue Type</b></label><br />
+                                            @if (Model != null && (Model.Status == "LogIssue"))
+                                            {
+                                                @Html.DropDownListFor(model => model.IssueType, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlIssueType", @Class = "form-control select-sm" })
+                                                @Html.HiddenFor(model => model.IssueType) 
+                                            }
+                                            else
+                                            {
+                                                @Model.IssueType 
+                                                @Html.HiddenFor(model => model.IssueType) 
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-pencil-square-o"></i>&nbsp;Description Section
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-4">
+                                            <div class="row">
+                                                @if (Model != null && Model.Status == "LogIssue")
+                                                {   
+                                                    <div class="col-xs-12 form-group has-info">
+                                                        <b>Issue Description</b><br />
+                                                        @Html.TextAreaFor(model => model.Description, new { rows = 1, cols = 52, id = "txtDescription", @class = "form-control textarea" })
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-xs-12 form-group has-info">
+                                                        <b>Issue Description</b><br />
+                                                        @Html.TextAreaFor(model => model.Description, new { rows = 1, cols = 52, id = "txtDescription", @class = "form-control textarea", @readonly = true, @style = "background-color:B5B5B5" })
+                                                    </div>
+                                                }
+                                                @*<span style="color: Red">*</span>*@
+                                                @Html.ValidationMessageFor(model => model.Description)
+                                            </div>
+                                            @if (Model != null && Model.Status == "ResolveIssue" || Model.Status == "ResolveIssueRejection" || Model.Status == "ApproveIssueRejection" || Model.Status == "ApproveIssue" || Model.Status == "Complete")
+                                            {   <div class="row">
+                                                <div class="col-xs-12 form-group has-info">
+                                                    <b>Issue Resolution Comments</b><br />
+                                                    @if (Model != null && Model.Status == "ResolveIssue" || Model.Status == "ResolveIssueRejection")
+                                                    {
+                                                        @Html.TextAreaFor(model => model.Resolution, new { rows = 1, cols = 52, id = "txtResolution", @class = "form-control textarea" })
+                                                    }
+                                                    @if (Model != null && Model.Status == "Complete")
+                                                    {
+                                                        @Html.TextAreaFor(model => model.Resolution, new { rows = 1, cols = 52, id = "txtResolution", @class = "form-control textarea", @readonly = true, @style = "background-color:B5B5B5" })
+                                                    }
+                                                </div>
+                                            </div>
+                                            }
+                                            <div class="row">
+                                                @if (Model != null && Model.Status == "ResolveIssue" || Model.Status == "ApproveIssue")
+                                                {  <div class="col-xs-12 form-group has-info">
+                                                    <b>Issue Rejection Comments</b>
+                                                </div>
+                                                    <div class="col-xs-12 form-group has-info">
+                                                        @Html.TextArea("txtRejCommentsArea", new { rows = 1, cols = 52, id = "txtRejCommentsArea", @class = "form-control textarea" })
+                                                    </div>
+                                                }
+                                                @if (Model != null && Model.Status == "ResolveIssueRejection" || Model.Status == "ApproveIssueRejection")
+                                                {  <div class="col-xs-12 form-group has-info">
+                                                    <b>Reply Comments</b>
+                                                </div>
+                                                    <div class="col-xs-12 form-group has-info">
+                                                        @Html.TextArea("txtRejCommentsArea", new { rows = 1, cols = 52, id = "txtRejCommentsArea", @class = "form-control textarea" })
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            @if (Model != null && (Model.Status == "Resolve Issue" || Model.Status == "ResolveIssue") ||
+                                                 (Model.Status == "ResolveIssueRejection" || Model.Status == "Resolve Issue Rejection") ||
+                                                 (Model.Status == "Complete"))
+                                            {
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <b>Rejection Grid</b>
+                                                        <table id="CommentList">
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (Model != null && rlecode.Contains("GRL-HEAD") && Appcode.Contains("SIM"))
+                                {
+                                    <div class="row" style="margin-top: 1px; margin-left: 3px; margin-bottom: 5px;">
+                                        <div class="col-xs-12">
+                                            <div class="col-sm-2">
+                                                <b>Assign to User</b><br />
+                                                @Html.DropDownList("ResolverUserId", new SelectList(Enumerable.Empty<SelectListItem>()), "", new { @Class = "form-control select-sm" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <br />
+                                                <button class="btn btn-primary btn-block btn-sm" type="button" id="btnAssign" name="Assign">
+                                                    <i class="fa fa-glass">&nbsp;</i>Assign</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-upload bigger-110"></i>&nbsp;Documents Upload
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body" id="tblUploadFiles">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-4">
+                                            @Html.Partial("FileUpload")
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <table id="Uploadedfileslist">
+                                            </table>
+                                            <div id="uploadedfilesgridpager">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-3">
+                </div>
+                <div class="col-xs-9">
+                    @if (Model != null && (Model.Status == "Log Issue" || Model.Status == "LogIssue" || Model.Status == "ResolveIssueRejection"))
+                    {<div class="col-sm-2">
+                        <button class="btn btn-lg btn-success" type="submit" name="btnSave" id="Save" value="Save">
+                            <i class="ace-icon fa fa-floppy-o white"></i>Save</button>
+                    </div>
+                    }
+                    @if (Model != null && (Model.Status == "Log Issue" || Model.Status == "LogIssue"))
+                    {
+                        <div class="col-sm-2">
+                            <button class="btn btn-lg  btn-warning" type="submit" name="btnCompleteLogIssue"
+                                id="CompleteLogIssue" value="CompleteLogIssue">
+                                <i class="ace-icon fa fa-check-square-o"></i>Save and Submit</button>
+                        </div>
+                    }
+                    else if (Model != null && (Model.Status == "Resolve Issue" || Model.Status == "ResolveIssue"))
+                    {
+                        <div class="col-sm-2">
+                            <button class="btn btn-lg btn-success" type="submit" name="btnResolveIssue" id="btnIdResolveIssue"
+                                value="Resolve Issue">
+                                <i class="ace-icon fa fa-check-square"></i>Resolve Issue</button>
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-lg btn-warning" type="submit" id="btnIdRejectIssue" name="btnRejectIssue"
+                                value="Reject Issue">
+                                <i class="ace-icon fa fa-undo"></i>More Info Required
+                            </button>
+                        </div>
+                    }
+                    else if (Model != null && (Model.Status == "Resolve Issue Rejection" || Model.Status == "ResolveIssueRejection"))
+                    {
+                        <div class="col-sm-2">
+                            <button class="btn btn-lg btn-success" type="submit" id="btnReply" name="btnReplyIssue"
+                                value="Reply Issue">
+                                <i class="ace-icon fa fa-reply"></i>Reply
+                            </button>
+                        </div>
+                    }
+
+
+@*else if (Model != null && (Model.Status == "Complete" || Model.Status == "Complete"))
+                    {
+                        <script type="text/javascript" language="javascript">
+                            $('#trComments').hide();
+                            $("#tdComments").hide();
+                        </script>
+                        if (Model.IsIssueCompleted != true)
+                        {
+                        <div class="col-sm-2">
+                            <button class="btn btn-lg btn-success" type="submit" id="btnIdComplete" name="btnIdComplete"
+                                value="Complete">
+                                <i class="ace-icon fa fa-check-square-o"></i>Complete</button>
+                        </div>
+                        }
+                    }*@
+                    <div class="col-sm-2">
+                        <button class="btn btn-primary btn-info btn-block btn-sm" type="button" id="btnBack">
+                            <i class="ace-icon fa fa-arrow-circle-left white"></i>Back to Inbox</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

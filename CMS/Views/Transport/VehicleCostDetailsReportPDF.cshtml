@@ -1,0 +1,138 @@
+﻿@model TIPS.Entities.TransportEntities.NewVehicleCostDetailsPDF
+@{
+    Layout = null;
+}
+
+
+<style type="text/css">
+    .LineSpace {
+        line-height: 16px;
+    }
+
+    .OutTable {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+        font-family: Verdana;
+    }
+
+        /*.OutTable tr {
+            border: none;
+        }*/
+
+        .OutTable td {
+            border: none;
+        }
+
+    .trBrdr {
+        border: 1px solid black;
+    }
+
+    .page-break {
+        page-break-before: always;
+    }
+</style>
+@if (Model.VehicleCostDetailsList.Count > 0)
+{
+    long Distance = 0;
+    decimal DriverOt = 0;
+    decimal HelperOt = 0;
+    decimal Diesel = 0;
+    decimal Maintenance = 0;
+    decimal Service = 0;
+    decimal FC = 0;
+    decimal Others = 0;
+    <table border="0" cellpadding='1' width='95%' cellspacing='0' style="font-family: Verdana; border: medium; margin-top: 10px; border-collapse: collapse;" align="center">
+        <tr border="0" style='height: 45px; font-size: 19px; color: black'>
+            <td colspan="14" style='border: 1px solid black; text-align: right; border-top: none; border-left: none; border-right: none'>@DateTime.Now.ToString("dd/MM/yyyy")</td>
+        </tr>
+        <tr border="0" style='border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 25px; color: black'>
+            <td colspan="14" style='border: 1px solid black; text-align: center'><b>VEHICLE  COST DETAILS REPORT</b></td>
+        </tr>
+
+        <tr border="0" style='border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 19px; color: black'>
+            <td colspan="4" style='border: 1px solid black;'>
+                <b>Vehicle No:</b>
+                @if (ViewBag.VehicleNo != null)
+                {
+                    @ViewBag.VehicleNo
+                }
+            </td>
+            <td colspan="4" style='border: 1px solid black;'>
+                <b>Vehicle Type:</b>
+            @if (ViewBag.Type != null)
+            {
+                @ViewBag.Type 
+            }
+            <td colspan="4" style='border: 1px solid black;'>
+                <b>Campus:</b>
+                @if (ViewBag.Campus != null)
+                {
+                    @ViewBag.Campus
+                }
+            </td>
+        </tr>
+
+        <tr border="0" style='border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 19px; color: black'>
+            <td colspan="3" style='border: 1px solid black;'></td>
+            <td colspan="3" style='border: 1px solid black;'></td>
+            <td colspan="3" style='border: 1px solid black;'></td>
+            <td colspan="3" style='border: 1px solid black;'></td>            
+        </tr>
+        <tr border="0" style='border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 19px; color: black'>
+            <td style='border: 1px solid black; text-align: center' rowspan="2"><b>Date</b></td>
+            <td style='border: 1px solid black; text-align: center' colspan="10"><b>In Rupees</b></td>
+        </tr>
+
+        <tr border="0" style='border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 19px; color: black'>
+            <td style='border: 1px solid black; text-align: center'><b>Start Kms</b></td>
+            <td style='border: 1px solid black; text-align: center'><b>End Kms </b></td>
+            <td style='border: 1px solid black; text-align: center'><b>Trip Kms</b></td>
+            <td style='border: 1px solid black; text-align: center'><b>Driver OT</b></td>
+            <td style='border: 1px solid black; text-align: center'><b>Helper OT </b></td>
+            <td style='border: 1px solid black; text-align: center'><b>Diesel</b></td>
+            <td style='border: 1px solid black; text-align: center'><b>Maintenance</b></td>
+            <td style='border: 1px solid black; text-align: center'><b>Service</b></td>
+            <td style='border: 1px solid black; text-align: center'><b>FC</b></td>
+            <td style='border: 1px solid black; text-align: center'><b>Others</b></td>
+        </tr>
+        @foreach (var List in @Model.VehicleCostDetailsList)
+        {                   
+            <tr border="0" style="border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 16px; color: black">
+                <td style='border: 1px solid black; width: 5%'>@List.VehicleTravelDate.ToString("dd/MM/yyyy")</td>
+                <td style='border: 1px solid black; width: 9%'>@List.StartKmrs</td>
+                <td style='border: 1px solid black; width: 9%'>@List.EndKmrs</td>
+                <td style='border: 1px solid black; width: 9%'>@List.Distance</td>
+                <td style='border: 1px solid black; width: 9%'>@List.DriverOt</td>
+                <td style='border: 1px solid black; width: 9%'>@List.HelperOt</td>
+                <td style='border: 1px solid black; width: 7%'>@List.Diesel</td>
+                <td style='border: 1px solid black; width: 5%'>@List.Maintenance</td>
+                <td style='border: 1px solid black; width: 5%'>@List.Service</td>
+                <td style='border: 1px solid black; width: 10%'>@List.FC</td>
+                <td style='border: 1px solid black; width: 7%'>@List.Others</td>
+            </tr>
+            Distance = Distance + List.Distance;
+            DriverOt = DriverOt + List.DriverOt;
+            HelperOt = HelperOt + List.HelperOt;
+            Diesel = Diesel + List.Diesel;
+            Maintenance = Maintenance + List.Maintenance;
+            Service = Service + List.Service;
+            FC = FC + List.FC;
+            Others = Others + List.Others;
+        }
+        <tr border="0" style="border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 19px; color: black">
+            <td style='border: 1px solid black; width: 9%'><b>Total</b></td>
+            <td style='border: 1px solid black; width: 9%'></td>
+                <td style='border: 1px solid black; width: 9%'></td>
+            <td style='border: 1px solid black; width: 9%'><b>@Distance</b></td>
+            <td style='border: 1px solid black; width: 9%'><b>@DriverOt</b></td>
+            <td style='border: 1px solid black; width: 9%'><b>@HelperOt</b></td>
+            <td style='border: 1px solid black; width: 9%'><b>@Diesel</b></td>
+            <td style='border: 1px solid black; width: 9%'><b>@Maintenance</b></td>
+            <td style='border: 1px solid black; width: 9%'><b>@Service</b></td>
+            <td style='border: 1px solid black; width: 9%'><b>@FC</b></td>
+            <td style='border: 1px solid black; width: 9%'><b>@Others</b></td>
+        </tr>
+    </table>
+}
+

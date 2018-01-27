@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.StaffTraining" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.StaffTraining, TIPS.Entities" table="StaffTraining" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="PreRegNum" column="PreRegNum" type="Int32"  not-null ="false"></property>
+    <property name="Particulars" column="Particulars" type="string" ></property>
+    <property name="Place" column="Place" type="string"></property>
+    <property name="Date" column="Date" type="string"></property>
+    <property name="SponsoredBy" column="SponsoredBy" type="string"></property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StoreEntities.StoreStockBalance" namespace="TIPS.Entities.StoreEntities">
+  <class name="TIPS.Entities.StoreEntities.StoreStockBalance, TIPS.Entities" table="StoreStockBalance" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="Store" column="Store" type="string"></property>
+    <property name="ItemId" column="ItemId" type="Int64"></property>
+    <property name="AMonth" column="AMonth" type="Int32"></property>
+    <property name="AYear" column="AYear" type="Int32"></property>
+    <property name="ClosingBalance" column="ClosingBalance" type="Int32"></property>
+    
+  </class>
+</hibernate-mapping>

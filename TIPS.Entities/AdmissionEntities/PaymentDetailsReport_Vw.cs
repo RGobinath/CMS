@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Runtime.Serialization;
+
+namespace TIPS.Entities.AdmissionEntities
+{
+    public class PaymentDetailsReport_vw
+    {
+        [DataMember]
+        public virtual long Id { get; set; }
+        [DataMember]
+        public virtual long PreRegNum { get; set; }
+        [DataMember]
+        public virtual string NewId { get; set; }
+        [DataMember]
+        public virtual string Name { get; set; }
+        [DataMember]
+        public virtual string Campus { get; set; }
+        [DataMember]
+        public virtual string AcademicYear { get; set; }
+        [DataMember]
+        public virtual string Grade { get; set; }
+        [DataMember]
+        public virtual string Section { get; set; }
+        [DataMember]
+        public virtual string BoardingType { get; set; }
+        [DataMember]
+        public virtual string AdmissionStatus { get; set; }
+        [DataMember]
+        public virtual string ModeOfPayment { get; set; }
+        [DataMember]
+        public virtual string Amount { get; set; }
+        [DataMember]
+        public virtual string FeeType { get; set; }
+        [DataMember]
+        public virtual string ReferenceNo { get; set; }
+        [DataMember]
+        public virtual DateTime? ChequeDate { get; set; }
+        [DataMember]
+        public virtual string BankName { get; set; }
+        [DataMember]
+        public virtual string Remarks { get; set; }
+        [DataMember]
+        public virtual DateTime? PaidDate { get; set; }
+        [DataMember]
+        public virtual DateTime? ClearedDate { get; set; }
+        [DataMember]
+        public virtual DateTime CreatedDate { get; set; }
+        [DataMember]
+        public virtual string CreatedBy { get; set; }
+    }
+}

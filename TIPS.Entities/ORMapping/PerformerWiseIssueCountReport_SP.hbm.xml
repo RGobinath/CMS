@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.PerformerWiseIssueCountReport_SP" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.PerformerWiseIssueCountReport_SP,TIPS.Entities" table="PerformerWiseIssueCountReport_SP" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="BranchCode"  column ="BranchCode" type="string"/>
+    <property name="Performer"  column ="Performer" type="string"/>
+    <property name="Resolved"  column ="Resolved" type="Int64"/>
+    <property name="Assigned"  column ="Assigned" type="Int64"/>
+    <property name="Completed"  column ="Completed" type="Int64"/>
+    <property name="Rejected"  column ="Rejected" type="Int64"/>
+  </class>
+  <sql-query name="GetPerformerWiseIssueCountReportList" callable="true">
+    <query-param name="BranchCode" type="string"/>
+    <query-param name="Performer" type="string"/>
+    <query-param name="FromDate" type="datetime"/>
+    <query-param name="ToDate" type="datetime"/>
+    <return class="TIPS.Entities.PerformerWiseIssueCountReport_SP, TIPS.Entities">
+      <return-property name="Id" column="Id" />
+      <return-property name="BranchCode" column="BranchCode" />
+      <return-property name="Performer" column="Performer" />
+      <return-property name="Resolved" column="Resolved" />
+      <return-property name="Assigned" column="Assigned" />
+      <return-property name="Completed" column="Completed" />
+      <return-property name="Rejected" column="Rejected" />
+    </return>
+    <![CDATA[ 
+     EXEC [PerformerWiseIssueCountReport_SP] @SPCampus=:BranchCode,@SPPerformer=:Performer,@SPFromDate=:FromDate,@SPToDate=:ToDate
+     ]]>
+  </sql-query>
+</hibernate-mapping>

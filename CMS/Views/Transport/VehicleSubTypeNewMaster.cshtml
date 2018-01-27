@@ -1,0 +1,180 @@
+﻿@{
+    ViewBag.Title = "Vehicle Sub Type Master";
+    Layout = "~/Views/Shared/PartialViewMaster.cshtml";
+                //Layout = null;
+}
+<style type="text/css">
+    /* Component containers
+----------------------------------*//*.ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 1.1em; }*/.ui-widget .ui-widget
+    {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+    /*.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button 
+{ font-family: Verdana,Arial,sans-serif; font-size: 1em; 
+  }*/.ui-widget-content
+    {
+        border: 0px solid #aaaaaa;
+        background: #ffffff url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x; /* font-size: 0.8em;*/
+        color: #222222;
+    }
+    .ui-widget-content a
+    {
+        color: #222222;
+    }
+    .ui-widget-header
+    {
+        border: 1px solid #aaaaaa; /*background: #0C0436 url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x; color: #222222; font-weight: bold;*/
+        background-color: #B6B6B6;
+    }
+    .ui-widget-header a
+    {
+        color: #222222;
+    }
+    .ui-jqdialog-content .CaptionTD
+    {
+        text-align: left;
+        vertical-align: top;
+        border-left: 0 none;
+        border-right: 0 none;
+        border-bottom: 0 none;
+        padding: 1px;
+        white-space: nowrap;
+        height: 30px;
+    }
+    .ui-jqdialog .ui-jqdialog-titlebar
+    {
+        padding: .10em .10em;
+        position: relative;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        jQuery("#VehicleSubTypeMasterList").jqGrid({
+            url: '/Transport/VehicleSubTypeMasterJqGrid',
+            datatype: 'json',
+            mtype: 'GET',
+            height: '250',
+            width: 1225,
+            autowidth: true,
+            //shrinkToFit: true,
+            colNames: ['Vehicle Type', 'Vehicle No', 'Fuel Type', 'Campus', 'Engine Type', 'Engine Number', 'First RegisteredDate',
+                       'Make', 'Type', 'Chassis No', 'BHP', 'CC', 'Wheel Base', 'Unladen Weight', 'Color', 'GVW', 'RC Attachment', 'Model', 'Address', 'Purpose', 'Id'],
+            colModel: [
+                //{ name: 'VehicleType', index: 'VehicleType', width: 150, align: 'left' },
+                { name: 'VehicleTypeId', index: 'VehicleTypeId', edittype: 'select', editoptions: { dataUrl: '/Transport/VehicleTypeddl' }, editable: true, editrules: { required: true }, formoptions: { elmsuffix: ' *', rowpos: 1, colpos: 1} },
+                { name: 'VehicleNo', index: 'VehicleNo', editable: true, edittype: 'text', formoptions: { elmsuffix: ' *', rowpos: 1, colpos:2} },
+                { name: 'FuelType', index: 'FuelType', editable: true, edittype: 'select', editoptions: { value: ":Select One;Petrol:Petrol;Diesel:Diesel;Gas:Gas" }, formoptions: { elmsuffix: ' *', rowpos: 1, colpos: 3} },
+                { name: 'Campus', index: 'Campus', width: 150, align: 'left', edittype: 'select', editable: true, editrules: { required: true },
+                    editoptions: {
+                        dataUrl: '/Base/FillAllBranchCode',
+                        buildSelect: function (data) {
+                            Campus = jQuery.parseJSON(data);
+                            var s = '<select>';
+                            s += '<option value=" ">------Select------</option>';
+                            if (Campus && Campus.length) {
+                                for (var i = 0, l = Campus.length; i < l; i++) {
+                                    s += '<option value="' + Campus[i].Value + '">' + Campus[i].Text + '</option>';
+                                }
+                            }
+                            return s + "</select>";
+                        }
+                    }, formoptions: { elmsuffix: ' *', rowpos: 2, colpos: 1 }
+                },
+                 { name: 'EngineType', index: 'EngineType', editable: true, editrules: { required: false }, formoptions: { elmsuffix: ' *', rowpos: 2, colpos: 2} },
+                { name: 'EngineNumber', index: 'EngineNumber', editable: true, editrules: { required: false }, formoptions: { elmsuffix: ' *', rowpos: 2, colpos: 3} },
+                { name: 'FirstRegisteredDate', index: 'FirstRegisteredDate', editable: true, editrules: { required: false }, editoptions: {
+                    dataInit: function (el) {
+                        $(el).datepicker({ dateFormat: "dd/mm/yy",
+                            changeMonth: true,
+                            timeFormat: 'hh:mm:ss',
+                            autowidth: true,
+                            changeYear: true
+                            // minDate: '+0d'
+                        }).attr('readonly', 'readonly');
+                    }
+                }, formoptions: { elmsuffix: ' *', rowpos: 3, colpos: 1}
+                },
+                { name: 'Make', index: 'Make', editable: true, editrules: { required: false }, formoptions: { elmsuffix: ' *', rowpos:3, colpos: 2} },
+                { name: 'Type', index: 'Type', editable: true, editrules: { required: false }, formoptions: { elmsuffix: ' *', rowpos: 3, colpos: 3} },
+                { name: 'ChassisNo', index: 'ChassisNo', editable: true, editrules: { required: false }, formoptions: { elmsuffix: ' *', rowpos: 4, colpos: 1} },
+                { name: 'BHP', index: 'BHP', editable: true, editrules: { required: false }, formoptions: { elmsuffix: ' *', rowpos: 4, colpos: 2} },
+                { name: 'CC', index: 'CC', editable: true, editrules: { required: false }, formoptions: { elmsuffix: ' *', rowpos: 4, colpos: 3} },
+                { name: 'WheelBase', index: 'WheelBase', editable: true, editrules: { required: false }, formoptions: { elmsuffix: ' *', rowpos: 5, colpos: 1} },
+                { name: 'UnladenWeight', index: 'UnladenWeight', editable: true, hidden: true, editrules: { edithidden: true, required: false }, formoptions: { elmsuffix: ' *', rowpos: 5, colpos: 2} },
+                { name: 'Color', index: 'Color', editable: true, editrules: { required: false }, formoptions: { elmsuffix: ' *', rowpos: 5, colpos: 3} },
+                { name: 'GVW', index: 'GVW', editable: true, hidden: true, editrules: { required: false,edithidden: true }, formoptions: { elmsuffix: ' *', rowpos: 6, colpos: 1} },
+                { name: 'RCAttachment', index: 'RCAttachment', editable: true, editrules: { required: false, edithidden: true }, edittype: 'file', editoptions: { enctype: "multipart/form-data" }, formoptions: { elmsuffix: ' *', rowpos: 6, colpos: 2} },
+                { name: 'Model', index: 'Model', editable: true, editrules: { required: false }, formoptions: { elmsuffix: ' *', rowpos: 6, colpos: 3} },
+                { name: 'Address', index: 'Address', editable: true, hidden: true, editrules: { required: false, edithidden: true }, edittype: 'textarea', editoptions: { rows: "4", cols: "18", maxlength: 400 }, formoptions: { elmsuffix: ' *', rowpos: 7, colpos: 1} },
+                { name: 'Purpose', index: 'Purpose', width: 150, align: 'left', editable: true, edittype: 'textarea', editoptions: { rows: "4", cols: "18", maxlength: 400 }, formoptions: { elmsuffix: ' *', rowpos: 7, colpos:2} },
+                { name: 'Id', index: 'Id', width: 50, align: 'left', editable: true, hidden: true, edittype: 'text', key: true, sortable: false }
+                ],
+            pager: '#VehicleSubTypeMasterListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: "Desc",
+            labelswidth: 60,
+            viewrecords: true,
+            multiselect: true,
+            closeAfterEdit: true,
+            closeAfterAdd: true,
+            caption: 'Vehicle Sub Type Master'
+        });
+        //jQuery("#VehicleSubTypeMasterList").navGrid('#VehicleSubTypeMasterListPager', { add: true, edit: true, del: false, search: false, refresh: false });
+        jQuery("#VehicleSubTypeMasterList").jqGrid('navGrid', "#VehicleSubTypeMasterListPager", { add: true, edit: true, del: true, search: false, refresh: false },
+                    { width: 'auto', url: '/Transport/AddVehicleSubType?test=edit', modal: false, beforeSubmit: function (postdata, formid) {
+
+                        postdata.RCAttachment = $("#RCAttachment").val();
+                        return [true, ''];
+                    }, afterSubmit: UploadImage
+                    },
+                    { width: 'auto', url: '/Transport/AddVehicleSubType', modal: false, beforeSubmit: function (postdata, formid) {
+
+                        postdata.RCAttachment = $("#RCAttachment").val();
+                        return [true, ''];
+                    }, afterSubmit: UploadImage
+                    },
+                   { url: '@Url.Content("~/Transport/DeleteVehicleSubTypeMasterById")' });
+        jQuery("#VehicleSubTypeMasterList").jqGrid('filterToolbar', { stringResult: false, searchOnEnter: true, beforeSearch: function () {
+            jQuery("#VehicleSubTypeMasterList").clearGridData();
+            return false;
+        }
+        });
+
+
+    });
+    function UploadImage(response, postdata) {
+
+        var data = $.parseJSON(response.responseText);
+        //  if (data.success == true) {
+        if ($("#RCAttachment").val() != "") {
+            ajaxFileUpload(data, "RC");
+        }
+        // }
+        return [data.success, data.message, data.id];
+    }
+    function ajaxFileUpload(Id, AppName) {
+        $.ajaxFileUpload({
+            url: '@Url.Action("UploadDocuments")',
+            secureuri: false,
+            fileElementId: 'RCAttachment',
+            dataType: 'json',
+            data: { Id: Id, AppName: AppName },
+            success: function (data, status) {
+                InfoMsg(data);
+            }
+        })
+    }
+
+    function uploaddat(id1, FileName) {
+        var AppName = 'RC';
+        window.location.href = "/Transport/uploaddisplay?Id=" + id1 + '&FileName=' + FileName + '&AppName=' + AppName;
+        // processBusy.dialog('close');
+    }
+</script>
+<table id="VehicleSubTypeMasterList">
+</table>
+<div id="VehicleSubTypeMasterListPager">
+</div>

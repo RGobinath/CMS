@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.TimeTableEntities.PeriodTimeMaster" namespace="TIPS.Entities.TimeTableEntities" xmlns="urn:nhibernate-mapping-2.2">
+	<class name="TIPS.Entities.TimeTableEntities.PeriodTimeMaster,TIPS.Entities" table="tt_PeriodTimeMaster" lazy="true">
+
+		<id name="Periodtime_Id" column="Periodtime_Id" type="Int64">
+
+			<generator class="native"/>
+		</id>
+		<property name="Periodtime_Code" column="Periodtime_Code" type="string"></property>
+		<property name="Period_Number" column="Period_Number" type="Int64"></property>
+		<property name="Campus" column="Campus" type="string"></property>
+		<property name="Grade" column="Grade" type="string"></property>
+		<property name="Section" column="Section" type="string"></property>
+		<property name="Start_Time" column="Start_Time" type="string"></property>
+		<property name="End_Time" column="End_Time" type="string"></property>
+		<property name="CreatedBy" column="CreatedBy" type="string"></property>
+		<property name="CreatedDate" column="CreatedDate" type="datetime"></property>
+		<property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+		<property name="ModifiedDate" column="ModifiedDate" type="datetime"></property>
+	</class>
+</hibernate-mapping>

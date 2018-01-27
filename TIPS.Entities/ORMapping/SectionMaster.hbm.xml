@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.SectionMaster" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.SectionMaster, TIPS.Entities" table="SECTIONMASTER" lazy="false" >
+    <id name="FormId" column="FormId">
+      <generator class="identity" />
+    </id>
+    <property name="FormCode" column="FormCode" type="string" not-null="true" />
+    <property name="Section" column="sect" type="string" not-null="true" />
+    <property name="Sectiondesc" column="sectdesc" type="string" not-null="true" />
+  </class>
+</hibernate-mapping>
+

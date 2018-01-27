@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.BioMetricsEntities.StaffInOutSummary" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.BioMetricsEntities.StaffInOutSummary,TIPS.Entities" table="StaffInOutSummary_SP" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="Campus" column="Campus" type="string"/>
+    <property name="Name" column="Name" type="string"/>
+    <property name="IdNumber" column="IdNumber" type="string"/>
+    <property name="Designation" column="Designation" type="string"/>
+    <property name="EmployeeID" column="EmployeeID" type="Int64"/>
+    <property name="EmployeeName" column="EmployeeName" type="string"/>
+    <property name="EmployeeIdNumber" column="EmployeeIdNumber" type="string"/>
+    <property name="DeviceId" column="DeviceId" type="Int64"/>
+    <property name="UserId" column="UserId" type="string"/>
+    <property name="LogDate" column="LogDate" type="datetime"/>
+    <property name="InTime" column="InTime" type="datetime"/>
+    <property name="OutTime" column="OutTime" type="datetime"/>
+  </class>
+  <sql-query name="GetStaffInOutSummaryList" callable="true">
+    <query-param name="BaseTableName" type="string"/>
+    <return class="TIPS.Entities.BioMetricsEntities.StaffInOutSummary, TIPS.Entities">
+      <return-property name="Id" column="Id" />
+      <return-property name="Campus" column="Campus" />
+      <return-property name="Name" column="Name" />
+      <return-property name="IdNumber" column="IdNumber" />
+      <return-property name="AttendanceDate" column="AttendanceDate" />
+      <return-property name="Designation" column="Designation" />
+      <return-property name="EmployeeID" column="EmployeeID" />
+      <return-property name="EmployeeName" column="EmployeeName" />
+      <return-property name="EmployeeIdNumber" column="EmployeeIdNumber" />
+      <return-property name="DeviceId" column="DeviceId" />
+      <return-property name="UserId" column="UserId" />
+      <return-property name="LogDate" column="LogDate" />
+      <return-property name="InTime" column="InTime" />
+      <return-property name="OutTime" column="OutTime" />
+    </return>
+    <![CDATA[ 
+     EXEC [StaffInOutSummary_SP] @BaseTableName=:BaseTableName
+     ]]>
+  </sql-query>
+</hibernate-mapping>
+

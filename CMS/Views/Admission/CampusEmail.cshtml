@@ -1,0 +1,128 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+
+@{
+    Layout = null;
+}
+
+<script type="text/javascript">
+    function validate2() {
+        if (document.getElementById("EmailContent2").value == "") {
+            ErrMsg("Please Enter The Email Content!");
+            return false;
+        }
+        else if ((document.getElementById('Father2').checked == false) && (document.getElementById('Mother2').checked == false) && (document.getElementById('General2').checked == false)) {
+            ErrMsg("Please Check To Whom Do You Want To Send The Mail!");
+            return false;
+        }
+    }
+
+    $(document).ready(function () {
+
+      //  var file_input_index = 0;
+//        $('input[type=file]').each(function () {
+//          //  file_input_index++;
+//            $(this).wrap('<div id="clear1">Attachment &nbsp&nbsp&nbsp</div>');
+//            $(this).after('<input type="button" value="Clear" onclick="resethtml()" />');
+//        });
+    });
+    var splitstr = "";
+            function resethtml2() {
+            //    alert('hre');
+                $('#clear2').html($('#clear2').html());
+                var div = document.getElementById('Attachfiles2');
+                div.innerHTML = 'Attached Files &nbsp;&nbsp;&nbsp;  ';
+                    $.ajax({
+                        url: '/Admission/DeleteAttachment/',
+                        type: 'POST',
+                        dataType: 'json',
+                        traditional: true
+                    });
+            }
+
+            function uploaddoc2() {
+                if (document.getElementById("file2").value == "") {
+                    ErrMsg("Please Browse a Document");
+                }
+                else {
+                    splitstr = splitstr + $('#file2').val().split('\\');
+
+                    $.ajaxFileUpload({
+                        url: '/Admission/MailAttachments2',
+                        secureuri: false,
+                        fileElementId: 'file2',
+                        dataType: 'json',
+                        success: function (data, success) {
+                            var div = document.getElementById('Attachfiles2');
+
+                            if ((div.innerHTML == 'Attached Files &nbsp;&nbsp;&nbsp;  ')) {
+                                div.innerHTML = div.innerHTML + data.result;
+                            }
+                            else {
+                                div.innerHTML = div.innerHTML + ', ' + data.result;
+                            }
+                        }
+                    });
+                    $('#clear2').html($('#clear2').html());
+                }
+            }
+    
+</script>
+
+<!DO    CTYPE html>
+@using (Html.BeginForm("CampusEmail", "Admission", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<html>
+<head>
+    
+    <title>CampusEmail</title>
+</head>
+<body>
+<div style="height:5px"></div>
+<div>
+       <table class="WithBorderOnly" style="border:none" width="100%">
+                    <tr>
+                        <th align="left">
+                           Send To &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp @Html.CheckBoxFor(model => model.Father, new { id = "Father2" }) &nbsp <strong>Father</strong> &nbsp&nbsp @Html.CheckBoxFor(model => model.Mother, new { id = "Mother2" }) &nbsp <strong>Mother</strong>&nbsp&nbsp @Html.CheckBoxFor(model => model.General, new { id = "General2" }) &nbsp <strong>General</strong>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th align="left" >
+                            Subject &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  @Html.TextBoxFor(model => model.Subject, new { id = "Subject2", @class = "CSSLengthyTextBox" })
+                        </th>
+                    </tr>
+
+                           <tr>
+                             <th>  
+                             <div id="clear2"> Attachment &nbsp&nbsp&nbsp
+                              <input type="file" name= "file2" id="file2" value="Browse" style="height:22px"/>
+
+                        <input type="button" value="Upload" onclick="uploaddoc2()" />
+                        <input type="button" value="Clear" onclick="resethtml2()" /></div>                     
+                            </th>
+                         </tr>
+                         <tr>
+                         <th>   <div id="Attachfiles2">Attached Files &nbsp&nbsp&nbsp  </div> </th>  
+                         </tr>
+                
+                    <tr>
+                        <th align="left">
+                            Email Content
+                        </th>
+                    </tr>
+                <tr>
+                  <td><div>
+                      @Html.TextAreaFor(model => model.Email, new { rows = 10, cols = 70, id = "EmailContent2", @class = "CSSTextArea" })
+                   </div></td>
+                    </tr>
+        </table>
+ </div>
+    
+    
+    <div style="height:15px"></div>
+    <div>
+    <input type="submit" value="Send Email" onclick="return(validate2());" id="emailbtn" />
+    </div>
+          <table id="StudentList"></table>
+</body>
+</html>
+}

@@ -1,0 +1,168 @@
+﻿@{
+    ViewBag.Title = "Students Laptop Distribution";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#">
+                                <i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b>
+                                        </label>
+                                        @Html.DropDownList("ddlCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlCampus", @Class = "form-control select-sm" })
+                                    </div>
+                                    @*<div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Block</b></label>
+                                        @Html.DropDownList("ddlBlock", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlBlock", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Location</b></label>
+                                        @Html.DropDownList("ddlLocation", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlLocation", @Class = "form-control select-sm" })
+                                    </div>*@
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Asset Code</b>
+                                        </label>
+                                        @Html.TextBox("txtAssetCode", "", new { @Class = "form-control" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Asset Type</b>
+                                        </label>
+                                        @Html.DropDownList("ddlAssetType", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlAssetType", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Brand</b>
+                                        </label>
+                                        @Html.DropDownList("ddlMake", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlMake", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Model</b>
+                                        </label>
+                                        @Html.DropDownList("ddlModel", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlModel", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Serial Number</b>
+                                        </label>
+                                        @Html.TextBox("txtSerialNo", "", new { @Class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">                                                                        
+                                    <div class="col-sm-2" id="TransactionTypeDiv">
+                                        <b>Transaction Type</b><br />
+                                        @Html.DropDownList("ddlTransactionType", new SelectList(new[]
+                                        {
+                                        new{Value="",Text="Select"},
+                                        new{Value="Stock",Text="Stock"},
+                                        new{Value="IntraCampus",Text="Intra Campus"},
+                                        new{Value="InterCampus",Text="Inter Campus"},
+                                        new{Value="Service",Text="Service"},
+                                        new{Value="Scrap",Text="Scrap"}
+                                        }, "Value", "Text", ""), new { id = "ddlTransactionType", @Class = "form-control select-sm", @maxlength = "15" })
+                                    </div>
+                                   @* <div class="col-sm-2">
+                                        <b>User Type</b><br />
+                                        @Html.DropDownList("SrchddlUserType", new SelectList(new[]
+                                        {
+                                        new{Value="",Text="Select One"},
+                                        new{Value="Not Applicable",Text="Not Applicable"},
+                                        new{Value="Student",Text="Student"},
+                                        new{Value="Staff",Text="Staff"},
+                                        new{Value="Common",Text="Common"},                                                                                
+                                        }, "Value", "Text", ""), new { id = "SrchddlUserType", @Class = "form-control select-sm", @maxlength = "15" })
+                                    </div>*@
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-primary btn-info btn-block btn-sm" id="btnSearch">
+                                            <i class="ace-icon fa fa-search white"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-danger btn-warning btn-block btn-sm" id="btnReset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-primary btn-block btn-sm" type="button" id="btnAdd">
+                                            <i class="ace-icon fa fa-plus-circle white"></i>Add Asset
+                                        </button>
+                                    </div>
+                                    @*<div class="col-sm-2">
+                                        <br />
+                                        <button class="btn btn-success btn-block btn-sm" type="button" id="btnbulkAdd">
+                                            <i class="ace-icon fa fa-plus white"></i>Add Bulk Asset
+                                        </button>
+                                    </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <table id="grid-table"></table>
+                <div id="grid-pager">
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-sm-2">
+                    <button class="btn btn-primary btn-block btn-sm" type="button" id="btnprint">
+                        <i class="ace-icon fa fa-arrow white"></i>Print
+                    </button>
+                </div>
+                <div class="col-sm-6">
+                    <a href="/Installer/SetupFXBarcode.msi">Click here to Install FXBarcode (one time) </a>
+                    <object id="ObjBarCode" visible="false" classid="clsid:DDCA5845-0F5F-4696-8BE3-DDC54989265C"
+                        viewastext>
+                    </object>
+                </div>
+            </div>
+            <div class="row">
+                <!-- /.row -->
+            </div>
+            <!-- /.page-content-area -->
+        </div>
+        <div id="newDistribution"></div>        
+        <div id="printbarcode">
+        </div>
+        <!-- inline scripts related to this page -->
+        <script src="@Url.Content("~/Scripts/Asset/StudentsLaptopDistribution.js")" type="text/javascript"></script>
+        <style>
+            #newDistribution {
+                z-index: 10000;
+            }
+        </style>

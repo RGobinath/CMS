@@ -1,0 +1,219 @@
+﻿@{
+    ViewBag.Title = "BulkEmailStatus";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        @Html.Hidden("BackUrl", Url.Action("StaffBulkEmail", "Communication"))
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="fa fa-envelope"></i>&nbsp;Bulk Email Request</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="space-2">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="button" class="btn btn-mini btn-primary" id="Compose">
+                                        <i class="fa fa-edit" style="color: #ffffff;"></i>&nbsp;Compose
+                                    </button>
+                                    <div class="space-2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="jqBulkEmailRequest">
+                </table>
+                <div id="jqGridBulkEmailRequest">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dialog" title="Message">
+    <div id="showMessage">
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $('#Compose').click(function () {
+            var url = $("#BackUrl").val();            
+            window.location.href = url;            
+        });
+
+        $("#dialog").dialog({
+            autoOpen: false,
+            show: {
+                effect: "blind",
+                duration: 1000
+            },
+            hide: {
+                effect: "explode",
+                duration: 1000
+            }
+        });
+
+        // var categoriesStr = ":All;1:True;2:False";
+
+
+        var grid_selector = "#jqBulkEmailRequest";
+        var pager_selector = "#jqGridBulkEmailRequest";
+
+        //resize to fit page size
+        $(window).on('resize.jqGrid', function () {
+            $(grid_selector).jqGrid('setGridWidth', $(".page-content").width());
+        })
+        //resize on sidebar collapse/expand 
+        var parent_column = $(grid_selector).closest('[class*="col-"]');
+        $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+            if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                setTimeout(function () {
+                    $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                }, 0);
+            }
+        })
+
+
+
+        //Pager icons
+
+
+        //replace icons with FontAwesome icons like above
+        function updatePagerIcons(table) {
+            var replacement =
+                {
+                    'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                    'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                    'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                    'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+                };
+            $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+                var icon = $(this);
+                var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+                if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+            })
+        }
+
+        function enableTooltips(table) {
+            $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+            $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+        }
+
+
+        $(document).on('ajaxloadstart', function (e) {
+            $(grid_selector).jqGrid('GridUnload');
+            $('.ui-jqdialog').remove();
+        });
+        $(grid_selector).jqGrid({
+            url: "/Communication/JqGridBulkEmailStatus",
+            datatype: 'json',
+            type: 'GET',
+            colNames: ['Id',  'Compose Request Id', 'UserId', 'Campus',  'General', 'Subject', 'Attachment', 'Message', 'Status', 'CreatedBy', 'ModifiedBy', 'CreatedDate', 'ModifiedDate'],
+            colModel: [
+                { name: 'Id', index: 'Id', hidden: true },
+             //   { name: 'IdKeyValue', index: 'IdKeyValue', width: 25, hidden: true },
+                { name: 'BulkReqId', index: 'BulkReqId', width: 45 },
+                { name: 'UserId', index: 'UserId', width: 60, hidden: true },
+                { name: 'Campus', index: 'Campus', width: 60, hidden: true },
+                { name: 'General', index: 'General', width: 30, hidden: true },
+                { name: 'Subject', index: 'Subject', width: 100 },
+                { name: 'Attachment', index: 'Attachment', width: 60, stype: 'select', searchoptions: { sopt: ["eq", "ne"], value: ":All;1:True;0:False" }},
+                { name: 'Message', index: 'Message', width: 150, search: false },
+                { name: 'Status', index: 'Status', width: 80, stype: 'select', searchoptions: { sopt: ["eq", "ne"], value: ":All;1:Email Composed;2:Recipients Added;3:CompletedWithErrors;4:SuccessfullyCompleted;5:Suspend" }},
+                { name: 'CreatedBy', index: 'CreatedBy', width: 60, search: false },
+                { name: 'ModifiedBy', index: 'ModifiedBy', width: 60, hidden: true },
+                { name: 'CreatedDate', index: 'CreatedDate', width: 60, search: false },
+                { name: 'ModifiedDate', index: 'ModifiedDate', width: 60, hidden: true }
+            ],
+
+            pager: pager_selector,
+            rowNum: 100,
+            rowList: [100, 200, 250, 300],
+            sortname: 'Id',
+            sortorder: 'Asc',
+            reloadAfterSubmit: true,
+            autowidth: true,
+            height: 250,
+            viewrecords: true,
+            caption: '<i class="fa fa-list"></i>&nbsp;Bulk Email Request List',
+            shrinkToFit: true,
+            loadComplete: function () {
+                debugger;
+                var ids = jQuery(grid_selector).jqGrid('getDataIDs');
+                $("tr.jqgrow:odd").addClass('RowBackGroundColor');
+                for (var i = 0; i < ids.length; i++) {
+                    rowData = jQuery(grid_selector).jqGrid('getRowData', ids[i]);
+                    if (rowData.Status == "Email Composed") { $(grid_selector).setCell(ids[i], "Status", "", { "background-color": "#66CCFF" }); }
+                    else if (rowData.Status == "Recipients Added") { $(grid_selector).setCell(ids[i], "Status", "", { "background-color": "#FFFF99" }); }
+                    else if (rowData.Status == "SuccessfullyCompleted") { $(grid_selector).setCell(ids[i], "Status", "", { "background-color": "#99FF66" }); }
+                    else if (rowData.Status == "Suspended") { $(grid_selector).setCell(ids[i], "Status", "", { "background-color": "#FF9900" }); }
+                    else { $(grid_selector).setCell(ids[i], "Status", "", { "background-color": "#FF2400" }); }
+                }
+                var table = this;
+                setTimeout(function () {
+                    debugger;
+                    updatePagerIcons(table);
+                    enableTooltips(table);
+                }, 0);
+            }
+        });
+
+        $(grid_selector).jqGrid('filterToolbar', { searchOnEnter: true, defaultSearch: "cn" });
+    });
+
+
+    function Search() {
+        $(grid_selector).setGridParam({
+            datatype: 'json',
+            url: "/Communication/JqGridBulkEmailStatus",
+            postData: { Subject: $('#txtSubject').val(), IsSent: $('#txtIsSent').val(), CreatedDate: $('#CreatedDate').val(), CreatedBy: $('#txtCreatedBy').val() },
+            page: 1
+        }).trigger('reloadGrid');
+    }
+
+    function Reset() {
+        $("input[type=text], textarea, select").val("");
+    }
+
+    function ShowComments(Id, BulkReqId) {
+
+        $.ajax({
+            url: '/Communication/ShowStaffMailMessage?Id=' + Id,
+            mtype: 'GET',
+            async: false,
+            datatype: 'json',
+            success: function (data) {
+                if (data != 0) {
+                    $("#dialog").dialog("open");
+                    $('#showMessage').html(data);
+
+                }
+            }
+        });
+    }
+
+</script>

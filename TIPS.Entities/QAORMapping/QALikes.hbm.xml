@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.QAEntities.QAAnswers" namespace="TIPS.Entities.QAEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.QAEntities.QALikes, TIPS.Entities" table="QALikes" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="AnswerId" column="AnswerId" type="Int64"  not-null ="false"></property>
+    <property name="LikedBy" column="LikedBy" type="string"></property>
+    
+    <property name="LikeDate" column="LikeDate" type="datetime"></property>
+   
+  </class>
+</hibernate-mapping>

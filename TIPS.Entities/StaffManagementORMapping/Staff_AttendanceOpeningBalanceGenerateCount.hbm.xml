@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.Staff_AttendanceOpeningBalanceGenerateCount" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.Staff_AttendanceOpeningBalanceGenerateCount,TIPS.Entities" table="Staff_AttendanceOpeningBalanceGenerateCount" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="LastMonth" column="LastMonth" type="Int64"></property>
+    <property name="LastYear" column="LastYear" type="Int64"></property>
+     <property name="CurrentMonth" column="CurrentMonth" type="Int64"></property>
+    <property name="CurrentYear" column="CurrentYear" type="Int64"></property>
+    <property name="TotalGenerateCount" column="TotalGenerateCount" type="Int64"></property>
+     <property name="ConsolidateCount" column="ConsolidateCount" type="Int64"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime"></property>
+  </class>
+</hibernate-mapping>

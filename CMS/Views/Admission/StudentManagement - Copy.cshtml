@@ -1,0 +1,1510 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+@{
+    ViewBag.Title = "StudentManagement";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<html>
+<head>
+    <title></title>
+    <link href="../../Scripts/noty/noty.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+</body>
+</html>
+<script src="../../Scripts/ui.dropdownchecklist-1.4-min.js" type="text/javascript"></script>
+<script src="../../Scripts/noty/jquery.noty.js" type="text/javascript"></script>
+<script src="../../Scripts/noty/bottomRight.js" type="text/javascript"></script>
+<script src="../../Scripts/noty/topCenter.js" type="text/javascript"></script>
+<script src="../../Scripts/noty/top.js" type="text/javascript"></script>
+<script src="../../Scripts/noty/topRight.js" type="text/javascript"></script>
+<script src="../../Scripts/noty/default.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+    var id = "";
+    var grade = "";
+    var acadyr = "";
+    var appname = "";
+    var section = "";
+    var ishosteller = "";
+    var idnum = "";
+    var preregno = "";
+    var flag = "";
+    var reset = "";
+    var admstat = "";
+    var feestructyr = "";
+    var appliedfrmdate = "";
+    var appliedtodate = "";
+    var MainrowData = [];
+    var Grid1 = $("#StudentManagementList").jqGrid('getGridParam', 'selarrrow');
+    var row1 = [];
+    var row2 = [];
+    var rcampus2 = [];
+    var MainrowData1 = "";
+    var Gender = "";
+    var j = 0;
+
+    if ('@Session["transferpdf"]' == "yes") {
+        if (confirm("Transfer Certificate Is Generated \n Are you sure you want to Discontinue this Student?")) {
+            // window.location.href = "/Admission/DetainDiscontinue?PreRegNo=123&type=Discontinue"; // rowData1;
+            window.location.href = "/Admission/DetainDiscontinue?type=Discontinue"; // rowData1;                         
+        }
+        else {
+            // alert('Skipped');
+        }
+    }
+
+    function generate(layout, data1) {
+        // alert(data1);
+        var n = noty({
+            text: "Following Pre-Reg Nos are selected: " + data1,
+            //     template: '<div class="noty_message1"  style="width:1000px" >Following Pre-Reg No has been selected:  <br/>' + data1 + '</div>',                  
+            type: 'information',
+            dismissQueue: true,
+            layout: layout,
+            theme: 'defaultTheme',
+            timeout: 1500,
+            header: false
+            //    pause: true,
+            //  pauseOnPagerHover: true
+            //                    height: 'auto',
+            //                   width: 'auto'
+        });
+        console.log('html: ' + n.options.id);
+    }
+
+    function generateAll() {
+        generate('top');
+    }
+
+    function runEffect() {
+        // get effect type from
+        var selectedEffect = $("#effectTypes").val();
+        // most effect types need no options passed by default
+        var options = {};
+        // some effects have required parameters
+        if (selectedEffect === "scale") {
+            options = { percent: 100 };
+        } else if (selectedEffect === "size") {
+            options = { to: { width: 280, height: 185} };
+        }
+        // run the effect
+        $("#effect").show(selectedEffect, options, 500, callback);
+    };
+
+    //callback function to bring a hidden box back
+    function callback() {
+        setTimeout(function () {
+            $("#effect:visible").removeAttr("style").fadeOut();
+        }, 1000);
+    };
+
+    $(document).ready(function () {
+        //   gradeddl();
+        /// Applied Date search Details...
+        $("#txtAppliedFrmDate").datepicker({
+            showOn: "button",
+            dateFormat: "dd/mm/yy",
+            buttonImage: "../../Images/date.gif",
+            buttonImageOnly: true,
+            changeYear: true,
+            changeMonth: true,
+            maxDate: 0,
+            numberOfMonths: 1,
+            onSelect: function (selected) {
+                $("#txtAppliedToDate").datepicker("option", "minDate", selected)
+            }
+
+        });
+
+        $("#txtAppliedToDate").datepicker({
+            showOn: "button",
+            dateFormat: "dd/mm/yy",
+            buttonImage: "../../Images/date.gif",
+            buttonImageOnly: true,
+            changeYear: true,
+            changeMonth: true,
+            maxDate: 0,
+            numberOfMonths: 1,
+            onSelect: function (selected) {
+                $("#txtAppliedFrmDate").datepicker("option", "maxDate", selected)
+            }
+        });
+        if ('@ViewBag.StudentMgmtSearched' != null) {
+            var srchitems = '@ViewBag.StudentMgmtSearched';
+            var srchitemsArr = srchitems.split(',');
+            $("#ddlgrade").val(srchitemsArr[0]);
+            $("#ddlsection").val(srchitemsArr[1]);
+            $("#admstats").val(srchitemsArr[2]);
+            $("#feestructddl").val(srchitemsArr[3]);
+            $("#appname").val(srchitemsArr[4]);
+            $("#idnumber").val(srchitemsArr[5]);
+            $("#ishosteller").val(srchitemsArr[6]);
+            $("#academicyear").val(srchitemsArr[7]);
+        }
+        if ('@Session["pagename"]'.toString() == 'email') {
+            ;
+            refreshMultiSelectDDl();
+            if ('@Session["grd"]' != "") {
+                var subarr = '@Session["grd"]'.split(", ");
+                subarr = subarr.slice(0, -1);
+                for (var i = 0; i < data.length; i++) {
+                    $("#ddlgrade").append("<option value='" + data[i].Value + "'>" + data[i].Text + "</option>");
+                }
+                if (subarr != "") {
+                    ;
+                    for (var j = 0; j < subarr.length; j++) {
+                        $("#ddlgrade option").filter(function () { return $(this).text() == '' + subarr[j] + '' }).attr('selected', 'selected').prop('checked', true);
+                    }
+                }
+            }
+        }
+
+        if ('@Session["emailsent"]' == 'yes') {
+            InfoMsg('Email sending is in progress..');
+            $.ajax({
+                url: '/Admission/ResetSession?type=email',
+                type: 'GET',
+                dataType: 'json',
+                traditional: true
+            });
+        }
+        if ('@ViewBag.SMSsent' == 'yes') { InfoMsg('SMS Sent Successfully'); }
+        else if ('@ViewBag.SMSsent' == 'no') { InfoMsg('SMS not Sent Successfully'); }
+        else { }
+
+
+        if ('@Session["transfered"]' == 'yes') {
+            InfoMsg('@Session["transferedName"] is Transferred Successfully. NewId is @Session["transferedId"] ');
+            $.ajax({
+                url: '/Admission/ResetSession?type=transfer',
+                type: 'GET',
+                dataType: 'json',
+                traditional: true
+            });
+        }
+        if ('@Session["transfered"]' == 'no') {
+            InfoMsg('Student Cannot be transferred to the same Campus');
+            $.ajax({
+                url: '/Admission/ResetSession?type=transfer',
+                type: 'GET',
+                dataType: 'json',
+                traditional: true
+            });
+        }
+
+        if ('@Session["discontinue"]' == 'yes') {
+            InfoMsg('@Session["discontinueName"] has been Discontinued" Successfully.');
+            $.ajax({
+                url: '/Admission/ResetSession?type=discontinue',
+                type: 'GET',
+                dataType: 'json',
+                traditional: true
+            });
+        }
+
+        if ('@Session["promotion"]' == 'yes') {
+
+            if ('@Session["notpromotedpreregno"]' != "") {
+                if ('@Session["promotionId"]' == "") {
+                    InfoMsg('Students with preregnos  @Session["notpromotedpreregno"]  cannot be promoted ');
+                }
+                else {
+                    InfoMsg('Student Promoted Successfully to @Session["promotionId"].\n Students with preregnos  @Session["notpromotedpreregno"] cannot be promoted');
+                }
+            }
+            else {
+                InfoMsg('Student Promoted Successfully to @Session["promotionId"].');
+            }
+            $.ajax({
+                url: '/Admission/ResetSession?type=promotion',
+                type: 'GET',
+                dataType: 'json',
+                traditional: true
+            });
+        }
+        else if ('@Session["promotion"]' == 'no') {
+            InfoMsg('Student cannot be promoted to the same class.');
+            $.ajax({
+                url: '/Admission/ResetSession?type=promotion',
+                type: 'GET',
+                dataType: 'json',
+                traditional: true
+            });
+        }
+
+        if ('@Session["bonafidepdf"]' == 'yes') {
+            InfoMsg('Bonafide Certificate Has Been Issued Successfully ');
+            $.ajax({
+                url: '/Admission/ResetSession',
+                type: 'GET',
+                dataType: 'json',
+                traditional: true
+            });
+        }
+
+        if ('@Session["sportspdf"]' == 'yes') {
+            InfoMsg('Sports Certificate Has Been Issued Successfully ');
+            $.ajax({
+                url: '/Admission/ResetSession?type=sports',
+                type: 'GET',
+                dataType: 'json',
+                traditional: true
+            });
+        }
+        var cmps = document.getElementById("ddlcampus");
+        // alert(a.length());
+        for (i = 0; i < cmps.options.length; i++) {
+            if (cmps.options[i].text == '@Session["cmpnm"]') {
+                cmps.selectedIndex = i;
+            }
+        }
+
+        var grd = document.getElementById("ddlgrade");
+        for (j = 0; j < grd.options.length; j++) {
+            //alert(grd.options[j].text);
+            if (grd.options[j].text == '@Session["grd"]') {
+                //alert('Session["grd"]');
+                grd.selectedIndex = j;
+            }
+        }
+
+        var sct = document.getElementById("ddlsection");
+        for (k = 0; k < sct.options.length; k++) {
+            if (sct.options[k].text == '@Session["sect"]') {
+                sct.selectedIndex = k;
+            }
+        }
+
+        var adstat = document.getElementById("admstats");
+        for (l = 0; l < adstat.options.length; l++) {
+            if (adstat.options[l].text == '@Session["stats"]') {
+                adstat.selectedIndex = l;
+            }
+        }
+
+        var feestyr = document.getElementById("feestructddl");
+        for (x = 0; x < feestyr.options.length; x++) {
+            if (feestyr.options[x].text == '@Session["feestructyr"]') {
+                feestyr.selectedIndex = x;
+            }
+        }
+        var acyr = document.getElementById("academicyear");
+        for (y = 0; y < acyr.options.length; y++) {
+            if (acyr.options[y].text == '@Session["acdyr"]') {
+                acyr.selectedIndex = y;
+            }
+        }
+
+        var hostlr = "";
+        var ishost = document.getElementById("ishosteller");
+        for (m = 0; m < ishost.options.length; m++) {
+            //   alert(hostlr);
+            if ('Session["hostlr"]' == "Yes") {
+                hostlr = "Yes";
+            }
+            else if ('Session["hostlr"]' == "No") {
+                hostlr = "No";
+            }
+            if (ishost.options[m].text == '@Session["hostlr"]') {
+                ishost.selectedIndex = m;
+            }
+        }
+
+        if ('@Session["apnam"]' != "") {
+            document.getElementById('appname').value = '@Session["apnam"]';
+        }
+
+        if ('@Session["idnum"]' != "") {
+            document.getElementById('idnumber').value = '@Session["idnum"]';
+        }
+        $("#ddlcampus").change(function () {
+
+            if ('@Session["pagename"]'.toString() == 'email') {
+                $.getJSON("/Admission/CampusGradeddl/", { Campus: $(this).val() },
+                function (modelData) {
+                    var select = $("#ddlgrade");
+                    select.empty();
+                    select.append($('<option/>',
+                                {
+                                    value: "",
+                                    text: "Select Grade"
+                                }));
+                    $("#ddlgrade").dropdownchecklist('destroy');
+                    $.each(modelData, function (index, itemData) {
+
+                        select.append($('<option/>',
+                                  {
+                                      value: itemData.gradcod,
+                                      text: itemData.gradcod
+                                  }));
+                    });
+                    refreshMultiSelectDDl();
+                });
+
+            }
+            else {
+                gradeddl();
+            }
+        });
+
+        function gradeddl() {
+            var e = document.getElementById('ddlcampus');
+            var campus = e.options[e.selectedIndex].value;
+            $.getJSON("/Admission/CampusGradeddl/", { Campus: campus },
+            function (modelData) {
+                var select = $("#ddlgrade");
+                select.empty();
+                select.append($('<option/>'
+                               , {
+                                   value: "",
+                                   text: "Select Grade"
+                               }));
+                $.each(modelData, function (index, itemData) {
+                    select.append($('<option/>',
+                                  {
+                                      value: itemData.gradcod,
+                                      text: itemData.gradcod
+                                  }));
+                });
+            });
+        }
+        var user1 = '@Session["UserId"]';
+        var user;
+        if (user1 != "") {
+            user = user1;
+        }
+        function loadgrid() {
+            debugger;
+            jQuery("#StudentManagementList").jqGrid({
+                mtype: 'GET',
+                url: '/Admission/AdmissionManagementListJqGrid?grade=' + $("#ddlgrade").val() + '&section=' + $("#ddlsection").val() + '&admstat=' + $("#admstats").val()
+                 + '&feestructyr=' + $("#feestructddl").val() + '&appname=' + $("#appname").val() + '&idnum=' + $("#idnumber").val() + '&ishosteller=' + $("#ishosteller").val() + '&acadyr=' + $("#academicyear").val(),
+                postData: { flag1: 'Register', Id: id, Gender: Gender, grade: grade, section: section, acadyr: acadyr, appname: appname, feestructyr: feestructyr, idnum: idnum, admstat: admstat, appno: '', preregnumber: preregno, ishosteller: ishosteller, flag: flag, reset: reset, stdntmgmt: 'yes', AppDateFrm: appliedfrmdate, AppDateTo: appliedtodate },
+                datatype: 'json',
+                colNames: ['Id', 'Application No', 'Pre-Reg No', 'Name of Applicant', 'Gender','Grade', 'Section', 'Campus', 'Fee Structure Year', 'Admission Status', 'Student Id', 'Academic Year', 'Applied Date'],
+                colModel: [
+                { name: 'Id', index: 'Id', sortable: false, hidden: true },
+              { name: 'ApplicationNo', index: 'ApplicationNo', width: 60, align: 'left', sortable: true },
+              { name: 'PreRegNo', index: 'PreRegNum', width: 30, align: 'left', sortable: true },
+              { name: 'Name', index: 'Name', width: 100, align: 'left', sortable: true },
+              { name: 'Gender', index: 'Grade', width: 30, align: 'left', sortable: true },
+              { name: 'Grade', index: 'Gender', width: 30, align: 'left', sortable: true },
+              { name: 'Section', index: 'Section', width: 30, align: 'left', sortable: true },
+              { name: 'Campus', index: 'Campus', width: 60, align: 'left', sortable: true },
+              { name: 'FeeStructYear', index: 'FeeStructYear', width: 30, align: 'left', sortable: true },
+              { name: 'AdmissionStatus', index: 'AdmissionStatus', width: 60, align: 'left', sortable: true },
+              { name: 'NewId', index: 'NewId', width: 60, align: 'left', sortable: true },
+              { name: 'AcademicYear', index: 'AcademicYear', width: 60, align: 'left', sortable: true },
+              { name: 'AppliedDate', index: 'CreatedDateNew', width: 60, align: 'left', sortable: true }
+              ],
+                pager: '#StudentManagementListPager',
+                rowNum: '10',
+                rowList: [5, 10, 20, 50, 100, 150, 200],
+                sortname: 'Id',
+                sortorder: 'desc',
+                viewrecords: true,
+                multiselect: true,
+                height: '220',
+                width: '1225',
+                caption: 'Edit Students',
+                onPaging: function (pgButton) {
+                    var GridIdList = $("#StudentManagementList").jqGrid('getGridParam', 'selarrrow');
+
+                    if (GridIdList.length > 0) {
+                        for (i = 0; i < GridIdList.length; i++) {
+                            MainrowData[i] = $("#StudentManagementList").jqGrid('getRowData', GridIdList[i]);
+                            if (MainrowData1 == "") {
+                                MainrowData1 = MainrowData[i].PreRegNo;
+                            }
+                            else {
+                                MainrowData1 = MainrowData1 + ", " + MainrowData[i].PreRegNo;
+                            }
+                        }
+                    }
+                    //   alert(MainrowData1 + ' has been checked');
+                    if (MainrowData1 != "") {
+                        generate('bottomRight', MainrowData1);
+                    }
+                }
+            });
+            $("#StudentManagementList").navGrid('#StudentManagementListPager', { add: false, edit: false, del: false, search: false, refresh: false });
+            jQuery("#StudentManagementList").jqGrid('navButtonAdd', '#StudentManagementListPager', {
+                caption: "Export To Excel",
+                onClickButton: function () {
+                    window.open("ExportToExcel" + '?rows=9999' + '&flag1=Register&Id=' + id + '&grade=' + grade + '&section=' + section + '&acadyr=' + acadyr + '&appname=' + appname + '&feestructyr=' + feestructyr + '&idnum=' + idnum + '&admstat=' + admstat + '&appno=&preregnumber=' + preregno + '&ishosteller=' + ishosteller + '&flag=' + flag + '&reset=' + reset + '&stdntmgmt=yes&AppDateFrm='+ appliedfrmdate+'&AppDateTo='+ appliedtodate);
+                }
+            });
+        }
+        window.onload = loadgrid();
+
+        $("#Search").click(function () {
+            var GridIdList = $("#StudentManagementList").jqGrid('getGridParam', 'selarrrow');
+            var rowData = [];
+            var rowData1 = [];
+            // alert(GridIdList.length);
+            if (GridIdList.length > 0) {
+                for (i = 0; i < GridIdList.length; i++) {
+                    rowData[i] = $("#StudentManagementList").jqGrid('getRowData', GridIdList[i]);
+                    rowData1[i] = rowData[i].PreRegNo;
+                    if (MainrowData1 != "") {
+                        MainrowData1 = MainrowData1 + ',' + rowData1[i];
+                    }
+                    else {
+                        MainrowData1 = rowData1[i];
+                    }
+                }
+            }
+            $("#StudentManagementList").GridUnload();
+            var e = document.getElementById("ddlcampus");
+            id = e.options[e.selectedIndex].value;
+            //  id = e.selectedIndex;
+
+            var f = document.getElementById("ddlgrade");
+            var j = 0;
+            for (var i = 0; i < f.options.length; i++) {
+                if (f.options[i].selected == true) {
+                    if (j == 0) { grade = f.options[i].value; }
+                    else { grade = grade + ',' + f.options[i].value; }
+                    j++; //alert(grade);
+                }
+            }
+            //  grade = f.options[f.selectedIndex].value;
+
+            var g = document.getElementById("admstats");
+            admstat = g.options[g.selectedIndex].value;
+
+            var h = document.getElementById("ddlsection");
+            section = h.options[h.selectedIndex].value;
+
+            var l = document.getElementById("feestructddl");
+            feestructyr = l.options[l.selectedIndex].value;
+
+            var n = document.getElementById("ishosteller");
+            ishosteller = n.options[n.selectedIndex].value;
+
+            var o = document.getElementById("academicyear");
+            acadyr = o.options[o.selectedIndex].value;
+
+            appname = document.getElementById('appname').value;
+
+            var gndr = document.getElementById("ddlGender");
+            Gender = gndr.options[gndr.selectedIndex].value;
+            appliedfrmdate = document.getElementById("txtAppliedFrmDate").value;
+            appliedtodate = document.getElementById("txtAppliedToDate").value;
+            idnum = document.getElementById('idnumber').value;
+            reset = "no";
+
+            //            if (user == "Ashok") {
+            if ('@Session["userrole"].ToString()' == "ADM-APP") {
+                flag = "ADM-APP";
+            }
+            if (user == "GRL-ADMS") {
+                flag = "GRL-ADMS";
+            }
+
+            if (user == "CHE-GRL") {
+                flag = "CHE-GRL";
+            }
+            loadgrid();
+        });
+
+        $("#reset").click(function () {
+            //            $("#ddlgrade").dropdownchecklist("refresh");
+            $("#StudentManagementList").GridUnload();
+            id = "";
+            grade = "";
+            admstat = "";
+            appname = "";
+            section = "";
+            reset = "yes";
+            idnum = "";
+            preregno = "";
+            flag = "";
+            acadyr = "";
+            var e = document.getElementById('ddlcampus');
+            e.options[0].selected = true; // "Select";
+
+            var g = document.getElementById('admstats');
+            g.options[0].selected = true; // "Select";
+
+            var h = document.getElementById("ddlsection");
+            h.options[0].selected = true; // "Select";
+
+            var i = document.getElementById("ishosteller");
+            i.options[0].selected = true; // "Select";
+
+            var l = document.getElementById("feestructddl");
+            l.options[0].selected = true; // "Select";
+            gradeddl();
+
+            var m = document.getElementById("academicyear");
+            m.options[0].selected = true; // "Select";
+
+            if ('@Session["pagename"]'.toString() == 'email') {
+                $('#ddlgrade').dropdownchecklist('destroy');
+                $('#ddlgrade option').each(function () {
+                    $(this).attr('selected', false);
+                });
+                $("#ddlgrade").dropdownchecklist({ width: 150, firstItemChecksAll: true });
+            }
+            loadgrid();
+            document.getElementById('appname').value = "";
+            document.getElementById('idnumber').value = "";
+            document.getElementById("txtAppliedFrmDate").value="";
+            document.getElementById("txtAppliedToDate").value="";
+        });
+
+        $("#Email").click(function () {
+            var GridIdList = $("#StudentManagementList").jqGrid('getGridParam', 'selarrrow');
+            var rowData = [];
+            var rowData1 = "";
+            var rowCampus = "";
+
+            //  alert(GridIdList.length);
+            if (GridIdList.length > 0) {
+
+                for (i = 0; i < GridIdList.length; i++) {
+                    rowData[i] = $("#StudentManagementList").jqGrid('getRowData', GridIdList[i]);
+                    if (rowData1 == "") {
+                        rowData1 = rowData[i].PreRegNo;
+                        rowCampus = rowData[i].Campus;
+                    }
+                    else {
+                        rowData1 = rowData1 + "," + rowData[i].PreRegNo;
+                        rowCampus = rowCampus + "," + rowData[i].Campus;
+                    }
+                }
+
+                LoadPopupDynamicaly1("/Admission/StudentEmail", $('#EmailDiv'),
+            function () {
+
+                // window.location.href = "/Admission/StudentEmail?PreRegNo=" + rowData1;
+                // LoadSetGridParam($('#StudentList'), "/Admission/EmailId")
+                $.ajax({
+                    url: '/Admission/StudentEmail',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { PreRegNo: rowData1, campus: rowCampus },
+                    traditional: true
+                });
+            });
+            }
+        });
+
+        $("#BulkEmail").click(function () {
+            ;
+            var e = document.getElementById("ddlcampus");
+            var campus = e.options[e.selectedIndex].value;
+
+            LoadPopupDynamicaly1("/Admission/CampusEmail", $('#EmailDiv1'),
+                            function () {
+                                $.ajax({
+                                    url: '/Admission/CampusEmail',
+                                    type: 'GET',
+                                    dataType: 'json',
+                                    data: { campusname: campus },
+                                    traditional: true
+                                });
+                            });
+        });
+
+        $("#IdCard").click(function () {
+            var GridIdList = $("#StudentManagementList").jqGrid('getGridParam', 'selarrrow');
+            var rowData = [];
+            var rowData1 = [];
+
+            //  alert(GridIdList.length);
+            if (GridIdList.length > 0) {
+
+                for (i = 0; i < GridIdList.length; i++) {
+                    rowData[i] = $("#StudentManagementList").jqGrid('getRowData', GridIdList[i]);
+                    rowData1[i] = rowData[i].PreRegNo;
+                    if (MainrowData1 != "") {
+                        MainrowData1 = MainrowData1 + ',' + rowData1[i];
+                    }
+                    else {
+                        MainrowData1 = rowData1[i];
+                    }
+                }
+                window.location.href = "/Admission/PrintIdCard?PreRegNo=" + MainrowData1; // rowData1;
+            }
+        });
+
+        $("#PickupCard").click(function () {
+            var GridIdList = $("#StudentManagementList").jqGrid('getGridParam', 'selarrrow');
+            var rowData = [];
+            var rowData1 = [];
+
+            //  alert(GridIdList.length);
+            if (GridIdList.length > 0) {
+
+                for (i = 0; i < GridIdList.length; i++) {
+                    rowData[i] = $("#StudentManagementList").jqGrid('getRowData', GridIdList[i]);
+                    rowData1[i] = rowData[i].PreRegNo;
+                    if (MainrowData1 != "") {
+                        MainrowData1 = MainrowData1 + ',' + rowData1[i];
+                    }
+                    else {
+                        MainrowData1 = rowData1[i];
+                    }
+                }
+                // alert(rowData1);
+
+                window.location.href = "/Admission/PrintPickupCard?PreRegNo=" + MainrowData1; // rowData1;
+            }
+        });
+
+        $("#PrintSC").click(function () {
+            var GridIdList = $("#StudentManagementList").jqGrid('getGridParam', 'selarrrow');
+            var rowData = [];
+            var rowData1 = [];
+            var sportsid = [];
+            var sportsid1;
+            var sportpreregnos = "";
+            if (GridIdList.length > 0) {
+                for (i = 0; i < GridIdList.length; i++) {
+                    rowData[i] = $("#StudentManagementList").jqGrid('getRowData', GridIdList[i]);
+                    rowData1[i] = rowData[i].PreRegNo;
+                    sportsid[i] = rowData[i].Id;
+                    if (sportpreregnos != "") {
+                        sportpreregnos = sportpreregnos + ',' + rowData1[i];
+                        sportsid1 = sportsid1 + ',' + sportsid[i];
+                    }
+                    else {
+                        sportpreregnos = rowData1[i];
+                        sportsid1 = sportsid[i];
+                    }
+
+                    if (MainrowData1 != "") {  // For selecting students from multiple pages
+                        MainrowData1 = MainrowData1 + ',' + rowData1[i];
+                    }
+                    else {
+                        MainrowData1 = rowData1[i];
+                    }
+                }
+                title = 'Sports';
+                wt = 300;
+                ht = 210;
+                LoadPopupDynamicaly3("/Admission/SportsPopup", $('#SportsPopupDiv'),
+            function () {
+                document.getElementById("sportspreregno1").value = MainrowData1; // sportpreregnos;
+            });
+            }
+        });
+
+        $("#PrintPRF").click(function () {
+            var GridIdList = $("#StudentManagementList").jqGrid('getGridParam', 'selarrrow');
+            var rowData = [];
+            var rowData1 = [];
+            var sportsid = [];
+            var sportsid1;
+            if (GridIdList.length == 1) {
+                for (i = 0; i < GridIdList.length; i++) {
+                    rowData[i] = $("#StudentManagementList").jqGrid('getRowData', GridIdList[i]);
+                    rowData1[i] = rowData[i].PreRegNo;
+                    if (MainrowData1 != "") {
+                        MainrowData1 = MainrowData1 + ',' + rowData1[i];
+                        sportsid1 = sportsid1 + ',' + sportsid[i];
+                    }
+                    else {
+                        MainrowData1 = rowData1[i];
+                        sportsid1 = sportsid[i];
+                    }
+                }
+                window.location.href = "/Admission/PrintPRF?PreRegNo=" + rowData1; // rowData1;
+            }
+            else { ErrMsg('Only 1 student should be selected at a time'); }
+        });
+
+        $("#promotion").click(function () {
+            $("#PromoteDiv").html("");
+            var GridIdList = $("#StudentManagementList").jqGrid('getGridParam', 'selarrrow');
+            var rowData = [];
+            var rowData1 = [];
+            var rowcampus = [];
+            var rowgrade = [];
+
+            if (GridIdList.length > 0) {
+                //  alert(GridIdList.length);
+                for (i = 0; i < GridIdList.length; i++) {
+                    rowData[i] = $("#StudentManagementList").jqGrid('getRowData', GridIdList[i]);
+
+                    if (rowData1 == "") {
+                        rowData1 = rowData[i].PreRegNo;
+                        rowgrade = rowData[i].Grade;
+                        rowcampus = rowData[i].Campus;
+                    }
+                    else {
+                        rowData1 = rowData1 + "," + rowData[i].PreRegNo;
+                        rowgrade = rowgrade + "," + rowData[i].Grade;
+                        rowcampus = rowcampus + "," + rowData[i].Campus;
+                    }
+                }
+                $.ajax({
+                    url: '/Admission/promotioncampus',
+                    type: 'GET',
+                    //  dataType: 'json',
+                    data: { PreRegNo: rowData1, campus: rowcampus, grade: rowgrade, check: 'yes' },
+                    traditional: true,
+                    success: function (data) {
+                        if (data == "True") {
+                            $.ajax({
+                                url: '/Admission/promotioncampus',
+                                type: 'GET',
+                                //  dataType: 'json',
+                                data: { PreRegNo: rowData1, campus: rowcampus },
+                                traditional: true
+                            });
+
+                            LoadPopupDynamicaly("/Admission/Promotion", $('#PromoteDiv'),
+                                                                            function () {
+                                                                            });
+                            var e = document.getElementById("ddlcampus");
+                            var campus = e.options[e.selectedIndex].value;
+                        }
+                        else {
+                            ErrMsg('Students to be promoted should belong to same grade and campus.');
+                        }
+                    }
+                });
+            }
+        });
+
+        //        $("#Transfer").click(function () {
+        //            $("#TransferDiv").html("");
+        //            var GridIdList = $("#StudentManagementList").jqGrid('getGridParam', 'selarrrow');
+        //            var rowData = [];
+        //            var rowData1 = [];
+        //            var rowcampus = [];
+        //            var rowgrade = [];
+        //            //  alert(GridIdList.length);
+        //            if (GridIdList.length > 1) {
+        //                ErrMsg("Only 1 Student can be trafered at once");
+        //            } else {
+        //                //if (GridIdList.length = 1) {
+        //                for (i = 0; i < GridIdList.length; i++) {
+        //                    rowData[i] = $("#StudentManagementList").jqGrid('getRowData', GridIdList[i]);
+        //                             
+        //                    if (rowData1 == "") {
+        //                        rowData1 = rowData[i].PreRegNo;
+        //                        rowgrade = rowData[i].Grade;
+        //                        rowcampus = rowData[i].Campus;
+        //                    }
+        //                    else {
+        //                        rowData1 = rowData1 + "," + rowData[i].PreRegNo;
+        //                        rowgrade = rowData + "," + rowData[i].Grade;
+        //                        rowcampus = rowData + "," + rowData[i].Campus;
+        //                    }
+
+        //                    LoadPopupDynamicaly2("/Admission/Transfer", $('#TransferDiv'),
+        //                                        function () {
+        //                                            document.getElementById("preregno2").value = rowData1;
+        //                                            //  alert(document.getElementById("preregno2").value);
+        //                                            $.ajax({
+        //                                                url: '/Admission/Transfer',
+        //                                                type: 'GET',
+        //                                       //         dataType: 'json',
+        //                                                data: { PreRegNo: rowData1, grade: rowgrade },
+        //                                                traditional: true
+        //                                            });
+        //                                        });
+        //                }
+
+        //                var e = document.getElementById("ddlcampus");
+        //                var campus = e.options[e.selectedIndex].value;
+        //            }
+        //        });
+
+        $("#Transfer").click(function () {
+            $("#TransferDiv").html("");
+            var GridIdList = $("#StudentManagementList").jqGrid('getGridParam', 'selarrrow');
+            var rowData = [];
+            var rowPreregno = [];
+            var rowcampus = [];
+            var rowgrade = [];
+            if (GridIdList.length > 0) {
+                if (GridIdList.length > 1) {
+                    ErrMsg("Only 1 Student can be trafered at once");
+                } else {
+                    rowData[0] = $("#StudentManagementList").jqGrid('getRowData', GridIdList[0]);
+                    rowgrade = rowData[0].Grade;
+                    rowcampus = rowData[0].Campus;
+                    rowPreregno = rowData[0].PreRegNo;
+                    //}
+                    $.ajax({
+                        url: '/Admission/transfergrade',
+                        type: 'GET',
+                        data: { grd: rowgrade },
+                        traditional: true,
+                        success: function (data) {
+                            LoadPopupDynamicaly2("/Admission/Transfer", $('#TransferDiv'),
+                                                function () {
+                                                    document.getElementById("preregno2").value = rowPreregno;
+                                                });
+                        }
+                    });
+                }
+            }
+        });
+
+        var title = '';
+        var ht = '';
+        var wt = '';
+        $("#Discontinue").click(function () {
+            var GridIdList = $("#StudentManagementList").jqGrid('getGridParam', 'selarrrow');
+            var rowData = [];
+            var rowData1 = [];
+            var rowcampus = [];
+            title = 'Discontinue';
+            wt = 600;
+            ht = 310;
+            //  alert(GridIdList.length);
+            if (GridIdList.length > 0) {
+                if (GridIdList.length > 1) {
+                    ErrMsg("Only 1 Student can be Discontinued at once");
+                } else {
+
+                    for (i = 0; i < GridIdList.length; i++) {
+                        rowData[i] = $("#StudentManagementList").jqGrid('getRowData', GridIdList[i]);
+                        rowcampus[i] = rowData[i].Campus;
+
+                        if (rowData1 == "") {
+                            rowData1 = rowData[i].PreRegNo;
+                        }
+                        else {
+                            rowData1 = rowData1 + "," + rowData[i].PreRegNo;
+                        }
+                    }
+                    var stats;
+                    $.ajax({
+                        url: '/Admission/Discontinuestats',
+                        type: 'GET',
+                        data: { PreRegNo: rowData1, campus: rowcampus },
+                        traditional: true,
+                        success: function (data) {
+                            stats = data;
+
+                            if (stats == "True") {
+                                LoadPopupDynamicaly3("/Admission/Discontinue", $('#DiscontinueDiv'),
+                                        function () {
+                                            document.getElementById("preregno3").value = rowData1;
+                                            //  alert(document.getElementById("preregno2").value);
+                                            $.ajax({
+                                                url: '/Admission/Discontinue',
+                                                type: 'GET',
+                                                //    dataType: 'json',
+                                                data: { PreRegNo: rowData1 },
+                                                traditional: true,
+                                                success: function (data) {
+                                                    //     alert('inside');
+                                                }
+                                            });
+                                        });
+                            }
+                            else {
+                                if (confirm("Transfer Certificate Is Generated \n Are you sure you want to Discontinue this Student?")) {
+                                    rowData1 = "";
+                                    for (i = 0; i < GridIdList.length; i++) {
+                                        if (rowData1 == "") {
+                                            rowData1 = rowData[i].PreRegNo;
+                                        }
+                                        else {
+                                            rowData1 = rowData1 + "," + rowData[i].PreRegNo;
+                                        }
+                                    }
+                                    //     window.location.href = "/Admission/DetainDiscontinue?PreRegNo=" + rowData1 + "&type=Discontinue"; // rowData1;                         
+                                    $.ajax({
+                                        url: '/Admission/DetainDiscontinue',
+                                        type: 'GET',
+                                        //    dataType: 'json',
+                                        data: { PreRegNo: rowData1, type: 'Discontinue' },
+                                        traditional: true,
+                                        success: function (data) {
+                                            //alert(data);
+                                            InfoMsg('Student Discontinued successfully.');
+                                            //  $('#StudentManagementList').trigger('reloadGrid');
+                                            //   window.location.href = "/Admission/StudentManagement?pagename=" + data.pagename + "";
+                                        }
+                                    });
+                                }
+                                else {
+                                    //  alert('Skipped');
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        $("#detain").click(function () {
+            var GridIdList = $("#StudentManagementList").jqGrid('getGridParam', 'selarrrow');
+            var rowData = [];
+            var rowData1 = [];
+            var rowcampus = [];
+
+            //  alert(GridIdList.length);
+            if (GridIdList.length > 1) {
+                ErrMsg("Only 1 Student can be Detained at once");
+            } else {
+                if (confirm("Are you sure you want to Detain this Student?")) {
+
+                    for (i = 0; i < GridIdList.length; i++) {
+                        rowData[i] = $("#StudentManagementList").jqGrid('getRowData', GridIdList[i]);
+                        //    rowData1[i] = rowData[i].PreRegNo;
+                        rowcampus[i] = rowData[i].Campus;
+
+                        if (rowData1 == "") {
+                            rowData1 = rowData[i].PreRegNo;
+                        }
+                        else {
+                            rowData1 = rowData1 + "," + rowData[i].PreRegNo;
+                        }
+                    }
+
+                    $.ajax({
+                        url: '/Admission/Detain',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { PreRegNo: rowData1 },
+                        traditional: true,
+                        success: function (data) {
+                            if (data.detained == "yes") {
+                                InfoMsg(' ' + data.name + ' Detained successfully.');
+                            }
+                            else {
+                                ErrMsg('' + data.name + ' cannot be detained.');
+                            }
+                            $('#StudentManagementList').trigger('reloadGrid');
+                        }
+                    });
+                }
+                else {
+                    // alert('Skipped');
+                }
+            }
+        });
+
+        $("#bonafide").click(function () {
+            var GridIdList = $("#StudentManagementList").jqGrid('getGridParam', 'selarrrow');
+            var rowData = [];
+            var rowData1 = [];
+            var rowcampus = [];
+
+            //  alert(GridIdList.length);
+            if (GridIdList.length > 1) {
+                ErrMsg("Bonafide Certificate Can Be Issued To Only 1 Student at once");
+            } else {
+
+                for (i = 0; i < GridIdList.length; i++) {
+                    rowData[i] = $("#StudentManagementList").jqGrid('getRowData', GridIdList[i]);
+                    rowData1 = rowData[i].PreRegNo;
+                    rowcampus[i] = rowData[i].Campus;
+                }
+                var stats;
+                $.ajax({
+                    url: '/Admission/Discontinuestats',
+                    type: 'GET',
+                    //  dataType: 'json',
+                    data: { PreRegNo: rowData1, campus: rowcampus, type: 'bonafide' },
+                    traditional: true,
+                    success: function (data) {
+                        // alert(data);
+                        stats = data;
+                        if (stats == "True") {
+                            $.ajax({
+                                url: '/Admission/Bonafide',
+                                type: 'GET',
+                                dataType: 'json',
+                                data: { PreRegNo: rowData1 },
+                                traditional: true,
+                                success: function (data) {
+                                    InfoMsg('Bonafide Certificate Issued Successfully For ' + data.Name + ' Id No: ' + data.AfterId + '');
+                                }
+                            });
+                        }
+                        else {
+                            ErrMsg("Bonafide Certificate Has Already Been Issued For This Student");
+                        }
+                    }
+                });
+            }
+        });
+
+        $("#sports").click(function () {
+            var GridIdList = $("#StudentManagementList").jqGrid('getGridParam', 'selarrrow');
+            var rowData = [];
+            var rowData1 = [];
+            var rowcampus = [];
+            var rowname = [];
+            title = 'Sports';
+            wt = 600;
+            ht = 310;
+            if (GridIdList.length > 0) {
+                //                ErrMsg("Sports Certificate Can Be Issued To Only 1 Student at once");
+                //            } else {
+                for (i = 0; i < GridIdList.length; i++) {
+                    rowData[i] = $("#StudentManagementList").jqGrid('getRowData', GridIdList[i]);
+                    //                    rowData1 = rowData[i].PreRegNo;
+                    //                    rowcampus[i] = rowData[i].Campus;
+                    //                    rowname[i] = rowData[i].Name;
+                    if (rowData1 == "") {
+                        rowData1 = rowData[i].PreRegNo;
+                        rowcampus = rowData[i].Campus;
+                        rowname = rowData[i].Name;
+                    }
+                    else {
+                        rowData1 = rowData1 + "," + rowData[i].PreRegNo;
+                        rowcampus = rowcampus + "," + rowData[i].Campus;
+                        rowname = rowname + "," + rowData[i].Name;
+                    }
+                }
+
+                var stats;
+                LoadPopupDynamicaly3("/Admission/Sports", $('#SportsDiv'),
+                                        function () {
+                                            document.getElementById("sportspreregno").value = rowData1;
+                                            //alert(document.getElementById("sportspreregno").value);
+                                            $.ajax({
+                                                url: '/Admission/Sports',
+                                                type: 'GET',
+                                                //   data: { PreRegNo: rowData1 },
+                                                traditional: true,
+                                                success: function (data) {
+                                                    //     alert('inside');
+                                                }
+                                            });
+                                        });
+            }
+        });
+        $("#SMS").click(function () {
+            title = 'SMS';
+            wt = 600;
+            ht = 380;
+            var GridIdList = $("#StudentManagementList").jqGrid('getGridParam', 'selarrrow');
+            var rowData = [];
+            var rowPreregno = [];
+            if (GridIdList.length > 0) {
+
+                for (i = 0; i < GridIdList.length; i++) {
+                    rowData[i] = $("#StudentManagementList").jqGrid('getRowData', GridIdList[i]);
+                    if (rowPreregno == "") {
+                        rowPreregno = rowData[i].PreRegNo;
+                    }
+                    else {
+                        rowPreregno = rowPreregno + "," + rowData[i].PreRegNo;
+                    }
+                }
+                LoadPopupDynamicaly3("/Admission/SMS", $('#SMSDiv'),
+                                        function () {
+                                            document.getElementById("SMSpreregno").value = rowPreregno;
+                                            $.ajax({
+                                                url: '/Admission/SMS',
+                                                type: 'GET',
+                                                traditional: true,
+                                                success: function (data) {
+                                                    //     alert('inside');
+                                                }
+                                            });
+                                        });
+            }
+        });
+
+        function LoadPopupDynamicaly1(dynURL, ModalId, loadCalBack, onSelcalbck, width) {
+            //  alert('here');
+            if (width == undefined) { width = 550; }
+            if (ModalId.html().length == 0) {
+                $.ajax({
+                    url: dynURL,
+                    type: 'GET',
+                    // type: 'POST',
+                    async: false,
+                    dataType: 'html', // <-- to expect an html response
+                    //    data: { ActivityId: rowData1 },
+                    success: function (data) {
+                        ModalId.dialog({
+                            height: 400,
+                            width: width,
+                            modal: true,
+                            //title: 'Email',
+                            buttons: {}
+                        });
+                        ModalId.html(data);
+                    }
+                });
+            }
+            clbPupGrdSel = onSelcalbck;
+            ModalId.dialog('open');
+            CallBackFunction(loadCalBack);
+        }
+
+        function LoadPopupDynamicaly(dynURL, ModalId, loadCalBack, onSelcalbck, width) {
+            //  alert('here');
+            if (width == undefined) { width = 490; }
+            if (ModalId.html().length == 0) {
+                $.ajax({
+                    url: dynURL,
+                    type: 'GET',
+                    // type: 'POST',
+                    async: false,
+                    dataType: 'html', // <-- to expect an html response
+                    //    data: { ActivityId: rowData1 },
+                    success: function (data) {
+                        ModalId.dialog({
+                            height: 310,
+                            width: width,
+                            modal: true,
+                            title: 'Promotion',
+                            buttons: {}
+                        });
+                        ModalId.html(data);
+                    }
+                });
+            }
+            clbPupGrdSel = onSelcalbck;
+            ModalId.dialog('open');
+            CallBackFunction(loadCalBack);
+        }
+
+        function LoadPopupDynamicaly2(dynURL, ModalId, loadCalBack, onSelcalbck, width) {
+            //  alert('here');
+            if (width == undefined) { width = 490; }
+            if (ModalId.html().length == 0) {
+                $.ajax({
+                    url: dynURL,
+                    type: 'GET',
+                    // type: 'POST',
+                    async: false,
+                    dataType: 'html', // <-- to expect an html response
+                    //    data: { ActivityId: rowData1 },
+                    success: function (data) {
+                        ModalId.dialog({
+                            height: 310,
+                            width: width,
+                            modal: true,
+                            title: 'Transfer',
+                            buttons: {}
+                        });
+                        ModalId.html(data);
+                    }
+                });
+            }
+            clbPupGrdSel = onSelcalbck;
+            ModalId.dialog('open');
+            CallBackFunction(loadCalBack);
+        }
+
+        function LoadPopupDynamicaly3(dynURL, ModalId, loadCalBack, onSelcalbck, width) {
+            //  alert('here');
+            if (width == undefined) { width = wt; } // 600; }
+            if (ModalId.html().length == 0) {
+                $.ajax({
+                    url: dynURL,
+                    type: 'GET',
+                    // type: 'POST',
+                    async: false,
+                    dataType: 'html', // <-- to expect an html response
+                    //    data: { ActivityId: rowData1 },
+                    success: function (data) {
+                        ModalId.dialog({
+                            height: ht,
+                            width: width,
+                            modal: true,
+                            title: title, // 'Discontinue',
+                            buttons: {}
+                        });
+                        ModalId.html(data);
+                    }
+                });
+            }
+            clbPupGrdSel = onSelcalbck;
+            ModalId.dialog('open');
+            CallBackFunction(loadCalBack);
+        }
+
+        function LoadSetGridParam(GridId, brUrl) {
+            GridId.setGridParam({
+                url: brUrl,
+                datatype: 'json',
+                mtype: 'GET'
+            }).trigger("reloadGrid");
+        }
+    });
+
+    function getdata(id1) {
+        // 'Session["RegisteredForm"]'="yes";
+        window.location.href = "/Admission/GetFormData?Id=" + id1 + "&RegisteredForm=yes";
+    }
+
+    function refreshMultiSelectDDl() {
+        $("#ddlgrade").dropdownchecklist({
+            width: 150, firstItemChecksAll: true
+        });
+    }
+
+</script>
+@using (Html.BeginForm("StudentManagement", "Admission", FormMethod.Post))
+{
+    <h3>
+        Student Management</h3>         
+    <table width="100%">
+        <tr>
+            <td>
+                <table class="WithBorderOnly" width="100%">
+                    <tr class="PanelHeading">
+                        <th align="left" colspan="8">Search
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Campus
+                        </th>
+                        <th>Grade
+                        </th>
+                        <th>Section
+                        </th>
+                        <th>Gender
+                        </th>
+                        <th>Admission Status
+                        </th>
+                        <th>Fee Structure Year
+                        </th>
+                        <th>Applicant Name
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus", @Class = "CSSDropDownList" })
+                            @*                                                        @Html.DropDownList("ddlcampus", new SelectList(new[]
+                                          {
+                                             new {ID="",Name="Select One"},
+                                              new{ID="IBMain",Name="IB Main"},
+                                              new{ID="IBKG",Name="IB KG Campus"},
+                                              new{ID="4",Name="Karur"},
+                                              new{ID="5",Name="Tirupur"},
+                                              new {ID="6",Name="Chennai"},
+                                              new{ID="7",Name="Ernakulam"},
+                                              new{ID="8",Name="LA"},
+                                             
+                                          },
+         "ID", "Name", 1), new {Id = "campusddl" , @Class = "CSSDropDownList", style = "width:145px;" })
+*@
+                        </td>
+                        <td>
+                            @if (Session["pagename"].ToString() == "email")
+                            {
+                                @Html.DropDownListFor(model => model.Grade, new MultiSelectList(ViewBag.gradeddl1, "gradcod", "gradcod"), "All", new { id = "ddlgrade", @Class = "CSSDropDownList", @multiple = "multiple" })
+                            }
+                            else
+                            {                            
+                                @Html.DropDownListFor(Model => Model.Grade, new SelectList(ViewBag.gradeddl1, "gradcod", "gradcod"), "Select One", new { id = "ddlgrade", @Class = "CSSDropDownList" })
+                            }
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.Section, new SelectList(ViewBag.sectionddl, "Section", "Section"), "Select One", new { id = "ddlsection", @Class = "CSSDropDownList" })
+                        </td>
+                        <td>
+                            @Html.DropDownList("ddlGender", new SelectList(new[]
+                                          {
+                                             new {Value="",Text="Select"},
+                                              new{Value="Male",Text="Male"},
+                                              new{Value="Female",Text="Female"}
+                                          },
+"Value", "Text", ""), new { @Class = "CSSDropDownList", style = "width:155px;" })
+                        </td>
+                        <td>
+                            @if (Session["pagename"].ToString() == "email")
+                            {
+                                @Html.DropDownListFor(Model => Model.AdmissionStatus, new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                  new{Value="New Registration",Text="New Registration"},
+                                  new{Value="Sent For Approval",Text="Sent For Approval"},
+                                  new{Value="Call For Interview",Text="Call For Interview"},
+                                              new{Value="Registered",Text="Registered"},
+                                              new{Value="Discontinued",Text="Discontinued"},
+                                              new{Value="Inactive",Text="Inactive"}                                              
+                                 }, "Value", "Text", ""), new { id = "admstats", @Class = "CSSDropDownList" })
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(Model => Model.AdmissionStatus, new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                              new{Value="Registered",Text="Registered"},
+                                              new{Value="Discontinued",Text="Discontinued"},
+                                              new{Value="Inactive",Text="Inactive"}
+                                 }, "Value", "Text", ""), new { id = "admstats", @Class = "CSSDropDownList" })
+                            }
+                        </td>
+                        <td>
+                            @*                                               @if ((ViewBag.campus == "TIPS ERODE") || (ViewBag.campus == "TIPS SALEM"))
+                                               {
+                                                      @Html.DropDownListFor(Model => Model.FeeStructYear, new SelectList(ViewBag.feestructddl, "FeeStructureYear", "AcademicYear"), "Select", new { id = "feestructddl", @Class = "CSSDropDownList" })
+                                               }
+                                               else
+                                               {*@
+                            @Html.DropDownListFor(Model => Model.FeeStructYear, new SelectList(ViewBag.feestructddl, "FeeStructureYear", "AcademicYear"), "Select", new { id = "feestructddl", @Class = "CSSDropDownList" })
+                        </td>
+                        <td>
+                            @Html.TextBox("appname", "", new { @Class = "CSSTextBox", @maxlength = "30" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Id Number
+                        </th>
+                        <th>Is Hosteller
+                        </th>
+                        <th>Academic Year
+                        </th>
+                        <th colspan="2">
+                                        Applied Date
+                        </th>
+                    </tr>
+                    <tr>
+                        
+                        <td>
+                            @Html.TextBox("idnumber", "", new { @Class = "CSSTextBox", @maxlength = "30" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                              new{Value="Yes",Text="Yes"},
+                                              new{Value="No",Text="No"}                           
+                                 }, "Value", "Text", ""), new { id = "ishosteller", @Class = "CSSDropDownList" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.AcademicYear, new SelectList(ViewBag.acadddl, "AcademicYear", "AcademicYear"), "Select AcademicYear", new { id = "academicyear", @Class = "CSSDropDownList" })
+                        </td>
+                        <td colspan="2">
+                                         From: @Html.TextBox("txtAppliedFrmDate", "", new { @Class = "CSSTextBox", @maxlength = "10", @style = "width: 125px;" })
+                                         &nbsp;&nbsp;
+                                         To: @Html.TextBox("txtAppliedToDate", "", new { @Class = "CSSTextBox", @maxlength = "10", @style = "width: 125px;" })
+                                    </td>
+                        <td>
+                            <input type="button" value="Search" id="Search" />
+                            <input type="button" value="Reset" id="reset" />
+                        </td>
+                        
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table id="StudentManagementList" width="100%">
+                </table>
+                <div id="StudentManagementListPager">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @if (Session["pagename"].ToString() == "email")
+                {
+                    <p>
+                        <input type="button" value="Compose Email" id="Email" />
+                        &nbsp&nbsp
+                        <input type="button" value="Compose Bulk Email" id="BulkEmail" />
+                    </p>              
+                }
+                @if (Session["Role"].ToString() == "ADMN")
+                {
+                    if (Session["pagename"].ToString() == "email")
+                    {
+
+                    }
+                }
+                @if ((Session["UserId"].ToString() == "PRM") || (Session["UserId"].ToString() == "Ashok") || (Session["userrole"].ToString() == "ADM-APP"))
+                {
+                    if (Session["pagename"].ToString() == "IdPickup")
+                    {
+                 
+                    <p>
+                        <input type="button" value="Print Id Card" id="IdCard" />&nbsp&nbsp
+                        <input type="button" value="Print PickUp Card" id="PickupCard" />
+                    </p> 
+                    }
+                }
+                @if ((Session["UserId"].ToString() == "PRM") || (Session["UserId"].ToString() == "Ashok") || (Session["userrole"].ToString() == "ADM-APP"))
+                {
+                    if (Session["pagename"].ToString() == "IdPickup")
+                    {
+
+
+                    }
+                }                                                                       
+        
+@*  @if ((Session["UserId"].ToString() == "GRL-ADMS") || (Session["UserId"].ToString() == "CHE-GRL") || (Session["UserId"].ToString() == "ERN-GRL") || (Session["UserId"].ToString() == "TIR-GRL") || (Session["UserId"].ToString() == "KAR-GRL") || (Session["UserId"].ToString() == "Swathi"))*@
+                @if (ViewBag.pmnbtn == "ADM-PMN")
+                {
+                    if (Session["pagename"].ToString() == "promotion")
+                    {
+                    <p>
+                        <input type="button" value="Promotion" id="promotion" />&nbsp&nbsp
+                        <input type="button" value="Detain" id="detain" />
+                    </p>
+                    }
+                }
+                                
+@* @if ((Session["UserId"].ToString() == "GRL-ADMS") || (Session["UserId"].ToString() == "CHE-GRL") || (Session["UserId"].ToString() == "ERN-GRL") || (Session["UserId"].ToString() == "TIR-GRL") || (Session["UserId"].ToString() == "KAR-GRL"))*@
+                @if (ViewBag.tfrbtn == "ADM-TFR")
+                {
+                    if (Session["pagename"].ToString() == "transfer")
+                    {
+                    <p>
+                        <input type="button" value="Transfer" id="Transfer" />
+                        &nbsp&nbsp
+                        <input type="button" value="Discontinue" id="Discontinue" />
+                    </p>
+                    }
+                }
+                @if (Session["pagename"].ToString() == "bonafide")
+                {                         
+                    <p>
+                        <input type="button" value="Bonafide Certificate" id="bonafide" />
+                    </p>
+                }
+                @if (Session["pagename"].ToString() == "sports")
+                {
+                    <p>
+                        <input type="button" value="Sports Certificate" id="sports" />
+                    </p>
+                }
+                @if (Session["pagename"].ToString() == "SMS")
+                {
+                    <p>
+                        <input type="button" value="Send SMS" id="SMS" />
+                    </p>
+                }
+                @if (Session["pagename"].ToString() == "SC")
+                {
+                 
+                    <p>
+                        <input type="button" value="Print Sports Certificate" id="PrintSC" />
+                    </p> 
+                }
+                @if (Session["pagename"].ToString() == "PRF")
+                {
+                    <p>
+                        <input type="button" value="Print PRF" id="PrintPRF" />
+                    </p> 
+                }
+            </td>
+            <td></td>
+        </tr>
+    </table>
+}
+<div id="EmailDiv"></div>
+<div id="EmailDiv1"></div>
+<div id="PromoteDiv"></div>
+<div id="TransferDiv"></div>
+<div id="DiscontinueDiv"></div>
+<div id="SportsDiv"></div>
+<div id="SportsPopupDiv"></div>
+<div id="SMSDiv"></div>
+
+<div id="AssignSectionDialog" title="" style="display: none;"></div>
+<div id="CancelSectionAllocationDialog" title="" style="display: none;"></div>
+<div id="PromoteDialog" title="" style="display: none;"></div>
+<div id="TransferDialog" title="" style="display: none;"></div>
+<div id="DiscontinueDialog" title="" style="display: none;"></div>
+<div id="PrintIdCardDialog" title="" style="display: none;"></div>
+<div id="PrintPickUpCardDialog" title="" style="display: none;"></div>

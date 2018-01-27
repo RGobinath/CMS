@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.EventList" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.EventList, TIPS.Entities" table="EventList" lazy="false" >
+    <id name="EventListId" column="EventListId" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="EventId" column="EventId" type="Int64" />
+    <property name="EventListDescription" column="EventListDescription" type="string" />
+    <property name="EventOrder" column="EventOrder" type="string" />
+    <property name="IsActive" column="IsActive" type="Boolean" />
+    <property name="CreatedBy" column="CreatedBy" type="string" />
+    <property name="CreatedDate" column="CreatedDate" type="datetime" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string" />
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime" />
+  </class>
+</hibernate-mapping>

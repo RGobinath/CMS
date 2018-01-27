@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B9ECD974-B198-4EBE-9721-65B3C162DE48}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TIPS.Component</RootNamespace>
+    <AssemblyName>TIPS.Component</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="antlr.runtime">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\antlr.runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>..\CMS\Bin\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="LinFu.DynamicProxy">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\LinFu.DynamicProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CMS\Bin\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CMS\Bin\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.ExceptionHandling, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CMS\Bin\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CMS\Bin\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CMS\Bin\Microsoft.Practices.EnterpriseLibrary.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging.Database, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CMS\Bin\Microsoft.Practices.EnterpriseLibrary.Logging.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=3.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.LinFu">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\NHibernate.ByteCode.LinFu.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Spring">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\NHibernate.ByteCode.Spring.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Aop">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\Spring.Aop.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Core">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\Spring.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activation" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CMS\bin\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdminTemplateBC.cs" />
+    <Compile Include="AdmissionManagementBC.cs" />
+    <Compile Include="Assess360BC.cs" />
+    <Compile Include="AssetBC.cs" />
+    <Compile Include="AttendanceBC.cs" />
+    <Compile Include="AttendanceLog_Vw.cs" />
+    <Compile Include="BioAttendanceBC.cs" />
+    <Compile Include="CallManagementBC.cs" />
+    <Compile Include="CanteenBC.cs" />
+    <Compile Include="CommentsBC.cs" />
+    <Compile Include="CommunicationBC.cs" />
+    <Compile Include="DocumentsBC.cs" />
+    <Compile Include="EmployeeBC.cs" />
+    <Compile Include="EnquiryBC.cs" />
+    <Compile Include="HostelMgntBC.cs" />
+    <Compile Include="HRManagementBC.cs" />
+    <Compile Include="InboxBC.cs" />
+    <Compile Include="IssueCountBC.cs" />
+    <Compile Include="MasterDataBC.cs" />
+    <Compile Include="MastersBC.cs" />
+    <Compile Include="MenuBC.cs" />
+    <Compile Include="ParentPortalBC.cs" />
+    <Compile Include="ProcessFlowBC.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PSFHelperClassBC.cs" />
+    <Compile Include="QABC.cs" />
+    <Compile Include="ReportCardBC.cs" />
+    <Compile Include="StaffIssuesBC.cs" />
+    <Compile Include="StaffManagementBC.cs" />
+    <Compile Include="StoreBC.cs" />
+    <Compile Include="StudentsReportBC.cs" />
+    <Compile Include="TimeTableBC.cs" />
+    <Compile Include="TransportBC.cs" />
+    <Compile Include="UserBC.cs" />
+    <Compile Include="WidgetBc.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CustomAuthentication\CustomAuthentication.csproj">
+      <Project>{EA42D1E4-C34D-466A-B0B9-9AD807A89F73}</Project>
+      <Name>CustomAuthentication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PersistenceFactory\PersistenceFactory.csproj">
+      <Project>{B71FE695-8737-44F0-9702-D546C096594E}</Project>
+      <Name>PersistenceFactory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TIPS.Entities.Assess\TIPS.Entities.Assess.csproj">
+      <Project>{FEBE2D61-D72A-49AA-9F10-C83FB6A096C7}</Project>
+      <Name>TIPS.Entities.Assess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TIPS.Entities.BioMetrics\TIPS.Entities.BioMetrics.csproj">
+      <Project>{2295bdb0-d6fd-45a3-b93f-1a617076bd45}</Project>
+      <Name>TIPS.Entities.BioMetrics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TIPS.Entities.TaskManagement\TIPS.Entities.TaskManagement.csproj">
+      <Project>{335AC29B-691F-4CA3-8A44-16FB10CC1093}</Project>
+      <Name>TIPS.Entities.TaskManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TIPS.Entities.TicketingSystem\TIPS.Entities.TicketingSystem.csproj">
+      <Project>{5DD86482-99BB-4E64-B5B4-D81076B9F65E}</Project>
+      <Name>TIPS.Entities.TicketingSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TIPS.Entities\TIPS.Entities.csproj">
+      <Project>{924034ce-9fcb-472f-847f-df216ea9a584}</Project>
+      <Name>TIPS.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

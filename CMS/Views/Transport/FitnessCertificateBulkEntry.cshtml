@@ -1,0 +1,329 @@
+﻿@model TIPS.Entities.TransportEntities.FitnessCertificateDetails
+@{
+    ViewBag.Title = "FitnessCertificateBulkEntry";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var Id = $("#Id").val();
+        $("#VehicleSearch").button({ icons: { primary: "ui-icon-search"} });
+        $("#VehicleSearch").click(function () {
+            Id = $("#Id").val();
+            if (Id == 0) {
+                ErrMsg("Please Save");
+                return false;
+            }
+            var SaveUrl = '@Url.Content("~/Transport/AddFitnessCertificateList/")';
+            var reloadGridUrl = '@Url.Content("~/Transport/FitnessCertificateListBulkEntryJqGrid")?RefId=';
+            var GridId = "FitnessCertificateList";
+
+            LoadPopupDynamicaly("/Transport/VehicleSubTypeMaster?SaveUrl=" + SaveUrl + '&reloadGridUrl=' + reloadGridUrl + '&GridId=' + GridId, $('#DivVehicleSearch'),
+                    function () {
+                        LoadSetGridParam($('#VehicleSubTypeMasterList'), "/Transport/VehicleSubTypeMasterJqGrid")
+                    }, "", 1000);
+        });
+
+        jQuery("#FitnessCertificateList").jqGrid({
+            url: '@Url.Content("~/Transport/FitnessCertificateListBulkEntryJqGrid")?RefId=' + Id,
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'RefId', 'Vehicle Id', 'Vehicle Name', 'Vehicle No', 'FCDate', 'Next FC Date', 'FC Cost', 'FCS tatus', 'FC Place', 'RTO Location', 'FC GivenBy', 'Driver', 'Created By', 'Created Date', ''],
+            colModel: [
+            //if any column added need to check formateadorLink
+             {name: 'Id', index: 'Id', hidden: true, key: true },
+             { name: 'RefId', width: 30, index: 'RefId', hidden: true },
+             { name: 'VehicleId', width: 30, index: 'VehicleId', hidden: true },
+            // { name: 'Type', index: 'Type' },
+             {name: 'Type', index: 'Type' },
+             { name: 'VehicleNo', index: 'VehicleNo' },
+             { name: 'FCDate', index: 'FCDate', width: 170, editable: true,
+                 editoptions: { dataInit: function (el) {
+                     setTimeout(function () { $(el).datepicker({
+                     dateFormat: "dd/mm/yy", buttonImage: "../../Images/date.gif", buttonImageOnly: true,
+                         changeMonth: true,
+                         // timeFormat: 'hh:mm:ss',
+                         autowidth: true,
+                         changeYear: true
+                         // minDate: '+0d'
+                         }).attr('readonly', 'readonly') ; }, 200);
+                 }
+                 }
+             },
+             { name: 'NextFCDate', index: 'NextFCDate', width: 170, editable: true,
+                 editoptions: { dataInit: function (el) {
+                     setTimeout(function () {
+                         $(el).datepicker({
+                             dateFormat: "dd/mm/yy", buttonImage: "../../Images/date.gif", buttonImageOnly: true,
+                             changeMonth: true,
+                             // timeFormat: 'hh:mm:ss',
+                             autowidth: true,
+                             changeYear: true
+                             // minDate: '+0d'
+                         }).attr('readonly', 'readonly');
+                     }, 200);
+                 }
+                 }
+             },
+             { name: 'FCCost', index: 'FCCost', editable: true },
+             { name: 'FCStatus', index: 'FCStatus', editable: true },
+             { name: 'FCPlace', index: 'FCPlace', editable: true },
+             { name: 'RTO', index: 'RTO', editable: true },
+             { name: 'FCGivenBy', index: 'FCGivenBy', editable: true, edittype: 'select', editoptions: { dataUrl: '/Transport/Driverddl'} },
+             { name: 'Driver', index: 'Driver', editable: true, edittype: 'select', editoptions: { dataUrl: '/Transport/Driverddl'} },
+             { name: 'CreatedBy', index: 'CreatedBy' },
+             { name: 'CreatedDate', index: 'CreatedDate' },
+             { name: 'Delete', index: 'Delete', width: 30, align: "center", formatter: frmtrDel }
+             ],
+            pager: '#FitnessCertificateListPager',
+            rowNum: '100',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: 'Asc',
+            height: '230',
+            width: 1225,
+            shrinktofit: true,
+            viewrecords: true,
+            caption: 'Fitness Certificate List',
+            gridComplete: function () {
+                var rdata = $("#FitnessCertificateList").getRowData();
+                // alert(rdata.length);
+                if (rdata.length > 0) {
+                    $('.T1CompDel').click(function () { DeleteComponentDtls($(this).attr('rowid')); });
+                }
+            },
+            loadComplete: function () {
+                var $this = $(this), rows = this.rows, l = rows.length, i, row;
+                $(this).hide();
+                for (i = 1; i < l; i++) {
+                    row = rows[i];
+                    if ($(row).hasClass("jqgrow")) {
+                        $this.jqGrid('editRow', row.id);
+                    }
+                }
+                $(this).show();
+            }
+            // forceFit: true,
+            //  multiselect: true
+        });
+        $("#FitnessCertificateList").navGrid('#FitnessCertificateListPager', { add: false, edit: false, del: false, search: false, refresh: false });
+
+        $("#btnBack").click(function () {
+            window.location.href = '@Url.Action("FitnessCertificateBulkEntryList", "Transport")';
+        });
+    });
+    function frmtrDel(cellvalue, options, rowdata) {
+        var delBtn = "";
+        delBtn = "<span id='T1btnDel_" + options.rowId + "'class='ui-icon ui-icon-trash T1CompDel' rowid='" + options.rowId + "' title='Delete'></span>";
+        return delBtn;
+    }
+
+    function DeleteComponentDtls(id) {
+
+        if (confirm("Are you sure you want to delete this item?")) {
+            DeleteComponentIds(
+                    '/Transport/DeleteFitnessCertificateId?Id=' + id, //delURL, 
+                    '/Transport/FitnessCertificateListBulkEntryJqGrid?RefId=' + $('#Id').val(), //reloadURL, 
+                    $("#FitnessCertificateList") //GridId, 
+                    );
+        }
+    }
+
+    function DeleteComponentIds(delURL, reloadURL, GridId) {
+        $.ajax({
+            url: delURL,
+            type: 'POST',
+            dataType: 'json',
+            traditional: true,
+            success: function (data) {
+                LoadSetGridParam(GridId, reloadURL);
+            },
+            loadError: function (xhr, status, error) {
+                msgError = $.parseJSON(xhr.responseText).Message;
+                ErrMsg(msgError, function () { });
+            }
+        });
+    }
+
+
+    function ValidateAndSave() {
+        
+        var RowList;
+        var selectedData;
+        var DLst = '';
+        RowList = $('#FitnessCertificateList').getDataIDs();
+        Id = $("#Id").val();
+
+        for (var i = 0, list = RowList.length; i < list; i++) {
+            var selectedId = RowList[i];
+            selectedData = $('#FitnessCertificateList').jqGrid('getRowData', selectedId);
+
+            var FCDate = $("#" + selectedId + "_FCDate").val();
+            var NextFCDate = $("#" + selectedId + "_NextFCDate").val();
+
+            var value = FCDate.split("/");
+            var dd = value[0];
+            var mm = value[1];
+            var yy = value[2];
+
+            var value1 = NextFCDate.split("/");
+            var dd1 = value1[0];
+            var mm1 = value1[1];
+            var yy1 = value1[2];
+
+            var resultFCDate = mm + "/" + dd + "/" + yy;
+            var NextFCDate = mm1 + "/" + dd1 + "/" + yy1;
+
+            DLst += "&[" + i + "].Id=" + selectedData.Id
+                    + "&[" + i + "].RefId=" + selectedData.RefId
+                    + "&[" + i + "].VehicleId=" + encodeURIComponent(selectedData.VehicleId)
+                    + "&[" + i + "].Type=" + selectedData.Type
+                    + "&[" + i + "].VehicleNo=" + encodeURIComponent(selectedData.VehicleNo)
+                    + "&[" + i + "].FCDate=" + resultFCDate
+                    + "&[" + i + "].NextFCDate=" + NextFCDate
+                    + "&[" + i + "].FCCost=" + $("#" + selectedId + "_FCCost").val()
+                    + "&[" + i + "].FCStatus=" + $("#" + selectedId + "_FCStatus").val()
+                    + "&[" + i + "].FCPlace=" + $("#" + selectedId + "_FCPlace").val()
+                    + "&[" + i + "].RTO=" + $("#" + selectedId + "_RTO").val()
+                    + "&[" + i + "].FCGivenBy=" + $("#" + selectedId + "_FCGivenBy").val()
+                    + "&[" + i + "].Driver=" + $("#" + selectedId + "_Driver").val()
+                    + "&[" + i + "].CreatedBy=" + selectedData.CreatedBy
+                    + "&[" + i + "].CreatedDate=" + selectedData.CreatedDate
+        }
+        $.ajax({
+            url: '@Url.Content("~/Transport/AddFitnessCertificateList/")',
+            type: 'POST',
+            dataType: 'json',
+            data: DLst,
+            success: function (data) {
+                Id = $("#Id").val();
+                // idsOfSelectedRows = [''];
+                $("#FitnessCertificateList").setGridParam({ url: '@Url.Content("~/Transport/FitnessCertificateListBulkEntryJqGrid")?RefId=' + Id }).trigger("reloadGrid");
+            }
+        });
+    }
+
+    function Complete() {
+        
+        var Id = $("#Id").val();
+        if (Id == 0) {
+            ErrMsg("Please Save");
+            return false;
+        }
+        if (ValidateAndSave() == false) {
+            return false;
+        }
+        else {
+            if (confirm("Are you sure to Complete?")) {
+                var vdc = {
+                    Id: $("#Id").val()
+                };
+                $.ajax({
+                    url: '/Transport/CompleteFitnessCertificateDetails',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: vdc,
+                    traditional: true,
+                    success: function (data) {
+                        if (data != "") {
+                            InfoMsg(data + " is completed successfully");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        ErrMsg($.parseJSON(xhr.responseText).Message);
+                    }
+                });
+            }
+        }
+    }
+      
+</script>
+@using (Html.BeginForm("FitnessCertificateBulkEntry", "Transport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table class="WithBorderOnly" width="100%">
+        <tr class="PanelHeading">
+            <td colspan="6" class="PanelHeading">
+                Basic Details
+            </td>
+        </tr>
+        <tr>
+            <td width="15%">
+                <label class="lblheader">
+                    Ref Number</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Processed By</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Campus</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    User Role</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Status</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Model.RefNo
+                @Html.HiddenFor(m => m.RefNo)
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.CreatedDate)
+            </td>
+            <td>@Model.ProcessedBy
+                @Html.HiddenFor(m => m.ProcessedBy)
+            </td>
+            <td>@Model.Campus
+                @Html.HiddenFor(m => m.Campus)
+            </td>
+            <td>
+                @Model.UserRole
+                @Html.HiddenFor(m => m.UserRole)
+            </td>
+            <td>
+                @Model.Status
+                @Html.HiddenFor(m => m.Status)
+            </td>
+        </tr>
+        <tr>
+            <td width="15%">
+                <label class="lblheader">
+                    Description</label>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                @Html.TextAreaFor(m => m.Description, new { id = "txtDescription", rows = 2, cols = 28, @class = "CSSTextArea" })
+                <span style="color: Red">*</span>
+                @Html.HiddenFor(model => model.Description)
+            </td>
+            <td>
+                <input type="submit" id="btnSubmit" value="Save" />
+            </td>
+            <td>
+                <label class="lblheader">
+                    Choose Vehicles :</label>
+                <a id="VehicleSearch">..</a>
+            </td>
+        </tr>
+    </table>
+    <table id="FitnessCertificateList" class="InnerTable" width="100%">
+    </table>
+    <div id="FitnessCertificateListPager">
+    </div>
+    <table>
+        <tr>
+            <td>
+                <input type="button" id="btnUpdate" name="NameUpdate" value="Update" onclick="ValidateAndSave()" />
+                <input type="button" id="btnFinish" name="NameFinish" value="Complete" onclick="Complete()" />
+                <input type="button" id="btnBack" value="Back to Inbox" />
+            </td>
+        </tr>
+    </table>
+    <div id="DivVehicleSearch">
+    </div>
+}

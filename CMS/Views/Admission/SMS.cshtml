@@ -1,0 +1,411 @@
+﻿@model TIPS.Entities.AdmissionEntities.SMS
+@{
+    Layout = null;
+}
+<script src="../../Scripts/DatePicker.js" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/bootstrap-maxlength.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    function validate3() {
+        if (document.getElementById("templateddl").value == "") {
+            ErrMsg("Please Select Template!");
+            return false;
+        }
+        else if (($('#tempdate').is(':visible')) && (document.getElementById("tempdate").value == "")) {
+            ErrMsg("Please Select Date!");
+            return false;
+        }
+        else if (($('#tempdate2').is(':visible')) && (document.getElementById("tempdate2").value == "")) {
+            ErrMsg("Please Select ToDate!");
+            return false;
+        }
+        else if (($('#reason').is(':visible')) && (document.getElementById("reason").value == "")) {
+            ErrMsg("Please Enter Reason!");
+            return false;
+        }
+        else if (($('#tempterm').is(':visible')) && (document.getElementById("tempterm").value == "")) {
+
+            ErrMsg("Please Select Term!");
+            return false;
+        }
+        else if (($('#temptime').is(':visible')) && (document.getElementById("temptime").value == "")) {
+
+            ErrMsg("Please Enter Time!");
+            return false;
+        }
+        else if ((document.getElementById('smsFather').checked == false) && (document.getElementById('smsMother').checked == false)) {
+            ErrMsg("Please Check To Whom Do You Want To Send The SMS!");
+            return false;
+        }
+    }
+
+    $(document).ready(function () {
+        var MaxLen = 0;
+        $('#bulkcontent').maxlength({
+            alwaysShow: true,
+            placement: 'bottom-right'
+        });
+
+        $('#reason').maxlength({
+            alwaysShow: true,
+            placement: 'bottom-right'
+        });
+
+        $("#templateddl").change(function () {
+            ;
+            $("#bulkcontent").val('');
+            var e = document.getElementById('templateddl');
+            var template = e.options[e.selectedIndex].text;
+            var templateVal = e.options[e.selectedIndex].value;
+            var MaxLen;
+            switch (template) {
+                case "School Closed for 1 Day":
+                    MaxLen = 160 - templateVal.length - 2;
+                    break;
+                case "School Closed for more than 1 Day":
+                    MaxLen = 160 - templateVal.length - 5 - 2;
+                    break;
+                case "Bus time change":
+                    MaxLen = 160 - templateVal.length - 5 - 2;
+                    break;
+                case "Thankyou":
+                    MaxLen = 160 - templateVal.length + 5 - 2;
+                    break;
+                case "Attention":
+                    MaxLen = 160 - templateVal.length + 5 - 2;
+                    break;
+                case "Information":
+                    MaxLen = 160 - templateVal.length + 5 - 2;
+                    break;
+            }
+
+            $("#bulkcontent").attr('maxlength', MaxLen);
+            $("#reason").attr('maxlength', MaxLen);
+            $('#tempdate').val('');
+            $('#reason').val('');
+            var f = document.getElementById('tempterm');
+            f.options[0].selected = true; // "Select";
+            document.getElementById('templateddl1').value = e.options[e.selectedIndex].text;
+            if (e.options[e.selectedIndex].text == 'School Closed for 1 Day') {
+                document.getElementById('termdiv').style.display = "none";
+                document.getElementById('Datediv').style.display = "block";
+                document.getElementById('termdivh').style.display = "none";
+                document.getElementById('Datedivh').style.display = "block";
+                document.getElementById('Reasondivh').style.display = "block";
+                document.getElementById('Reasondiv').style.display = "block";
+                document.getElementById('from1').style.display = "none";
+                document.getElementById('from2').style.display = "block";
+                document.getElementById('Datediv2').style.display = "none";
+                document.getElementById('Datediv2h').style.display = "none";
+                document.getElementById('bulkcontentdivh').style.display = "none";
+                document.getElementById('bulkcontentdiv').style.display = "none";
+                document.getElementById("SMSText").innerHTML = "";
+            }
+            else if (e.options[e.selectedIndex].text == 'School Closed for more than 1 Day') {
+                document.getElementById('termdiv').style.display = "none";
+                document.getElementById('Datediv').style.display = "block";
+                document.getElementById('termdivh').style.display = "none";
+                document.getElementById('Datedivh').style.display = "block";
+                document.getElementById('Reasondivh').style.display = "block";
+                document.getElementById('Reasondiv').style.display = "block";
+                document.getElementById('from1').style.display = "block";
+                document.getElementById('from2').style.display = "none";
+                document.getElementById('Datediv2').style.display = "block";
+                document.getElementById('Datediv2h').style.display = "block";
+                document.getElementById('bulkcontentdivh').style.display = "none";
+                document.getElementById('bulkcontentdiv').style.display = "none";
+                document.getElementById("SMSText").innerHTML = "";
+            }
+            else if (e.options[e.selectedIndex].text == 'Fees Reminder') {
+                document.getElementById('termdiv').style.display = "block";
+                document.getElementById('Datediv').style.display = "block";
+                document.getElementById('termdivh').style.display = "block";
+                document.getElementById('Datedivh').style.display = "block";
+                document.getElementById('Reasondivh').style.display = "none";
+                document.getElementById('Reasondiv').style.display = "none";
+                document.getElementById('from1').style.display = "none";
+                document.getElementById('from2').style.display = "block";
+                document.getElementById('Datediv2').style.display = "none";
+                document.getElementById('Datediv2h').style.display = "none";
+                document.getElementById('bulkcontentdivh').style.display = "none";
+                document.getElementById('bulkcontentdiv').style.display = "none";
+                document.getElementById("SMSText").innerHTML = "";
+
+            }
+            else if (e.options[e.selectedIndex].text == 'SLC Date') {
+                document.getElementById('termdiv').style.display = "block";
+                document.getElementById('Datediv').style.display = "block";
+                document.getElementById('termdivh').style.display = "block";
+                document.getElementById('Datedivh').style.display = "block";
+                document.getElementById('Reasondivh').style.display = "none";
+                document.getElementById('Reasondiv').style.display = "none";
+                document.getElementById('from1').style.display = "none";
+                document.getElementById('from2').style.display = "block";
+                document.getElementById('Datediv2').style.display = "none";
+                document.getElementById('Datediv2h').style.display = "none";
+                document.getElementById('bulkcontentdivh').style.display = "none";
+                document.getElementById('bulkcontentdiv').style.display = "none";
+                document.getElementById('timedivh').style.display = "block";
+                document.getElementById('timediv').style.display = "block";
+                document.getElementById("SMSText").innerHTML = "";
+            }
+            else if ((e.options[e.selectedIndex].text == 'Open house meeting') || (e.options[e.selectedIndex].text == 'Open house meeting (KG)')) {
+                document.getElementById('termdiv').style.display = "none";
+                document.getElementById('Datediv').style.display = "block";
+                document.getElementById('termdivh').style.display = "none";
+                document.getElementById('Datedivh').style.display = "block";
+                document.getElementById('Reasondivh').style.display = "none";
+                document.getElementById('Reasondiv').style.display = "none";
+                document.getElementById('from1').style.display = "none";
+                document.getElementById('from2').style.display = "block";
+                document.getElementById('Datediv2').style.display = "none";
+                document.getElementById('Datediv2h').style.display = "none";
+                document.getElementById('bulkcontentdivh').style.display = "none";
+                document.getElementById('bulkcontentdiv').style.display = "none";
+                document.getElementById('timedivh').style.display = "block";
+                document.getElementById('timediv').style.display = "block";
+                document.getElementById("SMSText").innerHTML = "";
+            }
+            else if (e.options[e.selectedIndex].text == 'No Transport') {
+                document.getElementById('termdiv').style.display = "none";
+                document.getElementById('Datediv').style.display = "block";
+                document.getElementById('termdivh').style.display = "none";
+                document.getElementById('Datedivh').style.display = "block";
+                document.getElementById('Reasondivh').style.display = "none";
+                document.getElementById('Reasondiv').style.display = "none";
+                document.getElementById('Datediv2').style.display = "none";
+                document.getElementById('Datediv2h').style.display = "none";
+                document.getElementById('bulkcontentdivh').style.display = "none";
+                document.getElementById('bulkcontentdiv').style.display = "none";
+                document.getElementById("SMSText").innerHTML = "";
+            }
+            else if (e.options[e.selectedIndex].text == 'Bus time change') {
+                document.getElementById('termdiv').style.display = "none";
+                document.getElementById('Datediv').style.display = "block";
+                document.getElementById('termdivh').style.display = "none";
+                document.getElementById('Datedivh').style.display = "block";
+                document.getElementById('Reasondivh').style.display = "block";
+                document.getElementById('Reasondiv').style.display = "block";
+                document.getElementById('from1').style.display = "none";
+                document.getElementById('from2').style.display = "block";
+                document.getElementById('Datediv2').style.display = "none";
+                document.getElementById('Datediv2h').style.display = "none";
+                document.getElementById('timedivh').style.display = "block";
+                document.getElementById('timediv').style.display = "block";
+                document.getElementById('bulkcontentdivh').style.display = "none";
+                document.getElementById('bulkcontentdiv').style.display = "none";
+                //-----
+                document.getElementById("SMSText").innerHTML = "";
+                //  ShowMessage();
+            }
+            else if (e.options[e.selectedIndex].text == 'School reopens') {
+                document.getElementById('termdiv').style.display = "none";
+                document.getElementById('Datediv').style.display = "block";
+                document.getElementById('termdivh').style.display = "none";
+                document.getElementById('Datedivh').style.display = "block";
+                document.getElementById('Reasondivh').style.display = "none";
+                document.getElementById('Reasondiv').style.display = "none";
+                document.getElementById('from1').style.display = "none";
+                document.getElementById('from2').style.display = "block";
+                document.getElementById('Datediv2').style.display = "none";
+                document.getElementById('Datediv2h').style.display = "none";
+                document.getElementById('bulkcontentdivh').style.display = "none";
+                document.getElementById('bulkcontentdiv').style.display = "none";
+                document.getElementById("SMSText").innerHTML = "";
+            }
+            else if ((e.options[e.selectedIndex].text == 'Thankyou') || (e.options[e.selectedIndex].text == 'Attention') || (e.options[e.selectedIndex].text == 'Information')) {
+                document.getElementById('termdiv').style.display = "none";
+                document.getElementById('Datediv').style.display = "none";
+                document.getElementById('termdivh').style.display = "none";
+                document.getElementById('Datedivh').style.display = "none";
+                document.getElementById('Reasondivh').style.display = "none";
+                document.getElementById('Reasondiv').style.display = "none";
+                document.getElementById('from1').style.display = "none";
+                document.getElementById('from2').style.display = "none";
+                document.getElementById('Datediv2').style.display = "none";
+                document.getElementById('Datediv2h').style.display = "none";
+                document.getElementById('bulkcontentdivh').style.display = "block";
+                document.getElementById('bulkcontentdiv').style.display = "block";
+
+                document.getElementById("SMSText").innerHTML = "";
+            }
+            else {
+                document.getElementById('termdiv').style.display = "none";
+                document.getElementById('Datedivh').style.display = "block";
+                document.getElementById('Datediv').style.display = "block";
+                document.getElementById('termdivh').style.display = "none";
+                // document.getElementById('Datedivh').style.display = "none";
+                document.getElementById('Reasondivh').style.display = "none";
+                document.getElementById('Reasondiv').style.display = "none";
+                document.getElementById('from1').style.display = "none";
+                document.getElementById('from2').style.display = "block";
+                document.getElementById('Datediv2').style.display = "none";
+                document.getElementById('Datediv2h').style.display = "none";
+                document.getElementById('bulkcontentdivh').style.display = "none";
+                document.getElementById('bulkcontentdiv').style.display = "none";
+                document.getElementById('timedivh').style.display = "block";
+                document.getElementById('timediv').style.display = "block";
+                document.getElementById("SMSText").innerHTML = "";
+            }
+
+        });
+
+        $("#tempdate").change(function () {
+            ShowMessage();
+        });
+        $("#tempterm").change(function () {
+            ShowMessage();
+        });
+        $("#tempdate2").change(function () {
+            ShowMessage();
+        });
+        $("#temptime").change(function () {
+            ShowMessage();
+        });
+        $('#reason').keyup(function () { ShowMessage(); });
+        $('#bulkcontent').keyup(function () { ShowMessage(); });
+
+        function ShowMessage() {
+            //temp1-- date1, temp2-- term, temp3 -- reason, temp4 -- date2, temp5 -- time, temp6 -- bulk content
+            var e = document.getElementById('templateddl');
+            var f = document.getElementById('tempterm');
+            var str = e.options[e.selectedIndex].value;
+            var n = str.replace("temp1", document.getElementById("tempdate").value);
+            n = n.replace("temp2", f.options[f.selectedIndex].value);
+            n = n.replace("temp3", document.getElementById('reason').value);
+            n = n.replace("temp4", document.getElementById('tempdate2').value);
+            n = n.replace("temp5", document.getElementById('temptime').value);
+            n = n.replace("temp6", document.getElementById('bulkcontent').value);
+            document.getElementById("SMSMessage").value = n;
+            document.getElementById("SMSText").innerHTML = "<b>Message  </b> </br>" + n;
+        }
+    });
+</script>
+<!DOCTYPE html>
+@using (Html.BeginForm("SMS", "Admission", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <html>
+    <head>
+        <title>SMS</title>
+    </head>
+    <body>
+        <div>
+            <table class="WithBorderOnly" style="border: none" width="100%">
+                <tr>
+                    <th align="left" colspan="4">
+                        Send To &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp @Html.CheckBoxFor(model => model.Father, new { id = "smsFather" })
+                        &nbsp <strong>Father</strong> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        @Html.CheckBoxFor(model => model.Mother, new { id = "smsMother" }) &nbsp <strong>Mother</strong>@*&nbsp&nbsp @Html.CheckBoxFor(model => model.General, new { id = "smsGeneral" }) &nbsp <strong>General</strong>*@
+                    </th>
+                </tr>
+                <tr>
+                    <th align="left">
+                        &nbsp&nbsp
+                    </th>
+                </tr>
+                <tr>
+                    <th align="left">
+                        Template
+                    </th>
+                    <th align="left">
+                        <div id="Datedivh" style="display: none">
+                            <label id="from1" style="display: none">
+                                From Date</label>
+                            <label id="from2" style="display: none">
+                                Date</label>
+                        </div>
+                    </th>
+                    <th align="left">
+                        <div id="Datediv2h" style="display: none">
+                            To Date</div>
+                    </th>
+                    <th align="left">
+                        <div id="termdivh" style="display: none">
+                            Term</div>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            @*@Html.TextAreaFor(model => model.Message, new { rows = 5, cols = 50, id = "smsMessage", @class = "CSSTextArea", @maxlength = "160" })*@
+                            @Html.DropDownListFor(Model => Model.SMSTemplate1, new SelectList(ViewBag.smstemplate, "TemplateContent", "TemplateName"), "Select", new { id = "templateddl", @Class = "CSSDropDownList" })
+                            @Html.HiddenFor(model => model.SMSTemplate, new { id = "templateddl1" })
+                        </div>
+                    </td>
+                    <td>
+                        <div id="Datediv" style="display: none">
+                            @Html.TextBoxFor(model => model.CreatedDate, new { id = "tempdate", @Class = "datepicker", @maxlength = "10" })
+                        </div>
+                    </td>
+                    <td>
+                        <div id="Datediv2" style="display: none">
+                            @Html.TextBoxFor(model => model.CreatedDate, new { id = "tempdate2", @Class = "datepicker", @maxlength = "10" })
+                        </div>
+                    </td>
+                    <td>
+                        <div id="termdiv" style="display: none">
+                            @Html.DropDownListFor(model => model.TemplateTerm, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="1st",Text="1st"},
+                                              new{Value="2nd",Text="2nd"},
+                                              new{Value="3rd",Text="3rd"},
+                                              new{Value="4th",Text="4th"},
+                                              new{Value="5th",Text="5th"},
+                                              new{Value="6th",Text="6th"}
+                                          },
+          "Value", "Text", ""), new { id = "tempterm", @Class = "CSSDropDownList" })
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <div id="Reasondivh" style="display: none">
+                            Reason</div>
+                    </th>
+                    <th align="right">
+                        <div id="timedivh" style="display: none">
+                            Time</div>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="Reasondiv" style="display: none">
+                            @Html.TextBoxFor(model => model.Reason, new { id = "reason", @Class = "CSSTextBox", @maxlength = "160" })
+                        </div>
+                    </td>
+                    <td>
+                        <div id="timediv" style="display: none">
+                            @Html.TextBoxFor(model => model.CreatedDate, new { id = "temptime", @maxlength = "10", @Class = "timepicker" })
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <div id="bulkcontentdivh" style="display: none">
+                            Content</div>
+                        <div id="bulkcontentdiv" style="display: none">
+                            @Html.TextAreaFor(model => model.Reason, new { rows = 3, cols = 40, id = "bulkcontent", @class = "CSSTextArea", @maxlength = "160" })
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <label id="SMSText">
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <input type="submit" value="Send SMS" onclick="return(validate3());" id="SMSbtn" />
+            @Html.HiddenFor(model => model.PreRegNo, new { id = "SMSpreregno" })
+            @Html.HiddenFor(model => model.Message, new { id = "SMSMessage" })
+        </div>
+    </body>
+    </html>
+}

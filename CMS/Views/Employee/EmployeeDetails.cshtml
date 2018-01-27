@@ -1,0 +1,273 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+@{
+    ViewBag.Title = "EmployeeDetails";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<div class="page-content">
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownListFor(m => m.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Designation</b></label>
+                                          @Html.DropDownListFor(m => m.Status, new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                              new{Value="Ayyamma",Text="Ayyamma"},
+                                              new{Value="Cook",Text="Cook"},
+                                              new{Value="Security",Text="Security"},
+                                                    new{Value="Gardener",Text="Gardener"},                              
+                                 }, "Value", "Text", ""), new { id = "Designation", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Status</b></label>
+                                        @Html.DropDownListFor(m => m.Status, new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                              new{Value="Registered",Text="Registered"},
+                                              new{Value="Discontinued",Text="Discontinued"},
+                                              new{Value="Inactive",Text="Inactive"}                                   
+                                 }, "Value", "Text", ""), new { id = "stat", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Employee Name</b></label>
+                                        @Html.TextBox("appname", "", new { @Class = "form-control select-sm", @maxlength = "10" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Id Number</b></label>
+                                        @Html.TextBox("idno", "", new { @Class = "form-control select-sm", @maxlength = "20" })
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-success btn-block btn-sm" type="button" id="Search">
+                                            <i class="ace-icon fa fa-search white"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-danger btn-block btn-sm" type="button" id="reset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                </div>
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="grid-table">
+                </table>
+                <div id="grid-pager">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+   
+
+
+
+
+
+
+
+    $(function () {
+        var campus = "";
+            var designation = "";
+            var department = "";
+            var appname = "";
+            var idno = "";
+            var stat = "";
+        var grid_selector = "#grid-table";
+        var pager_selector = "#grid-pager";
+
+        //resize to fit page size
+        $(window).on('resize.jqGrid', function () {
+            $(grid_selector).jqGrid('setGridWidth', $(".col-sm-12").width());
+        })
+
+
+
+        //resize on sidebar collapse/expand
+        var parent_column = $(grid_selector).closest('[class*="col-"]');
+        $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+            if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                setTimeout(function () {
+                    var page_width = $(".page-content").width();
+                    page_width = page_width - 300;
+                    $(grid_selector).jqGrid('setGridWidth', page_width);
+                }, 0);
+            }
+        })
+        jQuery(grid_selector).jqGrid({
+            url: '/Employee/EmployeeDetailsJqGrid',
+            postData: { campus: campus, designation: designation, department: department, stat: stat, appname: appname, idno: idno, type: 'old' },
+            datatype: 'json',
+            colNames: ['Request No', 'Name', 'Id Number', 'Campus', 'Designation', 'Department', 'Gender', 'Status', 'Id'],
+            colModel: [
+                  { name: 'PreRegNum', index: 'PreRegNum', align: 'left' },
+                  { name: 'Name', index: 'Name',  align: 'left' },
+                  { name: 'IdNumber', index: 'IdNumber',  align: 'left' },
+                  { name: 'Campus', index: 'Campus',  align: 'left', sortable: true },
+                  { name: 'Designation', index: 'Designation',  align: 'left', sortable: true },
+                  { name: 'Department', index: 'Department',  align: 'left', sortable: true },
+                  { name: 'Gender', index: 'Gender', align: 'left', sortable: true },
+                  { name: 'Status', index: 'Status',  align: 'left', sortable: true, formatter: ChangetoActive },
+                   { name: 'Id', index: 'Id',  align: 'left', sortable: false, hidden: true, key: true }
+            ],
+            viewrecords: true,
+            rowNum: 8,
+            height:200,
+            rowList: [7, 10, 30],
+            pager: pager_selector,
+            sortname: 'Id',
+            multiselect: true,
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    styleCheckbox(table);
+                    updateActionIcons(table);
+                    updatePagerIcons(table);
+                    enableTooltips(table);
+                }, 0);
+            },
+            caption: "<i class='ace-icon fa fa-user'></i>&nbsp;Employee Details List"
+
+        });
+        $(window).triggerHandler('resize.jqGrid'); //trigger window resize to make the grid get the correct size
+        $(grid_selector).jqGrid('filterToolbar', { searchOnEnter: true, enableClear: false });
+
+        //navButtons
+        jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+                {
+                    edit: false,
+                    editicon: 'ace-icon fa fa-pencil blue',
+                    add: false,
+                    addicon: 'ace-icon fa fa-plus-circle purple',
+                    del: false,
+                    delicon: 'ace-icon fa fa-trash-o red',
+                    search: false,
+                    searchicon: 'ace-icon fa fa-search orange',
+                    refresh: true,
+                    refreshicon: 'ace-icon fa fa-refresh green',
+                    view: false,
+                    viewicon: 'ace-icon fa fa-search-plus grey'
+                }, {}, {}, {}, {})
+
+        //For pager Icons
+        function styleCheckbox(table) {
+        }
+        function updateActionIcons(table) {
+        }
+
+        //replace icons with FontAwesome icons like above
+        function updatePagerIcons(table) {
+            var replacement =
+                {
+                    'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                    'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                    'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                    'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+                };
+            $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+                var icon = $(this);
+                var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+                if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+            })
+        }
+
+        function ChangetoActive(cellvalue, options, rowObject) {
+
+                    if (cellvalue == 'Registered') {
+                        return 'Active'
+                    }
+                    else {
+                        return cellvalue
+                    }
+                }
+        //Nav Grid Icons Tool Tip
+        function enableTooltips(table) {
+            $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+            $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+        }
+    
+    
+        $("#Search").click(function () {
+            debugger;
+                    jQuery(grid_selector).clearGridData();
+                    campus = $('#ddlcampus').val();
+                    designation = $('#Designation').val();
+                    stat = $('#stat').val();
+                    appname = $('#appname').val();
+                    idno = $('#idno').val();
+                    //alert(appname);
+                    //alert(idno);
+                    jQuery(grid_selector).setGridParam(
+                                {
+                                    datatype: "json",
+                                    url: '/Employee/EmployeeDetailsJqGrid',
+                                    postData: { campus: campus, designation: designation, department: department, stat: stat, appname: appname, idno: idno, type: 'old' },
+                                    page: 1
+                                }).trigger("reloadGrid");
+                });
+
+                $("#reset").click(function () {
+                    jQuery(grid_selector).clearGridData();
+                    $("input[type=text], textarea, select").val("");
+                    campus = $('#ddlcampus').val();
+                    designation = $('#designation').val();
+                    department = $('#department').val();
+                    stat = $('#stat').val();
+                    appname = $('#appname').val();
+                    idno = $('#idno').val();
+                    jQuery(grid_selector).setGridParam(
+                                {
+                                    datatype: "json",
+                                    url: '/Employee/EmployeeDetailsJqGrid',
+                                    postData: { campus: campus, designation: designation, department: department, stat: stat, appname: appname, idno: idno, type: 'old' },
+                                    page: 1
+                                }).trigger("reloadGrid");
+                });
+    });
+
+
+
+
+
+
+
+
+
+</script>

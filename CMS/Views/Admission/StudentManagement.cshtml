@@ -1,0 +1,280 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+@{
+    ViewBag.Title = "StudentManagement";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+@*<link href="../../Scripts/noty/noty.css" rel="stylesheet" type="text/css" />*@
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+@using (Html.BeginForm("StudentManagement", "Admission", FormMethod.Post))
+{
+    <div class="page-content">
+        <div class="page-content-area">
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel</div>
+                            @Html.Hidden("registered", new { id = "registered", @Value = ViewBag.Registered })
+                            @Html.Hidden("UserId", new { id = "UserId", @Value = Session["UserId"] })
+                            @Html.Hidden("pagename", "", new { id = "pagename", @Value = Session["pagename"] })
+                            @Html.Hidden("transferpdf", "", new { id = "transferpdf", @Value = Session["transferpdf"] })
+                            @Html.Hidden("transfered", "", new { id = "transfered", @Value = Session["transfered"] })
+                            @Html.Hidden("transferedName", "", new { id = "transferedName", @Value = Session["transferedName"] })
+                            @Html.Hidden("transferedId", "", new { id = "transferedId", @Value = Session["transferedId"] })
+                            @Html.Hidden("discontinue", "", new { id = "discontinue", @Value = Session["discontinue"] })
+                            @Html.Hidden("discontinueName", "", new { id = "discontinueName", @Value = Session["discontinueName"] })
+                            @Html.Hidden("promotion", "", new { id = "promotion", @Value = Session["promotion"] })
+                            @Html.Hidden("notpromotedpreregno", "", new { id = "notpromotedpreregno", @Value = Session["notpromotedpreregno"] })
+                            @Html.Hidden("promotionId", "", new { id = "promotionId", @Value = Session["promotionId"] })
+                            @Html.Hidden("bonafidepdf", "", new { id = "bonafidepdf", @Value = Session["bonafidepdf"] })
+                            @Html.Hidden("sportspdf", "", new { id = "sportspdf", @Value = Session["sportspdf"] })
+                            @Html.Hidden("AdmissionSearched", "", new { id = "AdmissionSearched", @Value = Session["AdmissionSearched"] })
+                            @Html.Hidden("NewRegUrl", Url.Action("NewRegistration", "Admission"))
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b></label>
+                                            @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select Campus", new { id = "ddlcampus", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Grade</b></label>
+                                            @if (Session["pagename"].ToString() == "email")
+                                            {
+                                                @Html.DropDownListFor(model => model.Grade, new MultiSelectList(ViewBag.gradeddl1, "gradcod", "gradcod"), "All", new { id = "ddlgrade", @Class = "form-control select-sm", @multiple = "multiple" })
+                                            }
+                                            else
+                                            {                            
+                                                @Html.DropDownListFor(Model => Model.Grade, new SelectList(ViewBag.gradeddl1, "gradcod", "gradcod"), "Select Grade", new { id = "ddlgrade", @Class = "form-control select-sm" })
+                                            }
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Section</b></label>
+                                            @Html.DropDownListFor(Model => Model.Section, new SelectList(ViewBag.sectionddl, "Section", "Section"), "Select One", new { id = "ddlsection", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Gender</b></label>
+                                            @Html.DropDownList("ddlGender", new SelectList(new[]
+                                          {
+                                             new {Value="",Text="Select"},
+                                              new{Value="Male",Text="Male"},
+                                              new{Value="Female",Text="Female"}
+                                          },"Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Admission Status</b></label>
+                                            @if (Session["pagename"].ToString() == "email")
+                                            {
+                                                @Html.DropDownListFor(Model => Model.AdmissionStatus, new SelectList(new[] {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="New Registration",Text="New Registration"},
+                                              new{Value="Sent For Approval",Text="Sent For Approval"},
+                                              new{Value="Call For Interview",Text="Call For Interview"},
+                                              new{Value="Registered",Text="Registered"},
+                                              new{Value="Discontinued",Text="Discontinued"},
+                                              new{Value="Inactive",Text="Inactive"}                                              
+                                 }, "Value", "Text", ""), new { id = "admstats", @Class = "form-control select-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownListFor(Model => Model.AdmissionStatus, new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                              new{Value="Registered",Text="Registered"},
+                                              new{Value="Discontinued",Text="Discontinued"},
+                                              new{Value="Inactive",Text="Inactive"}
+                                 }, "Value", "Text", ""), new { id = "admstats", @Class = "form-control select-sm" })
+                                            }
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Fee Struct Year</b></label>
+                                            @Html.DropDownListFor(Model => Model.FeeStructYear, new SelectList(ViewBag.feestructddl, "FeeStructureYear", "AcademicYear"), "Select One", new { id = "feestructddl", @Class = "form-control select-sm" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Applicant Name</b></label>
+                                            @Html.TextBox("appname", "", new { @Class = "form-control input-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Id Number</b></label>
+                                            @Html.TextBox("idnumber", "", new { @Class = "form-control input-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Is Hosteller</b></label>
+                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                              new{Value="Yes",Text="Yes"},
+                                              new{Value="No",Text="No"}                           
+                                 }, "Value", "Text", ""), new { id = "ishosteller", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Academic Year</b></label>
+                                            @Html.DropDownListFor(Model => Model.AcademicYear, new SelectList(ViewBag.acadddl, "AcademicYear", "AcademicYear"), "Select AcademicYear", new { id = "academicyear", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Applied From Date</b></label>
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBox("txtAppliedFrmDate", "", new { @Class = "form-control input-sm from_date" })
+                                                <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Applied To Date</b></label>
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBox("txtAppliedToDate", "", new { @Class = "form-control input-sm to_date" })
+                                                <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <br />
+                                        <div class="col-sm-1">
+                                            <button class="btn btn-block btn-SearchBtn" type="button" id="Search">
+                                                <i class="ace-icon fa fa-search bigger-110"></i>Search</button>
+                                        </div>
+                                        &nbsp;&nbsp;
+                                        <div class="col-sm-1">
+                                            <button class="btn btn-block btn-danger" type="button" id="reset">
+                                                <i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table id="StudentManagementList">
+                    </table>
+                    <div id="StudentManagementListPager">
+                    </div>
+                </div>
+            </div>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12" style="margin-top: 5px;">
+                    @if (Session["userrole"].ToString() == "ADM-APP")
+                    {
+                        if (Session["pagename"].ToString() == "IdPickup")
+                        {
+                        <div class="col-sm-2">
+                            <button class="btn btn-block btn-primary" type="button" id="IdCard">
+                                <i class="ace-icon fa fa-print bigger-110">&nbsp;</i>Print Id Card</button>
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-block btn-primary" id="PickupCard" type="button">
+                                <i class="ace-icon fa fa-print bigger-110">&nbsp;</i>Print PickUp Card</button>
+                        </div>       
+                        }
+                    }
+                    @if (ViewBag.pmnbtn == "ADM-PMN")
+                    {
+                        if (Session["pagename"].ToString() == "promotion")
+                        {
+                        <div class="col-sm-2">
+                            <button class="btn btn-block btn-primary" id="btnpromotion" type="button">
+                                <i class="ace-icon fa fa-graduation-cap bigger-110">&nbsp;</i>Promotion</button>
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-block btn-warning" id="detain" type="button">
+                                <i class="ace-icon fa fa-exclamation-triangle bigger-110">&nbsp;</i>Detain</button>
+                        </div>
+                        }
+                    }
+                    @*@if (ViewBag.tfrbtn == "ADM-TFR")
+                    {*@
+                            
+                        @if (Session["pagename"].ToString() == "transfer")
+                        {
+                        <div class="col-sm-2">
+                            <button class="btn btn-block btn-primary" type="button" id="Transfer">
+                               <i class="ace-icon fa-location-arrow">&nbsp;</i>Transfer</button>
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-block btn-primary" type="button" id="Discontinue">
+                             <i class="ace-icon fa-ban">&nbsp;</i>   Discontinue</button>
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-block btn-primary" type="button" id="RequestTC">
+                             <i class="ace-icon fa-ban">&nbsp;</i>   RequestTC</button>
+                        </div>
+                        }
+                    @*}*@
+                    @if (Session["pagename"].ToString() == "bonafide")
+                    { 
+                        <div class="col-sm-2">
+                            <button class="btn btn-block btn-primary" type="button" id="bonafide">
+                                Bonafide Certificate</button>
+                        </div>                        
+                    }
+                    @if (Session["pagename"].ToString() == "sports")
+                    {
+                        <div class="col-sm-2">
+                            <button class="btn btn-block btn-primary" type="button" id="sports">
+                                Sports Certificate</button>
+                        </div>
+                    }
+                    @if (Session["pagename"].ToString() == "SC")
+                    {
+                 
+                        <div class="col-sm-2">
+                            <button class="btn btn-block btn-primary" type="button" id="PrintSC">
+                                Print Sports Certificate</button>
+                        </div>
+                    }
+                    @if (Session["pagename"].ToString() == "PRF")
+                    {
+                        <div class="col-sm-2">
+                            <button class="btn btn-block btn-primary" type="button" id="PrintPRF">
+                                Print PRF</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+<div id="PromoteDiv"></div>
+<div id="TransferDiv"></div>
+<div id="DiscontinueDiv"></div>
+<div id="SportsDiv"></div>
+<div id="SportsPopupDiv"></div>
+<div id="SMSDiv"></div>
+<div id="AssignSectionDialog"></div>
+<div id="CancelSectionAllocationDialog"></div>
+<div id="PromoteDialog"></div>
+<div id="TransferDialog"></div>
+<div id="DiscontinueDialog"></div>
+<div id="PrintIdCardDialog"></div>
+<div id="PrintPickUpCardDialog"></div>
+}
+<script type="text/javascript" src='@Url.Content("~/Scripts/AdmissionScripts/StudentManagement.js")'></script>
+<script type="text/javascript" src='@Url.Content("~/assets/js/AceJQMsg.js")'></script>

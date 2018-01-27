@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="Entities.EnquiryEntities" namespace="Entities.EnquiryEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Entities.EnquiryEntities.EnquiryFollowUp_vw,Entities" table="EnquiryFollowUp_vw" lazy="true" >
+    <id name="EnquiryDetailsId" column="EnquiryDetailsId" type="Int64">
+      <generator class="native" />
+    </id>
+
+    <property name="Program" column="Program" type="string"/>
+    <property name="StudentName" column="StudentName" type="string"/>
+    <property name="Campus" column="Campus" type="string"/>
+    <!--Campus ==  Centre-->
+    <property name="Course" column="Course" type="string"/>
+    <property name="CourseType" column="CourseType" type="string"/>
+    <property name="Count" column="Count" type="Int32"/>
+    <property name="FollowUpRemarks" column="FollowUpRemarks" type="string"/>
+    <property name="StaffFollowUpDate" column="StaffFollowUpDate" type="DateTime"/>
+    <property name="NextFollowUpDate" column="NextFollowUpDate" type="DateTime"/>
+
+
+    <property name="EnquiryDetailsCode" column="EnquiryDetailsCode" type="string"/>
+    <property name="ParentName" column="ParentName" type="string"/>
+    <property name="EnquirerMobileNo" column="EnquirerMobileNo" type="string"/>
+    <property name="EnquirerEmailId" column="EnquirerEmailId" type="string"/>
+    
+    
+    
+    
+  </class>
+</hibernate-mapping>

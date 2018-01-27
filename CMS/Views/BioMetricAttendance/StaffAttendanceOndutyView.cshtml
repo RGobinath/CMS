@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Staff Attendance Onduty View";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-12 widget-container-col">
+                        <div class="widget-box widget-color-CustomizeBlue">
+                            <div class="widget-header widget-header-flat widget-header-small">
+                                <div class="PanelHeader">
+                                    <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                                </div>
+                                <div class="widget-toolbar">
+                                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main no-padding">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="col-sm-2">
+                                                <label for="form-field-select-1">
+                                                    <b>Month</b></label>
+                                                @Html.DropDownList("ddlMonth", new SelectList(new[]{
+                                              new{Value="",Text="Select One"},
+                                              new{Value="January",Text="January"},
+                                              new{Value="February",Text="February"},
+                                              new{Value="March",Text="March"},
+                                              new{Value="April",Text="April"},
+                                              new{Value="May",Text="May"},
+                                              new{Value="June",Text="June"},
+                                              new{Value="July",Text="July"},
+                                              new{Value="August",Text="August"},
+                                              new{Value="September",Text="September"},
+                                              new{Value="October",Text="October"},
+                                              new{Value="November",Text="CBE MAIN"},
+                                              new{Value="December",Text="December"},
+                                          }, "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label for="form-field-select-1">
+                                                    <b>Year</b></label>
+                                                @Html.DropDownList("ddlYear", new SelectList(Enumerable.Empty<SelectListItem>()), "", new { @Class = "form-control select-sm" })
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <br />
+                                                <button type="submit" class="btn btn-success btn-block btn-sm" id="btnSearch">
+                                                    <i class="ace-icon fa fa-search white"></i>Search
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <br />
+                                                <button type="button" class="btn btn-danger btn-block btn-sm" id="btnReset">
+                                                    <i class="ace-icon fa fa-undo white"></i>Reset
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="space-2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table id="StaffAttendanceOndutyReportListJqGrid">
+                        </table>
+                        <div id="StaffAttendanceOndutyReportListJqGridPager">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="@Url.Content("~/Scripts/BioMetricAttendance/StaffAttendanceOndutyView.js")" type="text/javascript"></script>
+

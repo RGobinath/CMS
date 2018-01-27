@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.EnquiryEntities" namespace="TIPS.Entities.EnquiryEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.EnquiryEntities.EnquiryCourse, TIPS.Entities" table="EnquiryCourse" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="CourseCode">
+      <column name="CourseCode" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="Campus">
+      <column name="Campus" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="Grade">
+      <column name="Grade" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="Subjects">
+      <column name="Subjects" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="Board">
+      <column name="Board" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="EnquiryId">
+      <column name="EnquiryId" sql-type="Int64" not-null="false" />
+    </property>
+    <property name="CreatedBy">
+      <column name="CreatedBy" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="CreatedDate">
+      <column name="CreatedDate" sql-type="DateTime" not-null="false" />
+    </property>
+    <property name="ModifiedBy">
+      <column name="ModifiedBy" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="ModifiedDate">
+      <column name="ModifiedDate" sql-type="DateTime" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Create Event";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-sm-10">
+                    <b>CheckList Title</b>
+                    <br />
+                    @Html.TextBox("title", "", new { id = "title", @Class = "form-control input-sm" })
+                    @*<div id="showtitle"></div>*@
+                </div>
+                <div class="col-sm-2" id="add">
+                    <br />
+                    <button class="btn btn-success btn-sm  btn-round" type="button" id="btntitleAdd">
+                        <i class="fa fa-plus"></i>&nbsp;Add</button>
+                </div>
+                <div class="col-sm-2" id="delete">
+                    <button class="btn btn-danger btn-sm  btn-round" type="button" id="btntitledelete">
+                        <i class="fa fa-trash"></i>&nbsp;Delete</button>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="dialogs" id="checkList"></div>
+                <br />
+                <div class="col-sm-10">
+                    @Html.TextArea("evntDiscription", "", new { rows = 1, id = "evntDiscription", @Class = "form-control input-sm", @Placeholder = "Add new item" })
+                </div>
+                <div class="col-sm-2">
+                    <br />
+                    <button class="btn btn-success btn-sm  btn-round" type="button" id="btneventListAdd">
+                        <i class="fa fa-plus"></i>&nbsp;Add</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                </div>
+                <div class="space-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/StaffManagementScripts/CreateEvent.js"></script>

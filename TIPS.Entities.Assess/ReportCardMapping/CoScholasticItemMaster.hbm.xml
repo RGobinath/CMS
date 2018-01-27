@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess.ReportCardClasses" namespace="TIPS.Entities.Assess.ReportCardClasses" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.ReportCardClasses.CoScholasticItemMaster,TIPS.Entities.Assess" table="CoScholasticItemMaster" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="RefId" column="RefId" type="Int64"  />
+    <property name="Parameter" column="Parameter" type="string" />
+    <property name="DescriptiveIndicator" column="DescriptiveIndicator" type="string" />
+    <property name="CreatedDate" column="CreatedDate" type="datetime" />
+    <property name="CreatedBy" column="CreatedBy" type="string" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string" />
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime" />
+
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,86 @@
+﻿@model TIPS.Entities.TransportEntities.RouteMaster
+@{
+    Layout = "~/Views/Shared/NewAcePartialViewMaster.cshtml";
+}
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa fa-search"></i>&nbsp;Search Pannel</div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>RouteId</b></label>
+                                @Html.TextBoxFor(model => model.RouteId, new { id = "txtRouteId", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>RouteNo</b></label>
+                                @Html.TextBoxFor(model => model.RouteNo, new { id = "txtRouteNo", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Campus</b></label>
+                                @Html.TextBoxFor(model => model.Campus, new { id = "txtRouteCampus", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Source</b></label>
+                                @Html.TextBoxFor(model => model.Source, new { id = "txtRouteSource", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Destination</b></label>
+                                @Html.TextBoxFor(model => model.Destination, new { id = "txtRouteDestination", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Via</b></label>
+                                @Html.TextBoxFor(model => model.Via, new { id = "txtRouteVia", @Class = "form-control input-sm" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="col-sm-1">
+                                <br />
+                                <button class="btn btn-success btn-block btn-sm" id="btnRouteSearch">
+                                    <i class="ace-icon fa fa-search white"></i>Search
+                                </button>
+                            </div>
+                            <div class="col-sm-1">
+                                <br />
+                                <button class="btn btn-danger btn-block btn-sm" id="btnRouteReset">
+                                    <i class="ace-icon fa fa-undo white"></i>Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-2">
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <table id="jqGridRouteMaster">
+        </table>
+        <div id="jqGridRouteMasterPager">
+        </div>
+        <script type="text/javascript">
+            var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+        </script>
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+    <!-- /.col -->
+</div>
+<script src="../../Scripts/Transport/RouteMaster.js" type="text/javascript"></script>

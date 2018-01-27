@@ -1,0 +1,237 @@
+﻿@model TIPS.Entities.BioMetricsEntities.Staff_ConsolidateDeviceLogSummary_SP
+@{
+    ViewBag.Title = "Edit Staff Attendance Details";
+    Layout = null;
+}
+
+
+<div class="row">
+    @Html.Hidden("PreRegNum", "", new { id = "PreRegNum", @Value = ViewBag.PreRegNum })
+    @Html.Hidden("NoOfDaysLeaveTaken", "", new { id = "NoOfDaysLeaveTaken", @Value = ViewBag.NoOfDaysLeaveTaken })
+    @Html.Hidden("TotalNoOfDaysWorked", "", new { id = "TotalNoOfDaysWorked", @Value = ViewBag.TotalNoOfDaysWorked })
+    @Html.Hidden("AttendanceMonth", "", new { id = "AttendanceMonth", @Value = ViewBag.AttendanceMonth })
+    @Html.Hidden("AttendanceYear", "", new { id = "AttendanceYear", @Value = ViewBag.AttendanceYear })
+    @Html.Hidden("NoOfworkingDays", "", new { id = "NoOfworkingDays", @Value = ViewBag.NoOfworkingDays })
+    @Html.Hidden("NoOfHolidays", "", new { id = "NoOfHolidays", @Value = ViewBag.Holidays })
+    @Html.Hidden("AllowedCasualLeave", "", new { id = "OpeningBalance", @Value = ViewBag.OpeningBalance })
+    @Html.Hidden("AllotedCL", "", new { id = "AllotedCL", @Value = ViewBag.AllotedCL })
+    @Html.Hidden("LeavesTaken", "", new { id = "LeavesTaken", @Value = ViewBag.TotalAvailableBalance })
+    @Html.Hidden("TotalNoOfWorkedDaysByHolidays", "", new { id = "TotalNoOfWorkedDaysByHolidays", @Value = ViewBag.TotalNoOfWorkedDaysByHolidays })
+    @Html.Hidden("TotalNoOfLeaveTakenByHolidays", "", new { id = "TotalNoOfLeaveTakenByHolidays", @Value = ViewBag.TotalNoOfLeaveTakenByHolidays })
+    @Html.Hidden("LeaveToBeCalculated", "", new { id = "LeaveToBeCalculated", @Value = ViewBag.LeaveToBeCalculated })
+    @Html.Hidden("ClosingBalance", "", new { id = "ClosingBalance", @Value = ViewBag.ClosingBalance })
+    @Html.Hidden("Exist", "", new { id = "Exist", @Value = ViewBag.Exist })
+    @Html.Hidden("Remarks", "", new { id = "Remarks", @Value = ViewBag.Remarks })
+    <div class="col-xs-12 widget-container-col">
+        @* <div class="widget-box widget-color-CustomizeBlue">*@
+        <div class="widget-body">
+            <div class="widget-main no-padding">
+
+                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                    <div class="col-xs-12">
+                        <div class="col-sm-6">
+                            <label>
+                                Casual leaves(Opening Balance) 
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBox("CasualLeavesTaken", "", new { id = "txtOpeningCl", @class = "form-control input-sm", @Value = ViewBag.OpeningBalance, disabled = "true" })
+                            @*@ViewBag.AllowedCasualLeave*@
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-sm-6">
+                            <label>
+                                Alloted CL this month
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBox("CasualLeavesTaken", "", new { id = "txtCasualLeavesTaken", @class = "form-control input-sm", @Value = ViewBag.AllotedCL, disabled = "true" })
+                            @*@ViewBag.LeaveTaken*@
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-sm-6">
+                            <label>
+                                Casual leaves in hand 
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBox("CasualLeavesTaken", "", new { id = "txtCLTaken", @class = "form-control input-sm", @Value = ViewBag.TotalAvailableBalance, disabled = "true" })
+                            @*@ViewBag.LeaveTaken*@
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-sm-6">
+                            <label for="form-field-select-1">
+                                No of holidays(Government holiday & local holiday if any)
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBox("NoOfHolidays", "", new { id = "txtNoOfHolidays", @Class = "form-control input-sm", @Value = ViewBag.Holidays, disabled = "true" })
+                            @*@ViewBag.Holidays*@
+                        </div>
+                    </div>
+                    @*  <div class="col-xs-12">
+                        <div class="col-sm-6">
+                            <label for="form-field-select-1">
+                                Total no.of days worked (Based on punch)<br />
+
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBox("TotalNoOfDaysWorked", "", new { @Class = "form-control input-sm", @Value = ViewBag.TotalNoOfDaysWorked, disabled = "true" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-sm-6">
+                            <label for="form-field-select-1">
+                                Total no. of days leave taken(Based on punch)
+                                <br />
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBox("NoOfDaysLeaveTaken", "", new { @Class = "form-control input-sm", @Value = ViewBag.NoOfDaysLeaveTaken, disabled = "true" })
+                        </div>
+                    </div>*@
+                    <div class="col-xs-12">
+                        <div class="col-sm-6">
+                            <label for="form-field-select-1">
+                                On duty and others(No.of days)
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBox("OnDuty", "", new { id = "txtOnDuty", @Class = "form-control input-sm", @Value = 0 })
+                            <span id="errmsg1"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="col-sm-6">
+                            <label for="form-field-select-1">
+                                Total no. of permission(s) taken(No.of times)
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBox("NoOfPermission", "", new { id = "txtNoOfPermission", @Class = "form-control input-sm", @Value = 0 })
+                            <span id="errmsg2"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="col-sm-6">
+                            <label for="form-field-select-1">
+                                Total no.of leave calculated(TLC)<br />
+                                (Based on permissions and exclude CL) 
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBox("TotalNoOfLeaveCal", "", new { id = "txtTotalNoOfPermissionLeaves", @Class = "form-control input-sm", @Value = 0 })
+                            <span id="errmsg3"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="col-sm-6">
+                            <label for="form-field-select-1">
+                                <b>Total no.of days worked<br />
+                                </b>
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBox("TotalNoOfDaysWorked", "", new { id = "txtTotalNoOfDaysWorked", @Class = "form-control input-sm", @Value = ViewBag.TotalNoOfWorkedDaysByHolidays, disabled = "true" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-sm-6">
+                            <label for="form-field-select-1">
+                                <b>Total no. of days leave taken(Including not punch) </b>
+                                <br />
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBox("NoOfDaysLeaveTaken", "", new { id = "txtNoOfDaysLeaveTaken", @Class = "form-control input-sm", @Value = ViewBag.TotalNoOfLeaveTakenByHolidays, disabled = "true" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-sm-6">
+                            <label for="form-field-select-1">
+                                <b>Leave to be calculated</b>
+                                <br />
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBox("LeavesToBeCalculated", "", new { id = "txtLeavesToBeCalculated", @Class = "form-control input-sm", @Value = ViewBag.LeaveToBeCalculated, disabled = "true" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-sm-6">
+                            <label for="form-field-select-1">
+                                <b>Closing Balance </b>
+                                <br />
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBox("ClosingBalance", "", new { id = "txtClosingBalance", @Class = "form-control input-sm", @Value = ViewBag.ClosingBalance, disabled = "true" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-sm-6">
+                            <label for="form-field-select-1">
+                                <b>Remarks </b>
+                                <br />
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            @if (ViewBag.Remarks != null)
+                            {
+                                @Html.TextArea("Remarks",(string)ViewBag.Remarks, new { id = "txtRemarks",rows = 5, cols = 50, @class = "form-control textarea" })
+                            }
+                            else
+                            {
+                                @Html.TextArea("Remarks", "", new { id = "txtRemarks",rows = 5, cols = 50, @class = "form-control textarea"})
+                            }
+                        </div>
+                    </div>
+                    <div class="col-xs-offset-4 col-xs-6">
+                        <div class="col-sm-3">
+                            <br />
+                            <button class="btn btn-success btn-block btn-sm" type="button" id="btnSave">
+                                <i class="ace-icon fa fa-floppy-o"></i>Save
+                            </button>
+                        </div>
+                        <div class="col-sm-3">
+                            <br />
+                            <button class="btn btn-danger btn-block btn-sm" type="button" id="btnExit">
+                                <i class="ace-icon fa fa-arrow-right white"></i>Exit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*</div>*@
+<script src="../../Scripts/BioMetricAttendance/EditStaffBioAttendanceDetails.js"></script>
+<style>
+    #errmsg {
+        color: red;
+    }
+
+    #errmsg1 {
+        color: red;
+    }
+
+    #errmsg2 {
+        color: red;
+    }
+
+    #errmsg3 {
+        color: red;
+    }
+
+    #divEditStaffAttendanceDetails {
+        z-index: 1000000;
+    }
+</style>

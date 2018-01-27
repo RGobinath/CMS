@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.EmployeeEntities.EmployeeAttendance" namespace="TIPS.Entities.EmployeeEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.EmployeeEntities.EmployeeAttendance, TIPS.Entities" table="EmployeeAttendance" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="PreRegNum" column="PreRegNum" type="Int64" />
+    <property name="Campus" column ="Campus" type="string"/>
+    <property name="EmployeeName" column="EmployeeName" type="string" />
+    <property name="EmployeeIdNo" column="EmployeeIdNo" type="string"/>
+    <property name="AbsentDate" column="AbsentDate" type="datetime" />
+    <property name="AbsentType" column="AbsentType" type="string" />
+    <property name="TimeIn" column="TimeIn" type="datetime"/>
+    <property name="TimeOut" column="TimeOut" type="datetime"/>
+    <property name="CreatedBy" column="CreatedBy" type="string" />
+    <property name="CreatedDate" column="CreatedDate" type="datetime"/>
+    <property name="ModifiedBy" column="ModifiedBy" type="string" />
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime"/>
+    <property name="UserRole" column="UserRole" type="string" />
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    <property name="EntryFrom" column="EntryFrom" type="string" />
+
+  </class>
+</hibernate-mapping>

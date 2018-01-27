@@ -1,0 +1,167 @@
+﻿@model TIPS.Entities.ParentPortalEntities.FoodNameMaster
+@{
+    ViewBag.Title = "Food Name List Master";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<h3>Campus Food Name Master</h3>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $.getJSON("/Notify/FillCampusList",
+     function (fillbc) {
+         var ddlbc = $("#ddlBranchCode");
+         ddlbc.empty();
+         ddlbc.append($('<option/>',
+        {
+            value: "",
+            text: "Select One"
+
+        }));
+
+         $.each(fillbc, function (index, itemdata) {
+             if (itemdata.Text == '@Model.Campus') {
+                 ddlbc.append("<option value='" + itemdata.Value + "' selected='selected'>" + itemdata.Text + "</option>");
+             }
+             else {
+                 ddlbc.append($('<option/>',
+                 {
+                     value: itemdata.Value,
+                     text: itemdata.Text
+                 }));
+             }
+         });
+     });
+
+        
+        jQuery("#FoodNameMasterList").jqGrid({
+
+
+            url: '@Url.Content("/Notify/FoodNameListMasterJqGrid")',
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'Campus', 'FoodType', 'FoodName', 'Performer', 'CreatedOn'],
+            colModel: [
+              { name: 'Id', index: 'Id', width: 50, editable: true, hidden: true, edittype: 'text', key: true, sortable: false },
+              { name: 'Campus', index: 'Campus', width: 50, sortable: true, editable: false },
+              { name: 'FoodType', index: 'FoodType', width: 100, sortable: true, editable: true, edittype: 'text', sortable: false },
+              { name: 'FoodName', index: 'FoodName', width: 100, editable: true, edittype: 'text', sortable: false },
+              { name: 'Performer', index: 'Performer', width: 70, editable: true, edittype: 'text', sortable: false },
+              { name: 'CreatedOn', index: 'CreatedOn', width: 70, editable: true, edittype: 'text', sortable: false }
+              ],
+            pager: '#FoodNameMasterListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200 ],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: '220',
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: ' Food Name Master List',
+            forceFit: true,
+            multiselect: true,
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                $("#FoodNameMasterList").editGridRow(rowid, prmGridDialog);
+            },
+            loadError: function (xhr, status, error) {
+                $("#FoodNameMasterList").clearGridData();
+                ErrMsg($.parseJSON(xhr.responseText).Message);
+            }
+
+
+        });
+        jQuery("#FoodNameMasterList").navGrid('#FoodNameMasterListPager', { add: false, edit: false, del: true, search: false },
+        {},
+        //  { url: '/Notify/EditFoodMenu/', left: '10%', top: '10%', height: '50%', width: 400, labelswidth: 60, closeAfterEdit: true, beforeSubmit: validate_edit, closeOnEscape: true, reloadAfterSubmit: true },        //edit options
+            {},
+            { url: '/Notify/DeleteFoodNameMater/' });
+
+    });
+
+</script>
+@using (Html.BeginForm("FoodNameListMaster", "Notify", FormMethod.Post, new { id = "FoodMenuNameMaster", enctype = "multipart/form-data" }))
+{
+    <table width="100%" border="1" cellspacing="2" cellpadding="3" class="WithBorderOnly">
+        <tr class="PanelHeading">
+            <td colspan="4" class="PanelHeading">
+                &nbsp; <b>Food Name List Master</b>
+                @Html.Hidden("SuccessNotifyMsg", "", new { id = "SuccessNotifyMsg", @Value = @TempData["SuccessNotifyCreation"] })
+                @Html.Hidden("SuccessNotifyMsgUpdate", "", new { id = "UpdateSuccessMsg", @Value = TempData["SuccessNotifyUpdate"] })
+            </td>
+        </tr>
+        <tr>
+            <th width="25%">
+                Campus
+            </th>
+            <th width="25%">
+                Food Type
+            </th>
+            <th width="25%">
+                Food Name
+            </th>
+            <th width="25%">
+                
+            </th>
+        </tr>
+        <tr>
+            <td>
+                @if (Model != null)
+                {
+                    @Html.DropDownListFor(model => model.Campus, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlBranchCode", @Class = "CSSDropDownList" })
+                    
+                }
+            </td>
+            <td>
+                @if (Model != null)
+                {
+                    @Html.DropDownListFor(model => model.FoodType, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="BreakFast",Text="BreakFast"},
+                                              new{Value="LunchNonVeg",Text="LunchNonVeg"},
+                                              new{Value="LunchVeg",Text="LunchVeg"},
+                                              new{Value="Snacks",Text="Snacks"},
+                                          },
+                               "Value", "Text", ""), new { id = "ddlFoodType", @Class = "CSSDropDownList" })
+                }
+            </td>
+            <td>
+                @if (Model != null)
+                {  
+                   
+                     @Html.TextBoxFor(model => model.FoodName, new { id = "txtTopic", @Class = "CSSTextBox", @maxlength = "40", @size="40" })
+                }
+            </td>
+            <td>
+               
+                    <button type="submit" name="btnSubmit" id="Submit" value="Submit">
+                        Submit</button>
+                    <input type="reset" id="cancel" value="Cancel" class="CSSButton" />
+               
+            </td>
+        </tr>
+        <tr><td colspan="4"></td></tr>
+        @*</table>
+     <table class="InnerTable" width="100%">
+        <tr>
+            <td colspan="4">
+                <center>
+                    <button type="submit" name="btnSubmit" id="Submit" value="Submit">
+                        Submit</button>
+                    <input type="reset" id="cancel" value="Cancel" class="CSSButton" />
+                </center>
+            </td>
+        </tr>*@
+    </table>
+    
+    <table class="WithBorderOnly" width="100%">
+        <tr>
+            <td>
+                <table id="FoodNameMasterList" width="100%"></table>
+                <div id="FoodNameMasterListPager"></div>
+            </td>
+        </tr>
+    </table>
+}
+

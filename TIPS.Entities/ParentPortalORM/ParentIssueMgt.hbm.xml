@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.ParentPortalEntities.ParentIssueMgt" namespace="TIPS.Entities.ParentPortalEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.ParentPortalEntities.ParentIssueMgt, TIPS.Entities" table="ParentIssueMgt" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="IssueNo" column="IssueNo" type="string"/>
+    <property name="Description" column="Description" type="string" />
+    <property name="IssueType" column="IssueType" type="string" />
+    <property name="IssueDate" column="IssueDate" type="datetime" />
+    <property name="Status" column="Status" type="string" />
+    <property name="StudentName" column="StudentName" type="string" />
+    <property name="StPreRegNum" column="StPreRegNum" type="Int64" />
+    <property name="UserInbox" column="UserInbox" type="string" />
+    <property name="InstanceId" column="InstanceId" type="Int64"/>
+    <property name="UserRoleName" column="UserRoleName" type="string" />
+    <property name="Approver" column="Approver" type="string" />
+    <property name="Resolution" column="Resolution" type="string" />
+    <property name="Performer" column="Performer" type="string" />
+  </class>
+</hibernate-mapping>

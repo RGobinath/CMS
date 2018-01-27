@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.AdmissionEntities.FamilyDetails" namespace="TIPS.Entities.AdmissionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AdmissionEntities.FamilyDetails, TIPS.Entities" table="FamilyDetails" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="StudentId" column="StudentId" type="Int64" not-null ="false"></property>
+
+    <property name="PreRegNum" column="PreRegNum" type="Int64" not-null ="false"></property>
+
+    <property name="FamilyDetailType" column="FamilyDetailType" type="string"></property>
+    <property name="Name" column="Name" type="string"></property>
+
+    <property name="Education" column="Education" type="string"></property>
+    <property name="Mobile" column="Mobile" type="string"></property>
+    <property name="EmpType" column="EmpType" type="string"></property>
+    
+    <property name="Age" column="Age" type="int"></property>
+    <property name="Email" column="Email" type="string"></property>
+    <property name="TestEmail" column="TestEmail" type="string"></property>
+    <property name="Occupation" column="Occupation" type="string"></property>
+    <property name="CompName" column="CompName" type="string"></property>
+    <property name="CompAddress" column="CompAddress" type="string"></property>
+    <property name="StayingWithChild" column="StayingWithChild" type="bool"></property>
+    <property name="TransportReq" column="TransportReq" type="bool"></property>
+
+  </class>
+</hibernate-mapping>
+

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.ReportEntities.CampusWiseUsageModule" namespace="TIPS.Entities.ReportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.ReportEntities.CampusWiseUsageModule, TIPS.Entities" table="CampusWiseUsageModule" lazy="false" >
+    <id name="CampusWiseUsageModule_Id" column="CampusWiseUsageModule_Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="Module" column="Module" type="string"/>
+    <property name="IBMain" column="IBMain" type="bool"/>
+    <property name="IBKG" column="IBKG" type="bool"/>
+    <property name="ChennaiMain" column="ChennaiMain" type="bool"/>
+    <property name="ChennaiCity" column="ChennaiCity" type="bool"/>
+    <property name="Ernakulam" column="Ernakulam" type="bool"/>
+    <property name="ErnakulamKG" column="ErnakulamKG" type="bool"/>
+    <property name="Karur" column="Karur" type="bool"/>
+    <property name="KarurKG" column="KarurKG" type="bool"/>
+    <property name="Tirupur" column="Tirupur" type="bool"/>
+    <property name="TirupurKG" column="TirupurKG" type="bool"/>
+    <property name="TipsSaran" column="TipsSaran" type="bool"/>
+    <!--<property name="MCS_ANTHIYUR" column="MCS_ANTHIYUR" type="bool"/>
+    <property name="MHSS_ANTHIYUR" column="MHSS_ANTHIYUR" type="bool"/>
+    <property name="MMS_ANTHIYUR" column="MMS_ANTHIYUR" type="bool"/>
+    <property name="MCOE_ANTHIYUR" column="MCOE_ANTHIYUR" type="bool"/>
+    <property name="MTTI_ANTHIYUR" column="MTTI_ANTHIYUR" type="bool"/>
+    <property name="RPS_KOTAGIRI" column="RPS_KOTAGIRI" type="bool"/>-->
+    <property name="CreatedBy" column="CreatedBy" type="string"/>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"/>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"/>
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"/>
+  <property name="Menu_Id" column="Menu_Id" type="Int64"/>
+  </class>
+</hibernate-mapping>

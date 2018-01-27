@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="TIPS.Entities.BioMetricsEntities" assembly="TIPS.Entities.BioMetricsEntities.Staff_AutoEmailNotificationLogForAttendance">
+  <class name="TIPS.Entities.BioMetricsEntities.Staff_AutoEmailNotificationLogForAttendance, TIPS.Entities" table="Staff_AutoEmailNotificationLogForAttendance" >
+    <id name="Staff_AutoEmailNotificationLogForAttendance_Id" column="Staff_AutoEmailNotificationLogForAttendance_Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="Campus" column="Campus" type="string"/>
+    <property name="MailFor" column="MailFor" type="string" />
+    <property name="AttendanceDate" column="AttendanceDate" type="string"></property>
+    <property name="LoggedDateAndTime" column="LoggedDateAndTime" type="datetime"></property>
+  </class>
+</hibernate-mapping>

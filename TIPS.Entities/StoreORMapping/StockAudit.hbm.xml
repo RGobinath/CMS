@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StoreEntities.StockAudit" namespace="TIPS.Entities.StoreEntities">
+  <class name="TIPS.Entities.StoreEntities.StockAudit, TIPS.Entities" table="StockAudit" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="StockId" column="StockId" type="Int64"></property>
+    <property name="CreateDate" column="CreateDate" type="datetime"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime"></property>
+    <property name="OldCount" column="OldCount" type="Int32"></property>
+    <property name="Credit" column="Credit" type="Int32"></property>
+    <property name="Debit" column="Debit" type="Int32"></property>
+    <property name="Total" column="Total" type="Int32"></property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="TIPS.Service.MasterDataService" CodeBehind="MasterDataService.svc.cs" %>

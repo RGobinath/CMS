@@ -1,0 +1,93 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffPromotionAndTransferDetails
+@using (Html.BeginForm("PromotionOfStaff", "StaffManagement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.Hidden("StaffID")
+    @Html.Hidden("StaffName")
+    <div class="widget-body">
+        <div class="widget-main no-padding">
+            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                <div class="col-xs-12">
+                    <div class="col-sm-4">
+                        <label for="form-field-select-1">
+                            <b>Campus</b></label>
+                        @Html.TextBoxFor(m => m.BeforeCampus, new { @Class = "form-control select-sm" })
+                        @Html.Hidden("BeforeCampus")
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="form-field-select-1">
+                            <b>Designation</b></label>
+                        @Html.TextBoxFor(m => m.BeforeDesignation, new { @Class = "form-control select-sm" })
+                        @Html.Hidden("BeforeDesignation")
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="form-field-select-1">
+                            <b>Department</b></label>
+                        @Html.TextBoxFor(m => m.BeforeDepartment, new { @Class = "form-control select-sm" })
+                        @Html.Hidden("BeforeDepartment")
+                    </div>
+                    @*<div class="col-sm-2">
+                        <label for="form-field-select-1">
+                            <b>Division</b></label>
+                        @Html.TextBoxFor(m => m.BeforeDivision, new { @Class = "form-control select-sm" })
+                        @Html.Hidden("BeforeDivision")
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="form-field-select-1">
+                            <b>Sub Division</b></label>
+                        @Html.TextBoxFor(m => m.BeforeSubDivision, new { @Class = "form-control select-sm" })
+                        @Html.Hidden("BeforeSubDivision")
+                    </div>*@
+                </div>
+            </div>
+        </div>
+
+        <div class="widget-main no-padding">
+            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                <div class="col-xs-12">
+                    <div class="col-sm-4">
+                        <label for="form-field-select-1">
+                            <b>Campus</b></label>
+                        @Html.DropDownListFor(m => m.AfterCampus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "aftercampus", @Class = "form-control select-sm" })
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="form-field-select-1">
+                            <b>Designation</b></label>
+                        @Html.DropDownListFor(m => m.AfterDesignation, new SelectList(ViewBag.designationddl, "Designation", "Designation"), "Select One", new { id = "afterdesignation", @Class = "form-control select-sm" })
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="form-field-select-1">
+                            <b>Department</b></label>
+                        @Html.DropDownListFor(m => m.AfterDepartment, new SelectList(ViewBag.departmentddl, "Department", "Department"), "Select One", new { id = "afterdepartment", @Class = "form-control select-sm" })
+                    </div>
+                    @*<div class="col-sm-2">
+                        <label for="form-field-select-1">
+                            <b>Division</b></label>
+                        @Html.DropDownListFor(m => m.AfterDivision, new SelectList(ViewBag.divisionddl, "Division", "Division"), "Select One", new { id = "afterDivision", @Class = "form-control select-sm" })
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="form-field-select-1">
+                            <b>Sub Division</b></label>
+                        @Html.DropDownListFor(m => m.AfterSubDivision, new SelectList(ViewBag.SubDivisionddl, "SubDivision", "SubDivision"), "Select One", new { id = "aftersubDivision", @Class = "form-control select-sm" })
+                    </div>*@
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-primary btn-block btn-sm" id="sbmtPromotion">
+                            <i class="ace-icon fa fa-plus-square-o white"></i>Promotion
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(function () {
+        $("INPUT[type=text]").attr("disabled", "");
+    });
+
+</script>

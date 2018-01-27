@@ -1,0 +1,213 @@
+﻿@{
+    ViewBag.Title = "Vehicle Tyre Maintenance";
+}
+<div id="VehicleTyreMaintenance">
+    <div class="row">
+        <div class="col-xs-12 widget-container-col">
+            <div class="widget-box widget-color-CustomizeBlue ">
+                <div class="widget-header widget-header-flat widget-header-small">
+                    <div class="PanelHeader">
+                        Tyre Maintenance Details</div>
+                  @*  <div class="widget-toolbar">
+                        <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                        </a>
+                    </div>*@
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Type of Maintenance</b></label>
+                                    @Html.DropDownList("TyreMaintenanceType", new SelectList(new[]
+                                          {
+                                             new {Value="",Text="Select"},
+                                              new{Value="New",Text="New"},
+                                              new{Value="Maintenance",Text="Maintenance"},
+                                              new{Value="Service",Text="Service"},
+                                          },
+                                      "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                </div>
+                                <div class="col-sm-2" id="TyreSearchTD">
+                                    <br />
+                                    <label for="form-field-select-1 ">
+                                        <b>Choose Tyre</b></label>
+                                    <a id="TyreSearch" style="cursor: pointer;"><i class="fa fa-search"></i></a>
+                                </div>
+                                <div class="col-sm-2">
+                                    <br />
+                                    <button type="button" class="btn btn-success btn-info btn-block btn-sm" id="btnSave"
+                                        onclick="AddVehicleTyreMaintenance();return false;">
+                                        <i class="ace-icon fa fa-floppy-o bigger-120 white"></i>&nbsp Save
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 New">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Tyre Location</b>
+                                    </label>
+                                    @Html.DropDownList("TyreLocation", new SelectList(new[]
+                                          {
+                                             new {Value="",Text="Select"},
+                                              new{Value="Front Right",Text="Front Right"},
+                                              new{Value="Front Left",Text="Front Left"},
+                                              new{Value="Rear Right",Text="Rear Right"},
+                                              new{Value="Rear Left",Text="Rear Left"},
+                                              new{Value="Stepney",Text="Stepney"},
+                                          },
+                                      "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Tyre Type</b>
+                                    </label>
+                                    @Html.TextBox("TypeOfTyre", "", new { @class = "form-control input-sm", @readonly = true, style = "background-color:#f5f5f5" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Make</b>
+                                    </label>
+                                    @Html.TextBox("TyreMake", "", new { @class = "form-control input-sm", @readonly = true, style = "background-color:#f5f5f5" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Model</b>
+                                    </label>
+                                    @Html.TextBox("TyreModel", "", new { @class = "form-control input-sm", @readonly = true, style = "background-color:#f5f5f5" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Tyre Size</b>
+                                    </label>
+                                    @Html.TextBox("TyreSize", "", new { @class = "form-control input-sm", @readonly = true, style = "background-color:#f5f5f5" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12 New">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Tyre Cost</b></label>
+                                    @Html.TextBox("TyreCost", "", new { @class = "form-control input-sm", @readonly = true, style = "background-color:#f5f5f5" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Tyre No</b></label>
+                                    @Html.TextBox("TyreNo", "", new { @class = "form-control input-sm", @readonly = true, style = "background-color:#f5f5f5" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Bill No</b></label>
+                                    @Html.TextBox("TyreBillNo", "", new { @class = "form-control input-sm", @readonly = true, style = "background-color:#f5f5f5" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Assigned Date</b></label>
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBox("TyreAssignedDate", "", new { @class = "form-control date-picker" })
+                                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Milometer Reading</b></label>
+                                    @Html.TextBox("TyreMilometerReading", "", new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12 New">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Reason For Removing</b></label>
+                                    @Html.DropDownList("TyreReasonForRemoving", new SelectList(new[]
+                                          {
+                                             new {Value="",Text="Select"},
+                                              new{Value="Flat",Text="Flat"},
+                                              new{Value="Tyre Burst",Text="Tyre Burst"},
+                                              new{Value="Puncture",Text="Puncture"},
+                                          },
+                                      "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12 Maintenance">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Date Of Alignment</b></label>
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBox("TyreDateOfAlignment", "", new { @class = "form-control date-picker" })
+                                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Date Of Rotation</b></label>
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBox("TyreDateOfRotation", "", new { @class = "form-control date-picker" })
+                                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Date Of Wheel Service</b></label>
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBox("TyreDateOfWheelService", "", new { @class = "form-control date-picker" })
+                                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Service Cost</b></label>
+                                    @Html.TextBox("TyreServiceCost", "", new { @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Maintenance Bill No</b></label>
+                                    @Html.TextBox("TyreMaintenanceBillNo", "", new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12 Service">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Date of Service</b></label>
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBox("TyreDateOfService", "", new { @class = "form-control date-picker" })
+                                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Service Provider</b></label>
+                                    @Html.TextBox("TyreServiceProvider", "", new { @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Service Cost</b></label>
+                                    @Html.TextBox("CostOfService", "", new { @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Serviced By</b></label>
+                                    @Html.TextBox("TyreServicedBy", "", new { @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1 ">
+                                        <b>Bill No</b></label>
+                                    @Html.TextBox("TyreServiceBillNo", "", new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <table id="VehicleTyreMaintenanceList">
+            </table>
+            <div id="VehicleTyreMaintenanceListPager">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="DivTyreSearch"></div>
+<script src="@Url.Content("~/Scripts/Transport/VehicleTyreMaintenance.js")" type="text/javascript"></script>

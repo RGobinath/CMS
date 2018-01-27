@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "Staff Wise Score Report";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<!-- #section:basics/navbar.layout -->
+<!-- /section:basics/navbar.layout -->
+
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    @*<div class="widget-header widget-header-small">*@
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownList("ddlCampus", new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { @Class = "form-control select-sm", @onchange = "FillGradeByCampus()" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Staff Name</b></label>
+                                        @Html.TextBox("txtStaffName", "", new { @Class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Id Number</b></label>
+                                        @Html.TextBox("txtIdNumber", "", new { @Class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Grade</b></label>
+                                        @Html.DropDownList("ddlGrade", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlGrade", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Academic Year</b></label>
+                                        @Html.DropDownList("ddlAcademicYear", new SelectList(ViewBag.acadddl, "AcademicYear", "AcademicYear"), "Select One", new { id = "ddlAcademicYear", @Class = "form-control select-sm" })
+                                    </div>
+                                    @*<div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Semester</b></label>
+                                        @Html.DropDownList("ddlSemester", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>*@
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Month</b></label>
+                                        @Html.DropDownList("ddlMonth", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Subject</b></label>
+                                        @Html.DropDownList("ddlSubject", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlSubject", @Class = "form-control select-sm" })
+                                    </div>                                    
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-primary btn-info btn-block btn-sm" id="btnSearch">
+                                            <i class="ace-icon fa fa-search white"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-danger btn-warning btn-block btn-sm" id="btnReset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <table id="grid-table">
+                </table>
+                <div id="grid-pager">
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.page-content-area -->
+</div>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../assets/js/jquery.min.js'>" + "<" + "/script>");
+</script>
+<script type="text/javascript">
+    if ('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+</script>
+<script src="../../assets/js/AceJQMsg.js" type="text/javascript"></script>
+<!-- inline scripts related to this page -->
+<script src="@Url.Content("~/Scripts/StaffManagementScripts/StaffWiseScoreReport.js")" type="text/javascript"></script>
+<div id="CategoryWiseMarks"></div>

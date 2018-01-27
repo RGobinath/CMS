@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.QAEntities.QAQuestions" namespace="TIPS.Entities.QAEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.QAEntities.QAQuestions, TIPS.Entities" table="QAQuestions" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="Subject" column="Subject" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="Question" column="Question" type="string"></property>
+    <property name="RaisedBy" column="RaisedBy" type="string"></property>
+    <property name="StudentName" column="StudentName" type="string"></property>
+    <property name="RaisedDate" column="RaisedDate" type="datetime"></property>
+    <property name="IsAnswered" column="IsAnswered" type="Char"></property>
+    <property name="AssignedTo" column="AssignedTo" type="string"></property>
+    <property name="EscalationPeriod" column="EscalationPeriod" type="Int64"  not-null ="false"></property>
+    <property name="QuestionTitle" column="QuestionTitle" type="string"></property>
+    <property name="Replies" column="Replies" type="Int64"  ></property>
+    <property name="Views" column="Views" type="Int64"  ></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="QuestionRefId" column="QuestionRefId" type="string"></property>
+    <property name="ExpiryDate" column="ExpiryDate" type="datetime"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="ExpiryStatus" column="ExpiryStatus" type="string"></property>
+
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime"></property>
+
+  </class>
+</hibernate-mapping>

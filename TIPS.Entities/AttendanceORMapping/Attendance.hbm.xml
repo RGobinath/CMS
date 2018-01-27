@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.Attendance.Attendance" namespace="TIPS.Entities.Attendance" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Attendance.Attendance, TIPS.Entities" table="Attendance" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="PreRegNum" column="PreRegNum" type="Int64" />
+    <property name="Name" column="Name" type="string" />
+    <property name="AbsentDate" column="AbsentDate" type="datetime" />
+    <property name="IsAbsent" column="IsAbsent" type="boolean" />
+    <property name="CreatedBy" column="CreatedBy" type="string" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string" />
+    <property name="UserRole" column="UserRole" type="string" />
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    <property name="EntryFrom" column="EntryFrom" type="string" />
+<property name="AttendanceType" column="AttendanceType" type="string" />
+    <property name="AbsentCategory" column="AbsentCategory" type="string" />
+    
+  </class>
+</hibernate-mapping>

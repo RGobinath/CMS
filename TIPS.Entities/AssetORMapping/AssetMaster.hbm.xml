@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.AssetMaster" namespace="TIPS.Entities.AssetEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.AssetMaster, TIPS.Entities" table="AssetMaster" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="Asset" column="Asset" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+<property name="AssetColor" column="AssetColor" type="string"></property>
+  <property name="AssetType" column="AssetType" type="string"></property>
+  </class>
+</hibernate-mapping>

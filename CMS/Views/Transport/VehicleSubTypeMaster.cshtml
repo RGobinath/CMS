@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Vehicle Sub Type Master";
+    //  Layout = "~/Views/Shared/PartialViewMaster.cshtml";
+    Layout = null;
+}
+<div class="row">
+    <div class="col-xs-12">
+        <table id="VehicleSubTypeMasterList">
+        </table>
+        <div id="VehicleSubTypeMasterListPager">
+        </div>
+    </div>
+</div>
+<div class="space-2"></div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="col-sm-1">
+        <button type="button" id="btnSave" class="btn btn-primary btn-block btn-sm ">
+            <i class="ace-icon fa fa-floppy-o"></i>&nbsp;Save</button></div>
+            <div class="col-sm-2">
+        <button type="button" id="btnSubmitAndClose" class="btn btn-primary btn-block btn-sm">
+            <i class="ace-icon fa fa-dot-circle-o white"></i>&nbsp;Save & Close</button></div>
+    </div>
+</div>
+<div class="space-2"></div>
+<div class="row">
+    <div class="col-xs-12">
+        <table id="VehicleSubTypeMasterList1">
+        </table>
+        <div id="VehicleSubTypeMasterListPager1">
+        </div>
+    </div>
+</div>
+@Html.Hidden("SaveUrl", "", new { value = ViewBag.SaveUrl })
+@Html.Hidden("reloadGridUrl", "", new { value = ViewBag.reloadGridUrl })
+@Html.Hidden("GridId", "", new { value = ViewBag.GridId })
+@Html.Hidden("BulkEntryType", "", new { value = ViewBag.BulkEntryType })
+<script src='@Url.Content("/Scripts/Transport/VechileSubTypeMaster.js")' type="text/javascript"></script>

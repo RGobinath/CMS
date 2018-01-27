@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.QAEntities.QAViewers" namespace="TIPS.Entities.QAEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.QAEntities.QAViewers, TIPS.Entities" table="QAViewers" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="QuestionId" column="QuestionId" type="Int64"  not-null ="false"></property>
+    <property name="ViewedBy" column="ViewedBy" type="string"></property>
+    <property name="ViewedDate" column="ViewedDate" type="datetime"></property>
+  </class>
+</hibernate-mapping>

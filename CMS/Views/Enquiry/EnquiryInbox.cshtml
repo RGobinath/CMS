@@ -1,0 +1,165 @@
+﻿@model TIPS.Entities.EnquiryEntities.EnquiryDetails
+@{
+    ViewBag.Title = "Report Card Inbox";
+}
+<style type="text/css">
+    #StaffName
+    {
+        background-color: #DFEFFC;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#StaffName').val('@Session["UserId"].ToString()');
+        $(".pastdatepicker").datepicker({
+            dateFormat: "dd/mm/yy",
+            minDate: 0,
+            showOn: "button",
+            buttonImage: "../../Images/date.gif",
+            buttonImageOnly: true
+        });
+        $(".futuredatepicker").datepicker({
+            dateFormat: "dd/mm/yy",
+            maxDate: '+0d',
+            showOn: "button",
+            buttonImage: "../../Images/date.gif",
+            buttonImageOnly: true
+        });
+        $("#FollowupList").jqGrid({
+            mtype: 'GET',
+            url: '/Enquiry/GetFollowUpDetailsList?EnquiryDetailsId=' + '@ViewBag.enquiryid',
+            datatype: 'json',
+            height: '150',
+            autowidth: true,
+            //shrinkToFit: true,
+            colNames: ['FollowUpDetailsId', 'Id', 'Followup Remarks', 'Staff Followup Date', 'Next Followup Date', 'Staff Name'],
+            colModel: [
+             { name: 'FollowUpDetailsId', index: 'FollowUpDetailsId', key: true, hidden: true },
+                        { name: 'EnquiryDetailsId', index: 'EnquiryDetailsId', hidden: true },
+                        { name: 'FollowupRemarks', index: 'FollowupRemarks' },
+                        { name: 'StaffFollowUpDate', index: 'StaffFollowUpDate' },
+                        { name: 'NextFollowUpDate', index: 'NextFollowUpDate' },
+                        { name: 'StaffName', index: 'StaffName' },
+                      ],
+            pager: '#FollowupPage',
+            rowNum: '10',
+            sortname: 'EnquiryDetailsId',
+            sortorder: 'asc',
+            rowList: [5, 10, 20, 50],
+            viewrecords: true,
+            caption: '&nbsp;&nbsp;Enquiry Details Inbox'
+        });
+        $("#FollowupList").navGrid('#FollowupPage', { add: false, edit: false, del: false, search: false, refresh: true });
+
+        $("#addfollowup").click(function () {
+
+            var remarks = $("#remarks").val();
+            var staffname = $("#StaffName").val();
+            var stffflowdate = $("#stffolwdate").val();
+            var nxtfolwdate = $("#nxtfolwdate").val();
+
+            if (remarks == "") {
+                ErrMsg('Please Enter Remarks');
+                return false;
+            }
+            else if (staffname == "") {
+                ErrMsg('Please Enter Staff Name');
+                return false;
+            }
+            else if (stffflowdate == "") {
+                ErrMsg('Please Enter Staff Followup Date');
+                return false;
+            }
+            else if (nxtfolwdate == "") {
+                ErrMsg('Please Enter Next Followup Date');
+                return false;
+            }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    traditional: true,
+                    url: '/Enquiry/AddFollowupdetails?EnquiryDetailsId=' + "@ViewBag.enquiryid" + '&FollowUpRemarks=' + $("#remarks").val() + '&StaffName=' + $("#StaffName").val() + '&StaffFollowUpDate=' + $("#stffolwdate").val() + '&NextFollowUpDate=' + $("#nxtfolwdate").val(),
+                    success: function (data) {
+                        debugger;
+                        $("#FollowupList").setGridParam({ url: '@Url.Content("/Enquiry/GetFollowUpDetailsList")', postData: { EnquiryDetailsId: '@ViewBag.enquiryid'} }).trigger("reloadGrid");
+                        if (data == true) {
+                            $('#EnquiryStatus').val("Pending")
+                        }
+                    }
+                });
+                $("#remarks").val('');
+                $("#stffolwdate").val('');
+                $("#nxtfolwdate").val('');
+            }
+        });
+    });
+
+
+</script>
+<div id="EnquiryInbox">
+    <table width="100%">
+        <tr>
+            <th colspan="5" class="ui-widget-header">
+                &nbsp;&nbsp;Followup Details
+            </th>
+        </tr>
+        <tr>
+            <td width="40%">
+                <table width="100%" style="border: none">
+                    <tr>
+                        <td class="lblheader" style="font-weight: bold">
+                            Staff Name
+                        </td>
+                        <td>
+                            @Html.TextBox("StaffName", null, new { @class = "CSSTextBox", @maxlength = "40", @readonly = true })
+                        </td>
+                        <tr>
+                            <td class="lblheader" style="font-weight: bold">
+                                Staff Followup Date
+                            </td>
+                            <td>
+                                @Html.TextBox("stffolwdate", "", new { @Class = "futuredatepicker", @maxlength = "10", @style = "border: #006699 1px solid;width: 150px;height:20px;" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lblheader" style="font-weight: bold">
+                                Next Followup Date
+                            </td>
+                            <td>
+                                @Html.TextBox("nxtfolwdate", "", new { @Class = "pastdatepicker", @maxlength = "10", @style = "border: #006699 1px solid;width: 150px;height:20px;" })
+                            </td>
+                        </tr>
+                        <tr>
+                        <td class="lblheader" style="font-weight: bold">
+                            Remarks
+                        </td>
+                         <td>
+                            @Html.TextArea("remarks", null, new { rows = 3, cols = 45, @class = "CSSTextArea" })
+                        </td>
+                        </tr>
+                        
+                    </tr>
+                    <tr valign="top">
+                       
+                        <td>
+                            <input type="button" id="addfollowup" value="Add" style="height: 26px; width: 100px;"
+                                class="btnStyle" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td width="40%">
+                <br style="display: block; margin: 2px 0;" />
+                <table id="FollowupList">
+                </table>
+                <div id="FollowupPage">
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

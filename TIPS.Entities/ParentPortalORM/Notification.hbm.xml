@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.ParentPortalEntities.Notification" namespace="TIPS.Entities.ParentPortalEntities" >
+  <class name="TIPS.Entities.ParentPortalEntities.Notification, TIPS.Entities" table="Notification" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"/>
+    </id>
+    <property name="Topic" column="Topic" type="string"/>
+    <property name="Message" column="Message" type="string" />
+    <property name="PublishDate" column="PublishDate" type="string" />
+    <property name="ExpireAfter" column="ExpireAfter" type="Int64" />
+    <property name="PublishTo" column="PublishTo" type="string" />
+    <property name="Performer" column="Performer" type="string" />
+    <property name="Status" column="Status" type="string" />
+    <property name="ExpireDate" column="ExpireDate" type="string" />
+    <property name="Valid" column="Valid" type="string" />
+    <property name="NotePreId" column="NotePreId" type="Int64" />
+    <property name="NoteType" column="NoteType" type="string" />
+    <property name="NewIds" column="NewIds" type="AnsiString" />
+    <property name="PublishedOn" column="PublishedOn" type="string" />
+    <property name="Campus" column="Campus" type="string" />
+    <property name="CampusGroup" column="CampusGroup" type="string" />
+    <property name="AcademicYear" column="AcademicYear" type="string" />  
+    <property name="Grade" column="Grade" type="string" />
+    <property name="Section" column="Section" type="string" />
+    <property name="Type" column="Type" type="string" />
+  </class>
+</hibernate-mapping>

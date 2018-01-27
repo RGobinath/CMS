@@ -1,0 +1,263 @@
+@{
+    ViewBag.Title = "Communication Details Update";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script src="../../Scripts/EmailValidation.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+<script type="text/javascript">
+    function translateText(response) {
+        debugger;
+        document.getElementById("LocationTamilDescription").innerHTML = "<br>" + response.data.translations[0].translatedText;
+        $("#LocationTamilDescription").val(response.data.translations[0].translatedText);
+        var myGrid = $('#jqEmailUpdation'),
+    selRowId = myGrid.jqGrid('getGridParam', 'selrow'),
+
+   celValue = myGrid.jqGrid('getCell', selRowId, 'LocationTamilDescription');
+        var TamilName = response.data.translations[0].translatedText;
+
+        myGrid.jqGrid('setCell', selRowId, 'LocationTamilDescription', TamilName);
+    }   
+</script>
+<script type="text/javascript">
+    function initialize(controlId) {
+        debugger;
+        var places = new google.maps.places.Autocomplete(document.getElementById(controlId));
+        google.maps.event.addListener(places, 'place_changed', function () {
+            var place = places.getPlace();
+            var address = place.formatted_address;
+            var latitude = place.geometry.location.k;
+            var longitude = place.geometry.location.D;
+            var mesg = "Address: " + address;
+            mesg += "\nLatitude: " + latitude;
+            mesg += "\nLongitude: " + longitude;
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '/Admission/CheckLocationMaster?LocationName=' + address.split(',')[0],
+                success: function (data) {
+                    if (data == false) {
+                        var newScript = document.createElement('script');
+                        newScript.type = 'text/javascript';
+
+                        var source = 'https://www.googleapis.com/language/translate/v2?key=AIzaSyAyPscCtnWh7bXzDxPN0fiKHLseUPJki8c&source=en&target=ta&callback=translateText&q=' + address.split(',')[0];
+                        newScript.src = source;
+                        // When we add this script to the head, the request is sent off.
+                        document.getElementsByTagName('head')[0].appendChild(newScript);
+                    }
+                }
+            });
+        });
+    }
+    var grid_selector = "#jqEmailUpdation";
+    var pager_selector = "#CommunicationDetailsUpdatePager";
+    $(document).ready(function () {
+
+        //resize to fit page size
+        $(window).on('resize.jqGrid', function () {
+            $(grid_selector).jqGrid('setGridWidth', $(".page-content").width());
+        })
+        //resize on sidebar collapse/expand
+        var parent_column = $(grid_selector).closest('[class*="col-"]');
+        $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+            if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                setTimeout(function () {
+                    $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                }, 0);
+            }
+        })
+
+        $(grid_selector).jqGrid({
+            url: '@Url.Content("~/Admission/CommunicationDetailsUpdateJQGrid")',
+            datatype: 'json',
+            type: 'GET',
+            colNames: ['Id', 'StudentTemplateId', 'PreRegNum', 'New Id', 'Name', 'Initial', 'Campus', 'Grade', 'Section', 'Second Language', 'Admission Status', 'Academic Year', 'General Email Id', 'Father Id', 'Father Mobile', 'Father EmailId', 'Mother Id', 'Mother Mobile', 'Mother EmailId', 'Location in English', 'Location In Tamil', 'Edit'],
+            colModel: [
+            { name: 'Id', index: 'Id', hidden: true, editable: true, width: 120, editoptions: { disabled: true, class: 'NoBorder'} },
+            { name: 'StudentTemplateId', index: 'StudentTemplateId', search: false, hidden: true, editable: true, width: 120, editoptions: { disabled: true, class: 'NoBorder'} },
+            { name: 'PreRegNum', index: 'PreRegNum', search: true, hidden: true, editable: false, width: 120, editoptions: { disabled: true} },
+            { name: 'NewId', index: 'NewId', search: true, editable: false, width: 85, editoptions: { disabled: true, class: 'NoBorder'} },
+            { name: 'Name', index: 'Name', search: true, editable: true, width: 120, editoptions: { class: 'NoBorder'} },
+            { name: 'Initial', index: 'Initial', search: true, hidden: true, editable: true, width: 120, editoptions: { class: 'NoBorder'} },
+            { name: 'Campus', index: 'Campus', search: true, editable: false, width: 90, editoptions: { disabled: true, class: 'NoBorder' }, stype: 'select', searchoptions: {
+                sopt: ["eq", "ne"],
+                value: ":All;IB KG:IB KG;IB MAIN:IB MAIN;KARUR KG:KARUR KG;KARUR:KARUR MAIN;TIRUPUR KG:TIRUPUR KG;TIRUPUR:TIRUPUR MAIN;ERNAKULAM KG:ERNAKULAM KG;ERNAKULAM:ERNAKULAM MAIN;CHENNAI CITY:CHENNAI CITY;CHENNAI MAIN:CHENNAI MAIN;TIPS SALEM:TIPS SALEM;TIPS SARAN:TIPS SARAN"
+            }
+            },
+            { name: 'Grade', index: 'Grade', search: true, width: 90, editable: false, editoptions: { disabled: true, class: 'NoBorder' }, stype: 'select', searchoptions: {
+                sopt: ["eq", "ne"],
+                value: ":All;PlaySchool:PlaySchool;PRE-KG:PRE-KG;LKG:LKG;UKG:UKG;I:Grade-I;II:Grade-II;III:Grade-III;IV:Grade-IV;V:Grade-V;VI:Grade-VI;VII:Grade-VII;VIII:Grade-VIII;IX:Grade-IX;X:Grade-X;DP-1:DP-1;DP-2:DP-2"
+            }
+            },
+            { name: 'Section', index: 'Section', search: true, width: 60, editable: true, sortable: true, edittype: 'text', editrules: { custom: true, custom_func: SectionValidation} },
+            {
+                name: 'SecondLanguage', index: 'SecondLanguage', search: true, width: 100, hidden: true, editable: true, sortable: true, edittype: 'select', editoptions: { dataUrl: '/Admission/getSecondLanguageMaster' },
+                buildSelect: function (data) {
+                    var response, s = '<select>', i;
+                    response = jQuery.parseJSON(data);
+                    if (response && response.length) {
+                        $.each(response, function (i) {
+                            s += '<option value="' + response[i].Text + '">' + response[i].Value + '</option>';
+                        });
+                    }
+                    return s + '</select>';
+                }
+            },
+  {
+      name: 'AdmissionStatus', index: 'AdmissionStatus', width: 120, hidden: true, stype: 'select', searchoptions: {
+          sopt: ["eq", "ne"],
+          value:
+                            ":All;New Enquiry:New Enquiry;Sent For Clearance:Sent For Clearance;New Registration:New Registration;Joining Next Year:Joining Next Year;Registered:Registered;On Hold:On Hold;Waiting For Reply:Waiting For Reply;Discontinued:Discontinued;Declined:Declined;Not Interested:Not Interested;Inactive:Inactive;Not Joined:Not Joined;Deleted:Deleted"
+      }
+  }, { name: 'AcademicYear', index: 'AcademicYear', search: true, hidden: true, editable: false, editoptions: { disabled: true, border: 0} },
+            { name: 'General_EmailId', index: 'General_EmailId', search: true, editable: true, width: 120, edittype: 'text', editrules: { custom: true, custom_func: CheckValidEmail }, hidden: false },
+            { name: 'Father_Id', index: 'Father_Id', search: false, hidden: true, editable: true, editoptions: { disabled: true, class: 'NoBorder'} },
+            { name: 'Father_Mobile', index: 'Father_Mobile', search: true, editable: true, width: 90, edittype: 'text', editoptions: { size: 10, maxlength: 10 }, hidden: false },
+            { name: 'Father_EmailId', index: 'Father_EmailId', search: true, editable: true, width: 120, edittype: 'text', editrules: { custom: true, custom_func: CheckValidEmail }, hidden: false },
+            { name: 'Mother_Id', index: 'Mother_Id', search: false, hidden: true, editable: true },
+            { name: 'Mother_Mobile', index: 'Mother_Mobile', search: true, editable: true, width: 90, edittype: 'text', editoptions: { size: 10, maxlength: 10 }, hidden: false },
+            { name: 'Mother_EmailId', index: 'Mother_EmailId', search: true, editable: true, width: 140, edittype: 'text', editrules: { custom: true, custom_func: CheckValidEmail }, hidden: false },
+            {
+                name: 'LocationName', index: 'LocationName', search: true, editable: true, width: 250,
+                editoptions: {
+                    dataInit: function (el) {
+                        google.maps.event.addDomListener(window, 'load', initialize(el.id));
+                    }
+                }
+            },
+            { name: 'LocationTamilDescription', index: 'LocationTamilDescription', hidden: false, editable: false, search: false },
+            { name: 'Edit', index: 'Edit', search: false, formatoptions: { keys: false, editbutton: true, delbutton: false }, formatter: 'actions', width: 60, border: null }
+            ],
+            pager: pager_selector,
+            rowNum: '10',
+            rowList: [10, 20, 50, 100, 500],
+            sortname: 'Id',
+            sortorder: 'Asc',
+            reloadAfterSubmit: true,
+            autowidth: true,
+            height: 350,
+            viewrecords: true,
+            loadComplete: function () {
+
+                var table = this;
+                setTimeout(function () {
+                    updatePagerIcons(table);
+                    enableTooltips(table);
+                }, 0);
+            },
+            caption: '<i class="ace-icon fa fa-th-list">&nbsp;</i>Communication Details Update',
+            serializeRowData: function (postData) {
+                postData.LocationTamilDescription = $('#LocationTamilDescription').val();
+                $('#LocationTamilDescription').val("");
+                return postData;
+            },
+            onSelectRow: function (id) {
+                AdmissionStatus = $(this).jqGrid("getCell", id, "AdmissionStatus");
+                if (AdmissionStatus == "Registered") {
+                    $('#' + id + '_Section').prop("disabled", false);
+                    $('#' + id + '_SecondLanguage').prop("disabled", false);
+                }
+                else {
+                    $('#' + id + '_Section').prop("disabled", true);
+                    $('#' + id + '_SecondLanguage').prop("disabled", true);
+                }
+
+                $(grid_selector).jqGrid("setCell", id, "LocationTamilDescription", $('#LocationTamilDescription').val());
+            },
+            editurl: '/Admission/EditEmailDetails',
+            onclickSubmit: function () {
+                debugger;
+                alert();
+                $(grid_selector).trigger("reloadGrid");
+            }
+        });
+        $(grid_selector).jqGrid('filterToolbar', { searchOnEnter: true });
+//        jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+//            {
+//                edit: false,
+//                editicon: 'ace-icon fa fa-pencil blue',
+//                add: false,
+//                addicon: 'ace-icon fa fa-plus-circle purple',
+//                del: true,
+//                delicon: 'ace-icon fa fa-trash-o red',
+//                search: false,
+//                searchicon: 'ace-icon fa fa-search orange',
+//                refresh: true,
+//                refreshicon: 'ace-icon fa fa-refresh green',
+//                view: false,
+//                viewicon: 'ace-icon fa fa-search-plus grey'
+//            }, {}, {}, {}, {}, {})
+        $(grid_selector).jqGrid('inlineNav', pager_selector, { edit: false, add: false, del: false });
+    });
+    function updatePagerIcons(table) {
+        var replacement =
+                {
+                    'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                    'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                    'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                    'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+                };
+        $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+            var icon = $(this);
+            var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+            if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+        })
+    }
+    function enableTooltips(table) {
+        $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+        $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+    }
+    function CheckValidEmail(value, column) {
+        if (value == "") {
+            return [value];
+        }
+        else if (!ValidateEmail(value)) {
+            return [false, ' Is Incorrect Email ! The email you entered is not correct format.'];
+        }
+        else {
+            return [value];
+        }
+    }
+
+
+    function MobileNumberValidation(value, column) {
+        if (!$.isNumeric(value)) {
+            return [false, ' Should be numeric'];
+        }
+        else {
+            return [value];
+        }
+        var MobileNum = parseInt(value);
+        var MobileNumberLength = MobileNum.toString().length;
+        if (MobileNumberLength < 10) {
+            return [false, ' Is less than 10 Digit Mobile Number!'];
+        }
+        else if (MobileNumberLength > 10) {
+            return [false, ' Is greater than 10 Digit Mobile Number!'];
+        }
+        else return [MobileNum];
+    }
+
+    function SectionValidation(value, column) {
+        if ($.isNumeric(value)) {
+            return [false, ' Should be alphabets'];
+        }
+        else return [value];
+    }
+
+</script>
+<div class="page-content">
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            @Html.TextBox("LocationTamilDescription", null, new { style = "display:none;", @class = "form-control input-sm" })
+            <div class="col-xs-12">
+                <table id="jqEmailUpdation">
+                </table>
+                <div id="CommunicationDetailsUpdatePager">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

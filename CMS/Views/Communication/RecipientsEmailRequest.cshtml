@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Recipients Email Request";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+    //Layout = "~/Views/Shared/NewBootstrapMaster.cshtml";
+}
+<script src="../../Scripts/EmailValidation.js" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Notification/RecipientsEmailRequest.js")" type="text/javascript"></script>
+
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        @Html.Hidden("BackUrl", Url.Action("BulkEmailRequest", "Communication"))
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="fa fa-envelope"></i>&nbsp;Bulk Email Request</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="space-2">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="button" class="btn btn-mini btn-primary" id="Compose">
+                                        <i class="fa fa-edit" style="color: #ffffff;"></i>&nbsp;Compose
+                                    </button>
+                                    <div class="space-2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="jqBulkEmailRequest">
+                </table>
+                <div id="jqGridBulkEmailRequest">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dialog" title="Message">
+    <div id="showMessage">
+    </div>
+</div>
+<div id="ShowEmailReceipientsDetails"></div>
+<div class="space-2"></div>
+<style>
+    #ShowEmailReceipientsDetails {
+        z-index:10002;
+    }
+</style>

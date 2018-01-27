@@ -1,0 +1,94 @@
+﻿@using TIPS.Entities.Assess
+@model FormattiveAssessmentPrint_vw
+<br />
+<table cellpadding="1" cellspacing="0" style="font-family: sans-serif; font-size: 10px;">
+    <tr>
+        <td align="right" width="15%">
+            <img width="120" height="50" style="float:right" src="@Model.TipsNaceLogo" alt="Tips Logo" />
+        </td>
+        <td align="center" width="70%">
+            <b style="font-size: 15px;">@Model.TipsName</b><br />
+            <br />
+            <b>@Model.Exam</b>
+        </td>
+        <td align="center" width="15%">
+            <img width="120" height="50" style="float:left"  src="@Model.TipsLogo" alt="Tips Logo" />
+        </td>
+    </tr>
+</table>
+<table cellpadding="1" cellspacing="0" style="font-family: sans-serif; font-size: 10px;">
+    <tr>
+        <td align="right">
+            <span style="float: right; padding-bottom: 10px">@String.Format("{0:dd-MMM-yyyy}", DateTime.Now)</span>
+        </td>
+    </tr>
+</table>
+<table cellpadding="1" cellspacing="0" style="font-family: sans-serif; font-size: 10px;">
+    <tr>
+        <td>
+            <span style="float: left"><b>Name of the student:@Model.Name</b></span>
+            <br />
+            <span style="float: right"><b>Grade:@Model.Grade & @Model.Section</b></span>
+        </td>
+    </tr>
+</table>
+<br />
+<table border="1" cellpadding="1" cellspacing="0" style="font-family: sans-serif; font-size: 10px; height: 400px; width: 200px">
+    <tr>
+        <td rowspan="2">
+            <b>Subject</b>
+        </td>
+        <td colspan="12" align="center">
+            <b>Month</b>
+        </td>
+    </tr>
+    <tr>
+        <td>Jan</td>
+        <td>Feb</td>
+        <td>Mar</td>
+        <td>April</td>
+        <td>May</td>
+        <td>June</td>
+        <td>July</td>
+        <td>Aug</td>
+        <td>Sept</td>
+        <td>Oct</td>
+        <td>Nov</td>
+        <td>Dec</td>
+    </tr>
+    @if (Model.FAMarkList != null)
+    {
+        foreach (var item in Model.FAMarkList)
+        {
+        <tr>
+            <td>
+                @item.Subject
+            </td>
+            <td>@item.Jan
+            </td>
+            <td>@item.Feb
+            </td>
+            <td>@item.Mar
+            </td>
+            <td>@item.Apr
+            </td>
+            <td>@item.May
+            </td>
+            <td>@item.Jun
+            </td>
+            <td>@item.Jul
+            </td>
+            <td>@item.Aug
+            </td>
+            <td>@item.Sep
+            </td>
+            <td>@item.Oct
+            </td>
+            <td>@item.Nov
+            </td>
+            <td>@item.Dec
+            </td>
+        </tr> 
+        }
+    }
+</table>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="TIPS.Entities.BioMetricsEntities" assembly="TIPS.Entities.BioMetricsEntities.Employees">
+  <class name="TIPS.Entities.BioMetricsEntities.Employees, TIPS.Entities" table="Employees" >
+    <id name="EmployeeId" column="EmployeeId" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="EmployeeName" column="EmployeeName" type="string"/>
+    <property name="EmployeeCode" column="EmployeeCode" type="string" />
+    <property name="RecordStatus" column="RecordStatus" type="Int32"></property>
+  </class>
+</hibernate-mapping>

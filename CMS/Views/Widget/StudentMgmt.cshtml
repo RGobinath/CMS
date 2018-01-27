@@ -1,0 +1,47 @@
+﻿<style type="text/css">
+    .ui-jqgrid .ui-pg-input
+    {
+        width: 30px;
+    }
+    .ui-jqgrid .ui-pg-selbox
+    {
+        width: 50px;
+        height: 25px;
+    }
+</style>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#Admission').jqGrid({ url: '/Widget/Studentlistjqgrid',
+            datatype: 'Json',
+            type: 'GET',
+            width: 350,
+            height: 140,
+            colNames: ['Id', 'PreRegNum', 'Name', 'Campus', 'AdmissionStatus'],
+            colModel: [
+                       { name: 'Id', index: 'Id', hidden: true },
+                       { name: 'PreRegNum', index: 'PreRegNum', align: "center", width: 130 },
+                       { name: 'Name', index: 'Name', width: 190 },
+                       { name: 'Campus', index: 'Campus' },
+                       { name: 'AdmissionStatus', index: 'AdmissionStatus', width: 170 }, ],
+            rowNum: 5,
+            rowList: [5, 10, 20],
+            sortorder: 'Asc',
+            sortname: 'Name',
+            pager: 'Admissionpager'
+        });
+        $('#Admission').jqGrid('filterToolbar', { searchOnEnter: false, enableClear: false });
+
+    });
+    function getdata(id1) {
+        // 'Session["RegisteredForm"]'="yes";
+        window.location.href = "/Admission/GetFormData?Id=" + id1 + "&RegisteredForm=yes";
+    }
+</script>
+<div id="StudentDetails">
+    <table id="Admission">
+    </table>
+    <div id="Admissionpager">
+    </div>
+</div>

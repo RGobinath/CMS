@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.RegionMaster" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.RegionMaster, TIPS.Entities" table="REGIONMASTER" lazy="false" >
+    <id name="FormId" column="FormId">
+      <generator class="identity" />
+    </id>    
+    <property name="FormCode" column="FormCode" type="string" not-null="true" />
+    <property name="RegionName" column="REGNNAME" type="string" not-null="true" />
+    <property name="RegionCod" column="REGNCOD" type="string" not-null="true" />
+    
+    <property name="CreatedBy" column="CreatedBy" type="string" not-null="true" />
+    <!--<property name="CreatedDate" column="CreatedDate" type="date" not-null="true" />-->
+    <property name="UpdatedBy" column="UpdateBy" type="string" not-null="true" />
+    <!--<property name="UpdatedDate" column="UpdateDate" type="date" not-null="true" />-->
+  </class>
+</hibernate-mapping>

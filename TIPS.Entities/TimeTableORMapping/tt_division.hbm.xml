@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.TimeTableEntities.tt_division" namespace="TIPS.Entities.TimeTableEntities" xmlns="urn:nhibernate-mapping-2.2">
+	<class name="TIPS.Entities.TimeTableEntities.tt_division,TIPS.Entities" table="tt_division" lazy="true">
+		<id name="division_id" column="division_id" type="Int64">
+			<generator class="native"/>
+		</id>
+		<property name="room_id" column="room_id" type="Int64"></property>
+		<property name="Campus" column="Campus" type="string"></property>
+		<property name="Grade" column="Grade" type="string"></property>
+		<property name="Section" column="Section" type="string"></property>
+		<property name="order_no" column="order_no" type="Int32"></property>
+		<property name="description" column="description" type="string"></property>
+<property name="division_color" column="division_color" type="string"></property>
+	</class>
+</hibernate-mapping>

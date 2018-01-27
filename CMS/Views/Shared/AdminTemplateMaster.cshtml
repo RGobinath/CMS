@@ -1,0 +1,338 @@
+﻿@using CMS.Models.Menu
+@using CMS.Models.Gzip
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    @*<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />*@
+    <link href="../../Content/bootstrap-3.1.1/BootstrapSite.css" rel="stylesheet" />
+    <link href="@Url.Content("~/App_Themes/smoothness/jquery-ui-1.8.22.custom.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/App_Themes/Default/ui.jqgrid.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/ddsmoothmenu/ddsmoothmenu.css")" rel="stylesheet" type="text/css" />
+
+    <link href="../../Content/AdminTemplate/Content/bootstrap-3.1.1/bootstrap-3.1.1-dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="../../Content/AdminTemplate/Content/bootstrap-3.1.1/bootstrap-3.1.1-dist/css/bootstrap-theme.css" rel="stylesheet" />
+    <script src="../../Content/AdminTemplate/Content/bootstrap-3.1.1/bootstrap-3.1.1-dist/js/bootstrap.js"></script>
+
+    <link href="../../Content/AdminTemplate/Content/HomePage/SlideBar.css" rel="stylesheet" />
+    <script src="../../Content/AdminTemplate/Content/HomePage/bootstrap.min.js"></script>
+    <script src="../../Content/AdminTemplate/Content/HomePage/jquery-1.11.0.js"></script>
+    <link href="../../Content/AdminTemplate/Content/HomePage/elements.css" rel="stylesheet" />
+    <link href="../../Content/AdminTemplate/Content/HomePage/layout.css" rel="stylesheet" />
+    <script src="../../Content/AdminTemplate/Content/FusionCharts/FusionCharts.js"></script>
+
+
+
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/dddsmoothmenu/ddsmoothmenu.js")"></script>
+    <script src="@Url.Content("~/Scripts/jqGridJs/jquery.jqGrid.src.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/Scripts/jquery-asyncUpload-0.1.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/ajaxfileupload.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/ApplicationScript.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jqMsgs.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/json2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/PasswordValidation.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/iframe.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jqGridJs/grid.common.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jqGridJs/grid.custom.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jqGridJs/grid.formedit.js")" type="text/javascript"></script>
+    <script src="../../Scripts/EmailValidation.js" type="text/javascript"></script>
+    <script src="../../Scripts/jquery.validate.js" type="text/javascript"></script>
+    <script src="../../Scripts/jquery.validate.unobtrusive.js" type="text/javascript"></script>
+    <script src="../../Scripts/jqMsgs.js" type="text/javascript"></script>
+
+    @*--------------------------------------Bootstrap Functions----------------------------------------------*@
+    <script src="../../Content/bootstrap-3.1.1/BootstrapFunctions/bootstrap-maxlength.js"></script>
+    <script src="../../Content/bootstrap-3.1.1/BootstrapFunctions/bootstrap-session-timeout.js"></script>
+    <script src="../../Content/bootstrap-3.1.1/BootstrapFunctions/bootstrapValidator.js"></script>
+    <script src="../../Scripts/Notification/nicEdit.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ui.dropdownchecklist-1.4-min.js")" ></script>
+    @*--------------------------------------------Font Awesome------------------------------------------------*@
+    <link href="../../Content/FontAwesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="../../Content/FontAwesome/css/font-awesome.min.css" rel="stylesheet" />
+    @*--------------------------------------------Fusion Chart------------------------------------------------*@
+    <script src="../../Scripts/FusionCharts.js"></script>
+    @*--------------------------------------Bootstrap Datepicker----------------------------------------------*@
+    <link href="../../Content/bootstrap-3.1.1/datepicker/css/datepicker.css" rel="stylesheet" />
+    <script src="../../Content/bootstrap-3.1.1/datepicker/js/bootstrap-datepicker.js"></script>
+    <style>
+        .menu {
+            position: absolute;
+            top: 165px;
+            width: 150px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+            .menu li {
+                text-indent: 10px;
+                line-height: 30px;
+            }
+
+                .menu li a {
+                    display: block;
+                    text-decoration: none;
+                    /*color: #999999;*/ color: #000000;
+                    font-size: 11px;
+                    font-family: Verdana;
+                }
+
+                    .menu li a:hover {
+                        text-decoration: none;
+                        color: #ffffff;
+                        /*background: rgba(255,255,255,0.2);*/
+                        background: #4B0082;
+                        font-size: 12px;
+                        font-family: Verdana;
+                        width: 177px;
+                    }
+
+                    .menu li a:active,
+                    .menu li a:focus {
+                        text-decoration: none;
+                        color: #ffffff;
+                        /*background: rgba(255,255,255,0.2);*/
+                        background: #4B0082;
+                        font-size: 12px;
+                        font-family: Verdana;
+                        width: 177px;
+                    }
+
+            .menu > .sidebar-brand {
+                height: 65px;
+                font-size: 18px;
+                line-height: 60px;
+            }
+
+        .sidebar-nav > .sidebar-brand a {
+            /*color: #999999;*/ color: #ffffff;
+        }
+
+            .sidebar-nav > .sidebar-brand a:hover {
+                color: #fff;
+                background: none;
+            }
+    </style>
+    <html>
+    <head>
+        <title>@ViewBag.Title</title>
+        <script type="text/javascript" language="javascript">
+            ddsmoothmenu.init({
+                mainmenuid: "smoothmenu2", //Menu DIV id orientation: 'v', //Horizontal or vertical menu: Set to "h" or "v"
+                classname: 'ddsmoothmenu', //class added to   menu's outer DIV //
+                customtheme: ["#B6B6B6"],
+                contentsource: "markup"
+            })
+
+            $(document).ready(function () {
+                var defFunc = function defaultFunc(e) {
+                    if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                        $("#btnsearch").click();
+                        return false;
+                    }
+                    return true;
+                }
+                $('input:text', '#srchKeyPress').keypress(defFunc);
+
+                $.sessionTimeout({
+                    message: 'Your session will be locked in one minute.',
+                    keepAliveUrl: '@Url.Action("KeepAlive", "Home")',
+                    logoutUrl: '@Url.Action("LogOff", "Account")',
+                    redirUrl: '@Url.Action("LogOff", "Account")',
+                    warnAfter: 1020000, // 17 mins
+                    redirAfter: 180000  // 3 mins 
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="main">
+            <table class="CenteredDiv" style="width: 90%;">
+                <tr>
+                    <td style="height: 52px; width: 100%; background-color: #B6B6B6;">
+                        <img src="../../Images/logonace.jpg" style="float: left; height: 57px; width: 100px" />
+                        <img src="../../Images/tips.gif" style="float: right; height: 57px; width: 100px" />
+                    </td>
+                </tr>
+                <tr style="height: 21px; color: black; font: normal 11px Verdana,Arial,sans-serif;">
+                    <td>
+                        <table class="InnerTable" width="100%">
+                            <tr>
+                                <td colspan="1" width="65%"></td>
+                                <td>
+                                    <div class="title" style="height: 10px; text-align: right">
+                                        @Html.Partial("_LogOnPartial")
+                                    </div>
+                                </td>
+                                @*  <td valign="top">
+                                @Html.Partial("_LogOnPartial")
+                                <div id="google_translate_element" align="right">
+                                </div>
+                                <script type="text/javascript">
+                                    function googleTranslateElementInit() {
+                                        new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'ar,es,fr,ru,ta', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, multilanguagePage: true }, 'google_translate_element');
+                                    }
+                                </script>
+                                <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                            </td>*@
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">
+                        <img src="../../Images/fading_Background1.png" height="10px" width="100%" />
+                    </td>
+                </tr>
+                <tr class="menubar">
+                    <td width="100%">
+                        <div id="smoothmenu2" class="ddsmoothmenu">
+                            <table>
+                                @if (Session["SiteLinks"] != null)
+                                {
+                                    @Html.Raw(Session["SiteLinks"].ToString())
+                                }
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%">
+                            <tr style="vertical-align: top;">
+                                <td width="15%">
+                                    <div class="panel panel-primary-customized">
+                                        <div class="panel-heading" style="height: 19px; padding-top: 6px;">
+                                            <i class="fa fa-align-justify"></i>&nbsp;<label>Sub Menu</label>
+                                        </div>
+                                        <div class="panel-body" style="background-color: #f2f2f2; height: 420px;">
+                                            <div style="padding-left: 0px;">
+                                                <ul class="menu">
+                                                    <li>
+                                                        <a href="@Url.Content("~/AdminTemplate/DashBoardIndex")">
+                                                            <i class="fa fa-male"></i>
+                                                            <span>Dash Board</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Content("~/AdminTemplate/StaffManagement")">
+                                                            <i class="fa fa-book"></i>
+                                                            <span>Staff</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-toggle" href="@Url.Content("~/AdminTemplate/AdmissionManagement")">
+                                                            <i class="fa fa-tags"></i>
+                                                            <span>Admission</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Content("~/AdminTemplate/Students")">
+                                                            <i class="fa fa-male"></i>
+                                                            <span>Students</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-toggle" href="@Url.Content("~/AdminTemplate/Assessment")">
+                                                            <i class="fa fa-check-square-o"></i>
+                                                            <span>Assesment</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-toggle" href="@Url.Content("~/AdminTemplate/Email")">
+                                                            <i class="fa fa-envelope-o"></i>
+                                                            <span>Email</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-toggle" href="@Url.Content("~/AdminTemplate/SMS")">
+                                                            <i class="fa fa-mobile"></i>
+                                                            <span>SMS</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-toggle" href="@Url.Content("~/AdminTemplate/Store")">
+                                                            <i class="fa fa-shopping-cart"></i>
+                                                            <span>Store</span>
+                                                        </a>
+                                                    </li>
+                                                     <li>
+                                                        <a class="dropdown-toggle" href="@Url.Content("~/AdminTemplate/Transport")">
+                                                            <i class="fa fa-truck"></i>
+                                                            <span>Transport</span>
+                                                        </a>
+                                                    </li>
+                                                
+                                                    <li>
+                                                        <a class="dropdown-toggle" href="@Url.Content("~/AdminTemplate/Users")">
+                                                            <i class="fa fa-users"></i>
+                                                            <span>Users</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-toggle" href="@Url.Content("~/AdminTemplate/LoginHistory")">
+                                                            <i class="fa fa-sign-in"></i>
+                                                            <span>Login History</span>
+                                                        </a>
+                                                    </li>
+                                                 </ul>
+                                            </div>
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="85%" style="padding-left: 1px;">
+                                    <div class="panel panel-primary-customized">
+                                        <div class="panel-heading" style="height: 19px; padding-top: 6px;">
+                                            <i class="fa fa-dashboard"></i>&nbsp;<label>@ViewBag.Title</label>
+                                        </div>
+                                        <div class="panel-body" style="height: 420px;">
+                                            @RenderBody()
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <img src="../../Images/fading_Background1.png" height="5px;" width="100%" />
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <table class="InnerTable" width="100%">
+                            <tr>
+                                <td>
+                                    <p style="font-style: italic; font-size: x-small; text-align: left;">
+                                        Copyright @@ TIPS, 2012, All rights reserved
+                                    </p>
+                                </td>
+                                <td style="margin: 0px 40px 0px 0px;">
+                                    <img src="../../Images/landline.png" align="right" height="27" width="27" />
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+    </html>

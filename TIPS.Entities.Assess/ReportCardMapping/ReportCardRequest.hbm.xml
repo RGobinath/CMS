@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess.ReportCardClasses" namespace="TIPS.Entities.Assess.ReportCardClasses" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.ReportCardClasses.ReportCardRequest,TIPS.Entities.Assess" table="ReportCardRequest" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="RequestNo" column="RequestNo" type="string" />
+    <property name="Campus" column="Campus" type="string"  />
+    <property name="Section" column="Section" type="string" />
+    <property name="Grade" column="Grade" type="string"  />
+    <property name="GroupName" column="GroupName" type="string" />
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    <property name="TofWorkingDayT1" column="TofWorkingDayT1" type="Int64" />
+    <property name="TofWorkingDayT2" column="TofWorkingDayT2" type="Int64" />
+    <property name="CreatedDate" column="CreatedDate" type="datetime" />
+    <property name="CreatedBy" column="CreatedBy" type="string" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string" />
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime" />
+  </class>
+</hibernate-mapping>

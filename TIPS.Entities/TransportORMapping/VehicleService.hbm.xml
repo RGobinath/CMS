@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.TransportEntities.VehicleService" namespace="TIPS.Entities.TransportEntities">
+  <class name="TIPS.Entities.TransportEntities.VehicleService, TIPS.Entities" table="VehicleService" lazy="false">
+    <id name="ServiceId" column="ServiceId" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="VehicleId" column="VehicleId" type="Int64"></property>
+    <property name="VehicleNo" column="VehicleNo" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="StartKms" column="StartKms" type="Int64"></property>
+    <property name="EndKms" column="EndKms" type="Int64"></property>
+    <property name="Vendor" column="Vendor" type="string"></property>
+    <property name="InvoiceNo" column="InvoiceNo" type="string"></property>
+    <property name="Description" column="Description" type="string"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"></property>
+    <property name="EntryDate" column="EntryDate" type="DateTime"></property>
+    <property name="VehicleCostId" column="VehicleCostId" type="Int64"></property>
+  </class>
+</hibernate-mapping>

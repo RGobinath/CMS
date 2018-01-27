@@ -1,0 +1,139 @@
+﻿@model TIPS.Entities.CanteenEntities.CanteenSupplierMaster
+@{
+    ViewBag.Title = "UserAppRole";
+    Layout = "~/Views/Shared/PartialViewMaster.cshtml";
+}
+<style type="text/css">
+    /* Component containers
+----------------------------------*//*.ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 1.1em; }*/.ui-widget .ui-widget
+    {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+    /*.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button 
+{ font-family: Verdana,Arial,sans-serif; font-size: 1em; 
+  }*/.ui-widget-content
+    {
+        border: 0px solid #aaaaaa;
+        background: #ffffff url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x; /* font-size: 0.8em;*/
+        color: #222222;
+    }
+    .ui-widget-content a
+    {
+        color: #222222;
+    }
+    .ui-widget-header
+    {
+        border: 1px solid #aaaaaa; /*background: #0C0436 url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x; color: #222222; font-weight: bold;*/
+        background-color: #B6B6B6;
+    }
+    .ui-widget-header a
+    {
+        color: #222222;
+    }
+    .ui-jqdialog-content .CaptionTD
+    {
+        text-align: left;
+        vertical-align: top;
+        border-left: 0 none;
+        border-right: 0 none;
+        border-bottom: 0 none;
+        padding: 1px;
+        white-space: nowrap;
+        height: 30px;
+    }
+    .ui-jqdialog .ui-jqdialog-titlebar
+    {
+        padding: .10em .10em;
+        position: relative;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        jQuery("#CanteenSupplierList").jqGrid({
+            url: '/Canteen/CanteenSupplierListJqGrid1',
+            datatype: 'json',
+            mtype: 'GET',
+            height: '265',
+            width: '970',
+            // shrinkToFit: true,
+            colNames: ['Name', 'Contact Name', 'PAN Number', 'Mobile Number', 'Phone Number', 'Email', 'City', 'State', 'PIN Code', 'Country', 'Type', 'TIN Number', 'Credit Terms', 'Is Preferred Supplier', 'Is Active', 'Address', 'Notes', 'Id', 'Form Code', 'Form Code'],
+            colModel: [
+        { name: 'SupplierName', index: 'SupplierName', width: 50, align: 'left', sortable: true, editable: true, edittype: 'text', formoptions: { elmsuffix: ' *', rowpos: 1, colpos: 1 }, editrules: { required: true }, editoptions: { maxlength: 50} },
+        { name: 'CompanyName', index: 'CompanyName', width: 120, align: 'left', sortable: true, editable: true, edittype: 'text', formoptions: { elmsuffix: ' *', rowpos: 1, colpos: 2 }, editrules: { required: true }, editoptions: { maxlength: 50} },
+        { name: 'PANNumber', index: 'PANNumber', width: 50, align: 'left', sortable: true, editable: true, edittype: 'text', formoptions: { elmsuffix: ' *', rowpos: 1, colpos: 3 }, editrules: { required: true }, editoptions: { maxlength: 50} },
+        { name: 'MobileNumber', index: 'MobileNumber', width: 50, align: 'left', sortable: true, editable: true, edittype: 'text', formoptions: { elmsuffix: ' *', rowpos: 2, colpos: 1 }, editrules: { required: true} },
+        { name: 'PhoneNumber', index: 'PhoneNumber', width: 50, align: 'left', sortable: true, editable: true, edittype: 'text', formoptions: { elmsuffix: ' *', rowpos: 2, colpos: 2 }, editrules: { required: true} },
+        { name: 'Email', index: 'Email', width: 50, align: 'left', edittype: 'text', editable: true, editrules: { required: true, edithidden: true, email: true }, sortable: true, formoptions: { elmsuffix: ' *', rowpos: 2, colpos: 3 }, editoptions: { maxlength: 50} },
+        { name: 'City', index: 'City', width: 50, align: 'left', sortable: true, hidden: true, editable: true, editrules: { required: true, edithidden: true }, formoptions: { elmsuffix: ' *', rowpos: 3, colpos: 1 }, editoptions: { maxlength: 50} },
+        { name: 'State', index: 'State', width: 50, align: 'left', sortable: true, editable: true, edittype: 'text', hidden: true, editrules: { required: true, edithidden: true }, formoptions: { elmsuffix: ' *', rowpos: 3, colpos: 2 }, editoptions: { maxlength: 50} },
+        { name: 'ZipCode', index: 'ZipCode', width: 50, align: 'left', sortable: true, editable: true, edittype: 'text', hidden: true, editrules: { required: true, integer: true, edithidden: true }, formoptions: { elmsuffix: ' *', rowpos: 3, colpos: 3 }, editoptions: { maxlength: 10} },
+        { name: 'Country', index: 'Country', width: 50, align: 'left', sortable: true, editable: true, edittype: 'text', hidden: true, editrules: { required: true, edithidden: true }, formoptions: { elmsuffix: ' *', rowpos: 4, colpos: 1 }, editoptions: { maxlength: 50} },
+        { name: 'Type', index: 'Type', width: 50, align: 'left', sortable: true, editable: true, edittype: 'select', hidden: true, editrules: { required: true, edithidden: true }, editoptions: { value: ":----Select----;Supplier:Supplier;Transporter:Transporter;Courier:Courier;Agent:Agent" }, formoptions: { elmsuffix: ' *', rowpos: 4, colpos: 2} },
+        { name: 'TINNumber', index: 'TINNumber', width: 50, align: 'left', sortable: true, editable: true, edittype: 'text', formoptions: { elmsuffix: ' *', rowpos: 4, colpos: 3 }, editrules: { required: true }, editoptions: { maxlength: 50} },
+        { name: 'CreditTerms', index: 'CreditTerms', width: 50, align: 'left', sortable: true, editable: true, edittype: 'select', hidden: true, editrules: { required: true, edithidden: true }, editoptions: { value: ":----Select----;Immediate:Immediate;30 Days:30 Days;60 Days:60 Days;90 Days:90 Days" }, formoptions: { elmsuffix: ' *', rowpos: 5, colpos: 1} },
+        { name: 'IsPreferredSupplier', index: 'IsPreferredSupplier', formatter: showYesOrNo, stype: 'select', width: 50, align: 'left', sortable: true, editable: true, edittype: 'select', editoptions: { value: "True:Yes;False:No" }, formoptions: { elmsuffix: ' *', rowpos: 5, colpos: 2 }, editrules: { required: true} },
+        { name: 'IsActive', index: 'IsActive', width: 50, align: 'left', formatter: showYesOrNo, stype: 'select', sortable: true, editable: true, edittype: 'select', editoptions: { value: "True:Yes;False:No" }, formoptions: { elmsuffix: ' *', rowpos: 5, colpos: 3 }, editrules: { required: true} },
+        { name: 'Address', index: 'Address', width: 50, align: 'left', edittype: 'textarea', editoptions: { rows: "4", cols: "20" }, editable: true, hidden: true, editrules: { required: true, edithidden: true }, sortable: true, formoptions: { elmsuffix: ' *', rowpos: 6, colpos: 1 }, editoptions: { maxlength: 4000} },
+        { name: 'Notes', index: 'Notes', width: 50, align: 'left', sortable: true, editable: true, edittype: 'textarea', editoptions: { rows: "4", cols: "20" }, formoptions: { rowpos: 6, colpos: 2 }, editoptions: { maxlength: 4000} },
+        { name: 'Id', index: 'Id', width: 50, align: 'left', editable: true, hidden: true, edittype: 'text', key: true, sortable: true },
+        { name: 'FormCode', index: 'FormCode', width: 50, align: 'left', edittype: 'text', editable: true, hidden: true, sortable: true },
+        { name: 'FrmCode', index: 'FrmCode', width: 50, align: 'left', sortable: true, hidden: true },
+        ],
+            pager: '#DivSupplierPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'SupplierName',
+            sortorder: "Desc",
+            labelswidth: 60,
+            viewrecords: true,
+            multiselect: true,
+            closeAfterEdit: true,
+            closeAfterAdd: true,
+            // autowidth: true,
+            // loadonce: true, 
+            reloadAfterSubmit: true,
+            caption: 'Canteen Functionaries List',
+            beforeShowForm: function () {
+                var $tr = $("#tr_SupplierName"), // name' is the column name
+                $label = $tr.children("td.CaptionTD"),
+                $data = $tr.children("td.DataTD");
+                $data.attr("colspan", "5");
+                $data.children("input").css("width", "95%");
+                $label.css("width", "20%");
+            }
+        });
+        jQuery("#CanteenSupplierList").navGrid('#DivSupplierPager', { add: true, edit: true, del: false, search: false, refresh: false },
+        { height: 350, width: 970, url: '/Canteen/AddCanteenSupplier?test=edit' },
+        { height: 350, width: 970, url: '/Canteen/AddCanteenSupplier' },
+        { closeOnEscape: true, recreateForm: true, height: 380, width: 900 },   // Edit options
+        {closeOnEscape: true, recreateForm: true, height: 380, width: 900 }
+        );
+        jQuery("#CanteenSupplierList").jqGrid('navButtonAdd', '#DivSupplierPager', {
+            caption: "Export To Excel",
+            onClickButton: function () {
+
+                var ExptType = 'Excel';
+                window.open("/Canteen/CanteenSupplierListJqGrid1" + '?rows=9999' + '&ExptType=' + ExptType);
+            }
+        });
+        $("#CanteenSupplierList").jqGrid('filterToolbar', { stringResult: false, searchOnEnter: true, beforeSearch: function () {
+            $('#CanteenSupplierList').clearGridData();
+            return false;
+        }
+        });
+
+    });
+    function showYesOrNo(cellvalue, options, rowObject) {
+        if (cellvalue == 'True') {
+            return 'Yes';
+        }
+        else {
+            return 'No';
+        }
+    }
+</script>
+<table id="CanteenSupplierList" class="WithBorderOnly" width="100%" cellspacing="8">
+</table>
+<div id="DivSupplierPager">
+</div>

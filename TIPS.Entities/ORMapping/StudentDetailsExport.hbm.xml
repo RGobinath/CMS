@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StudentDetailsExport" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StudentDetailsExport, TIPS.Entities" table="StudentDetailsNew_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="NewId" column="NewId" type="string" />
+    <property name="Name" column="Name" type="string"  />
+    <property name="Campus" column="Campus" type="string"  />
+    <property name="AdmissionStatus" column="AdmissionStatus" type="string"  />
+    <property name="Gender" column="Gender" type="string" />
+    <property name="DOB" column="DOB" type="string"  />
+    <property name="Grade" column="Grade" type="string"  />
+    <property name="Section" column="Section" type="string"  />
+    <property name="BoardingType" column="BoardingType" type="string"  />
+    <property name="FoodType" column="FoodType" type="string" />
+    <property name="TransportRequired" column="TransportRequired" type="string" />
+    <property name="PreRegNum" column="PreRegNum" type="Int64" />
+    <property name="FatherName" column="FatherName" type="string" />
+    <property name="MotherName" column="MotherName" type="string" />
+    <property name="FatherMobileNumber" column="FatherMobileNumber" type="string" />
+    <property name="MotherMobileNumber" column="MotherMobileNumber" type="string" />
+    <property name="Address" column="Address" type="string" />
+    <property name="City" column="City" type="string" />
+    <property name="FatherEmail" column="FatherEmail" type="string" />
+    <property name="MotherEmail" column="MotherEmail" type="string" />
+    <property name="Sequence" column="Sequence" type="Int32" />
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    <property name="EmailId" column="EmailId" type="string" />
+    <property name="CreatedDate" column="CreatedDate" type="string" />
+    <property name="FatherOccupation" column="FatherOccupation" type="string" />
+    <property name="MotherOccupation" column="MotherOccupation" type="string" />
+    <property name="BGRP" column="BGRP" type="string" />
+    <property name="VanNo" column="VanNo" type="string" />
+    <property name="MobileNo" column="MobileNo" type="string" />
+  </class>
+</hibernate-mapping>

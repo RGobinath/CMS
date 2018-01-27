@@ -1,0 +1,62 @@
+﻿@model TIPS.Entities.TransportEntities.VehicleDetails
+<script type="text/javascript">
+    $(document).ready(function () {
+        //        $("#MaintenanceTabs").tabs({
+        //        });
+        var VehicleId = $("#hdnVehicleId").val();
+    });
+</script>
+<script type="text/javascript">
+    try { ace.settings.check('main-container', 'fixed') } catch (e) { }
+</script>
+@using (Html.BeginForm())
+{
+    <div class="row" id="Maintenance">
+        @*<div class="widget-box">
+            <div class="widget-body">
+                <div class="widget-main no-padding">*@
+                    @*<div class="row">*@
+                        <div class="col-xs-12">
+                            <ul class="nav nav-tabs" id="myTab">
+                                <li class="active"><a href="#VehicleMaintenance" data-toggle="tab"><i class="green ace-icon fa fa-cogs bigger-120">
+                                </i>Mechanical Maintenance</a></li>
+                                <li class=""><a href="#VehicleACMaintenance" data-toggle="tab"><i class="green ace-icon fa 	fa-cloud bigger-120">
+                                </i>AC Maintenance</a></li>
+                                <li class=""><a href="#VehicleElectricalMaintenance" data-toggle="tab"><i class="green ace-icon fa fa-bolt bigger-120">
+                                </i>Electrical Maintenance</a></li>
+                                <li class=""><a href="#VehicleBodyMaintenance" data-toggle="tab"><i class="green ace-icon fa fa-car bigger-120">
+                                </i>Body Maintenance</a></li>
+                                <li class=""><a href="#VehicleTyreMaintenance" data-toggle="tab"><i class="green ace-icon fa fa-database bigger-120">
+                                </i>Tyre Maintenance</a></li>
+                            </ul>
+                            <div class="tab-content"  style="margin-top: -9px;">
+                                <div id="VehicleMaintenance" class="tab-pane fade active in">
+                                    @Html.Partial("VehicleMaintenance")
+                                </div>
+                                <div id="VehicleACMaintenance" class="tab-pane fade ">
+                                    @Html.Partial("VehicleACMaintenance")
+                                </div>
+                                <div id="VehicleElectricalMaintenance" class="tab-pane fade ">
+                                    @Html.Partial("VehicleElectricalMaintenance")
+                                </div>
+                                <div id="VehicleBodyMaintenance" class="tab-pane fade ">
+                                    @Html.Partial("VehicleBodyMaintenance")
+                                </div>
+                                <div id="VehicleTyreMaintenance" class="tab-pane fade ">
+                                    @Html.Partial("VehicleTyreMaintenance")
+                                </div>
+                            </div>
+                        </div>
+                    @*</div>*@
+               @* </div>
+            </div>
+        </div>*@
+    </div>
+
+}
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../assets/js/jquery.min.js'>" + "<" + "/script>");
+</script>
+<script type="text/javascript">
+    if ('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+</script>

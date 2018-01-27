@@ -1,0 +1,38 @@
+﻿@using TIPS.Entities.Assess
+@model ReportCardFromAssess360VItoVIII
+<div style="position: relative; left: 0; top: 0;">
+    <img src="../../Images/PDF%20Images/StartPage.jpg" style="position: relative; top: 0;
+        left: 0;" />
+    <div style="position: absolute; top: 285; left: 1030; width: 900; height: 500;">
+        <table>
+            <tr>
+                <td class="NameDiv">
+                    @Model.Name
+                </td>
+            </tr>
+            <tr>
+                <td class="NameDiv">
+                    @Model.IdNo
+                </td>
+            </tr>
+            <tr>
+                <td class="NameDiv">
+                    @Model.Grade-
+                    @Model.Section
+                </td>
+            </tr>
+            <tr>
+                <td class="NameDiv">
+                    @Model.AcademicYear
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+@*<table  class="startPage" width="250%" height="300%" border="5px;">
+    <tr>
+        <td>
+            
+        </td>
+    </tr>
+</table>*@ 

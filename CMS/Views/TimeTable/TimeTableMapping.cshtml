@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "TimeTableMapping";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<div class="page-content">
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-calendar"></i>&nbsp;Time Table Mapping
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b></label>
+                                            @Html.DropDownList("ddlcampus", new SelectList(ViewBag.campusddl, "Name", "Name"), "---Select---", new { id = "ddlcampus", @Class = "form-control select-sm height-20" })
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label for="form-field-select-1">
+                                                <b>Grade</b></label>
+                                            @Html.DropDownList("ddlgrade", new SelectList(ViewBag.gradeddl1, "gradcod", "gradcod"), "---Select---", new { id = "ddlgrade", @Class = "form-control select-sm height-20" })
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label for="form-field-select-1">
+                                                <b>Section</b></label>
+                                            @Html.DropDownList("ddlsection", new SelectList(ViewBag.sectionddl, "Section", "Section"), "---Select---", new { id = "ddlsection", @Class = "form-control select-sm height-20" })
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm" id="event-container">
+                                        <form>
+                                            <fieldset>
+                                                <legend>Draggable Events
+                                                </legend>
+                                                <ul id='external-events' class="list-unstyled">
+                                                    <li>
+                                                        <span class="bg-color-darken txt-color-white" data-description="Currently busy" data-icon="fa-time">Office Meeting</span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="bg-color-blue txt-color-white" data-description="No Description" data-icon="fa-pie">Lunch Break</span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="bg-color-red txt-color-white" data-description="Urgent Tasks" data-icon="fa-alert">URGENT</span>
+                                                    </li>
+                                                </ul>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" id="drop-remove" class="checkbox style-0" checked="checked">
+                                                        <span>remove after drop</span>
+                                                    </label>
+
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-xs-7">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="DivNewSubject">
+            </div>
+        </div>
+    </div>

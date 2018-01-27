@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StaffManagementEntities.SurveyQuestionMaster" namespace="TIPS.Entities.StaffManagementEntities">
+  <class name="TIPS.Entities.StaffManagementEntities.SurveyQuestionMaster, TIPS.Entities" table="SurveyQuestionMaster" lazy="false">
+    <id name="SurveyQuestionId" column="SurveyQuestionId" type="Int64">
+      <generator class="identity"></generator>
+    </id>    
+    <property name="SurveyQuestion" column="SurveyQuestion" type="string"></property>
+    <property name="IsActive" column="IsActive" type="bool"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime"></property>    
+    <many-to-one name="SurveyGroupMaster" column="SurveyGroupId" not-found="ignore" class="TIPS.Entities.StaffManagementEntities.SurveyGroupMaster,  TIPS.Entities" cascade="none" fetch="join"> </many-to-one>
+  </class>
+</hibernate-mapping>

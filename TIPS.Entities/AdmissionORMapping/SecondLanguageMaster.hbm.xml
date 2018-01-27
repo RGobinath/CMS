@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AdmissionEntities.SecondLanguageMaster" namespace="TIPS.Entities.AdmissionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AdmissionEntities.SecondLanguageMaster, TIPS.Entities" table="SecondLanguageMaster" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="SecondLanguageCode" column="SecondLanguageCode" type="string" ></property>
+    <property name="SecondLanguageText" column="SecondLanguageText" type="string" ></property>
+  <property name="Flag" column="Flag" type="Int64" ></property>
+  </class>
+</hibernate-mapping>

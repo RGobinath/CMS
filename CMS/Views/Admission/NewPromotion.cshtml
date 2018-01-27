@@ -1,0 +1,96 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Promotion</title>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#BulkPromTransferRequestId').val('@ViewBag.BulkPromTransferRequestId');
+
+            $("#campus").change(function () {
+                gradeddl();
+            });
+
+            function gradeddl() {
+                var e = document.getElementById('campus');
+                var campus = e.options[e.selectedIndex].value;
+                alert(campus);
+                $.getJSON("/Admission/CampusGradeddl/", { Campus: campus },
+            function (modelData) {
+                var select = $("#ddlgrade1");
+                select.empty();
+                select.append($('<option/>', {value: "",text: "Select Grade"}));
+                $.each(modelData, function (index, itemData) {
+                select.append($('<option/>',{value: itemData.gradcod,text: itemData.gradcod}));
+                });
+            });
+            }
+        });
+
+        function Newpromotionvalidate() {
+            if (document.getElementById("promotesection").value == "") {
+                ErrMsg("Please Select Section!");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    </script>
+</head>
+<body>
+    @using (Html.BeginForm("NewPromotion", "Admission", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.Hidden("BulkPromTransferRequestId")
+        <table>
+            <tr>
+                <td>
+                    <table class="WithBorderOnly" style="border: none" width="100%">
+                        <tr>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Campus : &nbsp&nbsp&nbsp @Session["Promotioncamp"]
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Grade &nbsp&nbsp&nbsp&nbsp: &nbsp&nbsp&nbsp @Html.DropDownListFor(Model => Model.Grade, new SelectList(ViewBag.gradeddl, "gradcod", "gradcod"), "Select One", new { id = "ddlgrade1", @Class = "CSSDropDownList", @disabled = "disabled" })
+                                @Html.HiddenFor(model => model.Grade)
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Section &nbsp: &nbsp&nbsp&nbsp @Html.DropDownListFor(Model => Model.Section, new SelectList(ViewBag.sectionddl, "Section", "Section"), "Select One", new { id = "promotesection", @Class = "CSSDropDownList" })
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="submit" value="Promote" onclick="return(Newpromotionvalidate());" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    }
+</body>
+</html>

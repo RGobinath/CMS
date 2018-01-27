@@ -1,0 +1,182 @@
+﻿@model TIPS.Entities.TransportEntities.VehicleDetails
+@{
+    ViewBag.Title = "VehicleCostDetails";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<script type="text/javascript">
+    try { ace.settings.check('main-container', 'fixed') } catch (e) { }
+</script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-3">
+                                        <label for="form-field-select-1">
+                                            <b>Vehicle No</b></label><br />
+                                        @Model.VehicleNo
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label><br />
+                                        @Model.Campus
+
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label for="form-field-select-1">
+                                            <b>Type</b></label><br />
+
+                                        @Model.Type
+                                        @Html.HiddenFor(model => model.Id, new { id = "hdnVehicleId" })
+                                        @Html.HiddenFor(model => model.Campus, new { id = "hdnCampus" })
+                                    </div>
+                                    @*        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Date Commissioned</b></label><br />
+                                                    @Html.TextBox("Commissioned","", new { @class = "form-control input-sm" })
+                                        </div>*@
+
+                                    <div class="col-sm-3">
+                                        <br />
+                                        <button type="button" id="Back" class="btn btn-purple btn-block btn-sm">
+                                            <i class="ace-icon fa fa-arrow-left"></i>Back to Inbox</button>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="space-6">
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <table id="VehicleCostDetailsJqGrid">
+        </table>
+        <div id="VehicleCostDetailsJqGridPager">
+        </div>
+
+        <script type="text/javascript">
+            var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+        </script>
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+    <!-- /.col -->
+</div>
+
+<script src="../../Scripts/Transport/VechicleCostDetails.js"></script>
+<script type="text/javascript">
+
+    $("#Back").click(function () {
+        window.location.href = "/Transport/VehicleDetailList";
+    });
+
+</script>
+
+
+@*<script type="text/javascript">
+
+    jQuery(document).ready(function () {
+
+        jQuery("#VehicleCostDetailsJqGrid").jqGrid('jqPivot',
+        "data.json",
+        // pivot options
+        {
+            xDimension: [
+                { dataName: "IndividualDate" },
+                { dataName: "Campus" },
+                { dataName: "TypeOfTrip" },
+                { dataName: "VehicleNo" },
+                { dataName: "DriverName" },
+                { dataName: "HelperName" },
+                { dataName: "VehicleRoute" },
+                { dataName: "StartKmrs" },
+                { dataName: "EndKmrs" },
+                { dataName: "DriverOt" },
+                { dataName: "HelperOt" },
+                { dataName: "Diesel" },
+                { dataName: "Maintenance" },
+            ],
+            groupSummaryPos: "footer",
+            aggregates: [
+                {
+                    formatter: "number",
+                    label: "StartKmrs",
+                    width: 80,
+                    align: "right",
+                    aggregator: "StartKmrs",
+                    summaryType: "sum",
+                    member: "Price"
+                },
+                {
+                    formatter: "number",
+                    label: "EndKmrs",
+                    width: 80,
+                    align: "right",
+                    aggregator: "EndKmrs",
+                    summaryType: "sum",
+                    member: "Quantity"
+                },
+            {
+                formatter: "number",
+                label: "DriverOt",
+                width: 80,
+                align: "right",
+                aggregator: "DriverOt",
+                summaryType: "sum",
+                member: "Quantity"
+            },
+    {
+        formatter: "number",
+        label: "HelperOt",
+        width: 80,
+        align: "right",
+        aggregator: "HelperOt",
+        summaryType: "sum",
+        member: "Quantity"
+    }
+            ],
+            yDimension: [
+
+            ]
+        },
+    // grid options
+    {
+        width: 700,
+        height: "100%",
+        rowNum: 10,
+        pager: "#VehicleCostDetailsJqGridPager",
+        caption: "Rows grouping"
+    });
+    });
+
+</script>*@

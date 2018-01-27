@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PrintIdPickupCard</title>
+    <script>
+        function printpage() {
+            window.print();
+        }
+
+        function back() {
+            window.location.href = "/Admission/IdPickupPrint";
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <table>
+            @Html.Raw(ViewBag.IdPickupHtmlTag)
+        </table>
+    </div>
+    <input type="button" value="Print this page" onclick="printpage()" />
+    &nbsp&nbsp&nbsp&nbsp&nbsp
+    <input type="button" value="Back" onclick="back()" />
+</body>
+</html>

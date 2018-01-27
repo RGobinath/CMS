@@ -1,0 +1,119 @@
+﻿@model TIPS.Entities.TransportEntities.VehicleService
+@{
+    ViewBag.Title = "VehicleServiceEntryForm";
+}
+<div class="row">
+    @*<div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue ">*@
+    @*<div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    &nbsp;Regular Service
+                </div>
+            </div>*@
+    @*<div class="widget-body">
+                <div class="widget-main no-padding">*@
+    <div class="row" style="margin-top: 10px; margin-bottom: 5px;">
+        <div class="col-xs-12">
+            <div class="col-sm-3">
+                <label for="form-field-select-1">
+                    <b>Start Kms<sup style="color: red">*</sup></b></label>
+                <br />
+                @Html.HiddenFor(model => model.Campus, new { id = "hdnCampus2" })
+                @Html.HiddenFor(model => model.Vendor, new { id = "hdnVendor2" })
+                @Html.HiddenFor(model => model.ServiceId, new { id = "hdnServiceId" })
+                @Html.Hidden("VehicleCostId", "", new { id = "hdnVehicleCostId2", @Value = ViewBag.VehicleCostId })
+                @if (Model != null)
+                { 
+                    @Html.TextBoxFor(model => model.StartKms, new { @class = "form-control input-sm" })
+                }
+                else
+                { 
+                    @Html.TextBox("StartKms", "", new { @class = "form-control input-sm" })
+                }
+            </div>
+            <div class="col-sm-3">
+                <label for="form-field-select-1">
+                    <b>End Kms<sup style="color: red">*</sup></b></label>
+                <br />
+                @if (Model != null)
+                { 
+                    @Html.TextBoxFor(model => model.EndKms, new { @class = "form-control input-sm" })
+                }
+                else
+                {
+                    @Html.TextBox("EndKms", "", new { @class = "form-control input-sm" })
+                }
+            </div>
+            <div class="col-sm-3">
+                <label for="form-field-select-1">
+                    <b>Vendor<sup style="color: red">*</sup></b></label>
+                <br />
+                @if (Model != null)
+                {
+                    @Html.DropDownListFor(model => model.Vendor, new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "Vendor2", @Class = "form-control select-sm" })
+                }
+                else
+                {
+                    @Html.DropDownList("Vendor", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "Vendor2", @Class = "form-control select-sm" })
+                }
+            </div>
+            <div class="col-sm-3">
+                <label for="form-field-select-1">
+                    <b>Invoice Number<sup style="color: red">*</sup></b></label>
+                <br />
+                @if (Model != null)
+                {
+                    @Html.TextBoxFor(model => model.InvoiceNo, new { id = "InvoiceNo2", @class = "form-control input-sm" })
+                }
+                else
+                {
+                    @Html.TextBox("InvoiceNo", "", new { id = "InvoiceNo2", @class = "form-control input-sm" })
+                }
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-sm-6">
+                <label for="form-field-select-1">
+                    <b>Description</b></label>
+                @if (Model != null)
+                {
+                    @Html.TextAreaFor(model => model.Description, new { id = "Description2", rows = 5, cols = 50, @class = "form-control textarea" })
+                }
+                else
+                {
+                    @Html.TextArea("Description", "", new { id = "Description2", rows = 5, cols = 50, @class = "form-control textarea" })
+                }
+            </div>
+            <div class="col-sm-3">
+                <label for="form-field-select-1">
+                <b>Travel Date</b></label>
+                <div class="input-group input-group-sm">
+                    @if (Model != null)
+                    {
+                        @Html.TextBoxFor(model => model.EntryDate, new { id = "EntryDate2", @Class = "form-control date-picker", disabled = "true", @Value = Model.EntryDate != null ? Model.EntryDate.Value.ToString("dd'/'MM'/'yyyy") : "" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(model => model.EntryDate, new { id = "EntryDate2", @Class = "form-control date-picker", disabled = "true", @Value = ViewBag.EntryDate != null ? ViewBag.EntryDate.ToString("dd'/'MM'/'yyyy") : "" })
+                    }
+                    <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <br />
+                <button type="button" class="btn btn-success btn-info btn-block btn-sm" id="btnSave"
+                    onclick="ServiceCreate();return false;">
+                    <i class="ace-icon fa fa-floppy-o bigger-120 white"></i>Save
+                </button>
+            </div>
+        </div>
+    </div>
+    @* </div>
+            </div>
+        </div>
+    </div>*@
+</div>
+<script src="../../Scripts/Transport/VehicleServiceEntryForm.js"></script>

@@ -1,0 +1,46 @@
+﻿<script type="text/javascript" language="javascript">
+    $(function () {
+        $("#CommentList").jqGrid({
+            url: '/Home/DescriptionForSelectedIdJqGrid?Id=' + $('#Id').val(),
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Commented By', 'Commented On', 'Rejection Comments', 'Resolution Comments'],
+            colModel: [
+             // { name: 'Issue Number', index: 'EntityRefId', sortable: false },
+              { name: 'CommentedBy', index: 'CommentedBy', sortable: false },
+              { name: 'CommentedOn', index: 'CommentedOn', sortable: false },
+              { name: 'RejectionComments', index: 'RejectionComments', sortable: false },
+              { name: 'ResolutionComments', index: 'ResolutionComments', sortable: false }
+             ],
+            rowNum: -1,
+            //width: 1160,
+            autowidth:true,
+            height: 100,
+            sortname: 'EntityRefId',
+            sortorder: "desc",
+            viewrecords: true,
+            caption:'Discussion Forum'
+        });
+    });
+</script>
+<table class="WithBorderOnly" width="100%" id="CommentsSection">
+    <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+        <td colspan="4">
+            Rejection Grid
+        </td>
+    </tr>
+    <tr id="trComments">
+        <th colspan="2" valign="top">
+            Comments
+        </th>
+        <td colspan="2">
+            @Html.TextArea("txtRejection", new { rows = 2, cols = 40, id = "txtRejection", @class = "CSSTextArea" })
+            <span style="color: Red">*</span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <table id="CommentList"></table>
+        </td>
+    </tr>
+</table>

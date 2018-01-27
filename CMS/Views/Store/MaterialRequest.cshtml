@@ -1,0 +1,165 @@
+﻿@model TIPS.Entities.StoreEntities.MaterialRequest
+@{
+    ViewBag.Title = "MaterialRequest";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+@using (Html.BeginForm("MaterialRequest", "Store", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="page-content">
+        <div class="page-content-area">
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-info-circle"></i>&nbsp;Basic Details</div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Request Number</b></label>
+                                            @Html.TextBox("RequestNumber", null, new { @Readonly = "Readonly", @Class = "form-control select-sm" })
+                                            @Html.Hidden("Flag", "", new { id = "Flag", @Value = ViewBag.Flag })
+                                            @Html.HiddenFor(m => m.RequestNumber)
+                                            @Html.HiddenFor(m => m.Id)
+                                            @Html.HiddenFor(m => m.InstanceId)
+                                            @Html.Hidden("MatReqRefId")
+                                            @Html.Hidden("BackUrl", Url.Action("MaterialRequestList", "Store"))
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Requested Date</b></label><br />
+                                            @String.Format("{0:dd-MM-yyyy }", Model.RequestedDate)
+                                            @Html.HiddenFor(m => m.RequestedDate)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Procesed By / User Role</b></label>
+                                            @Model.ProcessedBy / @Model.UserRole
+                                            @Html.HiddenFor(m => m.ProcessedBy)
+                                            @Html.HiddenFor(m => m.UserRole)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Status</b></label><br />
+                                            @Model.RequestStatus
+                                            @Html.HiddenFor(m => m.RequestStatus)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Requestor Campus</b></label><br />
+                                            @Model.Campus
+                                            @Html.HiddenFor(model => model.Campus)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Required for Campus</b></label><br />
+                                            @*@Html.DropDownListFor(m => m.RequiredForCampus, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlReqForCamp", @Class = "form-control select-sm" })*@
+                                            @Model.Campus
+                                            @Html.HiddenFor(model => model.RequiredForCampus, new { @Value =Model.Campus })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Department</b></label>
+                                            @Html.DropDownListFor(model => model.Department, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlDepartment", @Class = "form-control select-sm" })
+                                            @Html.HiddenFor(model => model.Department)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Requestor Remarks</b></label>
+                                            @Html.TextAreaFor(m => m.RequestorDescription, new { id = "txtDescription", rows = 1, cols = 28, @class = "form-control textarea" })
+                                            @Html.HiddenFor(model => model.RequestorDescription)
+                                        </div>
+                                        <div class="col-sm-2 Store">
+                                            <label for="form-field-select-1">
+                                                <b>Required For Store</b></label>
+                                            @Html.DropDownListFor(model => model.RequiredForStore, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlRequiredForStore", @Class = "form-control select-sm" })
+                                            @Html.HiddenFor(m => m.RequiredForStore)
+                                        </div>
+                                        <div class="col-sm-2 Store">
+                                            <label for="form-field-select-1">
+                                                <b>Required from Store</b></label>
+                                            @Html.DropDownListFor(model => model.RequiredFromStore, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlRequiredFromStore", @Class = "form-control select-sm" })
+                                            @Html.HiddenFor(m => m.RequiredFromStore)
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <br />
+                                            <button type="button" class="btn btn-primary btn-block btn-sm" id="btnSave">
+                                                <i class="ace-icon fa fa-file white"></i>Save
+                                            </button>
+                                        </div>
+                                        @if (Session != null && Session["UserId"].ToString() == "Felix")
+                                        {
+                                            <div class="col-sm-2">
+                                            <br />
+                                                @Html.DropDownList("SelectType", new SelectList(new[]
+                                                {
+                                                   new {Value="",Text="Select Type"},
+                                                   new{Value="Multiple",Text="Multiple"},
+                                                }, "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                            </div>
+                                        }
+                                        <div class="col-sm-3">
+                                            <br />
+                                            <label for="form-field-select-1">
+                                                <b>Add Material&nbsp;:&nbsp;</b></label>
+                                            <a id="MaterialSearch1" style="cursor: pointer;"><i class="fa fa-search"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table id="MaterialRequestList">
+                    </table>
+                    <div id="MaterialRequestListPager">
+                    </div>
+                </div>
+            </div>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-success btn-block btn-sm" id="btnSubmit" name="btnSubmit"
+                            value="Submit">
+                            <i class="fa fa-check white">&nbsp;</i>Submit
+                        </button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-purple btn-block btn-sm" id="btnBack">
+                            <i class="ace-icon fa fa-arrow-left white">&nbsp;</i>Back To Inbox
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="DivStudentSearch">
+    </div>
+    <div id="DivMaterialSearch">
+    </div>
+    <div id="DivMultipleStudentSearch">
+    </div>
+}
+<script src="@Url.Content("~/Scripts/Store/MaterialRequest.js")" type="text/javascript"></script>

@@ -1,0 +1,1645 @@
+﻿@model TIPS.Entities.CallManagement
+@{
+    ViewBag.Title = "CallRegister";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+@{
+var rlecode = Session["userrolesarray"] as IEnumerable<string>;
+}
+<script type="text/javascript" language="javascript">
+
+    function LeaveNotification() {
+        var isChecked = $('#chkIsInformation').attr('checked') ? true : false;
+        var infoFor = $("#ddlInformationFor").val();
+        if (infoFor == "Leave Notification" && isChecked == true) {
+            $("#SickLeaveNormalLeaveTD").show();
+            // $("#LeaveTypeHeading").show();
+        }
+        else if (infoFor == "Transport Pickup" && isChecked == true) {
+            $("#SickLeaveNormalLeaveTD").hide();
+            //$("#LeaveTypeHeading").hide();
+        }
+        else {
+            $("#SickLeaveNormalLeaveTD").hide();
+            //$("#LeaveTypeHeading").hide();
+        }
+    }
+    $(document).ready(function () {
+        // Date Information
+        $("#from").datepicker({
+            dateFormat: "dd/mm/yy",
+            maxDate: "+60D",
+            numberOfMonths: 1,
+            onSelect: function (selected) { $("#to").datepicker("option", "minDate", selected) }
+        });
+        $("#to").datepicker({
+            dateFormat: "dd/mm/yy",
+            numberOfMonths: 1,
+            onSelect: function (selected) {
+                $("#from").datepicker("option", "maxDate", selected)
+                function parseDate(str) {
+                    var mdy = str.split('/')
+                    return new Date(mdy[2], mdy[1], mdy[0] - 1);
+                }
+            },
+            onClose: function (selectedDate) {
+                $("#ToDate").val($("#to").val());
+                $("#FromDate").val($("#from").val());
+                $('#DivExtLeaveReq').dialog("close");
+            }
+        });
+
+        $("#DivExtLeaveReq").dialog({
+            autoOpen: false,
+            width: 300,
+            close: function () {
+                $(this).dialog("close");
+            }
+        });
+
+
+        $("#btnbkToAvailable").click(function () {
+            $.ajax({
+                url: '/Home/MoveBackToAvailable?ActivityId=' + $('#ActivityId').val(),
+                type: 'GET',
+                dataType: 'json',
+                traditional: true,
+                success: function (data) {
+                    if (data & data == true) {
+                        SucessMsg("CMGT-" + $('#Id').val() + " is moved back to available.", function () { window.location.href = '@Url.Action("CallManagement", "Home")' });
+                } else {
+
+                }
+                },
+                error: function (xhr, status, error) {
+                    ErrMsg($.parseJSON(xhr.responseText).Message);
+                }
+            });
+        });
+        $("#file1").click(function () {
+            var Id = $("#Id").val();
+            if (Id == 0) {
+                ErrMsg("Please create Issue or Information by clicking Save button.");
+                return false;
+            }
+        });
+
+        LeaveNotification();
+
+        $("StudentSearch").click(function () {
+            $(function () {
+                var value = $('#ddlIssueGroup option:selected').val();
+                var isHosteller = $('#IsHosteller').val();
+                if (value == "Hostel" && isHosteller == "False") {
+                    $("#txtStuNum").val("");
+                    $("#txtstName").val("");
+                    $("#txtschool").val("");
+                    $("#txtgrade").val("");
+                    $("#txtsection").val("");
+                    $("#txtBoardingType").val("");
+                    ErrMsg("Please select Hostel Student only for Hostel related Issue");
+                    return false;
+                }
+            });
+        });
+        $("#txtStuNum").attr("readonly", true).css("background-color", "#F5F5F5");
+        $("#txtstName").attr("readonly", true).css("background-color", "#F5F5F5");
+        $("#txtschool").attr("readonly", true).css("background-color", "#F5F5F5");
+        $("#txtgrade").attr("readonly", true).css("background-color", "#F5F5F5");
+        $("#txtsection").attr("readonly", true).css("background-color", "#F5F5F5");
+        $("#txtBoardingType").attr("readonly", true).css("background-color", "#F5F5F5");
+        $.getJSON("/Home/FillIssueGroup",
+     function (fillig) {
+         var ddlig = $("#ddlIssueGroup");
+         ddlig.empty();
+         ddlig.append($('<option/>', { value: "", text: "Select One" }));
+         $.each(fillig, function (index, itemdata) {
+             if (itemdata.Text == '@Model.IssueGroup') {
+                 ddlig.append("<option value='" + itemdata.Value + "' selected='selected'>" + itemdata.Text + "</option>");
+                 GetIssueType();
+             }
+             else {
+                 ddlig.append($('<option/>', { value: itemdata.Value, text: itemdata.Text }));
+             }
+         });
+
+     });
+
+        $.getJSON("/Home/FillBranchCode",
+     function (fillbc) {
+         var ddlbc = $("#ddlBranchCode");
+         ddlbc.empty();
+         ddlbc.append($('<option/>', { value: "", text: "Select One" }));
+         $.each(fillbc, function (index, itemdata) {
+             if (itemdata.Text == '@Model.BranchCode') {
+                 ddlbc.append("<option value='" + itemdata.Value + "' selected='selected'>" + itemdata.Text + "</option>");
+             }
+             else {
+                 ddlbc.append($('<option/>', { value: itemdata.Value, text: itemdata.Text }));
+             }
+         });
+     });
+        if ($('#LeaveType').val() == "Sick") { $("#Sick").attr('checked', true); }
+        else if ($('#LeaveType').val() == "Ordinary") { $("#Ordinary").attr('checked', true); }
+        else { }
+        var buttons = $('.WithBorderOnly');
+        buttons.find('button').button();
+        buttons.find('a').button({
+            icons: { primary: "ui-icon-search" },
+            text: false
+        });
+
+        if ("@Model.Status" == "Log Issue" || "@Model.Status" == "LogIssue") {
+
+        }
+        else {
+            $("#IssueDetails").find("text").attr("readonly", true).css("background-color", "#F5F5F5");
+            $("#txtDescription").attr("readonly", true).css("background-color", "#F5F5F5");
+            $("#ddlInformationFor").attr("disabled", true).css("background-color", "#F5F5F5");
+
+            $("#ddlCallFrom").attr("readonly", true).css("background-color", "#F5F5F5");
+            $("#ddlIssueGroup").attr("readonly", true).css("background-color", "#F5F5F5");
+            $("#ddlIssueType").attr("readonly", true).css("background-color", "#F5F5F5");
+
+        }
+
+        if ("@Model.Status" == "Complete") {
+            $("#txtResolution").attr("readonly", true).css("background-color", "#F5F5F5");
+        }
+
+        var strStatus = $("#Status").val();
+
+        if (strStatus != null && (strStatus == "Approve Issue" || strStatus == "ApproveIssue")) {
+
+            var UsrId = $('#ReceiverGroup').val();
+            var campus = "@Model.BranchCode";
+
+            $.ajax({
+                type: 'GET',
+                async: true,
+                url: '@Url.Content("~/Home/ReceiverGroup")?Campus=' + campus + "&RoleCode=APP&AppCode=ISM",
+                success: function (data) {
+                    $("#ReceiverGroup").empty();
+                    $("#ReceiverGroup").append("<option value=''> Select One </option>");
+                    for (var i = 0; i < data.rows.length; i++) {
+                        if (UsrId != null && UsrId == data.rows[i].UserId) {
+                            $("#ReceiverGroup").append("<option value='" + data.rows[i].UserId + "' selected='selected'>" + data.rows[i].UserId + "</option>");
+                        } else {
+                            $("#ReceiverGroup").append("<option value='" + data.rows[i].UserId + "'>" + data.rows[i].UserId + "</option>");
+                        }
+                    }
+                },
+                dataType: "json"
+            });
+        }
+
+        $("#btnAssign").click(function () {
+            var RcvrGrpId = $('#ReceiverGroup').val();
+            if (RcvrGrpId != "") {
+                $.ajax({
+                    type: 'GET',
+                    async: false,
+                    dataType: "json",
+                    url: '@Url.Content("~/Home/AssignActivityjson")?ActivityId=' + $('#ActivityId').val() + "&UserId=" + RcvrGrpId,
+                    success: function (data) {
+
+                        if (data == true) {
+                            SucessMsg("Issue Assigned to " + RcvrGrpId + ".", function () { window.location.href = '@Url.Action("CallManagement", "Home")'; });
+                        } else {
+                            ErrMsg("Issue not assigned. Please try again.");
+                            return false;
+                        }
+                    }
+                });
+            } else {
+                ErrMsg("Please select value from Receiver Group.", function () { $('#ReceiverGroup').focus(); });
+                return false;
+            }
+        });
+        $("#StudentSearch").click(function () {
+            if ($("#ddlBranchCode").val() == "") {
+                ErrMsg("Please select Campus");
+                return false;
+            }
+            else {
+                var BranchCode = $("#ddlBranchCode").val();
+                var IssueGroup = $('#ddlIssueGroup option:selected').val();
+                var IssueType = $('#ddlIssueType option:selected').val();
+                var AdmStatus = "";
+                if (IssueGroup == "Admission" && IssueType == "Discontinue") { AdmStatus = "Discontinue" }
+                ModifiedLoadPopupDynamicaly("/Home/StudentDetails", $('#DivStudentSearch'),
+            function () {
+                $("#campus").val(BranchCode);
+                LoadSetGridParam($('#StudentList'), "/Home/StudentDetailsListJqGrid?cname=" + BranchCode + "&AdmStatus=" + AdmStatus)
+            }, function () { }, 830, 370, "Student Details");
+                return true;
+            }
+        });
+
+        $("#ChangeissueGroup").click(function () {
+            var IssueGroup = $('#ddlIssueGroup').val();
+            var IssueType = $('#ddlIssueType').val();
+            var CallMangID = $('#Id').val();
+            var ActId = $('#ActivityId').val();
+            if (IssueGroup != "" && IssueType != "") {
+                $.ajax({
+                    type: 'GET',
+                    async: false,
+                    dataType: "json",
+                    url: '/Home/ChangeofIssueGroup?ActivityId=' + ActId + "&Id=" + CallMangID + "&IssueGroup=" + IssueGroup + "&IssueType=" + IssueType,
+                    success: function (data) {
+                        if (data == "Success") {
+                            SucessMsg("Issue forwarded to " +IssueGroup+ " Group.", function () { window.location.href = '@Url.Action("CallManagement", "Home")'; });
+                        } else {
+                            ErrMsg("Issue not forwarded. Please try again.");
+                            return false;
+                        }
+                     }
+                })
+            }
+        });
+
+
+        $('#btnIdRejectIssue').click(function () {
+            return rejectionValidation("Please enter the comments to reject.");
+        });
+        $('#btnIdRejectIssue1').click(function () {
+            return rejectionValidation("Please enter the comments to reject.");
+        });
+        $('#btnReply').click(function () {
+            return rejectionValidation("Please enter the comments to reply.");
+        });
+        $('#btnApproveReply').click(function () {
+            return rejectionValidation("Please enter the comments to reply.");
+        });
+        //$("txtGrade").change(function () { var grd=$("#txtgrade").val(); });
+        $('#btnIdResolveIssue').click(function () {
+            if ($('#txtResolution').val() == null || $('#txtResolution').val() == "") {
+                ErrMsg("Please enter the Resolution Comments", function () { $('#txtResolution').focus(); });
+                return false;
+            } else {
+                return true;
+            }
+            return false;
+        });
+
+        function rejectionValidation(msg) {
+
+            if ($('#txtRejCommentsArea').val() == null || $('#txtRejCommentsArea').val() == "") {
+                ErrMsg(msg, function () { $('#txtRejCommentsArea').focus(); });
+                $('#txtRejCommentsArea').attr("readonly", false).css("background-color", "white");
+                return false;
+            } else {
+                return true;
+            }
+            return false;
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        var Status = $("#Status").val();
+        if (Status == "SickLeaveNotification-Hostel" || Status == "SickLeaveNotification-Dayscholar" || Status == "TransportPickup" || Status == "LeaveNotification-Dayscholar" || Status == "LeaveNotification-Hostel") {
+            $("#chkIsInformation").attr("disabled", true);
+            $("#chkIsInformation").attr("checked", true);
+        }
+
+        $("#ReceiverGroup").change(function () {
+
+            if ($("#ReceiverGroup").val() != "") {
+                $("#btnAssign").show();
+                $("#ResolveIssue").hide();
+                $("#RejectIssue").hide();
+            }
+            else {
+                $("#btnAssign").hide();
+                $("#RejectIssue").show();
+            }
+        });
+
+        var id = $("#Id").val();
+
+    });
+
+    $(function () {
+
+        var a = "@ViewBag.aa";
+        if (a == "true") {
+            $("#chkWatingForParentCnfm").attr("disabled", true);
+            $("#chkWatingForParentCnfm").attr("checked", true);
+        }
+
+
+        $("#ddlIssueType").change(function () {
+            var issgrp = $("#ddlIssueGroup").val();
+            var isstyp = $("#ddlIssueType").val();
+            var stunum = $("#txtStuNum").val();
+            if ((stunum != "" && issgrp != "" && isstyp != "")) {
+
+                if (isstyp == "Job related" || isstyp == "Non teaching Staff Complaints" || isstyp == "Admission Status" || isstyp == "New Admission Procedures") {
+                    ErrMsg("Student Details not needed for Issue types such as Job related, Admission Status, New Admission Procedures and Non teaching Staff Complaints");
+                    $("#txtStuNum").val("");
+                    $("#txtstName").val("");
+                    $("#txtschool").val("");
+                    $("#txtgrade").val("");
+                    $("#txtsection").val("");
+                    $("#txtBoardingType").val("");
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        });
+
+        $(function () {
+
+            $("#hdnSick").val("");
+            $("#hdnOrdinary").val("");
+
+            $("#ddlInformationFor").change(function () {
+                var isChecked = $('#chkIsInformation').attr('checked') ? true : false;
+                var infofor = $("#ddlInformationFor").val();
+                var isHosteller = $('#IsHosteller').val();
+                var stunum = $("#txtStuNum").val();
+                LeaveNotification();
+            });
+        });
+
+
+        $("#chkWaitingForParentCnfm").change(function () {
+
+            var isChecked = $('#chkWaitingForParentCnfm').attr('checked') ? true : false;
+            if (isChecked) {
+                $("#btnSendMailToParent").show();
+                $("#btnReply").hide();
+            }
+            else {
+                $("#btnSendMailToParent").hide();
+                $("#btnReply").show();
+            }
+        });
+
+        $("#Sick").change(function () {
+            var SickVal = $('#Sick').attr('checked') ? true : false;
+            if (SickVal == true) {
+                $("#hdnSick").val("Sick");
+                $("#hdnOrdinary").val("");
+            }
+        });
+
+        $("#Ordinary").change(function () {
+            var OdnryVal = $('#Ordinary').attr('checked') ? true : false;
+            if (OdnryVal == true) {
+                $("#hdnOrdinary").val("Ordinary");
+                $("#hdnSick").val("");
+            }
+        });
+
+
+
+        function ValidateIssueDescription() {
+            var Issdesc = $("#txtDescription").val();
+            if (Issdesc.length > 4000)
+                return false;
+        }
+        function ValidateIssueGroup() {
+            var IssueGroup = $("#ddlIssueGroup").val();
+            var Grade = $("#txtgrade").val();
+            if (Grade == "LKG" || Grade == "UKG" || Grade == "PreKG" || Grade == "Playschool" || Grade == "PRE-KG" || Grade == "PlaySchool" || Grade == "PREKG") {
+                if (IssueGroup == "Academics-PYP" || IssueGroup == "Academics-MYP" || IssueGroup == "Academics-DP" || IssueGroup == "Academics-MS") {
+                    ErrMsg("Please change the Issue Group " + IssueGroup + " to" + " Academics-KG for Grade-" + Grade);
+                    return false;
+                }
+            }
+            if (Grade == "I" || Grade == "II" || Grade == "III" || Grade == "IV" || Grade == "V") {
+                if (IssueGroup == "Academics-KG" || IssueGroup == "Academics-MYP" || IssueGroup == "Academics-DP" || IssueGroup == "Academics-MS") {
+                    ErrMsg("Please change the Issue Group " + IssueGroup + " to" + " Academics-PYP for Grade-" + Grade);
+                    return false;
+                }
+            }
+            if (Grade == "VI" || Grade == "VII" || Grade == "VIII") {
+                if (IssueGroup == "Academics-KG" || IssueGroup == "Academics-MYP" || IssueGroup == "Academics-DP" || IssueGroup == "Academics-PYP") {
+                    ErrMsg("Please change the Issue Group " + IssueGroup + " to" + " Academics-MS for Grade-" + Grade);
+                    return false;
+                }
+            }
+            if (Grade == "IX" || Grade == "X") {
+                if (IssueGroup == "Academics-KG" || IssueGroup == "Academics-PYP" || IssueGroup == "Academics-DP" || IssueGroup == "Academics-MS") {
+                    ErrMsg("Please change the Issue Group " + IssueGroup + " to" + " Academics-MYP for Grade-" + Grade);
+                    return false;
+                }
+            }
+            if (Grade == "XI" || Grade == "XII") {
+                if (IssueGroup == "Academics-KG" || IssueGroup == "Academics-MYP" || IssueGroup == "Academics-PYP" || IssueGroup == "Academics-MS") {
+                    ErrMsg("Please change the Issue Group " + IssueGroup + " to" + " Academics-DP for Grade-" + Grade);
+                    return false;
+                }
+            }
+            return true;
+        }
+        $("#Save").click(function () {
+            ValidateIssueDescription();
+            if (ValidateIssueDescription() == false) {
+                ErrMsg("Issue Description should not exceed 4000 characters.");
+                return false;
+            }
+            ValidateIssueGroup();
+            if (ValidateIssueGroup() == false) {
+                return false;
+            }
+        });
+
+        $("#CompleteLogIssue").click(function () {
+
+            ValidateIssueDescription();
+            if (ValidateIssueDescription() == false) {
+                ErrMsg("Issue Description should not exceed 4000 characters.");
+                return false;
+            }
+            ValidateIssueGroup();
+            if (ValidateIssueGroup() == false) {
+                return false;
+            }
+            $("#Sick").change();
+            $("#Ordinary").change();
+            var sick = $('#Sick').attr('checked') ? true : false;
+            var ordinary = $('#Ordinary').attr('checked') ? true : false;
+            var campus = $("#ddlBranchCode").val();
+            var issgrp = $("#ddlIssueGroup").val();
+            var isstyp = $("#ddlIssueType").val();
+            var stunum = $("#txtStuNum").val();
+            var infofor = $("#ddlInformationFor").val();
+            var value = $('#ddlIssueGroup option:selected').val();
+            var isHosteller = $('#IsHosteller').val();
+            var isChecked = $('#chkIsInformation').attr('checked') ? true : false;
+            var actiondate = $("#txtActionDate").val();
+            var issmode = $("#ddlIssuemode").val();
+            var CallerName = $("#txtCallerName").val();
+            var CallerPhNo = $("#txtPhNum").val();
+            var CallFrom = $("#CallFrom").val();
+            var Email = $("#txtEmail").val();
+
+            if (isChecked == false) {
+                if (campus == "") {
+                    ErrMsg("Please Select campus.");
+                    return false;
+                }
+
+                else if (issgrp == "Tipstech") {
+                    if (CallerPhNo == "") {
+                        ErrMsg("Please type Caller Phone Number.");
+                        $("#txtPhNum").focus();
+                        return false;
+                    }
+
+                    if (CallFrom == "") {
+                        ErrMsg("Please Select Call From.");
+                        $("#CallFrom").focus();
+                        return false;
+                    }
+
+                    if (CallerName == "") {
+                        ErrMsg("Please type Caller Name.");
+                        $("#txtCallerName").focus();
+                        return false;
+                    }
+                   
+
+                    if (Email == "") {
+                        ErrMsg("Please type Email");
+                        $("#txtEmail").focus();
+                        return false;
+                    }
+                }
+
+                else if (stunum == "") {
+                    if (isstyp == "Job related" || isstyp == "Non teaching Staff Complaints" || isstyp == "Admission Status" || isstyp == "New Admission Procedures" || isstyp == "General Enquiry" || isstyp == "Discontinue")
+                        return true;
+                    else
+                        ErrMsg("Please Select Student Number.");
+                    return false;
+                }
+                else if (issgrp == "") {
+                    ErrMsg("Please Select Issue Group.");
+                    return false;
+                }
+                else if (isstyp == "") {
+                    ErrMsg("Please Select Issue Type.");
+                    return false;
+                }
+                else if (issmode == "") {
+                    ErrMsg("Please Select Issue Mode.");
+                    $("#ddlIssuemode").focus();
+                    return false;
+                }
+                else if (issgrp == "Hostel" && isHosteller == "False") {
+                    ErrMsg("Please select Hostel Students only for Hostel related Issue");
+                    $("#txtStuNum").val("");
+                    $("#txtstName").val("");
+                    $("#txtschool").val("");
+                    $("#txtgrade").val("");
+                    $("#txtsection").val("");
+                    $("#txtBoardingType").val("");
+                    return false;
+                }
+
+                else if (isstyp == "Job related" || isstyp == "Non teaching Staff Complaints" || isstyp == "Admission Status" || isstyp == "New Admission Procedures") {
+                    ErrMsg("Student Details not needed for Issue types such as Job related, Admission Status, New Admission Procedures and Non teaching Staff Complaints");
+                    $("#txtStuNum").val("");
+                    $("#txtstName").val("");
+                    $("#txtschool").val("");
+                    $("#txtgrade").val("");
+                    $("#txtsection").val("");
+                    $("#txtBoardingType").val("");
+                    return false;
+                }
+            }
+            else if (isChecked == true) {
+                if (campus == "") {
+                    ErrMsg("Please Select campus.");
+                    return false;
+                }
+                else if (stunum == "" && isstyp != "Discontinue") {
+                    ErrMsg("Please Select Student Number.");
+                    return false;
+                }
+                else if (infofor == "") {
+                    ErrMsg("Please Select Information For.");
+                    return false;
+                }
+                else if (infofor == "Leave Notification" && (sick == "" && ordinary == "")) {
+                    ErrMsg("Please Select Leave Type.");
+                    return false;
+                }
+
+                else if (actiondate == "") {
+                    ErrMsg("Please Select action date for information.");
+                    return false;
+                }
+            }
+        });
+
+        $("#ddlBranchCode").change(function () {
+            var brcode = $("#ddlBranchCode").val();
+            var school = $("#txtschool").val();
+            if (brcode == "") {
+                $("#txtStuNum").val("");
+                $("#txtstName").val("");
+                $("#txtschool").val("");
+                $("#txtgrade").val("");
+                $("#txtsection").val("");
+                $("#txtBoardingType").val("");
+            }
+            if (brcode != school) {
+                if (school != "")
+                    ErrMsg("Campus Mismatch");
+                $("#txtStuNum").val("");
+                $("#txtstName").val("");
+                $("#txtschool").val("");
+                $("#txtgrade").val("");
+                $("#txtsection").val("");
+                $("#txtBoardingType").val("");
+            }
+
+        });
+
+
+        $("#Back").click(function () {
+            window.location.href = '@Url.Action("CallManagement", "Home")';
+        });
+
+
+        $('#InformationForHeading').hide();
+        $('#TdInformationFor').hide();
+        $('#ActionDateHeading').hide();
+        $('#TdActionDate').hide();
+
+        if ($('#chkIsInformation').is(':checked')) {
+
+            $('#IssGrpHeading').hide();
+            $('#IssTypHeading').hide();
+            $('#TdIssueGroup').hide();
+            $('#TdIssueType').hide();
+            $('#InformationForHeading').show();
+            $('#TdInformationFor').show();
+            $("#SickLeaveNormalLeaveTD").show();
+            //$("#LeaveTypeHeading").show();
+            $('#ActionDateHeading').show();
+            $('#TdActionDate').show();
+            var actiondate = $("#actDate").val();
+            if (actiondate == '1/1/0001 12:00:00 AM')
+                $("#actDate").val("");
+            $('#txtActionDate').datepicker({
+                format: "dd/mm/yyyy",
+                numberOfMonths: 1,
+                autoclose: true
+            }).datepicker('setDate', actiondate);
+        }
+        else {
+            $('#IssGrpHeading').show();
+            $('#IssTypHeading').show();
+            $('#TdIssueGroup').show();
+            $('#TdIssueType').show();
+            $('#InformationForHeading').hide();
+            $('#TdInformationFor').hide();
+            $("#SickLeaveNormalLeaveTD").hide();
+            // $("#LeaveTypeHeading").hide();
+            $('#ActionDateHeading').hide();
+            $('#TdActionDate').hide();
+        }
+
+
+        $("#chkIsInformation").change(function () {
+
+            var isChecked = $('#chkIsInformation').attr('checked') ? true : false;
+            var infoFor = $("#ddlInformationFor").val();
+
+            if (isChecked == true) {
+                LeaveNotification();
+                $('#IssGrpHeading').hide();
+                $('#IssTypHeading').hide();
+                $('#TdIssueGroup').hide();
+                $('#TdIssueType').hide();
+                $('#InformationForHeading').show();
+                $('#TdInformationFor').show();
+                $('#ActionDateHeading').show();
+                $('#TdActionDate').show();
+            }
+            else {
+                LeaveNotification();
+                $('#IssGrpHeading').show();
+                $('#IssTypHeading').show();
+                $('#TdIssueGroup').show();
+                $('#TdIssueType').show();
+                $('#InformationForHeading').hide();
+                $('#TdInformationFor').hide();
+                $("#SickLeaveNormalLeaveTD").hide();
+                // $("#LeaveTypeHeading").hide();
+                $('#ActionDateHeading').hide();
+                $('#TdActionDate').hide();
+                return true;
+            }
+
+        });
+
+    });
+        GetIssueType();
+        function GetIssueType() {
+            var value = $('#ddlIssueGroup option:selected').val();
+            var isHosteller = $('#IsHosteller').val();
+            if (value != "") {
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: '@Url.Content("~/Home/FillIssueType")?IssueGroup=' + value,
+                success: function (data) {
+                    $("#ddlIssueType").empty();
+                    $("#ddlIssueType").append("<option value=''> Select One </option>");
+                    for (var i = 0; i < data.rows.length; i++) {
+                        if (data.rows[i].Text == "@Model.IssueType") {
+                            //if (data.rows[i].Text == $("#ddlIssueType").val()) {
+                            $("#ddlIssueType").append("<option value='" + data.rows[i].Value + "' selected='selected'>" + data.rows[i].Text + "</option>");
+                        } else {
+                            $("#ddlIssueType").append("<option value='" + data.rows[i].Value + "'>" + data.rows[i].Text + "</option>");
+                        }
+                    }
+                },
+                dataType: "json"
+            });
+        }
+        else {
+            $("#ddlIssueType").empty();
+            $("#ddlIssueType").append("<option value=''> Select One </option>");
+        }
+        ToCheckHosteller(value, isHosteller);
+
+    }
+
+    function ToCheckHosteller(value, isHosteller) {
+        if (value == "Hostel" && isHosteller == "False") {
+            $("#txtStuNum").val("");
+            $("#txtstName").val("");
+            $("#txtschool").val("");
+            $("#txtgrade").val("");
+            $("#txtsection").val("");
+            $("#txtBoardingType").val("");
+            ErrMsg("Please select Hostel Student only for Hostel related Issue");
+            return false;
+        }
+    }
+
+
+</script>
+<script type="text/javascript" language="javascript">
+    $(function () {
+        var Id = $("#Id").val();
+        var up = "../../Images/up.jpg";
+        var down = "../../Images/down.png";
+        $(".flip").click(function () {
+
+            var icon = $('.icon', this);
+            $(".panel").slideToggle("slow");
+            icon.attr("src", this.attr("src") == up ? down : up);
+        });
+        $("#txtSub").val("Tips support request @Model.IssueNumber is forwarded for your information.");
+
+
+        var txtres = $("#txtResolution").val();
+        $("#txtAreaMailContent").val(txtres);
+
+        $(window).on('resize.jqGrid', function () {
+            $("#CommentList").jqGrid('setGridWidth', $(".col-sm-6").width());
+        })
+        //resize on sidebar collapse/expand
+        var parent_column = $("#CommentList").closest('[class*="col-"]');
+
+        $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+            if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                setTimeout(function () {
+                    $("#CommentList").jqGrid('setGridWidth', parent_column.width());
+                }, 0);
+            }
+        })
+
+        $("#CommentList").jqGrid({
+            url: '/Home/DescriptionForSelectedIdJqGrid?Id=' + $('#Id').val(),
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Commented By', 'Commented On', 'Rejection Comments', 'Resolution Comments'],
+            colModel: [
+            // { name: 'Issue Number', index: 'EntityRefId', sortable: false },
+              { name: 'CommentedBy', index: 'CommentedBy', sortable: false },
+              { name: 'CommentedOn', index: 'CommentedOn', sortable: false },
+              { name: 'RejectionComments', index: 'RejectionComments', sortable: false },
+              { name: 'ResolutionComments', index: 'ResolutionComments', sortable: false }
+            ],
+            rowNum: -1,
+            pager: '#CommentListpager',
+            //width: 1160,
+            autowidth: true,
+            height: 100,
+            sortname: 'EntityRefId',
+            sortorder: "desc",
+            viewrecords: true,
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    updatePagerIcons(table);
+                    enableTooltips(table);
+                }, 0);
+            },
+            caption: '<i class="fa fa-fax"></i> Discussion Forum'
+        });
+        $(window).triggerHandler('resize.jqGrid');
+        jQuery('#CommentList').jqGrid('navGrid', '#CommentListpager',
+            { 	//navbar options
+
+                edit: false,
+                editicon: 'ace-icon fa fa-pencil blue',
+                add: false,
+                addicon: 'ace-icon fa fa-plus-circle purple',
+                del: false,
+                delicon: 'ace-icon fa fa-trash-o red',
+                search: false,
+                searchicon: 'ace-icon fa fa-search orange',
+                refresh: true,
+                refreshicon: 'ace-icon fa fa-refresh green',
+                view: false,
+                viewicon: 'ace-icon fa fa-search-plus grey'
+            },
+            {},
+            {}, {}, {});
+
+        $("#btnSendEmail").click(function () {
+
+            var To = $("#txtTo").val();
+            var Sub = $("#txtSub").val();
+            var IssDesc = $("#txtDescription").val();
+            var ResComments = $("#txtResolution").val();
+            var Campus = $("#BranchCode").val();
+            if (To == "") {
+                ErrMsg("Please type To address.");
+                return false;
+            }
+
+            $.ajax({
+                url: '@Url.Content("~/Home/ApproverSendEmail/")',
+                type: 'POST',
+                dataType: 'json',
+                data: { To: To, Sub: Sub, IssDesc: IssDesc, ResComments: ResComments, Campus: Campus },
+                traditional: true,
+                // page: 1,
+                success: function (data) {
+                    //alert(data);
+                    if (data == true)
+                        SucessMsg("Mail sent successfully");
+                    if (data == null || data == false)
+                        ErrMsg("Mail has not been sent. Please check if any errors in email Ids.");
+                }
+            });
+
+        });
+
+        $("#txtResolution").keyup(function () {
+            var txtres = $("#txtResolution").val();
+            $("#txtAreaMailContent").val(txtres);
+        });
+        $(window).on('resize.jqGrid', function () {
+            $("#Uploadedfileslist").jqGrid('setGridWidth', $(".col-sm-8").width());
+        })
+        //resize on sidebar collapse/expand
+        var parent_column = $("#Uploadedfileslist").closest('[class*="col-"]');
+
+        $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+            if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                setTimeout(function () {
+                    $("#Uploadedfileslist").jqGrid('setGridWidth', parent_column.width());
+                }, 0);
+            }
+        })
+
+        jQuery("#Uploadedfileslist").jqGrid({
+            mtype: 'GET',
+            url: '/Home/Documentsjqgrid?Id=' + Id + '&AppName=CMS',
+            datatype: 'json',
+            height: '50',
+            autowidth: true,
+            shrinkToFit: true,
+            colNames: ['Upload Id', 'Uploaded By', 'Uploaded On', 'File Name', 'Document Type'],
+            colModel: [
+                          { name: 'Upload_Id', index: 'Upload_Id', hidden: true, key: true },
+                          { name: 'UploadedBy', index: 'UploadedBy', width: '30%', align: 'left', sortable: false },
+                          { name: 'UploadedOn', index: 'UploadedOn', width: '30%', align: 'left', sortable: false },
+                          { name: 'FileName', index: 'FileName', width: '30%', align: 'left', sortable: false },
+                          { name: 'DocumentType', index: 'DocumentType', width: '30%', align: 'left', sortable: false }
+            ],
+            pager: '#uploadedfilesgridpager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'Upload_Id',
+            sortorder: 'desc',
+            multiselect: true,
+            viewrecords: true,
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    updatePagerIcons(table);
+                    enableTooltips(table);
+                }, 0);
+            },
+            caption: '<i class="ace-icon fa fa-upload bigger-110"></i> Uploaded Documents'
+        });
+        $(window).triggerHandler('resize.jqGrid');
+        jQuery("#Uploadedfileslist").jqGrid('navGrid', '#uploadedfilesgridpager',
+            { 	//navbar options
+
+                edit: false,
+                editicon: 'ace-icon fa fa-pencil blue',
+                add: false,
+                addicon: 'ace-icon fa fa-plus-circle purple',
+                del: true,
+                delicon: 'ace-icon fa fa-trash-o red',
+                search: false,
+                searchicon: 'ace-icon fa fa-search orange',
+                refresh: true,
+                refreshicon: 'ace-icon fa fa-refresh green',
+                view: false,
+                viewicon: 'ace-icon fa fa-search-plus grey'
+            },
+            {},
+            {}, {
+                url:
+                    //'Url.Content("~/Home/DeleteUploadedFileById")',
+            '/Home/DeleteUploadedFileById/',
+                beforeShowForm: function (params) {
+                    debugger;
+                    var selectedrow = $("#Uploadedfileslist").getGridParam('selrow');
+                    var sdata = $("#Uploadedfileslist").getRowData(selectedrow);
+                    if (sdata.UploadedBy == '@Session["UserId"]') {
+                        return { Upload_Id: parseInt(sdata.Upload_Id) }
+                    }
+                    else {
+                        //$('#delmodUploadedfileslist').dialog('close');
+                        ErrMsg("You cannot delete the file uploaded by others.");
+                        $("#DelError", "#" + dtbl).hide();
+                        return false;
+                    }
+                    //  return { Upload_Id: sdata.Upload_Id }
+                }
+            }, {});
+        //replace icons with FontAwesome icons like above
+        function updatePagerIcons(table) {
+            var replacement =
+            {
+                'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+            };
+            $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+                var icon = $(this);
+                var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+                if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+            })
+        }
+
+        function enableTooltips(table) {
+            $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+            $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+        }
+        //        jQuery("#Uploadedfileslist").navGrid('#uploadedfilesgridpager', { edit: false, add: false, del: true, search: false, refresh: false },
+        //        {},
+        //        {},
+        //        { url:
+        //            //'Url.Content("~/Home/DeleteUploadedFileById")',
+        //        '/Home/DeleteUploadedFileById/',
+        //            beforeShowForm: function (params) {
+        //                debugger;
+        //                var selectedrow = $("#Uploadedfileslist").getGridParam('selrow');
+        //                var sdata = $("#Uploadedfileslist").getRowData(selectedrow);
+        //                if (sdata.UploadedBy == '@Session["UserId"]') {
+        //                    return { Upload_Id: parseInt(sdata.Upload_Id) }
+        //                }
+        //                else {
+        //                    //$('#delmodUploadedfileslist').dialog('close');
+        //                    ErrMsg("You cannot delete the file uploaded by others.");
+        //                    $("#DelError", "#" + dtbl).hide();
+        //                    return false;
+        //                }
+        //                //  return { Upload_Id: sdata.Upload_Id }
+        //            }
+        //        });
+
+    });
+
+    function uploaddat(id1) {
+        window.location.href = "/Home/uploaddisplay?Id=" + id1 + '&AppName=CMS';
+        processBusy.dialog('close');
+    }
+</script>
+
+@using (Html.BeginForm("CallRegister", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="page-content">
+        <!-- /section:settings.box -->
+        <div class="page-content-area">
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            @Html.Hidden("BackUrl", Url.Action("CallRegister", "Home"))
+            @Html.Hidden("CurrYear", "", new { id = "CurrYear", @Value = ViewBag.CurYear })
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue collapsed">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                &nbsp;<i class="fa fa-globe"></i> Basic Details
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 5px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <b>Issue Number</b><br />
+                                            @Html.Hidden("FromDate")
+                                            @Html.Hidden("ToDate")
+                                            @Model.IssueNumber
+                                            @Html.HiddenFor(model => model.IssueNumber, "")
+                                            @Html.HiddenFor(model => model.Id)
+                                            @Html.HiddenFor(model => model.InstanceId, "")
+                                            @Html.Hidden("hdnIssueType", "", new { id = "hdnIssueType", @Value = Model.IssueType })
+                                            @Html.Hidden("ActivityId")
+                                            @Html.HiddenFor(model => model.IsIssueCompleted, new { id = "hdnIsuCmpleted", @Value = Model.IsIssueCompleted })
+                                            @Html.Hidden("SuccessMsg", "", new { id = "SuccessMsg", @Value = @TempData["SuccessIssueCreation"] })
+                                            @Html.HiddenFor(model => model.IsHosteller)
+                                            @Html.HiddenFor(model => model.ActivityFullName)
+                                            @Html.HiddenFor(model => model.UserType)
+                                            @Html.Hidden("ViewBagaa", new { id = "ViewBagaa", @Value = ViewBag.aa })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Date</b><br />
+                                            @if (ViewBag.flag == 1)
+                                            {
+                                                @String.Format("{0:dd-MMM-yyyy }", Model.IssueDate)
+                                                @Html.HiddenFor(model => model.IssueDate, "")
+                                            }
+
+                                            else
+                                            {
+                                                @String.Format("{0:dd-MMM-yyyy }", Model.IssueDate)
+                                                @Html.HiddenFor(model => model.IssueDate, "")
+                                            }
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Processed By</b><br />
+                                            @if (ViewBag.flag == 1)
+                                            {
+                                                @Model.UserInbox
+                                                @Html.HiddenFor(model => model.UserInbox, "")
+                                            }
+
+                                            else
+                                            {
+                                                @Model.UserInbox
+                                                @Html.HiddenFor(model => model.UserInbox, "")
+                                            }
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>User Role</b><br />
+                                            @if (ViewBag.flag == 1)
+                                            {
+                                                @Model.UserRoleName
+                                                @Html.HiddenFor(model => model.UserRoleName, new { id = "UserRoleName" })
+                                            }
+                                            else
+                                            {
+                                                @Model.UserRoleName
+                                                @Html.HiddenFor(model => model.UserRoleName, new { id = "UserRoleName" })
+                                            }
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Issue Status</b><br />
+                                            @if (ViewBag.flag == 1)
+                                            {
+                                                @Model.ActivityFullName
+                                                @Html.HiddenFor(model => model.Status, new { id = "Status" })
+                                                @Html.HiddenFor(model => model.ActivityFullName)
+                                            }
+                                            else
+                                            {
+                                                @Model.ActivityFullName
+                                                @Html.HiddenFor(model => model.Status, new { id = "Status" })
+                                                @Html.HiddenFor(model => model.ActivityFullName)
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding: 0px">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                &nbsp;<i class="fa fa-user-md"></i> Issue Details
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 5px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <b>Campus</b><br />
+                                            @if (Model != null && (Model.Status == "LogIssue"))
+                                            {
+           
+                                                @Html.DropDownListFor(model => model.BranchCode, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlBranchCode", @Class = "form-control select-sm" })                                                
+                                            }
+                                            else
+                                            {
+                                                @Model.BranchCode
+                                                @Html.HiddenFor(model => model.BranchCode, "")
+                                            }
+                                        </div>
+                                        @if (Model != null && (Model.Status == "LogIssue"))
+                                        {
+                                            <div class="col-sm-2">
+                                                <b>Information</b><br />
+                                                @Html.CheckBoxFor(model => model.IsInformation, new { id = "chkIsInformation" })
+                                                <span style="font: normal 11px Verdana,Arial,sans-serif;">Is Information</span>
+                                            </div>
+                                        }
+                                        <div class="col-sm-2" id="TdInformationFor">
+                                            <b>Information For</b><br />
+                                            @if (Model != null && (Model.Status == "LogIssue"))
+                                            {
+                                                @Html.DropDownListFor(model => model.InformationFor, new SelectList(new[]{
+                                           new { Value = "", Text = "Select One" },
+                                           new { Value = "Leave Notification", Text = "Leave Notification" },
+                                           new { Value = "Parent Pickup", Text = "Parent Pickup" },
+                                           new { Value = "Transport Pickup", Text = "Transport Pickup" },
+                                           new { Value = "General Info", Text = "General Info" }
+               },
+               "Value", "Text", ""), new { id = "ddlInformationFor", @Class = "form-control select-sm" })
+                                                
+                                            }
+                                            else
+                                            {
+                                                @Model.InformationFor
+                                                @Html.HiddenFor(model => model.InformationFor, "")
+                                            }
+                                        </div>
+                                        <div class="col-sm-2" id="TdIssueGroup">
+                                            <b>Issue Group</b><br />
+                                            @if (Model != null && (Model.Status == "LogIssue" || Model.Status == "ResolveIssueRejection")|| rlecode.Contains("GRL"))
+                                            {
+                                                @Html.DropDownListFor(model => model.IssueGroup, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlIssueGroup", @Class = "form-control select-sm", @onchange = "GetIssueType()" })
+                                                
+                                            }
+                                            else
+                                            {
+                                                @Model.IssueGroup
+                                                @Html.HiddenFor(model => model.IssueGroup, "")
+                                            }
+                                        </div>
+                                        <div class="col-sm-2" id="TdIssueType">
+                                            <b>Issue Type</b><br />
+                                            @if (Model != null && (Model.Status == "LogIssue" || Model.Status == "ResolveIssueRejection") || rlecode.Contains("GRL"))
+                                            {
+                                                @Html.DropDownListFor(model => model.IssueType, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlIssueType", @Class = "form-control select-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Model.IssueType
+                                                @Html.HiddenFor(model => model.IssueType, "")
+                                            }
+                                        </div>
+                                        <div class="col-sm-2" id="SickLeaveNormalLeaveTD">
+                                            <b>Leave Type </b>
+                                            <br />
+                                            <label for="Sick">
+                                                @Html.RadioButtonFor(model => model.LeaveType, true, new { id = "Sick", @Class = "ace" })
+                                                <span class="lbl">Sick</span></label>
+                                            &nbsp;&nbsp;
+                                            <label for="Ordinary">
+                                                @Html.RadioButtonFor(model => model.LeaveType, false, new { id = "Ordinary", @Class = "ace" })
+                                                <span class="lbl">Ordinary</span></label>
+                                            @Html.HiddenFor(model => model.LeaveType)
+                                            @Html.Hidden("hdnSick")
+                                            @Html.Hidden("hdnOrdinary")
+                                        </div>
+                                        <div class="col-sm-2" id="TdActionDate">
+                                            <b>Action Date</b><br />
+                                            @if (Model != null && (Model.Status == "LogIssue"))
+                                            {
+                                                @Html.TextBox("txtActionDate", "", new { id = "txtActionDate", @Class = "date-picker" })
+                                                @Html.HiddenFor(model => model.ActionDate, new { id = "actDate" })
+                                            }
+                                            else
+                                            {
+                                                @String.Format("{0:dd-MMM-yyyy }", Model.ActionDate)
+                                                @Html.HiddenFor(model => model.ActionDate, "")
+                                            }
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Issue Mode</b><br />
+                                            @if (Model != null && (Model.Status == "LogIssue" || Model.Status == "ResolveIssueRejection"))
+                                            {
+                                                @Html.DropDownListFor(model => model.IssueMode, new SelectList(new[]{
+                                           new { Value = "", Text = "Select One" },
+                                           new { Value = "Email", Text = "Email" },
+                                           new { Value = "Telephone", Text = "Telephone" },
+                                           new { Value = "Inperson/Walk-In", Text = "Inperson/Walk-In" }
+               }, "Value", "Text", ""), new { id = "ddlIssuemode", @Class = "form-control select-sm" })
+                                                
+                                            }
+                                            else
+                                            {
+                                                @Model.IssueMode
+                                                @Html.HiddenFor(model => model.IssueMode, "")
+                                            }
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <b>Student Number</b><br />
+                                            @if (Model != null && (Model.Status == "LogIssue"))
+                                            {
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(model => model.StudentNumber, new { id = "txtStuNum", @Class = "form-control input-sm", @Readonly = "Readonly" })
+                                                    <span class="input-group-addon"><a id="StudentSearch" style="cursor: pointer;"><i
+                                                        class="fa fa-search"></i></a></span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Model.StudentNumber
+                                                @Html.HiddenFor(model => model.StudentNumber, "")
+                                            }
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Student Name</b><br />
+                                            @if (Model != null && (Model.Status == "LogIssue"))
+                                            {
+                                                @Html.TextBoxFor(model => model.StudentName, new { id = "txtstName", @Class = "form-control input-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Model.StudentName
+                                                @Html.HiddenFor(model => model.StudentName, "")
+                                            }
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Caller Phone Number</b><br />
+                                            @if (Model != null && (Model.Status == "LogIssue"))
+                                            {
+                                                @Html.TextBoxFor(model => model.CallPhoneNumber, new { id = "txtPhNum", @Class = "form-control input-sm" })
+                                            }
+
+                                            else
+                                            {
+                                                @Model.CallPhoneNumber
+                                                @Html.HiddenFor(model => model.CallPhoneNumber, "")
+                                            }
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Call from</b><br />
+                                            @if (Model != null && (Model.Status == "LogIssue"))
+                                            {
+                                                @Html.DropDownListFor(model => model.CallFrom, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Parent",Text="Parent"},
+                                              new{Value="Sibling",Text="Sibling"},
+                                              new{Value="Well wisher",Text="Well wisher"},
+                                              new{Value="Relatives",Text="Relatives"}
+                                          },"Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Model.CallFrom
+                                                @Html.HiddenFor(model => model.CallFrom, "")
+                                            }
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Caller Name</b><br />
+                                            @if (Model != null && (Model.Status == "LogIssue"))
+                                            {
+                                                @Html.TextBoxFor(model => model.CallerName, new { id = "txtCallerName", @Class = "form-control input-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Model.CallerName
+                                                @Html.HiddenFor(model => model.CallerName, "") 
+                                            }
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>School</b><br />
+                                            @if (Model != null && (Model.Status == "LogIssue"))
+                                            {
+                                                @Html.TextBoxFor(model => model.School, new { id = "txtschool", @Class = "form-control input-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Model.School
+                                                @Html.HiddenFor(model => model.School, "") 
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <b>Grade</b>
+                                            <br />
+                                            @if (Model != null && (Model.Status == "LogIssue"))
+                                            {
+                                                @Html.TextBoxFor(model => model.Grade, new { id = "txtgrade", @Class = "form-control input-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Model.Grade
+                                                @Html.HiddenFor(model => model.Grade, "") 
+                                            }
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Section</b>
+                                            <br />
+                                            @if (Model != null && (Model.Status == "LogIssue"))
+                                            {
+                                                @Html.TextBoxFor(model => model.Section, new { id = "txtsection", @Class = "form-control input-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Model.Section
+                                                @Html.HiddenFor(model => model.Section, "") 
+                                            }
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Boarding Type</b>
+                                            <br />
+                                            @if (Model != null && (Model.Status == "LogIssue"))
+                                            {
+                                                @Html.TextBoxFor(model => model.BoardingType, new { id = "txtBoardingType", @Class = "form-control input-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Model.BoardingType
+                                                @Html.HiddenFor(model => model.BoardingType, "")
+                                            }
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Email</b><br />
+                                            @if (Model != null && (Model.Status == "LogIssue"))
+                                            {
+                                                @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @Class = "form-control input-sm" })
+                                               
+                                                @Html.ValidationMessageFor(model => model.Email)
+                                            }
+                                            else
+                                            {
+                                                @Model.Email
+                                                @Html.HiddenFor(model => model.Email, "")
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        @if (Model.Status == "ResolveIssueRejection")
+                                        {
+                                            <div class="col-sm-2" style="padding-bottom: 5px;">
+                                                @Html.CheckBoxFor(model => model.WaitingForParentCnfm, new { id = "chkWaitingForParentCnfm" })
+                                                <span style="font: normal 10px Verdana,Arial,sans-serif;">Wait For Parent Confirmation</span>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <button class="btn btn-primary btn-block btn-sm" type="submit" id="btnSendMailToParent"
+                                                    name="btnSendMailToParent" style="display: none">
+                                                    <i class="fa fa-envelope-o">&nbsp;</i>Send Mail</button>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding: 0px;">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="fa fa-pencil-square-o"></i>&nbsp;Description Section
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-4">
+                                            <div class="row">
+                                                <b>&nbsp;&nbsp;&nbsp;&nbsp;Issue Description</b>
+                                                <br />
+                                                @if (Model != null && Model.Status == "Information" || Model.Status == "ResolveIssueRejection" || Model.Status == "ApproveIssueRejection" || Model.Status == "ResolveIssue" || Model.Status == "ApproveIssue" || Model.Status == "Complete")
+                                                {  
+                                                    <div class="col-xs-12">
+                                                        @Html.TextAreaFor(model => model.Description, new { rows = 1, cols = 45, id = "txtDescription", @class = "form-control select-sm", @style = "resize:vertical;" })
+                                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "red bigger" })
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-xs-12">
+                                                        @Html.TextAreaFor(model => model.Description, new { rows = 1, cols = 45, id = "txtDescription", @class = "form-control select-sm", @style = "resize:vertical;" })
+                                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "red bigger" })
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div class="row">
+                                                @if (Model != null && Model.Status == "ResolveIssue" || Model.Status == "ResolveIssueRejection" || Model.Status == "ApproveIssueRejection" || Model.Status == "ApproveIssue" || Model.Status == "Complete")
+                                                { 
+                                                    <b>&nbsp;&nbsp;&nbsp;&nbsp;Issue Resolution Comments </b>
+                                                    <br />
+                                                    <div class="col-xs-12">
+                                                        @Html.TextAreaFor(model => model.Resolution, new { rows = 1, cols = 45, id = "txtResolution", @class = "form-control select-sm", @style = "resize:vertical;" })
+                                                        @* @Html.ValidationMessageFor(model => model.Resolution)*@
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div class="row">
+                                                @if (Model != null && (Model.Status == "ResolveIssueRejection" || Model.Status == "Resolve Issue Rejection") || (Model.Status == "ApproveIssueRejection" || Model.Status == "Approve Issue Rejection"))
+                                                { <b>&nbsp;&nbsp;&nbsp;&nbsp;Issue Reply Comments</b>
+                                                    <div class="col-xs-12">
+                                                        @Html.TextArea("txtRejCommentsArea", new { rows = 1, cols = 45, id = "txtRejCommentsArea", @class = "form-control select-sm", @style = "resize:vertical;" })
+                                                    </div>
+                                                    
+                                                }
+                                                @if (Model != null && (Model.Status == "Resolve Issue" || Model.Status == "ResolveIssue") || (Model.Status == "Approve Issue" || Model.Status == "ApproveIssue"))
+                                                {
+                                                    <b>&nbsp;&nbsp;&nbsp;&nbsp;Issue Rejection Comments </b>
+                                                    <br />
+                                                    <div class="col-xs-12">
+                                                        @Html.TextArea("txtRejCommentsArea", new { rows = 1, cols = 45, id = "txtRejCommentsArea", @class = "form-control select-sm", @style = "resize:vertical;" })
+                                                    </div>
+                                                    
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            @if (Model != null && (Model.Status == "Resolve Issue" || Model.Status == "ResolveIssue") ||
+                                                                (Model.Status == "Approve Issue" || Model.Status == "ApproveIssue") ||
+                                                                (Model.Status == "ResolveIssueRejection" || Model.Status == "Resolve Issue Rejection") ||
+                                                                (Model.Status == "ApproveIssueRejection" || Model.Status == "Approve Issue Rejection") ||
+                                                                (Model.Status == "Complete"))
+                                            {
+                                                    
+                                                <b>Rejection Grid</b>
+                                                <br />
+                                                <table id="CommentList">
+                                                </table>
+                                                <div id="CommentListpager">
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (Model != null && (Model.Status == "Approve Issue" || Model.Status == "ApproveIssue"))
+                                {
+                                    <div class="row" style="margin-top: 1px; margin-left: 3px; margin-bottom: 5px;">
+                                        <div class="col-xs-12">
+                                            <div class="col-sm-2">
+                                                <b>To</b><br />
+                                                @Html.TextBox("txtTo", "", new { @Class = "form-control input-sm" })
+                                                <p style="color: purple; text-align: center; font-size: 8px;">
+                                                    &nbsp&nbsp Use in-between Email Ids
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <br />
+                                                <button class="btn btn-primary btn-block btn-sm" type="submit" id="btnSendEmail"
+                                                    name="SendEmail">
+                                                    <i class="fa fa-envelope-o">&nbsp;</i>Send Email</button>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <b>Sub</b><br />
+                                                @Html.TextBox("txtSub", "", new { @Class = "form-control input-sm" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <b>Receiver Group</b><br />
+                                                <select id="ReceiverGroup" name="ReceiverGroup" class="form-control select-sm">
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button class="btn btn-primary btn-block btn-sm" type="submit" id="btnAssign" name="Assign"
+                                                    value="Assign" style="display: none">
+                                                    <i class="fa fa-glass">&nbsp;</i>Assign</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-upload bigger-110"></i>&nbsp;Documents Upload
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px; margin-left: 3px; margin-bottom: 5px;">
+                            <div class="col-xs-12">
+                                <div class="col-sm-4">
+                                    @Html.Partial("FileUpload")
+                                </div>
+                                <div class="col-sm-8">
+                                    <table id="Uploadedfileslist">
+                                    </table>
+                                    <div id="uploadedfilesgridpager">
+                                    </div>
+                                    <br />
+                                </div>
+                                <br />
+                                <div class="row" style="margin-top: 5px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-4">
+                                        </div>
+                                        <div class="col-sm-8">
+                                            @if (Model != null && (Model.Status == "Log Issue" || Model.Status == "LogIssue" || Model.Status == "ResolveIssueRejection"))
+                                            {
+                                               
+                                                <button type="submit" class="btn btn-primary btn-sm" name="btnSave" id="Save" value="Save">
+                                                    <i class="fa fa-save">&nbsp;</i>Save</button>
+                                            }
+                                            @if (Model != null && (Model.Status == "Log Issue" || Model.Status == "LogIssue"))
+                                            {
+                                                <button type="submit" class="btn btn-primary btn-sm" name="btnCompleteLogIssue" id="CompleteLogIssue"
+                                                    value="CompleteLogIssue">
+                                                    <i class="fa fa-save">&nbsp;</i>Save and Submit</button>
+                                            }
+                                            else if (Model != null && (Model.Status == "Resolve Issue" || Model.Status == "ResolveIssue"))
+                                            {
+                                                <button type="submit" class="btn btn-success" name="btnResolveIssue" id="btnIdResolveIssue"
+                                                    value="Resolve Issue">
+                                                    <i class="fa fa-check">&nbsp;</i>Resolve Issue</button>
+                                                
+                                                <button type="submit" class="btn btn-warning" id="btnIdRejectIssue" name="btnRejectIssue"
+                                                    value="Reject Issue">
+                                                    <i class="fa fa-exclamation-circle">&nbsp;</i>More Info Required
+                                                </button>
+                                            }
+                                            else if (Model != null && (Model.Status == "Resolve Issue Rejection" || Model.Status == "ResolveIssueRejection"))
+                                            {
+                                                <button type="submit" class="btn btn-primary btn-sm" id="btnReply" name="btnReplyIssue"
+                                                    value="Reply Issue">
+                                                    <i class="fa fa-reply">&nbsp;</i>Reply
+                                                </button>
+                                            }
+
+                                            else if (Model != null && (Model.Status == "Approve Issue" || Model.Status == "ApproveIssue"))
+                                            {
+                                                <button type="submit" class="btn btn-primary btn-sm" id="ApproveIssue" name="btnApproveIssue"
+                                                    value="Approve Issue">
+                                                    <i class="fa fa-check">&nbsp;</i>Approve Issue
+                                                </button>
+                                                <button type="submit" class="btn btn-warning btn-sm" id="btnIdRejectIssue1" name="btnRejectIssue"
+                                                    value="Reject Issue">
+                                                    <i class="fa fa-times">&nbsp;</i>Reject Issue
+                                                </button>
+                                            }
+                                            else if (Model != null && (Model.Status == "Approve Issue Rejection" || Model.Status == "ApproveIssueRejection"))
+                                            {
+                                                                                               
+                                                <button type="submit" class="btn btn-primary btn-sm" id="btnApproveReply" name="btnReplyIssue"
+                                                    value="Reply Issue">
+                                                    <i class="fa fa-reply">&nbsp;</i>Reply
+                                                </button>
+                                            }
+                                            else if (Model != null && (Model.Status == "Complete" || Model.Status == "Complete"))
+                                            {
+                                                <script type="text/javascript" language="javascript">
+                                                    $('#trComments').hide();
+                                                    $("#tdComments").hide();
+                                                </script>
+                                                if (Model.IsIssueCompleted != true)
+                                                {
+                                                <button class="btn btn-primary btn-sm" type="submit" id="btnIdComplete" name="btnIdComplete"
+                                                    value="Complete">
+                                                    <i class="fa fa-archive">&nbsp;</i>Complete</button> }
+                                            }
+                                            @if (Model != null && rlecode.Contains("GRL"))
+                                            {
+                                                
+                                                <button class="btn btn-primary btn-sm" id="ChangeissueGroup" name="btnChangeIssue"
+                                                    value="Change Issue">
+                                                    <i class="fa fa-reply">&nbsp;</i>Change Issue Group
+                                                </button>
+                                                
+                                            }
+                                            @Html.Hidden("BackUrl1", Url.Action("CallManagement", "Home"))
+                                            &nbsp;&nbsp;
+                                            <button class="btn btn-pink btn-sm" type="button" id="btnbkToAvailable" name="btnbkToAvailable">
+                                                <i class="fa fa-suitcase">&nbsp;</i>Move Back to Available
+                                            </button>
+                                            &nbsp;&nbsp;
+                                            <button class="btn btn-purble btn-sm" type="button" id="Back">
+                                                <i class="fa fa-arrow-left">&nbsp;</i>Back To Inbox
+                                            </button>
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div id="DivStudentSearch">
+</div>
+<div id="DivExtLeaveReq">
+    <div class="row" style="margin-top: 5px; margin-left: 3px; margin-bottom: 5px;">
+        <div class="col-xs-12">
+            <div class="col-sm-3">
+                <b>From</b><br />
+                <input id="from" type="text" class="form-control input-sm" />
+            </div>
+            <div class="col-sm-3">
+                <b>To</b><br />
+                <input id="to" type="text" class="form-control input-sm" />
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/Home/CallRegister.js" type="text/javascript"></script>
+<script src="../../assets/js/AceJQMsg.js" type="text/javascript"></script>

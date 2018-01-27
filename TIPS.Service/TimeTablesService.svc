@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="TIPS.ServiceContract.TimeTablesService" CodeBehind="TimeTablesService.svc.cs" %>

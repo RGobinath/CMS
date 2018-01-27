@@ -1,0 +1,213 @@
+﻿@using TIPS.Entities.AdmissionEntities
+@model StudentProfilePrint
+<style type="text/css">
+    .page-breaker {
+        display: block;
+        clear: both;
+        page-break-after: always;
+    }
+
+    .NameDiv {
+        font-size: 45px;
+        font-weight: bold;
+        padding: 10px;
+    }
+    .rightBox {
+        float: left;
+        width: 1100px;
+        margin: 25px 0px 25px 150px;
+        height: 400px; /* border: 2px solid;*/
+    }
+
+    .leftBox {
+        float: right;
+        width: 1100px;
+        margin: 25px 150px 25px 0px;
+        height: 400px; /* border: 2px solid;*/
+    }
+
+    p {
+        font-size: 40px;
+        font-weight: bold;
+        padding: 5px 5px 5px 25px;
+    }
+</style>
+<div>
+    @if (Model.stdDtls != null)
+    {
+        <table width="250%">
+            <tr>
+                <td>
+                    <div style="height: 280px;">
+                        <p>Student List Profile</p>
+                    </div>
+                    <div style="height: 150px;">
+                        <p>
+                            <b style="float: left; margin-left: 150px;">Campus : @Model.Campus</b>
+                            <b style="float: right; margin-right: 150px;">Grade : @Model.Grade </b>
+                        </p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    @{
+        int count = Model.stdDtls.Count % 2 == 0 ? Model.stdDtls.Count : Model.stdDtls.Count - 1;
+        int tempcount = Model.stdDtls.Count;
+        int pagebreak = 0;
+                    }
+                    @for (int i = 0; i < count; i = i + 2)
+                    {
+                        pagebreak++;
+                        <div class="rightBox">
+                            <table style="margin-bottom: 50px;">
+                                <tr>
+                                    <td rowspan="3">
+                                        <p>
+                                            <img id="#studentImage1" src="@Url.Action("uploaddisplay1", "Admission", new { id = Model.stdDtls[i].PreRegNum })" alt="Student Img" style="width:300px;height:370px;border-width:0px;" />
+                                        </p>
+                                    </td>
+                                    <td style="padding-bottom:50px">
+                                        <p>
+                                            Student Name
+                                        </p>
+                                    </td>
+                                    <td style="padding-bottom:50px">
+                                        <p>
+                                            @Model.stdDtls[i].Name
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom:50px">
+                                        <p>
+                                            Grade
+                                        </p>
+                                    </td>
+                                    <td style="padding-bottom:50px">
+                                        <p>
+                                            @Model.stdDtls[i].Grade
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            ID Number
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p>
+                                            @Model.stdDtls[i].NewId
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="leftBox">
+                            <table style="margin-bottom: 50px;">
+                                <tr>
+                                    <td rowspan="3">
+                                        <p>
+                                            <img id="#studentImage2" src="@Url.Action("uploaddisplay1", "Admission", new { id = Model.stdDtls[i + 1].PreRegNum })" alt="Student Img" style="width:300px;height:370px;border-width:0px;" />
+                                        </p>
+                                    </td>
+                                    <td style="padding-bottom:50px">
+                                        <p>
+                                            Student Name
+                                        </p>
+                                    </td>
+                                    <td style="padding-bottom:50px">
+                                        <p>
+                                            @Model.stdDtls[i + 1].Name
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom:50px">
+                                        <p>
+                                            Grade
+                                        </p>
+                                    </td>
+                                    <td style="padding-bottom:50px">
+                                        <p>
+                                            @Model.stdDtls[i + 1].Grade
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            ID Number
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p>
+                                            @Model.stdDtls[i + 1].NewId
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        if (pagebreak == 6)
+                        {
+                        <div class="page-breaker"></div>
+                            pagebreak = 0;
+                        <div style="height: 280px;"></div>
+                        }
+                    }
+                    @if (Model.stdDtls.Count % 2 != 0)
+                    {
+                        <div class="rightBox">
+                            <table style="margin-bottom: 50px; margin-top: 100px">
+                                <tr>
+                                    <td rowspan="3">
+                                        <p>
+                                            <img id="#studentImage3" src="@Url.Action("uploaddisplay1", "Admission", new { id = Model.stdDtls[tempcount - 1].PreRegNum })" alt="Student Img" style="width:300px;height:370px;border-width:0px;" />
+                                        </p>
+                                    </td>
+                                    <td style="padding-bottom:50px">
+                                        <p>
+                                            Student Name
+                                        </p>
+                                    </td>
+                                    <td style="padding-bottom:50px">
+                                        <p>
+                                            @Model.stdDtls[tempcount - 1].Name
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom:50px">
+                                        <p>
+                                            Grade
+                                        </p>
+                                    </td>
+                                    <td style="padding-bottom:50px">
+                                        <p>
+                                            @Model.stdDtls[tempcount - 1].Grade
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            ID Number
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p>
+                                            @Model.stdDtls[tempcount - 1].NewId
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="leftBox">
+                        </div>
+                    }
+                </td>
+            </tr>
+        </table>
+    }
+</div>

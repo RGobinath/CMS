@@ -1,0 +1,310 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{817E36CB-FE2F-4FA1-A1B6-E72920799AE0}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TIPS.ServiceContract</RootNamespace>
+    <AssemblyName>TIPS.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="antlr.runtime">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\antlr.runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="LinFu.DynamicProxy">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\LinFu.DynamicProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NHibernate, Version=3.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.LinFu">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\NHibernate.ByteCode.LinFu.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Spring">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\NHibernate.ByteCode.Spring.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Aop">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\Spring.Aop.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Core">
+      <HintPath>..\PersistenceFactory\nHibernateDLLs\Spring.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AdminTemplateService.svc" />
+    <Content Include="AdmissionManagementService.svc" />
+    <Content Include="Assess360Service.svc" />
+    <Content Include="AssetService.svc" />
+    <Content Include="AttendanceService.svc" />
+    <Content Include="BioAttendanceService.svc" />
+    <Content Include="CallManagementService.svc" />
+    <Content Include="CanteenService.svc" />
+    <Content Include="CommentsService.svc" />
+    <Content Include="CommunicationService.svc" />
+    <Content Include="DocumentsService.svc" />
+    <Content Include="EmployeeService.svc" />
+    <Content Include="EnquiryService.svc" />
+    <Content Include="HostelMngtService.svc" />
+    <Content Include="HRManagementService.svc" />
+    <Content Include="InboxService.svc" />
+    <Content Include="LMSService.svc" />
+    <Content Include="MasterDataService.svc" />
+    <Content Include="MastersService.svc" />
+    <Content Include="MenuService.svc" />
+    <Content Include="ParentPortalService.svc" />
+    <Content Include="ProcessFlowServices.svc" />
+    <Content Include="QAService.svc" />
+    <Content Include="ReportCardService.svc" />
+    <Content Include="StaffIssuesService.svc" />
+    <Content Include="StaffManagementService.svc" />
+    <Content Include="StoreService.svc" />
+    <Content Include="StudentsReportService.svc" />
+    <Content Include="TimeTablesService.svc" />
+    <Content Include="TransportService.svc" />
+    <Content Include="UserService.svc" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="WidgetService.svc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdminTemplateService.svc.cs">
+      <DependentUpon>AdminTemplateService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="AdmissionManagementService.svc.cs">
+      <DependentUpon>AdmissionManagementService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Assess360Service.svc.cs">
+      <DependentUpon>Assess360Service.svc</DependentUpon>
+    </Compile>
+    <Compile Include="AssetService.svc.cs">
+      <DependentUpon>AssetService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="AttendanceService.svc.cs">
+      <DependentUpon>AttendanceService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="BioAttendanceService.svc.cs">
+      <DependentUpon>BioAttendanceService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="CallManagementService.svc.cs">
+      <DependentUpon>CallManagementService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="CanteenService.svc.cs">
+      <DependentUpon>CanteenService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="CommentsService.svc.cs">
+      <DependentUpon>CommentsService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="CommunicationService.svc.cs">
+      <DependentUpon>CommunicationService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentsService.svc.cs">
+      <DependentUpon>DocumentsService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeeService.svc.cs">
+      <DependentUpon>EmployeeService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="EnquiryService.svc.cs">
+      <DependentUpon>EnquiryService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="HostelMngtService.svc.cs">
+      <DependentUpon>HostelMngtService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="HRManagementService.svc.cs">
+      <DependentUpon>HRManagementService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="IBioAttendanceService.cs" />
+    <Compile Include="InboxService.svc.cs">
+      <DependentUpon>InboxService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="LMSService.svc.cs">
+      <DependentUpon>LMSService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="MasterDataService.svc.cs">
+      <DependentUpon>MasterDataService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="MastersService.svc.cs">
+      <DependentUpon>MastersService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="MenuService.svc.cs">
+      <DependentUpon>MenuService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="ParentPortalService.svc.cs">
+      <DependentUpon>ParentPortalService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="ProcessFlowServices.svc.cs">
+      <DependentUpon>ProcessFlowServices.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QAService.svc.cs">
+      <DependentUpon>QAService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="ReportCardService.svc.cs">
+      <DependentUpon>ReportCardService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="StaffIssuesService.svc.cs">
+      <DependentUpon>StaffIssuesService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="StaffManagementService.svc.cs">
+      <DependentUpon>StaffManagementService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="StoreService.svc.cs">
+      <DependentUpon>StoreService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="StudentsReportService.svc.cs">
+      <DependentUpon>StudentsReportService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTablesService.svc.cs">
+      <DependentUpon>TimeTablesService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="TransportService.svc.cs">
+      <DependentUpon>TransportService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="UserService.svc.cs">
+      <DependentUpon>UserService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetService.svc.cs">
+      <DependentUpon>WidgetService.svc</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TIPS.Component\TIPS.Component.csproj">
+      <Project>{B9ECD974-B198-4EBE-9721-65B3C162DE48}</Project>
+      <Name>TIPS.Component</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TIPS.Entities.Assess\TIPS.Entities.Assess.csproj">
+      <Project>{FEBE2D61-D72A-49AA-9F10-C83FB6A096C7}</Project>
+      <Name>TIPS.Entities.Assess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TIPS.Entities.BioMetrics\TIPS.Entities.BioMetrics.csproj">
+      <Project>{2295bdb0-d6fd-45a3-b93f-1a617076bd45}</Project>
+      <Name>TIPS.Entities.BioMetrics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TIPS.Entities.TaskManagement\TIPS.Entities.TaskManagement.csproj">
+      <Project>{335AC29B-691F-4CA3-8A44-16FB10CC1093}</Project>
+      <Name>TIPS.Entities.TaskManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TIPS.Entities.TicketingSystem\TIPS.Entities.TicketingSystem.csproj">
+      <Project>{5DD86482-99BB-4E64-B5B4-D81076B9F65E}</Project>
+      <Name>TIPS.Entities.TicketingSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TIPS.Entities\TIPS.Entities.csproj">
+      <Project>{924034CE-9FCB-472F-847F-DF216EA9A584}</Project>
+      <Name>TIPS.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TIPS.ServiceContract\TIPS.ServiceContract.csproj">
+      <Project>{695CF9FC-EE0A-4B03-9926-E7B810D50DBF}</Project>
+      <Name>TIPS.ServiceContract</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>34404</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

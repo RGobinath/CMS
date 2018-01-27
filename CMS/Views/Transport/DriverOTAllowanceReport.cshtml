@@ -1,0 +1,211 @@
+﻿@{
+    ViewBag.Title = "DriverOTAllowanceReport";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var Month = "@ViewBag.CurMonth";
+        var Year = "@ViewBag.CurYear";
+        var DriverName;
+        var campus;
+        var DriverIdNo;
+        $("#ddlyear").val(Year);
+        $.getJSON("/Base/FillMonth",
+             function (fillig) {
+                 var mior = $("#ddlmonth");
+                 mior.empty();
+                 mior.append("<option value=' '> Select </option>");
+                 $.each(fillig, function (index, itemdata) {
+                     if (itemdata.Value != Month) {
+                         mior.append($('<option/>',
+                         {
+                             value: itemdata.Value,
+                             text: itemdata.Text
+                         }));
+                     }
+                     else {
+                         mior.append($('<option/>',
+                     {
+                         value: itemdata.Value,
+                         text: itemdata.Text,
+                         selected: "Selected"
+
+                     }));
+                     }
+                 });
+             });
+
+        $("#btnSearch").click(function () {
+            DriverName = $("#txtDriverName").val();
+            DriverIdNo = $("#txtDriverNo").val();
+            campus = $("#Campus").val();
+            Year = $("#ddlyear").val();
+            Month = $("#ddlmonth").val();
+            $("#DriverOTAllowanceReport").clearGridData();
+            $("#DriverOTAllowanceReport").setGridParam(
+                {
+                    datatype: "json",
+                    url: '@Url.Content("~/Transport/DriverOTAllowanceJqGrid/")',
+                    postData: { DriverName: DriverName, DriverIdNo: DriverIdNo, Campus: campus, CurrMonth: Month, CurrYear: Year },
+                    page: 1
+                }).trigger("reloadGrid");
+        });
+
+        $("#btnReset").click(function () {
+            window.location.href = '@Url.Action("DriverOTAllowanceReport", "Transport")';
+        });
+        $("#DriverOTAllowanceReport").jqGrid({
+            url: '@Url.Content("~/Transport/DriverOTAllowanceJqGrid/")?CurrMonth=' + Month + '&CurrYear=' + Year,
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'Campus', 'Driver Name', 'DriverId No', 'Month', 'Year', 'Evening', 'Evening Allowance', 'Night', 'Night Allowance', 'OutStation', 'OutStation Allowance', 'Holiday', 'Holiday Allowance', 'Remedial', 'Remedial Allowance', 'Total OT Count', 'Total Allowance'],
+            colModel: [
+              { name: 'Id', index: 'Id', hidden: true },
+              { name: 'Campus', index: 'Campus' },
+                { name: 'DriverName', index: 'DriverName', width: '250px' },
+                { name: 'DriverIdNo', index: 'DriverIdNo', width: '250px' },
+                { name: 'Month', index: 'Month' },
+                { name: 'Year', index: 'Year' },
+                { name: 'Evening', index: 'Evening' },
+                { name: 'EveningAllowance', index: 'EveningAllowance' },
+                { name: 'Night', index: 'Night' },
+                { name: 'NightAllowance', index: 'NightAllowance' },
+                { name: 'OutStation', index: 'OutStation' },
+                { name: 'OutStationAllowance', index: 'OutStationAllowance' },
+                { name: 'Holiday', index: 'Evening' },
+                { name: 'HolidayAllowance', index: 'HolidayAllowance' },
+                { name: 'Remedial', index: 'Remedial' },
+                { name: 'RemedialAllowance', index: 'RemedialAllowance' },
+                { name: 'TotalOTCount', index: 'TotalOTCount' },
+                { name: 'TotalAllowance', index: 'TotalAllowance' }
+              ],
+            pager: '#DriverOTAllowanceReportPager',
+            rowNum: '10',
+            rowList: [10, 20, 50, 100, 200],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: '230',
+            width: 1225,
+            caption: 'Driver OT Allowance Report',
+            viewrecords: true
+        });
+        $("#DriverOTAllowanceReport").navGrid('#DriverOTAllowanceReportPager', { add: false, edit: false, del: false, search: false, refresh: false });
+
+        $("#DriverOTAllowanceReport").jqGrid('navButtonAdd', '#DriverOTAllowanceReportPager', {
+            caption: "Export To Excel",
+            onClickButton: function () {
+                DriverName = $("#txtDriverName").val();
+                DriverIdNo = $("#txtDriverNo").val();
+                campus = $("#Campus").val();
+                Year = $("#ddlyear").val();
+                Month = $("#ddlmonth").val();
+                window.open("DriverOTAllowanceJqGrid" + '?DriverName=' + DriverName + '&DriverIdNo=' + DriverIdNo + '&Campus' + campus + '&CurrMonth=' + Month + '&CurrYear=' + Year + ' &rows=9999 ' + '&ExptXl=1');
+            }
+        });
+        //   Autocomplete Search Example....
+        $("#txtDriverName").autocomplete({
+            source: function (request, response) {
+                var Campus = $("#Campus").val();
+                $.getJSON('/Transport/GetAutoCompleteDriverNamesByCampus?term=' + request.term + '&Campus=' + Campus, function (data) {
+                    response(data);
+                });
+            },
+            select: function (event, ui) {
+                debugger;
+                FillDriverIdNo(ui.item.value);
+            },
+            minLength: 1,
+            delay: 100
+        });
+        $("#Campus").change(function () {
+            $("#DriverIdNo").val('');
+            $.getJSON("/Transport/GetDriverByCampus?Campus=" + $(this).val(),
+             function (fillig) {
+                 var Dri = $("#txtDriverName");
+                 Dri.empty();
+                 Dri.append($('<option/>',
+                {
+                    value: "",
+                    text: "Select One"
+
+                }));
+                 $.each(fillig, function (index, itemdata) {
+                     Dri.append($('<option/>',
+                         {
+                             value: itemdata.Value,
+                             text: itemdata.Text
+                         }));
+                 });
+
+             });
+        });
+
+         });
+         function FillDriverIdNo(DriverName) {
+             debugger;
+             var Campus = $("#Campus").val();
+             $.ajax({
+                 type: 'POST',
+                 url: "/Transport/GetDriverDetailsByNameAndCampus",
+                 data: { Campus: Campus, DriverName: DriverName },
+                 success: function (data) {
+                     $("#txtDriverNo").val(data.DriverIdNo);
+                 }
+             });
+         }
+</script>
+<table width="100%" class="WithBorderOnly">
+    <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+        <td colspan="6">
+            Search Panel
+        </td>
+    </tr>
+    <tr>
+        <td width="17%">
+            Campus
+        </td>
+        <td width="17%">
+            Driver Name
+        </td>
+        <td width="17%">
+            Driver Id No
+        </td>
+        <td width="17%">
+            Month
+        </td>
+        <td width="17%">
+            Year
+        </td>
+        <td width="15%">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DropDownList("Campus", new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.TextBox("txtDriverName", "", new { @class = "CSSTextBox" })
+        </td>
+        <td>
+            @Html.TextBox("txtDriverNo", "", new { @class = "CSSTextBox" })
+        </td>
+        <td>
+            @Html.DropDownList("ddlmonth", new SelectList(Enumerable.Empty<SelectListItem>()), "----Select----", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownList("ddlyear", new SelectList(ViewBag.Years, "", ""), "Select One", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            <input type="submit" id="btnSearch" value="Search" />
+            <input type="button" id="btnReset" value="Reset" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6">
+            <table id="DriverOTAllowanceReport">
+            </table>
+            <div id="DriverOTAllowanceReportPager">
+            </div>
+        </td>
+    </tr>
+</table>

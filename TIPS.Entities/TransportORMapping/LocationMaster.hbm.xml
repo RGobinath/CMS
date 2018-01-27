@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   namespace="TIPS.Entities.TransportEntities"
+                   assembly="TIPS.Entities.TransportEntities.LocationMaster">
+
+  <class name="TIPS.Entities.TransportEntities.LocationMaster, TIPS.Entities" table="LocationMaster" dynamic-update="true">
+    <cache usage="read-write"/>
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="LocationId"/>
+    <property name="Campus"/>
+    <property name="LocationName"/>
+    <property name="CreatedDate"/>
+    <property name="CreatedBy"/>
+    <property name="ModifiedDate"/>
+    <property name="ModifiedBy"/>
+  </class>
+</hibernate-mapping>

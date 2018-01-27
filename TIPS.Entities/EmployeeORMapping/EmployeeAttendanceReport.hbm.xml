@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.EmployeeEntities.EmployeeAttendanceReport" namespace="TIPS.Entities.EmployeeEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.EmployeeEntities.EmployeeAttendanceReport, TIPS.Entities" table="StaffDetails" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"></property>
+    <property name="Campus" column="Campus" type="string" ></property>
+    <property name="Name" column="Name" type="string" ></property>
+    <property name="IdNumber" column="IdNumber" type="string" ></property>
+    <property name ="Status" column="Status" type="string"></property>
+    <property name="Designation" column="Designation" type="string"></property>
+    <property name="WorkingType" column="WorkingType" type="string"></property>
+  </class>
+</hibernate-mapping>

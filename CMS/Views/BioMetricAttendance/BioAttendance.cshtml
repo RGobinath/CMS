@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "BioAttendance";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<div class="page-content">
+    @Html.Hidden("RetainCurDate", "", new { @Value = ViewBag.dattime })
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-12 widget-container-col">
+                        <div class="widget-box widget-color-CustomizeBlue">
+                            <div class="widget-header widget-header-flat widget-header-small">
+                                <div class="PanelHeader">
+                                    <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                                </div>
+                                <div class="widget-toolbar">
+                                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main no-padding">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="col-sm-2">
+                                                <label for="form-field-select-1">
+                                                    <b>Employee Name</b></label>
+                                                @Html.TextBox("txtEmpName", "", new { @Class = "form-control input-sm" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label for="form-field-select-1">
+                                                    <b>Campus</b></label>
+                                                @Html.DropDownList("ddlCompany", new SelectList(new[]{
+                                              new{Value="",Text="Select One"},
+                                              new{Value="2",Text="CBE MAIN"}
+                                          }, "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label for="form-field-select-1">
+                                                    <b>Attendance Date</b></label>
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBox("txtAttDate", "", new { @Class = "form-control date-picker" })
+                                                    <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <br />
+                                                <button type="submit" class="btn btn-success btn-block btn-sm" id="btnSearch">
+                                                    <i class="ace-icon fa fa-search white"></i>Search
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <br />
+                                                <button type="button" class="btn btn-danger btn-block btn-sm" id="btnReset">
+                                                    <i class="ace-icon fa fa-undo white"></i>Reset
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="space-2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table id="AttendanceLogJqGrid">
+                        </table>
+                        <div id="AttendanceLogJqGridPager">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../Scripts/BioMetricAttendance/BioAttendance.js" type="text/javascript"></script>
+<script src="@Url.Content("~/assets/js/AceJQMsg.js")" type="text/javascript"></script>

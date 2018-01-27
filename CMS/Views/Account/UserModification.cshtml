@@ -1,0 +1,144 @@
+﻿@model TIPS.Entities.User
+@{
+    ViewBag.Title = "User Modification";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<!-- #section:basics/navbar.layout -->
+<!-- /section:basics/navbar.layout -->
+<script type="text/javascript">
+    try { ace.settings.check('main-container', 'fixed') } catch (e) { }
+</script>
+@using (Html.BeginForm("UserModification"))
+{
+    <div class="page-content">
+        <div class="page-content-area">
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            <div class="space-2">
+            </div>
+            <div class="row" >
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue ">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-user-plus"></i>&nbsp;User Modification</div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <h5>
+                                        Passwords are required to be a minimum of 6 characters in length.
+                                    </h5>
+                                    <br />
+                                    <h5>
+                                        New passwords are required to be a minimum of 6 characters in length.
+                                    </h5>
+                                    <br />
+                                    <div class="row" style="margin-left: 3px; margin-bottom: 5px;">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                User Id<span style="color: Red">*</span></label>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            @Html.TextBoxFor(m => m.UserId, new { @Class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(m => m.UserId)
+                                            @Html.HiddenFor(m => m.Id)
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <span><a id="UserSearch" style="cursor: pointer;"><i class="ace-icon fa fa-search"></i>
+                                            </a></span>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row" style=" margin-left: 3px; margin-bottom: 5px;">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                User Name<span style="color: Red">*</span></label>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            @Html.TextBoxFor(m => m.UserName, new { @Class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(m => m.UserName)
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row" style=" margin-left: 3px; margin-bottom: 5px;">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                User Type<span style="color: Red">*</span></label>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            @Html.DropDownListFor(model => model.UserType, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlUserType", @Class = "form-control select-sm" })
+                                            @Html.ValidationMessageFor(m => m.UserId)
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row" style="margin-left: 3px; margin-bottom: 5px;">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                Email Id<span style="color: Red">*</span></label>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            @Html.TextBoxFor(m => m.EmailId, new { @Class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(m => m.EmailId)
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row" style=" margin-left: 3px; margin-bottom: 5px;">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                Is Active</label>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            @Html.DropDownListFor(m => m.IsActive, new SelectList(new[]
+                                          {
+                                            new{Value="",Text="Select One",},
+                                            new{Value="True",Text="True"},
+                                            new{Value="False",Text="False"},
+                                          },
+      "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row" style=" margin-left: 3px; margin-bottom: 5px;">
+                                        <div class="col-sm-2">
+                                            <button class="btn btn-primary btn-info btn-block btn-sm" type="submit" id="btnSubmit">
+                                                Submit
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button class="btn btn-danger btn-warning btn-block btn-sm" type="button" id="btnReset">
+                                                <i class="ace-icon fa fa-undo white"></i>Reset
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+}
+<div id="DivUserSearch"></div>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../assets/js/jquery.min.js'>" + "<" + "/script>");
+</script>
+<script type="text/javascript">
+    if ('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+</script>
+<script type="text/javascript" src="../../Scripts/Account/UserModification.js"></script>
+<script type="text/javascript" language="javascript">
+    var error = "@ViewBag.Error";
+    var SuccessMsg = "@ViewBag.SuccessMsg";
+    if (error != "") {
+        ErrMsg(error, function () { window.location.href = '@Url.Action("UserModification", "Account")' });
+    }
+    if (SuccessMsg != "") {
+        SucessMsg(SuccessMsg, function () { window.location.href = '@Url.Action("UserModification", "Account")' });
+    }
+</script>

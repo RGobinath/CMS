@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.StaffEvaluationScore_Vw" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.StaffEvaluationScore_Vw, TIPS.Entities" table="StaffEvaluationScore_Vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"></property>
+    <property name="Name" column="Name" type="string"></property>
+    <property name="IdNumber" column="IdNumber" type="string" ></property>
+    <property name="Campus" column="Campus" type="string" ></property>
+    <property name="Grade" column="Grade" type="string" ></property>
+    <property name="Section" column="Section" type="string" ></property>
+    <property name="AcademicYear" column="AcademicYear" type="string" ></property>
+    <property name="Subject" column="Subject" type="string" ></property>
+    <!--<property name="Semester" column="Semester" type="string" ></property>-->
+    <property name="Month" column="Month" type="string" ></property>
+    <property name="Entered" column="Entered" type="Int64"></property>
+    <property name="TotalStudents" column="TotalStudents" type="Int64"></property>
+    <property name="TotalScore" column="TotalScore" type="Int64"></property>
+  </class>
+</hibernate-mapping>

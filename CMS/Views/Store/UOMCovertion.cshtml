@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "UOMCoversion";
+    Layout = "~/Views/Shared/PartialViewMaster.cshtml";
+}
+<style>
+.ui-widget-content
+        {
+            border: 0px solid #aaaaaa;
+            background: #ffffff url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x;
+           /* font-size: 0.8em;*/
+            color: #222222;
+        }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        jQuery("#UOMConversionList").jqGrid({
+            url: '/Store/UOMCovertionListJqGrid',
+            datatype: 'json',
+            mtype: 'GET',
+            height: '265',
+            width: '970',
+            //  shrinkToFit: true,
+            colNames: ['Id', 'Base Quantity', 'Base Unit', 'Conversion Quantity', 'Conversion Unit'],
+            colModel: [
+                { name: 'Id', index: 'Id', width: 50, align: 'left', editable: true, hidden: true, edittype: 'text', key: true, sortable: false },
+                { name: 'BaseQuantity', index: 'BaseQuantity', width: 10, align: 'left', edittype: 'text', editable: true, hidden: false, sortable: true, editrules: { required: true, integer: true} },
+                { name: 'BaseUnit', index: 'BaseUnit', width: 10, align: 'left', edittype: 'select', editable: true, hidden: false, sortable: true, editrules: { required: true }, editoptions: {
+                    dataUrl: '@Url.Action("Unitsddl")',
+                    buildSelect: function (data) {
+                        jqGridMaterialGroup = jQuery.parseJSON(data);
+                        var s = '<select>';
+                        s += '<option value=" ">------Select------</option>';
+                        if (jqGridMaterialGroup && jqGridMaterialGroup.length) {
+                            for (var i = 0, l = jqGridMaterialGroup.length; i < l; i++) {
+                                var mg = jqGridMaterialGroup[i];
+                                s += '<option value="' + mg + '">' + mg + '</option>';
+                            }
+                        }
+                        return s + "</select>";
+                    }
+                }
+                },
+                { name: 'ConversionQuantity', index: 'ConversionQuantity', width: 10, align: 'left', edittype: 'text', editable: true, hidden: false, sortable: true, editrules: { required: true, integer: true} },
+                { name: 'ConversionUnit', index: 'ConversionUnit', width: 10, align: 'left', edittype: 'select', editable: true, hidden: false, sortable: true, editrules: { required: true }, editoptions: {
+                    dataUrl: '@Url.Action("Unitsddl")',
+                    buildSelect: function (data) {
+                        jqGridMaterialGroup = jQuery.parseJSON(data);
+                        var s = '<select>';
+                        s += '<option value=" ">------Select------</option>';
+                        if (jqGridMaterialGroup && jqGridMaterialGroup.length) {
+                            for (var i = 0, l = jqGridMaterialGroup.length; i < l; i++) {
+                                var mg = jqGridMaterialGroup[i];
+                                s += '<option value="' + mg + '">' + mg + '</option>';
+                            }
+                        }
+                        return s + "</select>";
+                    }
+                }
+                },
+                ],
+            pager: '#UOMConversionListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200 ],
+            sortname: '',
+            sortorder: "",
+            viewrecords: true,
+            multiselect: true,
+            closeAfterEdit: true,
+            closeAfterAdd: true,
+            //  autowidth: true,
+            // loadonce: true, 
+            reloadAfterSubmit: true,
+            caption: 'UOM Conversion List'
+        });
+        jQuery("#UOMConversionList").navGrid('#UOMConversionListPager', { add: true, edit: true, del: false, search: false, refresh: false },
+        { width: 'auto', url: '/Store/AddUOMConversionUnits?test=edit' },
+        { width: 'auto', url: '/Store/AddUOMConversionUnits' }
+                );
+        $("#UOMConversionList").jqGrid('filterToolbar', { stringResult: false, searchOnEnter: true, beforeSearch: function () {
+            $('#UOMConversionList').clearGridData();
+            return false;
+        }
+        });
+    });
+</script>
+<table id="UOMConversionList">
+</table>
+<div id="UOMConversionListPager">
+</div>

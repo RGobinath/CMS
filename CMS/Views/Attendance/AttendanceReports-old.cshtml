@@ -1,0 +1,308 @@
+﻿@{
+    ViewBag.Title = "AttendanceReports";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<h3>
+    Attendance Reports</h3>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#AcademicYear").on("change", function (e) {
+
+            $.getJSON("/Attendance/GetMonthValbyAcademicYear?academicYear=" + $("#AcademicYear").val(),
+          function (fillbc) {
+              var monthVal = $("#ddlSearchType");
+              monthVal.empty();
+              monthVal.append($('<option/>',
+             {
+                 value: "",
+                 text: "Select One"
+
+             }));
+
+              $.each(fillbc, function (index, itemdata) {
+                  monthVal.append($('<option/>',
+                      {
+                          value: itemdata.Value,
+                          text: itemdata.Text
+                      }));
+
+              });
+          });
+
+
+
+
+
+
+
+        });
+
+
+
+
+
+        $("#ReportList").jqGrid({
+            url: '@Url.Content("~/Attendance/GetAttendanceReportsJqGrid")',
+            datatype: 'json',
+            type: 'GET',
+            colNames: ['', ' Name ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', 'No Of Days Absent', 'No Of Days Present', 'Percentage', 'Bought Forward', 'Total Attendance', 'Total Percentage'],
+            colModel: [
+                                  { name: 'PreRegNum', index: 'PreRegNum', hidden: true, key: true },
+                                  { name: 'Name', index: 'Name', width: 15 },
+                                  { name: 'Date1', index: 'Date1', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date2', index: 'Date2', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date3', index: 'Date3', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date4', index: 'Date4', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date5', index: 'Date5', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date6', index: 'Date6', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date7', index: 'Date7', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date8', index: 'Date8', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date9', index: 'Date9', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date10', index: 'Date10', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date11', index: 'Date11', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date12', index: 'Date12', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date13', index: 'Date13', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date14', index: 'Date14', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date15', index: 'Date15', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date16', index: 'Date16', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date17', index: 'Date17', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date18', index: 'Date18', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date19', index: 'Date19', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date20', index: 'Date20', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date21', index: 'Date21', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date22', index: 'Date22', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date23', index: 'Date23', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date24', index: 'Date24', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date25', index: 'Date25', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date26', index: 'Date26', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date27', index: 'Date27', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date28', index: 'Date28', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date29', index: 'Date29', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date30', index: 'Date30', width: 5, align: 'center', sortable: false },
+                                  { name: 'Date31', index: 'Date31', width: 5, align: 'center', sortable: false },
+                                  { name: 'noofAbsentdate', index: 'noofAbsentdate', width: 10, align: 'center', sortable: false },
+                                  { name: 'noofpre', index: 'noofpre', width: 10, align: 'center', sortable: false },
+                                  { name: 'Percentage', index: 'Percentage', width: 10, align: 'center', sortable: false },
+                                { name: 'boughtForward', index: 'boughtForward', width: 10, align: 'center', sortable: false },
+                                { name: 'totalAttendance', index: 'totalAttendance', width: 10, align: 'center', sortable: false },
+                                { name: 'totalPercentage', index: 'totalPercentage', width: 10, align: 'center', sortable: false },
+                      ],
+            rowNum: 50,
+            rowList: [5, 10, 20, 50, 100],
+            pager: '#ReportListPager',
+            sortname: 'Name',
+            sortorder: "Desc",
+            width: 1210,
+            height: 250,
+            viewrecords: true,
+            caption: 'Report List',
+            loadComplete: function () {
+                debugger;
+                var Searchtype = $('#ddlSearchType').val();
+                var year = (new Date).getFullYear();
+                var month = Searchtype;
+                var days = Math.round(((new Date(year, month)) - (new Date(year, month - 1))) / 86400000);
+                if (days == '31') {
+                    jQuery("#ReportList").jqGrid('showCol', "Date31");
+                    jQuery("#ReportList").jqGrid('showCol', "Date29");
+                    jQuery("#ReportList").jqGrid('showCol', "Date30");
+                }
+                else if (days == '30') {
+                    jQuery("#ReportList").jqGrid('showCol', "Date29");
+                    jQuery("#ReportList").jqGrid('showCol', "Date30");
+                    jQuery("#ReportList").jqGrid('hideCol', "Date31");
+                }
+                else if (days == '28') {
+                    jQuery("#ReportList").jqGrid('hideCol', "Date29");
+                    jQuery("#ReportList").jqGrid('hideCol', "Date30");
+                    jQuery("#ReportList").jqGrid('hideCol', "Date31");
+                } else if (days == '29') {
+                    jQuery("#ReportList").jqGrid('showCol', "Date29");
+                    jQuery("#ReportList").jqGrid('hideCol', "Date30");
+                    jQuery("#ReportList").jqGrid('hideCol', "Date31");
+                }
+                $("#ReportList").jqGrid('setGridWidth', 1210);
+            }
+        });
+        $("#ReportList").navGrid('#ReportListPager', { add: false, edit: false, del: false, search: false });
+        $("#ReportList").jqGrid('navButtonAdd', '#ReportListPager', {
+            caption: "Export To Excel",
+            onClickButton: function () {
+                var ExportType = "Export To Excel";
+                window.open("GetAttendanceReportsJqGrid" + '?rows=9999' +
+                        '&page=1' +
+                        '&sidx=Name' +
+                        '&sord=desc' +
+                        '&campus=' + $('#Campus').val() +
+                        '&grade=' + $('#Grade').val() +
+                        '&section=' + $('#Section').val() +
+                        '&date=' + $('#txtFrmDate').val() +
+                        '&searchmonth=' + $('#ddlSearchType').val() +
+                        '&AcademicYear=' + $('#AcademicYear').val() +
+                        '&allCampus=' + $('#allCampus').val() +
+                        '&ExportType=Excel'
+                         );
+            }
+        });
+
+        //        $("#ReportList").jqGrid('navButtonAdd', '#ReportListPager', {
+        //            caption: "Export To PDF",
+        //            onClickButton: function () {
+        //                var ExportType = "PDF";
+        //                window.open("GetAttendanceReportsJqGrid" + '?rows=9999' +
+        //                 '&page=1' +
+        //                 '&sidx=Name' +
+        //                 '&sord=desc' +
+        //                 '&campus=' + $('#Campus').val() +
+        //                 '&grade=' + $('#Grade').val() +
+        //                 '&section=' + $('#Section').val() +
+        //                 '&date=' + $('#txtFrmDate').val() +
+        //                 '&searchmonth=' + $('#ddlSearchType').val() +
+        //                 '&AcademicYear=' + $('#AcademicYear').val() +
+        //                 '&allCampus=' + $('#allCampus').val() +
+        //                 '&ExportType=' + ExportType
+        //                 );
+        //            }
+        //        });
+        $('#txtDate').datepicker().datepicker('setDate', new Date());
+        $('#btnGetReport').click(function () {
+
+            if ($('#Campus').val() == "") { ErrMsg("Please fill the Campus"); return false; }
+            if ($('#Grade').val() == "") { ErrMsg("Please fill the Grade"); return false; }
+            if ($('#Section').val() == "Select") { ErrMsg("Please fill the Section"); return false; }
+            if ($('#AcademicYear').val() == "Select") { ErrMsg("Please select the Academic Year"); return false; }
+            if ($('#ddlSearchType').val() == "") { ErrMsg("Please select the Month"); return false; }
+            $("#ReportList").setGridParam(
+                  {
+                      datatype: "json",
+                      url: '@Url.Content("~/Attendance/GetAttendanceReportsJqGrid")',
+                      postData: { campus: $('#Campus').val(), grade: $('#Grade').val(), section: $('#Section').val(), searchmonth: $('#ddlSearchType').val(), AcademicYear: $('#AcademicYear').val(), allCampus: $('#allCampus').val() },
+                      page: 1
+                  }).trigger('reloadGrid');
+        });
+
+        // Fill Branch Code Details
+        $.getJSON("/Base/FillBranchCode",
+    function (fillig) {
+        var ddlcam = $("#Campus");
+        ddlcam.empty();
+        ddlcam.append($('<option/>',
+    {
+        value: "",
+        text: "Select One"
+
+    }));
+
+        $.each(fillig, function (index, itemdata) {
+            ddlcam.append($('<option/>',
+    {
+        value: itemdata.Value,
+        text: itemdata.Text
+    }));
+        });
+    });
+
+        $("#Campus").change(function () {
+            gradeddl();
+        });
+
+    });
+
+    function gradeddl() {
+
+        var campus = $("#Campus").val();
+        $.getJSON("/Admission/CampusGradeddl/", { campus: campus },
+function (modelData) {
+    var select = $("#Grade");
+    select.empty();
+    select.append($('<option/>'
+, {
+    value: "All",
+    text: "All"
+}));
+    $.each(modelData, function (index, itemData) {
+        select.append($('<option/>',
+{
+    value: itemData.gradcod,
+    text: itemData.gradcod
+}));
+    });
+});
+    }
+</script>
+<table style="width: 100%" class="WithBorderOnly">
+    <tr>
+        <td>
+            Campus
+        </td>
+        <td>
+            Grade
+        </td>
+        <td>
+            Section
+        </td>
+        <td>
+            Academic Year
+        </td>
+        <td>
+            Search Month
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DropDownList("Campus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownList("Grade", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownList("Section",
+                    new SelectList(new[] { 
+                        new { Text = "All", Value = "All", Seleced = "True" },
+                        new { Text = "A", Value = "A", Seleced = "false" },
+                        new { Text = "B", Value = "B", Seleced = "false" },
+                        new { Text = "C", Value = "C", Seleced = "false" },
+                        new { Text = "D", Value = "D", Seleced = "false" },
+                        new { Text = "E", Value = "E", Seleced = "false" },
+                        new { Text = "F", Value = "F", Seleced = "false" }
+               }, "Text", "Value", "Seleced"),
+               new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            <select class="CSSDropDownList" id="AcademicYear">
+                @foreach (var datelist in ViewBag.acadddl)
+                {
+                    <option value="@datelist">@datelist</option>
+                }
+            </select>
+        </td>
+        <td>
+            @Html.DropDownList("ddlSearchType", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList", style = "width:145px;" })
+        </td>
+        <td>
+            <input type="button" value="Get Attendance Reports" id="btnGetReport" />
+        </td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td>
+            <table id="ReportList">
+            </table>
+            <div id="ReportListPager">
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="float: right;">
+            <label style="font-size: x-small; color: Blue;">
+                H - Holiday
+            </label>
+            &nbsp;
+            <label style="font-size: x-small; color: Red;">
+                A - Absent
+            </label>
+        </td>
+    </tr>
+</table>

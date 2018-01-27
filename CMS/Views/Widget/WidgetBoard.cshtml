@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "Widget";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<link href="@Url.Content("~/Content/BootStrap/BootStrap.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/Widget.css")" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="@Url.Content("~/Scripts/ui.dropdownchecklist-1.4-min.js")" ></script>
+<script src="../../Scripts/Widget.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var temp = '@ViewBag.count';
+
+        $.ajax({
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            url: '@Url.Content("~/Widget/FillWidgets")',
+            success: function (data) {
+                $("#ddlWidgets").empty();
+                $("#ddlWidgets").append("<option value=' '> All </option>");
+                //  $("#ddlWidgets").dropdownchecklist('destroy');
+                for (var k = 0; k < data.length; k++) {
+                    $("#ddlWidgets").append("<option value='" + data[k].Value + "'>" + data[k].Text + "</option>");
+                    //$("#ddlWidgets option:selected").prop("selected", false);
+                }
+                Refreshddl();
+            }
+        });
+        btnloading();
+        function btnloading() {
+            if (temp == 3) {
+                $('#loadmore1').hide();
+                $('#loadmore').hide();
+                if ('@ViewBag.btnview' > 3)
+                    $('#loadmore').show()
+            } else if (temp == 6) {
+                $('#loadmore').hide();
+                $('#loadmore1').hide();
+                if ('@ViewBag.btnview' > 6)
+                    $('#loadmore1').show();
+            }
+            else {
+                $('#loadmore').hide();
+                $('#loadmore1').hide();
+            }
+        }
+        $("#btnok").click(function () {
+            var widget = $("#ddlWidgets").val();
+            if (widget != "" && widget != null) {
+               // alert(widget);
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    datatype: "json",
+                    url: '@Url.Content("~/Widget/AddWidgets")?widgets=' + widget,
+                    success: function (data) {
+                        window.location.href = '@Url.Action("WidgetBoard", "Widget")';
+                    }
+
+                });
+            }
+            else {
+                ErrMsg("Please select Widget Name");
+                return false;
+            }
+        });
+
+        $('#loadmore').click(function () {
+            window.location.href = '@Url.Action("WidgetBoard", "Widget")?Count=6';
+        });
+        $('#loadmore1').click(function () {
+            window.location.href = '@Url.Action("WidgetBoard", "Widget")?Count=9';
+        });
+    });
+    function Refreshddl() {
+        $("#ddlWidgets").dropdownchecklist({
+            firstItemChecksAll: true,
+            maxDropHeight: 150,
+            Height: 80,
+            width: 155
+        });
+    }
+</script>
+<div>
+    <table class="InnerTable" width="100%">
+        <tr>
+            <td width="100px">
+                Widgets
+            </td>
+            <td width="170px">
+                @Html.DropDownList("ddlWidgets", new MultiSelectList(Enumerable.Empty<SelectListItem>()), new { @multiple = "multiple", @Class = "CSSDropDownList" })
+            </td>
+            <td width="100px">
+                <button type="button" class="btn btn-mini btn-success" id="btnok" value="Ok">
+                    <i class="icon-ok" style="vertical-align: middle"></i>Ok
+                </button>
+            </td>
+            <td style="text-align: right">
+                <button type="button" class="btn btn-mini btn-primary" id="loadmore" value="loadmore">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class="icon-chevron-down" style="vertical-align: middle">
+                    </i>&nbsp;&nbsp;Load More&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </button>
+                <button type="button" class="btn btn-mini btn-primary" id="loadmore1" value="loadmore1">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class="icon-chevron-down" style="vertical-align: middle">
+                    </i>&nbsp;&nbsp;Load More&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
+<br />
+<div>
+    @if (ViewBag.Widgets != null)
+    {
+        int count = 0;
+        foreach (TIPS.Entities.WidgetEntities.IWidget x in ViewBag.Widgets)
+        {
+
+            if (count < ViewBag.count)
+            {
+        @Html.Partial(string.Concat(new[] { "_Widget" }), x)
+            }
+            count = count + 1;
+        }
+    }
+</div>
+<br />

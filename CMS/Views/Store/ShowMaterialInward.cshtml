@@ -1,0 +1,178 @@
+﻿@model TIPS.Entities.StoreEntities.MaterialInward
+@{
+    ViewBag.Title = "ShowMaterialInward";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+@using (Html.BeginForm("MaterialInward", "Store", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="page-content">
+        <div class="page-content-area">
+         @Html.Hidden("BackUrl", Url.Action("MaterialInwardList", "Store"))
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-info-circle"></i>&nbsp;Basic Details</div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Inward Number</b></label>
+                                            <div class="space-1">
+                                            </div>
+                                            @Model.InwardNumber
+                                            @Html.HiddenFor(m => m.Id)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Procesed By</b></label>
+                                            <div class="space-1">
+                                            </div>
+                                            @Model.ProcessedBy
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b></label>
+                                            <div class="space-1">
+                                            </div>
+                                            @Model.Campus
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Store</b></label>
+                                            <div class="space-1">
+                                            </div>
+                                            @Model.Store
+                                            @Html.HiddenFor(m => m.Store)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Status</b></label>
+                                            <div class="space-1">
+                                            </div>
+                                            @Model.Status
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>PO Number</b></label>
+                                            <div class="space-1">
+                                            </div>
+                                            @Model.PONumber
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-2">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Supplier</b>
+                                            </label>
+                                            <div class="space-1">
+                                            </div>
+                                            @Model.Supplier
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Supplier Ref Number</b>
+                                            </label>
+                                            <div class="space-1">
+                                            </div>
+                                            @Model.SuppRefNo
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Invoice Date</b>
+                                            </label>
+                                            <div class="space-1">
+                                            </div>
+                                            @String.Format("{0:dd-MM-yyyy}", Model.InvoiceDate)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Invoice Amount</b>
+                                            </label>
+                                            <div class="space-1">
+                                            </div>
+                                            @Model.InvoiceAmount
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>DC Number</b>
+                                            </label>
+                                            <div class="space-1">
+                                            </div>
+                                            @Model.DCNumber
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>DC Date</b>
+                                            </label>
+                                            <div class="space-1">
+                                            </div>
+                                            @String.Format("{0:dd-MM-yyyy}", Model.DCDate)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-2">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Received Date Time</b>
+                                            </label>
+                                            <div class="space-1">
+                                            </div>
+                                            @Model.ReceivedDateTime
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Receiver Name</b>
+                                            </label>
+                                            <div class="space-1">
+                                            </div>
+                                            @Model.ReceivedBy
+                                        </div>
+                                        <div class="space-8">
+                                        </div>
+                                        <div class="col-sm-6">
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-purple btn-sm" id="btnBack" value="Back To Inbox">
+                                                <i class="fa fa-arrow-left"></i>&nbsp;Back To Inbox</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table id="MaterialSkuList">
+                    </table>
+                    <div id="MaterialSkuListPager">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+}
+<script src="@Url.Content("~/Scripts/Store/ShowMaterialInward.js")" type="text/javascript"></script>

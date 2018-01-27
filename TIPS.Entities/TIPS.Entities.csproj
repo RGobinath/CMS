@@ -1,0 +1,1411 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{924034CE-9FCB-472F-847F-DF216EA9A584}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TIPS.Entities</RootNamespace>
+    <AssemblyName>TIPS.Entities</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AcademicyrMaster.cs" />
+    <Compile Include="Activity.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateAdmissionStatusReport_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateAssess360GrpByCampusAndGrade_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateAssess360MarkCount_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateBrowserWiseReport_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateCampusWiseIssueCount_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateDashboardIndex_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateEmailReport_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateLoginHistory_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateSMSReport_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateStaffDetails_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateStaffGroupByDept_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateStaffsGrpByDeptAndCampus_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateStaffStatus_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateStudBoardingReport_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateStudCountGrpByCampusGradeSection_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateStudentsAcademicYearWiseCount_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateStudentsCountGroupByGrade_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateStudents_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateStudentTemplate_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateTransportReportByCampus_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateUsersReport_vw.cs" />
+    <Compile Include="AdminTemplateEntities\AdminTemplateUsersTypeReport_vw.cs" />
+    <Compile Include="AdmissionEntities\AcademicYearReport.cs" />
+    <Compile Include="AdmissionEntities\AddressDetails.cs" />
+    <Compile Include="AdmissionEntities\ApproveAssign.cs" />
+    <Compile Include="AdmissionEntities\BulkPromTransfer.cs" />
+    <Compile Include="AdmissionEntities\BulkPromTransferRequestDetails.cs" />
+    <Compile Include="AdmissionEntities\FollowUpReport_vw.cs" />
+    <Compile Include="AdmissionEntities\LocationCount_Vw.cs" />
+    <Compile Include="AdmissionEntities\PaymentDetailsReport_Vw.cs" />
+    <Compile Include="AdmissionEntities\EmailAttachment.cs" />
+    <Compile Include="AdmissionEntities\FollowupDetails.cs" />
+    <Compile Include="AdmissionEntities\FollowupDetailsView_vw.cs" />
+    <Compile Include="AdmissionEntities\FollowUpRemainderTracker.cs" />
+    <Compile Include="AdmissionEntities\RelievingReasonMaster.cs" />
+    <Compile Include="AdmissionEntities\SecondLanguageMaster.cs" />
+    <Compile Include="AdmissionEntities\SMS.cs" />
+    <Compile Include="AdmissionEntities\SMSTemplate.cs" />
+    <Compile Include="AdmissionEntities\Sports.cs" />
+    <Compile Include="AdmissionEntities\StudentLocalityMaster.cs" />
+    <Compile Include="AdmissionEntities\StudentLocationMaster.cs" />
+    <Compile Include="AdmissionEntities\StudentProfilePrint.cs" />
+    <Compile Include="AdmissionEntities\StudentSubLocalityMaster.cs" />
+    <Compile Include="AdmissionEntities\StudentTemplateAndFamilyDetails_vw.cs" />
+    <Compile Include="AdmissionEntities\StudentTemplateStatus.cs" />
+    <Compile Include="AdmissionEntities\StudentTemplateView.cs" />
+    <Compile Include="AdmissionEntities\EmailLog.cs" />
+    <Compile Include="AdmissionEntities\TCRequestDetails.cs" />
+    <Compile Include="AdmissionEntities\TcRequestReportByCampusGrade_SP.cs" />
+    <Compile Include="AdmissionEntities\TcRequestReportByCampusGrade_Vw.cs" />
+    <Compile Include="AdmissionEntities\TcRequestReportByCampus_SP.cs" />
+    <Compile Include="AdmissionEntities\TcRequestReportByCampus_Vw.cs" />
+    <Compile Include="AdmissionEntities\TransferDetails.cs" />
+    <Compile Include="AdmissionEntities\UploadedFilesView.cs" />
+    <Compile Include="AdmissionEntities\DocumentDetails.cs" />
+    <Compile Include="AdmissionEntities\FamilyDetails.cs" />
+    <Compile Include="AdmissionEntities\IdGeneration.cs" />
+    <Compile Include="AdmissionEntities\PastSchoolDetails.cs" />
+    <Compile Include="AdmissionEntities\PaymentDetails.cs" />
+    <Compile Include="AdmissionEntities\PreRegDetails.cs" />
+    <Compile Include="AdmissionEntities\UploadedFiles.cs" />
+    <Compile Include="AdmissionManagement.cs" />
+    <Compile Include="AgeCutOffMaster.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="AppRoleConfig.cs" />
+    <Compile Include="AssetEntities\AssetBrandMaster.cs" />
+    <Compile Include="AssetEntities\AssetDetails.cs" />
+    <Compile Include="AssetEntities\AssetDetailsReport_vw.cs" />
+    <Compile Include="AssetEntities\AssetDetailsTemplate.cs" />
+    <Compile Include="AssetEntities\AssetDetailsTransaction.cs" />
+    <Compile Include="AssetEntities\AssetDetails_vw.cs" />
+    <Compile Include="AssetEntities\AssetDistributionStudent_vw.cs" />
+    <Compile Include="AssetEntities\AssetInvoiceDetails.cs" />
+    <Compile Include="AssetEntities\AssetInvoiceDetails_vw.cs" />
+    <Compile Include="AssetEntities\AssetLocationMaster.cs" />
+    <Compile Include="AssetEntities\AssetMaster.cs" />
+    <Compile Include="AssetEntities\AssetModelMaster.cs" />
+    <Compile Include="AssetEntities\AssetOrganizer.cs" />
+    <Compile Include="AssetEntities\AssetOrganizer_vw.cs" />
+    <Compile Include="AssetEntities\AssetProductMaster.cs" />
+    <Compile Include="AssetEntities\AssetProductTypeMaster.cs" />
+    <Compile Include="AssetEntities\CampusBlockMaster.cs" />
+    <Compile Include="AssetEntities\ITAccessories.cs" />
+    <Compile Include="AssetEntities\ITAccessoriesBrandMaster.cs" />
+    <Compile Include="AssetEntities\ITAccessoriesModelMaster.cs" />
+    <Compile Include="AssetEntities\ITAssetDetailsTransactionHistory.cs" />
+    <Compile Include="AssetEntities\ITAssetScrapDetails.cs" />
+    <Compile Include="AssetEntities\ITAssetServiceDetails.cs" />
+    <Compile Include="AssetEntities\ITAssetSpecification.cs" />
+    <Compile Include="AssetEntities\LaptopEntryDtls_vw.cs" />
+    <Compile Include="AssetEntities\STAssetDetails.cs" />
+    <Compile Include="AssetEntities\STAssetDetailsTransactionHistory.cs" />
+    <Compile Include="AssetEntities\StudentLaptopDistribution_vw.cs" />
+    <Compile Include="AssetEntities\SubAssetDetails_vw.cs" />
+    <Compile Include="AssetEntities\VendorMaster.cs" />
+    <Compile Include="AssignmentNameMaster.cs" />
+    <Compile Include="Attendance\Attendance.cs" />
+    <Compile Include="Attendance\AttendanceDialyRpt_Vw.cs" />
+    <Compile Include="Attendance\AttendanceFinishAndNotFinish_Vw.cs" />
+    <Compile Include="Attendance\AttendanceMonitor.cs" />
+    <Compile Include="Attendance\EmailConfiguration.cs" />
+    <Compile Include="Attendance\Holidays.cs" />
+    <Compile Include="Attendance\MonthMasterForAttendance.cs" />
+    <Compile Include="Attendance\StudentAttendanceView.cs" />
+    <Compile Include="BioMetricsEntities\AttendanceGradeWise_Vw.cs" />
+    <Compile Include="BioMetricsEntities\AttendanceLog_Vw.cs" />
+    <Compile Include="BioMetricsEntities\BioAttendanceStaffWise_Vw.cs" />
+    <Compile Include="BioMetricsEntities\Employees.cs" />
+    <Compile Include="BioMetricsEntities\Devices.cs" />
+    <Compile Include="BioMetricsEntities\StaffInOutSummary.cs" />
+    <Compile Include="BioMetricsEntities\Staff_AttendanceConfigurationsReport_Vw.cs" />
+    <Compile Include="BioMetricsEntities\Staff_AttendanceLongleaveAndResignedReport_vw.cs" />
+    <Compile Include="BioMetricsEntities\Staff_AttendanceOnduty_vw.cs" />
+    <Compile Include="BioMetricsEntities\Staff_AttendanceReportConfiguration.cs" />
+    <Compile Include="BioMetricsEntities\Staff_AttendanceReportConfigurationByStaffs.cs" />
+    <Compile Include="BioMetricsEntities\Staff_AttendanceReportConfiguration_Vw.cs" />
+    <Compile Include="BioMetricsEntities\Staff_AttendanceResgisterReport.cs" />
+    <Compile Include="BioMetricsEntities\Staff_AutoEmailNotificationLogForAttendance.cs" />
+    <Compile Include="BioMetricsEntities\Staff_ConsolidateDeviceLogSummary_SP.cs" />
+    <Compile Include="BioMetricsEntities\Staff_DeviceLogSummarySP.cs" />
+    <Compile Include="BioMetricsEntities\Staff_DeviceLogSummaryStatus_sp.cs" />
+    <Compile Include="BloodGroupMaster.cs" />
+    <Compile Include="Branch.cs" />
+    <Compile Include="BulkCompleteInfo_vw.cs" />
+    <Compile Include="CallManagement.cs" />
+    <Compile Include="CallManagementChart.cs" />
+    <Compile Include="CallManagementDashboard.cs" />
+    <Compile Include="CallManagementHistory.cs" />
+    <Compile Include="CallManagementView.cs" />
+    <Compile Include="CallMgmntPIView.cs" />
+    <Compile Include="CampusAdminEmailId.cs" />
+    <Compile Include="CampusDocumentMaster.cs" />
+    <Compile Include="CampusEmailId.cs" />
+    <Compile Include="CampusGradeMaster.cs" />
+    <Compile Include="CampusMaster.cs" />
+    <Compile Include="CampusWiseSectionMaster.cs" />
+    <Compile Include="CampusWiseSectionMaster_vw.cs" />
+    <Compile Include="CommunictionEntities\BulkEmailRequestWithCount_vw.cs" />
+    <Compile Include="CommunictionEntities\SMSCount_SP.cs" />
+    <Compile Include="CommunictionEntities\StaffBulkSMSRequestReport_vw.cs" />
+    <Compile Include="CommunictionEntities\StaffComposeMailInfo.cs" />
+    <Compile Include="CommunictionEntities\StaffComposeSMSInfo.cs" />
+    <Compile Include="CommunictionEntities\StaffRecipientsEmailInfo.cs" />
+    <Compile Include="CommunictionEntities\StaffSMSRecipientsInfo.cs" />
+    <Compile Include="EmployeeEntities\EmployeeAttendance.cs" />
+    <Compile Include="EmployeeEntities\EmployeeAttendanceReport.cs" />
+    <Compile Include="EmployeeEntities\EmployeeOTDetails.cs" />
+    <Compile Include="EmployeeEntities\EmployeeOTReport.cs" />
+    <Compile Include="EnquiryEntities\KioskBasicDetails.cs" />
+    <Compile Include="EnquiryEntities\KioskEnquiryDetails.cs" />
+    <Compile Include="EnquiryEntities\KioskFeedback.cs" />
+    <Compile Include="ErrorLogs.cs" />
+    <Compile Include="EventList.cs" />
+    <Compile Include="DoucumentReport_Vw.cs" />
+    <Compile Include="Event.cs" />
+    <Compile Include="FileContentSharing.cs" />
+    <Compile Include="HostelMgntEntities\ChangeRoomAllotment.cs" />
+    <Compile Include="HostelMgntEntities\HstlMgmt_FoodExpenses.cs" />
+    <Compile Include="HostelMgntEntities\HstlMgmt_FoodExpenses_Vw.cs" />
+    <Compile Include="HostelMgntEntities\HstlMgmt_MedicalExpenses.cs" />
+    <Compile Include="HostelMgntEntities\HstlMgmt_MedicalExpenses_Vw.cs" />
+    <Compile Include="HostelMgntEntities\HstMgnt_MaterialDamage.cs" />
+    <Compile Include="HostelMgntEntities\HstMgnt_MaterialDamage_Vw.cs" />
+    <Compile Include="HostelMgntEntities\RoomAllotment.cs" />
+    <Compile Include="IssueCountReportByCampus_SP.cs" />
+    <Compile Include="IssueCountReportByIssueGroup_SP.cs" />
+    <Compile Include="LMSEntities\LMS_StaffStudentDetails_Vw.cs" />
+    <Compile Include="LMSEntities\LMS_StudentDetails.cs" />
+    <Compile Include="LMSEntities\LMS_StaffDetails.cs" />
+    <Compile Include="MenuDetails_vw.cs" />
+    <Compile Include="NationalityMaster.cs" />
+    <Compile Include="NewDepartmentMaster.cs" />
+    <Compile Include="ParentPortalEntities\PhotoGalleryFolder.cs" />
+    <Compile Include="PerformerWiseIssueCountReport_SP.cs" />
+    <Compile Include="ReportEntities\CampusWiseModuleUsageReport_vw.cs" />
+    <Compile Include="ReportEntities\CampusWiseUsageModule.cs" />
+    <Compile Include="ReportEntities\CampusWiseUsageModule_vw.cs" />
+    <Compile Include="CanteenEntities\CanteenUnits.cs" />
+    <Compile Include="CanteenEntities\CanteenMaterialGroupMaster.cs" />
+    <Compile Include="CanteenEntities\CanteenMaterialsMaster.cs" />
+    <Compile Include="CanteenEntities\CanteenMaterialsMaster_vw.cs" />
+    <Compile Include="CanteenEntities\CanteenSupplierMaster.cs" />
+    <Compile Include="Comments.cs" />
+    <Compile Include="CallMgmntActivity.cs" />
+    <Compile Include="AdmissionCountReport_vw.cs" />
+    <Compile Include="CommunictionEntities\BulkEmailRequest.cs" />
+    <Compile Include="CommunictionEntities\BulkSMSRequestReport_vw.cs" />
+    <Compile Include="CommunictionEntities\BulkSMSRequest_vw.cs" />
+    <Compile Include="CommunictionEntities\ComposeEmailInfo.cs" />
+    <Compile Include="CommunictionEntities\ComposeSMSInfo.cs" />
+    <Compile Include="CommunictionEntities\RecipientsEmailInfo.cs" />
+    <Compile Include="CommunictionEntities\SMSRecipientsInfo.cs" />
+    <Compile Include="CoOrdinatorsContactInfo.cs" />
+    <Compile Include="BankMaster.cs" />
+    <Compile Include="InboxEntities\Inbox.cs" />
+    <Compile Include="InboxEntities\InboxCount_Vw.cs" />
+    <Compile Include="InboxEntities\AdmissionStatus_Vw.cs" />
+    <Compile Include="StaffEntities\StaffIssueManagementReportPDF.cs" />
+    <Compile Include="StaffEntities\StaffIssueManagementReport_vw.cs" />
+    <Compile Include="StaffManagementEntities\CampusBasedStaffDetails_Vw.cs" />
+    <Compile Include="StaffManagementEntities\CandidateDtls.cs" />
+    <Compile Include="StaffManagementEntities\CLDetailsMaster.cs" />
+    <Compile Include="StaffManagementEntities\StaffAttendanceNewStatus.cs" />
+    <Compile Include="StaffManagementEntities\StaffHolidaysMaster.cs" />
+    <Compile Include="StaffManagementEntities\StaffProgrammeMaster.cs" />
+    <Compile Include="StaffManagementEntities\StaffWiseStudentSurveyNewResultWOS_Vw.cs" />
+    <Compile Include="StaffManagementEntities\StaffWiseStudentSurveyNewResult_Vw.cs" />
+    <Compile Include="StaffManagementEntities\StaffWiseSurveyNewResultWOS_Vw.cs" />
+    <Compile Include="StaffManagementEntities\StaffWiseSurveyNewResult_Vw.cs" />
+    <Compile Include="StaffManagementEntities\StaffwiseSurveyQuestionReportNew_Vw.cs" />
+    <Compile Include="StaffManagementEntities\StaffwiseSurveyQuestionReportWOSec_Vw.cs" />
+    <Compile Include="StaffManagementEntities\StaffwiseSurveyQuestionReport_Vw.cs" />
+    <Compile Include="StaffManagementEntities\Staff_AttendanceChangeDetails.cs" />
+    <Compile Include="StaffManagementEntities\Staff_AttendanceCLDetails.cs" />
+    <Compile Include="StaffManagementEntities\Staff_AttendanceOpeningBalanceGenerateCount.cs" />
+    <Compile Include="StaffManagementEntities\Staff_WorkingDaysMaster.cs" />
+    <Compile Include="StaffManagementEntities\StudentSurveyAnswerMaster.cs" />
+    <Compile Include="StaffManagementEntities\StudentSurveyAnswerView.cs" />
+    <Compile Include="StaffManagementEntities\StudentSurveyGroup.cs" />
+    <Compile Include="StaffManagementEntities\StudentSurveyQuestionMaster.cs" />
+    <Compile Include="StaffManagementEntities\StudentSurveyQuestionMasterView.cs" />
+    <Compile Include="StaffManagementEntities\StudentSurveyReportByStaff_Vw.cs" />
+    <Compile Include="StaffManagementEntities\StudentSurveyReportNew_Vw.cs" />
+    <Compile Include="StaffManagementEntities\StudentSurveyReportWOSecNew_Vw.cs" />
+    <Compile Include="StaffManagementEntities\StudentSurveyStaffWiseReport_Vw.cs" />
+    <Compile Include="StaffManagementEntities\StaffAttendance.cs" />
+    <Compile Include="StaffManagementEntities\StaffAttendance_vw.cs" />
+    <Compile Include="StaffManagementEntities\StaffEvaluationCategoryWise_Vw.cs" />
+    <Compile Include="StaffManagementEntities\StaffEvaluationScore_Vw.cs" />
+    <Compile Include="StaffManagementEntities\StaffEvaluationCategoryMaster.cs" />
+    <Compile Include="StaffManagementEntities\StaffEvaluationParameter.cs" />
+    <Compile Include="StaffManagementEntities\StaffEvaluationParameter_vw.cs" />
+    <Compile Include="StaffManagementEntities\StaffGroupMaster.cs" />
+    <Compile Include="StaffManagementEntities\StaffPromotionAndTransferDetails.cs" />
+    <Compile Include="StaffManagementEntities\StaffSubGroupMaster.cs" />
+    <Compile Include="StaffManagementEntities\StaffWiseScoreReport_Vw.cs" />
+    <Compile Include="StaffManagementEntities\SurveyAnswerMaster.cs" />
+    <Compile Include="StaffManagementEntities\SurveyConfiguration.cs" />
+    <Compile Include="StaffManagementEntities\SurveyConfiguration_vw.cs" />
+    <Compile Include="StaffManagementEntities\SurveyGroupMaster.cs" />
+    <Compile Include="StaffManagementEntities\SurveyMaster.cs" />
+    <Compile Include="StaffManagementEntities\SurveyQuestionMaster.cs" />
+    <Compile Include="StaffManagementEntities\SurveyReportNew_SP.cs" />
+    <Compile Include="StaffManagementEntities\SurveyReportNew_Vw.cs" />
+    <Compile Include="StoreEntities\MaterialDistribution.cs" />
+    <Compile Include="StoreEntities\MaterialDistributionReport.cs" />
+    <Compile Include="StoreEntities\MaterialDistributionReportByCampus.cs" />
+    <Compile Include="StoreEntities\MaterialDistributionReportByDate.cs" />
+    <Compile Include="StoreEntities\MaterialDistribution_Vw.cs" />
+    <Compile Include="StoreEntities\MaterialIssueDetails.cs" />
+    <Compile Include="StoreEntities\SkuList_vw.cs" />
+    <Compile Include="StoreEntities\StudentMaterialDistribution_vw.cs" />
+    <Compile Include="StoreEntities\StudentMaterialOverView_vw.cs" />
+    <Compile Include="StoreEntities\StudentMaterialSubGroupView_vw.cs" />
+    <Compile Include="StoreEntities\StudentMaterialSubOverView_vw.cs" />
+    <Compile Include="StoreEntities\StudentWiseMaterialReport.cs" />
+    <Compile Include="StudentsReportEntities\PageHistoryReport.cs" />
+    <Compile Include="StaffManagementEntities\StaffBdayReminderTracker.cs" />
+    <Compile Include="StaffManagementEntities\StaffBdayReminder_Vw.cs" />
+    <Compile Include="StudentsReportEntities\MISMonthlyReport_Vw.cs" />
+    <Compile Include="StudentsReportEntities\PastStudentList_Vw.cs" />
+    <Compile Include="AdmissionEntities\StudentTemplate.cs" />
+    <Compile Include="TimeTableEntities\TimeTable.cs" />
+    <Compile Include="TimeTableEntities\TTStaffConfig.cs" />
+    <Compile Include="TimeTableEntities\TTStaffMaster.cs" />
+    <Compile Include="TimeTableEntities\TTSubjectMaster.cs" />
+    <Compile Include="TransportEntities\DailyUsageVehicleMaster.cs" />
+    <Compile Include="TransportEntities\DailyUsageVehicleMaster_vw.cs" />
+    <Compile Include="TransportEntities\DistanceCovered_Vw.cs" />
+    <Compile Include="TransportEntities\DriverOTReportDetails.cs" />
+    <Compile Include="TransportEntities\FuelRefilDetails_Vw.cs" />
+    <Compile Include="TransportEntities\GPS_TrackingDeviceMaster.cs" />
+    <Compile Include="TransportEntities\NewVehicleTypeMaster.cs" />
+    <Compile Include="TransportEntities\PrintDriverProfile.cs" />
+    <Compile Include="TransportEntities\PurposeMaster.cs" />
+    <Compile Include="TransportEntities\RouteMasterLog.cs" />
+    <Compile Include="TransportEntities\RouteMasterWithIMEINumber_vw.cs" />
+    <Compile Include="TransportEntities\TransportSupplierMaster.cs" />
+    <Compile Include="TransportEntities\TripMaster.cs" />
+    <Compile Include="TransportEntities\VehicleAcMaintanceReport_Vw.cs" />
+    <Compile Include="TransportEntities\VehicleBodyMaintainance_Vw.cs" />
+    <Compile Include="TransportEntities\VehicleCostDetails.cs" />
+    <Compile Include="TransportEntities\VehicleCostDetailsReport_sp.cs" />
+    <Compile Include="TransportEntities\VehicleCostDetails_Updated.cs" />
+    <Compile Include="TransportEntities\VehicleCostDetails_Updated_VW.cs" />
+    <Compile Include="TransportEntities\VehicleCostDetails_VW.cs" />
+    <Compile Include="TransportEntities\VehicleDistanceCovered_vw.cs" />
+    <Compile Include="TransportEntities\VehicleElectricalMaintenance_Vw.cs" />
+    <Compile Include="TransportEntities\VehicleFCEntry.cs" />
+    <Compile Include="TransportEntities\VehicleFuelRefillEntry.cs" />
+    <Compile Include="TransportEntities\VehicleMaintance_Vw.cs" />
+    <Compile Include="TransportEntities\VehicleMaintenanceEntry.cs" />
+    <Compile Include="TransportEntities\VehicleOthersEntry.cs" />
+    <Compile Include="TransportEntities\VehicleOverviewReport_SP.cs" />
+    <Compile Include="TransportEntities\VehicleService.cs" />
+    <Compile Include="TransportEntities\VehicleTyreMaintenance_Vw.cs" />
+    <Compile Include="UserAppRole_Vw.cs" />
+    <Compile Include="DesignationMaster.cs" />
+    <Compile Include="EnquiryEntities\EnquiryCourse.cs" />
+    <Compile Include="EnquiryEntities\EnquiryCourseBatchTiming.cs" />
+    <Compile Include="EnquiryEntities\EnquiryDetailGridView.cs" />
+    <Compile Include="EnquiryEntities\EnquiryDetails.cs" />
+    <Compile Include="EnquiryEntities\EnquiryDetailsMangement.cs" />
+    <Compile Include="EnquiryEntities\EnquiryDetialsList.cs" />
+    <Compile Include="EnquiryEntities\EnquiryFollowUp_vw.cs" />
+    <Compile Include="EnquiryEntities\FollowUpDetails.cs" />
+    <Compile Include="EnquiryEntities\StudentDtlsView.cs" />
+    <Compile Include="FamilyTypeEnum.cs" />
+    <Compile Include="HostelMgntEntities\HostelMasters_Vw.cs" />
+    <Compile Include="HostelMgntEntities\HstlMgmt_BedMaster.cs" />
+    <Compile Include="HostelMgntEntities\HstlMgmt_HostelDetails.cs" />
+    <Compile Include="HostelMgntEntities\HstlMgmt_HostelMaster.cs" />
+    <Compile Include="HostelMgntEntities\HstlMgmt_RoomMaster.cs" />
+    <Compile Include="HostelMgntEntities\HstMgntAdmissionForm.cs" />
+    <Compile Include="HostelMgntEntities\HstMgnt_StudStaffNames_Vw.cs" />
+    <Compile Include="HostelMgntEntities\StudHostelDtls_Vw.cs" />
+    <Compile Include="HRManagementEntities\BankAccount.cs" />
+    <Compile Include="HRManagementEntities\BankMgmntActivity.cs" />
+    <Compile Include="HRManagementEntities\CertificateMgmntActivity.cs" />
+    <Compile Include="HRManagementEntities\CertificateRequest.cs" />
+    <Compile Include="HRManagementEntities\EmploymentRequestEntities.cs" />
+    <Compile Include="HRManagementEntities\HRMgmntActivity.cs" />
+    <Compile Include="HRManagementEntities\LeaveRequest.cs" />
+    <Compile Include="HRManagementEntities\RequestNumber.cs" />
+    <Compile Include="HRManagementEntities\SalaryAdvance.cs" />
+    <Compile Include="HRManagementEntities\SalaryAdvanceMgmntActivity.cs" />
+    <Compile Include="HRManagementEntities\ShowLeaveRequest.cs" />
+    <Compile Include="HRManagementEntities\StaffDetailsHRM.cs" />
+    <Compile Include="IssueCountReportView.cs" />
+    <Compile Include="LogInCountReportView.cs" />
+    <Compile Include="MonthMaster.cs" />
+    <Compile Include="CampusLanguageMaster.cs" />
+    <Compile Include="CampusSubjectMaster.cs" />
+    <Compile Include="PageHistory.cs" />
+    <Compile Include="PageHitCount_Vw.cs" />
+    <Compile Include="ParentPortalEntities\FMDays.cs" />
+    <Compile Include="ParentPortalEntities\FMWeeks.cs" />
+    <Compile Include="ParentPortalEntities\FoodMenu.cs" />
+    <Compile Include="ParentPortalEntities\FoodMenuView.cs" />
+    <Compile Include="ParentPortalEntities\FoodNameMaster.cs" />
+    <Compile Include="ParentPortalEntities\NoteAttachementView.cs" />
+    <Compile Include="ParentPortalEntities\NoteAttachment.cs" />
+    <Compile Include="ParentPortalEntities\NoteEmailLog.cs" />
+    <Compile Include="ParentPortalEntities\Notification.cs" />
+    <Compile Include="ParentPortalEntities\ParentIssueMgt.cs" />
+    <Compile Include="ParentPortalEntities\ParentIssueType.cs" />
+    <Compile Include="ParentPortalEntities\ParentLeaveRequest.cs" />
+    <Compile Include="ParentPortalEntities\ParentLeaveType.cs" />
+    <Compile Include="ParentPortalEntities\PermissionForms.cs" />
+    <Compile Include="ParentPortalEntities\PhotoGallery.cs" />
+    <Compile Include="ParentPortalEntities\PhotoGalleryPhotos.cs" />
+    <Compile Include="ParentPortalEntities\ShowNotification.cs" />
+    <Compile Include="QAEntities\Person.cs" />
+    <Compile Include="QAEntities\QAAnswers.cs" />
+    <Compile Include="QAEntities\QADashboard.cs" />
+    <Compile Include="QAEntities\QADetails.cs" />
+    <Compile Include="QAEntities\QALikes.cs" />
+    <Compile Include="QAEntities\QAProcessLog.cs" />
+    <Compile Include="QAEntities\QAQuestions.cs" />
+    <Compile Include="QAEntities\QAViewers.cs" />
+    <Compile Include="QAEntities\QAViewersCount.cs" />
+    <Compile Include="QAEntities\Test.cs" />
+    <Compile Include="RoleUsers.cs" />
+    <Compile Include="SavedSearchTemplate.cs" />
+    <Compile Include="Sequence.cs" />
+    <Compile Include="LoginHistory.cs" />
+    <Compile Include="StaffDepartmentMaster.cs" />
+    <Compile Include="StaffManagementEntities\CampusBasedStaffDetails.cs" />
+    <Compile Include="StaffManagementEntities\EmployeeSalaryDetails.cs" />
+    <Compile Include="StaffManagementEntities\EmploymentApplicationPDF.cs" />
+    <Compile Include="StaffManagementEntities\SalarySlip.cs" />
+    <Compile Include="StaffManagementEntities\StaffBDayWishesMaster.cs" />
+    <Compile Include="StaffManagementEntities\StaffBDayWishesStatus.cs" />
+    <Compile Include="StaffManagementEntities\StaffDetailsEdit.cs" />
+    <Compile Include="StaffManagementEntities\StaffFamilyDetails.cs" />
+    <Compile Include="StaffManagementEntities\StaffIdNumber.cs" />
+    <Compile Include="StaffManagementEntities\StaffReferenceDetails.cs" />
+    <Compile Include="StaffTypeMaster.cs" />
+    <Compile Include="StoreEntities\MaterialReturn.cs" />
+    <Compile Include="StoreEntities\MaterialReturnList.cs" />
+    <Compile Include="StoreEntities\SkuList_MaterialInward.cs" />
+    <Compile Include="StoreEntities\SkuList_MaterialPrice_vw.cs" />
+    <Compile Include="StoreEntities\MaterialInwardOutwardView.cs" />
+    <Compile Include="StoreEntities\MaterialInwardReport_Vw.cs" />
+    <Compile Include="StoreEntities\StoreInwardReportForAdminTemplate_vw.cs" />
+    <Compile Include="StoreEntities\StoreReportForAdminTemplate_vw.cs" />
+    <Compile Include="StoreEntities\StoreToStore.cs" />
+    <Compile Include="StoreEntities\MaterialIssueReportView.cs" />
+    <Compile Include="StoreEntities\MaterialsMaster_Stock_vw.cs" />
+    <Compile Include="StoreEntities\StoreStockBalance.cs" />
+    <Compile Include="StoreEntities\StockTransaction.cs" />
+    <Compile Include="StoreEntities\MaterialRequestView.cs" />
+    <Compile Include="StoreEntities\MatIssNote_RequestList_vw.cs" />
+    <Compile Include="StoreEntities\MatReq_ReqList_vw.cs" />
+    <Compile Include="StoreEntities\MatInward_SkuList_vw.cs" />
+    <Compile Include="StoreEntities\MaterialIssueNote_vw.cs" />
+    <Compile Include="StoreEntities\MaterialIssueList_vw.cs" />
+    <Compile Include="StoreEntities\MaterialIssueNote.cs" />
+    <Compile Include="StoreEntities\MaterialIssueList.cs" />
+    <Compile Include="StoreEntities\MaterialGroupSupplier.cs" />
+    <Compile Include="StoreEntities\MaterialGroupSupplier_vw.cs" />
+    <Compile Include="StoreEntities\MaterialInward_vw.cs" />
+    <Compile Include="StoreEntities\MaterialsMaster.cs" />
+    <Compile Include="StoreEntities\MaterialsMaster_vw.cs" />
+    <Compile Include="StoreEntities\MaterialSubGroupMaster.cs" />
+    <Compile Include="StoreEntities\MaterialSubGroupMaster_vw.cs" />
+    <Compile Include="StoreEntities\Stock.cs" />
+    <Compile Include="StoreEntities\StockAudit.cs" />
+    <Compile Include="StoreEntities\Stock_vw.cs" />
+    <Compile Include="StoreEntities\StoreMaster.cs" />
+    <Compile Include="StoreEntities\StoreMgmntActivity.cs" />
+    <Compile Include="StoreEntities\MaterialGroupMaster.cs" />
+    <Compile Include="StoreEntities\MaterialRequestList.cs" />
+    <Compile Include="StoreEntities\SkuList.cs" />
+    <Compile Include="StoreEntities\StoreSupplierMaster.cs" />
+    <Compile Include="CountryMaster.cs" />
+    <Compile Include="Department.cs" />
+    <Compile Include="Documents.cs" />
+    <Compile Include="DocumentTypeMaster.cs" />
+    <Compile Include="FeeStructureYearMaster.cs" />
+    <Compile Include="FeeTypeMaster.cs" />
+    <Compile Include="Grade.cs" />
+    <Compile Include="GradeMaster.cs" />
+    <Compile Include="IssueGroupMaster.cs" />
+    <Compile Include="IssueTypeMaster.cs" />
+    <Compile Include="MasterDetails.cs" />
+    <Compile Include="MenuEntities\Menu.cs" />
+    <Compile Include="ModeOfPaymentMaster.cs" />
+    <Compile Include="ProcessInstance.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegionMaster.cs" />
+    <Compile Include="RelationshipMaster.cs" />
+    <Compile Include="Role.cs" />
+    <Compile Include="SectionMaster.cs" />
+    <Compile Include="StaffEntities\StaffActivies.cs" />
+    <Compile Include="StaffEntities\StaffDocuments.cs" />
+    <Compile Include="StaffEntities\StaffIssueGroupMaster.cs" />
+    <Compile Include="StaffEntities\StaffIssueRejectionComments.cs" />
+    <Compile Include="StaffEntities\StaffIssues.cs" />
+    <Compile Include="StaffEntities\StaffIssueTypeMaster.cs" />
+    <Compile Include="StaffEntities\StaffMgmntActivity.cs" />
+    <Compile Include="StaffEntities\StaffMgmntPIView.cs" />
+    <Compile Include="StaffManagementEntities\StaffDetails.cs" />
+    <Compile Include="StaffManagementEntities\StaffDetailsView.cs" />
+    <Compile Include="StaffManagementEntities\StaffExperience.cs" />
+    <Compile Include="StaffManagementEntities\StaffOtherDetails.cs" />
+    <Compile Include="StaffManagementEntities\StaffQualification.cs" />
+    <Compile Include="StaffManagementEntities\StaffRequestNumDetails.cs" />
+    <Compile Include="StaffManagementEntities\FileUpload.cs" />
+    <Compile Include="StaffManagementEntities\StaffTraining.cs" />
+    <Compile Include="StoreEntities\MaterialInward.cs" />
+    <Compile Include="StoreEntities\MaterialRequest.cs" />
+    <Compile Include="StoreEntities\StoreToStoreIssuedMaterials.cs" />
+    <Compile Include="StoreEntities\StoreUnits.cs" />
+    <Compile Include="StoreEntities\UOM_ConvertionMatrix.cs" />
+    <Compile Include="StudentDetails.cs" />
+    <Compile Include="StudentDetailsExport.cs" />
+    <Compile Include="StudentDetailsVw.cs" />
+    <Compile Include="StudentDetails_Enum.cs" />
+    <Compile Include="StudentsReportEntities\AdmissionStatusReport_vw.cs" />
+    <Compile Include="StudentsReportEntities\DetailedAdmissionReport_vw.cs" />
+    <Compile Include="StudentsReportEntities\MISCampusReport.cs" />
+    <Compile Include="StudentsReportEntities\MISDateWiseReport_vw.cs" />
+    <Compile Include="StudentsReportEntities\MISMailMaster.cs" />
+    <Compile Include="StudentsReportEntities\MISMailStatus.cs" />
+    <Compile Include="StudentsReportEntities\MISOverAllReport_vw.cs" />
+    <Compile Include="StudentsReportEntities\MISReportMailReport.cs" />
+    <Compile Include="StudentsReportEntities\MISReport_vw.cs" />
+    <Compile Include="StudFamilyDetailsEmail.cs" />
+    <Compile Include="TimeTableEntities\PeriodTimeMaster.cs" />
+    <Compile Include="TimeTableEntities\SubjectTeacherDetails.cs" />
+    <Compile Include="TimeTableEntities\TeachersTimeTable.cs" />
+    <Compile Include="TimeTableEntities\tt_allotment.cs" />
+    <Compile Include="TimeTableEntities\tt_combined_teacher_class_details.cs" />
+    <Compile Include="TimeTableEntities\tt_combined_teacher_class_master.cs" />
+    <Compile Include="TimeTableEntities\tt_days.cs" />
+    <Compile Include="TimeTableEntities\tt_division.cs" />
+    <Compile Include="TimeTableEntities\tt_lab_bifurcation_details.cs" />
+    <Compile Include="TimeTableEntities\tt_lab_bifurcation_master.cs" />
+    <Compile Include="TimeTableEntities\tt_room.cs" />
+    <Compile Include="TimeTableEntities\tt_room_category.cs" />
+    <Compile Include="TimeTableEntities\tt_room_day_settings.cs" />
+    <Compile Include="TimeTableEntities\tt_Search.cs" />
+    <Compile Include="TimeTableEntities\tt_SubjectMaster.cs" />
+    <Compile Include="TimeTableEntities\tt_SubjectTeacherPeriodCount.cs" />
+    <Compile Include="TimeTableEntities\tt_teacher.cs" />
+    <Compile Include="TimeTableEntities\tt_teacherDeatils.cs" />
+    <Compile Include="TimeTableEntities\tt_timetable.cs" />
+    <Compile Include="TimeTableEntities\WeekDays.cs" />
+    <Compile Include="TIPSMaster.cs" />
+    <Compile Include="TransportEntities\DriverAttendance.cs" />
+    <Compile Include="TransportEntities\DriverAttendanceMonthReport.cs" />
+    <Compile Include="TransportEntities\DriverAttendanceReport.cs" />
+    <Compile Include="TransportEntities\DriverFamilyDetails.cs" />
+    <Compile Include="TransportEntities\PeriodTimeMaster.cs" />
+    <Compile Include="TransportEntities\RouteConfiguraion.cs" />
+    <Compile Include="TransportEntities\RouteMasterConfig_vw.cs" />
+    <Compile Include="TransportEntities\RouteStudConfig.cs" />
+    <Compile Include="TransportEntities\RouteStudentConfigurationPDF_vw.cs" />
+    <Compile Include="TransportEntities\RouteStudentListConfig.cs" />
+    <Compile Include="TransportEntities\RouteStudentListConfigView.cs" />
+    <Compile Include="TransportEntities\RouteStudentPDF.cs" />
+    <Compile Include="TransportEntities\DriverRegNumDetails.cs" />
+    <Compile Include="TransportEntities\StudentsRouteConfigReport_vw.cs" />
+    <Compile Include="TransportEntities\Student_Route_Configuration.cs" />
+    <Compile Include="TransportEntities\SubjectTeacherDetails.cs" />
+    <Compile Include="TransportEntities\TeachersTimeTable.cs" />
+    <Compile Include="TransportEntities\TransportVendorMaster.cs" />
+    <Compile Include="TransportEntities\TyreAssignedList.cs" />
+    <Compile Include="TransportEntities\TripPurposeMaster.cs" />
+    <Compile Include="TransportEntities\DriverOTAllowance_vw.cs" />
+    <Compile Include="TransportEntities\DriverOTDetails.cs" />
+    <Compile Include="TransportEntities\FinesAndPenalitiesBulkDetails.cs" />
+    <Compile Include="TransportEntities\InsuranceBulkDetails.cs" />
+    <Compile Include="TransportEntities\FitnessCertificateDetails.cs" />
+    <Compile Include="TransportEntities\FuelRefillDetails.cs" />
+    <Compile Include="TransportEntities\DistanceCoveredDetails.cs" />
+    <Compile Include="TransportEntities\DriverMaster.cs" />
+    <Compile Include="TransportEntities\LocationMaster.cs" />
+    <Compile Include="TransportEntities\Permit.cs" />
+    <Compile Include="TransportEntities\RouteMaster.cs" />
+    <Compile Include="TransportEntities\TyreDetails.cs" />
+    <Compile Include="TransportEntities\TyreDetailsAndInvoiceDetails.cs" />
+    <Compile Include="TransportEntities\TyreInvoiceDetails.cs" />
+    <Compile Include="TransportEntities\VehicleACMaintenance.cs" />
+    <Compile Include="TransportEntities\VehicleBodyMaintenance.cs" />
+    <Compile Include="TransportEntities\VehicleDetails.cs" />
+    <Compile Include="TransportEntities\FinesAndPenalities.cs" />
+    <Compile Include="TransportEntities\VehicleDistanceCovered.cs" />
+    <Compile Include="TransportEntities\VehicleDistanceCoveredChart_vw.cs" />
+    <Compile Include="TransportEntities\VehicleDistanceCoveredReport_vw.cs" />
+    <Compile Include="TransportEntities\VehicleDistanceFuelReport_vw.cs" />
+    <Compile Include="TransportEntities\VehicleElectricalMaintenance.cs" />
+    <Compile Include="TransportEntities\VehicleFuelManagement.cs" />
+    <Compile Include="TransportEntities\VehicleFuelQuantityChart_vw.cs" />
+    <Compile Include="TransportEntities\VehicleFuelReport_vw.cs" />
+    <Compile Include="TransportEntities\VehicleMaintenance.cs" />
+    <Compile Include="TransportEntities\VehicleReport.cs" />
+    <Compile Include="TransportEntities\VehicleTypeAndSubType.cs" />
+    <Compile Include="TransportEntities\VehicleSubTypeMaster.cs" />
+    <Compile Include="TransportEntities\VehicleTypeMaster.cs" />
+    <Compile Include="TransportEntities\VehicleTyreMaintenance.cs" />
+    <Compile Include="TransportEntities\WeekDays.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UserAppRole.cs" />
+    <Compile Include="Users_vw.cs" />
+    <Compile Include="UserTypeMaster.cs" />
+    <Compile Include="WeeklyIssueStatusReport_vw.cs" />
+    <Compile Include="WidgetEntities\ISubWidget.cs" />
+    <Compile Include="WidgetEntities\IWidget.cs" />
+    <Compile Include="WidgetEntities\SubWidget.cs" />
+    <Compile Include="WidgetEntities\WidgetBoard.cs" />
+    <Compile Include="WidgetEntities\WidgetMaster.cs" />
+    <Compile Include="WidgetEntities\WidgetUserConfig.cs" />
+    <Compile Include="WorkFlowStatus.cs" />
+    <Compile Include="WorkFlowTemplate.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\CallManagement.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Application.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\AppRoleConfig.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\Role.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\User.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\UserAppRole.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\AdmissionManagement.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Documents.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\WorkFlowTemplate.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Activity.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ORMapping\ProcessInstance.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ORMapping\WorkFlowStatus.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\CallManagementView.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Comments.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\CallMgmntActivity.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudentDetails.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\AcademicyrMaster.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\BloodGroupMaster.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\DocumentTypeMaster.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ORMapping\FeeStructureYearMaster.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\GradeMaster.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ORMapping\MasterDetails.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\ModeOfPayment.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\RegionMaster.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\RelationshipMaster.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\SectionMaster.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\IssueTypeMaster.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\IssueGroupMaster.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Department.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Branch.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\CallMgmntPIView.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\CountryMaster.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\CampusMaster.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ORMapping\FeeTypeMaster.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AdmissionORMapping\AddressDetails.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\ApproveAssign.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\DocumentDetails.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdmissionORMapping\FamilyDetails.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\IdGeneration.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\PastSchoolDetails.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\PaymentDetails.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\PreRegDetails.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\UploadedFiles.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\BulkCompleteInfo.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Grade.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AdmissionORMapping\UploadedFilesView.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\CallManagementChart.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\CallManagementDashboard.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AdmissionORMapping\TransferDetails.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AdmissionORMapping\EmailLog.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AdmissionORMapping\StudentTemplateView.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StaffManagementORMapping\StaffRequestNumDetails.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StaffManagementORMapping\StaffDetails.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StaffManagementORMapping\FileUpload.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StaffORMapping\StaffActivities.hbm.xml" />
+    <EmbeddedResource Include="StaffORMapping\StaffIssueGroupMaster.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StaffORMapping\StaffIssues.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StaffORMapping\StaffIssueTypeMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffORMapping\StaffMgmntActivity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MenuORMapping\Menu.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudentDetailsExport.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StaffORMapping\StaffDocuments.hbm.xml" />
+    <EmbeddedResource Include="StaffORMapping\StaffIssueRejectionComments.hbm.xml" />
+    <EmbeddedResource Include="StaffORMapping\StaffMgmntPIView.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialRequest.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StoreORMapping\MaterialInward.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StoreORMapping\StoreUnits.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StaffManagementORMapping\StaffExperience.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffOtherDetails.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StaffManagementORMapping\StaffQualification.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffTraining.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StaffManagementORMapping\StaffDetailsView.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudFamilyDetailsEmail.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\SavedSearchTemplate.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Designation.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\StaffTypeMaster.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AdmissionORMapping\EmailAttachment.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\UserTypeMaster.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\RoleUsers.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StaffManagementORMapping\StaffDetailsEdit.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StaffManagementORMapping\StaffIdNumber.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="HRORMapping\BankAccount.hbm.xml" />
+    <EmbeddedResource Include="HRORMapping\CertificateRequest.hbm.xml" />
+    <EmbeddedResource Include="HRORMapping\EmploymentRequest.hbm.xml" />
+    <EmbeddedResource Include="HRORMapping\HRMgmntActivity.hbm.xml" />
+    <EmbeddedResource Include="HRORMapping\LeaveRequest.hbm.xml" />
+    <EmbeddedResource Include="HRORMapping\RequestNumber.hbm.xml" />
+    <EmbeddedResource Include="HRORMapping\SalaryAdvance.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="HRORMapping\StaffDetailsHRM.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ParentPortalORM\NoteAttachment.hbm.xml" />
+    <EmbeddedResource Include="ParentPortalORM\Notification.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ParentPortalORM\ParentIssueMgt.hbm.xml" />
+    <EmbeddedResource Include="ParentPortalORM\ParentIssueType.hbm.xml" />
+    <EmbeddedResource Include="ParentPortalORM\ParentLeaveRequest.hbm.xml" />
+    <EmbeddedResource Include="ParentPortalORM\ParentLeaveType.hbm.xml" />
+    <EmbeddedResource Include="ParentPortalORM\PermissionForms.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="HRORMapping\BankMgmntActivity.hbm.xml" />
+    <EmbeddedResource Include="HRORMapping\CertificateMgmntActivity.hbm.xml" />
+    <EmbeddedResource Include="HRORMapping\SalaryAdvanceMgmntActivity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ParentPortalORM\PhotoGallery.hbm.xml" />
+    <EmbeddedResource Include="ParentPortalORM\PhotoGalleryPhoto.hbm.xml" />
+    <EmbeddedResource Include="ParentPortalORM\ShowNotification.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StoreORMapping\MaterialGroupMaster.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialRequestList.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StoreORMapping\SkuList.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\StoreSupplierMaster.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\AssignementNameMaster.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\LoginHistory.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StoreORMapping\StoreMgmntActivity.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TransportEntities\FitnessCertificate.cs" />
+    <Compile Include="TransportEntities\Insurance.cs" />
+    <EmbeddedResource Include="StudentsReportORMapping\MISMailMaster.hbm.xml" />
+    <EmbeddedResource Include="StudentsReportORMapping\MISMailStatus.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentsReportORMapping\AdmissionStatusReport_vw.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentsReportORMapping\MISOverAllReport_vw.hbm.xml" />
+    <Resource Include="StudentsReportORMapping\MISReportMailReport.hbm.xml" />
+    <EmbeddedResource Include="TimeTableORMapping\PeriodTimeMaster.hbm.xml" />
+    <EmbeddedResource Include="TimeTableORMapping\tt_allotment.hbm.xml" />
+    <EmbeddedResource Include="TimeTableORMapping\tt_days.hbm.xml" />
+    <EmbeddedResource Include="TimeTableORMapping\tt_division.hbm.xml" />
+    <EmbeddedResource Include="TimeTableORMapping\tt_Search.hbm.xml" />
+    <EmbeddedResource Include="TimeTableORMapping\tt_SubjectMaster.hbm.xml" />
+    <EmbeddedResource Include="TimeTableORMapping\tt_teacher.hbm.xml" />
+    <EmbeddedResource Include="TimeTableORMapping\tt_timetable.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\TripPurposeMaster.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CommunicationORMapping\BulkSMSRequestReport_vw.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\CampusGradeMaster.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\SkuList_MaterialInward.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\CampusLanguageMaster.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\CampusSubjectMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffBDayWishesMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffBDayWishesStatus.hbm.xml" />
+    <EmbeddedResource Include="EnquiryORMapping\EnquiryCourse.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\FollowupDetailsView_vw.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\FollowUpRemainderTracker.hbm.xml" />
+    <EmbeddedResource Include="AttendanceORMapping\AttendanceMonitor.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\SecondLanguageMaster.hbm.xml" />
+    <EmbeddedResource Include="AttendanceORMapping\AttendanceDialyRpt_Vw.hbm.xml" />
+    <EmbeddedResource Include="AttendanceORMapping\AttendanceFinishAndNotFinish_Vw.hbm.xml" />
+    <EmbeddedResource Include="AttendanceORMapping\EmailConfiguration.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateAdmissionStatusReport_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateAssess360GrpByCampusAndGrade_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateAssess360MarkCount_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateBrowserWiseReport_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateDashboardIndex_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateEmailReport_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateLoginHistory_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateSMSReport_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateStaffDetails_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateStaffGroupByDept_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateStaffsGrpByDeptAndCampus_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateStaffStatus_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateStudBoardingReport_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateStudCountGrpByCampusGradeSection_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateStudentsAcademicYearWiseCount_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateStudentsCountGroupByGrade_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateStudents_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateStudentTemplate_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateTransportReportByCampus_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateUsersReport_vw.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateUsersTypeReport_vw.hbm.xml" />
+    <EmbeddedResource Include="CanteenORMapping\CanteenUnits.hbm.xml" />
+    <EmbeddedResource Include="CanteenORMapping\CanteenMaterialGroupMaster.hbm.xml" />
+    <EmbeddedResource Include="CanteenORMapping\CanteenMaterialsMaster.hbm.xml" />
+    <EmbeddedResource Include="CanteenORMapping\CanteenMaterialsMaster_vw.hbm.xml" />
+    <EmbeddedResource Include="CanteenORMapping\CanteenSupplierMaster.hbm.xml" />
+    <EmbeddedResource Include="AdminTemplateORM\AdminTemplateCampusWiseIssueCount_vw.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\StudentLocationMaster.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\PaymentDetailsReport_Vw.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\StudentLocalityMaster.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdmissionORMapping\StudentSubLocalityMaster.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\StudentTemplate.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdmissionORMapping\LocationCount_Vw.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\AssetMaster.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\AssetOrganizer.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\FollowUpReport_vw.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\AssetOrganizer_vw.hbm.xml" />
+    <EmbeddedResource Include="BioMetricsORMapping\AttendanceGradeWise_Vw.hbm.xml" />
+    <EmbeddedResource Include="BioMetricsORMapping\AttendanceLog_Vw.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BioMetricsORMapping\BioAttendanceStaffWise_Vw.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BioMetricsORMapping\Devices.hbm.xml" />
+    <EmbeddedResource Include="BioMetricsORMapping\Employees.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\AcademicYearReport.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\RelievingReasonMaster.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\TCRequestDetails.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmployeeORMapping\EmployeeAttendance.hbm.xml" />
+    <EmbeddedResource Include="EmployeeORMapping\EmployeeAttendanceReport.hbm.xml" />
+    <EmbeddedResource Include="EmployeeORMapping\EmployeeOTDetails.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\TcRequestReportByCampusGrade_Vw.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\TcRequestReportByCampus_Vw.hbm.xml" />
+    <EmbeddedResource Include="CommunicationORMapping\StaffComposeMailInfo.hbm.xml" />
+    <EmbeddedResource Include="CommunicationORMapping\StaffRecipientsEmailInfo.hbm.xml" />
+    <EmbeddedResource Include="EmployeeORMapping\EmployeeOTReport.hbm.xml" />
+    <EmbeddedResource Include="CommunicationORMapping\StaffBulkSMSRequestReport_vw.hbm.xml" />
+    <EmbeddedResource Include="CommunicationORMapping\StaffComposeSMSInfo.hbm.xml" />
+    <EmbeddedResource Include="CommunicationORMapping\StaffSMSRecipientsInfo.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\AssetDetailsTemplate.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AssetORMapping\AssetDetails.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AssetORMapping\ITAssetSpecification.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\AssetDetailsTransaction.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\ITAssetDetailsTransactionHistory.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AssetORMapping\ITAssetScrapDetails.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\ITAssetServiceDetails.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\AssetLocationMaster.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\CampusBlockMaster.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\VendorMaster.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\AssetDetails_vw.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\AssetBrandMaster.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\AssetModelMaster.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\AssetInvoiceDetails.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AssetORMapping\AssetInvoiceDetails_vw.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AssetORMapping\AssetDetailsReport_vw.hbm.xml" />
+    <EmbeddedResource Include="CommunicationORMapping\SMSCount_SP.hbm.xml" />
+    <EmbeddedResource Include="CommunicationORMapping\BulkEmailRequestWithCount_vw.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\TcRequestReportByCampus_SP.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\TcRequestReportByCampusGrade_SP.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\SubAssetDetails_vw.hbm.xml" />
+    <EmbeddedResource Include="BioMetricsORMapping\StaffInOutSummary.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\AssetProductMaster.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\AssetProductTypeMaster.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\ITAccessories.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AssetORMapping\ITAccessoriesBrandMaster.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\ITAccessoriesModelMaster.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AssetORMapping\STAssetDetails.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AssetORMapping\STAssetDetailsTransactionHistory.hbm.xml" />
+    <EmbeddedResource Include="BioMetricsORMapping\Staff_AttendanceReportConfiguration.hbm.xml" />
+    <EmbeddedResource Include="BioMetricsORMapping\Staff_AutoEmailNotificationLogForAttendance.hbm.xml" />
+    <EmbeddedResource Include="BioMetricsORMapping\Staff_DeviceLogSummarySP.hbm.xml" />
+    <EmbeddedResource Include="BioMetricsORMapping\Staff_AttendanceReportConfigurationByStaffs.hbm.xml" />
+    <EmbeddedResource Include="BioMetricsORMapping\Staff_AttendanceReportConfiguration_Vw.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\AssetDistributionStudent_vw.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\StudentLaptopDistribution_vw.hbm.xml" />
+    <EmbeddedResource Include="AssetORMapping\LaptopEntryDtls_vw.hbm.xml" />
+    <EmbeddedResource Include="BioMetricsORMapping\Staff_ConsolidateDeviceLogSummary_SP.hbm.xml" />
+    <EmbeddedResource Include="BioMetricsORMapping\Staff_AttendanceLongleaveAndResignedReport_vw.hbm.xml" />
+    <EmbeddedResource Include="BioMetricsORMapping\Staff_AttendanceOnduty_vw.hbm.xml" />
+    <EmbeddedResource Include="BioMetricsORMapping\Staff_DeviceLogSummaryStatus_sp.hbm.xml" />
+    <EmbeddedResource Include="BioMetricsORMapping\Staff_AttendanceConfigurationsReport_Vw.hbm.xml" />
+    <EmbeddedResource Include="BioMetricsORMapping\Staff_AttendanceRegisterReport.hbm.xml" />
+    <Content Include="EnquiryORMapping\EnquiryCourseBatchTiming.hbm.xml" />
+    <EmbeddedResource Include="EnquiryORMapping\EnquiryDetailGridView.hbm.xml" />
+    <EmbeddedResource Include="EnquiryORMapping\EnquiryDetails.hbm.xml" />
+    <Content Include="EnquiryORMapping\EnquiryDetailsList.hbm.xml" />
+    <Content Include="EnquiryORMapping\EnquiryDetailsManagement.hbm.xml" />
+    <Content Include="EnquiryORMapping\EnquiryFollowUp_vw.hbm.xml" />
+    <EmbeddedResource Include="EnquiryORMapping\FollowUpDetails.hbm.xml" />
+    <EmbeddedResource Include="EnquiryORMapping\KioskEnquiryDetails.hbm.xml" />
+    <EmbeddedResource Include="EnquiryORMapping\KioskBasicDetails.hbm.xml" />
+    <Content Include="EnquiryORMapping\KioskFeedback.hbm.xml" />
+    <Content Include="EnquiryORMapping\StudentDtlsView.hbm.xml" />
+    <EmbeddedResource Include="StudentsReportORMapping\MISDateWiseReport_vw.hbm.xml" />
+    <EmbeddedResource Include="StudentsReportORMapping\DetailedAdmissionReport_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialReturn.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialReturnList.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\Sequence.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\WeeklyIssueStatusReport_vw.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\CoOrdinatorsContactInfo.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\AgeCutOffMaster.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleReport.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\CampusDocumentMaster.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\StoreInwardReportForAdminTemplate_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\StoreReportForAdminTemplate_vw.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\PageHistory.hbm.xml" />
+    <EmbeddedResource Include="HostelMgntORMapping\HostelMasters_Vw.hbm.xml" />
+    <EmbeddedResource Include="HostelMgntORMapping\HstlMgmt_BedMaster.hbm.xml" />
+    <EmbeddedResource Include="HostelMgntORMapping\HstlMgmt_HostelDetails.hbm.xml" />
+    <EmbeddedResource Include="HostelMgntORMapping\HstlMgmt_HostelMaster.hbm.xml" />
+    <EmbeddedResource Include="HostelMgntORMapping\HstlMgmt_RoomMaster.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HostelMgntORMapping\HstMgntAdmissionForm.hbm.xml" />
+    <EmbeddedResource Include="HostelMgntORMapping\HstMgnt_StudStaffNames_Vw.hbm.xml" />
+    <EmbeddedResource Include="HostelMgntORMapping\StudHostelDtls_Vw.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransportORMapping\TyreDetails.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\TyreDetailsAndInvoiceDetails.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\TyreInvoiceDetails.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransportORMapping\TyreAssignedList.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\TransportVendorMaster.hbm.xml" />
+    <EmbeddedResource Include="QAORMapping\QAAnswers.hbm.xml" />
+    <EmbeddedResource Include="QAORMapping\QADetails.hbm.xml" />
+    <EmbeddedResource Include="QAORMapping\QAQuestions.hbm.xml" />
+    <EmbeddedResource Include="QAORMapping\QAViewers.hbm.xml" />
+    <EmbeddedResource Include="QAORMapping\QAViewersCount.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffFamilyDetails.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffReferenceDetails.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\CampusBasedStaffDetails.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\PageHitCount_Vw.hbm.xml" />
+    <EmbeddedResource Include="QAORMapping\QAProcessLog.hbm.xml" />
+    <EmbeddedResource Include="QAORMapping\QALikes.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\RouteConfiguration.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\RouteStudConfig.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\RouteStudentListConfig.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\RouteStudentListConfigView.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\RouteStudentConfigurationPDF_vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\RouteMasterConfig_vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\StudentsRouteConfigReport_vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\DriverAttendance.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\DriverAttendanceMonthReport.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\DriverAttendanceReport.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\DriverRegNumDetails.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransportORMapping\DriverFamilyDetails.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\BankMaster.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ORMapping\UserAppRole_Vw.hbm.xml" />
+    <EmbeddedResource Include="StudentsReportORMapping\PastStudentList_Vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleAcMaintenance_Vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleBodyMaintainance_Vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleElectricalMaintenance_Vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleMaintance_Vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleTyreMaintenance_Vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\DistanceCovered_Vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\FuelRefilDetails_Vw.hbm.xml" />
+    <EmbeddedResource Include="InboxORMapping\Inbox.hbm.xml" />
+    <EmbeddedResource Include="InboxORMapping\InboxCount_Vw.hbm.xml" />
+    <EmbeddedResource Include="InboxORMapping\AdmissionStatus_Vw.hbm.xml" />
+    <EmbeddedResource Include="StudentsReportORMapping\PageHistoryReport.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\DocumentReport_Vw.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\MenuDetails_vw.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\NationalityMaster.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\Event.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\EventList.hbm.xml" />
+    <EmbeddedResource Include="HostelMgntORMapping\RoomAllotment.hbm.xml" />
+    <EmbeddedResource Include="HostelMgntORMapping\HstMgnt_MaterialDamage.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HostelMgntORMapping\HstMgnt_MaterialDamage_Vw.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HostelMgntORMapping\ChangeRoomAllotment.hbm.xml" />
+    <EmbeddedResource Include="HostelMgntORMapping\HstlMgmt_MedicalExpenses.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HostelMgntORMapping\HstlMgmt_MedicalExpenses_Vw.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HostelMgntORMapping\HstlMgmt_FoodExpenses.hbm.xml" />
+    <EmbeddedResource Include="HostelMgntORMapping\HstlMgmt_FoodExpenses_Vw.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\CallManagementHistory.hbm.xml" />
+    <EmbeddedResource Include="ParentPortalORM\PhotoGalleryFolder.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\Users_vw.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\IssueCountReportByCampus_SP.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\IssueCountReportByIssueGroup_SP.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\PerformerWiseIssueCountReport_SP.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LMSORMapping\LMS_StaffDetails.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LMSORMapping\LMS_StudentDetails.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LMSORMapping\LMS_StaffStudentDetails.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ORMapping\ErrorLogs.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ORMapping\CampusWiseSectionMaster.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\CampusWiseSectionMaster_vw.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\NewDepartmentMaster.hbm.xml" />
+    <Content Include="ReportORMapping\CampusWiseModuleUsageReport_vw.hbm-old.xml" />
+    <EmbeddedResource Include="ReportORMapping\CampusWiseModuleUsageReport_vw.hbm.xml" />
+    <EmbeddedResource Include="ReportORMapping\CampusWiseUsageModule.hbm.xml" />
+    <EmbeddedResource Include="ReportORMapping\CampusWiseUsageModule_vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffEvaluationScore_Vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffSubGroupMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffAttendance.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffAttendance_vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StudentSurveyStaffWiseReport_Vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StudentSurveyReportByStaff_Vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffBdayReminderTracker.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffBdayReminder_Vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\DriverOtReportDetails.hbm.xml" />
+    <EmbeddedResource Include="StudentsReportORMapping\MISMonthlyReport_Vw.hbm.xml" />
+    <EmbeddedResource Include="TimeTableORMapping\TimeTable.hbm.xml" />
+    <EmbeddedResource Include="TimeTableORMapping\TTStaffConfig.hbm.xml" />
+    <EmbeddedResource Include="TimeTableORMapping\TTStaffMaster.hbm.xml" />
+    <EmbeddedResource Include="TimeTableORMapping\TTSubjectMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffPromotionAndTransferDetails.hbm.xml" />
+    <EmbeddedResource Include="StaffORMapping\StaffIssueManagementReport_vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffEvaluationCategoryMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffEvaluationParameter.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffEvaluationParameter_vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleDistanceCovered_vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffEvaluationCategoryWise_Vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffWiseScoreReport_Vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffGroupMaster.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\StudentMaterialDistribution_vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\TripMaster.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleCostDetails.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialDistribution.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialDistribution_Vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialIssueDetails.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StudentSurveyGroup.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StudentSurveyAnswerMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StudentSurveyQuestionMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffWiseStudentSurveyNewResult_Vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffWiseStudentSurveyNewResultWOS_Vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\CampusBasedStaffDetails_Vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffProgrammeMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffHolidaysMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\CLDetailsMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffAttendanceNewStatus.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\CandidateDtls.hbm.xml" />
+    <Content Include="StaffManagementORMapping\StaffWiseStudentSurveyResult_Vw.hbm.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <EmbeddedResource Include="StaffManagementORMapping\StudentSurveyReportNew_Vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StudentSurveyReportWOSecNew_Vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StudentSurveyAnswerView.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffwiseSurveyQuestionReportWOSec_Vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffwiseSurveyQuestionReport_Vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\StudentWiseMaterialReport.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StudentSurveyQuestionMasterView.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleCostDetails_VW.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleCostDetailsReport_sp.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\GPS_TrackingDeviceMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\SurveyGroupMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\SurveyQuestionMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\SurveyConfiguration.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\SurveyAnswerMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\SurveyConfiguration_vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\SurveyMaster.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\PurposeMaster.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\NewVehicleTypeMaster.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleCostDetails_Updated.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\DailyUsageVehicleMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffWiseSurveyNewResult_Vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffwiseSurveyQuestionReportNew_Vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\SurveyReportNew_Vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\StaffWiseSurveyNewResultWOS_Vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleCostDetails_Updated_VW.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\SurveyReportNew_SP.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialDistributionReport.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialDistributionReportByCampus.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialDistributionReportByDate.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleFCEntry.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleFuelRefillEntry.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleMaintenanceEntry.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleOverviewReport_SP.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleService.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\TransportSupplierMaster.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleOthersEntry.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\DailyUsageVehicleMaster_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\StudentMaterialOverView_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\StudentMaterialSubGroupView_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\StudentMaterialSubOverView_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\SkuList_vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\Staff_WorkingDaysMaster.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\Staff_AttendanceChangeDetails.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\Staff_AttendanceCLDetails.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\Staff_AttendanceOpeningBalanceGenerateCount.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\RouteMasterLog.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\RouteMasterWithIMEINumber_vw.hbm.xml" />
+    <Content Include="WidgetORM\MISReportMailReport.hbm.xml" />
+    <EmbeddedResource Include="StudentsReportORMapping\MISReport_vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\DriverOTAllowance_vw.hbm.xml" />
+    <EmbeddedResource Include="StaffManagementORMapping\EmployeeSalaryDetails.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\SkuList_MaterialPrice_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\StoreToStore.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\StoreToStoreIssuedMaterials.hbm.xml" />
+    <EmbeddedResource Include="WidgetORM\WidgetMaster.hbm.xml" />
+    <EmbeddedResource Include="WidgetORM\WidgetUserConfig.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleTyreMaintenance.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleElectricalMaintenance.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleBodyMaintenance.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\DriverOTDetails.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\Permit.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleDistanceFuelReport_vw.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransportORMapping\VehicleDistanceCoveredChart_vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleFuelQuantityChart_vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleDistanceCoveredReport_vw.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleFuelReport_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialIssueReportView.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StoreORMapping\MaterialInwardReport_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialInwardOutwardView.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\FinesAndPenalitiesBulkDetails.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\InsuranceBulkDetails.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransportORMapping\FitnessCertificateDetails.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\FuelRefillDetails.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransportORMapping\VehicleACMaintenance.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleMaintenance.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\DistanceCoveredDetails.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\DriverMaster.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\LocationMaster.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\RouteMaster.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\FitnessCertificate.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\Insurance.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleDetails.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\FinesAndPenalities.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleFuelManagement.hbm.xml" />
+    <EmbeddedResource Include="TransportORMapping\VehicleDistanceCovered.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransportORMapping\VehicleTypeAndSubType.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransportORMapping\VehicleSubTypeMaster.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransportORMapping\VehicleTypeMaster.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\TIPSMaster.hbm.xml" />
+    <EmbeddedResource Include="ParentPortalORM\NoteAttachmentView.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialsMaster_vw_Stock_vw.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ParentPortalORM\FoodMenuView.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\StoreStockBalance.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StoreORMapping\StockTransaction.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialRequestView.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MatIssNote_RequestList_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MatReq_ReqList_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MatInward_SkuList_vw.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StoreORMapping\MaterialIssueNote_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialIssueList_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialIssueNote.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StoreORMapping\MateriaIssueList.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StoreORMapping\MaterialInward_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\Stock_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\UOM_ConvertionMatrix.hbm.xml" />
+    <EmbeddedResource Include="AttendanceORMapping\Holidays.hbm.xml" />
+    <EmbeddedResource Include="ParentPortalORM\FMDays.hbm.xml" />
+    <EmbeddedResource Include="ParentPortalORM\FMWeeks.hbm.xml" />
+    <EmbeddedResource Include="ParentPortalORM\FoodMenu.hbm.xml" />
+    <EmbeddedResource Include="ParentPortalORM\FoodNameMaster.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialGroupSupplier.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialGroupSupplier_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialsMaster.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialsMaster_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialSubGroupMaster.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\MaterialSubGroupMaster_vw.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\Stock.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\StockAudit.hbm.xml" />
+    <EmbeddedResource Include="StoreORMapping\StoreMaster.hbm.xml" />
+    <EmbeddedResource Include="ParentPortalORM\NoteEmailLog.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\CampusEmailId.hbm.xml" />
+    <EmbeddedResource Include="AttendanceORMapping\Attendance.hbm.xml" />
+    <EmbeddedResource Include="AttendanceORMapping\StudentAttendanceView.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\Sports.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\SMS.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdmissionORMapping\SMSTemplate.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\CampusAdminEmailId.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\AdmissionCountReport_vw.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdmissionORMapping\FollowupDetails.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\StudentTemplateStatus.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\MonthMaster.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\IssueCountReportView.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\LogInCountReportView.hbm.xml" />
+    <EmbeddedResource Include="CommunicationORMapping\BulkEmailRequest.hbm.xml" />
+    <EmbeddedResource Include="CommunicationORMapping\ComposeEmailInfo.hbm.xml" />
+    <EmbeddedResource Include="CommunicationORMapping\RecipientsEmailInfo.hbm.xml" />
+    <EmbeddedResource Include="CommunicationORMapping\BulkSMSRequest_vw.hbm.xml" />
+    <EmbeddedResource Include="CommunicationORMapping\ComposeSMSInfo.hbm.xml" />
+    <EmbeddedResource Include="CommunicationORMapping\SMSRecipientsInfo.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\StudentTemplateAndFamilyDetails_vw.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ORMapping\StaffDepartmentMaster.hbm.xml" />
+    <EmbeddedResource Include="AttendanceORMapping\MonthMasterForAttendance.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\BulkPromTransfer.hbm.xml" />
+    <EmbeddedResource Include="AdmissionORMapping\BulkPromTransferRequestDetails.hbm.xml" />
+    <Content Include="ORMapping\StudentDetailsVw.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

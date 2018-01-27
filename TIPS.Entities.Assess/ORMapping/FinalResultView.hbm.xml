@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="FinalResultView" table="FinalResult_vw" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+
+    <property name="PreRegNum" column="PreRegNum" type="Int64" />
+    <property name="NewId" column="NewId" type="string" />
+    <property name="Name" column="Name" type="string" />
+    <property name="Campus" column="Campus" type="string" />
+    <property name="Grade" column="Grade" type="string" />
+    <property name="Section" column="Section" type="string" />
+    <property name="AdmissionStatus" column="AdmissionStatus" type="string" />
+
+    <property name="EngSemI" column="EngSemI" type="Int64" />
+    <property name="EngSemII" column="EngSemII" type="Int64" />
+    <property name="EngTotal" column="EngTotal" type="AnsiString" />
+    <property name="EngGrade" column="EngGrade" type="string" />
+
+
+    <property name="LangSemI" column="LangSemI" type="Int64" />
+    <property name="LangSemII" column="LangSemII" type="Int64" />
+    <property name="LangTotal" column="LangTotal" type="AnsiString" />
+    <property name="LangGrade" column="LangGrade" type="string" />
+
+    <property name="HcSemI" column="HcSemI" type="Int64" />
+    <property name="HcSemII" column="HcSemII" type="Int64" />
+    <property name="HcTotal" column="HcTotal" type="AnsiString" />
+    <property name="HcGrade" column="HcGrade" type="string" />
+
+    <property name="MathsSemI" column="MathsSemI" type="Int64" />
+    <property name="MathsSemII" column="MathsSemII" type="Int64" />
+    <property name="MathsTotal" column="MathsTotal" type="AnsiString" />
+    <property name="MathsGrade" column="MathsGrade" type="string" />
+
+    <property name="BioSemI" column="BioSemI" type="Int64" />
+    <property name="BioSemII" column="BioSemII" type="Int64" />
+    <property name="BioTotal" column="BioTotal" type="AnsiString" />
+    <property name="BioGrade" column="BioGrade" type="string" />
+
+    <property name="PhySemI" column="PhySemI" type="Int64" />
+    <property name="PhySemII" column="PhySemII" type="Int64" />
+    <property name="PhyTotal" column="PhyTotal" type="AnsiString" />
+    <property name="PhyGrade" column="PhyGrade" type="string" />
+
+    <property name="CheSemI" column="CheSemI" type="Int64" />
+    <property name="CheSemII" column="CheSemII" type="Int64" />
+    <property name="CheTotal" column="CheTotal" type="AnsiString" />
+    <property name="CheGrade" column="CheGrade" type="string" />
+
+
+    <property name="IctSemI" column="IctSemI" type="Int64" />
+    <property name="IctSemII" column="IctSemII" type="Int64" />
+    <property name="IctTotal" column="IctTotal" type="AnsiString" />
+    <property name="IctGrade" column="IctGrade" type="string" />
+
+    <property name="GrandTotal" column="GrandTotal" type="AnsiString" />
+    <property name="Persentage" column="Persentage" type="AnsiString" />
+
+    <property name="GradeResult" column="GradeResult" type="string" />
+
+    <!--<property name="UserRole" column="UserRole" type="string" />
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    <property name="CreatedBy" column="CreatedBy" type="string" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string" />-->
+
+  </class>
+</hibernate-mapping>

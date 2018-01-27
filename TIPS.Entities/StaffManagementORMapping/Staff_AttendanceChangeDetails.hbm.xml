@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.Staff_AttendanceChangeDetails" namespace="TIPS.Entities.Staff_AttendanceChangeDetails" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.Staff_AttendanceChangeDetails,TIPS.Entities" table="Staff_AttendanceChangeDetails" lazy="true" >
+    <id name="Staff_AttendanceChangeDetails_Id" column="Staff_AttendanceChangeDetails_Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"/>
+    <property name="Month" column="Month" type="Int64" />
+    <property name="Year" column="Year" type="Int64"></property>
+    <property name="TotalNoOfDaysWorkedByLogs" column="TotalNoOfDaysWorkedByLogs" type="Int64"/>
+    <property name="TotalNoOfDaysWorkedByChange" column="TotalNoOfDaysWorkedByChange" type="decimal" />
+    <property name="AllowedCasualLeaves" column="AllowedCasualLeaves" type="Int64"></property>
+    <property name="TotalNoOfLeavesTakenByLogs" column="TotalNoOfLeavesTakenByLogs" type="Int64"></property>
+    <property name="TotalNoOfLeavesTakenByChange" column="TotalNoOfLeavesTakenByChange" type="decimal"/>
+    <property name="CreatedBy" column="CreatedBy" type="string"/>
+    <property name="CreatedDate" column="CreatedDate" type="datetime" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime"></property>
+    <property name="IsActive" column="IsActive" type="bool"></property>
+    <property name="OnDuty" column="OnDuty" type="decimal"></property>
+    <property name="NoOfPermissionsTaken" column="NoOfPermissionsTaken" type="decimal"></property>
+    <property name="NoOfLeavesCalculatedByPermissions" column="NoOfLeavesCalculatedByPermissions" type="decimal"></property>
+    <property name="NoOfHolidays" column="NoOfHolidays" type="Int64"></property>
+    <property name="CasualLeavesTaken" column="CasualLeavesTaken" type="decimal"></property>
+    <property name="NoOfLeaveToBeCalculated" column="NoOfLeaveToBeCalculated" type="decimal"></property>
+
+  </class>
+</hibernate-mapping>

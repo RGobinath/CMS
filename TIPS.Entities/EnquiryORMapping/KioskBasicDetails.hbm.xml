@@ -1,0 +1,16 @@
+﻿<hibernate-mapping assembly="TIPS.Entities.EnquiryEntities.KioskBasicDetails" namespace="TIPS.Entities.EnquiryEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.EnquiryEntities.KioskBasicDetails, TIPS.Entities" table="KioskBasicDetails" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+<property name="StudentId" column="StudentId" type="Int64" ></property>
+    <property name="StudentName" column="StudentName" type="string" ></property>
+     <property name="AcademicYear" column="AcademicYear" type="string" ></property>
+    <property name="Campus" column="Campus" type="string" ></property>
+    <property name="Section" column="Section" type="string" ></property>
+    <property name="Grade" column="Grade" type="string" ></property>
+    <property name="Phone" column="Phone" type="string" ></property>
+    <property name="EmailId" column="EmailId" type="string" ></property>
+    <property name="VisitPurpose" column="VisitPurpose" type="string" ></property>
+  </class>
+</hibernate-mapping>

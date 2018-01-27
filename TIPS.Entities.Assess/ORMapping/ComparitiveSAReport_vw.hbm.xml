@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.ComparitiveSAReport_vw, TIPS.Entities.Assess" table="ComparitiveSAReport_vw" lazy="false" >
+    <id name="RptId" column="RptId" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="Name" column="Name" type="AnsiString" />
+    <property name="IdNo" column="IdNo" type="AnsiString" />
+    <property name="Campus" column="Campus" type="AnsiString" />
+    <property name="Grade" column="Grade" type="AnsiString" />
+    <property name="Section" column="Section" type="AnsiString" />
+    <property name="AcademicYear" column="AcademicYear" type="AnsiString" />
+    <property name="SIICT" column="SIICT" type="decimal" />
+    <property name="MIICT" column="MIICT" type="decimal" />
+    <property name="MIIICT" column="MIIICT" type="decimal" />
+    <property name="MIIIICT" column="MIIIICT" type="decimal" />
+    <property name="MIVICT" column="MIVICT" type="decimal" />
+    <property name="SIEFL" column="SIEFL" type="decimal" />
+    <property name="MIEFL" column="MIEFL" type="decimal" />
+    <property name="MIIEFL" column="MIIEFL" type="decimal" />
+    <property name="MIIIEFL" column="MIIIEFL" type="decimal" />
+    <property name="MIVEFL" column="MIVEFL" type="decimal" />
+    <property name="SIESL" column="SIESL" type="decimal" />
+    <property name="MIESL" column="MIESL" type="decimal" />
+    <property name="MIIESL" column="MIIESL" type="decimal" />
+    <property name="MIIIESL" column="MIIIESL" type="decimal" />
+    <property name="MIVESL" column="MIVESL" type="decimal" />
+    <property name="SIComSci" column="SIComSci" type="decimal" />
+    <property name="MIComSci" column="MIComSci" type="decimal" />
+    <property name="MIIComSci" column="MIIComSci" type="decimal" />
+    <property name="MIIIComSci" column="MIIIComSci" type="decimal" />
+    <property name="MIVComSci" column="MIVComSci" type="decimal" />
+    <property name="SIMath" column="SIMath" type="decimal" />
+    <property name="MIMath" column="MIMath" type="decimal" />
+    <property name="MIIMath" column="MIIMath" type="decimal" />
+    <property name="MIIIMath" column="MIIIMath" type="decimal" />
+    <property name="MIVMath" column="MIVMath" type="decimal" />
+    <property name="SIEco" column="SIEco" type="decimal" />
+    <property name="MIEco" column="MIEco" type="decimal" />
+    <property name="MIIEco" column="MIIEco" type="decimal" />
+    <property name="MIIIEco" column="MIIIEco" type="decimal" />
+    <property name="MIVEco" column="MIVEco" type="decimal" />
+    <property name="SIPhyEdu" column="SIPhyEdu" type="decimal" />
+    <property name="MIPhyEdu" column="MIPhyEdu" type="decimal" />
+    <property name="MIIPhyEdu" column="MIIPhyEdu" type="decimal" />
+    <property name="MIIIPhyEdu" column="MIIIPhyEdu" type="decimal" />
+    <property name="MIVPhyEdu" column="MIVPhyEdu" type="decimal" />
+    <property name="SIBio" column="SIBio" type="decimal" />
+    <property name="MIBio" column="MIBio" type="decimal" />
+    <property name="MIIBio" column="MIIBio" type="decimal" />
+    <property name="MIIIBio" column="MIIIBio" type="decimal" />
+    <property name="MIVBio" column="MIVBio" type="decimal" />
+    <property name="SIPhy" column="SIPhy" type="decimal" />
+    <property name="MIPhy" column="MIPhy" type="decimal" />
+    <property name="MIIPhy" column="MIIPhy" type="decimal" />
+    <property name="MIIIPhy" column="MIIIPhy" type="decimal" />
+    <property name="MIVPhy" column="MIVPhy" type="decimal" />
+    <property name="SIChem" column="SIChem" type="decimal" />
+    <property name="MIChem" column="MIChem" type="decimal" />
+    <property name="MIIChem" column="MIIChem" type="decimal" />
+    <property name="MIIIChem" column="MIIIChem" type="decimal" />
+    <property name="MIVChem" column="MIVChem" type="decimal" />
+    <property name="SILang" column="SILang" type="decimal" />
+    <property name="MILang" column="MILang" type="decimal" />
+    <property name="MIILang" column="MIILang" type="decimal" />
+    <property name="MIIILang" column="MIIILang" type="decimal" />
+    <property name="MIVLang" column="MIVLang" type="decimal" />
+    <property name="SITotal" column="SITotal" type="decimal" />
+    <property name="MITotal" column="MITotal" type="decimal" />
+    <property name="MIITotal" column="MIITotal" type="decimal" />
+    <property name="MIIITotal" column="MIIITotal" type="decimal" />
+    <property name="MIVTotal" column="MIVTotal" type="decimal" />
+  </class>
+</hibernate-mapping>

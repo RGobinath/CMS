@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.CanteenEntities.CanteenUnits" namespace="TIPS.Entities.CanteenEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.CanteenEntities.CanteenUnits, TIPS.Entities" table="CanteenUnits" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="Units" column="Units" type="string"></property>
+    <property name="UnitCode" column="UnitCode" type="string"></property>
+  </class>
+</hibernate-mapping>

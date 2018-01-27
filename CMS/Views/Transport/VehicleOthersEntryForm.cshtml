@@ -1,0 +1,61 @@
+﻿@model TIPS.Entities.TransportEntities.VehicleOthersEntry
+@{
+    ViewBag.Title = "VehicleOthersEntryForm";
+}
+
+<div class="row">
+    @*<div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue ">*@
+            @*<div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    &nbsp;Others
+                </div>
+            </div>*@
+            @*<div class="widget-body">
+                <div class="widget-main no-padding">*@
+                    <div class="row" style="margin-top: 10px; margin-bottom: 5px;">
+                        <div class="col-xs-12">
+                            <div class="col-sm-6">
+                                <label for="form-field-select-1">
+                                    <b>Description(Toll/Fine/Accident) <sup style="color: red">*</sup></b></label>                               
+                                @Html.HiddenFor(model => model.OthersId, new { id = "hdnOthersId" })
+                                @Html.Hidden("VehicleCostId","",new { id = "hdnVehicleCostId4",@Value=ViewBag.VehicleCostId })
+                                @if (Model != null)
+                                {
+                                    @Html.TextAreaFor(model=>model.Description,new { id="Description4", rows = 5, cols = 50, @class = "form-control textarea" })
+                                }
+                                else
+                                {
+                                    @Html.TextArea("Description", "", new { id="Description4",rows = 5, cols = 50, @class = "form-control textarea" })
+                                }
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="form-field-select-1">
+                                <b>Travel Date</b></label>
+                                <div class="input-group input-group-sm">
+                                    @if (Model != null)
+                                    { 
+                                        @Html.TextBoxFor(model => model.EntryDate, new { id = "EntryDate4", @Class = "form-control date-picker", disabled = "true", @Value = Model.EntryDate != null ? Model.EntryDate.Value.ToString("dd'/'MM'/'yyyy") : "" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBox("EntryDate", "", new { id = "EntryDate4", @Class = "form-control date-picker", disabled = "true", @Value = ViewBag.EntryDate != null ? ViewBag.EntryDate.ToString("dd'/'MM'/'yyyy") : "" })
+                                    }
+                                    <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                </div>
+                            </div>                            
+                            <div class="col-sm-2">
+                                <br />
+                                <button type="button" class="btn btn-success btn-info btn-block btn-sm" id="btnSave"
+                                    onclick="OthersCreate();return false;">
+                                    <i class="ace-icon fa fa-floppy-o bigger-120 white"></i>Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                @*</div>
+            </div>*@
+        @*</div>
+    </div>*@
+</div>
+<script src="../../Scripts/Transport/VehicleOthersEntryForm.js"></script>

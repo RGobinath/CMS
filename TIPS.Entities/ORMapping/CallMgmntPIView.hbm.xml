@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="CallMgmntPIView" table="CallManagement" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="IssueNumber" column="IssueNumber" type="string"/>
+    <property name="Description" column="Description" type="string"/>
+    <property name="UserInbox" column="UserInbox" type="string"/>
+    <property name="IssueGroup" column="IssueGroup" type="string"/>
+    <property name="IssueType" column="IssueType" type="string"/>
+    <property name="IssueDate" column="IssueDate" type="datetime"/>
+    <property name="Status" column="Status" type="string"/>
+    <property name="StudentName" column="StudentName" type="string"/>
+    <property name="InstanceId" column="InstanceId" type="Int64" not-null="false" />
+    <many-to-one name="ProcessInstance" class="TIPS.Entities.ProcessInstance, TIPS.Entities"
+                 column="InstanceId" cascade="none" lazy="false" />
+    <property name="StudentNumber" column="StudentNumber" type="string"/>
+    <property name="Grade" column="Grade" type="string"/>
+    <property name="ActivityFullName" column="ActivityFullName" type="string"/>
+    <property name="InformationFor" column="InformationFor" type="string"/>
+    <property name="LeaveType" column="LeaveType" type="string"/>
+    <property name="School" column="School" type="string"/>
+  </class>
+</hibernate-mapping>

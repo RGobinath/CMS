@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Asset Organizer";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+@{
+    var Rolecode = Session["userrolesarray"] as IEnumerable<string>;
+}
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        @Html.Hidden("loggedInUserId", "", new { @Value = ViewBag.loggedInUserId })
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <div class="tabbable tabs-left">
+                    <ul id="myTab" class="nav nav-tabs">
+                        <li class="active"><a href="#Avail" data-toggle="tab"><i class="ace-icon fa fa-location-arrow"></i>&nbsp;Check Availablity</a> </li>
+
+
+                        @if (Rolecode.Contains("AST-GRL"))
+                        {
+                            <li><a data-toggle="tab" href="#HallReq"><i class="ace-icon fa fa-road"></i>&nbsp;Request Booking</a></li>
+                        }
+                        else if (Rolecode.Contains("AST-APP"))
+                        {
+                            <li><a data-toggle="tab" href="#CnfrmBook"><i class="ace-icon fa fa-dot-circle-o"></i>&nbsp;Confirm Booking</a></li>
+                        }
+                        else { }
+                    </ul>
+                    <div class="tab-content col-xs-6.col-sm-10">
+                        <div class="tab-pane in active" id="Avail">
+                            @Html.Partial("CheckAvailablity")
+                        </div>
+                        @if (Rolecode.Contains("AST-GRL"))
+                        {
+                            <div class="tab-pane" id="HallReq">
+                                @Html.Partial("RequestHall")
+                            </div>
+                        }
+                        @if (Rolecode.Contains("AST-APP"))
+                        {
+                            <div class="tab-pane" id="CnfrmBook">
+                                @Html.Partial("ConfirmBooking")
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+    </div>
+</div>

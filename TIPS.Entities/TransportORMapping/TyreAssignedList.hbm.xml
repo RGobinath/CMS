@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.TyreAssignedList" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.TyreAssignedList, TIPS.Entities" table="TyreAssignedList" lazy="true" >
+    <id name="Id" column="Id">
+      <generator class="identity" />
+    </id>
+    <property name="VehicleId">
+      <column name="VehicleId" sql-type="int" not-null="false" />
+    </property>
+    <property name="TyreId">
+      <column name="TyreId" sql-type="int" not-null="false" />
+    </property>
+    <property name="TyreNo">
+      <column name="TyreNo" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="AssignedDate">
+      <column name="AssignedDate" sql-type="date" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

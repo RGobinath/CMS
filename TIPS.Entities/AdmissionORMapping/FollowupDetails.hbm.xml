@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.AdmissionEntities.FollowupDetails" namespace="TIPS.Entities.AdmissionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AdmissionEntities.FollowupDetails, TIPS.Entities" table="FollowupDetails" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="PreRegNum" column="PreRegNum" type="Int64" not-null ="false"></property>
+    <property name="Remarks" column="Remarks" type="string"></property>
+    <property name="FollowupDate" column="FollowupDate" type="string"></property>
+    <property name="CreatedBy" column ="CreatedBy" type="string" />
+    <property name="CreatedDate" column="CreatedDate" type="DateTime" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string" />
+    <property name="ModifiedDate" column ="ModifiedDate" type="DateTime"/>
+  </class>
+</hibernate-mapping>
+

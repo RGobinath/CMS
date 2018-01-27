@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="BioMetric.WCFService.BioAttendanceService" CodeBehind="BioAttendanceService.svc.cs" %>

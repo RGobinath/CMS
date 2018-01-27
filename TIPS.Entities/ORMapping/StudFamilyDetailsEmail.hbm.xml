@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StudentDetails" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StudFamilyDetailsEmail, TIPS.Entities" table="StudFamilyDetailsEmail_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="PreRegNum" column="PreRegNum" type="string" />
+    <property name="ApplicationNo" column="ApplicationNo" type="string" />
+    <property name="Name" column="Name" type="string"  />
+    <property name="Gender" column="Gender" type="string" />
+    <property name="FeeStructYear" column="FeeStructYear" type="string"  />
+    <property name="AdmissionStatus" column="AdmissionStatus" type="string" />
+    <property name="NewId" column="NewId" type="string" />
+    <property name="FamilyDetailType" column="FamilyDetailType" type="string" />
+    <property name="ParentName" column="ParentName" type="string" />
+    <property name="Education" column="Education" type="string" />
+    <property name="ParentEmail" column="ParentEmail" type="string" />
+    <property name="ParentGender" column="ParentGender" type="string" />
+    
+  </class>
+</hibernate-mapping> 

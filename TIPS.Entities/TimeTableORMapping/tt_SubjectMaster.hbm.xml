@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.TimeTableEntities.tt_SubjectMaster" namespace="TIPS.Entities.TimeTableEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TimeTableEntities.tt_SubjectMaster,TIPS.Entities" table="tt_subject" lazy="true">
+
+    <id name="subject_id" column="subject_id" type="Int64">
+
+      <generator class="native"/>
+    </id>
+    <property name="subject_code" column="subject_code" type="string"></property>
+    <property name="subject_name" column="subject_name" type="string"></property>
+    <property name="priority" column="priority" type="string"></property>
+    <property name="subject_colour" column="subject_colour" type="string"></property>
+    <property name="description" column="description" type="string"></property>
+<property name="background_color" column="background_color" type="string"></property>
+  </class>
+</hibernate-mapping>

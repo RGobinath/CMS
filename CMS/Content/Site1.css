@@ -1,0 +1,397 @@
+﻿/* DEFAULTS
+----------------------------------------------------------*/
+
+body
+{
+    background: white;
+   /* font: smaller 7px Verdana,Arial,sans-serif;*/
+      font: normal 11px Verdana,Arial,sans-serif;
+    width: 100%;
+    height:100%;
+    background-color: #fff;
+    color: black;
+    position:fixed;
+}
+
+
+
+/*.title
+{
+    margin:0% 3% 0% 3% ;
+}
+*/
+
+/*main Content*/
+/*
+#smoothmenu2
+{
+  margin:0% 3% 0% 3% ; 
+}
+*/
+
+/*
+#main
+{
+    margin:0px 40px 0px 40px ;
+     margin:0% 5% 0% 5% 
+} *
+
+/*Table*/
+.tablesorter
+{
+    text-align: left;
+    border: solid 1px;
+    border-color: Black;
+    border-collapse: collapse;
+    font: normal 11px Verdana,Arial,sans-serif;
+}
+
+.tablesorter th
+{
+    text-align: left;
+    border: solid 1px;
+    border-color: Black;
+    border-collapse: collapse;
+    font: normal 11px Verdana,Arial,sans-serif;
+}
+.tablesorter td
+{
+    text-align: left;
+    border: solid 1px;
+    border-color: Black;
+    border-collapse: collapse;
+    font: normal 11px Verdana,Arial,sans-serif;
+}
+
+.WithBorder
+{
+    text-align: left;
+    border: solid 1px;
+    border-color: Black;
+    border-collapse: collapse;
+    font: normal 11px Verdana,Arial,sans-serif;
+    padding-top: 5px;
+}
+.WithBorder th
+{
+    text-align: left;
+    border: solid 1px;
+    border-color: Black;
+    border-collapse: collapse;
+    font: normal 11px Verdana,Arial,sans-serif;
+}
+.WithBorder td
+{
+    text-align: left;
+    border: solid 1px;
+    border-color: Black;
+    border-collapse: collapse;
+    font: normal 11px Verdana,Arial,sans-serif;
+}
+.WithoutBorder
+{
+    border: solid 1px;
+    border-color: Black;
+    border-collapse: collapse;
+    font: normal 11px Verdana,Arial,sans-serif;
+    padding-top: 5px;
+}
+
+.WithoutBorder th
+{
+    border: none;
+    border-color: Black;
+    border-collapse: collapse;
+    font: normal 11px Verdana,Arial,sans-serif;
+}
+.WithoutBorder td
+{
+    border: none;
+    border-color: Black;
+    border-collapse: collapse;
+    font: normal 11px Verdana,Arial,sans-serif;
+}
+
+
+.OuterLayer
+{
+    border: 1.5px solid #ccc;   
+    margin:3% 0% 3% 0% ;
+    padding:0% 3% 0% 3.3%;            
+}
+
+.InnerTable
+{
+    font: normal 11px Verdana,Arial,sans-serif;
+    border: none;
+    text-align: left;
+     /* padding-top:5px;*/
+}
+
+.InnerTable th
+{
+    font: bold 11px Arial;
+    border: none;
+    text-align: left;
+    /*padding-top: 5px;*/
+}
+
+.InnerTable td
+{
+    font: normal 11px Arial;
+    border: none;
+    text-align: left; 
+    /*padding-top:5px;*/
+}
+/*
+.WithBorderOnly
+{
+    border: solid 1.5px;
+     height:90%;
+     width:100%
+}*/
+
+.WithBorderOnly
+{
+    border: 1px;
+    border: 1.5px solid #ccc;
+ 
+    height:90%;
+     width:100%;
+
+    /*padding-top: 5px;
+    margin: 5px 0px 5px 0px;*/
+}
+
+.WithBorderOnly th
+{
+    font: bold 11px Arial;
+    border: none;
+    text-align: left;
+    padding-top: 5px;
+     padding-bottom:5px;
+}
+
+.WithBorderOnly td
+{
+    font: normal 11px Arial;
+    border: none;
+    text-align: left;
+    padding-bottom:5px;
+}
+
+.menubar
+{
+     font: normal 74% Verdana,Arial,sans-serif;
+     width:100%
+}
+
+.PanelHeading
+{
+  font: bold 11px Verdana,Arial,sans-serif;  
+  color:White;
+  background-color: #B6B6B6;
+  height: 15px;
+  
+}
+
+
+fieldset
+{
+    margin: 10px 0px 0px 0px;
+   /* margin: 0.5em 0px;*/
+    padding: 0.1em;
+    border: 1px solid #ccc;
+}
+
+fieldset p
+{
+    margin: 2px 12px 10px 10px;
+}
+
+fieldset.login label, fieldset.register label, fieldset.changePassword label
+{
+    display: inline;
+}
+
+fieldset label.inline
+{
+    display: inline;
+}
+
+legend
+{
+    font-size: 0.8em;
+    font-weight: none;
+    padding: 2px 4px 8px 8px;
+}
+
+
+/* HEADINGS   
+----------------------------------------------------------*/
+
+h1, h2, h3, h4, h5, h6
+{
+    font-size: 1em;
+    color: #666666;
+    text-transform: none;
+    font-weight: 100;
+    margin-bottom: 0px;
+}
+
+h1
+{
+    font-size: 1.6em;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+h2
+{
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+h3
+{
+    font-size: 1.1em;
+    font-weight: 300;
+    margin-top :8px;
+    margin-bottom :-10px;
+}
+
+h4
+{
+    font-size : 1.1em;
+    font-weight: 300;
+    
+}
+
+h5, h6
+{
+    font-size: 1.1em;
+    font-weight: 300;
+}
+
+header, footer, nav, section
+{
+    display: block;
+}
+
+/*
+.gradient
+{
+    background-image: linear-gradient(left top, rgb(12,4,54) 3%, rgb(255,255,255) 100%);
+    background-image: -o-linear-gradient(left top, rgb(12,4,54) 3%, rgb(255,255,255) 100%);
+    background-image: -moz-linear-gradient(left top, rgb(12,4,54) 3%, rgb(255,255,255) 100%);
+    background-image: -webkit-linear-gradient(left top, rgb(12,4,54) 3%, rgb(255,255,255) 100%);
+    background-image: -ms-linear-gradient(left top, rgb(12,4,54) 3%, rgb(255,255,255) 100%);
+    background-image: -webkit-gradient( 	linear, 	left top, 	right bottom, 	color-stop(0.03, rgb(12,4,54)), 	color-stop(1, rgb(255,255,255)) );
+    margin:0% 3% 0% 3% ;
+}
+*/
+
+.CSSButton
+{
+	margin:0 10px 0 0; 
+	border: Silver 1px solid; 
+	background-color:gainsboro;
+	color:Black;
+	font: normal 11px Verdana,Arial,sans-serif;
+	height:20px;
+} 
+
+.CSSTextBox
+{
+	border-style:groove; 
+	border-color:ButtonHighlight;
+	FONT-SIZE: 11px;	
+	COLOR: #666666; 	
+	font: normal 11px Verdana,Arial,sans-serif;
+}    
+    
+.CSSDropDownList	
+{
+    background-color: white;
+    border: #006699 1px solid;  
+    color: #666666;
+    font: normal 11px Verdana,Arial,sans-serif;
+    height:22px;
+    /*width:200px;*/
+}
+
+ DIV.ProgressBar
+    {
+        width: 100px;
+        padding: 0;
+        border: 1px solid black;
+        margin-right: 1em;
+        height: .75em;
+        margin-left: 1em;
+        display: -moz-inline-stack;
+        display: inline-block;
+        zoom: 1;
+        display: inline;
+    }
+    DIV.ProgressBar DIV
+    {
+        background-color: Green;
+        font-size: 1pt;
+        height: 100%;
+        float: left;
+    }
+    SPAN.asyncUploader OBJECT
+    {
+        position: relative;
+        top: 5px;
+        left: 10px;
+    }
+    
+  textarea:focus, select:focus {
+    outline: 1px solid #98AFFF;
+   
+}
+
+input:focus
+{
+  
+   outline: 1px solid #98AFFF;
+   
+}
+
+ input[type="submit"], input[type="button"]
+    {
+        /* font-size: 1.2em; */ /*  padding: 5px;*/
+        background-color: white;
+        border-radius: 5px;
+        font: normal 11px Verdana,Arial,sans-serif;
+    }
+    
+    /* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ff0000;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}

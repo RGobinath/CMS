@@ -1,0 +1,45 @@
+﻿<style type="text/css">
+
+.ui-jqgrid .ui-pg-input
+{
+    width:30px;
+}
+.ui-jqgrid .ui-pg-selbox
+{
+    width:50px;
+   height:25px;
+}
+</style>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#IndividualNotify').jqGrid({
+            url: '/Widget/IndividualNotifyjqgrid',
+            datatype: 'Json',
+            type: 'GET',
+            width: 350,
+            height: 140,
+            colNames: ['Id','PreRegNum', 'Name', 'Grade', 'Campus'],
+            colModel: [
+             { name: 'Id', index: 'Id', hidden:true },
+            { name: 'PreRegNum', index: 'PreRegNum', width: 60, align: "center" },
+            { name: 'Name', index: 'Name', width: 100 },
+            { name: 'Grade', index: 'Grade', width: 50, align: "center" },
+            { name: 'Campus', index: 'Campus', width: 100 }, ],
+            rowNum: 6,
+            rowList: [6, 10, 20],
+            sortorder: 'Asc',
+            sortname: 'Name',
+            pager: 'IndividualNotifyPager'
+        });
+        $('#IndividualNotify').jqGrid('filterToolbar', { searchOnEnter: true, enableClear: false });
+    });
+</script>
+<div id="IndividualNotifyDetails">
+    <table id="IndividualNotify">
+    </table>
+    <div id="IndividualNotifyPager">
+    </div>
+</div>

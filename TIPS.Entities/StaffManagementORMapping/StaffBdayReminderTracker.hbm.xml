@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.StaffBdayReminderTracker" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.StaffBdayReminderTracker, TIPS.Entities" table="StaffBdayReminderTracker" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="Campus" column="Campus" type="string" not-null ="false"></property>
+    <property name="SentList" column="SentList" type="string"></property>
+    <property name="CheckDate" column="CheckDate" type="string"></property>
+    <property name="IsSent" column="IsSent" type="bool"></property>
+    <property name="RemainderType" column="RemainderType" type="string"></property>
+  </class>
+</hibernate-mapping>
+

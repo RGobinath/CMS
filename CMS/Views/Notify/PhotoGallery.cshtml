@@ -1,0 +1,139 @@
+﻿@model TIPS.Entities.ParentPortalEntities.PhotoGallery
+@{
+    ViewBag.Title = "PhotoGallery";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script src="@Url.Content("~/Scripts/Notification/PhotoGallery.js")" type="text/javascript"></script>
+@using (Html.BeginForm("PhotoGallery", "Notify", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="page-content">
+        <!-- /section:settings.box -->
+        <div class="page-content-area">
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.PGPreId)
+            @Html.Hidden("SuccessPGMsg", "", new { id = "SuccessPGMsg", @Value = @TempData["SuccessPGCreation"] })
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="fa fa-camera"></i>&nbsp;Photo Gallery</div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @if (Model != null)
+                                        {
+                                            @Html.DropDownListFor(model => model.Campus, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlBranchCode", @Class = "form-control select-sm" })
+                                        }
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Grade</b></label>
+                                        @if (Model != null)
+                                        {
+                                            @Html.DropDownListFor(model => model.Grade, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlGrade", @Class = "form-control select-sm" })
+                                        }
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Album Name  </b>
+                                        </label>
+                                        @if (Model != null)
+                                        {
+                                            @Html.TextBoxFor(model => model.AlbumName, new { id = "txtAlbumName", @Class = "form-control input-sm" })
+                                        }
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Description</b></label>
+                                        @if (Model != null)
+                                        {
+                                            @Html.TextAreaFor(model => model.Description, new { rows = 3, id = "txtDescription", @class = "form-control textarea" })
+                                        }
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Publish To </b></label>
+                                        @if (Model != null)
+                                        {
+                                            @Html.DropDownListFor(model => model.PublishedTo, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              //new{Value="General",Text="General"},
+                                              new{Value="Parent",Text="Parent"},
+                                              new{Value="Student",Text="Student"},
+                                              //new{Value="Staff",Text="Staff"}
+                                          },
+                          "Value", "Text", ""), new { id = "ddlPublishedTo", @Class = "form-control select-sm" })
+                                        }
+                                    </div>
+                                    @*<div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Upload Photos</b></label>
+                                        <input type="file" name="File" id="File" multiple="multiple" />
+                                        <div id="Uploadedfiles">
+                                            Uploaded Files :
+                                        </div>
+                                        <div class="space-6">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button class="btn btn-warning btn-block btn-sm" type="button" onclick="uploaddoc2()"
+                                                value="Upload">
+                                                <i class="ace-icon fa fa-upload white"></i>&nbsp; Upload</button>
+                                        </div>
+                                        <div class="col-sm-6" style="margin-top:1px">
+                                            <button type="button" class="btn btn-block btn-grey btn-sm" id="clear2" value="Clear"
+                                                onclick="resethtml2()">
+                                                <i class="fa fa-undo white"></i>&nbsp;Clear</button>
+                                        </div>
+                                    </div>*@
+                                    <div class="space-20">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="col-sm-6">
+                                            <button type="submit" name="btnSubmit" id="Submit" value="Submit" class="btn btn-success btn-block btn-sm">
+                                                <i class="fa fa-check white"></i>&nbsp; Submit</button>
+                                        </div>
+                                        <div class="col-sm-6" style="margin-top:1px">
+                                            <button class="btn btn-danger btn-block btn-sm" type="reset" id="cancel" value="Cancel">
+                                                <i class="ace-icon fa fa-times white"></i>&nbsp;Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table id="PhotoGalleryList" width="100%">
+                    </table>
+                    <div id="PhotoGalleryListPager">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="space-2">
+</div>
+<!-- /.page-content-area -->
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../assets/js/jquery.min.js'>" + "<" + "/script>"); </script>
+<script type="text/javascript">
+    if ('ontouchstart' in document.documentElement)
+        document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>"); </script>

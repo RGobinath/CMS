@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.TyreDetails" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.TyreDetails, TIPS.Entities" table="TyreDetails" lazy="true" >
+    <id name="Id" column="Id">
+      <generator class="identity" />
+    </id>
+    <property name="InvoiceId">
+      <column name="InvoiceId" sql-type="int" not-null="false" />
+    </property>
+    <property name="TyreNo">
+      <column name="TyreNo" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Make">
+      <column name="Make" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Model">
+      <column name="Model" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Size">
+      <column name="Size" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Type">
+      <column name="Type" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="TubeCost">
+      <column name="TubeCost" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="TyreCost">
+      <column name="TyreCost" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="TotalCost">
+      <column name="TotalCost" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="IsAssigned">
+      <column name="IsAssigned" sql-type="bool" not-null="false" />
+    </property>
+    <property name="AssignedTo">
+      <column name="AssignedTo" sql-type="varchar" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

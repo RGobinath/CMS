@@ -1,0 +1,370 @@
+﻿@model TIPS.Entities.TransportEntities.DistanceCoveredDetails
+@{
+    ViewBag.Title = "DistanceCoveredBulkEntry";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+@*<link href="@Url.Content("~/Content/BootStrap/BootStrap.css")" rel="stylesheet" type="text/css" />*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        var Id = $("#Id").val();
+        $("#VehicleSearch").button({ icons: { primary: "ui-icon-search"} });
+        $("#VehicleSearch").click(function () {
+            Id = $("#Id").val();
+            if (Id == 0) {
+                ErrMsg("Please Save");
+                return false;
+            }
+
+            var SaveUrl = '@Url.Content("~/Transport/AddVehicleDistanceCoveredList/")';
+            var reloadGridUrl = '@Url.Content("~/Transport/DistanceCoveredListBulkEntryJqGrid")?RefId=';
+            var GridId = "DistanceCoveredList";
+
+            LoadPopupDynamicaly("/Transport/VehicleSubTypeMaster?SaveUrl=" + SaveUrl + '&reloadGridUrl=' + reloadGridUrl + '&GridId=' + GridId, $('#DivVehicleSearch'),
+            function () {
+                LoadSetGridParam($('#VehicleSubTypeMasterList'), "/Transport/VehicleSubTypeMasterListJqGrid")
+            }, "", 1000);
+        });
+
+        jQuery("#DistanceCoveredList").jqGrid({
+            url: '@Url.Content("~/Transport/DistanceCoveredListBulkEntryJqGrid")?RefId=' + Id,
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'RefId', 'Vehicle Id', 'Type', 'Vehicle No', 'Route', 'Source', 'Destination','Distance Covered',  'Driver Name', ''],
+            colModel: [
+            //if any column added need to check formateadorLink
+             {name: 'Id', index: 'Id', hidden: true, key: true },
+             { name: 'RefId', width: 30, index: 'RefId', hidden: true },
+             { name: 'VehicleId', width: 30, index: 'VehicleId', hidden: true },
+             { name: 'Type', index: 'Type' },
+             { name: 'VehicleNo', index: 'VehicleNo' },
+             { name: 'Route', index: 'Route', editable: true, edittype: 'select', editoptions: { dataUrl: '/Transport/Routeddl', dataEvents: [
+                                            { type: 'change',
+                                                fn: function (e) {
+                                                    var el = e.target;
+                                                    var row = $(el, this.rows).closest("tr.jqgrow");
+                                                    var rowId = row[0].id;
+                                                    var RouteNo = $(e.target).val();
+                                                    if (RouteNo != '') {
+                                                        $.getJSON('@Url.Action("GetSourceAndDestinationByRoute", "Transport")',
+                                                    { RouteNo: RouteNo, Campus: $("#Campus").val() },
+                                                    function (data) {
+                                                        $("#" + rowId + "_Source option:contains(" + data.Source + ")").attr("disabled", "disabled").prop('selected', 'selected');
+                                                        $("#" + rowId + "_Destination option:contains(" + data.Destination + ")").attr('selected', 'selected');
+                                                    });
+                                                    }
+                                                    //                                                    var a = '#' + $(this).attr("id");
+                                                    //                                                    var b = $("" + a + "  option:selected").text();
+                                                    //                                                    var arr = b.split('(');
+                                                    //                                                    var arr1 = arr[1].split('-');
+                                                    //                                                    var arr2 = arr1[1].split(')');
+                                                    //                                                    $("#" + rowId + "_Source option:contains(" + arr1[0] + ")").attr("disabled", "disabled").prop('selected', 'selected');
+                                                    //                                                    $("#" + rowId + "_Destination option:contains(" + arr2[0] + ")").attr('selected', 'selected');
+
+                                                }
+                                            }]
+             }
+             },
+             { name: 'Source', index: 'Source', width: 270, editable: true, edittype: 'select', editoptions: { dataUrl: '/Transport/Locationddl'} },
+             { name: 'Destination', index: 'Destination', width: 270, editable: true, edittype: 'select', editoptions: { dataUrl: '/Transport/Locationddl'} },
+             { name: 'DistanceCovered', index: 'DistanceCovered', editable: true },
+//             { name: 'TripDate', index: 'TripDate', width: 170, editable: true, editoptions: {
+//                 dataInit: function (el) {
+//                     $(el).datepicker({ dateFormat: "dd/mm/yy", buttonImage: "../../Images/date.gif", buttonImageOnly: true,
+//                         changeMonth: true,
+//                         // timeFormat: 'hh:mm:ss',
+//                         autowidth: true,
+//                         changeYear: true
+//                         // minDate: '+0d'
+//                     }).attr('readonly', 'readonly');
+//                 }
+//             }
+//             },
+            { name: 'DriverName', index: 'DriverName', width: 270, editable: true, editoptions: {
+                dataUrl: '/Transport/Driverddl',
+                dataInit: function (el) {
+                    $(el).autocomplete({ source: function (request, response) {
+                        var Campus = $("#Campus").val();
+                        $.getJSON('/Transport/GetAutoCompleteDriverNamesByCampus?term=' + request.term + '&Campus=' + Campus, function (data) {
+                            // alert(data);
+                            response(data);
+                        });
+                    },
+                        minLength: 1,
+                        delay: 100,
+                        max: 10,
+                        scrollHeight: 250
+                    })
+                }
+            }
+            },
+            // { name: 'DriverName', index: 'DriverName', width: 270, editable: true, edittype: 'select', editoptions: { dataUrl: '/Transport/Driverddl'} },
+             {name: 'Delete', index: 'Delete', width: 30, align: "center", sortable: false, formatter: frmtrDel }
+             ],
+            pager: '#DistanceCoveredListPager',
+            rowNum: '100',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: 'Asc',
+            height: '230',
+            width: 1225,
+            shrinktofit: true,
+            autowidth: true,
+            viewrecords: true,
+            caption: 'Distance Covered List',
+            gridComplete: function () {
+                var rdata = $("#DistanceCoveredList").getRowData();
+                // alert(rdata.length);
+                if (rdata.length > 0) {
+                    $('.T1CompDel').click(function () { DeleteComponentDtls($(this).attr('rowid')); });
+                }
+            },
+            loadComplete: function () {
+                var $this = $(this), rows = this.rows, l = rows.length, i, row;
+                $(this).hide();
+                for (i = 1; i < l; i++) {
+                    row = rows[i];
+                    if ($(row).hasClass("jqgrow")) {
+                        $this.jqGrid('editRow', row.id);
+                    }
+                }
+                $(this).show();
+            }
+            // forceFit: true,
+            //  multiselect: true
+        });
+        $("#DistanceCoveredList").navGrid('#DistanceCoveredListPager', { add: false, edit: false, del: false, search: false, refresh: false });
+
+        $("#btnBack").click(function () {
+            window.location.href = '@Url.Action("DistanceCoveredBulkEntryList", "Transport")';
+        });
+    });
+
+    function autoCompleteFieldClassName() {
+
+        $("#DriverName").autocomplete({ source: '/Transport/GetDriverByCampus',
+            minLength: 2, autosearch: true,
+            select: function (event, ui) {
+                $(elem).val(ui.item.value);
+            }
+        });
+    }
+    function frmtrDel(cellvalue, options, rowdata) {
+        var delBtn = "";
+        delBtn = "<span id='T1btnDel_" + options.rowId + "'class='ui-icon ui-icon-trash T1CompDel' rowid='" + options.rowId + "' title='Delete'></span>";
+        return delBtn;
+    }
+
+    function DeleteComponentDtls(id) {
+
+        if (confirm("Are you sure you want to delete this item?")) {
+            DeleteComponentIds(
+                '/Transport/DeleteDistanceCoveredId?Id=' + id, //delURL, 
+                '/Transport/DistanceCoveredListBulkEntryJqGrid?RefId=' + $('#Id').val(), //reloadURL, 
+                $("#DistanceCoveredList") //GridId, 
+                );
+        }
+    }
+
+    function DeleteComponentIds(delURL, reloadURL, GridId) {
+        $.ajax({
+            url: delURL,
+            type: 'POST',
+            dataType: 'json',
+            traditional: true,
+            success: function (data) {
+                LoadSetGridParam(GridId, reloadURL);
+            },
+            loadError: function (xhr, status, error) {
+                msgError = $.parseJSON(xhr.responseText).Message;
+                ErrMsg(msgError, function () { });
+            }
+        });
+    }
+
+
+    function ValidateAndSave() {
+
+        var RowList;
+        var selectedData;
+        var DLst = '';
+        RowList = $('#DistanceCoveredList').getDataIDs();
+        Id = $("#Id").val();
+
+        for (var i = 0, list = RowList.length; i < list; i++) {
+            var selectedId = RowList[i];
+            selectedData = $('#DistanceCoveredList').jqGrid('getRowData', selectedId);
+
+            var DistanceCovered = $("#" + selectedId + "_DistanceCovered").val();
+
+            if (isNaN(DistanceCovered)) {
+                ErrMsg('Numbers only allowed.');
+                $("#" + selectedId + "_DistanceCovered").focus();
+                return false;
+            }
+
+//            var TripDate = $("#" + selectedId + "_TripDate").val();
+
+//            var value = TripDate.split("/");
+//            var dd = value[0];
+//            var mm = value[1];
+//            var yy = value[2];
+
+//            var resultTripDate = mm + "/" + dd + "/" + yy;
+
+            DLst += "&[" + i + "].Id=" + selectedData.Id
+                + "&[" + i + "].RefId=" + selectedData.RefId
+                + "&[" + i + "].VehicleId=" + encodeURIComponent(selectedData.VehicleId)
+                + "&[" + i + "].Type=" + selectedData.Type
+                + "&[" + i + "].VehicleNo=" + encodeURIComponent(selectedData.VehicleNo)
+                + "&[" + i + "].Source=" + $("#" + selectedId + "_Source").val()
+                + "&[" + i + "].Destination=" + $("#" + selectedId + "_Destination").val()
+                + "&[" + i + "].DistanceCovered=" + DistanceCovered
+               // + "&[" + i + "].TripDate=" + resultTripDate
+                + "&[" + i + "].DriverName=" + $("#" + selectedId + "_DriverName").val()
+                + "&[" + i + "].Route=" + encodeURIComponent($("#" + selectedId + "_Route").val())
+                
+        }
+        $.ajax({
+            url: '@Url.Content("~/Transport/AddVehicleDistanceCoveredList/")',
+            type: 'POST',
+            dataType: 'json',
+            data: DLst,
+            success: function (data) {
+                Id = $("#Id").val();
+                // idsOfSelectedRows = [''];
+                $("#DistanceCoveredList").setGridParam({ url: '@Url.Content("~/Transport/DistanceCoveredListBulkEntryJqGrid")?RefId=' + Id }).trigger("reloadGrid");
+            }
+        });
+    }
+
+    function Complete() {
+
+        var Id = $("#Id").val();
+        if (Id == 0) {
+            ErrMsg("Please Save");
+            return false;
+        }
+        if (ValidateAndSave() == false) {
+            return false;
+        }
+        else {
+            if (confirm("Are you sure to Complete?")) {
+                var vdc = {
+                    Id: $("#Id").val()
+                };
+                $.ajax({
+                    url: '/Transport/CompleteVehicleDistanceCovered',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: vdc,
+                    traditional: true,
+                    success: function (data) {
+                        if (data != "") {
+                            InfoMsg(data + " is completed successfully", function () { window.location.href = '/Transport/ShowVehicleDistanceCovered?Id=' + Id; });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        ErrMsg($.parseJSON(xhr.responseText).Message);
+                    }
+                });
+            }
+        }
+    }
+   
+</script>
+@using (Html.BeginForm("DistanceCoveredBulkEntry", "Transport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table class="WithBorderOnly" width="100%">
+        <tr class="PanelHeading">
+            <td colspan="6" class="PanelHeading">
+                Basic Details
+            </td>
+        </tr>
+        <tr>
+            <td width="15%">
+                <label class="lblheader">
+                    Ref Number</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Procesed By</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Campus</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    User Role</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Status</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @*   @Html.TextBoxFor(m => m.RefNo, new { @class = "CSSTextBox", @Readonly = "Readonly" })*@
+                @Model.RefNo
+                @Html.HiddenFor(m => m.RefNo)
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.CreatedDate)
+            </td>
+            <td>@Model.ProcessedBy
+                @Html.HiddenFor(m => m.ProcessedBy)
+            </td>
+            <td>@Model.Campus
+                @Html.HiddenFor(m => m.Campus)
+            </td>
+            <td>
+                @Model.UserRole
+                @Html.HiddenFor(m => m.UserRole)
+            </td>
+            <td>
+                @Model.Status
+                @Html.HiddenFor(m => m.Status)
+            </td>
+        </tr>
+        <tr>
+            @* <td width="15%">
+                <label class="lblheader">
+                    Description</label>
+            </td>*@
+        </tr>
+        <tr>
+            @*<td width="20%">
+                @Html.TextAreaFor(m => m.Description, new { id = "txtDescription", rows = 2, cols = 28, @class = "CSSTextArea" })
+                <span style="color: Red">*</span>
+                @Html.HiddenFor(model => model.Description)
+            </td>*@
+            <td>
+                @*<input type="submit" id="btnSubmit" value="Save" />*@
+                <button type="submit" class="btn btn-mini btn-success" id="btnSubmit">
+                    <i class="icon-ok" style="vertical-align: middle"></i>Save
+                </button>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Choose Vehicles :</label>
+                <a id="VehicleSearch">..</a> @* <a id="VehicleSearch" href="#" class="btn btn-primary btn-mini">
+                    <i class="icon icon-search"></i></a>*@
+            </td>
+        </tr>
+    </table>
+    <table id="DistanceCoveredList" class="InnerTable" width="100%">
+    </table>
+    <div id="DistanceCoveredListPager">
+    </div>
+    <table>
+        <tr>
+            <td>
+                @*<input type="button" id="btnFinish" name="NameFinish" value="Complete" onclick="Complete()" />*@
+                <button type="button" class="btn btn-mini btn-success" id="btnFinish" name="NameFinish"
+                    onclick="Complete()">
+                    <i class="icon-ok" style="vertical-align: middle"></i>Complete
+                </button>
+            </td>
+        </tr>
+    </table>
+    <div id="DivVehicleSearch"></div>
+}

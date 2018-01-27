@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.LaptopEntryDtls_vw" namespace="TIPS.Entities.AssetEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.LaptopEntryDtls_vw, TIPS.Entities" table="LaptopEntryDtls_vw" lazy="false" >
+    <id name="AssetDet_Id" column="AssetDet_Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="InvoiceDetailsId" column="InvoiceDetailsId" type="Int64"></property>
+    <property name="AssetCode" column="AssetCode" type="string"></property>
+    <property name="AssetType" column="AssetType" type="string"></property>
+    <property name="Make" column="Make" type="string"></property>
+    <property name="Model" column="Model" type="string"></property>
+    <property name="SerialNo" column="SerialNo" type="string"></property>
+    <property name="LTSize" column="LTSize" type="string"></property>
+    <property name="OperatingSystemDtls" column="OperatingSystemDtls" type="string"></property>
+    <property name="TransactionType" column="TransactionType" type="string"></property>
+    <property name="CurrentCampus" column="CurrentCampus" type="string"></property>
+    <property name="ReceivedCampus" column="ReceivedCampus" type="string"></property>
+    <property name="ReceivedGrade" column="ReceivedGrade" type="string"></property>
+    <property name="NewId" column="NewId" type="string"></property>
+    <property name="Name" column="Name" type="string"></property>
+    <property name="VendorId" column="VendorId" type="Int64"></property>
+    <property name="InvoiceNo" column="InvoiceNo" type="string"></property>
+    <property name="InvoiceDate" column="InvoiceDate" type="datetime"></property>
+    <property name="TotalAsset" column="TotalAsset" type="Int64"></property>
+    <property name="AssetCount" column="AssetCount" type="Int64"></property>
+    <property name="Amount" column="Amount" type="decimal"></property>
+  </class>
+</hibernate-mapping>

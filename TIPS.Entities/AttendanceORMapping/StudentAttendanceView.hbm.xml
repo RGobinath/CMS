@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.Attendance.StudentAttendanceView" namespace="TIPS.Entities.Attendance" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Attendance.StudentAttendanceView, TIPS.Entities" table="StudentTemplate" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="PreRegNum" column="PreRegNum" type="Int64" not-null ="false"></property>
+    <property name="Name" column="Name" type="string" ></property>
+    <property name="Gender" column="Gender" type="string" not-null ="false"></property>
+    <property name="NewId" column="NewId" type="string"></property>
+    <property name="Campus" column="Campus" type="string" not-null ="false"></property>
+    <property name="Grade" column="Grade" type="string" not-null ="false"></property>
+    <property name="AdmissionStatus" column="AdmissionStatus" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="EmailId" column="EmailId" type="string"></property>
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    
+  </class>
+</hibernate-mapping>

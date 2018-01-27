@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.MonthMaster" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.MonthMaster, TIPS.Entities" table="MonthMaster" lazy="false" >
+    <id name="Id" column="Id">
+      <generator class="identity" />
+    </id>
+    <property name="MonthName" column="MonthName" type="string" not-null="true" />
+    <property name="MonthValue" column="MonthValue" type="Int32" not-null="true" />
+
+    <property name="CreatedBy" column="CreatedBy" type="string" not-null="true" />
+    <property name="CreatedDate" column="CreatedDate" type="string" not-null="true" />
+    <property name="UpdateBy" column="UpdateBy" type="string" not-null="true" />
+    <property name="UpdateDate" column="UpdateDate" type="string" not-null="true" />
+  </class>
+</hibernate-mapping>
+
+

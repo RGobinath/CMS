@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "ShowCallDetails";
+    Layout = null;
+    
+}
+@Html.Hidden("viewbagresult", "", new { @Value = ViewBag.Result })
+@Html.Hidden("viewbagcountname", "", new { @Value = ViewBag.CountName })
+@Html.Hidden("viewbagperformer", "", new { @Value = ViewBag.Performer })
+@{
+    var rlecode = Session["userrolesarray"] as IEnumerable<string>;
+    var Appcode = Session["Role"] as IEnumerable<string>;
+}
+@if (rlecode.Contains("GRL-HEAD") && Appcode.Contains("SIM"))
+{ 
+        @Html.Hidden("showexcel", "", new { @Value = true })        
+}
+else
+{
+        @Html.Hidden("showexcel", "", new { @Value = false })    
+}
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        <table id="ShowCallDetailsList">
+        </table>
+        <div id="ShowCallDetailsListPager">
+        </div>
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+<script src="../../Scripts/StaffIssues/ShowCallDetails.js"></script>

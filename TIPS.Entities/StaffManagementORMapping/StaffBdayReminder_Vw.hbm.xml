@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.StaffDetails" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.StaffBdayReminder_Vw, TIPS.Entities" table="StaffBdayReminder_Vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="Name" column="Name" type="string" ></property>
+    <property name="IdNumber" column="IdNumber" type="string" ></property>
+    <property name="Campus" column="Campus" type="string"></property> 
+    <property name="Designation" column="Designation" type="string"></property>
+    <property name="EmailId" column="EmailId" type="string"></property>
+    <property name="PhoneNo" column="PhoneNo" type="string"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="BirthDay" column="BirthDay" type="Int64"></property>
+    <property name="BirthMonth" column="BirthMonth" type="Int64"></property>
+    <property name="BirthYear" column="BirthYear" type="Int64"></property>
+    <property name="DofB" column="DofB" type="DateTime"></property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,222 @@
+﻿@{
+    ViewBag.Title = "NewTimeTable";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+        $.ajax({
+            type: 'GET',
+            // async: false,
+            dataType: "json",
+            url: '/TimeTable/ShowTimeTable?cam=' + $('#campus').val() + '&grd=' + $('#grade').val() + '&sec=' + $('#section').val(),
+            success: function (data) {
+                $('#TimeTablePage').prepend(data);
+            },
+            async: false,
+            dataType: "text"
+        });
+
+    });
+</script>
+
+<style type="text/css">
+    .infobox > .infobox-icon > .ace-icon {
+        background-color: transparent;
+        border-radius: 100%;
+        border-width: 0;
+        box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+        display: inline-block;
+        height: 42px;
+        margin: 0;
+        padding: 1px 1px 0 2px;
+        position: relative;
+        text-align: center;
+    }
+
+    td {
+        width: 90px !important;
+        height: 36px !important;
+        /*font-size: 15px;*/
+        text-align: center;
+        border: 0px solid #ddd;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+    .infobox-data-number {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .infobox-content {
+        font-size: 12px;
+        font-style:italic;
+    }
+    .tdborder {
+        width: 90px !important;
+        height: 36px !important;
+        font-size: 15px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    .table-bordered, .table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+        border: 0px solid #ddd;
+        border-radius: 3px 4px 2px 3px;
+    }
+
+    .MATH {
+        background-color: #D6D;
+    }
+
+    .TAM {
+        background-color: #808080;
+    }
+
+    .BIO {
+        background-color: #FFB6C1;
+    }
+
+    .GK {
+        background-color: #ff8080;
+    }
+
+    .CHEM {
+        background-color: #00cc99;
+    }
+
+    .PHY {
+        background-color: #4da6ff;
+    }
+
+    .PT {
+        background-color: #ff4d4d;
+    }
+
+    .ZOO {
+        background-color: #ff4da6;
+    }
+
+    .ENG {
+        background-color: #00FA9A;
+    }
+
+    .SL {
+        background-color: #ffff99;
+    }
+
+    .ENG {
+        background-color: #00FA9A;
+    }
+
+    .infobox {
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        background-color: #fff;
+        border-color: #d8d8d8 !important;
+        border-image: none;
+        border-radius: 0;
+        border-style: dotted;
+        border-width: 1px;
+        box-shadow: none;
+        color: #555;
+        display: inline-block;
+        height: 66px;
+        margin: 0 0 0 -1px;
+        padding: 13px 9px 19px 1px;
+        position: relative;
+        text-align: left;
+        vertical-align: text-bottom;
+        width: 182px;
+    }
+
+        .infobox > .infobox-data {
+            border-width: 0;
+            display: inline-block;
+            font-size: 12px;
+            line-height: 15px;
+            min-width: 99px;
+            padding-left: 8px;
+            position: relative;
+            text-align: left;
+            top: 0;
+        }
+
+    .fa {
+        display: inline-block;
+        font-family: FontAwesome;
+        font-feature-settings: normal;
+        font-kerning: auto;
+        font-language-override: normal;
+        font-size: inherit;
+        font-size-adjust: none;
+        font-stretch: normal;
+        font-style: normal;
+        font-synthesis: weight style;
+        font-variant: normal;
+        font-weight: normal;
+        line-height: 1;
+        text-rendering: auto;
+    }
+    /*.infobox > .infobox-icon > .ace-icon::before {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 100%;
+            color: rgba(255, 255, 255, 0.9);
+            display: block;
+            font-size: 24px;
+            padding: 6px 0 7px;
+            text-align: center;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.14);
+            width: 40px;
+        }*/
+</style>
+
+
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Time Table
+                            @Html.Hidden("campus", "", new { @Value = ViewBag.campusddl })
+                            @Html.Hidden("grade", "", new { @Value = ViewBag.gradeddl1 })
+                            @Html.Hidden("section", "", new { @Value = ViewBag.sectionddl })
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div id="TimeTablePage">
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

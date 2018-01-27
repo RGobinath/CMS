@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   namespace="TIPS.Entities.InboxEntities"
+                   assembly="TIPS.Entities.InboxEntities.InboxCount_Vw">
+
+  <class name="TIPS.Entities.InboxEntities.InboxCount_Vw, TIPS.Entities " table="InboxCount_Vw" dynamic-update="true">
+    <cache usage="read-write"/>
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="UserId" column="UserId" type="string"/>
+    <property name="UnreadCount" column="UnreadCount" type="string"/>
+  </class>
+</hibernate-mapping>

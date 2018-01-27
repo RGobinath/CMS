@@ -1,0 +1,158 @@
+﻿@model TIPS.Entities.ParentPortalEntities.Notification
+@{
+    ViewBag.Title = "Specific Notification";
+    Layout = null;
+    //Layout = "~/Views/Shared/NewAcePartialViewMaster.cshtml";
+   
+}
+<script src="../../Scripts/Notification/nicEdit.js" type="text/javascript"></script>
+<script src="../../Scripts/MasterPageScript.js" type="text/javascript"></script>
+<script type="text/javascript">
+    /*
+    bkLib.onDomLoaded(function () {
+
+    nicEditors.allTextAreas({ maxHeight: 100, fullPanel: true });
+    new nicEditor({ maxHeight: 100 }).panelInstance('txtMessage');
+    });
+    */
+</script>
+<script src="../../Scripts/Notification/SpecificNotification.js" type="text/javascript"></script>
+@using (Html.BeginForm("SpecificNotification", "Notify", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.NotePreId)
+    //@Html.HiddenFor(model => model.PublishTo)
+    @Html.HiddenFor(model => model.Campus, new { id = "campus" }) 
+    @Html.HiddenFor(model => model.NewIds, new { id = "NewIds" })
+    @Html.HiddenFor(model => model.PreRegNos, new { id = "preregnos" }) 
+    @Html.HiddenFor(mode => Model.AcademicYear)
+    
+    <div class="row">
+        <div class="col-xs-12 widget-container-col">
+            <div class="widget-box widget-color-CustomizeBlue">
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Topic</b></label>
+                                @if (Model != null)
+                                {  
+                                    
+                                    @Html.TextBoxFor(model => model.Topic, new { id = "txtTopic", @Class = "form-control input-sm" })
+                                    
+                                }
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Publish Date</b></label>
+                                @if (Model != null)
+                                {  
+                                    
+                                    @Html.TextBoxFor(model => model.PublishDate, new { id = "txtPublishDate", @Class = "form-control txtPublishDate" })
+                                  
+                                }
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Expire Date</b></label>
+                                @if (Model != null)
+                                {  
+                                    
+                                    @Html.TextBoxFor(model => model.ExpireDate, new { id = "txtExpireDate", @Class = "form-control txtExpireDate" })
+                                    
+                                }
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Published To</b></label>
+                                @if (Model != null)
+                                {
+                                    @Html.DropDownListFor(model => model.PublishTo, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Parent",Text="Parent"},
+                                              new{Value="Student",Text="Student"},
+                                              
+                                          },
+                          "Value", "Text", ""), new { id = "ddlPublishTo", @Class = "form-control select-sm" })
+                                }
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Notification Type</b></label>
+                                @if (Model != null)
+                                {
+                                    @Html.DropDownListFor(model => model.NoteType, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="GradeLevel",Text="Grade Level"},
+                                              new{Value="Individual",Text="Individual"},
+                                              
+                                          },
+                          "Value", "Text", ""), new { id = "ddlNoteType", @Class = "form-control select-sm" })
+                                }
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="space-4">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-6">
+                                <label for="form-field-select-1">
+                                    <b>Message</b></label>
+                                @if (Model != null)
+                                {
+        
+                                    @Html.TextAreaFor(model => model.Message, new { rows = 3, id = "txtMessage", @class = "form-control textarea" })
+                                }
+                                <div id="counter">
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="form-field-select-1">
+                                    <b>Document Upload</b></label>
+                                <input type="file" name="file2" id="file2" value="Browse" style="height: 22px" />
+                                <div id="Attachfiles2" style="width: 370px;">
+                                    Attached Files:&nbsp
+                                </div>
+                                <div id="clear2">
+                                    <div class="space-30">
+                                    </div>
+                                    <div class="col-sm-6" style="padding-top: 2px">
+                                        <button class="btn btn-warning" type="button" onclick="uploaddoc2()">
+                                            <i class="ace-icon fa fa-upload"></i>&nbsp;Upload</button>
+                                    </div>
+                                    <div class="col-sm-6" style="padding-top: 2px">
+                                        <button type="button" class="btn btn-grey" value="clear" onclick="resethtml2()">
+                                            <i class="fa fa-undo"></i>&nbsp;Clear</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-70">
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="space-12">
+                                </div>
+                                <div class="col-sm-6" style="padding-top: 2px">
+                                    <button class="btn btn-success" name="btnSubmit" type="submit" id="Submit" value="Submit">
+                                        <i class="ace-icon fa fa-check"></i>Submit</button></div>
+                                <div class="col-sm-6" style="padding-top: 2px">
+                                    <button class="btn btn-blcck btn-danger" type="reset" id="cancel" value="Cancel">
+                                        <i class="ace-icon fa fa-times"></i>Cancel</button></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+}
+<script src="../../assets/js/AceJQMsg.js" type="text/javascript"></script>

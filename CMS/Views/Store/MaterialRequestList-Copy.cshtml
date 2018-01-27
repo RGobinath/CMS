@@ -1,0 +1,359 @@
+﻿@{
+    ViewBag.Title = "MaterialRequestList";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#NewRequest").hide();
+        $("#btnCreateIssueNote").hide();
+        var flag = "@ViewBag.Flag";
+        if (flag == "MRC") {
+            $("#NewRequest").show();
+        }
+        if (flag == "INC" && ($("#ddlStatus").val()=="Available" || $("#ddlStatus").val()=="Assigned")) {
+            $("#btnCreateIssueNote").show();
+        }
+        var status = $("#ddlStatus").val();
+        $("#ddlStatus").change(function () {
+            var status = $("#ddlStatus").val();
+            $("#Search").click();
+            if ($(this).val() == "Sent" || $(this).val() == "Completed") {
+                $("#btnCreateIssueNote").hide();
+            }
+            else {
+                $("#btnCreateIssueNote").show();
+            }
+        });
+        $("#Search").click(function () {
+
+            $("#MaterialRequestList").clearGridData();
+            var ReqNum = $("#RequestNumber").val();
+            var ReqstDate = $("#RequestedDate").val();
+            var cam = $("#Campus").val();
+            var ReqFor = $("#RequiredFor").val();
+            var Mat = $("#Material").val();
+            var ReqrdDate = $("#RequiredDate").val();
+            var status = $("#ddlStatus").val();
+            $("#MaterialRequestList").setGridParam(
+                {
+                    datatype: "json",
+                    url: '@Url.Content("~/Store/MaterialRequestListJqGrid/")',
+                    postData: { ReqNum: ReqNum, ReqstDate: ReqstDate, cam: cam, ReqFor: ReqFor, Mat: Mat, ReqrdDate: ReqrdDate, status: status },
+                    page: 1
+                }).trigger("reloadGrid");
+        });
+        $("#reset").click(function () {
+            window.location.href = '@Url.Action("MaterialRequestList", "Store")';
+        });
+        function formateadorLink(cellvalue, options, rowObject) {
+            var status = $("#ddlStatus").val();
+            if (status == "Available" && rowObject[5] == "CreateMatRequest") {
+                return "<a href=/Store/MaterialRequest?Id=" + rowObject[0] + ">" + cellvalue + "</a>";
+            }
+            else if ((status == "Available" || status == "Assigned") && rowObject[5] == "IssueMatRequest") {
+                return "<a href=/Store/MaterialIssueNote?Id=" + rowObject[0] + "&activityId=" + rowObject[7] + ">" + cellvalue + "</a>";
+            }
+            else if (status == "Available" || status == "Assigned") {
+                return "<a href=/Store/ActOnMaterialRequest?id=" + rowObject[0] + "&activityId=" + rowObject[7] + "&activityName=" + rowObject[8] + "&activityFullName=" + rowObject[9] + ">" + cellvalue + "</a>";
+            }
+            else if (status == "Sent" || status == "Completed") {
+                return "<a href=/Store/ShowMaterialRequest?id=" + rowObject[0] + "&activityId=" + rowObject[7] + "&activityName=" + rowObject[8] + "&activityFullName=" + rowObject[9] + ">" + cellvalue + "</a>";
+            }
+            //            else {
+            //                return "<a href=/Store/ActOnMaterialRequest?id=" + rowObject[0] + "&activityId=" + rowObject[7] + "&activityName=" + rowObject[8] + "&activityFullName=" + rowObject[9] + ">" + cellvalue + "</a>";
+            //            }
+        }
+        jQuery("#MaterialRequestList").jqGrid({
+            url: '@Url.Content("~/Store/MaterialRequestListJqGrid")?status=' + status,
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'Request Number', 'Campus', 'Processed By', 'Requested Date', 'Request Status', 'SLA Status', '', '', ''],
+            colModel: [
+              { name: 'Id', index: 'Id', hidden: true, key: true },
+              { name: 'RequestNumber', index: 'RequestNumber', width: 90, sortable: true, formatter: formateadorLink },
+              { name: 'Campus', index: 'Campus', width: 90, sortable: true },
+              { name: 'ProcessedBy', index: 'ProcessedBy', width: 90, sortable: true },
+              { name: 'RequestedDate', index: 'RequestedDate', width: 90, sortable: true },
+              { name: 'RequestStatus', index: 'RequestStatus', width: 90, sortable: true },
+              { name: 'Stat', index: 'Stat', width: 30, align: 'center', formatter: statusimage, resizable: true, sortable: false },
+              { name: 'ActivityId', index: 'ActivityId', hidden: true },
+              { name: 'ActivityName', index: 'ActivityName', hidden: true },
+              { name: 'ActivityFullName', index: 'ActivityFullName', hidden: true },
+
+              ],
+            pager: '#MaterialRequestListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200 ],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: '230',
+            width: 1225,
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: 'Material Request List',
+            forceFit: true,
+            multiselect: true,
+            subGrid: true,
+            loaderror: function (xhr, status, error) {
+                $("#materialrequestlist").cleargriddata();
+                errmsg($.parsejson(xhr.responsetext).message);
+            },
+            subGridOptions: { "plusicon": "ui-icon-triangle-1-e",
+                "minusicon": "ui-icon-triangle-1-s",
+                "openicon": "ui-icon-arrowreturn-1-e",
+                // load the subgrid data only once // and the just show/hide 
+                "reloadOnExpand": false,
+                // select the row when the expand column is clicked 
+                "selectOnExpand": true
+            },
+            subGridRowExpanded: function (MatReqList, Id) {
+                var MatReqListTable, MatReqListPager;
+                MatReqListTable = MatReqList + "_t";
+                MatReqListPager = "p_" + MatReqListTable;
+                $("#" + MatReqList).html("<table id='" + MatReqListTable + "' ></table><div id='" + MatReqListPager + "' ></div>");
+                jQuery("#" + MatReqListTable).jqGrid({
+                    url: '/Store/MaterialRequestJqGrid?Id=' + Id,
+                    datatype: 'json',
+                    mtype: 'GET',
+                    colNames: ['Id', 'Req.Type', 'Grade', 'Section', 'Req.For', 'Material', 'Material Group', 'Material Sub Group', 'Units', 'Req.Date', 'Status', 'Req.Qty', 'App.Qty', 'Issued.Qty'],
+                    colModel: [
+              { name: 'Id', index: 'Id', hidden: true, key: true },
+              { name: 'RequestType', index: 'RequestType', width: 90, sortable: true, editable: false },
+              { name: 'RequiredForGrade', index: 'RequiredForGrade', width: 90, sortable: true },
+              { name: 'Section', index: 'Section', width: 60, sortable: true },
+              { name: 'RequiredFor', index: 'RequiredFor', width: 90, sortable: true },
+              { name: 'Material', index: 'Material', width: 90, sortable: true, cellattr: function (rowId, val, rawObject) { return 'title="' + 'Material Group:' + rawObject[6] + ', Material Sub Group:' + rawObject[7] + '"' } },
+              { name: 'MaterialGroup', index: 'MaterialGroup', width: 90, sortable: true, hidden: true },
+              { name: 'MaterialSubGroup', index: 'MaterialSubGroup', width: 150, sortable: true, hidden: true },
+              { name: 'Units', index: 'Units', width: 90, sortable: true },
+              { name: 'RequiredDate', index: 'RequiredDate', width: 90, sortable: true },
+              { name: 'Status', index: 'Status', width: 90, sortable: true },
+              { name: 'Quantity', index: 'Quantity', width: 90, sortable: true },
+              { name: 'ApprovedQty', index: 'ApprovedQty', width: 90, sortable: true },
+              { name: 'IssuedQty', index: 'IssuedQty', width: 90, sortable: true },
+              ],
+                    pager: MatReqListPager,
+                    rowNum: '5',
+                    rowList: [5, 10, 20, 50, 100, 150, 200 ],
+                    sortname: 'Id',
+                    sortorder: 'Desc',
+                    height: '130',
+                    width: 1225,
+                    autowidth: true,
+                    shrinkToFit: true,
+                    viewrecords: true,
+                   // caption: 'Material Request List',
+                    forceFit: true,
+                    // multiselect: true,
+                    subGrid: true,
+                    subGridOptions: { "plusicon": "ui-icon-triangle-1-e",
+                        "minusicon": "ui-icon-triangle-1-s",
+                        "openicon": "ui-icon-arrowreturn-1-e",
+                        // load the subgrid data only once // and the just show/hide 
+                        "reloadOnExpand": false,
+                        // select the row when the expand column is clicked 
+                        "selectOnExpand": true
+                    },
+                    subGridRowExpanded: function (MatIssueList, Id) {
+                        var MatIssueListTable, MatIssueListPager;
+                        MatIssueListTable = MatIssueList + "_t";
+                        MatIssueListPager = "p_" + MatIssueListTable;
+                        $("#" + MatIssueList).html("<table id='" + MatIssueListTable + "' ></table><div id='" + MatIssueListPager + "' ></div>");
+                        jQuery("#" + MatIssueListTable).jqGrid({
+                            url: '/Store/MaterialIssueListJqGrid?Id=' + Id,
+                            datatype: 'json',
+                            mtype: 'GET',
+                            colNames: ['Id', 'MRL Id', 'Iss Note Number', 'Issue Date', 'Issued Qty', 'Issued By', 'Status', ''],
+                            colModel: [
+                       { name: 'Id', index: 'Id', hidden: true },
+                       { name: 'MRLId', index: 'MRLId', width: 90, sortable: true, hidden: true },
+                       { name: 'IssNoteNumber', index: 'IssNoteNumber', width: 90, sortable: true, formatter: ShowIssueNote },
+                       { name: 'IssueDate', index: 'IssueDate', width: 90, sortable: true },
+                       { name: 'IssueQty', index: 'IssueQty', width: 90, sortable: true },
+                       { name: 'IssuedBy', index: 'IssuedBy', width: 90, sortable: true },
+                       { name: 'Status', index: 'Status', width: 90, sortable: true },
+                       { name: 'IssNoteId', index: 'IssNoteId', hidden: true },
+                       ],
+                            pager: MatIssueListPager,
+                            rowNum: '5',
+                            rowList: [5, 10, 20, 50, 100, 150, 200 ],
+                            sortname: 'Id',
+                            sortorder: "Asc",
+                            height: '130',
+                            width: 1225,
+                            autowidth: true,
+                            shrinkToFit: true,
+                            viewrecords: true,
+                          //  caption: 'Material Issue List',
+                            forceFit: true
+                        });
+                        jQuery("#" + MatIssueListTable).jqGrid('navGrid', "#" + MatIssueListPager, { edit: false, add: false, del: false })
+                    }
+                });
+                jQuery("#" + MatReqListTable).jqGrid('navGrid', "#" + MatReqListPager, { edit: false, add: false, del: false })
+            }
+        });
+
+        $("#NewRequest").click(function () {
+            window.location.href = '@Url.Action("MaterialRequest", "Store")';
+        });
+
+        $("#btnCreateIssueNote").click(function () {
+            
+            var GridIdList = $("#MaterialRequestList").jqGrid('getGridParam', 'selarrrow');
+            if (GridIdList != '') {
+                window.location.href = '/Store/MaterialIssueNote?Id=' + GridIdList;
+            }
+            else {
+                ErrMsg("Please select Request Number.");
+                return false;
+            }
+        });
+    });
+
+    function statusimage(cellvalue, options, rowObject) {
+        var i;
+        var cellValueInt = parseInt(cellvalue);
+        var mrl = $("#MaterialRequestList").jqGrid();
+        for (i = 0; i < mrl.length; i++) {
+
+            if (rowObject[6] != "") {
+                if (cellValueInt <= 24) {
+                    return '<img src="../../Images/yellow.jpg" height="10px" width="10px" alt=' + cellvalue + ' title=' + cellvalue + ' />'
+                }
+                else if (cellValueInt > 24 && cellValueInt <= 48) {
+                    return '<img src="../../Images/orange.jpg" height="10px" width="10px"  alt=' + cellvalue + ' title=' + cellvalue + ' />'
+                }
+                else if (cellValueInt > 48) {
+                    return '<img src="../../Images/redblink3.gif" height="10px" width="10px" alt=' + cellvalue + ' title=' + cellvalue + ' />'
+                }
+                else if (cellvalue == 'Completed') {
+                    return '<img src="../../Images/green.jpg" height="12px" width="12px" alt=' + cellvalue + ' title=' + cellvalue + ' />'
+                }
+            }
+        }
+    }
+
+    function ShowIssueNote(cellvalue, options, rowObject) {
+        return "<a href=/Store/ShowMaterialIssueNote?Id=" + rowObject[7] + ">" + cellvalue + "</a>";
+    }
+</script>
+@using (Html.BeginForm("MaterialRequestList", "Store", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h3>
+        Material Request List</h3>
+    
+    <table class="InnerTable" width="100%">
+        <tr>
+            <td colspan="6">
+                <table class="WithBorderOnly" width="100%">
+                    <tr class="PanelHeading">
+                        <th colspan="8">
+                            Search Criteria
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Request Number
+                        </th>
+                        <th>
+                            Request Date
+                        </th>
+                        <th>
+                            Campus
+                        </th>
+                        @* <th>
+                            Request For
+                        </th>*@
+                       @* <th>
+                            Material
+                        </th>*@
+                        @*<th>
+                            Required Date
+                        </th>*@
+                        <th>
+                            Inbox Status
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.TextBox("RequestNumber", "", new { @Class = "CssTextBox" })
+                        </td>
+                        <td>
+                            @Html.TextBox("RequestedDate", "", new { @Class = "datepicker" })
+                        </td>
+                        <td>
+                            @Html.TextBox("Campus", "", new { @Class = "CssTextBox" })
+                        </td>
+                        @*<td>
+                            @Html.TextBox("RequiredFor", "", new { @Class = "CssTextBox" })
+                        </td>*@
+                       @* <td>
+                            @Html.TextBox("Material", "", new { @Class = "CssTextBox" })
+                        </td>*@
+                        @* <td>
+                            @Html.TextBox("RequiredDate", "", new { @Class = "datepicker" })
+                        </td>*@
+                        <td>
+                            @Html.DropDownList("ddlStatus", new SelectList(new[]
+                                          {
+                                              new{Value="Available",Text="Available"},
+                                              new{Value="Assigned",Text="Assigned"},
+                                              new{Value="Sent",Text="Sent"},
+                                              new{Value="Completed",Text="Completed"},
+                                                                                           
+                                          },
+                                   "Value", "Text", "Available"), new { @Class = "CSSDropDownList", style = "width:145px;" })
+                        </td>
+                        <td>
+                            <input type="button" id="Search" value="Search" />
+                            <input type="button" value="Reset" id="reset" />
+                        </td>
+                    </tr>
+                    <tr>
+                        @* <td>
+                            <input type="button" id="Search" value="Search" />
+                            <input type="button" value="Reset" id="reset" />
+                        </td>*@
+                        <td align="left">
+                            <input type="button" value="New Request" id="NewRequest" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table id="MaterialRequestList" class="InnerTable" width="100%">
+                </table>
+                <div id="MaterialRequestListPager">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" id="btnCreateIssueNote" value="Create Issue Note" />
+            </td>
+            <td style="float: right;">
+                <img src="../../Images/blue.jpg" alt="" height="12px" width="12px" /><label style="font-size: x-small">&nbsp
+                    Information
+                </label>
+                &nbsp&nbsp
+                <img src="../../Images/yellow.jpg" alt="" height="10px" width="10px" /><label style="font-size: x-small">&nbsp
+                    Below 24 hrs
+                </label>
+                &nbsp&nbsp
+                <img src="../../Images/orange.jpg" alt="" height="10px" width="10px" /><label style="font-size: x-small">&nbsp
+                    24-48 hrs</label>
+                &nbsp&nbsp
+                <img src="../../Images/redblink3.gif" alt="" height="10px" width="10px" /><label
+                    style="font-size: x-small">&nbsp SLA Breached
+                </label>
+                &nbsp&nbsp
+                <img src="../../Images/green.jpg" alt="" height="12px" width="12px" /><label style="font-size: x-small">&nbsp
+                    Completed</label>
+            </td>
+        </tr>
+    </table>
+}

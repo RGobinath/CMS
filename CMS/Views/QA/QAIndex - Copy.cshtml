@@ -1,0 +1,362 @@
+﻿@{
+    ViewBag.Title = "QAIndex";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<style>
+    .divexample {
+        background: none repeat scroll 0 0 #eee;
+        font-size: 1em !important;
+        margin: 1em 0 !important;
+        overflow: auto !important;
+        padding: 1em 0;
+        position: relative !important;
+        width: 100% !important;
+        box-sizing: border-box;
+        border-radius: 5px;
+        width: 200px;
+        height: 400px;
+    }
+</style>
+
+<link href="../../Scripts/CSSMENU/styles.css" rel="stylesheet" type="text/css" />
+<script src="../../Scripts/CSSMENU/menu_jquery.js" type="text/javascript"></script>
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+        debugger;
+        var statusVal = 'Answered';
+
+        function QuestionLink(cellvalue, options, rowObject) {
+
+            return "<a style='color:blue' onclick='LoadAnswersPopupbyId(" + rowObject[0] + ")'>" + cellvalue + "</a>";
+        }
+        $(".ui-dialog-titlebar").hide();
+        $('#FAQJQGrid').jqGrid({
+            url: '/QA/AnsweredQuestionJQGrid?Status=Answered',
+            //url: '/QA/AnsweredQuestionJQGrid',
+            datatype: 'Json',
+            type: 'GET',
+            //  width: 500,
+            autowidth: true,
+            height: 300,
+            colNames: ["Id", "Question", "Question Title", "campus", "Grade","Subject", "Raised By", "Replies & Views"],
+            colModel: [
+              { name: 'Id', index: 'Id', key: true, hidden: true },
+
+              { name: 'Question', index: 'Question', editable: false, width: "350px", hidden: true },
+               { name: 'QuestionTitle', index: 'QuestionTitle', editable: false, width: "300px", formatter: QuestionLink },
+              { name: 'Campus', index: 'Campus', editable: false, width: "40px" },
+              { name: 'Grade', index: 'Grade', editable: false, width: "30px" },
+              {name:'Subject',index:'Subject',width:"50px"},
+              { name: '', index: '', editable: false, width: "80px" },
+               { name: '', index: '', editable: false, width: "80px" }
+              //{ name: 'Subject', index: 'Subject', editable: false, width: "340px" },
+              //{ name: 'Description', index: 'Description', hidden: true },
+              //{ name: 'Department', index: 'Department', width: "100px" },
+              //{ name: 'SubGroup', index: 'SubGroup', width: "100px" },
+              //{ name: 'DueDate', index: 'DueDate', width: "100px" },
+              //{ name: 'Show', index: 'Show', formatter: ShowStatus, resizable: true, sortable: false, width: "130px" }
+            ],
+            caption: 'QA Details',
+            rowNum: 10,
+            viewrecords: true,
+            rowList: [10, 50],
+            sortorder: 'Asc',
+            sortname: 'Id',
+            pager: 'FAQJQGridPager',
+            loadComplete: function () {
+                $("tr.jqgrow:odd").css("background", "blue");
+            }
+        });
+        $("#newTicket").click(function () {
+
+            window.location.href = '@Url.Action("NewTicket", "SupportDesk")';
+            //LoadPopupDynamicaly('/SupportDesk/CreateTicket', $('#CreateTicket'),
+            //function () { }, function () { }, 800,600);
+        });
+        if ($("#SuccessTicketCreation").val() != null & $("#SuccessTicketCreation").val() != "") {
+            InfoMsg("Ticket created Successfully.\n Ticket Number is:" + $("#SuccessTicketCreation").val(), function () { $("#SuccessTicketCreation").val(""); });
+        }
+
+        //drop down code starts here
+
+        $.getJSON("/Base/FillBranchCode",
+       function (fillig) {
+           var ddlcam = $("#Campus");
+           ddlcam.empty();
+           ddlcam.append($('<option/>',
+       {
+           value: "",
+           text: "Select One"
+
+       }));
+
+           $.each(fillig, function (index, itemdata) {
+               ddlcam.append($('<option/>',
+       {
+           value: itemdata.Value,
+           text: itemdata.Text
+       }));
+           });
+       });
+
+        $("#Campus").change(function () {
+            var campus = $('#Campus').val();
+            gradeddl();
+            $.ajax({
+                type: 'GET',
+                async: false,
+                dataType: "json",
+               // url: '/Attendance/DisableDateinDatepicker?Campus=' + campus,
+                success: function (data) {
+                    HoliDays = data;
+                }
+            });
+        });
+
+
+        //drop down code ends here
+
+        FillSubject();
+
+
+        //popup code
+        function LoadPopupDynamicaly(dynURL, ModalId, loadCalBack, onSelcalbck, width, Title) {
+            debugger;
+            if (width == undefined) { width = 1300; }
+            $.ajax({
+                url: dynURL,
+                type: 'GET',
+                async: false,
+                dataType: 'html', // <-- to expect an html response
+                success: function (data) {
+                    ModalId.dialog({
+                        height: 'auto',
+                        width: width,
+                        modal: true,
+                        title: 'History'
+                        //buttons: {}
+                    });
+                    ModalId.html(data);
+                }
+            });
+            clbPupGrdSel = onSelcalbck;
+            ModalId.dialog('open');
+            CallBackFunction(loadCalBack);
+        }
+    });
+
+        function ShowStatus(cellvalue, options, rowObject) {
+            var i;
+            var cellValueInt = parseInt(cellvalue);
+            var tkt = $("#FAQJQGrid").jqGrid();
+            for (i = 0; i < tkt.length; i++) {
+                return '<b style="float:left">Status&nbsp;:&nbsp;</b><p>' + rowObject[8] + '</p><b style="float:left">Priority&nbsp;:&nbsp;</b><p>' + rowObject[7] + '</p>'
+
+            }
+        }
+        function Priority(priorty) {
+            $("#FAQJQGrid").clearGridData();
+            stus = "Available";
+            $("#TicketGrid").setGridParam(
+                  {
+                      datatype: "json",
+                      url: '@Url.Content("~/SupportDesk/TicketListJqGrid")',
+                      type: 'POST',
+                      postData: { status: stus, Priority: priorty, pageName: "MyDesk" },
+                      page: 1
+                  }).trigger("reloadGrid");
+              }
+              function Status(status) {
+                  statusVal = status;
+                 
+                  $("#FAQJQGrid").clearGridData();
+                  //var stus = "";
+                  $("#FAQJQGrid").setGridParam(
+                        {
+                            datatype: "json",
+                            url: '@Url.Content("~/QA/AnsweredQuestionJQGrid")',
+                            type: 'POST',
+                            postData: { status: status, pageName: "MyDesk" },
+                            page: 1
+                        }).trigger("reloadGrid");
+                    }
+
+                    function gradeddl() {
+
+                        var campus = $("#Campus").val();
+                        $.getJSON("/Admission/Gradeddl1/", { campus: campus },
+                function (modelData) {
+                    var select = $("#Grade");
+                    select.empty();
+                    select.append($('<option/>'
+                , {
+                    value: "",
+                    text: "Select Grade"
+                }));
+                    $.each(modelData, function (index, itemData) {
+
+                        select.append($('<option/>',
+                {
+                    value: itemData.gradcod,
+                    text: itemData.gradcod
+                }));
+                    });
+                });
+
+                    }
+
+                    function FillSubject() {
+
+
+                        $.getJSON("/QA/FillSubjectByUserId",
+                    function (modelData) {
+                        var select = $("#Subject");
+                        select.empty();
+                        select.append($('<option/>'
+                    , {
+                        value: "",
+                        text: "Select Subject"
+                    }));
+                        $.each(modelData, function (index, itemData) {
+
+                            select.append($('<option/>',
+                    {
+                        value: itemData.Value,
+                        text: itemData.Text
+                    }));
+                        });
+                    });
+                    }
+                    function LoadAnswersPopupbyId(Id) {
+
+                        var popupurl = '@Url.Content("~/QA/QAAnswersPopup")?QuestionId=' + Id
+
+                    LoadPopupDynamicaly(popupurl, $('#AnswersPopup'), function () { }, function () { }, 900, "Student Details");
+
+                }
+
+                function Search() {
+                    //  $("#FAQJQGrid").clearGridData();
+                    //var stus = "";
+                
+                    $("#FAQJQGrid").setGridParam(
+                          {
+                              datatype: "json",
+                              url: '@Url.Content("~/QA/AnsweredQuestionJQGrid")',
+                              type: 'POST',
+                              postData: { Status: statusVal, Campus: $('#Campus').val(), Grade: $('#Grade').val(), Subject: $('#Subject').val(), FromDate: $('#txtRaisedFrom').val(), ToDate: $('#txtRaisedTo').val() },
+                              page: 1
+                          }).trigger("reloadGrid");
+
+                      }
+
+    function Reset() {
+        $('#Campus').val('');
+        $('#Grade').val('');
+        $('#Subject').val('');
+        $('#txtRaisedFrom').val('');
+        $('#txtRaisedTo').val('');
+
+                          $("#FAQJQGrid").setGridParam(
+                      {
+                          datatype: "json",
+                          url: '@Url.Content("~/QA/AnsweredQuestionJQGrid")',
+                              type: 'POST',
+                              postData: { Status: 'Answered', Campus: '', Grade: '', Subject: '', FromDate: '', ToDate: '' },
+                              page: 1
+                          }).trigger("reloadGrid");
+                         
+
+                      }
+</script>
+
+<table style="width: 100%" class="WithBorderOnly">
+    <tr>
+        <th class="PanelHeading" colspan="6">Search Critera
+        </th>
+    </tr>
+    <tr>
+        <td>Campus
+        </td>
+        <td>Grade
+        </td>
+        <td>Subject
+        </td>
+        <td>Raised From
+        </td>
+        <td>Raised To
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DropDownList("Campus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownList("Grade", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownList("Subject", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+             @*@Html.TextBox("txtFromDate", "", new { @Class = "Attendancedatepicker", @readonly = true, style = "border: #006699 1px solid" })*@
+
+            @Html.TextBox("txtRaisedFrom", "", new { @Class = "datepickerMDY", @readonly = true, style = "border: #006699 1px solid" })
+        </td>
+        <td>
+           @*  @Html.TextBox("txtToDate", "", new { @Class = "Attendancedatepicker", @readonly = true, style = "border: #006699 1px solid" })
+*@
+            @Html.TextBox("txtRaisedTo", "", new { @Class = "datepickerMDY", @readonly = true, style = "border: #006699 1px solid" })
+        </td>
+        <td>
+            <input type="button" value="Search" id="btnGetStdntLst" onclick="Search();" />
+            <input type="button" id="btnCompleted" value="Reset" onclick="Reset();" />
+        </td>
+    </tr>
+
+</table>
+
+<table width="100%">
+    <tr>
+        <td style="width: 20%">
+            <table style="width: 100%" class="WithBorderOnly">
+                <tr>
+                    <td style="vertical-align: top;">
+                        <div class="panel panel-custom" style="height: 371px;">
+                            <div class="PanelHeading">
+                                <div class="panel-title">
+                                    <i class="fa fa-bars"></i>&nbsp;Filter Menu
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div id='cssmenu'>
+                                    <ul>
+                                        <li class='has-sub'><a onclick="return Status('Answered');"><span><i class="fa fa-check-square"></i>&nbsp;&nbsp;Answered Questions</span></a>
+
+                                        </li>
+                                        <li class='has-sub'><a onclick="return Status('CommonFAQ');"><span><i class="fa fa-comments"></i>&nbsp;&nbsp;FAQ</span></a>
+
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td style="width: 80%">
+            <table style="width: 100%" class="WithBorderOnly">
+                <tr>
+                    <td>
+                        <table width="100%" id="FAQJQGrid">
+                        </table>
+                        <div id="FAQJQGridPager"></div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<div id="AnswersPopup"></div>

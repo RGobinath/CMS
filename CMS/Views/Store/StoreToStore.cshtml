@@ -1,0 +1,335 @@
+﻿@model TIPS.Entities.StoreEntities.StoreToStore
+@{
+    ViewBag.Title = "Store to Store";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#MaterialSearch1").button({ icons: { primary: "ui-icon-search"} });
+        $.ajax({
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            url: '@Url.Content("~/Store/FillAllStore")',
+            success: function (data) {
+                $("#FromStore").empty();
+                $("#FromStore").append($('<option/>',
+                 {
+                     value: '',
+                     text: 'Select One'
+                 }));
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].Text == "@Model.FromStore") {
+                        $("#FromStore").append("<option value='" + data[i].Value + "' selected='selected'>" + data[i].Text + "</option>");
+                    }
+                    else {
+                        $("#FromStore").append("<option value='" + data[i].Value + "'>" + data[i].Text + "</option>");
+                    }
+                }
+
+                $("#ToStore").empty();
+                $("#ToStore").append($('<option/>',
+                 {
+                     value: '',
+                     text: 'Select One'
+                 }));
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].Text == "@Model.ToStore") {
+                        $("#ToStore").append("<option value='" + data[i].Value + "' selected='selected'>" + data[i].Text + "</option>");
+                    }
+                    else {
+                        $("#ToStore").append("<option value='" + data[i].Value + "'>" + data[i].Text + "</option>");
+                    }
+                }
+
+            }
+        });
+
+        $("#MaterialSearch1").click(function () {
+            debugger;
+            var Id = $("#Id").val();
+            //            var BranchCode = $("#ddlReqForCamp").val();
+
+
+            if (Id == 0) {
+                ErrMsg("Please Save");
+                return false;
+            }
+            var FromStore = $("#FromStore").val();
+            LoadPopupDynamicaly("/Store/StoreToStoreMaterialSearch", $('#DivMaterialSearch'),
+            function () {
+                LoadSetGridParam($('#StoreMaterialsList'), "/Store/StoreSKUListJqGridForMaterialIssue?FromStore=" + FromStore)
+            }, "", 960);
+        });
+
+        $("#MaterialIssueList").jqGrid({
+            url: '/Store/StoreToStoreMaterialIssueListJqGrid?Id=' + $("#Id").val(),
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'Issue Id', 'Material', 'Material Group', 'Material Sub Group', 'Units', 'Inward Id', 'Available Qty', 'Unit Price', 'Iss.Qty', 'Total Price'],
+            colModel: [
+                     { name: 'Id', index: 'Id', hidden: false, key: true },
+                     { name: 'IssueId', index: 'IssueId' },
+                     { name: 'Material', index: 'Material', width: 90 },
+                     { name: 'MaterialGroup', index: 'MaterialGroup' },
+                     { name: 'MaterialSubGroup', index: 'MaterialSubGroup' },
+                     { name: 'Units', index: 'Units', width: 40 },
+                     { name: 'InwardIds', index: 'InwardIds' },
+                     { name: 'ClosingBalance', index: 'ClosingBalance', cellattr: function (rowId, cellValue, rawObject, cm, rdata) {
+                         if (cellValue == 0) {
+                             return 'class="ui-state-error ui-state-error-text"';
+                         }
+                     }
+                     },
+                     { name: 'UnitPrices', index: 'UnitPrices' },
+                     { name: 'IssuedQty', index: 'IssuedQty', width: 50, editable: true, editable: true, editrules: { custom: true, custom_func: fnNumberOnly },
+                         editoptions: {
+                             dataInit: function (element) {
+                                 $(element).keyup(function () {
+                                     var rowId = parseInt($(this).attr("id"));
+                                     CalculateTotalPrice(rowId);
+                                 })
+                             }
+                         }
+                     },
+                     { name: 'TotalPrice', index: 'TotalPrice', width: 90, sortable: true, editable: true, editrules: { custom: true, custom_func: fnNumberOnly} }
+                     ],
+            pager: '#MaterialIssueListPager',
+            rowNum: '50',
+            rowList: [50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: '230',
+            width: 1225,
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: 'Material Issue List',
+            forceFit: true,
+            loadComplete: function () {
+                var $this = $(this), rows = this.rows, l = rows.length, i, row;
+                $(this).hide();
+                for (i = 1; i < l; i++) {
+                    row = rows[i];
+                    if ($(row).hasClass("jqgrow")) {
+                        $this.jqGrid('editRow', row.id);
+                    }
+                }
+                $(this).show();
+            }
+        });
+
+        $("#btnIssue").click(function () {
+            debugger;
+            var IssueLst = '';
+            var dataIds = $('#MaterialIssueList').jqGrid('getDataIDs');
+            if (dataIds == "") {
+                ErrMsg("Please add Material. Empty Materials cannot be issued.");
+                return false;
+            }
+            for (var i = 0; i < dataIds.length; i++) {
+                selectedData = $('#MaterialIssueList').jqGrid('getRowData', dataIds[i]);
+                IssueLst += "&[" + i + "].Id=" + selectedData.Id
+                + "&[" + i + "].IssueId=" + selectedData.IssueId
+                + "&[" + i + "].MaterialGroup=" + encodeURIComponent(selectedData.MaterialGroup)
+                + "&[" + i + "].MaterialSubGroup=" + encodeURIComponent(selectedData.MaterialSubGroup)
+                + "&[" + i + "].Material=" + encodeURIComponent(selectedData.Material)
+                + "&[" + i + "].Units=" + selectedData.Units
+                + "&[" + i + "].IssuedQty=" + $("#" + dataIds[i] + "_IssuedQty").val()
+                + "&[" + i + "].TotalPrice=" + $("#" + dataIds[i] + "_TotalPrice").val()
+                + "&[" + i + "].InwardIds=" + selectedData.InwardIds
+            }
+            $.ajax({
+                url: '@Url.Content("~/Store/IssueMaterialsAndUpdateStock/")',
+                type: 'POST',
+                dataType: 'json',
+                data: IssueLst,
+                success: function (data) {
+                    InfoMsg("Materials Issued Successfully", function () { window.location.href = '/Store/ShowStoreToStore?Id=' + $("#Id").val(); });
+                }
+            });
+        });
+
+        $("#btnBack").click(function () {
+            window.location.href = '@Url.Action("StoreToStoreList","Store")';
+        });
+
+    });
+
+    function SaveValidation() {
+        var objMatReq = {
+            Id: $("#Id").val(),
+            FromStore: $("#FromStore").val(),
+            ToStore: $("#ToStore").val()
+        };
+        $.ajax({
+            url: '/Store/SaveMaterialIssue',
+            type: 'POST',
+            dataType: 'json',
+            data: objMatReq,
+            traditional: true,
+            success: function (Id) {
+                $("#Id").val(Id);
+            },
+            error: function (xhr, status, error) {
+                ErrMsg($.parseJSON(xhr.responseText).Message);
+            }
+        });
+    }
+
+    function fnNumberOnly(value, column) {
+
+        if (value == '') {
+            return [false, column + ": Field is Required"];
+        }
+        else if (!$.isNumeric(value)) {
+            return [false, column + 'Should be numeric'];
+        }
+        else if (parseInt(value) < 0) {
+            return [false, column + 'Should be 0 or greater.'];
+        }
+        else {
+            return [true];
+        }
+    }
+
+    function CalculateTotalPrice(rowId) {
+        debugger;
+        var IssQty = $("#" + rowId + "_IssuedQty").val();
+        var selectedData = $('#MaterialIssueList').jqGrid('getRowData', rowId);
+//        if (parseInt(IssQty) + parseInt(selectedData.IssueQty) > parseInt(selectedData.ApprovedQty)) {
+//            ErrMsg("Previous Issued Qty and Current Issue Qty should not exceed the Approved Quantity");
+//            $("#" + rowId + "_TotalPrice").val('');
+//            $("#" + rowId + "_IssQty").val('');
+//            $("#" + rowId + "_IssQty").focus();
+
+//            return false;
+//        }
+        var SeparatedUnitPrice = selectedData.UnitPrices.split(', ');
+        var SeparatedClosingBalance = selectedData.ClosingBalance.split(', ');
+        var TobeIssuedQty =  selectedData.IssuedQty;
+
+        var TotalPrice;
+        var IssuedQty = 0;
+        if (IssQty <= parseInt(SeparatedClosingBalance[0])) {
+            TotalPrice = IssQty * SeparatedUnitPrice[0];
+        }
+        if (IssQty > parseInt(SeparatedClosingBalance[0]) && parseInt(SeparatedClosingBalance[1]) != 0) {
+            debugger;
+            TotalPrice = parseInt(SeparatedClosingBalance[0]) * SeparatedUnitPrice[0];
+            IssuedQty = parseInt(IssuedQty) + parseInt(SeparatedClosingBalance[0]);
+
+            TobeIssuedQty = IssQty - parseInt(SeparatedClosingBalance[0]);
+            if (TobeIssuedQty <= parseInt(SeparatedClosingBalance[1])) {
+                TotalPrice = TotalPrice + (TobeIssuedQty * SeparatedUnitPrice[1]);
+                IssuedQty = parseInt(IssuedQty) + TobeIssuedQty;
+            }
+            else if (TobeIssuedQty > parseInt(SeparatedClosingBalance[1])) {
+                TotalPrice = TotalPrice + (parseInt(SeparatedClosingBalance[1]) * SeparatedUnitPrice[1]);
+                TobeIssuedQty = TobeIssuedQty - SeparatedClosingBalance[1];
+                IssuedQty = parseInt(IssuedQty) + parseInt(SeparatedClosingBalance[1]);
+                TobeIssuedQty = IssQty - IssuedQty;
+                if (parseInt(IssuedQty) != IssQty && parseInt(IssuedQty) < parseInt(IssQty)) {
+                }
+            }
+        }
+
+        $("#" + rowId + "_TotalPrice").val(TotalPrice);
+
+        if ($("#" + rowId + "_IssuedQty").val() == '')
+            $("#" + rowId + "_TotalPrice").val('');
+    }
+</script>
+@using (Html.BeginForm("StoreToStore", "Store", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h3>
+        Store to Store</h3>
+    <table class="WithBorderOnly" width="100%">
+        <tr>
+            <td class="Store">
+                <label class="lblheader">
+                    Issue Number</label>
+            </td>
+            <td class="Store">
+                <label class="lblheader">
+                    From Store</label>
+            </td>
+            <td class="Store">
+                <label class="lblheader">
+                    To Store</label>
+            </td>
+            <td width="14%">
+                <label class="lblheader">
+                    Delivered through</label>
+            </td>
+            <td width="14%">
+                <label class="lblheader">
+                    Delivery details</label>
+            </td>
+            <td width="16%">
+                <label class="lblheader">
+                    Delivery date</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Model.IssueNumber
+                @Html.HiddenFor(m => m.IssueNumber)
+            </td>
+            <td>
+                @Html.DropDownListFor(model => model.FromStore, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList Store" })
+                @Html.HiddenFor(m => m.FromStore)
+                @Html.HiddenFor(m => m.Id)
+            </td>
+            <td>
+                @Html.DropDownListFor(model => model.ToStore, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList Store" })
+                @Html.HiddenFor(m => m.ToStore)
+            </td>
+            <td>
+                @Html.DropDownListFor(m => m.DeliveredThrough, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select"},
+                                              new{Value="Hand Delivered",Text="Hand Delivered"},
+                                              new{Value="Courier",Text="Courier"},
+                                          },
+                                   "Value", "Text", "Available"), new { @Class = "CSSDropDownList", style = "width:145px;" })
+                <span style="color: Red">*</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.DeliveryDetails, new { @class = "CSSTextBox" })
+                <span style="color: Red">*</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.DeliveryDate, new { @class = "datepicker" })
+                <span style="color: Red">*</span>
+            </td>
+            <td>
+                @*<input type="button" id="btnSave" name="btnSave" value="Save" onclick="SaveValidation()" />*@
+                <input type="submit" id="btnSave" name="btnSave" value="Save" />
+            </td>
+            <td>
+                <label class="lblheader">
+                    Add Material :</label>
+                @* <a id="MaterialSearch1">..</a>*@ <a id="MaterialSearch1" style="cursor: pointer;">
+                    <i class="fa fa-search"></i></a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                <table id="MaterialIssueList">
+                </table>
+                <div id="MaterialIssueListPager">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" id="btnIssue" name="btnIssue" value="Issue" />
+                 <input type="button" id="btnBack" name="btnBack" value="Back to List" />
+            </td>
+        </tr>
+    </table>
+    <div id="DivMaterialSearch">
+    </div>
+}

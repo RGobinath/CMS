@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.CommunictionEntities.BulkSMSRequestReport_vw" namespace="TIPS.Entities.CommunictionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.CommunictionEntities.BulkSMSRequestReport_vw, TIPS.Entities" table="BulkSMSRequestReport_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="SMSComposeId" column="SMSComposeId" type="Int64"></property>
+    <property name="Total" column="Total" type="Int64"></property>
+    <property name="Sent" column="Sent" type="Int64"></property>
+    <property name="NotValid" column="NotValid" type="Int64"></property>
+    <property name="Failed" column="Failed" type="Int64"></property>
+    <property name="DNDApplied" column="DNDApplied" type="Int64"></property>
+    <property name="NotDelivered" column="NotDelivered" type="Int64"></property>
+
+  </class>
+</hibernate-mapping>

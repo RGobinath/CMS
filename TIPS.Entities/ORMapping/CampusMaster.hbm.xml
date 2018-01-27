@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="TIPS.Entities" assembly="TIPS.Entities.CampusMaster">
+  <class lazy="false" table="CampusMaster" name="TIPS.Entities.CampusMaster, TIPS.Entities">
+    <id name="FormId" column="FormId">
+      <generator class="identity"/>
+    </id>
+    <property name="FormCode" column="FormCode" not-null="true" type="string"/>
+    <property name="Name" column="Name" not-null="true" type="string"/>
+    <property name="ShowName" column="ShowName" not-null="true" type="string"/>
+    <property name="Code" column="Code" not-null="true" type="string"/>
+    <property name="Location" column="Location" not-null="true" type="string"/>
+    <property name="Country" column="Country" not-null="true" type="string"/>
+    <property name="Flag" column="Flag" not-null="true" type="Int64"/>
+  </class>
+</hibernate-mapping>

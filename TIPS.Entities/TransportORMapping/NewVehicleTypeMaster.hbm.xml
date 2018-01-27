@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.TransportEntities.NewVehicleTypeMaster" namespace="TIPS.Entities.TransportEntities">
+  <class name="TIPS.Entities.TransportEntities.NewVehicleTypeMaster, TIPS.Entities" table="NewVehicleTypeMaster" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="VehicleType" column="VehicleType" type="string"></property>
+  </class>
+</hibernate-mapping>

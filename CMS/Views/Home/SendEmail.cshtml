@@ -1,0 +1,57 @@
+﻿<table class="WithoutBorder" width="100%">
+    <tr>
+        <th width="20%">
+            <label>
+                To:</label>
+        </th>
+        </tr>
+        <tr>
+         <td>
+            @Html.TextBox("txtTo", "", new { @Class = "CSSLengthyTextBox" })
+        </td>
+    </tr>
+    <tr>
+    <th>
+            <label>
+                CC:</label>
+        </th>
+        @* <td >
+        <p style="color:blue; text-align:center">&nbsp&nbsp Use <b>;</b> in-between Email Ids</p>
+        </td>*@
+       </tr>
+        <tr>
+        <td>
+            @Html.TextBox("txtCC", "", new { @Class = "CSSLengthyTextBox" })
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <label>
+                Sub:
+            </label>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @Html.TextBox("txtSub", "", new { @Class = "CSSMailSubTextBox" })
+        </td>
+       
+    </tr>
+    <tr>
+        <th>
+            <label>
+                Mail Content:
+            </label>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @Html.TextArea("txtAreaMailContent", "", new { rows = 5, cols = 70, @Class = "CSSTextArea" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="button" id="btnSendEmail" name="SendEmail" value="Send Email" />
+        </td>
+    </tr>
+</table>

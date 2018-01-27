@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   namespace="TIPS.Entities.TransportEntities"
+                   assembly="TIPS.Entities.TransportEntities.DriverMaster">
+
+  <class name="TIPS.Entities.TransportEntities.DriverMaster, TIPS.Entities " table="DriverMaster" dynamic-update="true">
+    <cache usage="read-write"/>
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="DriverRegNo" column="DriverRegNo" type="Int64"/>
+    <property name="Name" column="Name" type="string"/>
+    <property name="Campus" column="Campus" type="string"/>
+    <property name="Dob" column="Dob" type="string"/>
+    <property name="Age" column="Age" type="Int64"/>
+    <property name="ContactNo" column="ContactNo" type="string"/>
+    <property name="PresentAddress" column="PresentAddress" type="string"/>
+    <property name="PermanentAddress" column="PermanentAddress" type="string"/>
+    <property name="DriverIdNo" column="DriverIdNo" type="string"/>
+    <property name="Designation" column="Designation" type="string"/>
+    
+    <property name="LicenseNo" column="LicenseNo" type="string"/>
+    <property name="CreatedDate" column="CreatedDate" type="datetime"/>
+    <property name="CreatedBy" column="CreatedBy" type="string"/>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime"/>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"/>
+    <property name="BatchNo" column="BatchNo" type="string"/>
+    <property name="LicenseValDate" column="LicenseValDate" type="datetime"/>
+    <property name="NonTraLicenseValDate" column="NonTraLicenseValDate" type="datetime"/>
+    <!--Newly added for enhancing-->
+    <property name="DateOfJoin" column="DateOfJoin" type="datetime"/>
+    <property name="PFNo" column="PFNo" type="string"/>
+    <property name="ESINo" column="ESINo" type="string"/>
+    <property name="ReportingManager" column="ReportingManager" type="string"/>
+    <property name="StaffType" column="StaffType" type="string"/>
+    <property name="Gender" column="Gender" type="string"/>
+    <property name="TotalYearsOfExp" column="TotalYearsOfExp" type="string"/>
+    <property name="BGRP" column="BGRP" type="string"/>
+    <property name="MaritalStatus" column="MaritalStatus" type="string"/>
+    <property name="PhoneNo" column="PhoneNo" type="string"/>
+    <property name="AltPhoneNo" column="AltPhoneNo" type="string"/>
+    <property name="EmailId" column="EmailId" type="string"/>
+    <property name="FatherName" column="FatherName" type="string"/>
+    <property name="SpouseName" column="SpouseName" type="string"/>
+    <property name="MotherName" column="MotherName" type="string"/>
+    <property name="FatherOccupation" column="FatherOccupation" type="string"/>
+    <property name="SpouseOccupation" column="SpouseOccupation" type="string"/>
+    <property name="EmergencyContactPerson" column="EmergencyContactPerson" type="string"/>
+    <property name="EmergencyContactNo" column="EmergencyContactNo" type="string"/>
+    <property name="NativeState" column="NativeState" type="string"/>
+    <property name="ChildrenIfAny" column="ChildrenIfAny" type="string"/>
+    <property name="LanguagesKnown" column="LanguagesKnown" type="string"/>
+    <property name="BankName" column="BankName" type="string"/>
+    <property name="BankAccountNumber" column="BankAccountNumber" type="string"/>
+    <property name="InsuranceDetails" column="InsuranceDetails" type="string"/>
+    <property name="Status" column="Status" type="string"/>
+    <property name="IsActive" column="IsActive" type="bool"/>
+    <property name="IsRegistered" column="IsRegistered" type="bool"/>
+    <property name="JoiningSalary" column="JoiningSalary" type="Int64"/>
+    <property name="NominatedBy" column="NominatedBy" type="string"/>
+    <property name="Relationship" column="Relationship" type="string"/>
+    <property name="LastWorked" column="LastWorked" type="string"/>
+    <property name="WorkedLocation" column="WorkedLocation" type="string"/>
+  </class>
+</hibernate-mapping>

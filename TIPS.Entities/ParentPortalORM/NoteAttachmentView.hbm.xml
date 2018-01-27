@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.ParentPortalEntities.NoteAttachmentView" namespace="TIPS.Entities.NoteAttachmentView" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.ParentPortalEntities.NoteAttachmentView, TIPS.Entities" table="NoteAttachment" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="NotePreId" column="NotePreId" type="Int64"></property>
+    <property name="AttachmentName" column="AttachmentName" type="string"></property>
+  </class>
+</hibernate-mapping>
+

@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "Assess 360 Inbox";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(function () {
+        $("#ComponentInboxLst").jqGrid({
+            mtype: 'GET',
+            url: '/Assess360/GetAssess360ComponentListWithPagingAndCriteria',
+            postData: { tab: -1 },
+            datatype: 'json',
+            height: '250',
+            width: '1225',
+            shrinkToFit: true,
+            colNames: ['Id', 'Assess360Id', 'AssessmentCompGroup', 'Assessment', 'Assessment Name', 'Subject', 'Staff', 'Incident Date', 'Mark Details', 'Assignment Name', 'Description', 'Created Date', 'Entered By'],
+            colModel: [
+                        { name: 'Id', index: 'Id', hidden: true, key: true },
+                        { name: 'Assess360Id', index: 'Assess360Id', hidden: true },
+                        { name: 'AssessCompGroup', index: 'AssessCompGroup', sortable: false, hidden: true },
+                        { name: 'IsCredit', index: 'IsCredit', hidden: false },
+                        { name: 'GroupName', index: 'GroupName', sortable: false },
+                        { name: 'Subject', index: 'Subject', sortable: false, hidden: true },
+                        { name: 'Staff', index: 'Staff', sortable: true },
+                        { name: 'IncidentDate', index: 'IncidentDate', sortable: false },
+                        { name: 'MarkDetails', index: 'MarkDetails', sortable: false },
+                        { name: 'AssignmentName', index: 'AssignmentName', sortable: false, hidden: true },
+                        { name: 'Description', index: 'Description', sortable: false },
+                        { name: 'DateCreated', index: 'DateCreated', sortable: false },
+                        { name: 'EnteredBy', index: 'EnteredBy', sortable: false, hidden: true },
+                        ],
+            pager: '#ComponentInboxPager',
+            rowNum: '10',
+            sortname: 'Staff',
+            sortorder: 'asc',
+            rowList: [5, 10, 20, 50],
+            multiselect: true,
+            viewrecords: true
+        });
+
+        $('#btnSearchComp').click(function () {
+            $('#ComponentInboxLst').clearGridData();
+            LoadSetGridParam($('#ComponentInboxLst'), "/Assess360/GetAssess360ComponentListWithPagingAndCriteria?tab=-1&Staff=" + $('#StaffName').val());
+        });
+
+        //        $("#btnBack2AssessInbox").click(function () {
+        //            window.location.href = '@Url.Action("Assess360Inbox", "Assess360")';
+        //        });
+
+        $('#btnEprt2XL').click(function () {
+            var cpage = 1, psize = 99999;
+            window.open("/Assess360/GetAssess360ComponentListWithPagingAndCriteria?tab=-1&Staff=" + $('#StaffName').val() + '&sord=Asc&sidx=Staff&page=' + cpage + '&rows=' + psize + '&ExprtToXL=true', '', 'height=10px,width=10px');
+        });
+
+        /*enter key press event*/
+        function defaultFunc(e) {
+            if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                $('#btnSearchComp').click();
+                return false;
+            }
+            return true;
+        };
+        /*enter key press event*/
+    });
+</script>
+@using (Html.BeginForm("ComponentInbox", "Assess360", FormMethod.Post, new { id = "innerForm", enctype = "multipart/form-data" }))
+{
+    <table width="100%" class="WithBorderOnly" id="ComponentInbox">
+        <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+            <td colspan="5">
+                Search Panel
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                Staff Name
+            </td>
+            <td colspan="4">
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                @Html.TextBox("StaffName", null, new { @Class = "CSSTextBox", style = "width: 80%" })
+            </td>
+            <td colspan="4" align="center">
+                <input type="button" id="btnSearchComp" value="Search" name="Search" />&nbsp
+                <input type="button" id="btnResetComp" value="Reset" name="Reset" />&nbsp
+                @*<input type="button" id="btnEprt2XL" value="Export to Excel" />&nbsp*@
+            </td>
+        </tr>
+    </table>
+    <table width="100%" class="WithBorderOnly" id="ComponentInboxResult">
+        <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+            <td colspan="5">
+                Search Panel
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table id="ComponentInboxLst"></table>
+                <div id="ComponentInboxPager"></div>
+            </td>
+        </tr>
+    </table>
+}

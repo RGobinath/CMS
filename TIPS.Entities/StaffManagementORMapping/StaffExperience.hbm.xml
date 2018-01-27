@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.StaffExperience" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.StaffExperience, TIPS.Entities" table="StaffExperience" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="PreRegNum" column="PreRegNum" type="Int32"  not-null ="false"></property>
+    <property name="EmployerName" column="EmployerName" type="string" ></property>
+    <property name="Location" column="Location" type="string" ></property>
+    <property name="StartDate" column="StartDate" type="string"></property>
+    <property name="TillDate" column="TillDate" type="string"></property>
+    <property name="LastDesignation" column="LastDesignation" type="string"></property>
+    <property name="SpecificReasonForLeaving" column="SpecificReasonForLeaving" type="string"></property>
+    <property name="Achievments" column="Achievments" type="string"></property>
+    <property name="Fresher" column="Fresher" type="string"></property>
+    <property name="JobResponsibilities" column="JobResponsibilities" type="string"></property>
+  </class>
+</hibernate-mapping>

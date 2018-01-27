@@ -1,0 +1,134 @@
+﻿@model TIPS.Entities.Assess.Assess360
+<script src="@Url.Content("/Scripts/Assess360/TestsAssessments.js")" type="text/javascript"></script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        @Html.Hidden("UserId", "", new { @value = Session["UserId"] })
+        @Html.Hidden("AdminRole", "", new { @value = Session["AdminRole"] })
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="fa fa-book"></i>&nbsp;Test / Assessments</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-1">
+                                                <b>Staff</b></label>
+                                            @if (Session["AdminRole"].ToString() == "All")
+                                            {
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBox("SBCStaffUserName", " ", new { @Class = "form-control input-sm", @Readonly = "Readonly", @tabindex = "1" })
+                                                    <span class="input-group-addon"><a id="btnStaffPopup" style="cursor: pointer;"><i
+                                                        class="fa fa-search"></i></a></span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBox("SBCStaffUserName", "", new { @Class = "form-control input-sm", @Readonly = "Readonly", @tabindex = "2", @Value = Session["UserName"] });
+                                                //@Html.TextBox("Staff", " ", new { @Class = "form-control input-sm", @Readonly = "Readonly", @tabindex = "1", @Value = Session["UserId"].ToString() });
+                                                @Html.Hidden("Staff", "", new { id = "Staff", @Value = Session["UserId"] })
+                                            }
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-1">
+                                                <b>Assessment Type</b></label>
+                                            @Html.DropDownList("TAAssmntType", new SelectList(new[] { new { Text = "Select", Value = "Select", Seleced = "True" } }, "Text", "Value", "Seleced"), new { @Class = "form-control input-sm", @tabindex = "2" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-1">
+                                                <b>Subject</b></label>
+                                            @Html.DropDownList("TASubject", new SelectList(new[] { new { Text = "Select", Value = "Select", Seleced = "True" } }, "Text", "Value", "Seleced"), new { @Class = "form-control input-sm", @tabindex = "3" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div id="tdSemester">
+                                                <label for="form-field-mask-1">
+                                                    <b>Semester Type</b></label>
+                                                @Html.DropDownList("TASemester",
+                    new SelectList(new[] { 
+                        new { Text = "", Value = "Select", Seleced = "True" },
+                        new { Text = "Sem I", Value = "Sem I", Seleced = "false" },
+                        new { Text = "Sem II", Value = "Sem II", Seleced = "false" },
+                        new { Text = "Sem III", Value = "Sem III", Seleced = "false" },
+               }, "Text", "Value", "Seleced"), new { @Class = "form-control input-sm" })
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-1">
+                                                <b>Assignment Name</b></label>
+                                            @Html.DropDownList("TAAssmntName", new SelectList(new[] { new { Text = "Select", Value = "Select", Seleced = "True" } }, "Text", "Value", "Seleced"), new { @Class = "form-control select-sm", @tabindex = "4" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-1">
+                                                <b>Date of Assessment</b></label>
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBox("TADatofAssgn", " ", new { @Class = "form-control date-picker", @Readonly = "Readonly", @tabindex = "5" })
+                                                <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-1">
+                                                <b>Marks</b></label>
+                                            <div class="row">
+                                                <div class="col-sm-5"style="padding-right:0px">
+                                                    @Html.TextBox("TAobtainedMarks", null, new { @Class = "form-control select-sm", @onblur = "extractNumber(this,2,false);", @onkeyup = "extractNumber(this,2,false);", @onkeypress = "return blockNonNumbers(this, event, true, false);", @tabindex = "6" })
+                                                </div>
+                                                <div class="col-sm-2" style="padding:0px,0px,0px,0px">
+                                                    <p class="obtotalMarks">
+                                                        /
+                                                    </p>
+                                                </div>
+                                                <div class="col-sm-5" style="padding-left:0px">
+                                                    @Html.TextBox("TATotalMarks", null, new { @Class = "form-control select-sm", @onblur = "extractNumber(this,2,false);", @onkeyup = "extractNumber(this,2,false);", @onkeypress = "return blockNonNumbers(this, event, true, false);", @tabindex = "7" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="space-10">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn btn-primary btn-block btn-sm" id="btnAddTA" name="btnApprove"
+                                                value="Add" tabindex="8">
+                                                <i class="fa fa-plus-circle"></i><span class="bigger-110">&nbsp;Add</span>
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn btn-danger btn-block btn-sm" id="btnResetT3" name="btnApprove"
+                                                value="Reset" tabindex="9">
+                                                <i class="fa fa-undo"></i><span class="bigger-110">&nbsp;Reset</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="TestsAssessmentsList">
+                </table>
+                <div id="TestsAssessmentsPage">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../assets/js/AceJQMsg.js" type="text/javascript"></script>

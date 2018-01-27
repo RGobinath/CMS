@@ -1,0 +1,135 @@
+﻿<script type="text/javascript" language="javascript">
+    var brUrl1 = '@Url.Content("/AchievementReport/GetStudentDtls")?IdNo=' + $('#StdntIdNo').val()
+            + '&Name=' + $('#StdntName').val()
+            + '&Campus=' + $('#StdntCampus').val()
+            + '&Grade=' + $('#StdntGrade').val()
+            + '&Section=' + $('#StdntSection').val();
+    $(function () {
+        InitStudentDtlsGrid();
+
+        /*enter key press event*/
+        function defaultFunc(e) {
+            if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                $('#btnStdntSearch').click();
+                return false;
+            }
+            return true;
+        };
+
+        $('#StdntIdNo').keypress(function (event) { if (isEmptyorNull($('#StdntIdNo').val())) { return true; } else { return defaultFunc(event); } });
+        $('#StdntName').keypress(function (event) { if (isEmptyorNull($('#StdntName').val())) { return true; } else { return defaultFunc(event); } });
+        //$('#StdntGrade').keypress(function (event) { if (isEmptyorNull($('#StdntGrade').val())) { return true; } else { return defaultFunc(event); } });
+        $('#StdntSection').keypress(function (event) { if (isEmptyorNull($('#StdntSection').val())) { return true; } else { return defaultFunc(event); } });
+
+        /*enter key press event*/
+
+        $("#StdntCampus").attr("readonly", true).css("background-color", "#F5F5F5");
+        $("#StdntGrade").attr("readonly", true).css("background-color", "#F5F5F5");
+
+        $("#btnStdntSearch").click(function () {
+            // 
+            if (!isEmptyorNull($("#StdntIdNo").val()) || !isEmptyorNull($("#StdntName").val())
+            || !isEmptyorNull($("#StdntGrade").val()) || !isEmptyorNull($("#StdntSection").val())
+            ) {
+                $('#StudentList').clearGridData();
+                // 
+                LoadSetGridParam($('#StudentList'), '@Url.Content("/AchievementReport/GetStudentDtls")?IdNo=' + $('#StdntIdNo').val()
+            + '&Name=' + $('#StdntName').val()
+            + '&Campus=' + $('#StdntCampus').val()
+            + '&Grade=' + $('#StdntGrade').val()
+            + '&Section=' + $('#StdntSection').val());
+            } else {
+                ErrMsg('Please enter the fields', function () { $("#StdntName").focus(); });
+                return false;
+            }
+        });
+
+        $("#btnStdntReset").click(function () {
+            $('#StudentList').clearGridData();
+            $('#StdntIdNo').val("");
+            $('#StdntName').val("");
+            //$('#StdntGrade').val("");
+            $('#StdntSection').val("");
+            LoadSetGridParam($('#StudentList'), '@Url.Content("/AchievementReport/GetStudentDtls")?Campus=' + $('#StdntCampus').val()) + '&Grade=' + $('#StdntGrade').val();
+        });
+    });
+
+    function InitStudentDtlsGrid() {
+        $("#StudentList").jqGrid({
+            datatype: 'local',
+            colNames: ['Id', 'Id No', 'Name', 'Section', 'Campus Name', 'Grade', 'Academic Year', 'Is Hosteller', 'Pre Reg No'],
+            colModel: [
+              { name: 'Id', index: 'Id', key: true, hidden: true },
+              { name: 'IdNo', index: 'IdNo' },
+              { name: 'Name', index: 'Name', width: 150 },
+              { name: 'Section', index: 'Section' },
+              { name: 'Campus', index: 'Campus' },
+              { name: 'Grade', index: 'Grade' },
+              { name: 'AcademicYear', index: 'AcademicYear', sortable: false },
+              { name: 'IsHosteller', index: 'IsHosteller', formatter: showYesOrNo },
+              { name: 'PreRegNum', index: 'PreRegNum', hidden: true }
+              ],
+            pager: $("#StudentPager"),
+            rowNum: 10,
+            rowList: [10, 15, 20, 50],
+            sortname: 'Name',
+            sortorder: 'asc',
+            viewrecords: true,
+            height: 'auto',
+            shrinkToFit: true,
+            width: $("#StudentList").parent().width(), //430,
+            onSelectRow: function (rowid, status) {
+                rowData = $('#StudentList').getRowData(rowid);
+                if (clbPupGrdSel != undefined && clbPupGrdSel) { clbPupGrdSel(rowData); }
+                clbPupGrdSel = null;
+                $('#DivStudentSearch').dialog('close');
+            }
+        });
+    }
+
+</script>
+<table class="WithBorderOnly" width="100%">
+    <tr>
+        <th style="width: 80px">
+            Student ID
+        </th>
+        <th style="width: 80px">
+            Student Name
+        </th>
+        <th style="width: 80px">
+            Section
+        </th>
+        <th style="width: 80px">
+            Campus
+        </th>
+        <th style="width: 80px">
+            Grade
+        </th>
+    </tr>
+    <tr id="srchKeyPress">
+        <td>
+            <input type="text" id="StdntIdNo" class="CSSTextBox" style="width: 80px" />
+        </td>
+        <td>
+            <input type="text" id="StdntName" class="CSSTextBox" style="width: 80px" />
+        </td>
+        <td>
+            <input type="text" id="StdntSection" class="CSSTextBox" style="width: 80px" />
+        </td>
+        <td>
+            <input type="text" id="StdntCampus" class="CSSTextBox" style="width: 80px" />
+        </td>
+        <td>
+            <input type="text" id="StdntGrade" class="CSSTextBox" style="width: 80px" />
+        </td>
+    </tr>
+    <tr align="center">
+        <td colspan="5">
+            <input type="button" value="Search" id="btnStdntSearch" />
+            &nbsp
+            <input type="button" value="Reset" id="btnStdntReset" />
+        </td>
+    </tr>
+</table>
+<table id="StudentList"></table>
+<div id="StudentPager"></div>

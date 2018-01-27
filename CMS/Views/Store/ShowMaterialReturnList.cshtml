@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "ShowMaterialReturnList";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<h3>
+    Show Material Return List</h3>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var MatRetId = '@ViewBag.MatRetId';
+        jQuery("#MaterialReturnList").jqGrid({
+            url: '/Store/MaterialReturnListJqGrid?MatRetId=' + MatRetId,
+            datatype: 'json',
+            mtype: 'POST',
+            height: '220',
+            width: '1000',
+            colNames: ['Id', 'Material Group', 'Material Sub Group', 'Material', 'Units', 'Return Qty'],
+            colModel: [
+                                { name: 'Id', index: 'Id', width: 50, align: 'left', editable: true, hidden: true, edittype: 'text', key: true },
+                                { name: "MaterialGroup", index: "MaterialGroup", width: 100, align: "left" },
+                                { name: 'MaterialSubGroup', index: 'MaterialSubGroup', width: 100 },
+                                { name: 'Material', index: 'Material', width: 100 },
+                                { name: 'Units', index: 'Units', width: 100 },
+                                { name: 'ReturnQty', index: 'ReturnQty', width: 50 }
+
+                                ],
+            pager: '#MaterialReturnListPager',
+            rowNum: '50',
+            rowList: [5, 10, 20, 50, 100],
+            sortname: 'Id',
+            sortorder: "asc",
+            viewrecords: true,
+            autowidth: true,
+            caption: 'Materials Return List',
+            forceFit: true,
+            gridview: true
+        });
+    });
+</script>
+<table class="WithBorderOnly" width="100%">
+    <tr class="PanelHeading">
+        <td>
+            <table id="MaterialReturnList">
+            </table>
+            <div id="MaterialReturnListPager">
+            </div>
+        </td>
+    </tr>
+</table>

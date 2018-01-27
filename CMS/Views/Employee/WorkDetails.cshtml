@@ -1,0 +1,265 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+<div class="row">
+    <div class="col-sm-12">
+        <div id="accordion" class="accordion-style1 panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#WorkDetails">
+                            <i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down"
+                                data-icon-show="ace-icon fa fa-angle-right"></i>&nbsp;Work Details </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse in" id="WorkDetails">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-10">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Id Number</b>
+                                            </label>
+                                            @if ((ViewBag.admissionstatus == "Registered") || (ViewBag.admissionstatus == "Inactive") || (ViewBag.admissionstatus == "Discontinued"))
+                                            {
+                                                @Html.TextBoxFor(model => model.IdNumber, new { id = "sidno", @Class = "form-control input-sm", @Readonly = "Readonly", value = "TIPS" })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.IdNumber, new { id = "sidno", @Class = "form-control input-sm", value = "TIPS" })
+                                            }
+
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Name</b>
+                                            </label>
+                                            @Html.TextBoxFor(model => model.Name, new { id = "sname", @Class = "form-control input-sm", @maxlength = "30" })
+                                              @Html.HiddenFor(model => model.PreRegNum)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b>
+                                            </label>
+                                            @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Location"), "Select One", new { id = "ddlcampus", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label for="form-field-select-1">
+                                                <b>Designation</b>
+                                            </label>
+                                            @Html.DropDownListFor(Model => Model.Designation, new SelectList(new[]
+                                          {
+                                             new{Value="",Text="Select"},
+                                             new{Value="Ayyamma",Text="Ayyamma"},
+                                              new{Value="Cook",Text="Cook"},
+                                               new{Value="Security",Text="Security"},
+                                          },
+                   "Value", "Text", ""), new { id = "designation", @Class = "form-control select-sm" })
+                                            @* @if (ViewBag.HideValidation == "True")
+                                            {
+                                                @Html.DropDownListFor(m => m.Designation, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "designation", @Class = "form-control select-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownListFor(m => m.Designation, new SelectList(ViewBag.designationddl, "Designation", "Designation"), "Select One", new { id = "designation", @Class = "form-control select-sm" })
+                                            }*@
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>DOJ</b>
+                                            </label>
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBoxFor(model => model.DateOfJoin, new { id = "dateofjoin", @Class = "form-control date-picker", @maxlength = "10" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>P.F. No</b>
+                                            </label>
+                                            @Html.TextBoxFor(model => model.PFNo, new { id = "pfno", @Class = "form-control input-sm", @maxlength = "40" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>E.S.I. No.</b>
+                                            </label>
+                                            @Html.TextBoxFor(model => model.ESINo, new { id = "esino", @Class = "form-control input-sm", @maxlength = "40" })
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label for="form-field-select-1">
+                                                <b>Reporting Manager</b>
+                                            </label>
+                                            @if ((ViewBag.admissionstatus == "Registered") || (ViewBag.admissionstatus == "Inactive") || (ViewBag.admissionstatus == "Discontinued"))
+                                            {
+                                                @Html.TextBoxFor(model => model.ReportingManager, new { id = "reportingmanager", @Class = "form-control input-sm", @Readonly = "Readonly", @maxlength = "40" })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.ReportingManager, new { id = "reportingmanager", @Class = "form-control input-sm", value = "TIPS" })
+                                            }
+
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label for="form-field-select-1">
+                                                <b>Staff Type</b>
+                                            </label>
+                                            @Html.DropDownListFor(Model => Model.StaffType, new SelectList(new[]
+                                          {
+                                             new{Value="",Text="Select"},
+                                             new{Value="Maintainance",Text="Maintainance"},
+                                             new{Value="Cook",Text="Cook"},
+                                          },
+                   "Value", "Text", ""), new { id = "stafftype", @Class = "form-control select-sm" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                                  <div class="col-sm-2">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <span class="profile-picture">
+                                                <img class="editable img-responsive" src="@Url.Action("uploaddisplay1", "StaffManagement", new { id = Session["Reqnum"] })" id="image1" width= "130px" height="120px"/>
+                                            </span>
+                                            <br />
+                                            <button type="button" class="btn btn-primary btn-sm" name="CaptureImg" id="CaptureImg" value="CaptureImage">
+                                                <i class="ace-icon fa fa-save">&nbsp;</i>Capture
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion"
+                            href="#DocumentDetails"><i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down"
+                                data-icon-show="ace-icon fa fa-angle-right"></i>&nbsp;Document Details</a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="DocumentDetails">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-3">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <label for="form-field-select-1">
+                                                <b>Document Type</b>
+                                            </label>
+                                            @Html.DropDownListFor(Model => Model.UploadedFilesList[0].DocumentType, new SelectList(ViewBag.documentddl, "DocumentType", "DocumentType"), "Select One", new { id = "ddldocumenttype", @Class = "form-control input-sm" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <label for="form-field-select-1" id="doctypenote" style="color: Red">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <label for="form-field-select-1">
+                                                <b>Document Name</b>
+                                            </label>
+                                            <input type="file" name="uploadedFile" id="uploadedFile" value="Browse" />
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <button type="button" class="btn btn-primary btn-block btn-sm" id="btnAddDocuments" onclick="return ValidateExtension()">
+                                                <i class="ace-icon fa fa-plus-square-o white"></i>Add
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                    <span id="lblError" style="color: red;"></span>
+                                </div>
+                                <div class="col-sm-9">
+                                    <table id="DocumentList">
+                                    </table>
+                                    <div id="DocumentListPager">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    jQuery(function ($) {
+       
+        $("#CaptureImg").click(function () {
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '/Base/IsPhotoUploadedFor?RefNum=' + $('#PreRegNum').val() + '&docType=Employee Photo&docFor=Employee',
+                success: function (data) {
+                    debugger;
+                    if (data == "Success") {
+                        ModifiedLoadPopupDynamicaly("/Employee/EmployeeCaptureImage?PreRegNo=" + $("#PreRegNum").val(), $('#ImgCaptureDiv'), function () { }, "", 800, 450, "Capture Image");
+                    }
+                    else
+                        ErrMsg(data + " Photo was uploaded already!");
+                }
+
+            });
+
+        });
+        $('#btnUploadDoc').ace_file_input();
+        $('#btnAddDocuments').click(function () {
+            debugger;
+            if (document.getElementById("ddldocumenttype").value == "") {
+                ErrMsg("Please Select Document Type!");
+                return false;
+            }
+            else if (document.getElementById('uploadedFile').value == "") {
+                ErrMsg("Please Select A File!");
+                return false;
+            }
+            else {
+                ajaxUploadDocs();
+                return false;
+            }
+        });
+
+
+    
+
+
+    });
+
+    function ajaxUploadDocs() {
+        debugger;
+        var e = document.getElementById('ddldocumenttype');
+        var doctype = e.options[e.selectedIndex].value;
+        var files = document.getElementById('uploadedFile').files;
+        var regno = $('#PreRegNum').val();
+        $.ajaxFileUpload({
+            //url: '/StaffManagement/UploadDocuments?docType=' + doctype + '',
+            url: '/Common/UploadDocuments?docType=' + doctype + '&documentFor=Employee&RegNo=' + regno,
+            secureuri: false,
+            fileElementId: 'uploadedFile',
+            dataType: 'json',
+            success: function (data, status) {
+                jQuery("#DocumentList").setGridParam({ url: '/StaffManagement/Documentsjqgrid' }).trigger("reloadGrid");
+            },
+            error: function (data, status, e) {
+            }
+        });
+    }
+    var buttons = $('.Wrkdetls');
+    buttons.find('button').button();
+    buttons.find('a').button({
+        icons: { primary: "ui-icon-search" },
+        text: false
+    });
+</script>

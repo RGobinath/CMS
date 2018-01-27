@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "ITAssetManagement";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue ">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#">
+                                <i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    @*<div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Campus</b>
+                                    </label>
+                                    @Html.DropDownList("ddlCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "----Select----", new { id = "ddlCampus", @Class = "form-control select-sm" })
+                                </div>*@
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Asset Name</b>
+                                        </label>
+                                        @Html.DropDownList("ddlAsset", new SelectList(Enumerable.Empty<SelectListItem>()), "----Select----", new { id = "ddlAsset", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-success btn-block btn-sm" type="button" id="btnSearch">
+                                            <i class="ace-icon fa fa-search white"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-danger btn-block btn-sm" type="button" id="btnReset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <br />
+                                        <button class="btn btn-primary btn-block btn-sm" type="button" id="btnAdd">
+                                            <i class="ace-icon fa fa-plus white"></i>Add Asset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2"></div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="ITAssetjqGrid"></table>
+                <div id="ITAssetjqGridPager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="newITAsset"></div>
+
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/Asset/ITAssetManagement.js")"></script>
+

@@ -1,0 +1,52 @@
+﻿@model TIPS.Entities.UserAppRole
+@{
+    ViewBag.Title = "User List";
+    Layout = null;
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var BranchCode = '@ViewBag.brncd';
+        jQuery("#TaskUserList").jqGrid({
+            url: '@Url.Content("~/TaskSystem/TaskUserListJqGrid")?brncd=' + BranchCode,
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'UserId'],
+            colModel: [
+              { name: 'Id', index: 'Id', hidden: true },
+              { name: 'UserId', index: 'UserId', width: 90 },
+              ],
+            pager: '#TaskUserListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200 ],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: '230',
+            // width: 1225,
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: 'Task User List',
+            forceFit: true,
+            multiselect: false,
+            onSelectRow: function (rowid) {
+                ids = 0;
+                ret1 = jQuery("#TaskUserList").jqGrid('getRowData', rowid);
+                $('#AssignedTo').val(ret1.UserId);
+                $('#DivUserList').dialog('close');
+            }
+        });
+
+        $("#TaskUserList").jqGrid('filterToolbar', { stringResult: false, searchOnEnter: true, beforeSearch: function () {
+            $('#TaskUserList').clearGridData();
+            return false;
+        }
+        });
+    });
+</script>
+@using (Html.BeginForm("TaskUserList", "TaskSystem", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+}
+<table id="TaskUserList">
+</table>
+<div id="TaskUserListPager">
+</div>

@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "DeleteCallManagement";
+    Layout = null;
+}
+
+<div style="margin-bottom: 13px; margin-top: 10px;">
+    @Html.TextBox("txtIssueNumber", "", new { id = "txtIssueNumber", @class = "form-control height-20 ", placeholder = "Issue Number" })
+</div>
+<div style="margin-bottom: 13px; margin-top: 10px;">
+    @Html.TextArea("txtDeleteComments", new { rows = 1, cols = 10, id = "txtDeleteComments", @class = "form-control textarea", maxlength = "39", placeholder = "Please Give Delete Comments" })
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="col-sm-6">
+            <button class="btn btn-warning btn-block btn-sm"" type="button" id="btnDelete1">
+    <i class="ace-icon fa fa-trash-o"></i>&nbsp;Delete</button>
+        </div>
+        <div class="col-sm-6">
+            <button class="btn btn-info btn-block btn-sm"" type="button" id="btnCancel">
+    <i class="ace-icon fa fa-undo"></i>&nbsp;Cancel</button>
+            </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#btnDelete1").click(function () {
+            var IssueNumber = $("#txtIssueNumber").val();
+            var DeleteComments = $("#txtDeleteComments").val();
+            if (IssueNumber == null || IssueNumber == "" || DeleteComments == "" || DeleteComments == null) {
+                return ErrMsg("Please Fill Required Details");
+            }
+            $.ajax({
+                Type: 'POST',
+                dataType: 'json',
+                url: '@Url.Content("~/Home/DeleteStudentCallManagement")?IssueNumber=' + IssueNumber + '&DeleteComments=' + DeleteComments,
+                success: function (data) {
+                    if (data == "success") {
+                        SucessMsg("Successfully Deleted");
+                        $("input[type=text], textarea, select").val("");
+                        window.location.href = "/Home/CallManagementHistory";
+                    }
+                    if (data == "failed") {
+                        ErrMsg("Delete Not Succesfully Completed");
+                    }
+                    if (data == "IssueNofailed") {
+                        ErrMsg("Pls check the Issue Number.");
+                    }
+                }
+            })
+        });
+        $("#txtIssueNumber").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Home/IssueNumberAutoComplete",
+                    type: "POST",
+                    dataType: "json",
+                    data: { term: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.IssueNumber, value: item.IssueNumber };
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });
+    });
+</script>

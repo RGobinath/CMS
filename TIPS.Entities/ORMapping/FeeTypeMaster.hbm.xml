@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.FeeTypeMaster" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.FeeTypeMaster, TIPS.Entities" table="FeeTypeMaster" lazy="false" >
+    <id name="FormId" column="FormId">
+      <generator class="identity" />
+    </id>
+    <property name="FormCode" column="FormCode" type="string" not-null="true" />
+    <property name="FeeType" column="FeeType" type="string" not-null="true" />
+    <property name="FeeTypedesc" column="Description" type="string" not-null="true" />
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.WeeklyIssueStatusReport_vw" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.WeeklyIssueStatusReport_vw, TIPS.Entities" table="WeeklyIssueStatusReport_vw" lazy="true" >
+    <id name="Id" column="Id">
+      <generator class="identity" />
+    </id>
+    <property name="BranchCode">
+      <column name="BranchCode" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Logged">
+      <column name="Logged" sql-type="int" not-null="false" />
+    </property>
+    <property name="Completed">
+      <column name="Completed" sql-type="int" not-null="false" />
+    </property>
+    <property name="NonCompleted">
+      <column name="NonCompleted" sql-type="int" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StoreEntities.StudentMaterialSubOverView_vw" namespace="TIPS.Entities.StoreEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StoreEntities.StudentMaterialSubOverView_vw, TIPS.Entities" table="StudentMaterialSubOverView_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="AcademicYear" column="AcademicYear" type="string" ></property>
+    <property name="MaterialSubGroup" column="MaterialSubGroup" type="string"></property>
+    <property name="MaterialSubGroupId" column="MaterialSubGroupId" type="Int64"></property>
+    <property name="MaterialId" column="MaterialId" type="Int64"></property>
+    <property name="Material" column="Material" type="string"></property>
+    <property name="IB_MAIN" column="IB_MAIN" type="Int64"></property>
+    <property name="IB_KG" column="IB_KG" type="Int64"></property>
+    <property name="Tips_Saran" column="Tips_Saran" type="Int64"></property>
+    <property name="Chennai_Main" column="Chennai_Main" type="Int64"></property>
+    <property name="Chennai_City" column="Chennai_City" type="Int64"></property>
+    <property name="Ernakulam" column="Ernakulam" type="Int64"></property>
+    <property name="Karur" column="Karur" type="Int64"></property>
+    <property name="Karur_KG" column="Karur_KG" type="Int64"></property>
+    <property name="Tirupur" column="Tirupur" type="Int64"></property>
+    <property name="Tirupur_KG" column="Tirupur_KG" type="Int64"></property>
+    <property name="CBSE_Main" column="CBSE_Main" type="Int64"></property>
+   <property name="Stock" column="Stock" type="Int64"></property>
+  </class>
+</hibernate-mapping>

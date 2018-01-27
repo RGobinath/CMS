@@ -1,0 +1,424 @@
+﻿@model TIPS.Entities.CommunictionEntities.StaffComposeMailInfo
+@{
+    ViewBag.Title = "StaffBulkEmail";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<script src="../../Scripts/EmailValidation.js" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/BootStrap/bootstrap-maxlength.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Notification/nicEdit.js")" type="text/javascript"></script>
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/ui.dropdownchecklist-1.4-min.js")" ></script>*@
+@*<script src="@Url.Content("~/Scripts/Notification/BulkEmailRequest.js")" type="text/javascript"></script>*@
+<script src="@Url.Content("~/assets/js/bootstrap-multiselect.js")" type="text/javascript"></script>
+<link href="../../assets/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+<style>
+    .ui-jqgrid .ui-pg-input {
+        width: 30px;
+    }
+
+    .ui-jqgrid .ui-pg-selbox {
+        width: 50px;
+        height: 23px;
+    }
+
+    .TextBox {
+        background-color: #ffffff;
+        border: 1px solid #498e45;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+        height: 24px;
+        transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+        width: 155px;
+        border-radius: 3px;
+    }
+
+    #dvLoading {
+        background: url("../../../Images/ajax-loader.gif") no-repeat center center;
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        z-index: 1000;
+        left: 0%;
+        top: 15%;
+        margin: -25px 0 0 -25px;
+    }
+</style>
+@using (Html.BeginForm("StaffBulkEmail", "Communication", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="page-content">
+        <!-- /section:settings.box -->
+        <div class="page-content-area">
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            <div class="row">
+                <div class="col-xs-12" style="padding: 0px">
+                    <div class="col-sm-3 widget-container-col">
+                        <div class="widget-box widget-color-CustomizeBlue">
+                            <div class="widget-header widget-header-flat widget-header-small">
+                                <div class="PanelHeader">
+                                    <i class="fa fa-pencil-square-o"></i>&nbsp;Alternate Mail Address
+                                </div>
+                                <div class="widget-toolbar">
+                                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main no-padding">
+                                </div>
+                                <div class="space-8">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-4">
+                                            <label for="form-field-select-2">
+                                                <b>Email</b></label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon" style="background: #3366FF;"><i class="fa fa-envelope-o white"></i></span>
+                                                @Html.TextBoxFor(model => model.AlternativeEmailId, new { id = "email", @class = "form-control input-sm", placeholder = "Case sensitive" })
+                                                @Html.HiddenFor(m => m.AlternativeEmailId)                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-10">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-4">
+                                            <label for="form-field-select-2">
+                                                <b>Password</b></label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon" style="background: #3366FF;"><i class="fa fa-unlock-alt white"></i></span>
+                                                @Html.TextBoxFor(model => model.AlternatPassword, new { id = "password", @type = "password", @class = "form-control input-sm", placeholder = "Case sensitive" })
+                                                @Html.HiddenFor(m => m.AlternatPassword)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-10">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-12">
+                                            <input type="checkbox" id="alterEmail" />&nbsp;&nbsp; Send From the alternative
+                                            Email
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-10">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-12">
+                                            <label for="form-field-select-2">
+                                                <b>Test Composed Mail:</b></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-8">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-8">
+                                            @Html.TextBox("txtTestMail", "", new { @class = "form-control input-sm", placeholder = "Enter Mail Id" })
+                                        </div>
+                                        &nbsp;
+                                        <div class="col-sm-3">
+                                            <button type="button" class="btn btn-primary btn-sm" id="testMail" value="">
+                                                <i class="fa fa-envelope"></i>&nbsp; Test Mail
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-30">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-9 widget-container-col">
+                        <div class="widget-box widget-color-CustomizeBlue">
+                            <div class="widget-header widget-header-flat widget-header-small">
+                                <div class="PanelHeader">
+                                    <i class="fa fa-pencil-square-o"></i>&nbsp;Compose Mail Information
+                                </div>
+                                <div class="widget-toolbar">
+                                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main no-padding">
+                                </div>
+                                <div class="space-2">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-4">
+                                            <label for="form-field-select-1">
+                                                <b>Sent To:</b></label>
+                                            <div class="space-1">
+                                            </div>
+
+                                            @Html.CheckBoxFor(model => model.General, new { id = "General" })&nbsp;General
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label for="form-field-select-1">
+                                                <b>Compose Id</b></label>
+                                            @Html.TextBoxFor(model => model.BulkReqId, new { @readonly = "readonly", id = "BulkReqId", @class = "form-control input-sm" })
+                                            @Html.HiddenFor(m => m.BulkReqId)
+                                            @Html.HiddenFor(m => m.Id)
+                                            @Html.HiddenFor(m => m.Attachment)
+                                            @Html.HiddenFor(m => m.IsSaveList)
+                                            @Html.Hidden("ReturnBackUrl", Url.Action("BulkEmailStatus", "Communication"))
+                                            @Html.HiddenFor(m => m.Suspend)
+                                            @Html.HiddenFor(m => m.Status)
+                                            @Html.HiddenFor(m => m.BulkEmailAdded)
+                                            @Html.HiddenFor(m => m.CreatedBy)
+                                            @Html.HiddenFor(m => m.CreatedDate)
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label for="form-field-select-1">
+                                                <b>User Name</b></label>
+                                            @Html.TextBoxFor(model => model.UserId, new { @readonly = "readonly", id = "UserId", @class = "form-control input-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Date:</b></label>
+                                            <div class="space-1">
+                                            </div>
+                                            @String.Format("{0:dd-MMM-yyyy }", System.DateTime.Now)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-2">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-4" id="clear2">
+                                            <label for="form-field-select-1">
+                                                <b>Attachment</b></label>
+                                            <input type="file" name="file2" id="file2" title="Browse file to add" value="" multiple="multiple" />
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <label for="form-field-select-1">
+                                                <b>Subject</b></label>
+                                            @Html.TextBoxFor(model => model.Subject, new { id = "Subject", @maxlength = "100", @class = "form-control input-sm" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-4">
+                                            <div class="space-4">
+                                            </div>
+                                            <button type="button" class="btn btn-mini btn-warning" id="upload" value="Upload"
+                                                onclick="uploaddoc2()">
+                                                <i class="fa fa-upload"></i>&nbsp;Upload
+                                            </button>
+                                            <button type="button" class="btn btn-mini btn-danger" id="clear" value="clear" onclick="resethtml2()">
+                                                <i class="fa fa-refresh" style="color: #ffffff;"></i>&nbsp;Clear
+                                            </button>
+                                            <div class="space-2">
+                                            </div>
+                                            <div id="Attachfiles2">
+                                                Attached files,
+                                                <div id="ViewMailAtt">
+                                                    &nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <label for="form-field-select-1">
+                                                <b>Email Content</b></label>
+                                            @if (Model.IsSaveList != true)
+                                            {
+                                                @Html.TextAreaFor(model => model.Message, new { @maxlength = "4000", @class = "form-control textarea" })
+                                            }
+                                            else
+                                            {
+                                                <div id="showDiv" style="overflow: auto; border: #006699 1px solid; width: 100%; height: 100px;">
+                                                    <span id="ShowMessage"></span>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-2">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-4">
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div class="col-sm-2">
+                                                <button type="submit" class="btn btn-block btn-primary btn-sm" id="save" value="">
+                                                    <i class="fa fa-save" style="color: #ffffff;"></i>&nbsp;Save
+                                                </button>
+                                            </div>
+                                            &nbsp;
+                                            <div class="col-sm-2">
+                                                <button type="button" class="btn btn-block btn-danger btn-sm" id="cancel" value="">
+                                                    <i class="fa fa-times" style="color: #ffffff;"></i>&nbsp;Cancel
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="Recipients">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-search white"></i>&nbsp;Search Criteria
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="col-sm-2">
+                                                <label for="form-field-select-1">
+                                                    <b>Campus</b></label>
+                                                @Html.DropDownListFor(model => Model.Campus, new SelectList(Enumerable.Empty<SelectListItem>()), new { id = "ddlCampus", @Class = "form-control select-sm" })
+                                                @Html.HiddenFor(m => m.Campus)
+                                            </div>
+
+
+                                            <div class="col-sm-2">
+                                                <label for="form-field-select-1">
+                                                    <b>Applicant Name</b></label>
+                                                @Html.TextBoxFor(model => Model.Name, new { id = "appname", @maxlength = "30", @Class = "form-control input-sm" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label for="form-field-select-1">
+                                                    <b>Id Number</b></label>
+                                                @Html.TextBoxFor(model => Model.IdNumber, new { id = "idnumber", @maxlength = "30", @Class = "form-control input-sm" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label for="form-field-select-1">
+                                                    <b>Department</b></label>
+                                                @Html.DropDownListFor(model => Model.Department, new SelectList(ViewBag.departmentddl, "Department", "Department"), "Select One", new { id = "Department", @Class = "form-control select-sm" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label for="form-field-select-1">
+                                                    <b>Designation</b></label>
+                                                 @Html.DropDownListFor(model => Model.Designation, new SelectList(ViewBag.designationddl, "Designation", "Designation"), "Select One", new { id = "Designation", @Class = "form-control select-sm" })
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="space-2">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="col-sm-1" style="margin-top: 2px">
+                                                <button type="button" class="btn btn-block btn-success" id="search">
+                                                    <i class="fa fa-search" style="vertical-align: middle"></i>&nbsp;Search
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-1" style="margin-top: 2px">
+                                                <button type="button" class="btn btn-block btn-info" id="reset">
+                                                    <i class="fa fa-undo" style="vertical-align: middle"></i>&nbsp;Reset
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-1" style="margin-top: 2px">
+                                                <button type="button" class="btn btn-block btn-primary" id="saveList" value="Save List">
+                                                    <i class="fa fa-save" style="vertical-align: middle"></i>&nbsp;Save List
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-1" style="margin-top: 2px">
+                                                <button type="button" class="btn btn-block btn-danger" id="clearList" value="Clear List">
+                                                    <i class="fa fa-times" style="vertical-align: middle"></i>&nbsp;Clear List
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-2" style="margin-top: 2px">
+                                                <button type="button" class="btn btn-block btn-purple" id="sendBulkEmail" value="Send Bulk Email">
+                                                    <i class="fa fa-envelope" style="vertical-align: middle"></i>&nbsp;Send Bulk Email
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-2" style="margin-top: 2px">
+                                                <button type="button" class="btn btn-block btn-success" id="selectsendmail">
+                                                    <i class="fa fa-paper-plane" style="vertical-align: middle"></i>&nbsp;Send Selected
+                                                    Mail
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-2" style="margin-top: 2px">
+                                                <button type="button" class="btn btn-block btn-primary" id="sendFalseMail">
+                                                    <i class="fa fa-paper-plane" style="vertical-align: middle"></i>&nbsp;Send False
+                                                    Mail Only
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-2" style="margin-top: 2px">
+                                                <button type="button" class="btn btn-block btn-danger" id="btnSuspend" value="Suspend">
+                                                    <i class="fa fa-times" style="vertical-align: middle"></i>&nbsp;Suspend
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="space-2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="divGrid">
+                <div class="col-sm-12">
+                    <table id="BulkGrid">
+                    </table>
+                    <div id="BulkGridPager">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div id="dialog" title="Reason for Suspend">
+    @Html.TextArea("reason", new { @style = "border: #006699 1px solid; width: 300px; height:100px", @maxlength = "4000" })
+</div>
+<div id="dvLoading">
+</div>
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+        $('#dvLoading').hide();
+        $('#file2').val('');
+        @* VanNumberddl('@Model.Campus'); *@
+        // $("#vanno").val('@*@Model.VanNo*@');
+        //-----------------------------------new functions----------------------------------/
+        //$('input[type=file]').bootstrapFileInput();
+        //$('.file-inputs').bootstrapFileInput();
+        //-----------------------------------end functions----------------------------------/
+        $('#UserId').val('@Session["UserId"]');
+        $('#file2').ace_file_input();        
+        if ("@ViewBag.EmptyValue" == "Yes") {
+
+            document.getElementById("email").value = "";
+            document.getElementById("password").value = "";
+        }
+    });
+
+
+
+</script>
+<script src="../../assets/js/AceJQMsg.js" type="text/javascript"></script>
+<script src="../../Scripts/Notification/StaffBulkEmail.js"></script>

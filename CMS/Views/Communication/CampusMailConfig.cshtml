@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "CampusMailConfig";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script src="@Url.Content("~/Scripts/Notification/CampusMailConfig.js")" type="text/javascript"></script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="CampusMailIdGrid">
+                </table>
+                <div id="CampusMailIdGridPager">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

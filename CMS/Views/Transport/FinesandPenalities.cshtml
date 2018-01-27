@@ -1,0 +1,88 @@
+﻿@model TIPS.Entities.TransportEntities.VehicleDetails
+<div id="FinesandPenalities">
+    <div class="row">
+        <div class="col-xs-12 widget-container-col">
+            <div class="widget-box widget-color-CustomizeBlue ">
+                <div class="widget-header widget-header-flat widget-header-small">
+                    <div class="PanelHeader">
+                        Fines and Penality Details</div>
+                    <div class="widget-toolbar">
+                        <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2 form-group has-info">
+                                    <label for="form-field-select-1">
+                                        <b>Penality Date</b></label>
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBox("PenalityDate", "", new { id = "PenalityDatePickerFine", @class = "form-control date-picker" })
+                                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2 form-group has-info">
+                                    <label for="form-field-select-1">
+                                        <b>Penality Area</b></label>
+                                    @Html.TextBox("PenalityArea", "", new { id = "PenalityAreaFine", @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-2 form-group has-info">
+                                    <label for="form-field-select-1">
+                                        <b>Penality Due Date</b></label>
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBox("PenalityDueDate", "", new { id = "PenalityDueDate", @class = "form-control date-picker" })
+                                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2 form-group has-info">
+                                    <label for="form-field-select-1">
+                                        <b>Penality Paid By</b></label>
+                                    @Html.TextBox("PenalityPaidBy", "", new { id = "PenalityPaidByFine", @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-2 form-group has-info">
+                                    <label for="form-field-select-1">
+                                        <b>Driver</b></label>
+                                    @Html.TextBox("PDriverName", "", new { @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-2 form-group has-info">
+                                    <label for="form-field-select-1">
+                                        <b>Penality Amount</b></label>
+                                    @Html.TextBox("PenalityRupees", "", new { id = "PenalityRupeesFine", @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-sm-4 form-group has-info">
+                                    <label for="form-field-select-1">
+                                        <b>Penality Reason</b></label>
+                                    @Html.TextArea("PenalityReason", "", new { rows = 1, cols = 70, id = "PenalityReasonFine", @class = "form-control textarea" })
+                                </div>
+                                <div class="col-sm-2 ">
+                                    <br />
+                                    <br />
+                                    <button class="btn btn-success btn-info btn-block btn-sm" id="btnSave" type="button"
+                                        onclick="FineCreate();return false;">
+                                        <i class="ace-icon fa fa-floppy-o bigger-120 white"></i>&nbsp Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <table id="jqGridFinesAndPenalities">
+            </table>
+            <div id="jqGridFinesAndPenalitiesPager">
+            </div>
+            <!-- PAGE CONTENT ENDS -->
+        </div>
+        <!-- /.col -->
+    </div>
+</div>
+<script src="@Url.Content("~/Scripts/Transport/FinesandPenalities.js")" type="text/javascript"></script>

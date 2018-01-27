@@ -1,0 +1,55 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+@{
+    Layout = null;
+}
+<script type="text/javascript">
+
+    function transfervalidate() {
+        if (document.getElementById("ddlcampus2").value == "") {
+            ErrMsg("Please Select Campus!");
+            return false;
+        }
+        else if (document.getElementById("ddlgrade2").value == "") {
+            ErrMsg("Please Select Grade!");
+            return false;
+        }
+        else if (document.getElementById("ddlsection2").value == "") {
+            ErrMsg("Please Select Section!");
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+</script>
+@using (Html.BeginForm("Transfer", "Admission", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+        <div class="col-xs-12">
+            <div class="col-sm-4">
+                <label for="form-field-select-1">
+                    <b>Campus</b></label>
+                @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus2", @Class = "form-control select-sm" })
+                @Html.HiddenFor(Model => Model.PreRegNum, new { id = "preregno2" })
+            </div>
+            <div class="col-sm-4">
+                <label for="form-field-select-1">
+                    <b>Grade</b></label>
+                @Html.DropDownListFor(Model => Model.Grade, new SelectList(ViewBag.gradeddl, "gradcod", "gradcod"), "Select One", new { id = "ddlgrade2", @Class = "form-control select-sm", @disabled = "disabled" })
+                @Html.HiddenFor(model => model.Grade)
+            </div>
+            <div class="col-sm-4">
+                <label for="form-field-select-1">
+                    <b>Section</b></label>
+                @Html.DropDownListFor(Model => Model.Section, new SelectList(ViewBag.sectionddl, "Section", "Section"), "Select One", new { id = "ddlsection2", @Class = "form-control select-sm" })
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-sm-3">
+                <br />
+                <button class="btn btn-primary btn-block" type="submit" value="Transfer" onclick="return(transfervalidate());">
+                    <i class="ace-icon fa-location-arrow">&nbsp;</i>Transfer</button>
+            </div>
+        </div>
+    </div>
+}

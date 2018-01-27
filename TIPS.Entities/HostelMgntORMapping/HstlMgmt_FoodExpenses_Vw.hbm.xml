@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.HostelMgntEntities.HstlMgmt_FoodExpenses_Vw" namespace="TIPS.Entities.HostelMgntEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.HostelMgntEntities.HstlMgmt_FoodExpenses_Vw, TIPS.Entities" table="HstlMgmt_FoodExpenses_Vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+
+    <property name="Stud_Id" column="Stud_Id" type="Int64"/>
+    <property name="Name" column="Name" type="string"/>
+    <property name="NewId" column="NewId" type="string"/>
+    <property name="MainID" column="MainID" type="Int64"/>
+    <property name="AcademicYear" column="AcademicYear" type="string"/>
+    <property name="Date" column="Date" type="DateTime"/>
+    <property name="Amount" column="Amount" type="Int64"/>
+    <property name="Venue" column="Venue" type="string"/>
+
+    <property name="CreatedBy" column="CreatedBy" type="string"/>
+    <property name="DateCreated" column="DateCreated" type="DateTime"/>
+  </class>
+</hibernate-mapping>

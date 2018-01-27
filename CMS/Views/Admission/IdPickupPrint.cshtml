@@ -1,0 +1,1835 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+@{
+    ViewBag.Title = "Individual Id & Pickup";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<!-- #section:basics/navbar.layout -->
+<!-- /section:basics/navbar.layout -->
+<script type="text/javascript">
+    try { ace.settings.check('main-container', 'fixed') } catch (e) { }
+</script>
+<div class="page-content">
+    <div class="page-content-area">
+        <div class="widget-body">
+            <div class="widget-main no-padding">
+                <div class="row">
+                    <div class="col-xs-12 widget-container-col">
+                        <div class="widget-box widget-color-CustomizeBlue">
+                            <div class="widget-header widget-header-flat widget-header-small">
+                                <h6 class="widget-title bigger lighter">
+                                    <i class="ace-icon fa fa-print"></i>Print Pannel
+                                </h6>
+                                @*<div class="widget-toolbar">
+                                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                    </a>
+                                </div>*@
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main no-padding">
+                                    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                        <div class="col-xs-12">
+                                            <div class="col-xs-6" style="border: solid #ccc; border-radius: 3px 3px 3px 3px;">
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Campus
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus1", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Grade
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Grade, new SelectList(ViewBag.gradeddl, "gradcod", "gradcod"), "Select Grade", new { id = "ddlgrade1", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Section
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Section, new SelectList(ViewBag.sectionddl, "Section", "Section"), "Select Section", new { id = "sect1", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Name
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] { new { value = "", Text = "Select Name" } }, "Value", "Text", ""), new { id = "ddlname1", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Card Type
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                              new{Value="IdCard",Text="IdCard"},
+                                              new{Value="PickupCard",Text="PickupCard"}
+                           
+                                 }, "Value", "Text", ""), new { id = "CardType1", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div style="padding-left: 100px">
+                                                    <table id="AdmissionManagementList1">
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6" style="border: solid #ccc; border-radius: 3px 3px 3px 3px;">
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Campus
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus2", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Grade
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Grade, new SelectList(ViewBag.gradeddl, "gradcod", "gradcod"), "Select Grade", new { id = "ddlgrade2", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Section
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Section, new SelectList(ViewBag.sectionddl, "Section", "Section"), "Select Section", new { id = "sect2", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Name
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] { new { value = "", Text = "Select Name" } }, "Value", "Text", ""), new { id = "ddlname2", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Card Type
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                              new{Value="IdCard",Text="IdCard"},
+                                              new{Value="PickupCard",Text="PickupCard"}
+                           
+                                 }, "Value", "Text", ""), new { id = "CardType2", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div style="padding-left: 100px">
+                                                    <table id="AdmissionManagementList2">
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget-body">
+            <div class="widget-main no-padding">
+                <div class="row">
+                    <div class="col-xs-12 widget-container-col">
+                        <div class="widget-box widget-color-CustomizeBlue collapsed">
+                            <div class="widget-header widget-header-flat widget-header-small">
+                                <h6 class="widget-title bigger lighter">
+                                    <i class="ace-icon fa fa-print"></i>Print Pannel
+                                </h6>
+                                <div class="widget-toolbar">
+                                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main no-padding">
+                                    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                        <div class="col-xs-12">
+                                            <div class="col-xs-6" style="border: solid #ccc; border-radius: 3px 3px 3px 3px;">
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Campus
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus3", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Grade
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Grade, new SelectList(ViewBag.gradeddl, "gradcod", "gradcod"), "Select Grade", new { id = "ddlgrade3", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Section
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Section, new SelectList(ViewBag.sectionddl, "Section", "Section"), "Select Section", new { id = "sect3", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Name
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] { new { value = "", Text = "Select Name" } }, "Value", "Text", ""), new { id = "ddlname3", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Card Type
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                              new{Value="IdCard",Text="IdCard"},
+                                              new{Value="PickupCard",Text="PickupCard"}
+                           
+                                 }, "Value", "Text", ""), new { id = "CardType3", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div style="padding-left: 100px">
+                                                    <table id="AdmissionManagementList3">
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6" style="border: solid #ccc; border-radius: 3px 3px 3px 3px;">
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Campus
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus4", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Grade
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Grade, new SelectList(ViewBag.gradeddl, "gradcod", "gradcod"), "Select Grade", new { id = "ddlgrade4", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Section
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Section, new SelectList(ViewBag.sectionddl, "Section", "Section"), "Select Section", new { id = "sect4", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Name
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] { new { value = "", Text = "Select Name" } }, "Value", "Text", ""), new { id = "ddlname4", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Card Type
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                              new{Value="IdCard",Text="IdCard"},
+                                              new{Value="PickupCard",Text="PickupCard"}
+                           
+                                 }, "Value", "Text", ""), new { id = "CardType4", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div style="padding-left: 100px">
+                                                    <table id="AdmissionManagementList4">
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 widget-container-col">
+                        <div class="widget-box widget-color-CustomizeBlue collapsed">
+                            @*<div class="widget-header widget-header-small">*@
+                            <div class="widget-header widget-header-flat widget-header-small">
+                                <h6 class="widget-title bigger lighter">
+                                    <i class="ace-icon fa fa-print"></i>Print Pannel
+                                </h6>
+                                <div class="widget-toolbar">
+                                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main no-padding">
+                                    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                        <div class="col-xs-12">
+                                            <div class="col-xs-6" style="border: solid #ccc; border-radius: 3px 3px 3px 3px;">
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Campus
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus5", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Grade
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Grade, new SelectList(ViewBag.gradeddl, "gradcod", "gradcod"), "Select Grade", new { id = "ddlgrade5", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Section
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Section, new SelectList(ViewBag.sectionddl, "Section", "Section"), "Select Section", new { id = "sect5", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Name
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] { new { value = "", Text = "Select Name" } }, "Value", "Text", ""), new { id = "ddlname5", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Card Type
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                              new{Value="IdCard",Text="IdCard"},
+                                              new{Value="PickupCard",Text="PickupCard"}
+                           
+                                 }, "Value", "Text", ""), new { id = "CardType5", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div style="padding-left: 100px">
+                                                    <table id="AdmissionManagementList5">
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6" style="border: solid #ccc; border-radius: 3px 3px 3px 3px;">
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Campus
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus6", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Grade
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Grade, new SelectList(ViewBag.gradeddl, "gradcod", "gradcod"), "Select Grade", new { id = "ddlgrade6", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Section
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Section, new SelectList(ViewBag.sectionddl, "Section", "Section"), "Select Section", new { id = "sect6", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Name
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] { new { value = "", Text = "Select Name" } }, "Value", "Text", ""), new { id = "ddlname6", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Card Type
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                              new{Value="IdCard",Text="IdCard"},
+                                              new{Value="PickupCard",Text="PickupCard"}
+                           
+                                 }, "Value", "Text", ""), new { id = "CardType6", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div style="padding-left: 100px">
+                                                    <table id="AdmissionManagementList6">
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 widget-container-col">
+                        <div class="widget-box widget-color-CustomizeBlue collapsed">
+                            @*<div class="widget-header widget-header-small">*@
+                            <div class="widget-header widget-header-flat widget-header-small">
+                                <h6 class="widget-title bigger lighter">
+                                    <i class="ace-icon fa fa-print"></i>Print Pannel
+                                </h6>
+                                <div class="widget-toolbar">
+                                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main no-padding">
+                                    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                        <div class="col-xs-12">
+                                            <div class="col-xs-6" style="border: solid #ccc; border-radius: 3px 3px 3px 3px;">
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Campus
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus7", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Grade
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Grade, new SelectList(ViewBag.gradeddl, "gradcod", "gradcod"), "Select Grade", new { id = "ddlgrade7", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Section
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Section, new SelectList(ViewBag.sectionddl, "Section", "Section"), "Select Section", new { id = "sect7", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Name
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] { new { value = "", Text = "Select Name" } }, "Value", "Text", ""), new { id = "ddlname7", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Card Type
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                              new{Value="IdCard",Text="IdCard"},
+                                              new{Value="PickupCard",Text="PickupCard"}
+                           
+                                 }, "Value", "Text", ""), new { id = "CardType7", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div style="padding-left: 100px">
+                                                    <table id="AdmissionManagementList7">
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6" style="border: solid #ccc; border-radius: 3px 3px 3px 3px;">
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Campus
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus8", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Grade
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Grade, new SelectList(ViewBag.gradeddl, "gradcod", "gradcod"), "Select Grade", new { id = "ddlgrade8", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Section
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Section, new SelectList(ViewBag.sectionddl, "Section", "Section"), "Select Section", new { id = "sect8", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Name
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] { new { value = "", Text = "Select Name" } }, "Value", "Text", ""), new { id = "ddlname8", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <div class="col-sm-6">
+                                                            Card Type
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            @Html.DropDownListFor(Model => Model.Name, new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                              new{Value="IdCard",Text="IdCard"},
+                                              new{Value="PickupCard",Text="PickupCard"}
+                           
+                                 }, "Value", "Text", ""), new { id = "CardType8", @Class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="space">
+                                                </div>
+                                                <div style="padding-left: 100px">
+                                                    <table id="AdmissionManagementList8">
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-white btn-primary" type="button" id="Printbutton">
+                <i class="ace-icon fa fa-print bigger-110"></i>Print</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../assets/js/jquery.min.js'>" + "<" + "/script>");
+</script>
+<script type="text/javascript">
+    if ('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+</script>
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    debugger;
+
+    var campus1;
+    var grade1;
+    var section1;
+    var name1;
+    var cardtyp1;
+
+    var campus2;
+    var grade2;
+    var section2;
+    var name2;
+    var cardtyp2;
+
+    var campus3;
+    var grade3;
+    var section3;
+    var name3;
+    var cardtyp3;
+
+    var campus4;
+    var grade4;
+    var section4;
+    var name4;
+    var cardtyp4;
+
+    var campus5;
+    var grade5;
+    var section5;
+    var name5;
+    var cardtyp5;
+
+    var campus6;
+    var grade6;
+    var section6;
+    var name6;
+    var cardtyp6;
+
+    var campus7;
+    var grade7;
+    var section7;
+    var name7;
+    var cardtyp7;
+
+    var campus8;
+    var grade8;
+    var section8;
+    var name8;
+    var cardtyp8;
+
+    jQuery(function ($) {
+
+        var grid_selector = "#grid-table";
+        var pager_selector = "#grid-pager";
+
+        //resize to fit page size
+        $(window).on('resize.jqGrid', function () {
+            $(grid_selector).jqGrid('setGridWidth', $(".page-content").width());
+        })
+        //resize on sidebar collapse/expand
+        var parent_column = $(grid_selector).closest('[class*="col-"]');
+        $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+            if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                setTimeout(function () {
+                    $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                }, 0);
+            }
+
+        })
+
+        function gradeddl(id) {
+            debugger;
+            var e = document.getElementById('ddlcampus' + id + '');
+            var campus = e.options[e.selectedIndex].value;
+            //     alert(campus);
+            $.getJSON("/Admission/CampusGradeddl/", { campus: campus },
+            function (modelData) {
+                var select = $("#ddlgrade" + id + "");
+                select.empty();
+                select.append($('<option/>'
+                               , {
+                                   value: "",
+                                   text: "Select Grade"
+                               }));
+                $.each(modelData, function (index, itemData) {
+
+                    select.append($('<option/>',
+                                  {
+                                      value: itemData.gradcod,
+                                      text: itemData.gradcod
+                                  }));
+                });
+            });
+        }
+
+        $(window).triggerHandler('resize.jqGrid'); //trigger window resize to make the grid get the correct size
+
+        //-----------------------------------------Grid Method-----------------------------------------------------------
+
+        $("#CardType1").change(function () {
+            debugger;
+            var e = document.getElementById('ddlname1');
+
+            if (e.options[e.selectedIndex].value == 0) {
+                ErrMsg("Please select Name!");
+            }
+            else {
+
+                $("#AdmissionManagementList1").GridUnload();
+                //     $('#AdmissionManagementList1').trigger('reloadGrid');
+
+                var h = document.getElementById('ddlname1');
+                name1 = h.options[h.selectedIndex].value;
+
+                var g = document.getElementById('CardType1');
+                cardtyp1 = g.options[g.selectedIndex].value;
+                jQuery("#AdmissionManagementList1").jqGrid({
+                    mtype: 'GET',
+                    url: '/Admission/PrintCardJqGrid',
+                    postData: { campus: campus1, grade: grade1, section: section1, Name: name1, Cardtype: cardtyp1 },
+                    datatype: 'json',
+                    colNames: ['Id', 'PreRegNum', 'Name'],
+                    colModel: [
+              { name: 'Id', index: 'Id', width: 60, align: 'left', sortable: true, key: true },
+               { name: 'PreRegNum', index: 'PreRegNum', width: 60, align: 'left', sortable: true },
+              { name: 'Name', index: 'Name', width: 100, align: 'left', sortable: true }
+],
+                    rowNum: '10',
+                    rowList: [5, 10, 20, 50, 100, 150, 200],
+
+                    sortname: 'Id',
+                    sortorder: 'desc',
+                    multiselect: true,
+                    viewrecords: true,
+                    height: '80',
+                    width: '350',
+                    caption: 'Print Display'
+                });
+
+                function imageFormat(cellvalue, options, rowObject) {
+                    $('#AdmissionManagementList1').trigger('reloadGrid');
+                    return '<img src=' + source + '  id="image1" name="logoFile" width= "30px" height="30px"/>';
+                }
+                function imageUnFormat(cellvalue, options, cell) {
+                    return $('img', cell).attr('src');
+                }
+            }
+        });
+
+        $("#CardType2").change(function () {
+            var e = document.getElementById('ddlname2');
+
+            if (e.options[e.selectedIndex].value == 0) {
+                ErrMsg("Please select Name!");
+            }
+            else {
+                $("#AdmissionManagementList2").GridUnload();
+
+                var h = document.getElementById('ddlname2');
+                name2 = h.options[h.selectedIndex].value;
+
+                var g = document.getElementById('CardType2');
+                cardtyp2 = g.options[g.selectedIndex].value;
+
+                jQuery("#AdmissionManagementList2").jqGrid({
+                    mtype: 'GET',
+                    url: '/Admission/PrintCardJqGrid',
+                    postData: { campus: campus2, grade: grade2, section: section2, Name: name2, Cardtype: cardtyp2 },
+                    datatype: 'json',
+                    colNames: ['Id', 'PreRegNum', 'Name'],
+                    colModel: [
+              { name: 'Id', index: 'Id', width: 60, align: 'left', sortable: true ,key:true},
+              { name: 'PreRegNum', index: 'PreRegNum', width: 60, align: 'left', sortable: true },
+              { name: 'Name', index: 'Name', width: 100, align: 'left', sortable: true },
+        ],
+                    rowNum: '10',
+                    rowList: [5, 10, 20, 50, 100, 150, 200],
+                    sortname: 'Id',
+                    sortorder: 'desc',
+                    multiselect: true,
+                    viewrecords: true,
+                    height: '80',
+                    width: '350',
+                    caption: 'Print Display'
+                });
+            }
+        });
+
+        $("#CardType3").change(function () {
+            var e = document.getElementById('ddlname3');
+
+            if (e.options[e.selectedIndex].value == 0) {
+                ErrMsg("Please select Name!");
+            }
+            else {
+                $("#AdmissionManagementList3").GridUnload();
+
+                var h = document.getElementById('ddlname3');
+                name3 = h.options[h.selectedIndex].value
+
+                var g = document.getElementById('CardType3');
+                cardtyp3 = g.options[g.selectedIndex].value;
+
+                jQuery("#AdmissionManagementList3").jqGrid({
+                    mtype: 'GET',
+                    url: '/Admission/PrintCardJqGrid',
+                    postData: { campus: campus3, grade: grade3, section: section3, Name: name3, Cardtype: cardtyp3 },
+                    datatype: 'json',
+                    colNames: ['Id', 'PreRegNum', 'Name'],
+                    colModel: [
+              { name: 'Id', index: 'Id', width: 60, align: 'left', sortable: true, key: true },
+              { name: 'PreRegNum', index: 'PreRegNum', width: 60, align: 'left', sortable: true },
+              { name: 'Name', index: 'Name', width: 100, align: 'left', sortable: true }
+        ],
+                    rowNum: '10',
+                    rowList: [5, 10, 20, 50, 100, 150, 200],
+                    sortname: 'Id',
+                    sortorder: 'desc',
+                    multiselect: true,
+                    viewrecords: true,
+                    height: '80',
+                    width: '350',
+                    caption: 'Print Display'
+                });
+            }
+        });
+
+
+        $("#CardType4").change(function () {
+            var e = document.getElementById('ddlname4');
+
+            if (e.options[e.selectedIndex].value == 0) {
+                ErrMsg("Please select Name!");
+            }
+            else {
+                $("#AdmissionManagementList4").GridUnload();
+
+                var h = document.getElementById('ddlname4');
+                name4 = h.options[h.selectedIndex].value
+
+                var g = document.getElementById('CardType4');
+                cardtyp4 = g.options[g.selectedIndex].value;
+
+                jQuery("#AdmissionManagementList4").jqGrid({
+                    mtype: 'GET',
+                    url: '/Admission/PrintCardJqGrid',
+                    postData: { campus: campus4, grade: grade4, section: section4, Name: name4, Cardtype: cardtyp4 },
+                    datatype: 'json',
+                    colNames: ['Id', 'PreRegNum', 'Name'],
+                    colModel: [
+              { name: 'Id', index: 'Id', width: 60, align: 'left', sortable: true, key: true },
+              { name: 'PreRegNum', index: 'PreRegNum', width: 60, align: 'left', sortable: true },
+              { name: 'Name', index: 'Name', width: 100, align: 'left', sortable: true },
+        ],
+                    rowNum: '10',
+                    rowList: [5, 10, 20, 50, 100, 150, 200],
+                    sortname: 'Id',
+                    sortorder: 'desc',
+                    multiselect: true,
+                    viewrecords: true,
+                    height: '80',
+                    width: '350',
+                    caption: 'Print Display'
+                });
+            }
+        });
+        $("#CardType5").change(function () {
+            var e = document.getElementById('ddlname5');
+
+            if (e.options[e.selectedIndex].value == 0) {
+                ErrMsg("Please select Name!");
+            }
+            else {
+                $("#AdmissionManagementList5").GridUnload();
+
+                $('#AdmissionManagementList5').trigger('reloadGrid');
+
+                var h = document.getElementById('ddlname5');
+                name5 = h.options[h.selectedIndex].value;
+
+                var g = document.getElementById('CardType5');
+                cardtyp5 = g.options[g.selectedIndex].value;
+
+                jQuery("#AdmissionManagementList5").jqGrid({
+                    mtype: 'GET',
+                    url: '/Admission/PrintCardJqGrid',
+                    postData: { campus: campus5, grade: grade5, section: section5, Name: name5, Cardtype: cardtyp5 },
+                    datatype: 'json',
+                    colNames: ['Id', 'PreRegNum', 'Name'],
+                    colModel: [
+              { name: 'Id', index: 'Id', width: 60, align: 'left', sortable: true, key: true },
+               { name: 'PreRegNum', index: 'PreRegNum', width: 60, align: 'left', sortable: true },
+              { name: 'Name', index: 'Name', width: 100, align: 'left', sortable: true }
+        ],
+                    rowNum: '10',
+                    rowList: [5, 10, 20, 50, 100, 150, 200],
+                    sortname: 'Id',
+                    sortorder: 'desc',
+                    multiselect: true,
+                    viewrecords: true,
+                    height: '80',
+                    width: '350',
+                    caption: 'Print Display'
+                });
+            }
+        });
+
+
+        $("#CardType6").change(function () {
+            var e = document.getElementById('ddlname6');
+
+            if (e.options[e.selectedIndex].value == 0) {
+                ErrMsg("Please select Name!");
+            }
+            else {
+                $("#AdmissionManagementList6").GridUnload();
+
+                var h = document.getElementById('ddlname6');
+                name6 = h.options[h.selectedIndex].value;
+
+                var g = document.getElementById('CardType6');
+                cardtyp6 = g.options[g.selectedIndex].value;
+
+                jQuery("#AdmissionManagementList6").jqGrid({
+                    mtype: 'GET',
+                    url: '/Admission/PrintCardJqGrid',
+                    postData: { campus: campus6, grade: grade6, section: section6, Name: name6, Cardtype: cardtyp6 },
+                    datatype: 'json',
+                    colNames: ['Id', 'PreRegNum', 'Name'],
+                    colModel: [
+              { name: 'Id', index: 'Id', width: 60, align: 'left', sortable: true, key: true },
+              { name: 'PreRegNum', index: 'PreRegNum', width: 60, align: 'left', sortable: true },
+              { name: 'Name', index: 'Name', width: 100, align: 'left', sortable: true },
+        ],
+                    rowNum: '10',
+                    rowList: [5, 10, 20, 50, 100, 150, 200],
+                    sortname: 'Id',
+                    sortorder: 'desc',
+                    multiselect: true,
+                    viewrecords: true,
+                    height: '80',
+                    width: '350',
+                    caption: 'Print Display'
+                });
+            }
+        });
+
+        $("#CardType7").change(function () {
+            var e = document.getElementById('ddlname7');
+
+            if (e.options[e.selectedIndex].value == 0) {
+                ErrMsg("Please select Name!");
+            }
+            else {
+                $("#AdmissionManagementList7").GridUnload();
+
+                var h = document.getElementById('ddlname7');
+                name7 = h.options[h.selectedIndex].value
+
+                var g = document.getElementById('CardType7');
+                cardtyp7 = g.options[g.selectedIndex].value;
+
+                jQuery("#AdmissionManagementList7").jqGrid({
+                    mtype: 'GET',
+                    url: '/Admission/PrintCardJqGrid',
+                    postData: { campus: campus7, grade: grade7, section: section7, Name: name7, Cardtype: cardtyp7 },
+                    datatype: 'json',
+                    colNames: ['Id', 'PreRegNum', 'Name'],
+                    colModel: [
+              { name: 'Id', index: 'Id', width: 60, align: 'left', sortable: true, key: true },
+              { name: 'PreRegNum', index: 'PreRegNum', width: 60, align: 'left', sortable: true },
+              { name: 'Name', index: 'Name', width: 100, align: 'left', sortable: true }
+        ],
+                    rowNum: '10',
+                    rowList: [5, 10, 20, 50, 100, 150, 200],
+                    sortname: 'Id',
+                    sortorder: 'desc',
+                    multiselect: true,
+                    viewrecords: true,
+                    height: '80',
+                    width: '350',
+                    caption: 'Print Display'
+                });
+            }
+        });
+
+
+        $("#CardType8").change(function () {
+            var e = document.getElementById('ddlname8');
+
+            if (e.options[e.selectedIndex].value == 0) {
+                ErrMsg("Please select Name!");
+            }
+            else {
+                $("#AdmissionManagementList8").GridUnload();
+
+                var h = document.getElementById('ddlname8');
+                name8 = h.options[h.selectedIndex].value
+
+                var g = document.getElementById('CardType8');
+                cardtyp8 = g.options[g.selectedIndex].value;
+
+                jQuery("#AdmissionManagementList8").jqGrid({
+                    mtype: 'GET',
+                    url: '/Admission/PrintCardJqGrid',
+                    postData: { campus: campus8, grade: grade8, section: section8, Name: name8, Cardtype: cardtyp8 },
+                    datatype: 'json',
+                    colNames: ['Id', 'PreRegNum', 'Name'],
+                    colModel: [
+              { name: 'Id', index: 'Id', width: 60, align: 'left', sortable: true, key: true },
+              { name: 'PreRegNum', index: 'PreRegNum', width: 60, align: 'left', sortable: true },
+              { name: 'Name', index: 'Name', width: 100, align: 'left', sortable: true },
+        ],
+                    rowNum: '10',
+                    rowList: [5, 10, 20, 50, 100, 150, 200],
+                    sortname: 'Id',
+                    sortorder: 'desc',
+                    multiselect: true,
+                    viewrecords: true,
+                    height: '80',
+                    width: '350',
+                    caption: 'Print Display'
+                });
+            }
+        });
+
+
+
+        $("#sect1").change(function () {
+            gradeddl1();
+        });
+        $("#ddlgrade1").change(function () {
+            gradeddl1();
+        });
+        $("#ddlcampus1").change(function () {
+            gradeddl1();
+        });
+
+        $("#sect2").change(function () {
+            gradeddl2();
+        });
+        $("#ddlgrade2").change(function () {
+            gradeddl2();
+        });
+        $("#ddlcampus2").change(function () {
+            gradeddl2();
+        });
+
+        $("#sect3").change(function () {
+            gradeddl3();
+        });
+        $("#ddlgrade3").change(function () {
+            gradeddl3();
+        });
+        $("#ddlcampus3").change(function () {
+            gradeddl3();
+        });
+
+        $("#sect4").change(function () {
+            gradeddl4();
+        });
+        $("#ddlgrade4").change(function () {
+            gradeddl4();
+        });
+        $("#ddlcampus4").change(function () {
+            gradeddl4();
+        });
+
+        $("#sect5").change(function () {
+            gradeddl5();
+        });
+        $("#ddlgrade5").change(function () {
+            gradeddl5();
+        });
+        $("#ddlcampus5").change(function () {
+            gradeddl5();
+        });
+
+        $("#sect6").change(function () {
+            gradeddl6();
+        });
+        $("#ddlgrade6").change(function () {
+            gradeddl6();
+        });
+        $("#ddlcampus6").change(function () {
+            gradeddl6();
+        });
+
+        $("#sect7").change(function () {
+            gradeddl7();
+        });
+        $("#ddlgrade7").change(function () {
+            gradeddl7();
+        });
+        $("#ddlcampus7").change(function () {
+            gradeddl7();
+        });
+
+        $("#sect8").change(function () {
+            gradeddl8();
+        });
+        $("#ddlgrade8").change(function () {
+            gradeddl8();
+        });
+        $("#ddlcampus8").change(function () {
+            gradeddl8();
+        });
+
+        $("#Printbutton").click(function () {
+
+            debugger;
+
+
+            var GridIdList1 = "";
+            GridIdList1 = $("#AdmissionManagementList1").jqGrid('getGridParam', 'selarrrow');
+
+
+            var GridIdList2 = "";
+            GridIdList2 = $("#AdmissionManagementList2").jqGrid('getGridParam', 'selarrrow');
+            var GridIdList3 = "";
+            GridIdList3 = $("#AdmissionManagementList3").jqGrid('getGridParam', 'selarrrow');
+            var GridIdList4 = "";
+            GridIdList4 = $("#AdmissionManagementList4").jqGrid('getGridParam', 'selarrrow');
+            var GridIdList5 = "";
+            GridIdList5 = $("#AdmissionManagementList5").jqGrid('getGridParam', 'selarrrow');
+            var GridIdList6 = "";
+            GridIdList6 = $("#AdmissionManagementList6").jqGrid('getGridParam', 'selarrrow');
+            var GridIdList7 = "";
+            GridIdList7 = $("#AdmissionManagementList7").jqGrid('getGridParam', 'selarrrow');
+            var GridIdList8 = "";
+            GridIdList8 = $("#AdmissionManagementList8").jqGrid('getGridParam', 'selarrrow');
+
+            var rowData1 = [];
+            var rowData11 = [];
+            var rowData21 = [];
+            var ctyp1 = [];
+
+            var j = 0;
+
+            if (GridIdList1 != undefined) {
+                if (GridIdList1.length > 0) {
+                    for (i = 0; i < GridIdList1.length; i++) {
+                        rowData1[j] = $("#AdmissionManagementList1").jqGrid('getRowData', GridIdList1[i]);
+                        rowData11[j] = rowData1[j].PreRegNum;
+                        rowData21[j] = rowData1[j].Id;
+                        var ct = document.getElementById('CardType1');
+                        ctyp1[j] = ct.options[ct.selectedIndex].value;
+                        j++;
+                    }
+                }
+            }
+
+            if (GridIdList2 != undefined) {
+                if (GridIdList2.length > 0) {
+                    for (k = 0; k < GridIdList2.length; k++) {
+                        rowData1[j] = $("#AdmissionManagementList2").jqGrid('getRowData', GridIdList2[k]);
+                        rowData11[j] = rowData1[j].PreRegNum;
+                        rowData21[j] = rowData1[j].Id;
+                        var ct = document.getElementById('CardType2');
+                        ctyp1[j] = ct.options[ct.selectedIndex].value;
+                        j++;
+                    }
+                }
+            }
+
+            if (GridIdList3 != undefined) {
+                if (GridIdList3.length > 0) {
+                    for (l = 0; l < GridIdList3.length; l++) {
+                        rowData1[j] = $("#AdmissionManagementList3").jqGrid('getRowData', GridIdList3[l]);
+                        rowData11[j] = rowData1[j].PreRegNum;
+                        rowData21[j] = rowData1[j].Id;
+                        var ct = document.getElementById('CardType3');
+                        ctyp1[j] = ct.options[ct.selectedIndex].value;
+                        j++;
+                    }
+                }
+            }
+
+            if (GridIdList4 != undefined) {
+                if (GridIdList4.length > 0) {
+                    for (m = 0; m < GridIdList4.length; m++) {
+                        rowData1[j] = $("#AdmissionManagementList4").jqGrid('getRowData', GridIdList4[m]);
+                        rowData11[j] = rowData1[j].PreRegNum;
+                        rowData21[j] = rowData1[j].Id;
+                        var ct = document.getElementById('CardType4');
+                        ctyp1[j] = ct.options[ct.selectedIndex].value;
+                        j++;
+                    }
+                }
+            }
+
+            if (GridIdList5 != undefined) {
+                if (GridIdList5.length > 0) {
+                    for (i = 0; i < GridIdList5.length; i++) {
+                        rowData1[j] = $("#AdmissionManagementList5").jqGrid('getRowData', GridIdList5[i]);
+                        rowData11[j] = rowData1[j].PreRegNum;
+                        rowData21[j] = rowData1[j].Id;
+                        var ct = document.getElementById('CardType5');
+                        ctyp1[j] = ct.options[ct.selectedIndex].value;
+                        //  j = i;
+                        j++;
+                    }
+                }
+            }
+
+            if (GridIdList6 != undefined) {
+                if (GridIdList6.length > 0) {
+                    for (k = 0; k < GridIdList6.length; k++) {
+                        rowData1[j] = $("#AdmissionManagementList6").jqGrid('getRowData', GridIdList6[k]);
+                        rowData11[j] = rowData1[j].PreRegNum;
+                        rowData21[j] = rowData1[j].Id;
+                        var ct = document.getElementById('CardType6');
+                        ctyp1[j] = ct.options[ct.selectedIndex].value;
+                        j++;
+                    }
+                }
+            }
+
+            if (GridIdList7 != undefined) {
+                if (GridIdList7.length > 0) {
+                    for (l = 0; l < GridIdList7.length; l++) {
+                        rowData1[j] = $("#AdmissionManagementList7").jqGrid('getRowData', GridIdList7[l]);
+                        rowData11[j] = rowData1[j].PreRegNum;
+                        rowData21[j] = rowData1[j].Id;
+                        var ct = document.getElementById('CardType7');
+                        ctyp1[j] = ct.options[ct.selectedIndex].value;
+                        j++;
+                    }
+                }
+            }
+
+            if (GridIdList8 != undefined) {
+                if (GridIdList8.length > 0) {
+                    for (m = 0; m < GridIdList8.length; m++) {
+                        rowData1[j] = $("#AdmissionManagementList8").jqGrid('getRowData', GridIdList8[m]);
+                        rowData11[j] = rowData1[j].PreRegNum;
+                        rowData21[j] = rowData1[j].Id;
+                        var ct = document.getElementById('CardType8');
+                        ctyp1[j] = ct.options[ct.selectedIndex].value;
+                        j++;
+                    }
+                }
+            }
+            window.location.href = "/Admission/PrintIdPickupCard?Id=" + rowData21 + "&PreRegNo=" + rowData11 + "&idtype=" + ctyp1;
+        });
+
+
+        $("#ddlcampus1").change(function () {
+            gradeddl("1");
+        });
+
+        $("#ddlcampus2").change(function () {
+            gradeddl("2");
+        });
+        $("#ddlcampus3").change(function () {
+            gradeddl("3");
+        });
+
+        $("#ddlcampus4").change(function () {
+            gradeddl("4");
+        });
+        $("#ddlcampus5").change(function () {
+            gradeddl("5");
+        });
+
+        $("#ddlcampus6").change(function () {
+            gradeddl("6");
+        });
+
+        $("#ddlcampus7").change(function () {
+            gradeddl("7");
+        });
+
+        $("#ddlcampus8").change(function () {
+            gradeddl("8");
+        });
+
+        function gradeddl1() {
+            debugger;
+            var e = document.getElementById('ddlcampus1');
+            campus1 = e.options[e.selectedIndex].value;
+
+            var f = document.getElementById('ddlgrade1');
+            grade1 = f.options[f.selectedIndex].value;
+
+            var g = document.getElementById('sect1');
+            section1 = g.options[g.selectedIndex].value;
+
+            var h = document.getElementById('ddlname1');
+            name1 = h.options[h.selectedIndex].value;
+
+            //alert(campus1 + grade1 + section1 + name1);
+            $.getJSON("/Admission/Studentddl/", { campus: campus1, grade: grade1, section: section1 },
+            function (modelData) {
+                var select = $("#ddlname1");
+                select.empty();
+                select.append($('<option/>'
+                               , {
+                                   value: 0,
+                                   text: "Select Name"
+                               }));
+                $.each(modelData, function (index, itemData) {
+
+                    select.append($('<option/>',
+                                  {
+                                      value: itemData.Name,
+                                      text: itemData.Name
+                                  }));
+                });
+            });
+        }
+
+        function gradeddl2() {
+            var e = document.getElementById('ddlcampus2');
+            campus2 = e.options[e.selectedIndex].value;
+
+            var f = document.getElementById('ddlgrade2');
+            grade2 = f.options[f.selectedIndex].value;
+
+            var g = document.getElementById('sect2');
+            section2 = g.options[g.selectedIndex].value;
+
+            var h = document.getElementById('ddlname2');
+            name2 = h.options[h.selectedIndex].value;
+
+            $.getJSON("/Admission/Studentddl/", { campus: campus2, grade: grade2, section: section2 },
+            function (modelData) {
+                var select = $("#ddlname2");
+                select.empty();
+                select.append($('<option/>'
+                               , {
+                                   value: 0,
+                                   text: "Select Name"
+                               }));
+                $.each(modelData, function (index, itemData) {
+
+                    select.append($('<option/>',
+                                  {
+                                      value: itemData.Name,
+                                      text: itemData.Name
+                                  }));
+                });
+            });
+        }
+
+        function gradeddl3() {
+            var e = document.getElementById('ddlcampus3');
+            campus3 = e.options[e.selectedIndex].value;
+
+            var f = document.getElementById('ddlgrade3');
+            grade3 = f.options[f.selectedIndex].value;
+
+            var g = document.getElementById('sect3');
+            section3 = g.options[g.selectedIndex].value;
+
+            var h = document.getElementById('ddlname3');
+            name3 = h.options[h.selectedIndex].value;
+
+            $.getJSON("/Admission/Studentddl/", { campus: campus3, grade: grade3, section: section3 },
+            function (modelData) {
+                var select = $("#ddlname3");
+                select.empty();
+                select.append($('<option/>'
+                               , {
+                                   value: 0,
+                                   text: "Select Name"
+                               }));
+                $.each(modelData, function (index, itemData) {
+
+                    select.append($('<option/>',
+                                  {
+                                      value: itemData.Name,
+                                      text: itemData.Name
+                                  }));
+                });
+            });
+        }
+
+        function gradeddl4() {
+            var e = document.getElementById('ddlcampus4');
+            campus4 = e.options[e.selectedIndex].value;
+
+            var f = document.getElementById('ddlgrade4');
+            grade4 = f.options[f.selectedIndex].value;
+
+            var g = document.getElementById('sect4');
+            section4 = g.options[g.selectedIndex].value;
+
+            var h = document.getElementById('ddlname4');
+            name4 = h.options[h.selectedIndex].value;
+
+            $.getJSON("/Admission/Studentddl/", { campus: campus4, grade: grade4, section: section4 },
+            function (modelData) {
+                var select = $("#ddlname4");
+                select.empty();
+                select.append($('<option/>'
+                               , {
+                                   value: 0,
+                                   text: "Select Name"
+                               }));
+                $.each(modelData, function (index, itemData) {
+
+                    select.append($('<option/>',
+                                  {
+                                      value: itemData.Name,
+                                      text: itemData.Name
+                                  }));
+                });
+            });
+        }
+        function gradeddl5() {
+            var e = document.getElementById('ddlcampus5');
+            campus5 = e.options[e.selectedIndex].value;
+
+            var f = document.getElementById('ddlgrade5');
+            grade5 = f.options[f.selectedIndex].value;
+
+            var g = document.getElementById('sect5');
+            section5 = g.options[g.selectedIndex].value;
+
+            var h = document.getElementById('ddlname5');
+            name5 = h.options[h.selectedIndex].value;
+
+            $.getJSON("/Admission/Studentddl/", { campus: campus5, grade: grade5, section: section5 },
+            function (modelData) {
+                var select = $("#ddlname5");
+                select.empty();
+                select.append($('<option/>'
+                               , {
+                                   value: 0,
+                                   text: "Select Name"
+                               }));
+                $.each(modelData, function (index, itemData) {
+
+                    select.append($('<option/>',
+                                  {
+                                      value: itemData.Name,
+                                      text: itemData.Name
+                                  }));
+                });
+            });
+        }
+
+        function gradeddl6() {
+            var e = document.getElementById('ddlcampus6');
+            campus6 = e.options[e.selectedIndex].value;
+
+            var f = document.getElementById('ddlgrade6');
+            grade6 = f.options[f.selectedIndex].value;
+
+            var g = document.getElementById('sect6');
+            section6 = g.options[g.selectedIndex].value;
+
+            var h = document.getElementById('ddlname6');
+            name6 = h.options[h.selectedIndex].value;
+
+            $.getJSON("/Admission/Studentddl/", { campus: campus6, grade: grade6, section: section6 },
+            function (modelData) {
+                var select = $("#ddlname6");
+                select.empty();
+                select.append($('<option/>'
+                               , {
+                                   value: 0,
+                                   text: "Select Name"
+                               }));
+                $.each(modelData, function (index, itemData) {
+
+                    select.append($('<option/>',
+                                  {
+                                      value: itemData.Name,
+                                      text: itemData.Name
+                                  }));
+                });
+            });
+        }
+
+        function gradeddl7() {
+            var e = document.getElementById('ddlcampus7');
+            campus7 = e.options[e.selectedIndex].value;
+
+            var f = document.getElementById('ddlgrade7');
+            grade7 = f.options[f.selectedIndex].value;
+
+            var g = document.getElementById('sect7');
+            section7 = g.options[g.selectedIndex].value;
+
+            var h = document.getElementById('ddlname7');
+            name7 = h.options[h.selectedIndex].value;
+
+            $.getJSON("/Admission/Studentddl/", { campus: campus7, grade: grade7, section: section7 },
+            function (modelData) {
+                var select = $("#ddlname7");
+                select.empty();
+                select.append($('<option/>'
+                               , {
+                                   value: 0,
+                                   text: "Select Name"
+                               }));
+                $.each(modelData, function (index, itemData) {
+
+                    select.append($('<option/>',
+                                  {
+                                      value: itemData.Name,
+                                      text: itemData.Name
+                                  }));
+                });
+            });
+        }
+
+        function gradeddl8() {
+            var e = document.getElementById('ddlcampus8');
+            campus8 = e.options[e.selectedIndex].value;
+
+            var f = document.getElementById('ddlgrade8');
+            grade8 = f.options[f.selectedIndex].value;
+
+            var g = document.getElementById('sect8');
+            section8 = g.options[g.selectedIndex].value;
+
+            var h = document.getElementById('ddlname8');
+            name8 = h.options[h.selectedIndex].value;
+
+            $.getJSON("/Admission/Studentddl/", { campus: campus8, grade: grade8, section: section8 },
+            function (modelData) {
+                var select = $("#ddlname8");
+                select.empty();
+                select.append($('<option/>'
+                               , {
+                                   value: 0,
+                                   text: "Select Name"
+                               }));
+                $.each(modelData, function (index, itemData) {
+
+                    select.append($('<option/>',
+                                  {
+                                      value: itemData.Name,
+                                      text: itemData.Name
+                                  }));
+                });
+            });
+        }
+
+
+
+
+        //switch element when editing inline
+        function aceSwitch(cellvalue, options, cell) {
+            setTimeout(function () {
+                $(cell).find('input[type=checkbox]')
+                    .addClass('ace ace-switch ace-switch-5')
+                    .after('<span class="lbl"></span>');
+            }, 0);
+        }
+        //enable datepicker
+        function pickDate(cellvalue, options, cell) {
+            setTimeout(function () {
+                $(cell).find('input[type=text]')
+                        .datepicker({ format: 'yyyy-mm-dd', autoclose: true });
+            }, 0);
+        }
+
+
+        //navButtons
+        jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+            { 	//navbar options
+                edit: false,
+                editicon: 'ace-icon fa fa-pencil blue',
+                add: false,
+                addicon: 'ace-icon fa fa-plus-circle purple',
+                del: false,
+                delicon: 'ace-icon fa fa-trash-o red',
+                search: false,
+                searchicon: 'ace-icon fa fa-search orange',
+                refresh: true,
+                refreshicon: 'ace-icon fa fa-refresh green',
+                view: false,
+                viewicon: 'ace-icon fa fa-search-plus grey'
+            }, {}, {}, {}, {}
+        )
+
+
+
+        function style_edit_form(form) {
+            //enable datepicker on "sdate" field and switches for "stock" field
+            form.find('input[name=sdate]').datepicker({ format: 'yyyy-mm-dd', autoclose: true })
+                .end().find('input[name=stock]')
+                    .addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
+            //don't wrap inside a label element, the checkbox value won't be submitted (POST'ed)
+            //.addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
+
+            //update buttons classes
+            var buttons = form.next().find('.EditButton .fm-button');
+            buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide(); //ui-icon, s-icon
+            buttons.eq(0).addClass('btn-primary').prepend('<i class="ace-icon fa fa-check"></i>');
+            buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>')
+
+            buttons = form.next().find('.navButton a');
+            buttons.find('.ui-icon').hide();
+            buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
+            buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');
+        }
+
+        function style_delete_form(form) {
+            var buttons = form.next().find('.EditButton .fm-button');
+            buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide(); //ui-icon, s-icon
+            buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
+            buttons.eq(1).addClass('btn-default').prepend('<i class="ace-icon fa fa-times"></i>')
+        }
+
+        function style_search_filters(form) {
+            form.find('.delete-rule').val('X');
+            form.find('.add-rule').addClass('btn btn-xs btn-primary');
+            form.find('.add-group').addClass('btn btn-xs btn-success');
+            form.find('.delete-group').addClass('btn btn-xs btn-danger');
+        }
+        function style_search_form(form) {
+            var dialog = form.closest('.ui-jqdialog');
+            var buttons = dialog.find('.EditTable')
+            buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
+            buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
+            buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
+        }
+
+        function beforeDeleteCallback(e) {
+            var form = $(e[0]);
+            if (form.data('styled')) return false;
+
+            form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+            style_delete_form(form);
+
+            form.data('styled', true);
+        }
+
+        function beforeEditCallback(e) {
+            var form = $(e[0]);
+            form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+            style_edit_form(form);
+        }
+
+
+
+        //it causes some flicker when reloading or navigating grid
+        //it may be possible to have some custom formatter to do this as the grid is being created to prevent this
+        //or go back to default browser checkbox styles for the grid
+        function styleCheckbox(table) {
+            /**
+            $(table).find('input:checkbox').addClass('ace')
+            .wrap('<label />')
+            .after('<span class="lbl align-top" />')
+        
+        
+            $('.ui-jqgrid-labels th[id*="_cb"]:first-child')
+            .find('input.cbox[type=checkbox]').addClass('ace')
+            .wrap('<label />').after('<span class="lbl align-top" />');
+            */
+        }
+
+
+        //unlike navButtons icons, action icons in rows seem to be hard-coded
+        //you can change them like this in here if you want
+        function updateActionIcons(table) {
+            /**
+            var replacement = 
+            {
+            'ui-ace-icon fa fa-pencil' : 'ace-icon fa fa-pencil blue',
+            'ui-ace-icon fa fa-trash-o' : 'ace-icon fa fa-trash-o red',
+            'ui-icon-disk' : 'ace-icon fa fa-check green',
+            'ui-icon-cancel' : 'ace-icon fa fa-times red'
+            };
+            $(table).find('.ui-pg-div span.ui-icon').each(function(){
+            var icon = $(this);
+            var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+            if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+            })
+            */
+        }
+
+        //replace icons with FontAwesome icons like above
+        function updatePagerIcons(table) {
+            var replacement =
+            {
+                'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+            };
+            $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+                var icon = $(this);
+                var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+                if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+            })
+        }
+
+        function enableTooltips(table) {
+            $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+            $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+        }
+
+        //var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
+
+        $(document).on('ajaxloadstart', function (e) {
+            $(grid_selector).jqGrid('GridUnload');
+            $('.ui-jqdialog').remove();
+        });
+    });
+</script>
+<!-- the following scripts are used in demo only for onpage help and you don't need them -->
+<link rel="stylesheet" href="../assets/css/ace.o    npage-help.css" />
+<link rel="stylesheet" href="../docs/assets/js/themes/sunburst.css" />
+<script type="text/javascript">    ace.vars['base'] = '..'; </script>
+<script src="../assets/js/ace/elements.onpage-help.js"></script>
+<script src="../assets/js/ace/ace.onpage-help.js"></script>
+<script src="../docs/assets/js/rainbow.js"></script>
+<script src="../docs/assets/js/language/generic.js"></script>
+<script src="../docs/assets/js/language/html.js"></script>
+<script src="../docs/assets/js/language/css.js"></script>
+<script src="../docs/assets/js/language/javascript.js"></script>

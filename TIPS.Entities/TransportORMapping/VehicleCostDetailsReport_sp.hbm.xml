@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.VehicleCostDetailsReport_sp" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.VehicleCostDetailsReport_sp,TIPS.Entities" table="VehicleCostDetailsReport_sp" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="Campus"  column ="Campus" type="string"/>
+    <property name="TripCount"  column ="TripCount" type="string"/>
+    <property name="VehicleNo"  column ="VehicleNo" type="string"/>
+    <property name="DriverOt"  column ="DriverOt" type="decimal"/>
+    <property name="HelperOt"  column ="HelperOt" type="decimal"/>
+    <property name="Diesel"  column ="Diesel" type="decimal"/>
+    <property name="Maintenance"  column ="Maintenance" type="decimal"/>
+    <property name="Service"  column ="Service" type="decimal"/>
+    <property name="FC"  column ="FC" type="decimal"/>
+    <property name="Others"  column ="Others" type="decimal"/>
+    
+  </class>
+  <sql-query name="VehicleCostDetailsReport" callable="true">
+    <query-param name="FromDate" type="datetime"/>
+    <query-param name="ToDate" type="datetime"/>
+    <query-param name="Campus" type="string"/>
+    <query-param name="VehicleNo" type="string"/>
+    <return class="TIPS.Entities.TransportEntities.VehicleCostDetailsReport_sp, TIPS.Entities">
+      <return-property name="Id" column="Id" />
+      <return-property name="Campus" column="Campus" />
+      <return-property name="TripCount" column="TripCount" />
+      <return-property name="VehicleNo" column="VehicleNo" />
+      <return-property name="DriverOt" column="DriverOt" />
+      <return-property name="HelperOt" column="HelperOt" />
+      <return-property name="Diesel" column="Diesel" />
+      <return-property name="Maintenance" column="Maintenance" />
+      <return-property name="ErnakulamKG" column="ErnakulamKG" />
+      <return-property name="Service" column="Service" />
+      <return-property name="FC" column="FC" />
+      <return-property name="Others" column="Others" />
+         </return>
+    <![CDATA[ 
+     EXEC [VehicleCostDetailsReport_sp] @SPFromDate=:FromDate,@SPToDate=:ToDate,@SPCampus=:Campus,@SPVehicleNo=:VehicleNo
+     ]]>
+  </sql-query>
+</hibernate-mapping>

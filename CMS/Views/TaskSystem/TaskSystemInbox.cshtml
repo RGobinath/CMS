@@ -1,0 +1,231 @@
+﻿<script type="text/javascript">
+    $(function () {
+
+        function toProperCase(str) {
+            return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+        }
+        if ($.trim($("#AlrtDskMsg").val()) != "") {
+            InfoMsg($("#AlrtDskMsg").val(),function(){$("#AlrtDskMsg").val("");});
+        }
+
+        if ($('#isCreator').val() == true || $('#isCreator').val() == 'True') {
+            $('#btnNewTask').show();
+        } else {
+            $('#btnNewTask').hide();
+        }
+        
+        function buildDataforDrpDwn(VwData) {
+            //
+            //var objVwData=;
+            var SrlzdData = VwData;
+            var SlctData = ":All;";
+            for (var i = 0, l = SrlzdData.length; i < l; i++) {
+                SlctData += SrlzdData[i].Text + ":" + toProperCase(SrlzdData[i].Text) + ";";
+            }
+            return SlctData.substring(0, SlctData.length - 1);
+        }
+
+        //activityName,status,ActivityFullName
+        function formateadorLink(cellvalue, options, rowObject) {
+            return "<a href=/TaskSystem/TaskSystem?Id=" + rowObject[1] + "&ActivityId=" + rowObject[0] + "&activityName=" + rowObject[3] + "&status=" + rowObject[12] + "&ActivityFullName=" + rowObject[4] + ">" + cellvalue + "</a>";
+				}
+
+				//view-source:http://www.ok-soft-gmbh.com/jqGrid/ToolbarSearchValidation.htm
+				$("#TaskSystemList").jqGrid({
+				mtype: 'GET',
+				url: '/TaskSystem/GetTaskSystemInbox',
+				datatype: 'json',
+				height: '275',
+				width: '1225',
+               // autowidth:true,
+				shrinkToFit: true,
+				colNames: ['Id', 'TSId', 'Task No', 'Activity Name', 'Activity Name', 'Task Type', 'Severity', 'Priority', 'Task Status',
+				'Reporter', 'Created Date', 'Assigned To', 'Status',
+				'History',
+				'SLA','Description'],
+				colModel: [
+				{ name: 'Id', index: 'Id', hidden: true, key: true }, //0
+				{name: 'TSId', index: 'TSId', hidden: true }, //1
+				{name: 'TaskNo', index: 'TaskNo', width: 70, formatter: formateadorLink, cellattr:function(rowId, val,rawObject){ return 'title="'+rawObject[14]+'"'} }, //2
+				{name: 'ActivityName', index: 'ActivityName', width: 130, hidden:true }, //3
+				{name: 'ActivityFullName', index: 'ActivityFullName', width: 140 }, //4
+//				{name: 'Module', index: 'Module', width: 160, formatter: 'select', stype: 'select',
+//				sorttype: function (cell) { return buildDataforDrpDwn(@Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.Module)))[cell]; },
+//				edittype: 'select', editoptions: { value: buildDataforDrpDwn(@Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.Module))) },
+//				searchoptions: { sopt: ['eq'] }
+//				},//5
+				{name: 'TaskType', index: 'TaskType', width: 100, formatter: 'select', stype: 'select',
+				sorttype: function (cell) { return buildDataforDrpDwn(@Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.TaskType)))[cell]; },
+				edittype: 'select', editoptions: { value: buildDataforDrpDwn(@Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.TaskType))) },
+				searchoptions: { sopt: ['eq'] }
+				},//6
+				{name: 'Severity', index: 'Severity',hidden:true, width: 70 , formatter: 'select', stype: 'select',
+				sorttype: function (cell) { return buildDataforDrpDwn(@Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.Severity)))[cell]; },
+				edittype: 'select', editoptions: { value: buildDataforDrpDwn(@Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.Severity))) },
+				searchoptions: { sopt: ['eq'] }
+				},//7
+				{name: 'Priority', index: 'Priority', width: 90, formatter: 'select', stype: 'select',
+				sorttype: function (cell) { return buildDataforDrpDwn(@Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.Priority)))[cell]; },
+				edittype: 'select', editoptions: { value: buildDataforDrpDwn(@Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.Priority))) },
+				searchoptions: { sopt: ['eq'] }
+				},//8
+				{ name: 'TaskStatus', index: 'TaskStatus', width: 130, formatter: 'select', stype: 'select',
+				sorttype: function (cell) { return buildDataforDrpDwn(@Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.TaskStatus)))[cell]; },
+				edittype: 'select', editoptions: { value: buildDataforDrpDwn(@Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.TaskStatus))) },
+				searchoptions: { sopt: ['eq'] }
+				},//9
+				{name: 'Reporter', index: 'Reporter', width: 70 }, //10
+				//                          {name:'CreatedDate',index:'CreatedDate', width:120,editable:true,align:'center',
+				//                     sorttype:'date', formatter:'date', datefmt:'dd-M-YY',
+				//                     editoptions:{size:12,dataInit : function (elem) {
+				//                         setTimeout(function(){
+				//                             $(elem).datepicker({ showOn: 'button' });
+				//                         },100);
+				//                     } }}, //11
+
+				{name: 'CreatedDate', index: 'CreatedDate', width: 150
+//                ,editable:true, formatter: 'date', editoptions:{
+//				dataInit : function (elem) {
+//				$(elem).datepicker({
+//				showOn: 'button',
+//				showButtonPanel: false,
+//				dateFormat:'d-M-y',
+//				onSelect: function() { //
+//				if (this.id === "gs_CreatedDate") {
+//				setTimeout(function(){
+//				$('#TaskSystemList')[0].triggerToolbar();
+//				}, 50);
+//				}
+//				}});
+//				}}
+                },
+				{name: 'AssignedTo', index: 'AssignedTo', width: 90, hidden:true }, //12
+				{name: 'Status', index: 'Status', width: 100, formatter: 'select', stype: 'select',
+				sorttype: function (cell) { return "Available:Available;Assigned:Assigned;Sent:Sent;Completed:Completed"[cell]; },
+				edittype: 'select', editoptions: { value: "Available:Available;Assigned:Assigned;Sent:Sent;Completed:Completed" },
+				searchoptions: { sopt: ['eq'] }
+				},//13
+				{name: 'History', index: 'History', width: 70, align: 'center', sortable: false }, //14
+				{name: 'SLA', index: 'SLA', align: 'center', width: 40, sortable: false, formatter: statusimage},//15
+				{name:'Description',index:'Description', hidden:true}//16
+				],
+				pager: '#TaskSystemPage',
+				rowNum: '10',
+				sortname: 'Id',
+				sortorder: 'desc',
+				rowList: [5, 10, 20, 50, 100, 150, 200 ],
+				multiselect: true,
+				viewrecords: true
+				});
+				$("#TaskSystemList").navGrid('#TaskSystemPage', { add: false, edit: false, del: false, search: false, refresh: false });
+				$("#TaskSystemList").jqGrid('navButtonAdd', '#TaskSystemPage', {
+				caption: "Export To Excel",
+				onClickButton: function () {
+				window.open("GetTaskSystemInbox" + '?rows=9999' +
+				'&page=1'+
+                '&sidx=TaskNo'+
+                '&sord=desc'+
+                '&TaskStatus='+$('#gs_TaskStatus').val()+
+            '&fromDat='+$('#gs_CreatedDate').val()+
+            '&TaskNo='+$('#gs_TaskNo').val()+
+            '&Module='+$('#gs_Module').val()+
+            '&TaskType='+$('#gs_TaskType').val()+
+            '&Severity='+$('#gs_Severity').val()+
+            '&Priority='+$('#gs_Priority').val()+
+            '&Reporter='+$('#gs_Reporter').val()+
+            '&AssignedTo='+$('#gs_AssignedTo').val()+
+            '&ActivityFullName='+$('#gs_ActivityFullName').val()+
+            '&Status='+$('#gs_Status').val()+
+            '&ExportToXL=true'
+                );
+            }
+        });
+        $("#TaskSystemList").jqGrid('filterToolbar', { stringResult: false, searchOnEnter: true, beforeSearch: function () {
+            $('#TaskSystemList').clearGridData();
+            return false;
+        }
+        });
+
+        function statusimage(cellvalue, options, rowObject) {
+            
+            var i;
+            var cellValueInt = parseInt(cellvalue);
+            var cml = $("#TaskSystemList").jqGrid();
+            for (i = 0; i < cml.length; i++) {
+                if (rowObject[7] != "") {
+                    if (rowObject[7] == "LOW") {
+                        return '<img src="../../Images/green.jpg" height="12px" width="12px" alt=' + cellvalue + ' title=' + cellvalue + ' />'
+                    }
+                    else if (rowObject[7] == "MEDIUM") {
+                        return '<img src="../../Images/yellow.jpg" height="10px" width="10px"  alt=' + cellvalue + ' title=' + cellvalue + ' />'
+                    }
+                    else if (rowObject[7] == "HIGH") {
+                        return '<img src="../../Images/orange.jpg" height="10px" width="10px" alt=' + cellvalue + ' title=' + cellvalue + ' />'
+                    }
+                    else if (rowObject[7] == "CRITICAL") {
+                        return '<img src="../../Images/redblink3.gif" height="10px" width="10px" alt=' + cellvalue + ' title=' + cellvalue + ' />'
+                    }
+                }
+            }
+        }
+
+        $("#btnNewTask").click(function () {
+            window.location.href = '@Url.Action("TaskSystem", "TaskSystem")';
+        });
+    });
+
+    function ShowComments(ActivityId) {
+        //
+        //return true;
+        //
+        modalid = $('#Activities');
+        LoadPopupDynamicaly("/TaskSystem/LoadUserControl/Activities", modalid, function () {
+        $('#ActivitiesHstryList').clearGridData();
+            LoadSetGridParam($('#ActivitiesHstryList'), "/TaskSystem/ActivitiesListJqGrid?Id=" + ActivityId);
+        });
+    }
+</script>
+<div id="TaskSys">
+    <table width="100%" class="WithBorderOnly" id="TaskGridDtls">
+        <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+            <td colspan="4">
+                Search Panel
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <input type="button" id="btnNewTask" value="New Task" name="New Task" />
+            </td>
+        </tr>
+        <tr>
+            @Html.Hidden("AlrtDskMsg", TempData["AlrtDskMsg"])
+            @Html.Hidden("isCreator")
+        </tr>
+        <tr>
+            <td colspan="4">
+                <table id="TaskSystemList">
+                </table>
+                <div id="TaskSystemPage">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" style="float: right;">
+                <img src="../../Images/green.jpg" alt="" height="12px" width="12px" /><label style="font-size: x-small">&nbsp
+                    Low
+                </label>
+                &nbsp&nbsp
+                <img src="../../Images/yellow.jpg" alt="" height="10px" width="10px" /><label style="font-size: x-small">&nbsp
+                    Medium</label>
+                &nbsp&nbsp
+                <img src="../../Images/orange.jpg" alt="" height="10px" width="10px" /><label style="font-size: x-small">&nbsp
+                    High</label>
+                &nbsp&nbsp
+                <img src="../../Images/redblink3.gif" alt="" height="10px" width="10px" /><label
+                    style="font-size: x-small">&nbsp Critical
+                </label>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="Activities" title="Activity History"></div>

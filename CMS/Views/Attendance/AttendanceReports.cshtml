@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "AttendanceReports";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Criteria</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownList("Campus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Grade</b></label>
+                                        @Html.DropDownList("Grade", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Section</b></label>
+                                        @Html.DropDownList("Section",
+                                            new SelectList(new[] { 
+                                                new { Text = "Select", Value = "Select", Seleced = "True" },
+                                                new { Text = "A", Value = "A", Seleced = "false" },
+                                                new { Text = "B", Value = "B", Seleced = "false" },
+                                                new { Text = "C", Value = "C", Seleced = "false" },
+                                                new { Text = "D", Value = "D", Seleced = "false" },
+                                                new { Text = "E", Value = "E", Seleced = "false" },
+                                                new { Text = "F", Value = "F", Seleced = "false" }
+                                       }, "Text", "Value", "Seleced"),
+                                       new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Academic Year</b></label>
+                                        <select class="form-control select-sm" id="AcademicYear">
+                                            @foreach (var datelist in ViewBag.acadddl)
+                                            {
+                                                <option value="@datelist">@datelist</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1" id="chkLabel">
+                                            <b>Search Month</b></label>
+                                        @Html.DropDownList("ddlSearchType", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <br />
+                                        <button type="submit" class="btn btn-success btn-block btn-sm" id="btnGetReport">
+                                            <i class="ace-icon fa fa-search"></i>Get Attendance Reports
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <table id="ReportList">
+                            </table>
+                            <div id="ReportListPager">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="@Url.Content("../../Scripts/Attendance/AttendanceReports.js")" type="text/javascript"></script>
+<script type="text/javascript">    window.jQuery || document.write("<script src='../assets/js/jquery.min.js'>"
++ "<" + "/script>"); </script>
+<script type="text/javascript">    if ('ontouchstart'
+in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>"
++ "<" + "/script>"); </script>

@@ -1,0 +1,239 @@
+﻿@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<script type="text/javascript">
+    try { ace.settings.check('main-container', 'fixed') } catch (e) { }
+</script>
+<div class="page-content" style="font-family: Verdana;">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+    <span>Home</span>
+        <div class="row" style="margin-top: 5px;">
+            <script type="text/javascript">
+                try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+            </script>
+            
+        </div>
+        <div class="row" style="margin-top: 5px; margin-left: 15px;">
+            <div class="col-xs-4 col-sm-3 pricing-span-header">
+                <div class="widget-box transparent">
+                    <div class="widget-header" style="min-height: 25px;">
+                        <div class="PanelHeader" align="center" style="font-family: Verdana; color: Green;
+                            font-size: 10px;">
+                            <b>Campus</b></div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            @if (ViewBag.CampusList != null)
+                            {
+                                <ul class="list-unstyled list-striped pricing-table-header">
+                                    @foreach (var @Campusitem in ViewBag.CampusList)
+                                    {
+                                        <li style="line-height: 10px;"><b>@Campusitem.Name </b></li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                        <div class="PanelHeader" align="center" style="font-family: Verdana; color: Green;
+                            font-size: 10px;">
+                            <b>Total</b></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-8 col-sm-9 pricing-span-body" style="font-size: 10px;" align="center">
+                <div class="pricing-span">
+                    <div class="widget-box widget-color-red3">
+                        <div class="widget-header" style="min-height: 25px;">
+                            <div class="PanelHeader" align="center">
+                                <i class="ace-icon fa fa-user"></i>&nbsp;Students</div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                @if (ViewBag.CampusWiseStudentDetails != null)
+                                {
+                                    <ul class="list-unstyled list-striped pricing-table">
+                                        @foreach (var @Campusitem in ViewBag.CampusWiseStudentDetails)
+                                        {
+                                            <li style="line-height: 10px;">@Campusitem.Count </li>
+                                        }
+                                    </ul>
+                                   
+                                }
+                            </div>
+                            <div style="margin-top: -2px; background-color: #d15b47 !important;">
+                                <span class="label label-danger">@ViewBag.StudentsCount</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pricing-span">
+                    <div class="widget-box widget-color-orange">
+                        <div class="widget-header" style="min-height: 25px;">
+                            <div class="PanelHeader" align="center" style="color: White;">
+                                <i class="ace-icon fa fa-book white"></i>&nbsp;Staff</div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                @if (ViewBag.CampusWiseStaffDetails != null)
+                                {
+                                    <ul class="list-unstyled list-striped pricing-table">
+                                        @foreach (var @Campusitem in ViewBag.CampusWiseStaffDetails)
+                                        {
+                                            <li style="line-height: 10px;">@Campusitem.Count </li>
+                                        }
+                                    </ul>
+                                }
+                            </div>
+                            <div style="margin-top: -2px; background-color: #f89406 !important;">
+                                <span class="label label-warning">@ViewBag.StaffCount</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pricing-span">
+                    <div class="widget-box widget-color-blue">
+                        <div class="widget-header" style="min-height: 25px;">
+                            <div class="PanelHeader" align="center">
+                                <i class="ace-icon fa fa-tags"></i>&nbsp;Issues</div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                @if (ViewBag.CampusWiseIssueDetails != null)
+                                {
+                                    <ul class="list-unstyled list-striped pricing-table">
+                                        @foreach (var @Campusitem in ViewBag.CampusWiseIssueDetails)
+                                        {
+                                            <li style="line-height: 10px;">@Campusitem.Count </li>
+                                        }
+                                    </ul>
+                                }
+                            </div>
+                            <div style="margin-top: -2px; background-color: #428bca !important;">
+                                <span class="label label-primary">@ViewBag.IssuesTotal</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pricing-span">
+                    <div class="widget-box widget-color-green">
+                        <div class="widget-header" style="min-height: 25px;">
+                            <div class="PanelHeader" align="center">
+                                <i class="ace-icon fa fa-users"></i>&nbsp;Users</div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                @if (ViewBag.CampusWiseUserDetails != null)
+                                {
+                                    <ul class="list-unstyled list-striped pricing-table">
+                                        @foreach (var @Campusitem in ViewBag.CampusWiseUserDetails)
+                                        {
+                                            <li style="line-height: 10px;">@Campusitem.Count </li>
+                                        }
+                                    </ul>
+                                }
+                            </div>
+                            <div style="margin-top: -2px; background-color: #5cb85c !important; height: 20px;">
+                                <div style="padding-top: 3px; color: White;">@ViewBag.UsersCount</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pricing-span">
+                    <div class="widget-box widget-color-grey">
+                        <div class="widget-header" style="min-height: 25px;">
+                            <div class="PanelHeader" align="center">
+                                <i class="ace-icon fa fa-taxi"></i>&nbsp;Vehicles</div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                @if (ViewBag.CampusWiseTransportDetails != null)
+                                {
+                                    <ul class="list-unstyled list-striped pricing-table">
+                                        @foreach (var @Campusitem in ViewBag.CampusWiseTransportDetails)
+                                        {
+                                            <li style="line-height: 10px;">@Campusitem.ReportCount </li>
+                                        }
+                                    </ul>
+                                }
+                            </div>
+                            <div style="margin-top: -2px; background-color: #a0a0a0 !important;">
+                                <span class="label label-grey">@ViewBag.TransportCount</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- PAGE CONTENT ENDS -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-8 pricing-box">
+                        <div class="widget-box widget-color-blue">
+                            <div class="widget-header" style="text-align: left; min-height: 20px; padding-left: 5px;
+                                height: 19px; font-family: Verdana; font-size: 10px;">
+                                <i class="ace-icon fa fa-sitemap white"></i>&nbsp;Description of the system
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <p style="text-align: justify; font-size: 10px;">
+                                        TIPS is a World class school providing a great education experience for students
+                                        and a pioneer in many dimensions of imparting education. In this journey an Integrated
+                                        Campus management system is also needed and TIPSICS portal provides the user access
+                                        to the various process involved in the e-governance of TIPS school activities.This
+                                        is a Hybrid portal with internet and intranet functionality facilitating parents,
+                                        students, staff, vendors and the management.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 pricing-box">
+                        <div class="widget-box widget-color-blue">
+                            <div class="widget-header" style="text-align: left; min-height: 20px; padding-left: 5px;
+                                height: 19px; font-family: Verdana; font-size: 10px;">
+                                <i class="ace-icon fa fa-smile-o white"></i>&nbsp;Support Numbers & Id's
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    @*<p style="text-align: justify; font-size: 12px;">
+                                        <i class="ace-icon fa fa-envelope-o pink"></i>&nbsp;supportdesk@tipsglobal.org<br />
+                                        <i class="ace-icon fa fa-phone pink"></i>&nbsp;+91-422-647-3333
+                                    </p>*@
+                                    <p style="text-align: justify; font-size: 10px;">
+                                        <i class="ace-icon fa fa-envelope-o orange"></i>&nbsp;tipsics@tipsglobal.org<br />
+                                        <i class="ace-icon fa fa-phone orange"></i>&nbsp;+917207464869<br />
+                                        <i class="ace-icon fa fa-envelope-o orange"></i>&nbsp;supportdesk@tipsglobal.org<br />
+                                        <i class="ace-icon fa fa-phone orange"></i>&nbsp;+91-422-647-3333
+                                        <br />
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../assets/js/jquery.min.js'>" + "<" + "/script>");
+</script>
+<script type="text/javascript">
+    if ('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+</script>
+@*<script type="text/javascript">
+    jQuery(function ($) {
+        $.getJSON("/Home/GetAllCampusSudentsChart",
+            function (result) {
+                $.each(result, function (index, itemdata) {
+                    //                    alert(itemdata.Campus);
+                });
+            });
+    });
+</script>*@ 

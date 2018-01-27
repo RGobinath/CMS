@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "Comparitive Test Report";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        @Html.Hidden("BackUrl", Url.Action("ComparitiveSAReport", "Assess360"))
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <b>Name</b>
+                                        @Html.TextBox("Name", null, new { @Class = "form-control input-sm" })
+                                        @Html.Hidden("IsCombinedSci")
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>Campus Name</b>
+                                        @Html.DropDownList("Campus", new SelectList(new[] {
+                                          new { Value = "",Text = "Select"},
+                                          new { Value = "IB MAIN",Text = "IB MAIN"}}, "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>Grade</b>
+                                        @Html.DropDownList("Grade", new SelectList(new[] { 
+                                        new { Value = "",Text = "Select"},
+                                        new { Value = "X",Text = "X" }
+                                        }, "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>Section</b>
+                                        @Html.DropDownList("Section", new SelectList(new[] { 
+                                                new { Value = "", Text= "Select" },
+                                                new { Value = "A",Text = "A" },
+                                                new { Value = "B",Text = "B" },
+                                                new { Value = "C",Text = "C" },
+                                                new { Value = "D",Text = "D" },
+                                                new { Value = "E",Text = "E" }
+                                        }, "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button type="submit" class="btn btn-success btn-block btn-sm" id="btnSearch">
+                                            <i class="ace-icon fa fa-search white"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button type="button" class="btn btn-danger btn-block btn-sm" id="btnGenerate">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <br />
+                                        <button type="button" class="btn btn-primary btn-block btn-sm" id="btnReset">
+                                            <i class="ace-icon fa fa-file white"></i>GenerateReport
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <table id="JqGrid">
+                            </table>
+                            <div id="JqGridPager">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src='@Url.Content("/Scripts/Assess360/ComparativeSAReport.js")' type="text/javascript"></script>

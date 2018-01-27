@@ -1,0 +1,115 @@
+﻿@using TIPS.Entities.Assess
+@model FormattiveAssessmentPrint_vw
+<br />
+<table cellpadding="1" cellspacing="0" style="font-family: sans-serif; font-size: 10px;">
+    <tr>
+        <td align="right" width="15%">
+            <img width="120" height="50" style="float:right" src="@Model.TipsNaceLogo" alt="Tips Logo" />
+        </td>
+        <td align="center" width="70%">
+            <b style="font-size: 15px;">@Model.TipsName</b><br />
+            <br />
+            <b>@Model.Exam</b>
+        </td>
+        <td align="center" width="15%">
+            <img width="120" height="50" style="float:left"  src="@Model.TipsLogo" alt="Tips Logo" />
+        </td>
+    </tr>
+</table>
+<table cellpadding="1" cellspacing="0" style="font-family: sans-serif; font-size: 10px;">
+    <tr>
+        <td align="right">
+            <span style="float: right; padding-bottom: 10px">@String.Format("{0:dd-MMM-yyyy}", DateTime.Now)</span>
+        </td>
+    </tr>
+</table>
+<table cellpadding="1" cellspacing="0" style="font-family: sans-serif; font-size: 10px;">
+    <tr>
+        <td>
+            <span style="float: left"><b>Name of the student:@Model.Name</b></span>
+            <br />
+            <span style="float: right"><b>Grade:@Model.Grade & @Model.Section</b></span>
+        </td>
+    </tr>
+</table>
+<br />
+<table border="1" cellpadding="1" cellspacing="0" style="font-family: sans-serif; font-size: 10px; height: 400px; width: 100%;">
+    <tr>
+        <th rowspan="3" width="20%">
+            <b>Subject</b>
+        </th>
+        <th colspan="22" align="center" width="80%">
+            <b>Month</b>
+        </th>
+    </tr>
+    <tr>
+        <th colspan="2" width="7%">Jan</th>
+        <th colspan="2" width="7%">Feb</th>
+        <th colspan="2" width="7%">Mar</th>
+        <th colspan="2" width="7%">April</th>
+        <th colspan="2" width="7%">June</th>
+        <th colspan="2" width="7%">July</th>
+        <th colspan="2" width="7%">Aug</th>
+        <th colspan="2" width="7%">Sept</th>
+        <th colspan="2" width="7%">Oct</th>
+        <th colspan="2" width="7%">Nov</th>
+        <th colspan="2" width="7%">Dec</th>
+    </tr>
+    <tr>
+        <th width="4%" >FA</th>
+        <th width="4%" >HW</th>
+        <th width="4%" >FA</th>
+        <th width="4%" >HW</th>
+        <th width="4%" >FA</th>
+        <th width="4%" >HW</th>
+        <th width="4%" >FA</th>
+        <th width="4%" >HW</th>
+        <th width="4%" >FA</th>
+        <th width="4%" >HW</th>
+        <th width="4%" >FA</th>
+        <th width="4%" >HW</th>
+        <th width="4%" >FA</th>
+        <th width="4%" >HW</th>
+        <th width="4%" >FA</th>
+        <th width="4%" >HW</th>
+        <th width="4%" >FA</th>
+        <th width="4%" >HW</th>
+        <th width="4%" >FA</th>
+        <th width="4%" >HW</th>
+        <th width="4%" >FA</th>
+        <th width="4%" >HW</th>
+    </tr>
+    @if (Model.FAHWMarkList != null)
+    {
+        foreach (var item in Model.FAHWMarkList)
+        {
+        <tr>
+            <td width="20%">
+                @item.Subject
+            </td>
+            <td width="4%" >@item.FAJan</td>
+            <td width="4%" >@item.HWJan</td>
+            <td width="4%" >@item.FAFeb</td>
+            <td width="4%" >@item.HWFeb</td>
+            <td width="4%" >@item.FAMar</td>
+            <td width="4%" >@item.HWMar</td>
+            <td width="4%" >@item.FAApr</td>
+            <td width="4%" >@item.HWApr</td>
+            <td width="4%" >@item.FAJun</td>
+            <td width="4%" >@item.HWJun</td>
+            <td width="4%" >@item.FAJul</td>
+            <td width="4%" >@item.HWJul</td>
+            <td width="4%" >@item.FAAug</td>
+            <td width="4%" >@item.HWAug</td>
+            <td width="4%" >@item.FASep</td>
+            <td width="4%" >@item.HWSep</td>
+            <td width="4%" >@item.FAOct</td>
+            <td width="4%" >@item.HWOct</td>
+            <td width="4%" >@item.FANov</td>
+            <td width="4%" >@item.HWNov</td>
+            <td width="4%" >@item.FADec</td>
+            <td width="4%" >@item.HWDec</td>
+        </tr> 
+        }
+    }
+</table>

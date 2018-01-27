@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.BloodGroupMaster" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.BloodGroupMaster, TIPS.Entities" table="BLOODGRPMASTER" lazy="false" >
+    <id name="FormId" column="FormId">
+      <generator class="identity" />
+    </id>
+    <property name="FormCode" column="FormCode" type="string" not-null="true" />
+    <property name="BloodGroup" column="bgrp" type="string" not-null="true" />
+    <property name="BloodGroupdesc" column="bgrpdesc" type="string" not-null="true" />
+  </class>
+</hibernate-mapping>
+

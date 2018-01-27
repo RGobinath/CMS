@@ -1,0 +1,201 @@
+﻿@model TIPS.Entities.Attendance.Holidays
+@{
+    ViewBag.Title = "Holidays";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+    
+}
+
+
+<link href="../../assets/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+<script src="../../assets/js/bootstrap-multiselect.js" type="text/javascript"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<!-- #section:basics/navbar.layout -->
+<!-- /section:basics/navbar.layout -->
+<div class="page-content">
+@Html.Hidden("RetainCurDate","",new {@Value = ViewBag.dattime })
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-sm-3">
+                    <div class="row">
+                        <div class="widget-container-col">
+                            <div class="widget-box widget-color-CustomizeBlue">
+                                <div class="widget-header widget-header-flat widget-header-small">
+                                    <div class="PanelHeader">
+                                        <i class="ace-icon fa fa-search"></i>&nbsp;Add Holidays
+                                    </div>
+                                    <div class="widget-toolbar">
+                                        <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main no-padding">
+                                        <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
+                                            <div class="col-xs-12" style="margin-bottom: 15px;">
+                                                <div class="col-sm-5">
+                                                    <b>From Date</b>
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    <div class="input-group input-group-sm">
+                                                        @Html.TextBox("txtFromDate", "", new { @class = "form-control txtFromDate" })
+                                                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12" style="margin-bottom: 15px;">
+                                                <div class="col-sm-5">
+                                                    <b>To Date</b>
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    <div class="input-group input-group-sm">
+                                                        @Html.TextBox("txtToDate", "", new { @class = "form-control txtToDate" })
+                                                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12" style="margin-bottom: 15px;">
+                                                <div class="col-sm-5">
+                                                    <label for="form-field-select-1">
+                                                        <b>Campus</b></label>
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    @Html.DropDownList("ddlCampus", new MultiSelectList(Enumerable.Empty<SelectListItem>()), new { @multiple = "multiple", @class = "multiselect" })
+                                                    @* @Html.DropDownList("ddlCampus", new MultiSelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @multiple = "multiple", @class = "multiselect" })*@
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12" style="margin-bottom: 15px;">
+                                                <div class="col-sm-5">
+                                                    <label for="form-field-select-1">
+                                                        <b>Grade</b></label>
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    @Html.DropDownList("ddlGrade", new MultiSelectList(Enumerable.Empty<SelectListItem>()), new { @multiple = "multiple", @class = "multiselect" })
+                                                    @* @Html.DropDownList("ddlGrade", new MultiSelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @multiple = "multiple", @class = "multiselect" })*@
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12" style="margin-bottom: 15px;">
+                                                <div class="col-sm-5">
+                                                    <label for="form-field-select-1">
+                                                        <b>Academic Year</b></label>
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    @Html.DropDownList("AcademicYear", new SelectList(ViewBag.acadyrddl, "AcademicYear", "AcademicYear"), "Select One", new { id = "ddlacademicyear", @Class = "form-control select-sm" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <div class="col-sm-5">
+                                                    <label for="form-field-select-sm">
+                                                        <b>Comments</b></label>
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    @Html.TextAreaFor(model => model.Comments, new { rows = 2, cols = 20, id = "txtComments", @class = "form-control input-sm" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12" style="margin-top: 10px;">
+                                                <div class="col-sm-3">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div style="text-align: center;">
+                                                        <button class="btn btn-primary btn-block btn-sm" type="button" id="txtHolidays">
+                                                            <i class="ace-icon fa fa-plus-square-o bigger-110"></i>&nbsp;Save</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <div class="row">
+                        <div class="col-xs-12 widget-container-col">
+                            <div class="widget-box widget-color-CustomizeBlue">
+                                <div class="widget-header widget-header-flat widget-header-small">
+                                    <div class="PanelHeader">
+                                        <i class="ace-icon fa fa-search"></i>&nbsp;Search Pannel
+                                    </div>
+                                    <div class="widget-toolbar">
+                                        <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main no-padding">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Date</b></label>
+                                                    <div class="input-group input-group-sm">
+                                                        @Html.TextBox("txtSchDate", "", new { @class = "form-control Attendancedatepicker" })
+                                                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Campus</b></label>
+                                                    @Html.DropDownList("ddlSrchCampus", new MultiSelectList(Enumerable.Empty<SelectListItem>()), new { @multiple = "multiple", @class = "multiselect" })
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Grade</b></label>
+                                                    @Html.DropDownList("ddlSrchGrade", new MultiSelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @class = "multiselect", @multiple = "multiple" })
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Academic Year</b></label>
+                                                    @Html.DropDownList("ddlSrchAcademicYear", new SelectList(ViewBag.acadyrddl, "AcademicYear", "AcademicYear"), "Select One", new { id = "ddlSrchAcademicYear", @Class = "form-control select-sm" })
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <br />
+                                                    <button type="submit" class="btn btn-success btn-block btn-sm" id="btnSearch">
+                                                        <i class="ace-icon fa fa-search white"></i>Search
+                                                    </button>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <br />
+                                                    <button type="button" class="btn btn-danger btn-block btn-sm" id="btnReset">
+                                                        <i class="ace-icon fa fa-undo white"></i>Reset
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="space-2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <table id="HolidayList">
+                            </table>
+                            <div id="HolidayListPager">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">    try { ace.settings.check('main-container', 'fixed') } catch (e) { } </script>
+<script type="text/javascript">    window.jQuery || document.write("<script src='../assets/js/jquery.min.js'>" + "<" + "/script>"); </script>
+<script type="text/javascript">
+    if ('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>"
++ "<" + "/script>"); </script>
+<script src="@Url.Content("~/Scripts/Attendance/Holidays.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/assets/js/AceJQMsg.js")" type="text/javascript"></script>

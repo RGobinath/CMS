@@ -1,0 +1,213 @@
+﻿@model TIPS.Entities.StudentsReportEntities.MISCampusReport
+@{
+    ViewBag.Title = "MIS Report";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+            //var ddlCampusValue = TempData["ddlCampusValue"];
+}
+<div class="page-content">
+    <!-- /section:settings.box -->
+     <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Criteria
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="space-2"></div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        @Html.DropDownList("ddlCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    &nbsp;
+                                     <div class="col-sm-2">
+                                        @Html.DropDownList("ddlMonth", new SelectList(Enumerable.Empty<SelectListItem>()), "", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    &nbsp;
+                                    <div class="col-sm-2">
+                                         @Html.Hidden("Pagename", "", new { @Value = ViewBag.Pagename })
+
+                                        <button type="button" class="btn btn-primary btn-sm" id="GetMISReport">
+                                            <i class="fa fa-print fa-fw"></i>&nbsp;Generate Excel</button>&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-list"></i>&nbsp;MIS Report
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="space-2"></div>
+                           
+                            <div class="row">
+                                <div class="col-xs-12">
+                                     <div class="space-2"></div>
+                                    <div id="OverAllReport" class="col-sm-6" style="margin:0% 20% 0% 25%">
+                                        <table align="center" class="table table-striped table-bordered table-hover" style="height: auto;">
+                                            <thead>
+                                                <tr>
+                                                    <td rowspan="2" style="width: 20px;">
+                                                        <div align="center"><b>Campus</b></div>
+                                                    </td>
+                                                    <td colspan="2" style="width: 20px;">
+                                                        <div align="center"><b>@ViewBag.AcademicYear</b></div>
+                                                    </td>
+                                                    <td rowspan="2" style="width: 20px;">
+                                                        <div align="center"><b>Total</b></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 20px;">
+                                                        <div align="center"><b>Boys</b></div>
+                                                    </td>
+                                                    <td style="width: 20px;">
+                                                        <div align="center"><b>Girls</b></div>
+                                                    </td>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                @if (ViewBag.OverAllList != null)
+                                                {
+                                                    foreach (var item in ViewBag.OverAllList)
+                                                    {
+                                                    <tr>
+                                                        <td align="left">@item.Campus</td>
+                                                        <td align="center">@item.Boys</td>
+                                                        <td align="center">@item.Girls</td>
+                                                        <td align="center">@item.Total</td>
+                                                    </tr>
+                                                    }
+                                                }
+                                            </tbody>
+
+                                            @{
+                                                long OverAllTotal = 0;
+                                                long BoysTotal = 0;
+                                                long GirlsTotal = 0;
+                                            }
+
+                                            @if (ViewBag.OverAllList != null)
+                                            {
+
+                                                foreach (var item in ViewBag.OverAllList)
+                                                {
+                                                    BoysTotal = BoysTotal + item.Boys;
+                                                    GirlsTotal = GirlsTotal + item.Girls;
+                                                    OverAllTotal = OverAllTotal + item.Total;
+                                                }
+                                            }
+                                            <tr>
+                                                <td>Total</td>
+                                                <td align="center">@BoysTotal</td>
+                                                <td align="center">@GirlsTotal</td>
+                                                <td align="center">@OverAllTotal</td>
+                                            </tr>
+                                        </table>
+                                        <br />
+                                    </div>
+                                    <div id="SingleCampusReport" class="col-sm-6" style="margin:0% 20% 0% 25%">
+                                        <table border="1" align="center" class="table table-striped table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <td rowspan="2" style="width: 200px;">
+                                                        <div align="center"><b>Grade</b></div>
+                                                    </td>
+                                                    <td colspan="2">
+                                                        <div align="center"><b>@ViewBag.AcademicYear</b></div>
+                                                    </td>
+                                                    <td rowspan="2">
+                                                        <div align="center"><b>Total</b></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div align="center"><b>Boys</b></div>
+                                                    </td>
+                                                    <td>
+                                                        <div align="center"><b>Girls</b></div>
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                @if (ViewBag.SingleCampusList != null)
+                                                {
+                                                    foreach (var item in ViewBag.SingleCampusList)
+                                                    {
+                                                    <tr>
+                                                        <td align="left">@item.ShowGrade</td>
+                                                        <td align="center">@item.Boys</td>
+                                                        <td align="center">@item.Girls</td>
+                                                        <td align="center">@item.Total</td>
+                                                    </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                            @{
+                                                OverAllTotal = 0;
+                                                BoysTotal = 0;
+                                                GirlsTotal = 0;
+                                            }
+                                            @if (ViewBag.SingleCampusList != null)
+                                            {
+
+                                                foreach (var item in ViewBag.SingleCampusList)
+                                                {
+                                                    BoysTotal = BoysTotal + item.Boys;
+                                                    GirlsTotal = GirlsTotal + item.Girls;
+                                                    OverAllTotal = OverAllTotal + item.Total;
+                                                }
+                                            }
+                                            <tr>
+                                                <td>Total</td>
+                                                <td align="center">@BoysTotal</td>
+                                                <td align="center">@GirlsTotal</td>
+                                                <td align="center">@OverAllTotal</td>
+                                            </tr>
+                                        </table>
+                                        <br />
+                                    </div>
+                                     @Html.Hidden("CurMonth", "", new { @Value = ViewBag.CurMonth })
+                                </div>
+                            </div>
+                               
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<script src="../../Scripts/StudentReport/MISMonthlyReport.js"></script>

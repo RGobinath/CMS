@@ -1,0 +1,53 @@
+﻿@{
+    Layout = null;
+}
+@Html.Hidden("StaffPreRegNumber", "", new { id = "StaffPreRegNumber", @Value = ViewBag.StaffPreRegNumber })
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+       @* <div class="row">
+            <div class="col-xs-12">
+                <div class="col-sm-2">
+                    <label for="form-field-select-1">
+                        <b>Campus</b></label>
+                    @Html.DropDownList("ddlcampus", new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus", @Class = "form-control select-sm" })
+                </div>
+            </div>
+        </div>*@
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="ShowCampusBasedStaffDetailsGrid">
+                </table>
+                <div id="ShowCampusBasedStaffDetailsGridPager">
+                </div>
+            </div>
+        </div>
+        <div class="space-6"></div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="AttendanceReportConfigurationDetailsGrid">
+                </table>
+                <div id="AttendanceReportConfigurationDetailsGridPager">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/StaffManagementScripts/ShowCampusBasedStaffDetails.js"></script>
+<style>
+    #info_dialog {
+        z-index: 100000 !important;
+    }
+    #editmodShowCampusBasedStaffDetailsGrid {
+        z-index: 100000 !important;
+    }
+    #alertmod_ShowCampusBasedStaffDetailsGrid {
+        z-index: 100000 !important;
+    }
+    #delmodAttendanceReportConfigurationDetailsGrid {
+        z-index: 100000 !important;
+    }
+    #editmodAttendanceReportConfigurationDetailsGrid {
+        z-index: 100000 !important;
+    }
+</style>

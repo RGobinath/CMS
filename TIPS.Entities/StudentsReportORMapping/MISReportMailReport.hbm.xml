@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StudentsReportEntities.MISReportMailReport" namespace="TIPS.Entities.StudentsReportEntities">
+	<class name="TIPS.Entities.StudentsReportEntities.MISReportMailReport,TIPS.Entities" table="MISReportMailReport" lazy="false">
+		<id name="Id" column="Id" type="Int64">
+			<generator class="identity"></generator>
+		</id>
+		<property name="EmailId" column="EmailId" type="string"></property>
+		<property name="RoleCode" column="RoleCode" type="string"></property>
+		<property name="IsMailSent" column="IsMailSent" type="Int64"></property>
+		<property name="MailDateTime" column="MailDateTime" type="datetime"></property>
+		<property name="Campus" column="Campus" type="string"></property>
+	</class>
+
+</hibernate-mapping>

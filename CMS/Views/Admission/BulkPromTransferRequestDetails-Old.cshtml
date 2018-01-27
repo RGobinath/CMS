@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "BulkPromTransferRequestDetails";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<h3>
+    Promotion and Transfer Request Details</h3>
+<script language="javascript">
+    $(document).ready(function () {
+        $("#Grid").jqGrid({
+            url: '@Url.Content("~/Admission/BulkPromTransferRequestDetailsJqGrid")',
+            datatype: 'json',
+            type: 'GET',
+            colNames: ['Id', 'Request', 'Campus', 'Grade', 'Section'],
+            colModel: [
+            { name: 'BulkPromTransferRequestId', index: 'BulkPromTransferRequestId' },
+            { name: 'RequestName', index: 'RequestName' },
+             { name: 'Campus', index: 'Campus' },
+              { name: 'Grade', index: 'Grade' },
+               { name: 'Section', index: 'Section' }
+
+            ],
+            rowNum: 50,
+            rowList: [50, 100, 150, 200, 250, 300],
+            pager: '#GridPager',
+            sortname: 'BulkPromTransferRequestId',
+            viewrecords: true,
+            multiselect: true,
+            sortorder: "Desc",
+            width: 1190,
+            height: 200,
+            caption: 'Promotion and Transfer'
+
+        });
+        jQuery("#GridPager").jqGrid('navGrid', '#GridPager', { del: true, add: false, edit: false });
+        $('#btnRequest').click(function () {
+            window.location.href = '@Url.Action("BulkPromTransfer", "Admission")'
+        });
+        $('#btnTransfer').click(function () {
+            window.location.href = '@Url.Action("BulkTransfer", "Admission")'
+        });
+
+
+    });
+    function getBulkPromTransReq(IdVal, StatusVal) {
+        if (StatusVal == "Promotion") {
+            window.location.href = '@Url.Action("BulkPromTransfer", "Admission")?Id=' + IdVal;
+        } else {
+            window.location.href = '@Url.Action("BulkTransfer", "Admission")?Id=' + IdVal;
+        }
+    }
+</script>
+<table>
+    <tr>
+        <td>
+            <input type="button" value="Promotion" id="btnRequest" />
+            <input type="button" value="Transfer" id="btnTransfer" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table id="Grid">
+            </table>
+            <div id="GridPager">
+            </div>
+        </td>
+    </tr>
+</table>

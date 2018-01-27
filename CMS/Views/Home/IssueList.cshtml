@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "IssueList";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+
+        var status = "@ViewBag.status";
+        var IssueGroup = "@ViewBag.IssueGroup";
+        var InformationFor = "@ViewBag.InformationFor";
+        var IsHosteller = "@ViewBag.IsHosteller";
+        var NonCompletedSLA = "@ViewBag.NonCompletedSLA";
+        var CompletedSLA = "@ViewBag.CompletedSLA";
+        var Campus = "@ViewBag.Campus";
+        var expxl = 0;
+
+
+        jQuery("#IssueList").jqGrid({
+            url: '@Url.Content("~/Home/IssueListJqGrid")?status=' + status + "&IssueGroup=" + IssueGroup + "&InformationFor=" + InformationFor + "&IsHosteller=" + IsHosteller + "&NonCompletedSLA=" + NonCompletedSLA + "&CompletedSLA=" + CompletedSLA + "&Campus=" + Campus + "&expxl=" + expxl,
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'Support Number', 'Student Name', 'Grade', 'Request Date', 'Information For', 'Leave Type', 'Issue Group', 'Issue Type', 'Activity Name', 'ActionDate', 'Email', 'Resolution', 'IssueId'],
+            colModel: [
+            // if any column added in future have to check rowObject for SLA status image.... 
+              {name: 'Id', index: 'Id', hidden: true },
+              { name: 'IssueNumber', index: 'IssueNumber', width: 90, sortable: true },
+            //{ name: 'Description', index: 'Description', width: 110, sortable: false },
+            //{ name: 'UserInbox', index: 'UserInbox', width: 60, sortable: true },
+              {name: 'StudentName', index: 'StudentName', width: 90, sortable: true },
+              { name: 'Grade', index: 'Grade', width: 30, sortable: true },
+              { name: 'IssueDate', index: 'IssueDate', width: 90, sortable: true },
+              { name: 'InformationFor', index: 'InformationFor', width: 80, sortable: true },
+              { name: 'LeaveType', index: 'LeaveType', width: 80, sortable: true },
+              { name: 'IssueGroup', index: 'IssueGroup', width: 90, sortable: true },
+              { name: 'IssueType', index: 'IssueType', width: 90, sortable: true },
+              { name: 'Status', index: 'Status', width: 80, sortable: true },
+              { name: 'ActionDate', index: 'ActionDate', width: 80, sortable: true, hidden: false },
+            //              { name: 'History', index: 'History', width: 40, align: 'center', sortable: false },
+            //              { name: 'Stat', index: 'Stat', width: 30, align: 'center', formatter: statusimage, resizable: true, sortable: false },
+              {name: 'Email', index: 'Email', hidden: true },
+              { name: 'Resolution', index: 'Resolution', hidden: true },
+              { name: 'IssueId', index: 'IssueId', hidden: true },
+
+              ],
+            pager: '#IssueListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 500, 1000],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: '230',
+            // width: 1200,
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: 'Issue List',
+            forceFit: true,
+            multiselect: true,
+            loadError: function (xhr, status, error) {
+                $("#IssueListPager").clearGridData();
+                ErrMsg($.parseJSON(xhr.responseText).Message);
+            }
+        });
+        jQuery("#IssueList").navGrid('#IssueListPager', { add: false, edit: false, del: false, search: false, refresh: false });
+        jQuery("#IssueList").jqGrid('navButtonAdd', '#IssueListPager', {
+            caption: "Export To Excel",
+            onClickButton: function () {
+                ExportToExcel();
+            }
+        });
+        
+
+//        $("#ExportToExcel").click(function () {
+//            expxl = 1;
+//            window.open("IssueListJqGrid" + '?status=' + status + "&IssueGroup=" + IssueGroup + "&InformationFor=" + InformationFor + "&IsHosteller=" + IsHosteller + "&NonCompletedSLA=" + NonCompletedSLA + "&CompletedSLA=" + CompletedSLA + "&Campus=" + Campus + "&expxl=" + expxl + '&rows=9999');
+//        });
+   
+
+    function ExportToExcel() {
+        expxl = 1;
+        window.open("IssueListJqGrid" + '?status=' + status + "&IssueGroup=" + IssueGroup + "&InformationFor=" + InformationFor + "&IsHosteller=" + IsHosteller + "&NonCompletedSLA=" + NonCompletedSLA + "&CompletedSLA=" + CompletedSLA + "&Campus=" + Campus + "&expxl=" + expxl + '&rows=9999');
+    }
+
+});
+</script>
+@using (Html.BeginForm("StudentInfo", "Home", FormMethod.Post))
+{
+  @*<h3>Issue List</h3>*@
+    <table class="InnerTable" width="100%">
+        <tr>
+            <th width="50%">
+                <label>
+                    Issue List</label>
+            </th>
+            @*<td width="50%" style="text-align:right" >
+                <img src="../../Images/exceldown1.jpg" height="30px" width="30px" title="Export to Excel"
+                    id="ExportToExcel" class="HandCursor" />
+            </td>*@
+        </tr>
+    </table>
+}
+<table id="IssueList" class="InnerTable" width="100%">
+</table>
+<div id="IssueListPager"></div>

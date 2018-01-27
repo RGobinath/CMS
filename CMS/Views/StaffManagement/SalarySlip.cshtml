@@ -1,0 +1,261 @@
+﻿@using TIPS.Entities.StaffManagementEntities
+@model SalarySlip
+<br />
+<table border="1" cellpadding="1" cellspacing="0" width="700" style="font-family: Arial, Helvetica, sans-serif; font-size: 8.5px;"
+    align="center">
+    <tr>
+        <td colspan="4">
+            <table border="0">
+                <tr>
+                    <td>
+                        <img width="120" height="50" src="@Model.TipsLogo" alt="Tips Logo" /></td>
+                    <td>
+                        <img width="170" height="85" src="@Model.TipsName"  alt="Tips Address" /></td>
+                    <td align="right">
+                        <table border="0">
+                            <tr>
+                                <td>Chennimalai Road, Sennapathy Palayam, </td>
+                            </tr>
+                            <tr>
+                                <td>Goundachipalayam Post, Erode-638112.</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table width="300" height="139" border="0">
+                <tr>
+                    <td width="151">Name
+                    </td>
+                    <td width="308">: @Model.Name
+                    </td>
+                </tr>
+                <tr>
+                    <td>Employee Code
+                    </td>
+                    <td>: @Model.EmployeeCode
+                    </td>
+                </tr>
+                <tr>
+                    <td>Branch
+                    </td>
+                    <td>: @Model.Branch
+                    </td>
+                </tr>
+                <tr>
+                    <td>Date of Joining
+                    </td>
+                    <td>: @Model.DateOfJoining
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td colspan="2">
+            <table width="300" height="139" border="0">
+                <tr>
+                    <td width="143">Designation
+                    </td>
+                    <td width="316">: @Model.Designation
+                    </td>
+                </tr>
+                <tr>
+                    <td>PF Number
+                    </td>
+                    <td>: @Model.PFNumber
+                    </td>
+                </tr>
+                <tr>
+                    <td>Payment By
+                    </td>
+                    <td>: @Model.PaymentBy
+                    </td>
+                </tr>
+                <tr>
+                    <td>A/C Number
+                    </td>
+                    <td>: @Model.AcNumber
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4" align="center" bgcolor="#00CC00">@Model.SalaryMonth
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <table border="0">
+                <tr>
+                    <td>Earning Head</td>
+                    <td>Amount</td>
+                </tr>
+            </table>
+        </td>
+        <td align="center">Loss Of Pay(Days: @Model.LOP)
+        </td>
+        <td align="center">Earnings
+        </td>
+        <td align="center">
+            <table border="0">
+                <tr>
+                    <td>Deductions</td>
+                    <td>Amount</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table border="0" style="height: 500px;">
+                <tr>
+                    <td>Basic + DA</td>
+                    <td align="right">@Model.BasicPay_DA</td>
+                </tr>
+                <tr>
+                    <td>HRA</td>
+                    <td align="right">@Model.HRA</td>
+                </tr>
+            </table>
+        </td>
+        <td rowspan="3">
+            <table border="0">
+                <tr align="right">
+                    <td>@Model.LOP_Basic</td>
+                </tr>
+                <tr align="right">
+                    <td>@Model.LOP_HRA</td>
+                </tr>
+                <tr style="color: white">
+                    <td>Mess</td>
+                    <td>: @Model.MessBill</td>
+                </tr>
+                <tr style="color: white">
+                    <td>EB Bill</td>
+                    <td>: @Model.EbBill</td>
+                </tr>
+            </table>
+        </td>
+        <td rowspan="3">
+            <table border="0">
+                <tr align="right">
+                    <td>@Model.EarnedBasic</td>
+                </tr>
+                <tr align="right">
+                    <td>@Model.Earned_LOP</td>
+                </tr>
+                <tr style="color: white">
+                    <td>Mess</td>
+                    <td>: @Model.MessBill</td>
+                </tr>
+                <tr style="color: white">
+                    <td>EB Bill (Staff Quarters)</td>
+                    <td>: @Model.EbBill</td>
+                </tr>
+            </table>
+        </td>
+        <td rowspan="3">
+            <table border="0">
+                <tr>
+                    <td>PF</td>
+                    <td align="right">@Model.PF</td>
+                </tr>
+                <tr>
+                    <td>TDS</td>
+                    <td align="right">@Model.TDS</td>
+                </tr>
+                <tr>
+                    <td>Mess</td>
+                    <td align="right">@Model.MessBill</td>
+                </tr>
+                <tr>
+                    <td>EB Bill</td>
+                    <td align="right">@Model.EbBill</td>
+                </tr>
+                <tr>
+                    <td>Advance Repayment</td>
+                    <td align="right">@Model.AdvancePayment</td>
+                </tr>
+                <tr>
+                    <td>Other Deductions</td>
+                    <td align="right">@Model.OtherDeduction</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table border="0">
+                <tr>
+                    <td>Monthly Gross</td>
+                    <td align="right">@Model.MonthlyGross</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table border="0">
+                <tr>
+                    <td>Employer PF</td>
+                    <td align="right">@Model.EmployerPf</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table border="0">
+                <tr>
+                    <td>Total Compensation</td>
+                    <td align="right">@Model.TotalCompensation</td>
+                </tr>
+            </table>
+        </td>
+        <td>TotalEarnings
+        </td>
+        <td align="right">
+            @Model.TotalEarnings
+        </td>
+        <td>
+            <table border="0">
+                <tr>
+                    <td>Total Deduction</td>
+                    <td align="right">@Model.TotalDeduction</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4" bgcolor="#FF9900"><font color="#FF9900">h</font></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table border="0">
+                <tr>
+                    <td><b>Additional Earnings</b></td>
+                </tr>
+                <tr>
+                    <td>Reimbursement: @Model.Reimbursement</td>
+                </tr>
+                <tr>
+                    <td>Tutor Allowance: @Model.TutorAllowance</td>
+                </tr>
+            </table>
+        </td>
+        <td colspan="2">
+            <table border="0">
+                <tr>
+                    <td>Net Amount: @Model.NetAmount INR</td>
+                </tr>
+                <tr>
+                    <td>In Words: @Model.FirstNetAmountInWords Rupees and @Model.SecondNetAmountInWords paise Only</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

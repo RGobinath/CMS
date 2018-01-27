@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AdmissionEntities.AcademicYearReport" namespace="TIPS.Entities.AcademicYearReport" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AdmissionEntities.AcademicYearReport, TIPS.Entities" table="AcademicYearReport" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="ShowAcademicYear" column="ShowAcademicYear" type="string" not-null ="false"></property>
+    <property name="FeeStYear" column="FeeStYear" type="string"></property>
+    <property name="IBMain" column="IBMain" type="string"></property>
+    <property name="IBKG" column="IBKG" type="string"></property>
+    <property name="TipsSaran" column="TipsSaran" type="string"></property>
+    <property name="ChennaiMain" column="ChennaiMain" type="string"></property>
+    <property name="ChennaiCity" column="ChennaiCity" type="string"></property>
+    <property name="Ernakulam" column="Ernakulam" type="string"></property>
+    <property name="ErnakulamKG" column="ErnakulamKG" type="string"></property>
+    <property name="Karur" column="Karur" type="string"></property>
+    <property name="KarurKG" column="KarurKG" type="string"></property>
+    <property name="Tirupur" column="Tirupur" type="string"></property>
+    <property name="TirupurKG" column="TirupurKG" type="string"></property>
+  </class>
+</hibernate-mapping>

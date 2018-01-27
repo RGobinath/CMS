@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StoreEntities.MatInward_SkuList_vw" namespace="TIPS.Entities.StoreEntities">
+  <class name="TIPS.Entities.StoreEntities.MatInward_SkuList_vw, TIPS.Entities" table="MatInward_SkuList_vw" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="InwardNumber" column="InwardNumber" type="string"></property>
+    <property name="Supplier" column="Supplier" type="string"></property>
+    <property name="SuppRefNo" column="SuppRefNo" type="string"></property>
+    <property name="InvoiceDate" column="InvoiceDate" type="datetime"></property>
+    <property name="ReceivedDateTime" column="ReceivedDateTime" type="datetime"></property>
+    <property name="ReceivedBy" column="ReceivedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime"></property>
+    <property name="MaterialGroup" column="MaterialGroup" type="string"></property>
+    <property name="MaterialSubGroup" column="MaterialSubGroup" type="string"></property>
+    <property name="Material" column="Material" type="string"></property>
+    <property name="OrderQty" column="OrderQty" type="int"></property>
+    <property name="OrderedUnits" column="OrderedUnits" type="string"></property>
+    <property name="ReceivedQty" column="ReceivedQty" type="Int32"></property>
+    <property name="ReceivedUnits" column="ReceivedUnits" type="string"></property>
+    <property name="DamageDescription" column="DamageDescription" type="string"></property>
+
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Store" column="Store" type="string"></property>
+    <property name="UnitPrice" column="UnitPrice" type="decimal"></property>
+    <property name="TotalPrice" column="TotalPrice" type="decimal"></property>
+  </class>
+</hibernate-mapping>

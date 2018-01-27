@@ -1,0 +1,119 @@
+﻿@model TIPS.Entities.TransportEntities.VehicleDetails
+@{
+    ViewBag.Title = "Transport Details";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+
+@using (Html.BeginForm("TransportDetails", "Transport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.Hidden("myUrl", Url.Action("TransportDetailsManagement", "Transport"))
+    <div class="page-content">
+        <div class="page-content-area">
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue collapsed">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-list-alt"></i>&nbsp;Vehicle Details</div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Type</b></label><br />
+                                            @Model.Type
+                                            @Html.HiddenFor(m => m.Type)
+                                            @Html.HiddenFor(model => model.Id, new { id = "hdnVehicleId" })
+                                            @Html.HiddenFor(model => model.Campus, new {id="hdnCampus" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Vehicle No</b></label><br />
+                                            @Model.VehicleNo
+                                            @Html.HiddenFor(m => m.VehicleNo)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Fuel Type</b></label><br />
+                                            @Model.FuelType
+                                            @Html.HiddenFor(m => m.FuelType)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b></label><br />
+                                            @Model.Campus
+                                            @Html.HiddenFor(m => m.Campus)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Purpose</b></label><br />
+                                            @Model.Purpose
+                                            @Html.HiddenFor(m => m.Purpose)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <br />
+                                            <button class="btn btn-purple btn-info btn-block btn-sm" type="button" id="btnBack">
+                                                <i class="ace-icon fa fa-arrow-circle-left white"></i>Back To Inbox</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs tab-color-blue background-blue">
+                            <li class="active"><a href="#FuelRefill" data-toggle="tab">Fuel Refill</a></li>
+                            <li class=""><a href="#Maintenance" data-toggle="tab">Maintenance</a></li>
+                            <li class=""><a href="#FinesandPenalities" data-toggle="tab">Fines and Penalities</a></li>
+                            <li class=""><a href="#FitnessCertificate" data-toggle="tab">Fitness Certificate</a></li>
+                            <li class=""><a href="#Insurance" data-toggle="tab">Insurance</a></li>
+                            <li class=""><a href="#Permit" data-toggle="tab">Permit</a></li>
+                             <li class=""><a href="#Status" data-toggle="tab">Status</a></li>
+                        </ul>
+                        <div class="tab-content" style="margin-bottom: -30px;">
+                            <div id="FuelRefill" class="tab-pane in active">
+                                @Html.Partial("FuelRefill")
+                            </div>
+                            <div class="tab-pane" id="Maintenance">
+                                @Html.Partial("Maintenance")
+                            </div>
+                            <div class="tab-pane" id="FinesandPenalities">
+                                @Html.Partial("FinesandPenalities")
+                            </div>
+                            <div class="tab-pane" id="FitnessCertificate">
+                                @Html.Partial("FitnessCertificate")
+                            </div>
+                            <div class="tab-pane" id="Insurance">
+                                @Html.Partial("Insurance")
+                            </div>
+                            <div class="tab-pane" id="Permit">
+                                @Html.Partial("Permit")
+                            </div>
+                            <div class="tab-pane" id="Status">
+                                @Html.Partial("Status")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+}
+
+<script src="@Url.Content("~/assets/js/AceJQMsg.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Transport/TransportDetails.js")" type="text/javascript"></script>

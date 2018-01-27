@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StoreEntities.MaterialGroupMaster" namespace="TIPS.Entities.StoreEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StoreEntities.MaterialGroupMaster, TIPS.Entities" table="MaterialGroupMaster" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="MaterialGroup" column="MaterialGroup" type="string"></property>
+    <property name="MatGrpCode" column="MatGrpCode" type="string"></property>
+  </class>
+</hibernate-mapping>

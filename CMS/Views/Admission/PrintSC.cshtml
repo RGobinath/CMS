@@ -1,0 +1,107 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<style  type="text/css">
+    .pagebreak { page-break-after: always; }
+</style>
+
+    <style type="text/css" media="screen">
+  .noPrint{ display: block; }
+  .yesPrint{ display: block !important; }
+</style>
+
+<style type="text/css" media="print">
+  .noPrint{ display: none; }
+  .yesPrint{ display: block !important; }
+  
+</style>
+
+    <script type="text/javascript">
+        function printpage(elem) {
+            /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+            //mywindow.document.write('<div>dsfdsfsd</div>');
+            window.print();
+            //Popup($(elem).html());
+        }
+
+        function Popup(data) {
+            //            var mywindow =  window;  // = window.open('', 'my div', 'height=400,width=600');
+            //            mywindow.document.write('<html><head><title>my div</title>');
+            //            //mywindow.document.write('<div>dsfdsfsd</div>');
+            //            mywindow.document.write('</head><body><div>HTML TAG</div>');                 
+            //            mywindow.document.write(data);
+            //            mywindow.document.write('</body></html>');
+            //            mywindow.print();
+            //            mywindow.close();
+
+            var mywindow = window.open('', 'my div', 'height=400,width=600');
+            document.write('<html><head><title>my div</title>');
+            /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+            //mywindow.document.write('<div>dsfdsfsd</div>');
+            document.write('</head><body><div>HTML TAG </div>');
+            document.write(data);
+            document.write('</body></html>');
+            mywindow.print();
+            mywindow.close();
+            return true;
+        }
+
+        $(document).ready(function () {
+            //  alert('here');
+        });
+
+        function back() {
+            window.location.href = "/Admission/StudentManagement?pagename=SC";
+        }
+</script>
+</head>
+<body>
+    <div>
+                                <table>
+                                   <tr>
+                <td style='padding-bottom:20px; padding-right:25px;'>
+                      <div class="noPrint"><label style=" font-weight:bold"></label>
+<input type="button" value="Print this page" onclick="printpage()" /> &nbsp&nbsp&nbsp&nbsp&nbsp <input type="button" value="Back" onclick="back()"/>
+</div>
+
+                <div class="yesPrint" id="TagPrint" style='width: 1200px; padding-left:50px'>                      
+             @Html.Raw(ViewBag.SCHtmlTag)         
+@*                <br />
+                <div style='font-family: Arial; font-style:italic; font-size:26px; padding-left:450px; padding-top:100px; margin-left:50px; height:20px'>Award for excellence in Sports - 2013/2014</div>
+                <div style='font-family: Arial; font-size:24px; padding-left:200px;padding-top:100px; margin-left:50px; height:15px'> Certificate of honour</div>
+                <div style='font-family: Arial; font-size:24px; padding-left:260px;padding-top:30px; margin-left:70px;  height:16px'>for the excellent performance in Cricket</div>
+                <div style='font-family: Arial; font-size:24px; padding-left:200px;padding-top:250px; margin-left:70px;  height:16px'>Event: Annual Sports &nbsp
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp                
+                Award : First
+                </div>
+                <div style='font-family: Arial; font-size:24px; padding-left:200px; margin-left:70px;padding-top:20px; height:16px'>Date: 11/11/2011 &nbsp
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+               &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                Place : Mumbai
+                </div>
+                <div style='font-family: Arial; font-size:24px; padding-left:200px; margin-left:70px;padding-top:20px; height:16px'><table><tr><td style="width:400px">Annual Day</td><td  style="width:400px">sdfdsfds</td></tr></table></div>
+                <div style='font-family: Arial; font-size:24px; padding-left:200px; margin-left:70px;padding-top:20px; height:16px'><table><tr><td style="width:400px">Inter Class Match (League)</td><td style="width:400px">dfsdfsdss</td></tr></table></div>
+               <div style='font-family: Arial; font-size:24px; padding-left:200px;padding-top:330px; margin-left:70px;  height:16px'> Coach &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+               &nbsp&nbsp
+                 Sports Co Ordinator             
+               &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                Chairman
+                </div>*@
+
+                </div>
+                </td>                
+                    </tr>
+                         @*@Html.Raw(ViewBag.SCHtmlTag)*@
+                       </table>
+
+    </div>                    
+</body>
+</html>
+              

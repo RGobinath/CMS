@@ -1,0 +1,181 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+@{
+    ViewBag.Title = "AdmissionManagement";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+@using (Html.BeginForm("AdmissionManagement", "Admission", FormMethod.Post))
+{
+    if (Session["UserId"] != null)
+    {
+        var user = Session["UserId"].ToString(); var userrole = Session["Role"].ToString();
+    <div class="page-content">
+        <div class="page-content-area">
+          <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-search"></i>&nbsp;Search Pannel</div>
+                            @Html.Hidden("registered", new { id = "registered", @Value = ViewBag.Registered })
+                            @Html.Hidden("regId", new { id = "regId", @Value = ViewBag.RegId })
+                            @Html.Hidden("AdmissionSearched", "", new { id = "AdmissionSearched", @Value = Session["AdmissionSearched"] })
+                            @Html.Hidden("NewRegUrl", Url.Action("NewRegistration", "Admission"))
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b></label>
+                                            @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Grade</b></label>
+                                            @Html.DropDownListFor(Model => Model.Grade, new SelectList(ViewBag.gradeddl, "gradcod", "gradcod"), "Select Grade", new { id = "ddlgrade", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Gender</b></label>
+                                            @Html.DropDownList("ddlGender", new SelectList(new[]
+                                          {
+                                             new {Value="",Text="Select"},
+                                              new{Value="Male",Text="Male"},
+                                              new{Value="Female",Text="Female"}
+                                          }, "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Academic Year</b></label>
+                                            @Html.DropDownListFor(Model => Model.AcademicYear, new SelectList(ViewBag.acadddl, "AcademicYear", "AcademicYear"), "Select One", new { id = "ddlacademicyear", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Applicant Name</b></label>
+                                            @Html.TextBox("appname", "", new { @Class = "form-control input-sm", @maxlength = "30" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Application Number</b></label>
+                                            @Html.TextBox("txtAppNum", "", new { @Class = "form-control input-sm", @maxlength = "30" })
+                                        </div>
+                                    </div>
+                                    <div class="space-4">
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Admission Status</b></label>
+                                            @Html.DropDownListFor(Model => Model.AdmissionStatus, new SelectList(new[]
+                                             {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="New Enquiry",Text="New Enquiry"},
+                                              new{Value="New Registration",Text="New Registration"},
+                                              new{Value="Sent For Clearance",Text="Sent For Clearance"},
+                                              new{Value="Sent For Approval",Text="Sent For Approval"},
+                                              new{Value="On Hold",Text="On Hold"},
+                                              new{Value="Declined",Text="Declined"},
+                                              new{Value="Not Interested",Text="Not Interested"},
+                                              new{Value="Not Joined",Text="Not Joined"},
+                                              new{Value="Call For Interview",Text="Call For Interview"},
+                                              new{Value="Joining Next Year",Text="Joining Next Year"},
+                                              new{Value="Waiting For Reply",Text="Waiting For Reply"},
+                                              new{Value="Call For Interview",Text="Call For Interview"}
+                                              }, "Value", "Text", ""), new { id = "AdmissionStatus", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Pre-Registration Number</b></label>
+                                            @Html.TextBox("txtPreRegNum", "", new { @Class = "form-control input-sm", @maxlength = "10" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Applied From Date</b></label>
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBox("txtAppliedFrmDate", "", new { @Class = "form-control from_date" })
+                                                <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Applied To Date</b></label>
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBox("txtAppliedToDate", "", new { @Class = "form-control to_date" })
+                                                <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <br />
+                                            <button class="btn btn-primary btn-block" type="button" id="Search">
+                                                <i class="ace-icon fa fa-search bigger-110"></i>Search</button>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <br />
+                                            <button class="btn btn-danger btn-block" type="button" id="reset">
+                                                <i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+              <div class="space-2"></div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table id="grid-table">
+                    </table>
+                    <div id="grid-pager">
+                    </div>
+                </div>
+            </div>
+              <div class="space-2"></div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-sm-2">
+                        @if (Session["pagename"].ToString() != "PRF")
+                        {
+                            <button class="btn btn-block btn-primary" type="button" id="New">
+                                <i class="ace-icon fa fa-plus-square-o bigger-110"></i> &nbsp;Add New Student</button>
+                        }</div>
+                    <div class="col-sm-2">
+                        @if (Session["userrole"].ToString() == "ADM-APP")
+                        {                     
+                            <button class="btn btn-block btn-grey" type="button" id="BulkRegister">
+                                <i class="ace-icon fa fa-qrcode bigger-110"></i>Bulk Register</button>
+                        }</div>
+                    <div class="col-sm-2">
+                        @if (Session["pagename"].ToString() == "PRF")
+                        {
+                            <button class="btn btn-block btn-primary" type="button" id="PrintPRF">
+                                <i class="ace-icon fa fa-print bigger-110"></i>Print</button>
+                        }</div>
+                    <div class="col-sm-6">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+}
+<div id="BulkRegisterdiv">
+</div>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../assets/js/jquery.min.js'>" + "<" + "/script>");
+</script>
+<script type="text/javascript">
+    if ('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+</script>
+<script type="text/javascript" src='@Url.Content("~/Scripts/AdmissionScripts/AdmissionManagement.js")'></script>
+<script type="text/javascript" src='@Url.Content("~/assets/js/AceJQMsg.js")'></script>

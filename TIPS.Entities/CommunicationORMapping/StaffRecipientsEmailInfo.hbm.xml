@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.CommunictionEntities.StaffRecipientsEmailInfo" namespace="TIPS.Entities.CommunictionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.CommunictionEntities.StaffRecipientsEmailInfo, TIPS.Entities" table="StaffRecipientsEmailInfo" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="ComposeId" column="ComposeId" type="Int64"></property>
+    <property name="Name" column="Name" type="string"></property>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"></property>
+    <property name="Designation" column="Designation" type="string"></property>
+    <property name="Department" column="Department" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="IdNumber" column="IdNumber" type="string"></property>
+    <property name="EmailId" column="EmailId" type="string"></property>
+    <property name="SendMail" column="SendMail" type="bool"></property>
+    <property name="RecipientsCreatedDate" column="RecipientsCreatedDate" type="DateTime"></property>
+    <property name="RecipientsModifiedDate" column="RecipientsModifiedDate" type="DateTime"></property>
+    <property name="IdKeyValue" column="IdKeyValue" type="Int64"></property>
+
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,427 @@
+﻿@model TIPS.Entities.ParentPortalEntities.FoodMenu
+@{
+    ViewBag.Title = "Food Menu";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<h3>
+    Campus Food Menu</h3>
+<script src="../../Scripts/ui.dropdownchecklist-1.4-min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+       // $("#ddlMonths").dropdownchecklist({ icon: {}, width: 150 });
+        $("#ddlBreakFast").dropdownchecklist({ icon: {}, width: 150 });
+        $("#ddlLunchNV").dropdownchecklist({ icon: {}, width: 150 });
+        $("#ddlLunchV").dropdownchecklist({ icon: {}, width: 150 });
+
+        $.getJSON("/Notify/FillCampusList",
+     function (fillbc) {
+         var ddlbc = $("#ddlBranchCode");
+         ddlbc.empty();
+         ddlbc.append($('<option/>',
+        {
+            value: "",
+            text: "Select One"
+
+        }));
+
+         $.each(fillbc, function (index, itemdata) {
+             if (itemdata.Text == '@Model.Campus') {
+                 ddlbc.append("<option value='" + itemdata.Value + "' selected='selected'>" + itemdata.Text + "</option>");
+             }
+             else {
+                 ddlbc.append($('<option/>',
+                 {
+                     value: itemdata.Value,
+                     text: itemdata.Text
+                 }));
+             }
+         });
+     });
+
+        var months = "";
+        var breakfast = "";
+        var lunchnv = "";
+        var lunchv = "";
+
+        $('#Submit').click(function () {
+
+            var e1 = document.getElementById('ddlBranchCode');
+            var campus = e1.options[e1.selectedIndex].value;
+
+            //alert(campus);
+
+            var m1 = document.getElementById("ddlMonths");
+            var months = m1.options[m1.selectedIndex].value;
+
+           /* var j = 0;
+            for (var i = 0; i < m1.options.length; i++) {
+                if (m1.options[i].selected == true) {
+                    if (j == 0) { months = m1.options[i].value; }
+                    else { months = months + ',' + m1.options[i].value; }
+                    j++;
+                }
+            } */
+
+            //alert(months);
+
+            var e2 = document.getElementById('ddlWeek');
+            var week = e2.options[e2.selectedIndex].value;
+
+            //alert(week);
+
+            var e3 = document.getElementById('ddlDay');
+            var day = e3.options[e3.selectedIndex].value;
+
+            //alert(day);
+
+            var f1 = document.getElementById("ddlBreakFast");
+            var j = 0;
+            for (var i = 0; i < f1.options.length; i++) {
+                if (f1.options[i].selected == true) {
+                    if (j == 0) { breakfast = f1.options[i].value; }
+                    else { breakfast = breakfast + ',' + f1.options[i].value; }
+                    j++;
+                }
+            }
+
+            //alert(breakfast);
+
+            var f2 = document.getElementById("ddlLunchNV");
+            var j = 0;
+            for (var i = 0; i < f2.options.length; i++) {
+                if (f2.options[i].selected == true) {
+                    if (j == 0) { lunchnv = f2.options[i].value; }
+                    else { lunchnv = lunchnv + ',' + f2.options[i].value; }
+                    j++;
+                }
+            }
+
+            //alert(lunchnv);
+
+            var f3 = document.getElementById("ddlLunchV");
+            var j = 0;
+            for (var i = 0; i < f3.options.length; i++) {
+                if (f3.options[i].selected == true) {
+                    if (j == 0) { lunchv = f3.options[i].value; }
+                    else { lunchv = lunchv + ',' + f3.options[i].value; }
+                    j++;
+                }
+            }
+
+            //alert(lunchv);
+
+            var notes = document.getElementById('txtNotes').value;
+
+            // alert(notes);
+
+            if (campus == "" || campus == null) {
+                ErrMsg("Please Select Campus.");
+                return false;
+            }
+            else if (week == "" || week == null) {
+                ErrMsg("Please Select Week.");
+                return false;
+            }
+            else if (day == "" || day == null) {
+                ErrMsg("Please Select Day.");
+                return false;
+            }
+            else if (breakfast == "" || breakfast == null) {
+                ErrMsg("Please Select Breakfast Details.");
+                return false;
+            } else if (lunchnv == "" || lunchnv == null) {
+                ErrMsg("Please Select Lunch Non-Veg Details.");
+                return false;
+            } else if (lunchv == "" || lunchv == null) {
+                ErrMsg("Please Select Lunch Veg Details.");
+                return false;
+
+            } else {
+
+                $.ajax({
+
+                    url: '/notify/SaveFoodMenu?campus=' + campus + '&Months='+months+'&week=' + week + '&day=' + day + '&breakfast=' + breakfast + '&lunchnv=' + lunchnv + '&lunchv=' + lunchnv + '&notes=' + notes,
+                    type: 'GET',
+                    datatype: 'html',
+                    traditional: true,
+                    success: function (data) {
+                        $("#FoodMenuList").trigger("reloadGrid");
+                    }
+                });
+
+            }
+
+        });
+
+
+
+        //        $.getJSON("/Notify/FillCampusBreakFast/", { campus: campus },
+        //            function (modelData) {
+        //                var select = $("#ddlBreakfast");
+        //                select.empty();
+        //                select.append($('<option/>', { value: "", text: "Select One" }));
+        //                $.each(modelData, function (index, itemData) {
+        //                    select.append($('<option/>',
+        //                                  {
+        //                                      value: itemData.FoodName,
+        //                                      text: itemData.FoodName
+        //                                  }));
+        //                });
+        //            });
+
+        var e = document.getElementById('ddlBranchCode');
+        var campus = e.options[e.selectedIndex].value;
+
+        //        $("#ddlBranchCode").change(function () {
+        //            // 
+        //            var value = $('#ddlBranchCode option:selected').val();
+
+        //            if (value != "") {
+        //                $.ajax({
+        //                    type: 'GET',
+        //                    async: false,
+        //                    url: '@@Url.Content("~/Notify/FillCampusBreakFast")?campus=' + value,
+        //                    success: function (data) {
+
+        //                        $("#ddlBreakfast").empty();
+        //                        // $("#ddlBreakfast").append("<option value=''> Select One </option>");
+
+        //                        for (var i = 0; i < data.length; i++) {
+
+        //                            if (data[i].Text == $("#ddlBreakfast").val()) {
+        //                                $("#ddlBreakfast").append("<option value='" + data[i].Value + "' selected='selected'>" + data[i].Text + "</option>");
+        //                            } else {
+        //                                $("#ddlBreakfast").append("<option value='" + data[i].Value + "'>" + data[i].Text + "</option>");
+        //                            }
+        //                        }
+        //                    },
+        //                    dataType: "json"
+        //                });
+
+
+        //            }
+        //            else {
+        //                $("#ddlBreakfast").empty();
+        //                $("#ddlBreakfast").append("<option value=''> Select One </option>");
+        //            }
+        //        });
+
+        //        $("#ddlBranchCode").change(function () {
+        //            breakfastddl();
+        //           // lunchnvddl();
+        //          //  lunchvddl();
+        //        });
+
+        jQuery("#FoodMenuList").jqGrid({
+
+            url: '@Url.Content("/Notify/FoodMenuListJqGrid")',
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'Campus', 'Month', 'Week', 'Day', 'BreakFast', 'LunchNonVeg', 'LunchVeg', 'Snacks', 'Notes', 'CreatedOn'],
+            colModel: [
+              { name: 'Id', index: 'Id', width: 70, editable: true, hidden: true, edittype: 'text', key: true, sortable: false },
+              { name: 'Campus', index: 'Campus', width: 70, sortable: true, editable: false },
+              { name: 'Months', index: 'Months', width: 70, sortable: true, editable: false },
+              { name: 'Week', index: 'Week', width: 70, sortable: true, editable: true, edittype: 'text', sortable: false },
+              { name: 'Day', index: 'Day', width: 70, editable: true, edittype: 'text', sortable: false },
+              { name: 'BreakFast', index: 'BreakFast', width: 150, editable: true, edittype: 'text', sortable: false },
+              { name: 'LunchNonVeg', index: 'LunchNonVeg', width: 150, editable: true, edittype: 'text', sortable: false },
+              { name: 'LunchVeg', index: 'LunchVeg', width: 150, editable: true, edittype: 'text', sortable: false },
+              { name: 'Snacks', index: 'Snacks', width: 100, editable: true, edittype: 'text', sortable: false },
+              { name: 'Notes', index: 'Notes', width: 70, editable: true, edittype: 'text', sortable: false },
+              { name: 'CreatedOn', index: 'CreatedOn', width: 70, editable: true, edittype: 'text', sortable: false }
+              ],
+            pager: '#FoodMenuListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200 ],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: '220',
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: ' FoodMenu List',
+            forceFit: true,
+            multiselect: true,
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                $("#FoodMenuList").editGridRow(rowid, prmGridDialog);
+            },
+            loadError: function (xhr, status, error) {
+                $("#FoodMenuList").clearGridData();
+                ErrMsg($.parseJSON(xhr.responseText).Message);
+            }
+
+
+        });
+        jQuery("#FoodMenuList").navGrid('#FoodMenuListPager', { add: false, edit: false, del: true, search: false },
+        {},
+        //  { url: '/Notify/EditFoodMenu/', left: '10%', top: '10%', height: '50%', width: 400, labelswidth: 60, closeAfterEdit: true, beforeSubmit: validate_edit, closeOnEscape: true, reloadAfterSubmit: true },        //edit options
+            {},
+            { url: '/Notify/DeleteFoodMenuList/' });
+
+    });
+
+
+    function breakfastddl() {
+
+        // loadgrid();
+    }
+
+
+</script>
+@using (Html.BeginForm("FoodMenu", "Notify", FormMethod.Post, new { id = "FoodMenuForm", enctype = "multipart/form-data" }))
+{
+    <table width="100%" border="1" cellspacing="2" cellpadding="3" class="WithBorderOnly">
+        <tr class="PanelHeading">
+            <td colspan="4" class="PanelHeading">
+                <b>Food Menu</b>
+                @Html.Hidden("SuccessNotifyMsg", "", new { id = "SuccessNotifyMsg", @Value = @TempData["SuccessNotifyCreation"] })
+                @Html.Hidden("SuccessNotifyMsgUpdate", "", new { id = "UpdateSuccessMsg", @Value = TempData["SuccessNotifyUpdate"] })
+            </td>
+        </tr>
+        <tr>
+            <th width="25%">
+                Campus
+            </th>
+            <th width="25%">
+                Month
+            </th>
+            <th width="25%">
+               Week
+            </th>
+            <th width="25%">
+                 Day
+            </th>
+        </tr>
+        <tr>
+            <td>
+                @if (Model != null)
+                {
+                    @Html.DropDownListFor(model => model.Campus, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlBranchCode", @Class = "CSSDropDownList" })
+                    
+                }
+            </td>
+            <td>  @if (Model != null)
+                {  
+                   
+                    @Html.DropDownListFor(model => model.Months, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="January",Text="January"},
+                                              new{Value="February",Text="February"},
+                                              new{Value="March",Text="March"},
+                                              new{Value="April",Text="April"},
+                                              new{Value="May",Text="May"},
+                                              new{Value="June",Text="June"},
+                                              new{Value="July",Text="July"},
+                                              new{Value="August",Text="August"},
+                                              new{Value="September",Text="September"},
+                                              new{Value="October",Text="October"},
+                                              new{Value="November",Text="November"},
+                                              new{Value="December",Text="December"}
+                                          },
+                          "Value", "Text", ""), new { id = "ddlMonths", @Class = "CSSDropDownList" })
+                }</td>
+            <td>
+                @if (Model != null)
+                {
+                    @Html.DropDownListFor(model => model.Week, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Week1",Text="Week 1"},
+                                              new{Value="Week2",Text="Week 2"},
+                                              new{Value="Week3",Text="Week 3"},
+                                              new{Value="Week4",Text="Week 4"}
+                                          },
+                          "Value", "Text", ""), new { id = "ddlWeek", @Class = "CSSDropDownList" })
+                }
+            </td>
+            <td>
+                @if (Model != null)
+                {  
+                   
+                    @Html.DropDownListFor(model => model.Day, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="MONDAY",Text="MONDAY"},
+                                              new{Value="TUESDAY",Text="TUESDAY"},
+                                              new{Value="WEDNESDAY",Text="WEDNESDAY"},
+                                              new{Value="THURSDAY",Text="THURSDAY"},
+                                              new{Value="FRIDAY",Text="FRIDAY"}
+                                          },
+                          "Value", "Text", ""), new { id = "ddlDay", @Class = "CSSDropDownList" })
+                }
+            </td>
+        </tr>
+        <tr>
+        <th>Breakfast</th>
+            <th>
+                Lunch Non-Veg
+            </th>
+            <th>
+                Lunch Veg
+            </th>
+            <th>
+                Note (if any)
+            </th>
+            <th>
+            </th>
+        </tr>
+        <tr>
+         <td valign="top">
+                @if (Model != null)
+                {  
+                     @Html.ListBoxFor(model => model.BreakFast, new MultiSelectList(ViewBag.BreakFast, "FoodName", "FoodName"), new { id = "ddlBreakFast", @Class = "CSSDropDownList", @multiple = "multiple" })
+
+              @*      @Html.ListBoxFor(model => model.BreakFast, new SelectList(Enumerable.Empty<SelectListItem>()), new { id = "ddlBreakfast", @Class = "CSSDropDownList" })
+                      @Html.DropDownListFor(model => model.BreakFast, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlBreakfast1", @Class = "CSSDropDownList" })*@
+                }
+            </td>
+            <td valign="top">
+                @if (Model != null)
+                {
+                     @Html.ListBoxFor(model => model.LunchNonVeg, new SelectList(ViewBag.LunchNonVeg, "FoodName", "FoodName"), new { id = "ddlLunchNV", @Class = "CSSDropDownList", @multiple = "multiple" })
+                 @*   @Html.DropDownListFor(model => model.LunchNonVeg, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlLunchNV", @Class = "CSSDropDownList" })*@
+                }
+            </td>
+            <td valign="top">
+                @if (Model != null)
+                {
+                    @Html.ListBoxFor(model => model.LunchVeg, new SelectList(ViewBag.LunchVeg, "FoodName", "FoodName"), new { id = "ddlLunchV", @Class = "CSSDropDownList", @multiple="multiple" })
+                    @*@Html.DropDownListFor(model => model.LunchVeg, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlLunchV", @Class = "CSSDropDownList" })*@
+                }
+            </td>
+            <td valign="top">
+                @if (Model != null)
+                {
+                    @Html.TextAreaFor(model => model.Notes, new { rows = 3, id = "txtNotes", @class = "CSSTextArea", @style = "width:89%;" })
+                }
+            </td>
+            <td valign="top">
+            </td>
+        </tr>
+        @*</table>
+     <table class="InnerTable" width="100%">*@
+        <tr>
+            <td colspan="4">
+                <center>
+                    <button type="button" name="btnSubmit" id="Submit" value="Submit">
+                        Submit</button>
+                    <input type="reset" id="cancel" value="Cancel" class="CSSButton" />
+                </center>
+            </td>
+        </tr>
+    </table>
+    
+    <table class="WithBorderOnly" width="100%">
+        <tr>
+            <td>
+                <table id="FoodMenuList" width="100%">
+                </table>
+                <div id="FoodMenuListPager">
+                </div>
+            </td>
+        </tr>
+    </table>
+}

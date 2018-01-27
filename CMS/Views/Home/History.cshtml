@@ -1,0 +1,84 @@
+﻿@inherits System.Web.Mvc.WebViewPage<IEnumerable<CMS.Models.History>>
+<style>
+.tablesorter
+{
+    text-align: left;
+    border: solid 1px;
+    border-color: Black;
+    border-collapse: collapse;
+    font: normal 11px Verdana,Arial,sans-serif;
+}
+
+.tablesorter th
+{
+    text-align: left;
+    border: solid 1px;
+    border-color: Black;
+    border-collapse: collapse;
+    font: normal 11px Verdana,Arial,sans-serif;
+}
+.tablesorter td
+{
+    text-align: left;
+    border: solid 1px;
+    border-color: Black;
+    border-collapse: collapse;
+    font: normal 11px Verdana,Arial,sans-serif;
+}
+
+</style>
+    @using (Html.BeginForm("History", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+    <table id="History" class="tablesorter" width="100%" cellpadding="3" cellspacing="3">
+        <thead>
+         @if (ViewBag.Count == "0")
+            {
+            <span style="color:Red;">No Comments Given...</span>
+             <script type="text/javascript">
+                 $("#History_Heading").hide();
+             </script>
+            }
+            <tr style="background-color: #B6B6B6;" id="History_Heading">
+           
+                <th width="10%">
+                    Issue
+                </th>
+                <th width="30%">
+                    Issue Description
+                </th>
+                <th width="30%">
+                    Commented On
+                </th>
+                <th width="16%">
+                    Commented By
+                </th>
+                <th width="6%">
+                    Status
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Issue
+                    </td>
+                    <td>
+                        @item.Description
+                    </td>
+                    <td>
+                        @item.CommentedOn
+                    </td>
+                    <td>
+                        @item.CommentedBy
+                    </td>
+                    <td>
+                        @item.Status
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    }

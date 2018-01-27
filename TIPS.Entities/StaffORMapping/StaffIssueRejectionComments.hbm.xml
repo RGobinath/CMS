@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StaffEntities.StaffIssueRejectionComments" namespace="TIPS.Entities.StaffEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffEntities.StaffIssueRejectionComments, TIPS.Entities" table="StaffIssueRejectionComments" lazy="false" >
+    <id name="CommentId" column="CommentId" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="EntityRefId" column="EntityRefId" type="Int64" />
+    <property name="CommentedOn" column="CommentedOn" type="datetime" />
+    <property name="CommentedBy" column="CommentedBy" type="string" />
+    <property name="RejectionComments" column="RejectionComments" type="string" />
+    <property name="ResolutionComments" column="ResolutionComments" type="string" />
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,111 @@
+﻿@model TIPS.Entities.TransportEntities.TransportVendorMaster
+@{
+    Layout = "~/Views/Shared/NewAcePartialViewMaster.cshtml";
+}
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa fa-search"></i>&nbsp;Search Pannel</div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Name</b></label>
+                                @Html.TextBoxFor(model => model.Name, new { id = "txtVendrName", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>DealerType</b></label>
+                                @Html.TextBoxFor(model => model.DealerType, new { id = "txtVndrDealerType", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>VendorType</b></label>
+                                @Html.TextBoxFor(model => model.VendorType, new { id = "txtVendorType", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>VendorFor</b></label>
+                                @Html.TextBoxFor(model => model.VendorFor, new { id = "txtVendorFor", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>PAN</b></label>
+                                @Html.TextBoxFor(model => model.PAN, new { id = "txtVndrPAN", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>TIN</b></label>
+                                @Html.TextBoxFor(model => model.TIN, new { id = "txtVndrTIN", @Class = "form-control input-sm" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>FAX</b></label>
+                                @Html.TextBoxFor(model => model.FAX, new { id = "txtVndrFAX", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>ContactName</b></label>
+                                @Html.TextBoxFor(model => model.ContactName, new { id = "txtVndrContactName", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>ContactNo</b></label>
+                                @Html.TextBoxFor(model => model.ContactNo, new { id = "txtVndrContactNo", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>BankName</b></label>
+                                @Html.TextBoxFor(model => model.BankName, new { id = "txtVndrBankName", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>AccountName</b></label>
+                                @Html.TextBoxFor(model => model.AccountName, new { id = "txtVndrAccountName", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-1">
+                                <br />
+                                <button class="btn btn-success btn-block btn-sm" id="btnVndrSearch">
+                                    <i class="ace-icon fa fa-search white"></i>Search
+                                </button>
+                            </div>
+                            <div class="col-sm-1">
+                                <br />
+                                <button class="btn btn-danger btn-block btn-sm" id="btnVndrReset">
+                                    <i class="ace-icon fa fa-undo white"></i>Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-2">
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <table id="TransportVendorList">
+        </table>
+        <div id="TransportVendorListPager">
+        </div>
+        <script type="text/javascript">
+            var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+        </script>
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+    <!-- /.col -->
+</div>
+<script src="../../Scripts/Transport/TransportVendorMaster.js" type="text/javascript"></script>

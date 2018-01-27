@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.Assess.FormattiveAssessment_Vw" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.FormattiveAssessment_Vw, TIPS.Entities.Assess" table="FormattiveAssessment_Vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="AssessId" column="AssessId" type="Int64"></property>
+    <property name="StudentId" column="StudentId" type="Int64"></property>
+    <property name="IdNo" column="IdNo" type="string"></property>
+    <property name="Name" column="Name" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="Subject" column="Subject" type="string"></property>
+    <property name="Jan" column="Jan" type="decimal"></property>
+    <property name="Feb" column="Feb" type="decimal"></property>
+    <property name="Mar" column="Mar" type="decimal"></property>
+    <property name="Apr" column="Apr" type="decimal"></property>
+    <property name="May" column="May" type="decimal"></property>
+    <property name="Jun" column="Jun" type="decimal"></property>
+    <property name="Jul" column="Jul" type="decimal"></property>
+    <property name="Aug" column="Aug" type="decimal"></property>
+    <property name="Sep" column="Sep" type="decimal"></property>
+    <property name="Oct" column="Oct" type="decimal"></property>
+    <property name="Nov" column="Nov" type="decimal"></property>
+    <property name="Dec" column="Dec" type="decimal"></property>
+    
+  </class>
+</hibernate-mapping>

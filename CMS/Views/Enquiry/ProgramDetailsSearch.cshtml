@@ -1,0 +1,270 @@
+﻿@model TIPS.Entities.EnquiryEntities.EnquiryDetails
+@{
+    Layout = null;
+}
+<style type="text/css">
+    #Campus
+    {
+        background-color: #DFEFFC;
+    }
+</style>
+<link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var Centre = '';
+        var Program = '';
+        var Course = '';
+        var CourseType = '';
+        $("#Search").click(function () {
+            $("#MultipleList").clearGridData();
+            Centre = $('#Campus').val();
+            Program = $('#ddlProgram').val();
+            Course = $('#ddlCourse').val();
+            CourseType = $('#ddlCourseType').val();
+            if (Program == "") { ErrMsg("Please fill the Program!"); return false; }
+            if (Course == "") { ErrMsg("Please fill the Levels!"); return false; }
+            if (CourseType == "") { ErrMsg("Please fill the Class!"); return false; }
+
+            $("#MultipleList").setGridParam(
+                        {
+                            datatype: "json",
+                            url: '@Url.Content("~/Enquiry/MultipleListGrid")',
+                            postData: { Centre: Centre, Program: Program, Course: Course, CourseType: CourseType },
+                            page: 1
+                        }).trigger("reloadGrid");
+        });
+
+        $("#Reset1").click(function () {
+            $("#MultipleList").clearGridData();
+            Centre = "";
+            Program = "";
+            Course = "";
+            CourseType = "";
+            $('#ddlProgram').val(0);
+            $('#ddlCourse').val(0);
+            $('#ddlCourseType').val(0);
+        });
+        //  function gridload() {
+        jQuery("#MultipleList").jqGrid({
+            mtype: 'GET',
+            url: '/Enquiry/MultipleListGrid',
+            //  postData: { campus: campus, designation: designation, appname: appname, idno: idno, type: 'old' },
+            datatype: 'json',
+            colNames: ['Id', 'Centre', 'Program', 'Levels', 'Class', 'Batch', 'Timing'],
+            colModel: [
+              { name: 'Id', index: 'Id', width: 10, align: 'left', hidden: true },
+              { name: 'Centre', index: 'Centre', width: 30, align: 'left' },
+              { name: 'Program', index: 'Program', width: 20, align: 'left' },
+              { name: 'Course', index: 'Course', width: 20, align: 'left' },
+              { name: 'CourseType', index: 'CourseType', width: 20, align: 'left' },
+              { name: 'Batch', index: 'Batch', width: 20, align: 'left', sortable: true },
+              { name: 'Timing', index: 'Timing', width: 20, align: 'left', sortable: true }
+              ],
+            pager: '#MultipleListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50],
+            multiselect: true,
+            viewrecords: true,
+            height: '210',
+            width: '740',
+            caption: '&nbsp;&nbsp;Multiple Batch and Timing Grid'
+        });
+        jQuery("#MultipleList").navGrid('#MultipleListPager', { add: false, edit: false, del: true, search: false },
+        { url: '/Enquiry/DeleteMultipleListDetails/' });
+        //    }
+
+        $("#Add").click(function () {
+            var RowList;
+            var selectedData;
+            var BatchList = '';
+            //  RowList = $('#MultipleList').getDataIDs();
+            var RowList = $("#MultipleList").jqGrid('getGridParam', 'selarrrow');
+
+            for (var i = 0, list = RowList.length; i < list; i++) {
+                var selectedId = RowList[i];
+                selectedData = $('#MultipleList').jqGrid('getRowData', selectedId);
+                BatchList += "&[" + i + "].Centre=" + encodeURIComponent(selectedData.Centre)
+                + "&[" + i + "].Program=" + encodeURIComponent(selectedData.Program)
+                + "&[" + i + "].Course=" + encodeURIComponent(selectedData.Course)
+                + "&[" + i + "].CourseType=" + selectedData.CourseType
+                + "&[" + i + "].Batch=" + selectedData.Batch
+                + "&[" + i + "].Timing=" + selectedData.Timing
+                + "&[" + i + "].ThejoProgramId=" + selectedData.Id
+                + "&[" + i + "].EnquiryId=" + $("#EnquiryDetailsId").val()
+            }
+            $.ajax({
+                url: '@Url.Content("~/Enquiry/AddBatchTimingList/")',
+                type: 'POST',
+                dataType: 'json',
+                data: BatchList,
+                success: function (data) {
+                    if (data == null) {
+                        //$('#DivProgramSearch').dialog('close');
+                        ErrMsg("Course Already Exits!");
+                    }
+                    else {
+                        var EnqId = $('#EnquiryDetailsId').val()
+                        $("#EnquiryCourseList").setGridParam({ url: '@Url.Content("~/Enquiry/EnquiryCourseGrid")?EnquiryDetailsId=' + EnqId }).trigger("reloadGrid");
+                        $('#DivProgramSearch').dialog('close');
+                    }
+                }
+            });
+            // $("#StoreMaterialsList1").jqGrid("clearGridData", true).trigger("reloadGrid");
+
+        });
+        GetProgramlist();
+    });
+    function GetProgramlist() {
+        //center is replaced as Campus in this page
+        var Centre = $('#Campus').val();
+        if (Centre != "") {
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '@Url.Content("~/Enquiry/FillProgram")?Centre=' + Centre,
+                success: function (data) {
+                    $("#ddlProgram").empty();
+                    $("#ddlProgram").append("<option value=''> Select One </option>");
+
+                    for (var i = 0; i < data.rows.length; i++) {
+                        if ('@Model' != null && data.rows[i].Text == "@Model.Program") {
+                            $("#ddlProgram").append("<option value='" + data.rows[i].Value + "' selected='selected'>" + data.rows[i].Text + "</option>");
+                            GetCourselist();
+                        } else {
+                            $("#ddlProgram").append("<option value='" + data.rows[i].Value + "'>" + data.rows[i].Text + "</option>");
+                        }
+                    }
+                },
+                dataType: "json"
+            });
+        }
+        else {
+            $("#ddlProgram").empty();
+            $("#ddlProgram").append("<option value=''> Select One </option>");
+        }
+        $("#ddlProgram").change(function () {
+            GetCourselist();
+        });
+    }
+    function GetCourselist() {
+        var Centre = $('#Campus').val();
+        var Program = $('#ddlProgram option:selected').val();
+        if ((Centre != "") && (Program != '')) {
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '@Url.Content("~/Enquiry/FillCourse")?Centre=' + Centre + "&Program=" + Program,
+                success: function (data) {
+
+                    $("#ddlCourse").empty();
+                    $("#ddlCourse").append("<option value=''> Select One </option>");
+
+                    for (var i = 0; i < data.rows.length; i++) {
+                        if ('@Model' != null && data.rows[i].Text == "@Model.Course") {
+                            $("#ddlCourse").append("<option value='" + data.rows[i].Value + "' selected='selected'>" + data.rows[i].Text + "</option>");
+                            GetCourseTypelist();
+                        } else {
+                            $("#ddlCourse").append("<option value='" + data.rows[i].Value + "'>" + data.rows[i].Text + "</option>");
+                        }
+                    }
+                },
+                dataType: "json"
+            });
+        }
+        else {
+            $("#ddlCourse").empty();
+            $("#ddlCourse").append("<option value=''> Select One </option>");
+        }
+        $("#ddlCourse").change(function () {
+            GetCourseTypelist();
+        });
+    }
+    function GetCourseTypelist() {
+        var Centre = $('#Campus').val();
+        var Program = $('#ddlProgram option:selected').val();
+        var Course = $('#ddlCourse option:selected').val();
+        if ((Centre != "") && (Program != '') && (Course != '')) {
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '@Url.Content("~/Enquiry/FillCourseType")?Centre=' + Centre + "&Program=" + Program + "&Course=" + Course,
+                success: function (data) {
+
+                    $("#ddlCourseType").empty();
+                    $("#ddlCourseType").append("<option value=''> Select One </option>");
+
+                    for (var i = 0; i < data.rows.length; i++) {
+                        if ('@Model' != null && data.rows[i].Text == "@Model.CourseType") {
+                            $("#ddlCourseType").append("<option value='" + data.rows[i].Value + "' selected='selected'>" + data.rows[i].Text + "</option>");
+                            GetBatchlist();
+                        } else {
+                            $("#ddlCourseType").append("<option value='" + data.rows[i].Value + "'>" + data.rows[i].Text + "</option>");
+                        }
+                    }
+                },
+                dataType: "json"
+            });
+        }
+        else {
+            $("#ddlCourseType").empty();
+            $("#ddlCourseType").append("<option value=''> Select One </option>");
+        }
+    }
+
+</script>
+
+<table width="100%" class="InnerTable">
+    <tr>
+        <th class="ui-widget-header">
+            &nbsp;&nbsp;Search
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%">
+                <tr>
+                    <th width="25%">
+                        &nbsp;&nbsp;Center
+                    </th>
+                    <th width="25%">
+                        Program
+                    </th>
+                    <th width="25%">
+                        Levels
+                    </th>
+                    <th width="25%">
+                        Class
+                    </th>
+                </tr>
+                <tr id="srchKeyPress">
+                    <td>
+                        &nbsp;&nbsp;@Html.TextBox("Campus", (string)ViewBag.Camp, new { @Class = "CSSTextBox", @id = "Campus", @readonly = true })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.Program, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlProgram", @Class = "CSSDropDownList" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.Course, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlCourse", @Class = "CSSDropDownList" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.CourseType, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlCourseType", @Class = "CSSDropDownList" })
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" align="center">
+                        &nbsp;&nbsp;<input type="button" value="Search" id="Search" class="btnStyle"/>
+                        <input type="button" value="Reset" id="Reset1" class="btnStyle"/>
+                        <input type="button" value="Add Batch & Timing" id="Add" class="btnStyle"/>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<br style="display: block; margin: 2px 0;" />
+<table id="MultipleList">
+</table>
+<div id="MultipleListPager">
+</div>

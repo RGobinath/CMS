@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.AdminTemplateEntities.AdminTemplateStudCountGrpByCampusGradeSection_vw" namespace="TIPS.Entities.AdminTemplateEntities">
+	<class name="TIPS.Entities.AdminTemplateEntities.AdminTemplateStudCountGrpByCampusGradeSection_vw, TIPS.Entities" table="AdminTemplateStudCountGrpByCampusGradeSection_vw" lazy="false">
+		<id name="Id" column="Id" type="Int64">
+			<generator class="identity"></generator>
+		</id>
+		<property name="Campus" column="Campus" type="string"></property>
+		<property name="Grade" column="Grade" type="string"></property>
+		<property name="Section" column="Section" type="string"></property>
+		<property name="AcademicYear" column="AcademicYear" type="string"></property>
+		<property name="Boys" column="Boys" type="Int64"></property>
+		<property name="Girls" column="Girls" type="Int64"></property>
+		<property name="Total" column="Total" type="Int64"></property>
+	</class>
+</hibernate-mapping>

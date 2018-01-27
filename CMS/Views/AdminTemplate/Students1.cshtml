@@ -1,0 +1,395 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+@{
+    ViewBag.Title = "Students Dashboard";
+    //Layout = "~/Views/Shared/Master.cshtml";
+    Layout = "~/Views/Shared/AdminTemplateMaster.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        GetCampusWiseStudentsDataChart();
+        GetAcademicYearWiseStudentsCountChart();
+
+        $('#ddlCampusList').change(function () {
+            GetCampusWiseStudentsDataChart();
+            GetAcademicYearWiseStudentsCountChart();
+        });
+
+        $.getJSON("/AdminTemplate/getCampusList",
+function (getCampus) {
+    var ddlCampusList = $("#ddlCampusList");
+    ddlCampusList.empty();
+    ddlCampusList.append($('<option/>',
+{
+    value: "", text: "All Campus"
+
+}));
+    $.each(getCampus, function (index, itemdata) {
+        ddlCampusList.append($('<option/>',
+            {
+                value: itemdata.Value,
+                text: itemdata.Text
+            }));
+    });
+});
+
+
+    });
+
+    function GetCampusWiseStudentsDataChart() {
+        $.ajax({
+            type: 'Get',
+            async: false,
+            url: '@Url.Content("~/AdminTemplate/GetCampusWiseStudentsData/")',
+            success: function (data) {
+                var chart = new FusionCharts("../../Content/AdminTemplate/Content/FusionCharts/Charts/FCF_Line.swf", "Example", "420", "230");
+                chart.setDataXML(data);
+                chart.render("CampusChart");
+            }
+        });
+    }
+    function GetAcademicYearWiseStudentsCountChart() {
+        var Campus = $('#ddlCampusList').val();
+        $.ajax({
+            type: 'Get',
+            async: false,
+            url: '@Url.Content("~/AdminTemplate/GetAcademicYearWiseStudentsCount/")?Campus=' + Campus,
+            success: function (data) {
+                var chart = new FusionCharts("../../Content/AdminTemplate/Content/FusionCharts/Charts/FCF_Column2D.swf", "Example", "340", "230");
+                chart.setDataXML(data);
+                chart.render("AcademicYearChart");
+            }
+        });
+    }
+</script>
+
+<div>
+    <div class="row">
+    <div class="col-sm-12" style="font-size: 12px;" align="right">
+        Select Campus
+                @Html.DropDownListFor(model => model.Campus, new SelectList(Enumerable.Empty<SelectListItem>()), "", new { @Class = "CSSDropDownList", id = "ddlCampusList", style = "width:150px;" })
+    </div>
+</div>
+    <div class="row" style="padding-top: 3px;">
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div id="AcademicYearChart"></div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div id="CampusChart"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 infobox-container">
+            <div class="infobox infobox-red">
+                <div class="infobox-icon">
+                    @*<img src="../../Content/AdminTemplate/Content/images/3DAceAndTipsLogo.PNG"  style="float: right; height: 47px; width: 47px"  />*@
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.IBKGCount</span>
+                    <div class="infobox-content">IB KG</div>
+                </div>
+            </div>
+            <div class="infobox infobox-DarkGreen">
+                <div class="infobox-icon">
+                    @*<img src="../../Content/AdminTemplate/Content/images/3DAceAndTipsLogo.PNG"  style="float: right; height: 47px; width: 47px"  />*@
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.IBMAINCount</span>
+                    <div class="infobox-content">IB MAIN</div>
+                </div>
+            </div>
+            <div class="infobox infobox-indigo">
+                <div class="infobox-icon">
+                    @*<img src="../../Content/AdminTemplate/Content/images/3DAceAndTipsLogo.PNG"  style="float: right; height: 47px; width: 47px"  />*@
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.KARURKGCount</span>
+                    <div class="infobox-content">Karur KG</div>
+                </div>
+            </div>
+            <div class="infobox infobox-emerald">
+                <div class="infobox-icon">
+                    @*<img src="../../Content/AdminTemplate/Content/images/3DAceAndTipsLogo.PNG"  style="float: right; height: 47px; width: 47px"  />*@
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.KARURCount</span>
+                    <div class="infobox-content">Karur Main</div>
+                </div>
+            </div>
+            <div class="infobox infobox-orange2">
+                <div class="infobox-icon">
+                    @*<img src="../../Content/AdminTemplate/Content/images/3DAceAndTipsLogo.PNG"  style="float: right; height: 47px; width: 47px"  />*@
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.TIRUPURKGCount</span>
+                    <div class="infobox-content">Tirupur KG</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 infobox-container">
+            <div class="infobox infobox-DarkMegenta">
+                <div class="infobox-icon">
+                    @*<img src="../../Content/AdminTemplate/Content/images/3DAceAndTipsLogo.PNG"  style="float: right; height: 47px; width: 47px"  />*@
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.TIRUPURCount</span>
+                    <div class="infobox-content">Tirupur Main</div>
+                </div>
+            </div>
+
+            <div class="infobox infobox-brown">
+                <div class="infobox-icon">
+                    @*<img src="../../Content/AdminTemplate/Content/images/3DAceAndTipsLogo.PNG"  style="float: right; height: 47px; width: 47px"  />*@
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.ERNAKULAMKGCount</span>
+                    <div class="infobox-content">Ernakulam Kg</div>
+                </div>
+            </div>
+
+            <div class="infobox infobox-DeepPink">
+                <div class="infobox-icon">
+                    @*<img src="../../Content/AdminTemplate/Content/images/3DAceAndTipsLogo.PNG"  style="float: right; height: 47px; width: 47px"  />*@
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.ERNAKULAMCount</span>
+                    <div class="infobox-content">Ernakulam Main</div>
+                </div>
+            </div>
+
+            <div class="infobox infobox-Teal">
+                <div class="infobox-icon">
+                    @*<img src="../../Content/AdminTemplate/Content/images/3DAceAndTipsLogo.PNG"  style="float: right; height: 47px; width: 47px"  />*@
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.CHENNAICITYCount</span>
+                    <div class="infobox-content">Chennai City</div>
+                </div>
+            </div>
+
+            <div class="infobox infobox-orange">
+                <div class="infobox-icon">
+                    @*<img src="../../Content/AdminTemplate/Content/images/3DAceAndTipsLogo.PNG"  style="float: right; height: 47px; width: 47px"  />*@
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.CHENNAIMAINCount</span>
+                    <div class="infobox-content">Chennai Main</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding-top: 1px;">
+        <div class="col-sm-12 infobox-container">
+            <div class="infobox infobox-OrangeRed infobox-small infobox-dark">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <div class="infobox-content">Erode</div>
+                    <div class="infobox-content">@ViewBag.TIPSERODECount</div>
+                </div>
+            </div>
+            <div class="infobox infobox-green infobox-small infobox-dark">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <div class="infobox-content">Salem</div>
+                    <div class="infobox-content">@ViewBag.TIPSSALEMCount</div>
+                </div>
+            </div>
+            <div class="infobox infobox-blue infobox-small infobox-dark">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <div class="infobox-content">Saran</div>
+                    <div class="infobox-content">@ViewBag.TIPSSARANCount</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div>
+    <div class="row" style="padding-top:3px;">
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div id="AcademicYearChart"></div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div id="CampusChart"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 infobox-container">
+            <div class="infobox infobox-red">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.IBKGCount</span>
+                    <div class="infobox-content">IB KG</div>
+                </div>
+            </div>
+            <div class="infobox infobox-DarkGreen">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.IBMAINCount</span>
+                    <div class="infobox-content">IB MAIN</div>
+                </div>
+            </div>
+            <div class="infobox infobox-indigo">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.KARURKGCount</span>
+                    <div class="infobox-content">Karur KG</div>
+                </div>
+            </div>
+            <div class="infobox infobox-emerald">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.KARURCount</span>
+                    <div class="infobox-content">Karur Main</div>
+                </div>
+            </div>
+            <div class="infobox infobox-orange2">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.TIRUPURKGCount</span>
+                    <div class="infobox-content">Tirupur KG</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 infobox-container">
+            <div class="infobox infobox-DarkMegenta">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.TIRUPURCount</span>
+                    <div class="infobox-content">Tirupur Main</div>
+                </div>
+            </div>
+
+            <div class="infobox infobox-brown">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.ERNAKULAMKGCount</span>
+                    <div class="infobox-content">Ernakulam Kg</div>
+                </div>
+            </div>
+
+            <div class="infobox infobox-DeepPink">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.ERNAKULAMCount</span>
+                    <div class="infobox-content">Ernakulam Main</div>
+                </div>
+            </div>
+
+            <div class="infobox infobox-Teal">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.CHENNAICITYCount</span>
+                    <div class="infobox-content">Chennai City</div>
+                </div>
+            </div>
+
+            <div class="infobox infobox-orange">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <span class="infobox-data-number">@ViewBag.CHENNAIMAINCount</span>
+                    <div class="infobox-content">Chennai Main</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding-top:1px;">
+        <div class="col-sm-12 infobox-container">
+            <div class="infobox infobox-OrangeRed infobox-small infobox-dark">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <div class="infobox-content">Erode</div>
+                    <div class="infobox-content">@ViewBag.TIPSERODECount</div>
+                </div>
+            </div>
+            <div class="infobox infobox-green infobox-small infobox-dark">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <div class="infobox-content">Salem</div>
+                    <div class="infobox-content">@ViewBag.TIPSSALEMCount</div>
+                </div>
+            </div>
+            <div class="infobox infobox-blue infobox-small infobox-dark">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-male"></i>
+                </div>
+
+                <div class="infobox-data">
+                    <div class="infobox-content">Saran</div>
+                    <div class="infobox-content">@ViewBag.TIPSSARANCount</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+

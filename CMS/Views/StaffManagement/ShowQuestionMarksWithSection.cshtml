@@ -1,0 +1,80 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffwiseSurveyQuestionViewModel
+@{
+    ViewBag.Title = "MarksEntered";
+    Layout = "~/Views/Shared/NewAcePartialViewMaster.cshtml";
+}
+
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa fa-graduation-cap"></i>&nbsp;Survey Staff Details
+                </div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                        <div class="col-xs-12">
+                            <div class="col-sm-3">
+                                <b>Staff Name</b><br />
+                                @*<input type="text" id="idno" class="form-control input-sm" />*@
+                                @Html.DisplayFor(m => m.StaffName)
+                                @Html.HiddenFor(m=>m.AcademicYear)
+                                @Html.HiddenFor(m=>m.Campus)
+                                @Html.HiddenFor(m=>m.Grade)
+                                @Html.HiddenFor(m=>m.Section)
+                                @Html.HiddenFor(m=>m.StudentCount)
+                                @Html.HiddenFor(m=>m.StaffPreRegNumber)
+                                @Html.HiddenFor(m=>m.StaffEvaluationCategoryId)
+                            </div>
+                            <div class="col-sm-3">
+                                <b>Subject</b><br />
+                                @*<input type="text" id="name" class="form-control input-sm" />*@
+                                @Html.DisplayFor(m => m.Subject)
+                            </div>
+                            <div class="col-sm-2">
+                                <b>Grade</b><br />
+                                @*<input type="text" id="section" class="form-control input-sm" />*@
+                                @Html.DisplayFor(m => m.Grade)
+                            </div>
+                            <div class="col-sm-1">
+                                <b>Section</b><br />
+                                @*<input type="text" id="campus" class="form-control input-sm" />*@
+                                @Html.DisplayFor(m => m.Section)
+                            </div>
+                            <div class="col-sm-3">
+                                <b>No. of Students Attended</b><br />
+                                @*<input type="text" id="campus" class="form-control input-sm" />*@
+                                @Html.DisplayFor(m => m.StudentCount)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-2">
+</div>
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-body">
+            <div class="widget-main no-padding">
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table id="SurveyMarkssecListJqgrid">
+                    </table>
+                    <div id="SurveyMarkssecListPager">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="@Url.Content("~/Scripts/StaffManagementScripts/ShowQuestionMarksWithSection.js")" type="text/javascript"></script>

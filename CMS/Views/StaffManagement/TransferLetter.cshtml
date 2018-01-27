@@ -1,0 +1,37 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<p>
+    <b>@DateTime.Now.ToString("dd-MM-yyyy")</b></p>
+<br />
+<br />
+<b>@Model.Name</b>
+<br />
+<b>@Model.Designation</b><br />
+Employee Code: <b>@Model.IdNumber</b><br />
+<br />
+Dear <b>@Model.Name</b><br />
+<br />
+This has reference to the discussion we had with you regarding your transfer.<br />
+<br />
+With effect from <b>@Model.DateofTrsfr.ToString("dd-MM-yyyy")</b> you are transferred
+to <b>@Model.TransferedCampus</b>, on a continuous service basis from <b>@Model.Campus</b>
+to <b>@Model.TransferedCampus</b>. You would be deemed to have been in continuous
+service with The Indian Public School without break.
+<br />
+<br />
+Please return the duplicate copy of this letter duly signed by you, as a token of
+your acceptance.<br />
+<br />
+We wish you all the best for your future assignments.<br />
+<br />
+<b>For The Indian Public School, </b>
+<br />
+<br />
+Authorised Signatory. 

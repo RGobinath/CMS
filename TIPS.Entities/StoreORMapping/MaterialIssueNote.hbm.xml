@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StoreEntities.MaterialIssueNote" namespace="TIPS.Entities.StoreEntities">
+  <class name="TIPS.Entities.StoreEntities.MaterialIssueNote, TIPS.Entities" table="MaterialIssueNote" lazy="false">
+    <id name="IssNoteId" column="IssNoteId" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="IssNoteNumber" column="IssNoteNumber" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime"></property>
+    <property name="RequestId" column="RequestId" type="Int64"></property>
+    <property name="RequestedDate" column="RequestedDate" type="datetime"></property>
+    <property name="ProcessedBy" column="ProcessedBy" type="string"></property>
+    <property name="UserRole" column="UserRole" type="string"></property>
+    <property name="RequestStatus" column="RequestStatus" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="RequiredForCampus" column="RequiredForCampus" type="string"></property>
+    <property name="DeliveredThrough" column="DeliveredThrough" type="string"></property>
+    <property name="DeliveryDetails" column="DeliveryDetails" type="string"></property>
+    <property name="DeliveryDate" column="DeliveryDate" type="datetime"></property>
+    <property name="IssueDate" column="IssueDate" type="datetime"></property>
+    <property name="IssuedBy" column="IssuedBy" type="string"></property>
+    <property name="Store" column="Store" type="string"></property>
+    <property name="RequestorDescription" column="RequestorDescription" type="string"></property>
+    <property name="Department" column="Department" type="string"></property>
+    <property name="RequiredForStore" column="RequiredForStore" type="string"></property>
+    <property name="RequiredFromStore" column="RequiredFromStore" type="string"></property>
+    <property name="DCNumber" column="DCNumber" type="string"></property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.AdminTemplateEntities.AdminTemplateAssess360MarkCount_vw" namespace="TIPS.Entities.AdminTemplateEntities">
+	<class name="TIPS.Entities.AdminTemplateEntities.AdminTemplateAssess360MarkCount_vw, TIPS.Entities" table="AdminTemplateAssess360MarkCount_vw" lazy="false">
+		<id name="Id" column="Id" type="Int64">
+			<generator class="identity"></generator>
+		</id>
+		<property name="Campus" column="Campus" type="string"></property>
+		<property name="Grade" column="Grade" type="string"></property>
+		<property name="AcademicYear" column="AcademicYear" type="string"></property>
+		<property name="Below75" column="Below75" type="Int64"></property>
+		<property name="MeritList" column="MeritList" type="Int64"></property>
+		<property name="HighAcheiversClub" column="HighAcheiversClub" type="Int64"></property>
+	<property name="ChairmanAward" column="ChairmanAward" type="Int64"></property>
+	</class>
+</hibernate-mapping>

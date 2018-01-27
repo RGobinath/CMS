@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.DailyUsageVehicleMaster_vw" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.DailyUsageVehicleMaster_vw, TIPS.Entities" table="DailyUsageVehicleMaster_vw" lazy="true" >
+    <id name="ViewId" column="ViewId" type="Int64">
+      <generator class="native" />
+    </id>
+     <property name="Id" column="Id" type="Int32" />
+    <property name="VehicleTypeId" column="VehicleTypeId" type="Int32" />
+    <property name="VehicleSubType" column ="VehicleSubType" type="string"/>
+    <property name="VehicleNo" column="VehicleNo" type="string" />
+    <property name="Campus" column="Campus" type="string"/>
+    <property name="Purpose" column="Purpose" type="string" />
+    <property name="FuelType" column="FuelType" type="string" />
+    <property name="EngineType" column="EngineType" type="string"/>
+    <property name="NoofSeats" column="NoofSeats" type="Int32"/>
+    <property name="NoofAxle" column="NoofAxle" type="Int32" />
+    <property name="FirstRegisteredDate" column="FirstRegisteredDate" type="datetime"/>
+    <property name="RegistrationNo" column="RegistrationNo" type="string" />
+    <property name="Make" column="Make" type="string"/>
+    <property name="Type" column="Type" type="string" />
+    <property name="ChassisNo" column="ChassisNo" type="string" />
+    <property name="EngineNumber" column="EngineNumber" type="string" />
+     <property name="BHP" column="BHP" type="string" />
+    <property name="CC" column="CC" type="string" />
+    <property name="WheelBase" column="WheelBase" type="string"/>
+    <property name="UnladenWeight" column="UnladenWeight" type="string"/>
+    <property name="Color" column="Color" type="string" />
+    <property name="GVW" column="GVW" type="string"/>
+    <property name="Address" column="Address" type="string" />
+    <property name="RCAttachment" column="RCAttachment" type="string"/>
+    <property name="Model" column="Model" type="string" />
+    <property name="IsActive" column="IsActive" type="bool" />
+    <property name="Status" column="Status" type="string" />
+     <property name="IsGPSDeviceInstalled" column="IsGPSDeviceInstalled" type="bool"/>
+    <property name="GPS_TrackingDeviceMaster_Id" column="GPS_TrackingDeviceMaster_Id" type="long"/>
+    <property name="VehicleTravelDate" column="VehicleTravelDate" type="DateTime" />
+    <property name="Rank" column="Rank" type="long"/>
+    <many-to-one name="VehicleTypeMaster" column="VehicleTypeId" not-found="ignore" class="TIPS.Entities.TransportEntities.VehicleTypeMaster, TIPS.Entities" cascade="none" fetch="join"> </many-to-one>
+   
+  </class>
+</hibernate-mapping>

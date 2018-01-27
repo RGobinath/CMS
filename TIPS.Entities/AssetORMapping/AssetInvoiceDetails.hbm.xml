@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.AssetInvoiceDetails" namespace="TIPS.Entities.AssetEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.AssetInvoiceDetails, TIPS.Entities" table="AssetInvoiceDetails" lazy="false">
+    <id name="InvoiceDetailsId" column="InvoiceDetailsId" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="InvoiceNo" column="InvoiceNo" type="string"></property>
+    <property name="DocumentType" column="DocumentType" type="string"></property>
+    <property name="DocumentName" column="DocumentName" type="string"></property>
+    <property name="DocumentSize" column="DocumentSize" type="string"></property>
+    <property name="DocumentData"  type="Serializable">
+      <column name="DocumentData" sql-type="varbinary(MAX)" length="2147483647"></column>
+    </property>
+    <property name="UploadedDate" column="UploadedDate" type="datetime"></property>
+    <property name="InvoiceDate" column="InvoiceDate" type="datetime"></property>
+    <!--<property name="Warranty" column="Warranty" type="string"></property>-->
+    <property name="TotalAsset" column="TotalAsset" type="Int64"></property>
+    <property name="AssetCount" column="AssetCount" type="Int64"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"></property>
+    <property name="IsActive" column="IsActive" type="bool"></property>
+    <many-to-one name="VendorMaster" column="VendorId" class="TIPS.Entities.AssetEntities.VendorMaster,TIPS.Entities" fetch="join"/>
+    <property name="Amount" column="Amount" type="decimal"></property>
+  </class>
+</hibernate-mapping>

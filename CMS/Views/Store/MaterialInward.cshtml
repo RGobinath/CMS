@@ -1,0 +1,229 @@
+﻿@model TIPS.Entities.StoreEntities.MaterialInward
+@{
+    ViewBag.Title = "MaterialInward";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+@using (Html.BeginForm("MaterialInward", "Store", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    
+    <div class="page-content">
+        <div class="page-content-area">
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-info-circle"></i>&nbsp;Basic Details</div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Inward Number</b></label>
+                                            @Html.TextBoxFor(m => m.InwardNumber, new { @class = "form-control select-sm", @Readonly = "Readonly" })
+                                            @Html.HiddenFor(m => m.InwardNumber)
+                                            @Html.HiddenFor(m => m.Id)
+                                            @Html.Hidden("BackUrl", Url.Action("MaterialInwardList", "Store"))
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Procesed By</b></label>
+                                            @Html.TextBoxFor(m => m.ProcessedBy, new { @class = "form-control select-sm", @Readonly = "Readonly" })
+                                            @Html.HiddenFor(m => m.ProcessedBy)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b></label>
+                                            @Html.TextBoxFor(m => m.Campus, new { @class = "form-control select-sm", @Readonly = "Readonly" })
+                                            @Html.HiddenFor(m => m.Campus)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Store</b></label>
+                                            @Html.DropDownListFor(model => model.Store, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlStore", @Class = "form-control select-sm" })
+                                            @Html.HiddenFor(m => m.Store)
+                                            @Html.HiddenFor(m => m.UserRole)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Status</b></label>
+                                            @Html.TextBoxFor(m => m.Status, new { @class = "form-control select-sm", @Readonly = "Readonly" })
+                                            @Html.HiddenFor(m => m.Status)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>PO Number</b></label>
+                                            @Html.TextBoxFor(m => m.PONumber, new { id = "txtPoNumber", @Class = "form-control select-sm", maxlength = "50" })
+                                            @Html.HiddenFor(m => m.PONumber)
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="space-2"></div>*@
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                                <b>Supplier</b></label><br />
+                                            <div class="input-group input-group-sm">
+                                             @Html.TextBoxFor(m => m.Supplier, new { id = "txtSupplierName", @class = "form-control select-sm", @Readonly = "Readonly" })
+                                                <span class="input-group-addon"><a id="SupplierSearch" style="cursor: pointer;"><i
+                                                    class="fa fa-search"></i></a></span>
+                                            </div>
+                                            @*<label for="form-field-select-1">
+                                                <b>Supplier</b></label>
+                                            <div class="row">
+                                                <div class="col-xs-12" style="padding: 0px">
+                                                    <div class="col-sm-10">
+                                                        @Html.TextBoxFor(m => m.Supplier, new { id = "txtSupplierName", @class = "form-control select-sm" })
+                                                    </div>
+                                                    <div class="col-sm-2" style="padding: 0px">
+                                                        <a id="SupplierSearch" style="cursor: pointer;"><i class="fa fa-search"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>*@
+                                            @Html.HiddenFor(m => m.Supplier)
+                                            @Html.Hidden("hdnSupplierId")
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Supplier Ref / Invoice No</b></label>
+                                            @Html.TextBoxFor(m => m.SuppRefNo, new { id = "txtSuppRefNum", @Class = "form-control select-sm", maxlength = "50" })
+                                            @Html.HiddenFor(m => m.SuppRefNo)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Invoice Date</b></label>
+                                            @Html.TextBoxFor(m => m.InvoiceDate, new { @Class = "form-control select-sm date-picker" ,@readonly="readonly"})
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Invoice Amount</b></label>
+                                            @Html.TextBoxFor(m => m.InvoiceAmount, new { @class = "form-control select-sm", maxlength = "12" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>DC Number</b></label>
+                                            @Html.TextBoxFor(m => m.DCNumber, new { @class = "form-control select-sm", maxlength = "50" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>DC Date</b></label>
+                                            @Html.TextBoxFor(m => m.DCDate, new { @class = "form-control select-sm date-picker", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Received Date Time</b></label>
+                                            @Html.TextBoxFor(m => m.ReceivedDateTime, new { id = "ReceivedDate", @Class = "form-control select-sm date-picker", @readonly = "readonly" })
+                                            @Html.HiddenFor(m => m.ReceivedDateTime)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Received By</b></label>
+                                            @Html.DropDownListFor(m => m.ReceivedBy, new SelectList(new[]
+                                          {
+                                              //new{Value=" ",Text="Select One"},
+                                              new{Value="Self",Text="Self"},
+                                              new{Value="Other",Text="Other"},
+                                          }, "Value", "Text", ""), new { id = "ddlRcvdBy", @Class = "form-control select-sm" })
+                                            @Html.HiddenFor(m => m.ReceivedBy)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Receiver Name</b></label>
+                                            @Html.TextBoxFor(m => m.ReceivedBy, new { id = "txtReceivedBy", @class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Vehicle Type</b></label>
+                                            @Html.TextBoxFor(m => m.VehicleType, new { @class = "form-control select-sm", maxlength = "50" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Vehicle No</b></label>
+                                            @Html.TextBoxFor(m => m.VehicleNo, new { @class = "form-control select-sm", maxlength = "50" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Driver Name</b></label>
+                                            @Html.TextBoxFor(m => m.DriverName, new { @class = "form-control select-sm", maxlength = "50" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Driver Contact No</b></label>
+                                            @Html.TextBoxFor(m => m.DriverContactNo, new { @class = "form-control select-sm", maxlength = "10" })
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <br />
+                                            <button type="button" class="btn btn-primary btn-block btn-sm" id="btnSave" onclick="SaveValidation()">
+                                                <i class="ace-icon fa fa-ok white"></i>Save
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <br />
+                                            <label for="form-field-select-1">
+                                                <b>Add Material : &nbsp;&nbsp;</b>
+                                            </label>
+                                            <a id="MaterialSearch" style="cursor: pointer;"><i class="fa fa-search"></i></a>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <br />
+                                            <button type="button" class="btn btn-warning btn-block btn-sm" id="btnUpdate" onclick="skuValidation()">
+                                                <i class="ace-icon fa fa-ok white"></i>Update MIN
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <br />
+                                            <button type="button" class="btn btn-success btn-block btn-sm" id="btnComplete">
+                                                <i class="ace-icon fa fa-ok white"></i>Complete MIN
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <br />
+                                            <button type="button" class="btn btn-purple btn-block btn-sm" id="btnBack">
+                                                <i class="ace-icon fa fa-ok white"></i>Back To Inbox
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table id="MaterialSkuList">
+                    </table>
+                    <div id="MaterialSkuListPager">
+                    </div>
+                    <script type="text/javascript">
+                        var $path_base = ".."; //in Ace demo this will be used for edit url parameter
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="DivSupplierSearch"></div>
+    <div id="DivMaterialSearch"></div>
+}
+<script src="@Url.Content("~/Scripts/Store/MaterialInward.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/CommonValidation.js")" type="text/javascript"></script>

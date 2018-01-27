@@ -1,0 +1,60 @@
+﻿@model TIPS.Entities.CanteenEntities.CanteenUnits
+@{
+    ViewBag.Title = "UserAppRole";
+    Layout = "~/Views/Shared/PartialViewMaster.cshtml";
+}
+<style>
+.ui-widget-content
+        {
+            border: 0px solid #aaaaaa;
+            background: #ffffff url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x;
+           /* font-size: 0.8em;*/
+            color: #222222;
+        }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        jQuery("#CanteenUnitsList").jqGrid({
+            url: '/Canteen/CanteenUnitsListJqGrid',
+            datatype: 'json',
+            mtype: 'GET',
+            height: '265',
+            width: '970',
+          //  shrinkToFit: true,
+            colNames: ['Id', 'Unit Code','Unit Description'],
+            colModel: [
+                { name: 'Id', index: 'Id', width: 50, align: 'left', editable: true, hidden: true, edittype: 'text', key: true, sortable: false },
+                { name: 'UnitCode', index: 'UnitCode', width: 10, align: 'left', edittype: 'text', editable: true, hidden: false, sortable: true, editrules: { required: true }, editoptions: { size: 5, maxlength: 5} },
+                { name: 'Units', index: 'Units', width: 10, align: 'left', edittype: 'text', editable: true, hidden: false, sortable: true, editrules: { required: true }, editoptions: { maxlength: 25} },
+                ],
+            pager: '#CanteenUnitsListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200 ],
+            sortname: 'UnitCode',
+            sortorder: "",
+            viewrecords: true,
+            multiselect: true,
+            closeAfterEdit: true,
+            closeAfterAdd: true,
+          //  autowidth: true,
+            // loadonce: true, 
+            reloadAfterSubmit: true,
+            caption: 'Canteen Units List'
+        });
+        jQuery("#CanteenUnitsList").navGrid('#CanteenUnitsListPager', { add: true, edit: true, del: false, search: false, refresh: false },
+        { width: 'auto', url: '/Canteen/AddCanteenUnits?test=edit' },
+        { width: 'auto', url: '/Canteen/AddCanteenUnits' }
+                );
+        $("#CanteenUnitsList").jqGrid('filterToolbar', { stringResult: false, searchOnEnter: true, beforeSearch: function () {
+            $('#CanteenUnitsList').clearGridData();
+            return false;
+        }
+        });
+    });
+</script>
+<table id="CanteenUnitsList">
+</table>
+<div id="CanteenUnitsListPager">
+</div>
+

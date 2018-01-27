@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.AdmissionEntities.PaymentDetailsReport_vw" namespace="TIPS.Entities.AdmissionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AdmissionEntities.PaymentDetailsReport_vw, TIPS.Entities" table="PaymentDetailsReport_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="PreRegNum" column="PreRegNum" type="Int64" not-null ="false"></property>
+    <property name="NewId" column="NewId" type="string" not-null ="false"></property>
+    <property name="Name" column="Name" type="string" ></property>
+    <property name="Campus" column="Campus" type="string"  ></property>
+    <property name="AcademicYear" column="AcademicYear" type="string" ></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="BoardingType" column="BoardingType" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="AdmissionStatus" column="AdmissionStatus" type="string"></property>
+    <property name="ModeOfPayment" column="ModeOfPayment" type="string" ></property>
+    <property name="Amount" column="Amount" type="string" ></property>
+    <property name="FeeType" column="FeeType" type="string" ></property>
+    <property name="ReferenceNo" column="ReferenceNo" type="string" ></property>
+    <property name="ChequeDate" column="ChequeDate" type="datetime" ></property>
+    <property name="BankName" column="BankName" type="string" ></property>
+    <property name="Remarks" column="Remarks" type="string" ></property>
+    <property name="PaidDate" column="PaidDate" type="datetime" ></property>
+    <property name="ClearedDate" column="ClearedDate" type="datetime" ></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime" ></property>
+    <property name="CreatedBy" column="CreatedBy" type="string" ></property>
+    </class>
+</hibernate-mapping>

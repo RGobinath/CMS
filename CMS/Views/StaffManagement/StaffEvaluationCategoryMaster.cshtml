@@ -1,0 +1,202 @@
+﻿@{
+    ViewBag.Title = "Staff Evaluation Category Master";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    @{
+        var rlecode = Session["userrolesarray"] as IEnumerable<string>;
+        var Appcode = Session["Role"] as IEnumerable<string>;
+    }
+    @if (rlecode.Contains("EACCESS") && Appcode.Contains("OTPCONFIG"))
+    { 
+        @Html.Hidden("showedit", "", new { @Value = true })        
+    }
+    else
+    {
+        @Html.Hidden("showedit", "", new { @Value = false })    
+    }
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    @*<div class="widget-header widget-header-small">*@
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Academic Year</b></label>
+                                        @Html.DropDownList("Srchddlacademicyear", new SelectList(ViewBag.acadddl, "AcademicYear", "AcademicYear", ViewBag.currentAcyear), "Select One", new { id = "Srchddlacademicyear", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownList("Srchddlcampus", new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "Srchddlcampus", @Class = "form-control select-sm" , @onchange = "getAllSurveyno()" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Grade</b></label>
+                                        @Html.DropDownList("Srchddlgrade", new SelectList(ViewBag.gradeddl, "gradcod", "gradcod"), "Select One", new { id = "Srchddlgrade", @Class = "form-control select-sm", @onchange = "getAllSurveyno()" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Section</b></label>
+                                        @Html.DropDownList("SrchddlSection", new SelectList(new[]
+                                          {
+                                              new{Value="",Text="--Select One--"},
+                                              new{Value="A",Text="A"},
+                                              new{Value="B",Text="B"},
+                                              new{Value="C",Text="C"},
+                                              new{Value="D",Text="D"},
+                                              new{Value="E",Text="E"},
+                                              new{Value="F",Text="F"}
+                                          },
+                            "Value", "Text", ""), new { @Class = "form-control select-sm", @onchange = "getAllSurveyno()" })
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Survey Number</b></label>
+                                        @Html.DropDownList("SrchddlSurveyNo", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    @*<div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Is Active</b></label>
+                                        @Html.DropDownList("ddlIsActive", new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="True",Text="Yes"},
+                                              new{Value="False",Text="No"}                                              
+                                          },
+                            "Value", "Text", ""), new { id = "ddlIsActive", @Class = "form-control select-sm" })
+                                    </div>*@
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-primary btn-info btn-block btn-sm" id="btnSearch">
+                                            <i class="ace-icon fa fa-search white"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-danger btn-warning btn-block btn-sm" id="SrchbtnReset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue collapsed">
+                    @*<div class="widget-header widget-header-small">*@
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-plus-circle"></i>&nbsp;Add OTP Configuration
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Academic Year<sup style="color:red">*</sup></b></label>
+                                        @Html.DropDownList("ddlacademicyear", new SelectList(Enumerable.Empty<SelectListItem>(), ViewBag.currentAcyear), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus<sup style="color:red">*</sup></b></label>
+                                        @Html.DropDownList("ddlcampus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlcampus", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Grade<sup style="color:red">*</sup></b></label>
+                                        @Html.DropDownList("ddlgrade", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlgrade", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Section<sup style="color:red">*</sup></b></label>
+                                        @Html.DropDownList("ddlSection", new SelectList(new[]
+                                          {
+                                               new{Value="",Text="Select One"},
+                                              new{Value="A",Text="A"},
+                                              new{Value="B",Text="B"},
+                                              new{Value="C",Text="C"},
+                                              new{Value="D",Text="D"},
+                                              new{Value="E",Text="E"},
+                                              new{Value="F",Text="F"}
+                                          },
+                            "Value", "Text", ""), new { @Class = "form-control select-sm", @onchange = "getAllSurveyno()" })
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Survey Number<sup style="color:red">*</sup></b></label>
+                                        @*@Html.TextBox("txtCategoryName", "", new { @title = "Type Search Text", @Class = "form-control input-sm" })*@
+                                        @Html.DropDownList("ddlCategoryName", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlCategoryName", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Survey Date<sup style="color:red">*</sup></b></label>
+                                        @Html.TextBox("EvaluationDate", "", new { id = "txtSurveyDate", @Class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-success btn-info btn-block btn-sm" id="btnSave">
+                                            <i class="ace-icon fa fa-save white"></i>Save
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-danger btn-warning btn-block btn-sm" id="btnReset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <table id="grid-table">
+                </table>
+                <div id="grid-pager">
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.page-content-area -->
+</div>
+<script src="@Url.Content("~/Scripts/StaffManagementScripts/StaffEvaluationCategoryMaster.js")" type="text/javascript"></script>
+
+<script src="@Url.Content("~/assets/js/bootstrap-multiselect.js")" type="text/javascript"></script>
+<link href="../../assets/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />

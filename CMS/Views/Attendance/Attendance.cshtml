@@ -1,0 +1,160 @@
+﻿@{
+    ViewBag.Title = "Attendance";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<div class="page-content">
+    <!-- /section:settings.box -->
+    @Html.Hidden("RetainDate", "", new { id = "RetainDate", @Value = ViewBag.dattime })
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Criteria
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownList("Campus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Grade</b></label>
+                                        @Html.DropDownList("Grade", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Section</b></label>
+                                        @Html.DropDownList("Section",
+                                            new SelectList(new[] { 
+                                                new { Text = "Select", Value = "Select", Seleced = "True" },
+                                                new { Text = "A", Value = "A", Seleced = "false" },
+                                                new { Text = "B", Value = "B", Seleced = "false" },
+                                                new { Text = "C", Value = "C", Seleced = "false" },
+                                                new { Text = "D", Value = "D", Seleced = "false" },
+                                                new { Text = "E", Value = "E", Seleced = "false" },
+                                                new { Text = "F", Value = "F", Seleced = "false" }
+                                       }, "Text", "Value", "Seleced"),
+                                       new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Date</b></label>
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBox("txtDate", "", new { @class = "form-control Attendancedatepicker" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label for="form-field-select-1" id="chkLabel">
+                                            <b>Long Absent</b></label>
+
+                                        <span id="chkBox">
+                                            <input type="checkbox" class="form-control select-sm" id="chbBulkAbs" name="LongAbsent[]" /></span>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label for="form-field-select-1" id="Chkhalfday">
+                                            <b>Half day </b>
+                                        </label>
+                                        <span id="ChkHalfAbsnt">
+                                            <input type="checkbox" class="form-control select-sm" value="1" id="HlfdayAbs" name="Halfday[]" /></span>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <br />
+                                        <button type="submit" class="btn btn-success btn-block btn-sm" id="btnGetStdntLst">
+                                            <i class="ace-icon fa fa-search"></i>Get Student List
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                            <div class="row" id="tblBulk">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        From:
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBox("txtFromDate", "", new { @readonly = true, @class = "form-control txtFromDate" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        To:
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBox("txtToDate", "", new { @readonly = true, @class = "form-control txtToDate" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <br />
+                                        <button type="submit" class="btn btn-primary btn-block btn-sm" id="btnBlkSave">
+                                            <i class="fa fa-check"></i>&nbsp;&nbsp;Mark Absent
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                            <div class="row" id="tblhalfday">
+                                <div class="col-xs-12">
+                                    @*<div class="col-sm-2">
+                                        <b>Day:</b>
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBox("AbsentDate", "", new { @readonly = true, @class = "form-control txtFromDate" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>*@
+                                    <div class="col-sm-2">
+                                        <b>ForeNoon</b>
+                                        <div class="input-group input-group-lg">
+                                            <span id="ChkSpanForeNoon">
+                                                <input type="checkbox" class="Btn" id="ChkForeNoon" name="ChkAfterNoon[]" value="FN" /></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>AfterNoon</b>
+                                        <div class="input-group input-group-lg">
+                                            <span id="ChkSpanAfterNoon">
+                                                <input type="checkbox" id="ChkAfterNoon" name="ChkAfterNoon[]" value="AF" class="Btn" /></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <br />
+                                        <button type="submit" class="btn btn-primary btn-block btn-sm" id="btnhalfday">
+                                            <i class="fa fa-check"></i>Mark Absent
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <table id="AttendanceList">
+                                    </table>
+                                    <div id="AttendanceListPager">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src='@Url.Content("/assets/js/AceJQMsg.js")' type="text/javascript"></script>
+    <script src="@Url.Content("../../Scripts/Attendance/Attendance.js")" type="text/javascript"></script>

@@ -1,0 +1,80 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-tasks"></i>&nbsp;Training Details</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Particulars</b></label>
+                                        @Html.TextBoxFor(model => model.StaffTrainingList[0].Particulars, new { id = "particulars", @Class = "form-control input-sm", @maxlength = "45" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Place</b></label>
+                                        @Html.TextBoxFor(model => model.StaffTrainingList[0].Place, new { id = "place", @Class = "form-control input-sm", @maxlength = "45" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Date</b>
+                                        </label>
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(model => model.StaffTrainingList[0].Date, new { id = "date", @Class = "form-control date-picker", @maxlength = "10" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label for="form-field-select-1">
+                                            <b>Sponsored By</b></label>
+                                        @Html.TextBoxFor(model => model.StaffTrainingList[0].SponsoredBy, new { id = "sponsoredby", @Class = "form-control input-sm", @maxlength = "40" })
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <br />
+                                        <button type="button" class="btn btn-primary btn-block btn-sm" id="AddTraining">
+                                            <i class="ace-icon fa fa-plus white"></i>Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-8">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <table id="TrainingList">
+                </table>
+                <div id="TrainingListPager">
+                </div>
+                <script type="text/javascript">
+                    var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+                </script>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <div class="space-6">
+        </div>
+        <div class="space-6">
+        </div>
+        <div class="space-6">
+        </div>
+        <div class="space-6">
+        </div>
+
+<script src="../../Scripts/StaffManagementScripts/TrainingDetails.js" type="text/javascript"></script>
+<script src="../../assets/js/AceJQMsg.js" type="text/javascript"></script>

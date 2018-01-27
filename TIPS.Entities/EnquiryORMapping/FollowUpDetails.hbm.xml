@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.EnquiryEntities.FollowUpDetails" namespace="TIPS.Entities.EnquiryEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.EnquiryEntities.FollowUpDetails, TIPS.Entities" table="EnqFollowUpDetails" lazy="true" >
+    <id name="FollowUpDetailsId" column="FollowUpDetailsId" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="EnquiryDetailsId" column="EnquiryDetailsId" type="Int64"/>
+    <property name="FollowUpRemarks" column="FollowUpRemarks" type="string"/>
+    <property name="StaffFollowUpDate" column="StaffFollowUpDate" type="DateTime"/>
+    <property name="NextFollowUpDate" column="NextFollowUpDate" type="DateTime"/>
+    <property name="StaffName" column="StaffName" type="string"/>
+  </class>
+</hibernate-mapping>

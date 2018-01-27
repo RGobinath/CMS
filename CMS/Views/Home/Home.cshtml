@@ -1,0 +1,379 @@
+﻿@{
+    ViewBag.Title = "Home";
+   // Layout = "~/Views/Shared/NewMaster.cshtml";
+  //  Layout = null;
+}
+
+<head>
+	<meta charset="utf-8" />
+    <link href="../../Content/Homedesign/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/Homedesign/css/flexslider.css" rel="stylesheet" type="text/css" />
+    <script src="../../Content/Homedesign/js/jquery.flexslider-min.js" type="text/javascript"></script>
+    <script src="../../Content/Homedesign/js/functions.js" type="text/javascript"></script>
+</head>
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {       
+
+        $.getJSON("/Home/NonCompletedSlaStatusChart1",
+            function (result1) {
+                 
+                var below24 = 0;
+                var bet24to48 = 0;
+                var slaBreached = 0;
+                var i = 0;
+
+                $.each(result1, function (index, itemdata) {
+                    if (itemdata.Hours <= 24) {
+                        below24++;
+                    }
+                    else if (itemdata.Hours > 24 && itemdata.Hours <= 48) {
+                        bet24to48++;
+                    }
+                    else if (itemdata.Hours > 48) {
+                        slaBreached++;
+                    }
+                    else { }
+                    i++;
+                });
+
+                if (below24 == 0) {
+                    below24 = "";
+                }
+                if (bet24to48 == 0) {
+                    bet24to48 = "";
+                }
+                if (slaBreached == 0) {
+                    slaBreached = "";
+                }
+                var ColumnChart = "<graph caption='' xAxisName='Hours' yAxisName='Issue Count' decimalPrecision='0' formatNumberScale='0' rotateNames='1' >";
+                ColumnChart = ColumnChart + " <set name='Below 24' value='" + below24 + "' color='AFD8F8' />";
+                ColumnChart = ColumnChart + " <set name='24-48' value='" + bet24to48 + "' color='F6BD0F' />";
+                ColumnChart = ColumnChart + " <set name='SLA Breached' value='" + slaBreached + "' color='8BBA00' /></graph>";
+                var chart = new FusionCharts("../../Charts/FCF_Column3D.swf", "productSales", "250", "230");
+                chart.setDataXML(ColumnChart);
+                chart.render("ColumnChartDiv");
+            });
+
+        $.getJSON("/Home/GetIssueCountByStatus1",
+
+                  function (result) {
+                      var LogIssCnt = 0;
+                      var ResRejIssCnt = 0;
+                      var log_ResRejIssCnt = 0;
+                      var ResIssCnt = 0;
+                      var AppRejCnt = 0;
+                      var res_apprejcnt = 0;
+                      var AppRejIssCnt = 0;
+                      var AppIssCnt = 0;
+                      var AppIssTotCnt = 0;
+                      var TobeCmpltdcnt = 0;
+                      var CmpltdCnt = 0;
+                      var totalIssueCnt = 0;
+
+                      $.each(result, function (index, itemdata) {
+                          if (itemdata.Status == "LogIssue") {
+                              LogIssCnt++;
+                          }
+                          else if (itemdata.Status == "ResolveIssueRejection") {
+                              ResRejIssCnt++;
+                          }
+                          else if (itemdata.Status == "ResolveIssue") {
+                              ResIssCnt++;
+                          }
+                          else if (itemdata.Status == "ApproveIssueRejection") {
+                              AppRejCnt++;
+                          }
+                          else if (itemdata.Status == "ApproveIssue") {
+                              AppIssCnt++;
+                          }
+                          else if (itemdata.Status == "Complete") {
+                              TobeCmpltdcnt++;
+                          }
+
+                          else if (itemdata.Status == "Completed") {
+                              CmpltdCnt++;
+                          }
+                          else
+                          { }
+
+                          totalIssue = LogIssCnt + ResRejIssCnt + ResIssCnt + AppRejCnt + AppIssCnt + TobeCmpltdcnt + CmpltdCnt;
+                          log_ResRejIssCnt = LogIssCnt + ResRejIssCnt;
+                          res_apprejcnt = ResIssCnt + AppRejCnt;
+                          AppIssTotCnt = AppIssCnt + TobeCmpltdcnt;
+                      });
+                     
+                      if (log_ResRejIssCnt == 0) {
+                          log_ResRejIssCnt = "";
+                      }
+                      if (res_apprejcnt == 0) {
+                          res_apprejcnt = "";
+                      }
+                      if (AppIssTotCnt == 0) {
+                          AppIssTotCnt = "";
+                      }
+                      if (CmpltdCnt == 0) {
+                          CmpltdCnt = "";
+                      }
+                      var PieChart = "<graph caption='' xAxisName='Month' yAxisName='Units' decimalPrecision='0' showNames='1'>";
+                      PieChart = PieChart + " <set name='Log Issue' value='" + log_ResRejIssCnt + "' color='AFD8F8' />";
+                      PieChart = PieChart + " <set name='Resolve Issue' value='" + res_apprejcnt + "' color='F6BD0F' />";
+                      PieChart = PieChart + " <set name='Approve Issue' value='" + AppIssTotCnt + "' color='8BBA00' />";
+                      PieChart = PieChart + " <set name='Completed' value='" + CmpltdCnt + "' color='FF8E46' /></graph>";
+                      var chart = new FusionCharts("../../Charts/FCF_Pie3D.swf", "productSales", "330", "220");
+                      chart.setDataXML(PieChart);
+                      chart.render("PieChartDiv");
+                  });
+
+        $.getJSON("/Home/GetIssueCountByIssueGroup1",
+
+                  function (result) {
+
+                      var aca = 0;
+                      var admn = 0;
+                      var adms = 0;
+                      var fees = 0;
+                      var hstl = 0;
+                      var hr = 0;
+                      var stre = 0;
+                      var trns = 0;
+                      var it = 0;
+                      var rcpt = 0;
+                      $.each(result, function (index, itemdata) {
+                          if (itemdata.IssueGroup == "Academics") {
+                              aca++;
+                          }
+                          else if (itemdata.IssueGroup == "Administrative") {
+                              admn++;
+                          }
+                          else if (itemdata.IssueGroup == "Admission") {
+                              adms++;
+                          }
+                          else if (itemdata.IssueGroup == "Fees / Finance") {
+                              fees++;
+                          }
+                          else if (itemdata.IssueGroup == "Hostel") {
+                              hstl++;
+                          }
+                          else if (itemdata.IssueGroup == "HR") {
+                              hr++;
+                          }
+                          else if (itemdata.IssueGroup == "Store") {
+                              stre++;
+                          }
+                          else if (itemdata.IssueGroup == "Transport") {
+                              trns++;
+                          }
+                          else if (itemdata.IssueGroup == "IT") {
+                              it++;
+                          }
+                          else if (itemdata.IssueGroup == "Reception") {
+                              rcpt++;
+                          }
+                          else
+                          { }
+                      });
+                      if (aca == 0) {
+                          aca = "";
+                      }
+                      if (admn == 0) {
+                          admn = "";
+                      }
+                      if (adms == 0) {
+                          adms = "";
+                      }
+                      if (fees == 0) {
+                          fees = "";
+                      }
+                      if (hstl == 0) {
+                          hstl = "";
+                      }
+                      if (hr == 0) {
+                          hr = "";
+                      }
+                      if (stre == 0) {
+                          stre = "";
+                      }
+                      if (trns == 0) {
+                          trns = "";
+                      }
+                      if (it == 0) {
+                          it = "";
+                      }
+                      if (rcpt == 0) {
+                          rcpt = "";
+                      }
+
+                      var FunnelChart = "<graph caption='' xAxisName='Issue Group' yAxisName='Issue Count' decimalPrecision='0' formatNumberScale='0' showNames='1' rotateNames='1'>";
+                      FunnelChart = FunnelChart + " <set name='Academics' value='" + aca + "' color='AFD8F8' />";
+                      FunnelChart = FunnelChart + " <set name='Administrative' value='" + admn + "' color='F6BD0F' />";
+                      FunnelChart = FunnelChart + " <set name='Admission' value='" + adms + "' color='8BBA00' />";
+                      FunnelChart = FunnelChart + " <set name='Fees / Finance' value='" + fees + "' color='FF8E46' />";
+                      FunnelChart = FunnelChart + " <set name='Hostel' value='" + hstl + "' color='08E8E' />";
+                      FunnelChart = FunnelChart + " <set name='HR' value='" + hr + "' color='D64646' />";
+                      FunnelChart = FunnelChart + " <set name='Store' value='" + stre + "' color='8BBA00' />";
+                      FunnelChart = FunnelChart + " <set name='Transport' value='" + trns + "' color='FF8E46' />";
+                      FunnelChart = FunnelChart + " <set name='IT' value='" + it + "' color='08E8E' />";
+                      FunnelChart = FunnelChart + " <set name='Reception' value='" + rcpt + "' color='D64646' /></graph>";
+                      var chart = new FusionCharts("../../Charts/FCF_Column3D.swf", "productSales", "350", "230");
+                      chart.setDataXML(FunnelChart);
+                      chart.render("FunnelChartDiv");
+                  });
+
+        $.ajax({
+            type: 'Get',
+            url: '@Url.Content("~/Home/WeeklyIssueStatus/")',
+            success: function (data) {
+                var chart = new FusionCharts("../../Charts/FCF_MSLine.swf", "ChartId", "280", "230");
+                chart.setDataXML(data);
+                chart.render("WeeklyIssueStatus1Div");
+                if ($("#processDiv").closest('.ui-dialog').is(':visible')) {
+                    processBusy.dialog('close');
+                }
+            },
+
+            async: false,
+            dataType: "text"
+        });
+    });
+</script>
+
+@*				<!-- end of header -->
+				<div class="main">
+					<!-- slider -->
+					<div class="flexslider">
+						<ul class="slides">
+							<li>
+								<img src="../../Content/Homedesign/images/slide-img1.jpg"  alt="" />
+								<div class="slide-cnt">
+									<h2>Welcome to TIPS <br />Parent Portal</h2>
+									<p>Making a Difference to your Child's Life</p>
+								</div>
+							</li>
+							<li>
+								<img src="../../Content/Homedesign/images/slide-img1.jpg"  alt="" />
+								<div class="slide-cnt">
+									<h2>TIPS <br />Making a Difference to your Child's Life</h2>
+									<p></p>
+								</div>
+								
+							</li>
+							<li>
+								<img src="../../Content/Homedesign/images/slide-img1.jpg"  alt="" />
+								<div class="slide-cnt">
+									<h2>The Objective of Education Is Learning, <br />Not Teaching</h2>
+									<p></p>
+								</div>
+								
+							</li>
+						</ul>
+					</div>
+					<!-- end of slider -->
+*@
+
+@using (Html.BeginForm("Home", "Home"))
+{
+    <h3>
+        Home</h3>
+    <br />
+    <table width="100%">
+        <tr style="text-align: center; font-size: smaller; font-weight: bolder">
+            <td>
+                <h5>
+                    Non Completed Issue Count</h5>
+            </td>
+            <td>
+                <h5>
+                    Issue Count by Status</h5>
+            </td>
+            <td>
+                <h5>
+                    Issue Count by Issue Group</h5>
+            </td>
+            <td>
+                <h5>
+                    Weekly Issue Status</h5>
+            </td>
+        </tr>
+        <tr>
+            <td id="chart2">
+                <div id="ColumnChartDiv">
+                </div>
+            </td>
+            <td id="Column3DLineDY">
+                <div id="PieChartDiv">
+                </div>
+            </td>
+            <td id="chart1">
+                <div id="FunnelChartDiv">
+                </div>
+            </td>
+            <td>
+                <div id="WeeklyIssueStatus1Div">
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table class="InnerTable" width="100%">
+        <tr>
+            <td width="60%">
+                <fieldset>
+                    <p>
+                        TIPS is a World class school providing a great education experience for students
+                        and a pioneer in many dimensions of imparting education. In this journey an Integrated
+                        Campus management system is also needed and TIPSICS portal provides the user access
+                        to the various process involved in the e-governance of TIPS school activities.This
+                        is a Hybrid portal with internet and intranet functionality facilitating parents,
+                        students, staff, vendors and the management.
+                    </p>
+                    <br />
+                    <br />
+                    <div style="background-color: #B6B6B6; height: 100%; width: 100%; font-style: italic;
+                        text-align: left;">
+                        Description of the system
+                        <br />
+                    </div>
+                </fieldset>
+            </td>
+            <td width="40%">
+                <fieldset>
+                    <table width="100%" class="InnerTable">
+                        <tr>
+                            <td colspan="2">
+                            </td>
+                            <td style="text-align: right">
+                                supportdesk@@tipsglobal.org
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                            </td>
+                            <td style="text-align: right">
+                                +91-422-647-3333
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                            </td>
+                            <td style="text-align: right">
+                                <br />
+                                tipsics@@tipsglobal.org
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                            </td>
+                            <td style="text-align: right">
+                                +917207464869
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <div style="background-color: #B6B6B6; height: 100%; width: 100%; font-style: italic;
+                        text-align: right">
+                        Support Numbers & Id's
+                    </div>
+                </fieldset>
+            </td>
+        </tr>
+    </table>
+}

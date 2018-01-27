@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Canteen";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    //    $(function () {
+    //        $("#accordion").accordion({
+    //            event: "mouseover"
+    //        });
+    //    });
+</script>
+@using (Html.BeginForm("CanteenMaster", "Canteen", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h3>
+        Canteen Master</h3>
+    <table width="100%" class="WithBorderOnly">
+        <tr>
+            <td width="16%">
+                <div id="accordion" style="height: 100%;">
+                    <h1>
+                        <a href="#">Settings</a></h1>
+                    <br />
+                    <div>
+                        <li>
+                            <img src="../../Images/Canteen/uom.gif" />&nbsp&nbsp<a href='/Canteen/CanteenUnitsMaster/'
+                                target="CanteenMasterDiv" class="lblheader1">Unit of Measurement</a></li>
+                        <li>
+                            <img src="../../Images/Canteen/cg.gif" />&nbsp&nbsp<a href='/Canteen/CanteenMaterialGroupMaster/'
+                                target="CanteenMasterDiv" class="lblheader1">Material Group</a></li>
+                        <li>
+                            <img src="../../Images/Canteen/com.gif" />&nbsp&nbsp<a href='/Canteen/CanteenMaterialsMaster/'
+                                target="CanteenMasterDiv" class="lblheader1">Material</a></li>
+                        <li>
+                            <img src="../../Images/Canteen/Canteenfunctionaries.gif" />&nbsp&nbsp<a href='/Canteen/CanteenFunctionaries/'
+                                target="CanteenMasterDiv" class="lblheader1">Suppliers</a></li>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                    </div>
+                </div>
+            </td>
+            <td width="84%" height="400px" width="400px">
+                <iframe name="CanteenMasterDiv" src="CanteenUnitsMaster" scrolling="no" width="100%"
+                    height="100%" style="border: none"></iframe>
+            </td>
+        </tr>
+    </table>
+}

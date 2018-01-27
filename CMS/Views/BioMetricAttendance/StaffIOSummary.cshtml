@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Staff In/Out Summary";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script src="../../Scripts/BioMetricAttendance/StaffIOSummary.js" type="text/javascript"></script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="fa fa-search"></i>&nbsp;Search
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Campus</b></label>
+                                    @Html.DropDownList("ddlCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "---Select---", new { id = "ddlCampus", @Class = "form-control select-sm" })
+                                </div>
+                                 <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Staff ID</b></label>
+                                    @Html.TextBox("StaffId", "", new { @Class = "form-control height-20", @maxlength = "30" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Staff Name</b></label>
+                                    @Html.TextBox("StaffName", "", new { @Class = "form-control height-20", @maxlength = "30" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Attendance Date</b></label>
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBox("AttendanceFromDate", "", new { @id = "AttendanceFromDate", placeholder = "dd/MM/yyyy", @Class = "maxLength form-control height-20", @onkeypress = "return isNumberKey(event, this)", @onkeyup = "return datecheck(event, this)", @maxlength = "10" })
+                                        <span class="input-group-addon" style="cursor: pointer;"><i class="ace-icon fa fa-calendar AttFromdate"></i></span>
+                                    </div>
+                                </div>
+                               @* <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Attendance To Date</b></label>
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBox("AttendanceToDate", "", new { @id = "AttendanceToDate", placeholder = "dd/MM/yyyy", @Class = "maxLength form-control height-20", @onkeypress = "return isNumberKey(event, this)", @onkeyup = "return datecheck(event, this)", @onkeydown = "checkFromDate()", @maxlength = "10" })
+                                        <span class="input-group-addon" style="cursor: pointer;"><i class="ace-icon fa fa-calendar AttTodate"></i></span>
+                                    </div>
+                                </div>*@
+                                 <div class="col-sm-1">
+                                     <br />
+                                    <button class="btn btn-sm btn-primary pull-left" type="button" id="Search">
+                                        <i class="ace-icon fa fa-search white"></i>Search</button>
+                                </div>
+                                <div class="col-sm-1">
+                                    <br />
+                                    <button class="btn btn-sm btn-primary pull-left" type="button" id="Reset">
+                                        <i class="ace-icon fa fa-undo white"></i>Reset</button>
+                                </div>
+                            </div>
+                            <div class="space-6"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="space-2"></div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="StaffSummaryRptList">
+                </table>
+                <div id="StaffSummaryRptListPager">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

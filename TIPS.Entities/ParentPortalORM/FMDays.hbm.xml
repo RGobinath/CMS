@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.ParentPortalEntities.FMDays" namespace="TIPS.Entities.ParentPortalEntities">
+  <class name="TIPS.Entities.ParentPortalEntities.FMDays, TIPS.Entities" table="FMDays" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"/>
+    </id>
+    <property name="FMWeekId" column="FMWeekId" type="Int64" not-null ="false"/>
+    <property name="Week" column="Week" type="string" />
+    <property name="Day" column="Day" type="string" />
+    <property name="BreakFast" column="BreakFast" type="string" />
+    <property name="LunchNonVeg" column="LunchNonVeg" type="string" />
+    <property name="LunchVeg" column="LunchVeg" type="string" />
+    <property name="Snacks" column="Snacks" type="string" />
+  </class>
+</hibernate-mapping>

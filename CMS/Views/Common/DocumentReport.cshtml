@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "DocumentReport_Vw";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa fa-search"></i>&nbsp;Search Pannel
+                </div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1"><b>Campus</b></label>
+                              @Html.DropDownList("Campus", new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1"><b>Staff Type</b></label>
+                                   @Html.DropDownList("ddlSearchBy", new SelectList(new[]
+                                                    {
+                                                        new{Value="",Text="Select One"},
+                                                        new{Value="Staff Photo",Text="Staff"},
+                                                        new{Value="Driver Photo",Text="Driver"},
+                                                    },
+                                                    "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                            </div>
+                              <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Id Number</b></label>
+                                              @Html.TextBox("IdNum",null, new { @class = "form-control input-sm" })
+                                    </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1"><b>Document Avialable</b></label>
+                                   @Html.DropDownList("DocAvl", new SelectList(new[]
+                                                    {
+                                                        new{Value="",Text="Select One"},
+                                                        new{Value="Yes",Text="Yes"},
+                                                        new{Value="No",Text="No"},
+                                                    },
+                                                    "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-1">
+                                <label for="form-field-select-1"><b></b></label>
+                                <button type="button" class="btn btn-success btn-info btn-block btn-sm" id="btnSearch">
+                                    
+                                    <i class="fa fa-search fa-fw"></i>Search
+                                </button>
+                            </div>
+                              <div class="col-sm-1">
+                                <label for="form-field-select-1"><b></b></label>
+                                <button type="button" class="btn btn-danger btn-block btn-sm" id="btnReset">
+                                    
+                                    <i class="ace-icon fa fa-undo white"></i>Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <table id="jqGridDocumentsReport">
+        </table>
+        <div id="jqGridDocumentsReportPager">
+        </div>
+        <!-- PAGE CONTENT ENDS -->
+  
+<script src="../../Scripts/DocumentReport_Vw.js"></script>

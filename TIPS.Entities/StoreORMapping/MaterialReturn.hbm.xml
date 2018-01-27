@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.StoreEntities" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StoreEntities.MaterialReturn, TIPS.Entities" table="MaterialReturn" lazy="true" >
+    <id name="MatRetId" column="MatRetId">
+      <generator class="identity" />
+    </id>
+    <property name="ReturnRefNum">
+      <column name="ReturnRefNum" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Campus">
+      <column name="Campus" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="FromStore">
+      <column name="FromStore" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="ToStore">
+      <column name="ToStore" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="DCNumber">
+      <column name="DCNumber" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Description">
+      <column name="Description" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="CreatedBy">
+      <column name="CreatedBy" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="CreatedDate">
+      <column name="CreatedDate" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="ReturnStatus">
+      <column name="ReturnStatus" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="AcceptedStatus">
+      <column name="AcceptedStatus" sql-type="varchar" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

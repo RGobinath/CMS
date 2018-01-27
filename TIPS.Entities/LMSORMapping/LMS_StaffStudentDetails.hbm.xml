@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.LMSEntities.LMS_StaffStudentDetails_Vw" namespace="TIPS.Entities.LMSEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.LMSEntities.LMS_StaffStudentDetails_Vw,TIPS.Entities" table="LMSStaffStudentDetails_Vw" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="PreRegNumber" column="PreRegNumber" type="Int64"></property>
+    <property name="IdNumber" column="IdNumber" type="string"></property>
+    <property name="Name" column="Name" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="Subject" column="Subject" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>
+    <property name="IsActive" column="IsActive" type="bool"></property>
+    <property name="UserType" column="UserType" type="string"></property>
+  </class>
+</hibernate-mapping>

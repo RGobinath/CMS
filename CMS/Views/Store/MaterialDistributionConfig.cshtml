@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "MaterialDistributionConfig";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <!--Search Pannel-->
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-plus"></i>&nbsp;Configuration Panel
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>AcademicYear</b></label>
+                                        @Html.DropDownList("ddlAcademicYear", new SelectList(ViewBag.acadddl, "AcademicYear", "AcademicYear"), "Select", new {id="ddlAcademicYear", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownList("ddlCampus", new SelectList(ViewBag.ddlcampus, "Name", "Name"), "Select", new {id="ddlCampus", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Grade</b></label>
+                                        @Html.DropDownList("ddlgrade", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new {id="ddlgrade", @Class = "form-control select-sm" })
+                                    </div>
+                                    @*<div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Section</b></label>
+                                        @Html.DropDownList("ddlSection", new SelectList(new[]{
+                                             new {Value="",Text="Select"},
+                                              new{Value="A",Text="A"},
+                                              new{Value="B",Text="B"},
+                                              new{Value="C",Text="C"},
+                                              new{Value="D",Text="D"},
+                                              new{Value="E",Text="E"},
+                                              new{Value="F",Text="F"} }, "Value", "Text", ""), new { id="ddlSection", @Class = "form-control select-sm" })
+                                    </div>*@
+                                   <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Gender </b>
+                                        </label>
+                                        @Html.DropDownList("ddlGender", new SelectList(new[] {
+                                              new{Value="All",Text="All"},
+                                              new{Value="Male",Text="Male"},
+                                              new{Value="Female",Text="Female"} 
+                                 }, "Value", "Text", ""), new {id="ddlGender", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Is Hosteller </b>
+                                        </label>
+                                        @Html.DropDownList("ddlIshosteller", new SelectList(new[] {
+                                              new{Value="All",Text="All"},
+                                              new{Value="True",Text="True"},
+                                              new{Value="False",Text="False"} 
+                                 }, "Value", "Text", ""), new {id="ddlIshosteller", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Material Group</b></label>
+                                        @Html.DropDownList("ddlMaterialGroup", new List<SelectListItem> { new SelectListItem { Text = "Material Distribution", Value = "4", Selected = true } }, "Select One", new {id="ddlMaterialGroup", @Class = "form-control select-sm" })
+
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    
+                                   <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Material</b></label>
+                                        @Html.DropDownList("ddlMaterialSubGroup", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new {id="ddlMaterialSubGroup", @Class = "form-control select-sm" })
+                                    </div>
+                                   
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Quantity </b>
+                                        </label>
+                                        @Html.TextBox("txtQuantity", null, new {id="txtQuantity", @Class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-success btn-block btn-sm" type="button" id="btnAdd" value="Add">
+                                            <i class="ace-icon fa fa-plus white"></i>Add</button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-primary btn-block btn-sm" type="button" id="btnsearch" value="Search">
+                                            <i class="ace-icon fa fa-search white"></i>Search</button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-danger btn-block btn-sm" type="button" id="btnreset" value="Reset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-2">
+                        </div>
+
+                        <!-- /.page-content-area -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <!-- PAGE CONTENT BEGINS -->
+                <table id="materialDistributionListjqGrid">
+                </table>
+                <div id="materialDistributionListjqGridPager">
+                </div>  
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+    </div>
+</div>
+<script src="@Url.Content("~/Scripts/Store/MaterialDistributionConfig.js")" type="text/javascript"></script>

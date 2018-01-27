@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Store";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+//    $(function () {
+//        $("#accordion").accordion({
+//            event: "mouseover"
+//        });
+//    });
+</script>
+@using (Html.BeginForm("StoreMaster", "Store", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h3>
+        Store Master</h3>
+    <table width="100%" class="WithBorderOnly">
+        <tr>
+            <td width="16%">
+                <div id="accordion" style="height: 100%;">
+                    <h1>
+                        <a href="#">Settings</a></h1>
+                        <br />
+                    <div>
+                        <li>
+                            <img src="../../Images/Store/uom.gif" />&nbsp&nbsp<a href='/Store/StoreUnitsMaster/'
+                                target="StoreMasterDiv" class="lblheader1">Unit of Measurement</a></li>
+                        <li>
+                            <img src="../../Images/Store/cg.gif" />&nbsp&nbsp<a href='/Store/StoreMaterialGroupMaster/'
+                                target="StoreMasterDiv" class="lblheader1">Material Group</a></li>
+                        <li>
+                            <img src="../../Images/Store/cg.gif" />&nbsp&nbsp<a href='/Store/StoreMaterialSubGroupMaster/'
+                                target="StoreMasterDiv" class="lblheader1">Material Sub Group</a></li>
+                        <li>
+                            <img src="../../Images/Store/com.gif" />&nbsp&nbsp<a href='/Store/StoreSKUMaster/'
+                                target="StoreMasterDiv" class="lblheader1">SKU</a></li>
+                        <li>
+                            <img src="../../Images/Store/storerfunctionaries.gif" />&nbsp&nbsp<a href='/Store/StorerFunctionaries/'
+                                target="StoreMasterDiv" class="lblheader1">Storer Functionaries</a></li>
+                        @*<li>
+                            <img src="../../Images/Store/uom.gif" />&nbsp&nbsp<a href='/Store/MaterialGroupSupplier/'
+                                target="StoreMasterDiv" class="lblheader1">Material Group Supplier</a></li>
+                        <li>
+                            <img src="../../Images/Store/com.gif" />&nbsp&nbsp<a href='/Store/UOMCovertion/'
+                                target="StoreMasterDiv" class="lblheader1">UOM Conversion Matrix</a></li>*@
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                    </div>
+                </div>
+            </td>
+            <td width="84%" height="400px" width="400px">
+                <iframe name="StoreMasterDiv" src="StoreUnitsMaster" scrolling="no" width="100%" height="100%" style="border: none">
+                </iframe>
+            </td>
+        </tr>
+    </table>
+}

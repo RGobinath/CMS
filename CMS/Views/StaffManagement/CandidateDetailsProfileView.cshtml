@@ -1,0 +1,472 @@
+﻿<style type="text/css">
+    .breakhere {
+        page-break-after: always;
+    }
+
+    #relCert {
+        font-family: 'Verdana','Times New Roman','Calibri (Body)','Arial','Verdana';
+        font-size:12px;
+    }
+
+    .TblCls {
+        font-size: 12px;
+    }
+
+        .TblCls td {
+            /*font-weight: bold;*/
+            height: 30px;
+            vertical-align: text-top;
+        }
+
+    .subTblCls {
+        font-size: 12px;
+    }
+
+        .subTblCls td {
+            /*font-weight: bold;*/
+            height: 20px;
+            vertical-align: text-top;
+
+        }
+
+        .subTblCls th {
+            text-align: center;
+        }
+
+    p {
+        font-size: 20px;
+    }
+
+    pre {
+        font-family: 'Times New Roman','Calibri (Body)','Arial','Verdana';
+        font-size: 14px;
+    }
+
+    #empPhoto {
+        border: 1px solid;
+        height: 170px;
+        width: 140px;
+        float: right;
+        position: relative;
+    }
+
+    #empDtls {
+        position: relative;
+        float: left;
+        height: 201px;
+        width: 600px;
+    }
+
+
+    #empSign {
+        float: right;
+    }
+
+    #empDtl td {
+        height: 30px;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    #perDtl tr {
+        height: 40px;
+        color: white;
+        background-color: #808080;
+        font-size: 14px;
+    }
+    /*table {
+        page-break-inside: auto;
+        border-collapse: collapse;
+    }*/
+
+    tr {
+        page-break-inside: avoid;
+    }
+
+    td {
+        page-break-inside: avoid;
+        padding-left: 5px;
+    }
+
+    .subTblCls tr:nth-child(even) {
+        background: #fcf9f9;
+    }
+
+    .subTblCls tr:nth-child(odd) {
+        background: #FFF;
+    }
+
+    table {
+        page-break-inside: avoid;
+    }
+
+    .tblHeader {
+        color: white;
+        background-color: #719afe;
+        font-size: 13px;
+    }
+</style>
+@{
+    ViewBag.Title = "CandidateDetailsProfileView";
+    Layout = null;
+}
+
+@model TIPS.Entities.StaffManagementEntities.CandidateDtls
+
+<div id="relCert">
+      @Html.HiddenFor(model => model.Id, new { id = "StaffId" })
+    <table width="100%" id="cerHeadTbl">
+
+        <tr>
+            <td width="25%">
+                <center> <a href="/StaffManagement/GenerateCertificatePDF?Id=@Model.Id &certificateType=StaffProfilePreview" title="Click to download staff profile"><img id="downloadProfile" style="float: left; height: 60px; width: 140px;" src="../../Images/Tips%20Logo.JPG" /></a></center>
+
+            </td>
+            <td id="cerHead" width="55%">
+                <h2>
+                    <center>THE INDIAN PUBLIC SCHOOL <br /></center>
+                </h2>
+
+            </td>
+            <td width="20%"> @Html.DropDownList("Theme", new SelectList(new[] { new { Value = "", Text = "Select Theme", Selected = "True" },
+                  
+       new { Value = "#5090c1", Text = "Blue", Selected = "false" },
+       new { Value = "#2a2d2f", Text = "B&W", Selected = "false" },
+       new { Value = "#53924c", Text = "Green", Selected = "false" },      
+       new { Value = "#efaeae", Text = "Red", Selected = "false" }}, "Value", "Text", "Selected"), new { @Class = "form-control select-sm", @Value = ViewBag.curyear })</td>
+        </tr>
+
+
+    </table>
+    <br />
+    <br />
+    
+    <div id="empDtls">
+        <table id="empDtl" class="TblCls">
+            <tr>
+                <td width="45%"><b>Name</b></td>
+                <td width="5%"><b>:</b></td>
+                <td>
+                    @Model.Name
+                </td>
+            </tr>
+            <tr>
+                <td><b>Date of Birth</b></td>
+                <td><b>:</b></td>
+                <td>
+                    @Model.DOB &nbsp;<b> Age:</b>&nbsp; @Model.Age&nbsp;<b> Gender:</b>&nbsp;@Model.Gender
+                </td>
+            </tr>
+            <tr>
+                <td><b>Father's Name</b></td>
+                <td><b>:</b></td>
+                <td>
+                    @Model.FatherName, <b>Occupation:</b> @Model.FatherOccupation
+                </td>
+            </tr>
+            <tr>
+                <td><b>Marital Status</b></td>
+                <td><b>:</b></td>
+                <td>
+                    @Model.MaritalStatus
+                </td>
+            </tr>
+            @if (Model.MaritalStatus != null)
+            {
+                if (Model.MaritalStatus.ToUpper() != "SINGLE")
+                {
+                <tr>
+                <td><b>Spouse's Name</b></td>
+                <td><b>:</b></td>
+                <td>
+                    @Model.SpouseName, <b>Occupation:</b> @Model.SpouseOccupation
+                </td>
+            </tr>
+                }
+            }
+            <tr>
+                <td><b>Contact No</b></td>
+                <td><b>:</b></td>
+                <td>
+                    @Model.PhoneNo
+                </td>
+            </tr>
+        </table>
+    </div>
+    @*<div id="empPhoto">
+        <p style="text-align: center">Photo</p>
+        <a href="/StaffManagement/GenerateCertificatePDF?Id=@Model.Id &certificateType=StaffProfilePreview" title="Click to download staff profile"><img src="@Url.Action("uploaddisplay1", "StaffManagement", new { id = @Model.PreRegNum })" id="image1" width= "137px" height="167px"/></a>
+        <input type="file" id="my_file" style="display: none;" />
+    </div>*@
+     <table class="subTblCls" id="perDtlS" width="100%" border="1">
+        <tr>
+            <th colspan="3" class="tblHeader">Personal Details</th>
+        </tr>
+        <tr>
+            <td><b>Blood Group:</b>&nbsp;@Model.BGRP</td>
+            <td>
+                <b>Emergency Contact Person:</b>&nbsp;@Model.EmergencyContactPerson
+            </td>
+
+            <td><b>Emergency Contact:</b>&nbsp;@Model.EmergencyContactNo</td>
+        </tr>
+        <tr>
+            <td><b>Email:</b>&nbsp;@Model.EmailId</td>
+            <td>
+                <b>Country:</b>&nbsp;@Model.NativeCountry
+            </td>
+            <td><b>State:</b>&nbsp;@Model.NativeState</td>
+        </tr>
+        <tr>
+            <td><b>City:</b>&nbsp;@Model.NativeCity</td>
+             <td><b>Language Known (speak):</b>&nbsp;@Model.LanguagesKnown</td>
+            <td><b>Language Known (write):</b>&nbsp;@Model.Written_LanguagesKnown</td>
+        </tr>
+    </table>
+    <br />
+        <table id="addDtl" width="100%" border="1" class="subTblCls">
+        <tr>
+            <th colspan="2" class="tblHeader">Address Details</th>
+        </tr>
+        <tr>
+            <td width="50%" style="text-align: center"><b>Communication Address</b></td>
+            <td width="50%" style="text-align: center"><b>Permanent Address</b></td>
+        </tr>
+        <tr style="height: 50px">
+            <td>@Model.AlternateAddress</td>
+             <td>@Model.PermanantAddress</td>
+        </tr>
+    </table>
+    <br />
+     <table id="offDtl" class="subTblCls" width="100%" border="1">
+        <tr>
+            <th colspan="4" class="tblHeader">Official Details</th>
+        </tr>
+        <tr>
+            <td><B>Interviewed Campus</b></td>
+            <td><b>Preferred Location</b></td>
+            <td><b>Area Of Interest To Work</b></td>
+            <td><b>Applied For</b></td>
+        </tr>
+       <tr>
+           <td>@Model.Campus</td>
+           <td>@Model.Campus</td>@*Change as preferred location*@
+           <td>@Model.InterestedArea</td>
+           <td>@Model.AppliedFor</td>
+       </tr>
+    </table>
+    <br />
+    <table id="CNP" class="subTblCls" width="100%" border="1">
+        <tr>
+            <th colspan="4" class="tblHeader">Compensation and Notice Period</th>
+        </tr>
+        <tr>
+            <td><b>Last Gross Salary</b></td>
+            <td><b>Last Nett.(Take Home Salary)</b> </td>
+            <td><b>Expected Salary</b> </td>
+            <td><b>If Offered, how soon can you join us?</b></td>
+        </tr>
+       <tr>
+          <td>@Model.LastDrawnGrossSalary</td>
+           <td>@Model.LastDrawnNettSalary</td>
+           <td>@Model.ExpectedSalary</td>
+           <td> @Model.JoiningDateOrDays</td>
+       </tr>
+    </table>
+    <br />
+    <table id="famDtl" width="100%" border="1" class="subTblCls">
+        <tr>
+            <th colspan="4" class="tblHeader"">Family Details</th>
+        </tr>
+        <tr>
+            <td style="text-align: center"><b>Name</b></td>
+            <td style="text-align: center"><b>Relationship</b></td>
+            <td style="text-align: center"><b>Age</b></td>
+            <td style="text-align: center"><b>Occupation</b></td>
+        </tr>
+        @{
+        string FamilyDetails=Model.FamilyDetails;
+        String[] strFamilyDetailsArray = FamilyDetails.Split('@');
+        }
+        @for (int i = 0; i < strFamilyDetailsArray.Count(); i++)
+        {
+            string[] strFamilyDtls = strFamilyDetailsArray[i].Split('#');
+            <tr>
+                <td>@strFamilyDtls[0]</td>
+                <td>@strFamilyDtls[1]</td>
+                <td>@strFamilyDtls[2]</td>
+                <td>@strFamilyDtls[3]</td>
+            </tr>
+        }
+    </table>
+    <br />
+    <table id="famDtl" width="100%" border="1" class="subTblCls">
+        <tr>
+            <th colspan="6" class="tblHeader"">Education Qualification</th>
+        </tr>
+        <tr>
+            <td style="text-align: center"><b>Course</b></td>
+            <td style="text-align: center"><b>Board/University</b></td>
+            <td style="text-align: center"><b>School/College</b></td>
+            <td style="text-align: center"><b>Completion Year</b></td>
+            <td style="text-align: center"><b>Major</b></td>
+            <td style="text-align: center"><b>Percentage</b></td>
+        </tr>
+        @{
+            string QualificationDetails = Model.QualificationDetails;
+            String[] strQualificationDetailsArray = QualificationDetails.Split('@');
+        }
+        @for (int i = 0; i < strQualificationDetailsArray.Count(); i++)
+        {
+            string[] strQualificationDtls = strQualificationDetailsArray[i].Split('#');
+            <tr>
+                <td>@strQualificationDtls[0]</td>
+                <td>@strQualificationDtls[1]</td>
+                <td>@strQualificationDtls[2]</td>
+                <td>@strQualificationDtls[3]</td>
+                <td>@strQualificationDtls[4]</td>
+                <td>@strQualificationDtls[5]</td>
+            </tr>
+        }
+    </table>
+    <br />
+    <table id="famDtl" width="100%" border="1" class="subTblCls">
+        <tr>
+            <th colspan="6" class="tblHeader"">Employment Details</th>
+        </tr>
+        <tr>
+            <td style="text-align: center"><b>Employers Name</b></td>
+            <td style="text-align: center"><b>Location</b></td>
+            <td style="text-align: center"><b>Start Date</b></td>
+            <td style="text-align: center"><b>End Date</b></td>
+            <td style="text-align: center"><b>Last Designation</b></td>
+            <td style="text-align: center"><b>Specific Reason For Leaving</b></td>
+        </tr>
+        @{
+            string ExperienceDetails = Model.ExperienceDetails;
+            String[] strExperienceDetailsArray = ExperienceDetails.Split('@');
+        }
+        @for (int i = 0; i < strExperienceDetailsArray.Count(); i++)
+        {   
+            if (strExperienceDetailsArray[i]!="")
+            {
+            string[] strExperienceDtls = strExperienceDetailsArray[i].Split('#');
+            <tr>
+                <td>@strExperienceDtls[0]</td>
+                <td>@strExperienceDtls[1]</td>
+                <td>@strExperienceDtls[2]</td>
+                <td>@strExperienceDtls[3]</td>
+                <td>@strExperienceDtls[4]</td>
+                <td>@strExperienceDtls[5]</td>
+            </tr>
+        }
+        }
+        <tr>
+            <td colspan="2" ><b>Qualification</b></td><td>@Model.Qualification</td><td colspan="2" ><b>Total Years Of Experience</b></td><td>@Model.TotalYearsOfExp</td>
+        </tr>
+        <tr>
+            <td colspan="2" ><b>Total Years Of Experience In Teaching</b></td><td>@Model.TotalYearsOfTeachingExp</td><td colspan="2" ><b>Grade/Class Taught</b></td><td>@Model.GradesTaught</td>
+        </tr>
+           <tr>
+            <td colspan="2" ><b>Syllabuses/Curriculums Handled</b></td><td>@Model.SyllabusHandled</td><td colspan="2" ><b>Subject Taught</b></td><td>@Model.SubjectsTaught</td>
+        </tr>
+         <tr>
+            <td colspan="2" ><b>Achievements</b></td><td colspan="4">@Model.Achievments</td>
+        </tr>
+    </table>
+  <br />
+  <table id="otherDtl" width="100%" border="1" class="subTblCls">
+        <tr>
+            <th colspan="3" class="tblHeader">Other Details</th>
+        </tr>
+        <tr>
+            @*<th style="text-align: center"><b>Interview Campus</b></th>*@
+            <th colspan="2" style="text-align: center"><b>Any significant details you would like to furnish?</b></th>
+            <th style="text-align: center"><b>Other special interests(Music, Dance, Photography, etc)</b></th>
+        </tr>
+        <tr>
+              @*<td>@Model.Campus</td>*@
+            <td colspan="2">@Model.AnyOtherSignificant</td>
+            <td>@Model.SpecialInterests</td>
+        </tr>
+        <tr>
+             <th style="text-align: center"><b>How you know about vacancy?</b></th>
+            <th style="text-align: center"><b>Have you been shortlisted by us before?</b></th>
+            <th style="text-align: center"><b>Before shortlisted details</b></th>
+        </tr>
+        <tr>
+            <td>@Model.HowYouKnowVacancy</td>
+            <td>@Model.BeenShortListedBefore</td>
+            <td>@Model.ShortlistedWhy</td>
+        </tr>
+         <tr>
+            <th style="text-align: center"><b>Is any relative/friend of yours working with us?</b></th>
+            <th style="text-align: center"><b>Relative/Friend Details</b></th>
+            <th style="text-align: center"><b>How long can you commite with TIPS?</b></th>
+        </tr>
+        <tr>
+            <td>@Model.RelativeWorkingWithUs</td>
+            <td>@Model.RelativeDetails</td>
+            <td>@Model.CommitTimeWithTIPS</td>
+        </tr>
+        <tr>
+             <th style="text-align: center"><b>What king of growth are you expecting in your career?</b></th>
+            <th style="text-align: center"><b>Will you be willing to travel on need basis?</b></th>
+            <th style="text-align: center"><b>Will you be willing for a growth oriented relocation in future?</b></th>
+        </tr>
+        <tr>
+            <td>@Model.CareerGrowthExpectation</td>
+           <td>@Model.WillingToTravel</td>
+            <td>@Model.WillingForRelocation</td>
+        </tr>
+    </table>
+     <br />
+    <table id="famDtl" width="100%" border="1" class="subTblCls">
+        <tr>
+            <th colspan="6" class="tblHeader"">References Details</th>
+        </tr>
+        <tr>
+            <td style="text-align: center"><b>Name</b></td>
+            <td style="text-align: center"><b>Contact Number</b></td>
+            <td style="text-align: center"><b>How you know ?</b></td>
+            <td style="text-align: center"><b>How long you know ?</b></td>
+        </tr>
+        <tr>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+        </tr>
+    </table>
+    
+    <br />
+</div>
+<script type="text/javascript">
+    $("#downProfile").click(function () {
+
+        //debugger;
+        //alert($('#StaffId').val());
+        var StaffIdNo = $('#StaffId').val();
+
+        window.location.href = '/StaffManagement/GenerateCertificatePDF?Id=' + StaffIdNo + '&certificateType=' + "StaffProfilePreview";
+
+    });
+
+    $("#Theme").change(function () {
+        // if ($(this).val() == "1") {
+        $('.tblHeader').css({ "background-color": $(this).val() });
+        //}
+        //else if ($(this).val() == "2") {
+        //    $('.tblHeader').css({ "background-color": "#2a2d2f" });
+        //}
+        //else if ($(this).val() == "3") {
+        //    $('.tblHeader').css({ "background-color": "#53924c" });
+        //}
+        //else if ($(this).val() == "4") {
+        //    $('.tblHeader').css({ "background-color": "#efaeae" });
+        //}
+        //else
+        //    $('.tblHeader').css({ "background-color": "5090c1" });
+    });
+
+</script>

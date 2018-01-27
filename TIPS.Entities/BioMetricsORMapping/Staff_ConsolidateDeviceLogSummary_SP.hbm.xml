@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.BioMetricsEntities.Staff_ConsolidateDeviceLogSummary_SP" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.BioMetricsEntities.Staff_ConsolidateDeviceLogSummary_SP,TIPS.Entities" table="Staff_ConsolidateDeviceLogSummary_SP" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="Name" column="Name" type="string"/>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"/>
+    <property name="IdNumber" column="IdNumber" type="string"/>
+    <property name="Campus" column="Campus" type="string"/>
+    <property name="StaffCategoryForAttendane" column="StaffCategoryForAttendane" type="string"/>
+    <property name="Department" column="Department" type="string"/>
+    <property name="Designation" column="Designation" type="string"/>
+    <property name="Programme" column="Programme" type="string"/>
+    <property name="TotalDays" column="TotalDays" type="Int64"/>
+    <property name="TotalWorkedDays" column="TotalWorkedDays" type="decimal"/>
+    <!--<property name="NoOfLeaveTaken" column="NoOfLeaveTaken" type="decimal"/>-->
+    <property name="TotalWorkedHours" column="TotalWorkedHours" type="Int64"/>
+    <property name="TotalWorkedMinutes" column="TotalWorkedMinutes" type="Int64"/>
+    <property name="TotalWorkedSeconds" column="TotalWorkedSeconds" type="Int64"/>
+    <property name="CurrentStatus" column="CurrentStatus" type="string"/>
+    <property name="DateOfLongLeaveAndResigned" column="DateOfLongLeaveAndResigned" type="datetime"/>
+    <!--<property name="OpeningBalance" column="OpeningBalance" type="decimal"/>
+    <property name="ClosingBalance" column="ClosingBalance" type="Decimal"/>
+    <property name="AllotedCL" column="AllotedCL" type="Int64"/>    
+    <property name="TotalAvailableBalance" column="TotalAvailableBalance" type="decimal"/>
+    <property name="LeaveTobeCalculated" column="LeaveTobeCalculated" type="decimal"/>-->
+    <!--<property name="TotalWorkedHoursInDateTimeFormat" column="TotalWorkedHoursInDateTimeFormat" type="datetime"/>-->
+  </class>
+  <sql-query name="GetConsolidateDeviceLogSummaryList" callable="true">
+    <query-param name="spDeviceLogTableName" type="string"/>
+    <query-param name="spCampus" type="string"/>
+    <query-param name="spIdNumber" type="string"/>
+    <query-param name="spName" type="string"/>
+    <query-param name="spStaffCategoryForAttendane" type="string"/>
+    <query-param name="spStaffProgramme" type="string"/>
+    <query-param name="spCurrentStatus" type="string"/>
+    <query-param name="spAttendanceFromDate" type="string"/>
+    <query-param name="spAttendanceToDate" type="string"/>
+    <return class="TIPS.Entities.BioMetricsEntities.Staff_ConsolidateDeviceLogSummary_SP, TIPS.Entities">
+      <return-property name="Id" column="Id" />
+      <return-property name="Name" column="Name" />
+      <return-property name="PreRegNum" column="PreRegNum" />
+      <return-property name="IdNumber" column="IdNumber" />
+      <return-property name="Campus" column="Campus" />
+      <return-property name="StaffCategoryForAttendane" column="StaffCategoryForAttendane" />
+      <return-property name="Department" column="Department" />
+      <return-property name="Designation" column="Designation" />
+      <return-property name="Programme" column="Programme" />
+      <return-property name="TotalDays" column="TotalDays" />
+      <return-property name="TotalWorkedDays" column="TotalWorkedDays" />
+      <!--<return-property name="NoOfLeaveTaken" column="NoOfLeaveTaken" />-->
+      <return-property name="TotalWorkedHours" column="TotalWorkedHours" />
+      <return-property name="TotalWorkedMinutes" column="TotalWorkedMinutes" />
+      <return-property name="TotalWorkedSeconds" column="TotalWorkedSeconds" />
+      <return-property name="CurrentStatus" column="CurrentStatus" />
+      <return-property name="DateOfLongLeaveAndResigned" column="DateOfLongLeaveAndResigned" />
+      <!--<return-property name="OpeningBalance" column="OpeningBalance" />
+      <return-property name="ClosingBalance" column="ClosingBalance" />
+      <return-property name="AllotedCL" column="AllotedCL" />
+      <return-property name="TotalAvailableBalance" column="TotalAvailableBalance" />
+      <return-property name="LeaveTobeCalculated" column="LeaveTobeCalculated" />-->
+      <!--<return-property name="TotalWorkedHoursInDateTimeFormat" column="TotalWorkedHoursInDateTimeFormat" />-->
+    </return>
+    <![CDATA[ 
+     EXEC [Staff_ConsolidateDeviceLogSummary_SP]
+      @spDeviceLogTableName=:spDeviceLogTableName
+     ,@spCampus=:spCampus
+     ,@spIdNumber=:spIdNumber
+     ,@spName=:spName
+     ,@spStaffCategoryForAttendane=:spStaffCategoryForAttendane
+     ,@spStaffProgramme=:spStaffProgramme
+     ,@spCurrentStatus=:spCurrentStatus
+     ,@spAttendanceFromDate=:spAttendanceFromDate
+     ,@spAttendanceToDate=:spAttendanceToDate
+     ]]>
+  </sql-query>
+</hibernate-mapping>
+

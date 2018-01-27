@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.StaffEvaluationParameter" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.StaffEvaluationParameter, TIPS.Entities" table="StaffEvaluationParameter" lazy="false" >
+    <id name="StaffEvaluationParameterId" column="StaffEvaluationParameterId" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="StaffEvaluationCategoryId" column="StaffEvaluationCategoryId" type="Int64"></property>
+    <property name="StaffEvaluationParameters" column="StaffEvaluationParameters" type="string" ></property>
+    <property name="IsActive" column="IsActive" type="bool"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime"></property>
+    <property name="IsPositive" column="IsPositive" type="bool"></property>
+  </class>
+</hibernate-mapping>

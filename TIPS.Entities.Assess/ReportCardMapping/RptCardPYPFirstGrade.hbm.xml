@@ -1,0 +1,541 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess.ReportCardClasses" namespace="TIPS.Entities.Assess.ReportCardClasses" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.ReportCardClasses.RptCardPYPFirstGrade,TIPS.Entities.Assess" table="RptCardFirstGrade" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="RequestNo" type="AnsiString" not-null="false" />
+    <property name="PreRegNum" column="PreRegNum" type="Int64" />
+    <property name="IdNo" column="IdNo" type="string" />
+    <property name="Name" column="Name" type="string" />
+    <property name="Campus" column="Campus" type="string"  />
+    <property name="Section" column="Section" type="string" />
+    <property name="Grade" column="Grade" type="string"  />
+    <property name="AcademicYear" column="AcademicYear" type="string"/>
+    <property name="Semester" column="Semester" type="Int64"/>
+    <property name="TeacherName" column="TeacherName" type="string"/>
+    <property name="RptCardStatus" column="RptCardStatus" type="string"/>
+    <property name="RptDate" column="RptDate" type="datetime"/>
+
+
+    <property name="ER_Conf_Accom"   column=" ER_Conf_Accom"  type="boolean"/>
+    <property name="ER_Conf_Prog"    column=" ER_Conf_Prog"   type="boolean"/>
+    <property name="ER_Conf_Encour"  column=" ER_Conf_Encour" type="boolean"/>
+    <property name="ER_Flu_Accom"    column=" ER_Flu_Accom"   type="boolean"/>
+    <property name="ER_Flu_Prog"     column=" ER_Flu_Prog"    type="boolean"/>
+    <property name="ER_Flu_Encour"   column=" ER_Flu_Encour"  type="boolean"/>
+    <property name="ER_Com_Accom"    column=" ER_Com_Accom"   type="boolean"/>
+    <property name="ER_Com_Prog"     column=" ER_Com_Prog"    type="boolean"/>
+    <property name="ER_Com_Encour"   column=" ER_Com_Encour"  type="boolean"/>
+
+
+    <property name="ELSF_Beg_Accom"   column="ELSF_Beg_Accom"   type="boolean"/>
+    <property name="ELSF_Beg_Prog"    column="ELSF_Beg_Prog"   type="boolean"/>
+    <property name="ELSF_Beg_Encour"  column="ELSF_Beg_Encour"   type="boolean"/>
+    <property name="ELSF_Sett_Accom"  column="ELSF_Sett_Accom"   type="boolean"/>
+    <property name="ELSF_Sett_Prog"   column="ELSF_Sett_Prog"   type="boolean"/>
+    <property name="ELSF_Sett_Encour" column="ELSF_Sett_Encour"  type="boolean"/>
+    <property name="ELSF_Char_Accom"  column="ELSF_Char_Accom"   type="boolean"/>
+    <property name="ELSF_Char_Prog"   column="ELSF_Char_Prog"   type="boolean"/>
+    <property name="ELSF_Char_Encour" column="ELSF_Char_Encour"  type="boolean"/>
+    <property name="ELSF_Pro_Accom"   column="ELSF_Pro_Accom"   type="boolean"/>
+    <property name="ELSF_Pro_Prog"    column="ELSF_Pro_Prog"   type="boolean"/>
+    <property name="ELSF_Pro_Encour"  column="ELSF_Pro_Encour"   type="boolean"/>
+    <property name="ELSF_Seq_Accom"   column="ELSF_Seq_Accom"   type="boolean"/>
+    <property name="ELSF_Seq_Prog"    column="ELSF_Seq_Prog"   type="boolean"/>
+    <property name="ELSF_Seq_Encour"  column="ELSF_Seq_Encour"   type="boolean"/>
+    <property name="ELSF_Res_Accom"   column="ELSF_Res_Accom"   type="boolean"/>
+    <property name="ELSF_Res_Prog"    column="ELSF_Res_Prog"   type="boolean"/>
+    <property name="ELSF_Res_Encour"  column="ELSF_Res_Encour"   type="boolean"/>
+
+
+    <property name="ELSNF_Top_Accom"   column="ELSNF_Top_Accom"        type="boolean"/>
+    <property name="ELSNF_Top_Prog"    column="ELSNF_Top_Prog"         type="boolean"/>
+    <property name="ELSNF_Top_Encour"  column="ELSNF_Top_Encour"       type="boolean"/>
+    <property name="ELSNF_Idea_Accom"  column="ELSNF_Idea_Accom"       type="boolean"/>
+    <property name="ELSNF_Idea_Prog"   column="ELSNF_Idea_Prog"        type="boolean"/>
+    <property name="ELSNF_Idea_Encour" column="ELSNF_Idea_Encour"      type="boolean"/>
+    <property name="ELSNF_Org_Accom"   column="ELSNF_Org_Accom"        type="boolean"/>
+    <property name="ELSNF_Org_Prog"    column="ELSNF_Org_Prog"         type="boolean"/>
+    <property name="ELSNF_Org_Encour"  column="ELSNF_Org_Encour"       type="boolean"/>
+    <property name="ELSNF_voc_Accom"   column="ELSNF_voc_Accom"        type="boolean"/>
+    <property name="ELSNF_voc_Prog"    column="ELSNF_voc_Prog"         type="boolean"/>
+    <property name="ELSNF_voc_Encour"  column="ELSNF_voc_Encour"       type="boolean"/>
+    <property name="ELSNF_Acc_Accom"   column="ELSNF_Acc_Accom"        type="boolean"/>
+    <property name="ELSNF_Acc_Prog"    column="ELSNF_Acc_Prog"         type="boolean"/>
+    <property name="ELSNF_Acc_Encour"  column="ELSNF_Acc_Encour"       type="boolean"/>
+    
+    
+    
+    <!--Language Skills-->
+
+   <property name="LS_Cap_Capl_Accom"  column="LS_Cap_Capl_Accom"      type="boolean"/>
+   <property name="LS_Cap_Capl_Prog"   column="LS_Cap_Capl_Prog"      type="boolean"/>
+   <property name="LS_Cap_Capl_Encour" column="LS_Cap_Capl_Encour"      type="boolean"/>
+  
+   <property name="LS_Plu_regp_Accom"  column="LS_Plu_regp_Accom"      type="boolean"/>
+   <property name="LS_Plu_regp_Prog"   column="LS_Plu_regp_Prog"      type="boolean"/>
+   <property name="LS_Plu_regp_Encour" column="LS_Plu_regp_Encour"      type="boolean"/>
+   
+   <property name="LS_Plu_Irrp_Accom"  column="LS_Plu_Irrp_Accom"      type="boolean"/>
+   <property name="LS_Plu_Irrp_Prog"   column="LS_Plu_Irrp_Prog"      type="boolean"/>
+   <property name="LS_Plu_Irrp_Encour" column="LS_Plu_Irrp_Encour"      type="boolean"/>
+  
+   <property name="LS_Alpo_Accom"      column="LS_Alpo_Accom"            type="boolean"/>
+   <property name="LS_Alpo_Prog"       column="LS_Alpo_Prog"            type="boolean"/>
+   <property name="LS_Alpo_Encour"     column="LS_Alpo_Encour"            type="boolean"/>
+   
+   <property name="LS_Homp_Accom"      column=" LS_Homp_Accom"            type="boolean"/>
+   <property name="LS_Homp_Prog"       column=" LS_Homp_Prog"            type="boolean"/>
+   <property name="LS_Homp_Encour"     column=" LS_Homp_Encour"            type="boolean"/>
+  
+   <property name="LS_Ant_Accom"       column=" LS_Ant_Accom"            type="boolean"/>
+   <property name="LS_Ant_Prog"        column=" LS_Ant_Prog"            type="boolean"/>
+   <property name="LS_Ant_Encour"      column=" LS_Ant_Encour"            type="boolean"/>
+   
+   <property name="LS_NN_Accom"        column=" LS_NN_Accom"            type="boolean"/>
+   <property name="LS_NN_Prog"         column=" LS_NN_Prog"            type="boolean"/>
+   <property name="LS_NN_Encour"       column=" LS_NN_Encour"            type="boolean"/>
+   
+   <property name="LS_N_Comon_Accom"   column=" LS_N_Comon_Accom"      type="boolean"/>
+   <property name="LS_N_Comon_Prog"    column=" LS_N_Comon_Prog"      type="boolean"/>
+   <property name="LS_N_Comon_Encour"  column=" LS_N_Comon_Encour"      type="boolean"/>
+   
+   <property name="LS_N_Propn_Accom"   column=" LS_N_Propn_Accom"      type="boolean"/>
+   <property name="LS_N_Propn_Prog"    column=" LS_N_Propn_Prog"      type="boolean"/>
+   <property name="LS_N_Propn_Encour"  column=" LS_N_Propn_Encour"      type="boolean"/>
+   
+   <property name="LS_N_Pron_Accom"    column=" LS_N_Pron_Accom"      type="boolean"/>
+   <property name="LS_N_Pron_Prog"     column=" LS_N_Pron_Prog"      type="boolean"/>
+   <property name="LS_N_Pron_Encour"   column=" LS_N_Pron_Encour"      type="boolean"/>
+   
+   <property name="LS_V_Acv_Accom"     column=" LS_V_Acv_Accom"      type="boolean"/>
+   <property name="LS_V_Acv_Prog"      column=" LS_V_Acv_Prog"      type="boolean"/>
+   <property name="LS_V_Acv_Encour"    column=" LS_V_Acv_Encour"      type="boolean"/>
+   
+   <property name="LS_V_Tav_Accom"     column=" LS_V_Tav_Accom"      type="boolean"/>
+   <property name="LS_V_Tav_Prog"      column=" LS_V_Tav_Prog"      type="boolean"/>
+   <property name="LS_V_Tav_Encour"    column=" LS_V_Tav_Encour"      type="boolean"/>
+   
+   <property name="LS_V_Linv_Accom"    column=" LS_V_Linv_Accom"      type="boolean"/>
+   <property name="LS_V_Linv_Prog"     column=" LS_V_Linv_Prog"      type="boolean"/>
+   <property name="LS_V_Linv_Encour"   column=" LS_V_Linv_Encour"      type="boolean"/>
+   
+   <property name="LS_Adj_Dw_Accom"    column=" LS_Adj_Dw_Accom"      type="boolean"/>
+   <property name="LS_Adj_Dw_Prog"     column=" LS_Adj_Dw_Prog"      type="boolean"/>
+   <property name="LS_Adj_Dw_Encour"   column=" LS_Adj_Dw_Encour"      type="boolean"/>
+   
+   <property name="LS_Adj_Coma_Accom"  column=" LS_Adj_Coma_Accom"      type="boolean"/>
+   <property name="LS_Adj_Coma_Prog"   column=" LS_Adj_Coma_Prog"      type="boolean"/>
+   <property name="LS_Adj_Coma_Encour" column=" LS_Adj_Coma_Encour"      type="boolean"/>
+   
+   <property name="LS_Ws_Clp_Accom"    column=" LS_Ws_Clp_Accom"      type="boolean"/>
+   <property name="LS_Ws_Clp_Prog"     column=" LS_Ws_Clp_Prog"      type="boolean"/>
+   <property name="LS_Ws_Clp_Encour"   column=" LS_Ws_Clp_Encour"      type="boolean"/>
+   
+   <property name="LS_Ws_comt_Accom"   column=" LS_Ws_comt_Accom"      type="boolean"/>
+   <property name="LS_Ws_comt_Prog"    column=" LS_Ws_comt_Prog"      type="boolean"/>
+   <property name="LS_Ws_comt_Encour"  column=" LS_Ws_comt_Encour"      type="boolean"/>
+    
+    <!--Tamil/Hindi-->
+   <property name="TH_Red_Conf_Accom"   column="TH_Red_Conf_Accom"     type="boolean"/>
+   <property name="TH_Red_Conf_Prog"    column="TH_Red_Conf_Prog"     type="boolean"/>
+   <property name="TH_Red_Conf_Encour"  column="TH_Red_Conf_Encour"     type="boolean"/>
+   <property name="TH_Red_Flu_Accom"    column="TH_Red_Flu_Accom"     type="boolean"/>
+   <property name="TH_Red_Flu_Prog"     column="TH_Red_Flu_Prog"     type="boolean"/>
+   <property name="TH_Red_Flu_Encour"   column="TH_Red_Flu_Encour"     type="boolean"/>
+   <property name="TH_Red_Toi_Accom"    column="TH_Red_Toi_Accom"     type="boolean"/>
+   <property name="TH_Red_Toi_Prog"     column="TH_Red_Toi_Prog"     type="boolean"/>
+   <property name="TH_Red_Toi_Encour"   column="TH_Red_Toi_Encour"     type="boolean"/>
+   <property name="TH_Red_Pron_Accom"   column="TH_Red_Pron_Accom"     type="boolean"/>
+   <property name="TH_Red_Pron_Prog"    column="TH_Red_Pron_Prog"     type="boolean"/>
+   <property name="TH_Red_Pron_Encour"  column="TH_Red_Pron_Encour"     type="boolean"/>
+   <property name="TH_Red_Und_Accom"    column="TH_Red_Und_Accom"     type="boolean"/>
+   <property name="TH_Red_Und_Prog"     column="TH_Red_Und_Prog"     type="boolean"/>
+   <property name="TH_Red_Und_Encour"   column="TH_Red_Und_Encour"     type="boolean"/>
+   <property name="TH_Wri_Spel_Accom"   column="TH_Wri_Spel_Accom"     type="boolean"/>
+   <property name="TH_Wri_Spel_Prog"    column="TH_Wri_Spel_Prog"     type="boolean"/>
+   <property name="TH_Wri_Spel_Encour"  column="TH_Wri_Spel_Encour"     type="boolean"/>
+   <property name="TH_Wri_Voc_Accom"    column="TH_Wri_Voc_Accom"     type="boolean"/>
+   <property name="TH_Wri_Voc_Prog"     column="TH_Wri_Voc_Prog"     type="boolean"/>
+   <property name="TH_Wri_Voc_Encour"   column="TH_Wri_Voc_Encour"     type="boolean"/>
+   <property name="TH_Wri_Punc_Accom"   column="TH_Wri_Punc_Accom"     type="boolean"/>
+   <property name="TH_Wri_Punc_Prog"    column="TH_Wri_Punc_Prog"     type="boolean"/>
+   <property name="TH_Wri_Punc_Encour"  column="TH_Wri_Punc_Encour"     type="boolean"/>
+   <property name="TH_Wri_Gra_Accom"    column="TH_Wri_Gra_Accom"     type="boolean"/>
+   <property name="TH_Wri_Gra_Prog"     column="TH_Wri_Gra_Prog"     type="boolean"/>
+   <property name="TH_Wri_Gra_Encour"   column="TH_Wri_Gra_Encour"     type="boolean"/>
+   <property name="TH_Wri_Idec_Accom"   column="TH_Wri_Idec_Accom"     type="boolean"/>
+   <property name="TH_Wri_Idec_Prog"   column="TH_Wri_Idec_Prog"     type="boolean"/>
+   <property name="TH_Wri_Idec_Encour"  column="TH_Wri_Idec_Encour"     type="boolean"/>
+   <property name="TH_Wri_Neh_Accom"    column="TH_Wri_Neh_Accom"     type="boolean"/>
+   <property name="TH_Wri_Neh_Prog"     column="TH_Wri_Neh_Prog"     type="boolean"/>
+   <property name="TH_Wri_Neh_Encour"   column="TH_Wri_Neh_Encour"     type="boolean"/>
+   <property name="TH_Ls_Conf_Accom"    column="TH_Ls_Conf_Accom"     type="boolean"/>
+   <property name="TH_Ls_Conf_Prog"     column="TH_Ls_Conf_Prog"     type="boolean"/>
+   <property name="TH_Ls_Conf_Encour"   column="TH_Ls_Conf_Encour"     type="boolean"/>
+   <property name="TH_Ls_Flu_Accom"     column="TH_Ls_Flu_Accom"     type="boolean"/>
+   <property name="TH_Ls_Flu_Prog"      column="TH_Ls_Flu_Prog"     type="boolean"/>
+   <property name="TH_Ls_Flu_Encour"    column="TH_Ls_Flu_Encour"     type="boolean"/>
+   <property name="TH_Ls_Pron_Accom"    column="TH_Ls_Pron_Accom"     type="boolean"/>
+   <property name="TH_Ls_Pron_Prog"     column="TH_Ls_Pron_Prog"     type="boolean"/>
+   <property name="TH_Ls_Pron_Encour"   column="TH_Ls_Pron_Encour"     type="boolean"/>
+   <property name="TH_Ls_Und_Accom"     column="TH_Ls_Und_Accom"     type="boolean"/>
+   <property name="TH_Ls_Und_Prog"      column="TH_Ls_Und_Prog"     type="boolean"/>
+   <property name="TH_Ls_Und_Encour"    column="TH_Ls_Und_Encour"     type="boolean"/>
+   <property name="TH_Ls_Voc_Accom"     column="TH_Ls_Voc_Accom"     type="boolean"/>
+   <property name="TH_Ls_Voc_Prog"      column="TH_Ls_Voc_Prog"     type="boolean"/>
+   <property name="TH_Ls_Voc_Encour"    column="TH_Ls_Voc_Encour"     type="boolean"/>
+    
+    <!--Mathematics-->
+
+   <property name="M_N_Coun_obj_Accom"       column="M_N_Coun_obj_Accom"               type="boolean"/>
+   <property name="M_N_Coun_obj_Prog"        column="M_N_Coun_obj_Prog"               type="boolean"/>
+   <property name="M_N_Coun_obj_Encour"      column="M_N_Coun_obj_Encour"               type="boolean"/>
+   <property name="M_N_Coun_wor_Accom"       column="M_N_Coun_wor_Accom"               type="boolean"/>
+   <property name="M_N_Coun_wor_Prog"        column="M_N_Coun_wor_Prog"               type="boolean"/>
+   <property name="M_N_Coun_wor_Encour"      column="M_N_Coun_wor_Encour"               type="boolean"/>
+   
+   <property name="M_N_compn_corr_Accom"     column="M_N_compn_corr_Accom"               type="boolean"/>
+   <property name="M_N_compn_corr_Prog"      column="M_N_compn_corr_Prog"               type="boolean"/>
+   <property name="M_N_compn_corr_Encour"    column="M_N_compn_corr_Encour"               type="boolean"/>
+   <property name="M_N_compn_idnum_Accom"    column="M_N_compn_idnum_Accom"               type="boolean"/>
+   <property name="M_N_compn_idnum_Prog"     column="M_N_compn_idnum_Prog"               type="boolean"/>
+   <property name="M_N_compn_idnum_Encour"   column="M_N_compn_idnum_Encour"              type="boolean"/>
+   
+   <property name="M_N_Mnp_amnp_Accom"       column="M_N_Mnp_amnp_Accom"               type="boolean"/>
+   <property name="M_N_Mnp_amnp_Prog"        column="M_N_Mnp_amnp_Prog"               type="boolean"/>
+   <property name="M_N_Mnp_amnp_Encour"      column="M_N_Mnp_amnp_Encour"               type="boolean"/>
+   
+   <property name="M_Nb_Nb_Accom"            column="M_Nb_Nb_Accom"                      type="boolean"/>
+   <property name="M_Nb_Nb_Prog"             column="M_Nb_Nb_Prog"                      type="boolean"/>
+   <property name="M_Nb_Nb_Encour"           column="M_Nb_Nb_Encour"                      type="boolean"/>
+   
+   
+   <property name="M_Af_wa_aca_Accom"        column="M_Af_wa_aca_Accom"               type="boolean"/>
+   <property name="M_Af_wa_aca_Prog"         column="M_Af_wa_aca_Prog"               type="boolean"/>
+   <property name="M_Af_wa_aca_Encour"       column="M_Af_wa_aca_Encour"               type="boolean"/>
+   <property name="M_Af_wa_aar_Accom"        column="M_Af_wa_aar_Accom"               type="boolean"/>
+   <property name="M_Af_wa_aar_Prog"         column="M_Af_wa_aar_Prog"               type="boolean"/>
+   <property name="M_Af_wa_aar_Encour"       column="M_Af_wa_aar_Encour"               type="boolean"/>
+   
+   <property name="M_Af_Mas_Accom"           column="M_Af_Mas_Accom"               type="boolean"/>
+   <property name="M_Af_Mas_Prog"            column="M_Af_Mas_Prog"               type="boolean"/>
+   <property name="M_Af_Mas_Encour"          column="M_Af_Mas_Encour"               type="boolean"/>
+   
+   <property name="M_Af_Radd_Accom"          column="M_Af_Radd_Accom"               type="boolean"/>
+   <property name="M_Af_Radd_Prog"           column="M_Af_Radd_Prog"               type="boolean"/>
+   <property name="M_Af_Radd_Encour"         column="M_Af_Radd_Encour"               type="boolean"/>
+   
+   
+   <property name="M_Sf_Ws_aas_Accom"        column="M_Sf_Ws_aas_Accom"               type="boolean"/>
+   <property name="M_Sf_Ws_aas_Prog"         column="M_Sf_Ws_aas_Prog"               type="boolean"/>
+   <property name="M_Sf_Ws_aas_Encour"       column="M_Sf_Ws_aas_Encour"               type="boolean"/>
+   
+   <property name="M_Sf_Ws_cbs_Accom"        column="M_Sf_Ws_cbs_Accom"               type="boolean"/>
+   <property name="M_Sf_Ws_cbs_Prog"         column="M_Sf_Ws_cbs_Prog"               type="boolean"/>
+   <property name="M_Sf_Ws_cbs_Encour"       column="M_Sf_Ws_cbs_Encour"               type="boolean"/>
+   
+   <property name="M_Sf_Ws_nbs_Accom"        column="M_Sf_Ws_nbs_Accom"               type="boolean"/>
+   <property name="M_Sf_Ws_nbs_Prog"         column="M_Sf_Ws_nbs_Prog"               type="boolean"/>
+   <property name="M_Sf_Ws_nbs_Encour"       column="M_Sf_Ws_nbs_Encour"               type="boolean"/>
+   
+   <property name="M_Sf_Ws_sss_Accom"        column="M_Sf_Ws_sss_Accom"               type="boolean"/>
+   <property name="M_Sf_Ws_sss_Prog"         column="M_Sf_Ws_sss_Prog"               type="boolean"/>
+   <property name="M_Sf_Ws_sss_Encour"       column="M_Sf_Ws_sss_Encour"               type="boolean"/>
+   
+   <property name="M_Sf_Rs_wwp_Accom"        column="M_Sf_Rs_wwp_Accom"               type="boolean"/>
+   <property name="M_Sf_Rs_wwp_Prog"         column="M_Sf_Rs_wwp_Prog"               type="boolean"/>
+   <property name="M_Sf_Rs_wwp_Encour"       column="M_Sf_Rs_wwp_Encour"               type="boolean"/>
+   
+   <property name="M_Sf_Mff_arss_Accom"      column="M_Sf_Mff_arss_Accom"           type="boolean"/>
+   <property name="M_Sf_Mff_arss_Prog"       column="M_Sf_Mff_arss_Prog"           type="boolean"/>
+   <property name="M_Sf_Mff_arss_Encour"     column="M_Sf_Mff_arss_Encour"           type="boolean"/>
+   
+   <property name="M_Sf_Mff_asrwp_Accom"     column="M_Sf_Mff_asrwp_Accom"           type="boolean"/>
+   <property name="M_Sf_Mff_asrwp_Prog"      column="M_Sf_Mff_asrwp_Prog"           type="boolean"/>
+   <property name="M_Sf_Mff_asrwp_Encour"    column="M_Sf_Mff_asrwp_Encour"           type="boolean"/>
+
+
+<!--Mathematics Shapes and Patterns-->
+    
+   <property name="Msp_Sp_Eps_dps_Accom"    column="Msp_Sp_Eps_dps_Accom"               type="boolean"/>
+   <property name="Msp_Sp_Eps_dps_Prog"     column="Msp_Sp_Eps_dps_Prog"               type="boolean"/>
+   <property name="Msp_Sp_Eps_dps_Encour"   column="Msp_Sp_Eps_dps_Encour"               type="boolean"/>
+   <property name="Msp_Sp_Eps_sip_Accom"    column="Msp_Sp_Eps_sip_Accom"               type="boolean"/>
+   <property name="Msp_Sp_Eps_sip_Prog"     column="Msp_Sp_Eps_sip_Prog"               type="boolean"/>
+   <property name="Msp_Sp_Eps_sip_Encour"   column="Msp_Sp_Eps_sip_Encour"               type="boolean"/>
+   
+   <property name="Msp_Sp_Ess_Accom"        column="Msp_Sp_Ess_Accom"               type="boolean"/>
+   <property name="Msp_Sp_Ess_Prog"         column="Msp_Sp_Ess_Prog"               type="boolean"/>
+   <property name="Msp_Sp_Ess_Encour"       column="Msp_Sp_Ess_Encour"               type="boolean"/>
+   
+   <property name="Msp_Sp_mws_Accom"        column="Msp_Sp_mws_Accom"               type="boolean"/>
+   <property name="Msp_Sp_mws_Prog"         column="Msp_Sp_mws_Prog"               type="boolean"/>
+   <property name="Msp_Sp_mws_Encour"       column="Msp_Sp_mws_Encour"               type="boolean"/>
+   
+   <property name="Msp_Sp_sau_Accom"        column="Msp_Sp_sau_Accom"               type="boolean"/>
+   <property name="Msp_Sp_sau_Prog"         column="Msp_Sp_sau_Prog"               type="boolean"/>
+   <property name="Msp_Sp_sau_Encour"       column="Msp_Sp_sau_Encour"               type="boolean"/>
+   
+   <property name="Msp_Sp_wps_Accom"        column="Msp_Sp_wps_Accom"               type="boolean"/>
+   <property name="Msp_Sp_wps_Prog"         column="Msp_Sp_wps_Prog"               type="boolean"/>
+   <property name="Msp_Sp_wps_Encour"       column="Msp_Sp_wps_Encour"               type="boolean"/>
+   
+   <property name="Msp_Sp_wss_Accom"        column="Msp_Sp_wss_Accom"               type="boolean"/>
+   <property name="Msp_Sp_wss_Prog"         column="Msp_Sp_wss_Prog"               type="boolean"/>
+   <property name="Msp_Sp_wss_Encour"       column="Msp_Sp_wss_Encour"               type="boolean"/>
+   
+   <property name="Msp_Onp_on_Accom"        column="Msp_Onp_on_Accom"               type="boolean"/>
+   <property name="Msp_Onp_on_Prog"         column="Msp_Onp_on_Prog"               type="boolean"/>
+   <property name="Msp_Onp_on_Encour"       column="Msp_Onp_on_Encour"               type="boolean"/>
+   
+   <property name="Msp_Onp_pw_Accom"        column="Msp_Onp_pw_Accom"               type="boolean"/>
+   <property name="Msp_Onp_pw_Prog"         column="Msp_Onp_pw_Prog"               type="boolean"/>
+   <property name="Msp_Onp_pw_Encour"       column="Msp_Onp_pw_Encour"               type="boolean"/>
+    
+    <!-- Programme Of Inquiry Theme – How we organize ourselves-->
+   <property name="Prog_psa_Accom"    column="Prog_psa_Accom"     type="boolean"/>
+   <property name="Prog_psa_Prog"     column="Prog_psa_Prog"     type="boolean"/>
+   <property name="Prog_psa_Encour"   column="Prog_psa_Encour"     type="boolean"/>
+                                      
+   <property name="Prog_qrl_Accom"    column="Prog_qrl_Accom"     type="boolean"/>
+   <property name="Prog_qrl_Prog"     column="Prog_qrl_Prog"     type="boolean"/>
+   <property name="Prog_qrl_Encour"   column="Prog_qrl_Encour"     type="boolean"/>
+                                      
+   <property name="Prog_mcl_Accom"    column="Prog_mcl_Accom"     type="boolean"/>
+   <property name="Prog_mcl_Prog"     column="Prog_mcl_Prog"     type="boolean"/>
+   <property name="Prog_mcl_Encour"   column="Prog_mcl_Encour"     type="boolean"/>
+                                      
+   <property name="Prog_Com"          column="Prog_Com"                  type="string"/>
+    <!--Development of Skills-->
+
+    <property name="Prog_Dos_Coo_Accom"  column="Prog_Dos_Coo_Accom"      type="boolean"/>
+    <property name="Prog_Dos_Coo_Prog"   column="Prog_Dos_Coo_Prog"      type="boolean"/>
+    <property name="Prog_Dos_Coo_Encour" column="Prog_Dos_Coo_Encour"      type="boolean"/>
+    <property name="Prog_Dos_Gdm_Accom"  column="Prog_Dos_Gdm_Accom"      type="boolean"/>
+    <property name="Prog_Dos_Gdm_Prog"   column="Prog_Dos_Gdm_Prog"      type="boolean"/>
+    <property name="Prog_Dos_Gdm_Encour" column="Prog_Dos_Gdm_Encour"      type="boolean"/>
+    
+    <property name="Prog_Dos_Org_Accom"  column="Prog_Dos_Org_Accom"      type="boolean"/>
+    <property name="Prog_Dos_Org_Prog"   column="Prog_Dos_Org_Prog"      type="boolean"/>
+    <property name="Prog_Dos_Org_Encour" column="Prog_Dos_Org_Encour"      type="boolean"/>
+    <property name="Prog_Dos_Tm_Accom"   column="Prog_Dos_Tm_Accom"      type="boolean"/>
+    <property name="Prog_Dos_Tm_Prog"    column="Prog_Dos_Tm_Prog"      type="boolean"/>
+    <property name="Prog_Dos_Tm_Encour"  column="Prog_Dos_Tm_Encour"      type="boolean"/>
+    
+    <property name="Prog_Att_Co_Accom"   column="Prog_Att_Co_Accom"      type="boolean"/>
+    <property name="Prog_Att_Co_Prog"    column="Prog_Att_Co_Prog"      type="boolean"/>
+    <property name="Prog_Att_Co_Encour"  column="Prog_Att_Co_Encour"      type="boolean"/>
+    <property name="Prog_Att_Int_Accom"  column="Prog_Att_Int_Accom"      type="boolean"/>
+    <property name="Prog_Att_Int_Prog"   column="Prog_Att_Int_Prog"      type="boolean"/>
+    <property name="Prog_Att_Int_Encour" column="Prog_Att_Int_Encour"      type="boolean"/>
+    <property name="Prog_Att_Emp_Accom"  column="Prog_Att_Emp_Accom"      type="boolean"/>
+    <property name="Prog_Att_Emp_Prog"   column="Prog_Att_Emp_Prog"      type="boolean"/>
+    <property name="Prog_Att_Emp_Encour" column="Prog_Att_Emp_Encour"      type="boolean"/>
+    
+    <property name="Prog_Dlp_pri_Accom"  column="Prog_Dlp_pri_Accom"      type="boolean"/>
+    <property name="Prog_Dlp_pri_Prog"   column="Prog_Dlp_pri_Prog"      type="boolean"/>
+    <property name="Prog_Dlp_pri_Encour" column="Prog_Dlp_pri_Encour"      type="boolean"/>
+    <property name="Prog_Dlp_Car_Accom"  column="Prog_Dlp_Car_Accom"      type="boolean"/>
+    <property name="Prog_Dlp_Car_Prog"   column="Prog_Dlp_Car_Prog"      type="boolean"/>
+    <property name="Prog_Dlp_Car_Encour" column="Prog_Dlp_Car_Encour"      type="boolean"/>
+    <!--Theme who weare-->
+    <property name="Wwa_ch_Accom"        column="Wwa_ch_Accom"             type="boolean"/>
+    <property name="Wwa_ch_Prog"         column="Wwa_ch_Prog"             type="boolean"/>
+    <property name="Wwa_ch_Encour"       column="Wwa_ch_Encour"             type="boolean"/>
+    <property name="Wwa_hdc_Accom"       column="Wwa_hdc_Accom"             type="boolean"/>
+    <property name="Wwa_hdc_Prog"        column="Wwa_hdc_Prog"             type="boolean"/>
+    <property name="Wwa_hdc_Encour"      column="Wwa_hdc_Encour"             type="boolean"/>
+    <property name="Wwa_dwpl_Accom"      column="Wwa_dwpl_Accom"             type="boolean"/>
+    <property name="Wwa_dwpl_Prog"       column="Wwa_dwpl_Prog"             type="boolean"/>
+    <property name="Wwa_dwpl_Encour"     column="Wwa_dwpl_Encour"             type="boolean"/>
+    <property name="Wwa_Com"             column="Wwa_Com"                  type="string"/>
+    
+    <property name="Wwa_Ds_res_Accom"    column="Wwa_Ds_res_Accom"     type="boolean"/>
+    <property name="Wwa_Ds_res_Prog"     column="Wwa_Ds_res_Prog"     type="boolean"/>
+    <property name="Wwa_Ds_res_Encour"   column="Wwa_Ds_res_Encour"     type="boolean"/>
+    <property name="Wwa_Ds_col_Accom"    column="Wwa_Ds_col_Accom"     type="boolean"/>
+    <property name="Wwa_Ds_col_Prog"     column="Wwa_Ds_col_Prog"     type="boolean"/>
+    <property name="Wwa_Ds_col_Encour"   column="Wwa_Ds_col_Encour"     type="boolean"/>
+    <property name="Wwa_Ds_ord_Accom"    column="Wwa_Ds_ord_Accom"     type="boolean"/>
+    <property name="Wwa_Ds_ord_Prog"     column="Wwa_Ds_ord_Prog"     type="boolean"/>
+    <property name="Wwa_Ds_ord_Encour"   column="Wwa_Ds_ord_Encour"     type="boolean"/>
+    
+    <property name="Wwa_Att_resp_Accom"  column="Wwa_Att_resp_Accom"     type="boolean"/>
+    <property name="Wwa_Att_resp_Prog"   column="Wwa_Att_resp_Prog"     type="boolean"/>
+    <property name="Wwa_Att_resp_Encour" column="Wwa_Att_resp_Encour"     type="boolean"/>
+    <property name="Wwa_Att_Tol_Accom"   column="Wwa_Att_Tol_Accom"     type="boolean"/>
+    <property name="Wwa_Att_Tol_Prog"    column="Wwa_Att_Tol_Prog"     type="boolean"/>
+    <property name="Wwa_Att_Tol_Encour"  column="Wwa_Att_Tol_Encour"     type="boolean"/>
+    
+    <property name="Wwa_Dlp_Om_Accom"    column="Wwa_Dlp_Om_Accom"     type="boolean"/>
+    <property name="Wwa_Dlp_Om_Prog"     column="Wwa_Dlp_Om_Prog"     type="boolean"/>
+    <property name="Wwa_Dlp_Om_Encour"   column="Wwa_Dlp_Om_Encour"     type="boolean"/>
+    <property name="Wwa_Dlp_Ref_Accom"   column="Wwa_Dlp_Ref_Accom"     type="boolean"/>
+    <property name="Wwa_Dlp_Ref_Prog"    column="Wwa_Dlp_Ref_Prog"     type="boolean"/>
+    <property name="Wwa_Dlp_Ref_Encour"  column="Wwa_Dlp_Ref_Encour"     type="boolean"/>
+    
+    <!--How we express-->
+    
+   <property name="Hwe_ife_Accom"   column="Hwe_ife_Accom"     type="boolean"/>
+   <property name="Hwe_ife_Prog"    column="Hwe_ife_Prog"     type="boolean"/>
+   <property name="Hwe_ife_Encour"  column="Hwe_ife_Encour"     type="boolean"/>
+   <property name="Hwe_mts_Accom"   column="Hwe_mts_Accom"     type="boolean"/>
+   <property name="Hwe_mts_Prog"    column="Hwe_mts_Prog"     type="boolean"/>
+   <property name="Hwe_mts_Encour"  column="Hwe_mts_Encour"     type="boolean"/>
+   <property name="Hwe_mdf_Accom"   column="Hwe_mdf_Accom"     type="boolean"/>
+   <property name="Hwe_mdf_Prog"    column="Hwe_mdf_Prog"     type="boolean"/>
+   <property name="Hwe_mdf_Encour"  column="Hwe_mdf_Encour"     type="boolean"/>
+   <property name="Hwe_Com"         column="Hwe_Com"            type="string"/>
+
+
+   <property name="Hwe_Ds_Sp_Accom"    column="Hwe_Ds_Sp_Accom"     type="boolean"/>
+   <property name="Hwe_Ds_Sp_Prog"     column="Hwe_Ds_Sp_Prog"     type="boolean"/>
+   <property name="Hwe_Ds_Sp_Encour"   column="Hwe_Ds_Sp_Encour"     type="boolean"/>
+   <property name="Hwe_Ds_Nvc_Accom"   column="Hwe_Ds_Nvc_Accom"     type="boolean"/>
+   <property name="Hwe_Ds_Nvc_Prog"    column="Hwe_Ds_Nvc_Prog"     type="boolean"/>
+   <property name="Hwe_Ds_Nvc_Encour"  column="Hwe_Ds_Nvc_Encour"     type="boolean"/>
+   
+   <property name="Hwe_Ds_Gms_Accom"   column="Hwe_Ds_Gms_Accom"     type="boolean"/>
+   <property name="Hwe_Ds_Gms_Prog"    column="Hwe_Ds_Gms_Prog"     type="boolean"/>
+   <property name="Hwe_Ds_Gms_Encour"  column="Hwe_Ds_Gms_Encour"     type="boolean"/>
+   <property name="Hwe_Ds_Org_Accom"   column="Hwe_Ds_Org_Accom"     type="boolean"/>
+   <property name="Hwe_Ds_Org_Prog"    column="Hwe_Ds_Org_Prog"     type="boolean"/>
+   <property name="Hwe_Ds_Org_Encour"  column="Hwe_Ds_Org_Encour"     type="boolean"/>
+   
+   <property name="Hwe_Att_Cre_Accom"   column="Hwe_Att_Cre_Accom"      type="boolean"/>
+   <property name="Hwe_Att_Cre_Prog"    column="Hwe_Att_Cre_Prog"      type="boolean"/>
+   <property name="Hwe_Att_Cre_Encour"  column="Hwe_Att_Cre_Encour"      type="boolean"/>
+   <property name="Hwe_Att_App_Accom"   column="Hwe_Att_App_Accom"      type="boolean"/>
+   <property name="Hwe_Att_App_Prog"    column="Hwe_Att_App_Prog"      type="boolean"/>
+   <property name="Hwe_Att_App_Encour"  column="Hwe_Att_App_Encour"      type="boolean"/>
+   <property name="Hwe_Att_Conf_Accom"  column="Hwe_Att_Conf_Accom"      type="boolean"/>
+   <property name="Hwe_Att_Conf_Prog"   column="Hwe_Att_Conf_Prog"      type="boolean"/>
+   <property name="Hwe_Att_Conf_Encour" column="Hwe_Att_Conf_Encour"       type="boolean"/>
+   
+   <property name="Hwe_Dlp_Rt_Accom"   column="Hwe_Dlp_Rt_Accom"      type="boolean"/>
+   <property name="Hwe_Dlp_Rt_Prog"    column="Hwe_Dlp_Rt_Prog"      type="boolean"/>
+   <property name="Hwe_Dlp_Rt_Encour"  column="Hwe_Dlp_Rt_Encour"      type="boolean"/>
+   <property name="Hwe_Dlp_Com_Accom"  column="Hwe_Dlp_Com_Accom"      type="boolean"/>
+   <property name="Hwe_Dlp_Com_Prog"   column="Hwe_Dlp_Com_Prog"      type="boolean"/>
+   <property name="Hwe_Dlp_Com_Encour" column="Hwe_Dlp_Com_Encour"      type="boolean"/>
+    
+    <!--Applied Computers-->
+
+   <property name="Ac_Sa_Accom"  column="Ac_Sa_Accom"     type="boolean"/>
+   <property name="Ac_Sa_Prog"   column="Ac_Sa_Prog"     type="boolean"/>
+   <property name="Ac_Sa_Encour" column="Ac_Sa_Encour"     type="boolean"/>
+   <property name="Ac_Ts_Accom"  column="Ac_Ts_Accom"     type="boolean"/>
+   <property name="Ac_Ts_Prog"   column="Ac_Ts_Prog"     type="boolean"/>
+   <property name="Ac_Ts_Encour" column="Ac_Ts_Encour"     type="boolean"/>
+
+    <!--Physical Education Cycling-->
+    
+   <property name="Pec_Sta_Accom"   column="Pec_Sta_Accom"     type="boolean"/>
+   <property name="Pec_Sta_Prog"    column="Pec_Sta_Prog"     type="boolean"/>
+   <property name="Pec_Sta_Encour"  column="Pec_Sta_Encour"     type="boolean"/>
+   <property name="Pec_Stop_Accom"  column="Pec_Stop_Accom"     type="boolean"/>
+   <property name="Pec_Stop_Prog"   column="Pec_Stop_Prog"     type="boolean"/>
+   <property name="Pec_Stop_Encour" column="Pec_Stop_Encour"     type="boolean"/>
+   <property name="Pec_Rid_Accom"   column="Pec_Rid_Accom"     type="boolean"/>
+   <property name="Pec_Rid_Prog"    column="Pec_Rid_Prog"     type="boolean"/>
+   <property name="Pec_Rid_Encour"  column="Pec_Rid_Encour"     type="boolean"/>
+   <property name="Pec_Loo_Accom"   column="Pec_Loo_Accom"     type="boolean"/>
+   <property name="Pec_Loo_Prog"    column="Pec_Loo_Prog"     type="boolean"/>
+   <property name="Pec_Loo_Encour"  column="Pec_Loo_Encour"     type="boolean"/>
+   <property name="Pec_Roh_Accom"   column="Pec_Roh_Accom"     type="boolean"/>
+   <property name="Pec_Roh_Prog"    column="Pec_Roh_Prog"     type="boolean"/>
+   <property name="Pec_Roh_Encour"  column="Pec_Roh_Encour"     type="boolean"/>
+
+   <!--Swimming-->
+    
+   <property name="Sw_bob_Accom"    column="Sw_bob_Accom"    type="boolean"/>
+   <property name="Sw_bob_Prog"     column="Sw_bob_Prog"    type="boolean"/>
+   <property name="Sw_bob_Encour"   column="Sw_bob_Encour"    type="boolean"/>
+   <property name="Sw_lbhw_Accom"   column="Sw_lbhw_Accom"    type="boolean"/>
+   <property name="Sw_lbhw_Prog"    column="Sw_lbhw_Prog"    type="boolean"/>
+   <property name="Sw_lbhw_Encour"  column="Sw_lbhw_Encour"    type="boolean"/>
+   <property name="Sw_lbwoh_Accom"  column="Sw_lbwoh_Accom"    type="boolean"/>
+   <property name="Sw_lbwoh_Prog"   column="Sw_lbwoh_Prog"    type="boolean"/>
+   <property name="Sw_lbwoh_Encour" column="Sw_lbwoh_Encour"    type="boolean"/>
+   <property name="Sw_flo_Accom"    column="Sw_flo_Accom"    type="boolean"/>
+   <property name="Sw_flo_Prog"     column="Sw_flo_Prog"    type="boolean"/>
+   <property name="Sw_flo_Encour"   column="Sw_flo_Encour"    type="boolean"/>
+
+
+    <!--Track and Field-->
+    
+   <property name="Tf_Sp_Accom"    column="Tf_Sp_Accom"      type="boolean"/>
+   <property name="Tf_Sp_Prog"     column="Tf_Sp_Prog"      type="boolean"/>
+   <property name="Tf_Sp_Encour"   column="Tf_Sp_Encour"      type="boolean"/>
+   <property name="Tf_Hur_Accom"   column="Tf_Hur_Accom"      type="boolean"/>
+   <property name="Tf_Hur_Prog"    column="Tf_Hur_Prog"      type="boolean"/>
+   <property name="Tf_Hur_Encour"  column="Tf_Hur_Encour"      type="boolean"/>
+   <property name="Tf_Shp_Accom"   column="Tf_Shp_Accom"      type="boolean"/>
+   <property name="Tf_Shp_Prog"    column="Tf_Shp_Prog"      type="boolean"/>
+   <property name="Tf_Shp_Encour"  column="Tf_Shp_Encour"      type="boolean"/>
+   <property name="Tf_Rel_Accom"   column="Tf_Rel_Accom"      type="boolean"/>
+   <property name="Tf_Rel_Prog"    column="Tf_Rel_Prog"      type="boolean"/>
+   <property name="Tf_Rel_Encour"  column="Tf_Rel_Encour"      type="boolean"/>
+
+<!--Performing  Arts Music-->
+    
+   <property name="Pam_As_Accom"   column="Pam_As_Accom"     type="boolean"/>
+   <property name="Pam_As_Prog"    column="Pam_As_Prog"     type="boolean"/>
+   <property name="Pam_As_Encour"  column="Pam_As_Encour"     type="boolean"/>
+   <property name="Pam_Ss_Accom"   column="Pam_Ss_Accom"     type="boolean"/>
+   <property name="Pam_Ss_Prog"    column="Pam_Ss_Prog"     type="boolean"/>
+   <property name="Pam_Ss_Encour"  column="Pam_Ss_Encour"     type="boolean"/>
+   <property name="Pam_Pis_Accom"  column="Pam_Pis_Accom"     type="boolean"/>
+   <property name="Pam_Pis_Prog"   column="Pam_Pis_Prog"     type="boolean"/>
+   <property name="Pam_Pis_Encour" column="Pam_Pis_Encour"     type="boolean"/>
+   <property name="Pam_Pts_Accom"  column="Pam_Pts_Accom"     type="boolean"/>
+   <property name="Pam_Pts_Prog"   column="Pam_Pts_Prog"     type="boolean"/>
+   <property name="Pam_Pts_Encour" column="Pam_Pts_Encour"     type="boolean"/>
+
+    <!--Western Dance-->
+   <property name="Wd_Bm_Accom"    column="Wd_Bm_Accom"     type="boolean"/>
+   <property name="Wd_Bm_Prog"     column="Wd_Bm_Prog"     type="boolean"/>
+   <property name="Wd_Bm_Encour"   column="Wd_Bm_Encour"     type="boolean"/>
+   <property name="Wd_Cm_Accom"    column="Wd_Cm_Accom"     type="boolean"/>
+   <property name="Wd_Cm_Prog"     column="Wd_Cm_Prog"     type="boolean"/>
+   <property name="Wd_Cm_Encour"   column="Wd_Cm_Encour"     type="boolean"/>
+   <property name="Wd_acm_Accom"   column="Wd_acm_Accom"     type="boolean"/>
+   <property name="Wd_acm_Prog"    column="Wd_acm_Prog"     type="boolean"/>
+   <property name="Wd_acm_Encour"  column="Wd_acm_Encour"     type="boolean"/>
+   <property name="Wd_Dms_Accom"   column="Wd_Dms_Accom"     type="boolean"/>
+   <property name="Wd_Dms_Prog"    column="Wd_Dms_Prog"     type="boolean"/>
+   <property name="Wd_Dms_Encour"  column="Wd_Dms_Encour"     type="boolean"/>
+
+<!--Classical Dance-->
+   
+
+   <property name="Cd_Bm_Ahm_Amba_Accom"  column="Cd_Bm_Ahm_Amba_Accom"     type="boolean"/>
+   <property name="Cd_Bm_Ahm_Amba_Prog"   column="Cd_Bm_Ahm_Amba_Prog"     type="boolean"/>
+   <property name="Cd_Bm_Ahm_Amba_Encour" column="Cd_Bm_Ahm_Amba_Encour"     type="boolean"/>
+   <property name="Cd_Bm_Asm_Accom"       column="Cd_Bm_Asm_Accom"          type="boolean"/>
+   <property name="Cd_Bm_Asm_Prog"        column="Cd_Bm_Asm_Prog"          type="boolean"/>
+   <property name="Cd_Bm_Asm_Encour"      column="Cd_Bm_Asm_Encour"          type="boolean"/>
+   <property name="Cd_Bm_Aem_Accom"       column="Cd_Bm_Aem_Accom"          type="boolean"/>
+   <property name="Cd_Bm_Aem_Prog"        column="Cd_Bm_Aem_Prog"          type="boolean"/>
+   <property name="Cd_Bm_Aem_Encour"      column="Cd_Bm_Aem_Encour"          type="boolean"/>
+
+   <property name="Cd_Bm_Po_Afe_Accom"   column="Cd_Bm_Po_Afe_Accom"    type="boolean"/>
+   <property name="Cd_Bm_Po_Afe_Prog"    column="Cd_Bm_Po_Afe_Prog"    type="boolean"/>
+   <property name="Cd_Bm_Po_Afe_Encour"  column="Cd_Bm_Po_Afe_Encour"    type="boolean"/>
+   <property name="Cd_Bm_Po_Pls_Accom"   column="Cd_Bm_Po_Pls_Accom"    type="boolean"/>
+   <property name="Cd_Bm_Po_Pls_Prog"    column="Cd_Bm_Po_Pls_Prog"    type="boolean"/>
+   <property name="Cd_Bm_Po_Pls_Encour"  column="Cd_Bm_Po_Pls_Encour"    type="boolean"/>
+
+   <property name="Cd_Fs_Accom"    column="Cd_Fs_Accom"    type="boolean"/>
+   <property name="Cd_Fs_Prog"     column="Cd_Fs_Prog"    type="boolean"/>
+   <property name="Cd_Fs_Encour"   column="Cd_Fs_Encour"    type="boolean"/>
+
+    <property name="RptCardCreatedBy" column="RptCardCreatedBy" type="string"/>
+    <property name="RptCardCreatedDate" column="RptCardCreatedDate" type="DateTime"/>
+    <property name="RptCardModifiedBy" column="RptCardModifiedBy" type="string"/>
+    <property name="RptCardModifiedDate" column="RptCardModifiedDate" type="DateTime"/>
+
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess.ReportCardClasses" namespace="TIPS.Entities.Assess.ReportCardClasses" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.ReportCardClasses.RptStudentDtlsView,TIPS.Entities.Assess" table="StudentTemplate" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="NewId" column="NewId" type="string" />
+    <property name="Name" column="Name" type="string" />
+    <property name="Campus" column="Campus" type="string"  />
+    <property name="Section" column="Section" type="string" />
+    <property name="Grade" column="Grade" type="string"  />
+    <property name="PreRegNum" column="PreRegNum" type="Int64"  />
+    <property name="IsHosteller" column="IsHosteller" type="boolean"  />
+    <property name="ApplicationNo" column="ApplicationNo" type="string" />
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    <property name="FeeStructYear" column="FeeStructYear" type="string" />
+    <property name="BoardingType" column="BoardingType" type="string" />
+    <property name="AdmissionStatus" column="AdmissionStatus" type="string" />
+
+  </class>
+</hibernate-mapping>

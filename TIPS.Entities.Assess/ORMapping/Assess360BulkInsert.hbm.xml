@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Assess360BulkInsert" table="Assess360BulkInsert_vw" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="Assess360Id" column="Assess360Id" type="Int64" not-null="false" />
+    <property name="A360CompId" column="A360CompId" type="Int64" not-null="false" />
+    <property name="AssessCompGroup" column="AssessCompGroup" type="Int32" not-null="false" />
+    <property name="IsCredit" column="IsCredit" type="boolean" not-null="false" />
+    <property name="GroupName" column="GroupName" type="AnsiString" not-null="false" />
+    <property name="IncidentDate" column="IncidentDate" type="datetime" not-null="false" />
+    <property name="DateCreated" column="DateCreated" type="datetime" not-null="false" />
+    <property name="Mark" column="Mark" type="decimal" not-null="false" />
+    <property name="Description" column="Description" type="AnsiString" not-null="false" />
+    <property name="Subject" column="Subject" type="AnsiString" not-null="false" />
+    <property name="Staff" column="Staff" type="AnsiString" not-null="false" />
+    <property name="AssignmentName" column="AssignmentName" type="String" not-null="false" />
+    <property name="MarksOutOff" column="MarksOutOff" type="AnsiString" not-null="false" />
+    <property name="EnteredBy" column="EnteredBy" type="AnsiString" not-null="false" />
+    <property name="DateModified" column="DateModified" type="datetime" not-null="false" />
+    <property name="IdNo" type="AnsiString" not-null="false" />
+    <property name="RequestNo" type="AnsiString" not-null="false" />
+    <property name="Name" column="Name" type="string" />
+    <property name="Campus" column="Campus" type="string"  />
+    <property name="Section" column="Section" type="string" />
+    <property name="Grade" column="Grade" type="string"  />
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    <property name="ConsolidatedMarks" column="ConsolidatedMarks" type="AnsiString" not-null="false" />
+    <property name="Semester" column="Semester" type="string" />
+  </class>
+</hibernate-mapping>

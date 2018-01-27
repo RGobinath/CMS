@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StoreEntities.StoreSupplierMaster" namespace="TIPS.Entities.StoreEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StoreEntities.StoreSupplierMaster, TIPS.Entities" table="StoreSupplierMaster" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="FormCode" column="FormCode" type="string"></property>
+    <property name="SupplierName" column="SupplierName" type="string"></property>
+    <property name="CompanyName" column="CompanyName" type="string"></property>
+    <property name="Address" column="Address" type="string"></property>
+    <property name="City" column="City" type="string"></property>
+    <property name="State" column="State" type="string"></property>
+    <property name="ZipCode" column="ZipCode" type="Int32"></property>
+    <property name="Country" column="Country" type="string"></property>
+    <property name="Type" column="Type" type="string"></property>
+    <property name="MobileNumber" column="MobileNumber" type="string"></property>
+    <property name="PhoneNumber" column="PhoneNumber" type="string"></property>
+    <property name="IsActive" column="IsActive" type="bool"></property>
+    <property name="TINNumber" column="TINNumber" type="string"></property>
+    <property name="PANNumber" column="PANNumber" type="string"></property>
+    <property name="IsPreferredSupplier" column="IsPreferredSupplier" type="bool"></property>
+    <property name="Notes" column="Notes" type="string"></property>
+    <property name="Email" column="Email" type="string"></property>
+    <property name="CreditTerms" column="CreditTerms" type="string"></property>
+  </class>
+</hibernate-mapping>

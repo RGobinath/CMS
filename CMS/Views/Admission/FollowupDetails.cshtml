@@ -1,0 +1,113 @@
+﻿<div class="row">
+    <div class="col-xs-8 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa fa-bell-o"></i>&nbsp;Followup Details
+                </div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="space-6">
+                        @Html.Hidden("AdminStatus", "", new { id = "AdminStatus", @Value = ViewBag.admissionstatus })
+                        @Html.Hidden("editid", "", new { id = "editid", @Value = Session["editid"] })
+                        @Html.Hidden("preregno", "", new { id = "preregno", @Value = Session["preregno"] })
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-6">
+                                <label for="form-field-select-1">
+                                    <b>Remarks</b></label><br>
+                                @Html.TextArea("remarks", new { rows = 3, cols = 50, @class = "form-control", @maxlength = "400" })
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="form-field-select-1">
+                                    <b>Followup Date</b></label>
+                                <div class="input-group input-group-sm">
+                                            @Html.TextBox("followupdate","", new { id = "followupdate", @Class = "form-control date-picker" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                
+                                
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="space-10"></div>
+                                <button class="btn btn-xs btn-primary" type="button" name="followupAdd" id="followupbtn" value="Add">
+                                    <i class="ace-icon fa fa-arrows"></i>
+                                    <span class="bigger-110">Add&nbsp;</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-4 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa fa-cogs"></i>&nbsp;Status Change
+                </div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-8">
+                                <label for="form-field-select-1">
+                                    <b>Status Change</b></label>
+                                @Html.DropDownList("Select", new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                  new{Value="On Hold",Text="On Hold"},
+                                  new{Value="Waiting For Reply",Text="Waiting For Reply"},
+                                  new{Value="Joining Next Year",Text="Joining Next Year"},
+                                  new{Value="Not Interested",Text="Not Interested"},
+                                  new{Value="Not Joined",Text="Not Joined"},
+                                  new{Value="Declined",Text="Declined"},
+                                  new{Value="New Enquiry",Text="New Enquiry"},
+                                  new{Value="New Registration",Text="New Registration"}                                         
+                                 }, "Value", "Text", ""), new { id = "followupstats", @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="space-10"></div>
+                                <button class="btn btn-xs btn-primary" type="button" name="fwpstatchng" id="updatestatus">
+                                    <i class="ace-icon fa fa-caret-right"></i>
+                                    <span class="bigger-110">Go&nbsp;</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="space-32"></div>
+                        <div class="space-32"></div>
+                        <div class="space-6"></div>
+                    </div>
+                    <div class="space-6"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-2"></div>
+<div class="row">
+    <div id="test" class="col-xs-12 col-sm-12">
+        <table id="followup-grid-table">
+        </table>
+        <div id="followup-grid-pager">
+        </div>
+        <script type="text/javascript">
+            var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+        </script>
+    </div>
+</div>
+<script src="../../Scripts/AdmissionScripts/FollowupDetails.js"></script>
+<script src="@Url.Content("~/assets/js/AceJQMsg.js")"></script>

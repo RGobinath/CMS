@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StoreEntities.MaterialRequest" namespace="TIPS.Entities.StoreEntities">
+  <class name="TIPS.Entities.StoreEntities.MaterialRequest, TIPS.Entities" table="MaterialRequest" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="RequestNumber" column="RequestNumber" type="string"></property>
+    <property name="RequestedDate" column="RequestedDate" type="datetime"></property>
+    <property name="ProcessedBy" column="ProcessedBy" type="string"></property>
+    <property name="UserRole" column="UserRole" type="string"></property>
+    <property name="RequestStatus" column="RequestStatus" type="string"></property>
+    <property name="InstanceId" column="InstanceId" type="Int64"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="RequestorDescription" column="RequestorDescription" type="string"></property>
+    <property name="RequiredForCampus" column="RequiredForCampus" type="string"></property>
+    <property name="ApproverComments" column="ApproverComments" type="string"></property>
+    <property name="Department" column="Department" type="string"></property>
+    <property name="RequiredForStore" column="RequiredForStore" type="string"></property>
+    <property name="RequiredFromStore" column="RequiredFromStore" type="string"></property>
+    <property name="UserName" column="UserName" type="string"></property>
+  </class>
+</hibernate-mapping>

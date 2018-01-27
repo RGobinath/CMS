@@ -1,0 +1,402 @@
+﻿@model TIPS.Entities.AssetEntities.SubAssetDetails_vw
+@{
+    ViewBag.Title = "ITSubAssetTransaction";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+@using (Html.BeginForm("ITSubAssetTransaction", "Asset", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="page-content">
+        <div class="page-content-area">
+            <div class="row">
+                @Html.HiddenFor(m => m.AssetDet_Id, new { id = "AssetDet_Id" })
+                @Html.HiddenFor(m => m.Asset_Id)
+                @Html.HiddenFor(m => m.CreatedBy)
+                @Html.HiddenFor(m => m.AssetRefId)
+                @Html.HiddenFor(m => m.IsSubAsset)
+                @Html.HiddenFor(m => m.CampusMaster.FormId)
+                @Html.Hidden("viewbagDCDate", "", new { @Value = ViewBag.DCDate })
+                @Html.Hidden("viewbagAssetCode", "", new { @Value = ViewBag.AssetCode })
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                &nbsp;<i class="fa fa-globe"></i> Asset Details 
+                                @if (Model.IsSubAsset == false && Model.TransactionType != "Scrap")
+                                {
+                                    @Html.DropDownList("ddlAssetType", new SelectList(Enumerable.Empty<SelectListItem>()), "Select Asset Type", new { id = "ddlAssetType", style = "margin-left:950px;width:150px;" })
+                                }
+                            </div>
+                            <div class="widget-toolbar">
+                                @if (Model.IsSubAsset == false && Model.TransactionType != "Scrap")
+                                {
+                                    <a data-action="" href="#">
+                                        <i class="1 ace-icon fa fa-plus-circle white" title="Add Sub Asset" id="AddSubAsset"></i>
+                                    </a>
+                                }
+                                <a data-action="collapse" href="#">
+                                    <i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 5px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <b>Asset Code</b><br />
+                                            @Model.AssetCode
+                                            @Html.HiddenFor(m => m.AssetCode, new { id = "AssetCode" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Product</b><br />
+                                            @Model.AssetType
+                                            @Html.HiddenFor(m => m.AssetType)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Brand</b><br />
+                                            @Model.Make
+                                            @Html.HiddenFor(m => m.Make)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Model</b><br />
+                                            @Model.Model
+                                            @Html.HiddenFor(m => m.Model)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Serial No</b><br />
+                                            @Model.SerialNo
+                                            @Html.HiddenFor(m => m.SerialNo)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Campus</b><br />
+                                            @Model.CurrentCampus
+                                            @Html.HiddenFor(m => m.CurrentCampus)
+                                        </div>
+                                    </div>
+                                    @if (ViewBag.specList != null && ViewBag.specList.Count > 0)
+                                    {
+                                        <div class="col-xs-12">
+                                            <div class="col-sm-2">
+                                                <b>Block</b><br />
+                                                @Model.CurrentBlock
+                                                @Html.HiddenFor(m => m.CurrentBlock)
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <b>Location</b><br />
+                                                @Model.CurrentLocation
+                                                @Html.HiddenFor(m => m.CurrentLocation)
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <b>User Type</b><br />
+                                                @Model.UserType
+                                                @*@Html.HiddenFor(m => m.UserType)*@
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <b>User Name</b><br />
+                                                @if (Model.UserType.Contains("Staff"))
+                                                {
+                                                    @Model.StaffDetailsView.Name                                                   
+                                                    @Html.HiddenFor(m => m.StaffDetailsView.Campus, new { id = "UserCampus" })
+                                                }
+                                                @if (Model.UserType.Contains("Student"))
+                                                {
+                                                    @Model.StudentTemplateView.Name
+                                                    @Html.HiddenFor(m => m.IdNum)
+                                                    @Html.HiddenFor(m => m.UserType)
+                                                    @Html.HiddenFor(m => m.StudentTemplateView.Campus, new { id = "UserCampus" })
+                                                }
+                                                else
+                                                {                                                                                                          
+                                                    @Html.Hidden("UserCampus", "", new { id = "UserCampus" })
+                                                }
+                                            </div>
+                                            @foreach (var item in ViewBag.specList)
+                                            {
+
+                                                if (item.Name != "Id")
+                                                {
+                                                    foreach (var desc in ViewBag.DescList)
+                                                    {
+                                                        if (string.Equals(item.Name, desc.Replace(" ", string.Empty), StringComparison.CurrentCultureIgnoreCase))
+                                                        {
+                                                <div class="col-sm-2">
+                                                    <b>@desc</b><br />
+                                                    @item.Value
+                                                </div>
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        </div>
+                                    }
+@*<div class="col-xs-12">
+                                        <div class="col-xs-2">
+                                            <button type="submit" class="btn btn-success btn-block btn-sm" name="btnAddSubAsset" value="AddSubAsset" id="btnAddSubAsset">
+                                                <i class="fa fa-plus">&nbsp;</i>Add Sub Asset                            
+                                            </button>
+                                        </div>
+                                    </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding: 0px">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                &nbsp;<i class="fa fa-user-md"></i> Transaction Details
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#">
+                                    <i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 5px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <b>From Campus</b><br />
+                                            @Html.TextBoxFor(m => m.CurrentCampus, new { id = "txtFromCampus", @Class = "form-control input-sm", @maxlength = "30", @Readonly = "Readonly" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>From Block</b><br />
+                                            @Html.TextBoxFor(m => m.CurrentBlock, new { id = "txtFromBlock", @Class = "form-control input-sm", @maxlength = "30", @Readonly = "Readonly" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>From Location</b><br />
+                                            @Html.TextBoxFor(m => m.CurrentLocation, new { id = "txtFromLocation", @Class = "form-control input-sm", @maxlength = "30", @Readonly = "Readonly" })
+                                        </div>
+                                        <div class="col-sm-2" id="TransactionTypeDiv">
+                                            <b>Transaction Type</b><br />
+                                            @Html.DropDownListFor(m => m.TransactionType, new SelectList(new[]
+                                        {
+                                        new{Value="",Text="Select One"},
+                                        new{Value="Stock",Text="Stock"},
+                                        new{Value="IntraCampus",Text="Intra Campus"},
+                                        new{Value="InterCampus",Text="Inter Campus"},
+                                        new{Value="Service",Text="Service"},
+                                        new{Value="Scrap",Text="Scrap"}
+                                        }, "Value", "Text", ""), new { id = "ddlTransactionType", @Class = "form-control select-sm", @maxlength = "15" })
+                                        </div>
+                                        <div class="col-sm-2" id="UserTypeDiv">
+                                            <b>User Type</b><br />
+                                            @Html.DropDownListFor(m => m.UserType, new SelectList(new[]
+                                        {
+                                        new{Value="",Text="Select One"},
+                                        new{Value="Student",Text="Student"},
+                                        new{Value="Staff",Text="Staff"},
+                                        new{Value="Common",Text="Common"}                                    
+                                        }, "Value", "Text", ""), new { id = "ddlUserType", @Class = "form-control select-sm", @maxlength = "15" })
+                                        </div>
+                                        <div id="divToCampusLocation">
+                                            <div class="col-sm-2" id="divToCampus">
+                                                <b>To Campus</b><br />
+                                                @Html.DropDownListFor(m => m.AssetDetailsTransaction.ToCampus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlToCampus", @maxlength = "15", @Class = "form-control select-sm" })
+                                            </div>
+                                            @if (Model.IsSubAsset == true)
+                                            {
+                                                @Html.Hidden("HiddenAssetDet_Id");                               
+                                                <div class="col-sm-2" id="divtxtassetcode">
+                                                    <b>Asset Code</b><br />
+                                                    @Html.TextBoxFor(m => m.AssetRefId, new { id = "txtITAssetCode", @Class = "form-control input-sm", @maxlength = "30" })
+                                                </div>          
+                                            }
+                                            <div class="col-sm-2" id="divToBlock">
+                                                <b>To Block</b><br />
+                                                @Html.DropDownListFor(m => m.AssetDetailsTransaction.ToBlock, new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlToBlock", @Class = "form-control select-sm" })
+                                                @Html.HiddenFor(m => m.AssetDetailsTransaction.ToBlock)
+                                            </div>
+                                            <div class="col-sm-2" id="divToLocation">
+                                                <b>To Location</b><br />
+                                                @Html.Hidden("hiddenToLocation")
+                                                @*@Html.TextBoxFor(m => m.AssetDetailsTransaction.ToLocation, new { id = "txtToLocation", @Class = "form-control input-sm", @maxlength = "30" })*@
+                                                @Html.DropDownListFor(m => m.AssetDetailsTransaction.ToLocation, new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlToLocation", @Class = "form-control select-sm" })
+                                                @Html.HiddenFor(m => m.AssetDetailsTransaction.ToLocation)
+                                            </div>
+                                        </div>
+                                        <div id="divInstallDate">
+                                            <div class="col-sm-2">
+                                                <b>Installed On</b><br />
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(m => m.InstalledOn, "{0:dd'/'MM'/'yyyy}", new { id = "txtInstalledOn", @Class = "form-control date-picker", @readonly = "readonly" })
+                                                    <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="StudentDiv">
+                                            <div class="col-sm-2">
+                                                <b>Grade</b>
+                                                @Html.DropDownList("ddlNewGrade", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlNewGrade", @Class = "form-control select-sm" })
+                                            </div>
+                                        </div>
+                                        <div id="StaffDiv">
+                                            <div class="col-sm-2">
+                                                <b>Staff Group</b>
+                                                @Html.DropDownList("ddlNewStaffGroup", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlNewStaffGroup", @Class = "form-control select-sm" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <b>Department</b>
+                                                @Html.DropDownList("ddlNewDepartment", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlNewDepartment", @Class = "form-control select-sm" })
+                                                @Html.Hidden("hiddenNewDepartment")
+                                            </div>
+                                        </div>
+                                        <div id="DivIdNum">
+                                            <div class="col-sm-2">
+                                                <b>Name</b>
+                                                @Html.Hidden("hiddenIdNum")
+                                                @Html.DropDownListFor(m => m.IdNum, new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlIdNum", @Class = "form-control select-sm" })
+                                            </div>
+                                        </div>
+                                        <div id="divService">
+                                            <div class="col-sm-2">
+                                                <b>DC No</b><br />
+                                                @Html.TextBoxFor(m => m.ITAssetServiceDetails.DCNo, new { id = "txtDCNo", @Class = "form-control input-sm", @maxlength = "30" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <b>DC Date</b><br />
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(m => m.ITAssetServiceDetails.DCDate, new { id = "txtDCDate", @Class = "form-control date-picker", @maxlength = "30", @readonly = "readonly" })
+                                                    <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <b>Expected Date</b><br />
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(m => m.ITAssetServiceDetails.ExpectedDate, new { id = "txtExpectedDate", @Class = "form-control input-sm", @maxlength = "30", @readonly = "readonly" })
+                                                    <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <b>Physical Condition</b><br />
+                                                @Html.TextBoxFor(m => m.ITAssetServiceDetails.PhysicalCondition, new { id = "txtPhysicalCondition", @Class = "form-control input-sm", @maxlength = "30" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <b>Pending Age</b><br />
+                                                @Html.TextBoxFor(m => m.ITAssetServiceDetails.PendingAge, new { id = "txtPendingAge", @Class = "form-control input-sm", @maxlength = "30", @Readonly = "Readonly" })
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <b>Problem Description</b><br />
+                                                @Html.TextAreaFor(m => m.ITAssetServiceDetails.Problem, new { rows = 1, cols = 45, id = "txtServiceProblem", @class = "form-control select-sm", @style = "resize:vertical;" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <b>Vendor</b><br />
+                                                @Html.DropDownListFor(m => m.ITAssetServiceDetails.Vendor, new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlVendor", @Class = "form-control select-sm" })
+                                                @*@Html.TextBoxFor(m => m.ITAssetServiceDetails.Vendor, new { id = "txtVendor", @Class = "form-control input-sm", @maxlength = "30" })*@
+                                            </div>
+                                        </div>
+                                        <div id="divScrap">
+                                            <div class="col-sm-2">
+                                                <b>Inward Date</b><br />
+                                                <div class="input-group input-group-sm">
+                                                    @Html.TextBoxFor(m => m.ITAssetScrapDetails.InwardDate, new { id = "txtInwardDate", @Class = "form-control date-picker", @maxlength = "30", @readonly = "readonly" })
+                                                    <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <b>Physical Condition</b><br />
+                                                @Html.TextBoxFor(m => m.ITAssetScrapDetails.PhysicalCondition, new { id = "txtScrapPhysicalCondition", @Class = "form-control input-sm", @maxlength = "30" })
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <b>Problem Description</b><br />
+                                                @Html.TextAreaFor(m => m.ITAssetScrapDetails.Problem, new { rows = 1, cols = 45, id = "txtScrapProblem", @class = "form-control select-sm", @style = "resize:vertical;" })
+                                            </div>
+                                        </div>
+                                        @*<div class="col-sm-2">
+                                            <b>Engineer Name</b><br />
+                                            @Model.CreatedBy
+                                        </div>*@
+                                        <div id="divTransactionComment" class="col-sm-3">
+                                            <b>Transaction Description</b><br />
+                                            @Html.TextAreaFor(m => m.AssetDetailsTransaction.Description, new { rows = 1, cols = 45, id = "txtTransactionCommentArea", @class = "form-control select-sm", @style = "resize:vertical;" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                @*<div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-upload bigger-110"></i>&nbsp;Documents Upload
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#">
+                                    <i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px; margin-left: 3px; margin-bottom: 5px;">*@
+
+                <div class="col-xs-12">
+                    @*<div class="col-sm-4">
+                                    @Html.Partial("FileUpload")
+                                </div>*@
+
+                    <table id="Uploadedfileslist"></table>
+                    <div id="uploadedfilesgridpager">
+                    </div>
+                    <br />
+                </div>
+
+                @if (Model.IsSubAsset == false)
+                {
+                    <div class="col-xs-12">
+                        <table id="grid-table"></table>
+                        <div id="grid-pager">
+                        </div>
+                        <br />
+                    </div>
+                }
+@*     </div>
+                    </div>
+                </div>*@
+            </div>
+            <div class="row" style="margin-top: 5px; margin-left: 3px; margin-bottom: 5px;">
+                <div class="col-xs-12">
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-success btn-block btn-sm" name="btnSave" value="SaveAsset" id="btnSave" onclick="return (validateFormSubmit());">
+
+                            <i class="fa fa-save">&nbsp;</i>Save
+                            @**@
+                        </button>
+                    </div>
+                    @if (Model.IsSubAsset == false)
+                    {
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-danger btn-block btn-sm" name="btnback" id="btnback">
+                                <i class="fa fa-arrow-left">&nbsp;</i>Back
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-danger btn-block btn-sm" name="btnback1" id="btnback1">
+                                <i class="fa fa-arrow-left">&nbsp;</i>Back
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="newITSubAsset"></div>
+}
+<script src='@Url.Content("~/Scripts/Asset/ITAssetTransaction.js")'></script>
+<style>
+    #newITSubAsset {
+        z-index: 100000;
+    }
+</style>

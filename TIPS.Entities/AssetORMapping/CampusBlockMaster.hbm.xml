@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.CampusBlockMaster" namespace="TIPS.Entities.AssetEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.CampusBlockMaster, TIPS.Entities" table="CampusBlockMaster" lazy="false" >
+    <id name="BlockId" column="BlockId" type="Int64">
+      <generator class="identity"></generator>
+    </id>      
+    <property name="BlockCode" column="BlockCode" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="BlockName" column="BlockName" type="string"></property>
+    <property name="IsActive" column="IsActive" type="bool"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"></property>
+  </class>
+</hibernate-mapping>

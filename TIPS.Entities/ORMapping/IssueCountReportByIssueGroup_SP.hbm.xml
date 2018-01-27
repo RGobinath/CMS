@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.IssueCountReportByIssueGroup_SP" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.IssueCountReportByIssueGroup_SP,TIPS.Entities" table="IssueCountReportByIssueGroup_SP" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="BranchCode"  column ="BranchCode" type="string"/>
+    <property name="IssueGroup"  column ="IssueGroup" type="string"/>
+    <property name="Logged"  column ="Logged" type="Int64"/>
+    <property name="Completed"  column ="Completed" type="Int64"/>
+    <property name="NonCompleted"  column ="NonCompleted" type="Int64"/>
+    <property name="ResolveIssue"  column ="ResolveIssue" type="Int64"/>
+    <property name="ApproveIssue"  column ="ApproveIssue" type="Int64"/>
+    <property name="Complete"  column ="Complete" type="Int64"/>
+  </class>
+  <sql-query name="GetIssueCountReportByIssueGroupList" callable="true">
+    <query-param name="BranchCode" type="string"/>
+    <query-param name="IssueGroup" type="string"/>
+    <query-param name="FromDate" type="datetime"/>
+    <query-param name="ToDate" type="datetime"/>
+    <return class="TIPS.Entities.IssueCountReportByIssueGroup_SP, TIPS.Entities">
+      <return-property name="Id" column="Id" />
+      <return-property name="BranchCode" column="BranchCode" />
+      <return-property name="IssueGroup" column="IssueGroup" />
+      <return-property name="Logged" column="Logged" />
+      <return-property name="Completed" column="Completed" />
+      <return-property name="NonCompleted" column="NonCompleted" />
+      <return-property name="ResolveIssue" column="ResolveIssue" />
+      <return-property name="ApproveIssue" column="ApproveIssue" />
+      <return-property name="Complete" column="Complete" />
+    </return>
+    <![CDATA[ 
+     EXEC [IssueCountReportByIssueGroup_SP] @SPCampus=:BranchCode,@SPIssueGroup=:IssueGroup,@SPFromDate=:FromDate,@SPToDate=:ToDate
+     ]]>
+  </sql-query>
+</hibernate-mapping>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.SummativeAssessmentVIVII_vw, TIPS.Entities.Assess" table="SummativeAssessmentVIVII_vw" lazy="false" >
+    <id name="RptId" column="RptId" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="Name" column="Name" type="AnsiString" />
+    <property name="IdNo" column="IdNo" type="AnsiString" />
+    <property name="Campus" column="Campus" type="AnsiString" />
+    <property name="Grade" column="Grade" type="AnsiString" />
+    <property name="Section" column="Section" type="AnsiString" />
+    <property name="AcademicYear" column="AcademicYear" type="AnsiString" />
+    <property name="Semester" column="Semester" type="AnsiString" />
+    <property name="ICT" column="ICT" type="decimal" />
+    <property name="English" column="English" type="decimal" />
+    <property name="HistoryGeography" column="HistoryGeography" type="decimal" />
+    <property name="Mathematics" column="Mathematics" type="decimal" />
+    <property name="Biology" column="Biology" type="decimal" />
+    <property name="Physics" column="Physics" type="decimal" />
+    <property name="Chemistry" column="Chemistry" type="decimal" />
+    <property name="Language" column="Language" type="decimal" />
+    <property name="Total" column="Total" type="decimal" />
+  </class>
+</hibernate-mapping>

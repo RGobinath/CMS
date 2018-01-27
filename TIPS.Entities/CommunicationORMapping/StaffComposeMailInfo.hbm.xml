@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.CommunictionEntities.StaffComposeMailInfo" namespace="TIPS.Entities.CommunictionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.CommunictionEntities.StaffComposeMailInfo, TIPS.Entities" table="StaffComposeMailInfo" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="BulkReqId" column="BulkReqId" type="string"></property>
+    <property name="UserId" column="UserId" type="string" not-null ="false"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Name" column="Name" type="string"></property>
+    <property name="Department" column="Department" type="string"></property>
+    <property name="Designation" column="Designation" type="string"></property>
+    <property name="IdNumber" column="IdNumber" type="string"></property>
+    <property name="General" column="General" type="bool"></property>
+    <property name="Subject" column="Subject" type="string"></property>
+    <property name="Attachment" column="Attachment" type="bool"></property>
+    <property name="Message" column="Message" type="string"></property>
+    <property name="IsSaveList" column="IsSaveList" type="bool"></property>
+    <property name="Suspend" column="Suspend" type="string"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="Reason" column="Reason" type="string"></property>
+    <property name="AlternativeEmailId" column="AlternativeEmailId" type="string"></property>
+    <property name="AlternatPassword" column="AlternatPassword" type="string"></property>
+    <property name="BulkEmailAdded" column="BulkEmailAdded" type="bool"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"></property>
+
+  </class>
+</hibernate-mapping>

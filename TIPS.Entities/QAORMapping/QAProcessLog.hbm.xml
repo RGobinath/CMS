@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.QAEntities.QAProcessLog" namespace="TIPS.Entities.QAEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.QAEntities.QAProcessLog, TIPS.Entities" table="QAProcessLog" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="ProcessedDate" column="ProcessedDate" type="datetime"  not-null ="false"></property>
+    <property name="ProcessedBy" column="ProcessedBy" type="string"></property>
+    <property name="IsProcessed" column="IsProcessed" type="string"></property>
+
+  </class>
+</hibernate-mapping>

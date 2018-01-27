@@ -1,0 +1,78 @@
+﻿@model TIPS.Entities.TransportEntities.RouteStudConfig
+@{
+    ViewBag.Title = "RouteStudConfig";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa  fa-align-justify"></i>&nbsp;Student Route Configuration
+                </div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Campus</b></label>
+                                @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "-----Select-----", new { id = "ddlcampus", @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Route Id</b></label><br />
+                                @Html.DropDownListFor(Model => Model.Route, new SelectList("", "", ""), "-----Select-----", new { id = "ddlroute", @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-1">
+                            <br />
+                                <button type="button" class="btn btn-xs btn-primary" name="btnSearch" id="btnSearch">
+                                    <i class="ace-icon fa fa-search"></i>
+                                    <span class="bigger-110">Search&nbsp;</span>
+                                </button>
+                            </div>
+                            <div class="col-sm-1">
+                            <br />
+                                <button type="button" class="btn btn-xs btn-primary" name="btnReset" id="btnReset">
+                                    <i class="ace-icon fa fa-refresh"></i>
+                                    <span class="bigger-110">&nbsp;Reset&nbsp;</span>
+                                </button>
+                            </div>
+                            <div class="col-sm-2">
+                            <br />
+                                <button type="button" class="btn btn-xs btn-primary" name="btnNewRouteStudList" id="btnNewRouteStudList">
+                                    <i class="ace-icon fa fa-arrows"></i>
+                                    <span class="bigger-110">Create New List&nbsp;</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-2">
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <table id="jqGridRouteStudConfig">
+        </table>
+        <div id="jqGridRouteStudConfigPager">
+        </div>
+        <script type="text/javascript">
+            var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+        </script>
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+    <!-- /.col -->
+</div>
+<script src="../../Scripts/Transport/RouteStudConfig.js"></script>
+<div id="StudentConfig"></div>

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AdmissionEntities.TcRequestReportByCampus_SP" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AdmissionEntities.TcRequestReportByCampus_SP,TIPS.Entities" table="TcRequestReportByCampus_SP" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="AcademicYear"  column ="AcademicYear" type="string"/>
+    <property name="ReasonForTCRequest"  column ="ReasonForTCRequest" type="string"/>
+    <property name="IBMain"  column ="IBMain" type="Int64"/>
+    <property name="IBKG"  column ="IBKG" type="Int64"/>
+    <property name="ChennaiMain"  column ="ChennaiMain" type="Int64"/>
+    <property name="ChennaiCity"  column ="ChennaiCity" type="Int64"/>
+    <property name="Ernakulam"  column ="Ernakulam" type="Int64"/>
+    <property name="ErnakulamKG"  column ="ErnakulamKG" type="Int64"/>
+    <property name="Karur"  column ="Karur" type="Int64"/>
+    <property name="KarurKG"  column ="KarurKG" type="Int64"/>
+    <property name="Tirupur"  column ="Tirupur" type="Int64"/>
+    <property name="TirupurKG"  column ="TirupurKG" type="Int64"/>
+    <property name="TipsSaran"  column ="TipsSaran" type="Int64"/>
+    <property name="Total"  column ="Total" type="Int64"/>
+  </class>
+  <sql-query name="GetTCRequestCampusWiseCount" callable="true">
+    <query-param name="AcademicYear" type="string"/>
+    <query-param name="Status" type="string"/>
+    <query-param name="FromDate" type="datetime"/>
+    <query-param name="ToDate" type="datetime"/>
+    <return class="TIPS.Entities.AdmissionEntities.TcRequestReportByCampus_SP, TIPS.Entities">
+      <return-property name="Id" column="Id" />
+      <return-property name="AcademicYear" column="AcademicYear" />
+      <return-property name="ReasonForTCRequest" column="ReasonForTCRequest" />
+      <return-property name="IBMain" column="IBMain" />
+      <return-property name="IBKG" column="IBKG" />
+      <return-property name="ChennaiMain" column="ChennaiMain" />
+      <return-property name="ChennaiCity" column="ChennaiCity" />
+      <return-property name="Ernakulam" column="Ernakulam" />
+      <return-property name="ErnakulamKG" column="ErnakulamKG" />
+      <return-property name="Karur" column="Karur" />
+      <return-property name="KarurKG" column="KarurKG" />
+      <return-property name="Tirupur" column="Tirupur" />
+      <return-property name="TirupurKG" column="TirupurKG" />
+      <return-property name="TipsSaran" column="TipsSaran" />
+      <return-property name="Total" column="Total" />
+    </return>
+    <![CDATA[ 
+     EXEC [TcRequestReportByCampus_SP] @SPAcademicYear=:AcademicYear,@SPStatus=:Status,@SPFromDate=:FromDate,@SPToDate=:ToDate
+     ]]>
+  </sql-query>
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.MenuDetails_vw" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.MenuDetails_vw,TIPS.Entities" table="MenuDetails_vw" lazy="true" >
+    <id name="MenuDetails_Id" column="MenuDetails_Id" type="Int64">
+      <generator class="native" />
+    </id>
+
+    <property name="Id"  column ="Id" type="Int64"/>
+    <property name="MenuName"  column ="MenuName" type="string"/>
+    <property name="MenuLevel"  column ="MenuLevel" type="string"/>
+    <property name="ParentORChild"  column ="ParentORChild" type="bool"/>
+    <property name="Role"  column ="Role" type="string"/>
+    <property name="ParentRefId"  column ="ParentRefId" type="Int64"/>
+    <property name="OrderNo"  column ="OrderNo" type="Int64"/>
+    <property name="Controller"  column ="Controller" type="string"/>
+    <property name="Action"  column ="Action" type="string"/>
+    <property name="MainMenu_Id"  column ="MainMenu_Id" type="Int64"/>
+
+</class>
+</hibernate-mapping>
+

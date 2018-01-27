@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "GenerateTT";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<script src="../../Scripts/TimeTable/GenerateTT.js"></script>
+
+
+<script src="../../Scripts/TimeTable/GenerateTT.js"></script>
+<div class="row" id="NewTT">
+    <div class="col-xs-12">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#AddSubjects" data-toggle="tab"><i class="fa fa-th fa-lg"></i>Subjects</a></li>
+                <li class=""><a href="#AddStaff" data-toggle="tab"><i class="fa fa-user fa-lg"></i>Staff</a></li>
+                <li class=""><a href="#AddClasses" data-toggle="tab"><i class="fa fa-university fa-lg"></i>Configuration</a></li>
+            </ul>
+            <div class="tab-content" style="margin-bottom: -30px;">
+                <div id="AddSubjects" class="tab-pane in active">
+                    @Html.Partial("TTAddSubjectDetails")
+                </div>
+                <div class="tab-pane" id="AddStaff">
+                    @Html.Partial("TTAddStaffDetails")
+                </div>
+                <div class="tab-pane" id="AddClasses">
+                     @Html.Partial("TTAddConfigurationDetails")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

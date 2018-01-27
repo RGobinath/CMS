@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    @* <script src="@Url.Content("~/Scripts/jquery-1.7.2.js")" type="text/javascript"></script>*@
+    <script src="@Url.Content("~/Kiosk/Scripts/js/jquery-3.1.1.min.js")"></script>
+
+    @* <script src="@Url.Content("~/Kiosk/Scripts/js/main.js")"></script>*@
+    <script src="@Url.Content("~/Kiosk/Scripts/js/owl.carousel.js")"></script>
+
+
+
+    <script src="@Url.Content("~/Kiosk/Scripts/js/bootstrap.min.js")"></script>
+
+
+    @*<script src="../../Kiosk/Scripts/js/owl.carousel.js"></script>*@
+    <link href="@Url.Content("~/Kiosk/css/owl.carousel.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Kiosk/css/bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Kiosk/css/main.css")" rel="stylesheet" />
+
+    <!-- page specific plugin styles -->
+    <link rel="stylesheet" href="@*@Url.Content("~/assets/css/jquery-ui.min.css")*@" type="text/css" />
+    <!-- ace styles -->
+
+    <style>
+        .fld {
+      /*margin: 40px 0 0 20px;*/
+      position: relative;
+      /*width: 30%;*/
+    }
+    
+    .fld:before {
+      content: "*";
+      position: absolute;
+      top: 0px;
+      right: calc(1% - 17px);
+      color:red;
+    }
+        .headclass {
+            max-width: 500px;
+            /*padding: 10px 20px;*/
+            /* background: #f4f7f8; */
+            margin: 10px auto;
+            /* padding: 20px; */
+            /*font-family: Georgia, "Times New Roman", Times, serif;*/
+            /*margin-right: 330px;*/
+                margin-top: -4px;
+            text-align: center;
+            font-weight: bold;
+            font-size: xx-large;
+        }
+
+        .form-style-5 {
+            max-width: 1165px;
+            padding: 10px 20px;
+            /*background: #f4f7f8;*/
+            margin-left: 520px;
+            margin: 10px auto;
+            /*padding: 20px;*/
+            background: #f4f7f8;
+            border-radius: 8px;
+            /*font-size: 11px;*/
+            font-family: Verdana;
+            /*font-family: Georgia, "Times New Roman", Times, serif;*/
+        }
+
+            .form-style-5 fieldset {
+                border: none;
+            }
+
+            .form-style-5 legend {
+                font-size: 1.4em;
+                margin-bottom:20px!important;
+                /*font-weight: bold;*/
+                /*margin-bottom: 10px;*/
+            }
+
+            .form-style-5 label {
+                display: block;
+                margin-bottom: 8px;
+            }
+      /*::-webkit-input-placeholder { color:red; }
+ input[type="text"]::-moz-placeholder
+  {
+      color:#121213!important;
+      opacity: 1;
+ }
+ textarea::-moz-placeholder {
+            color: #121213;
+            opacity:1;
+        }
+ input[type="text"]:-moz-placeholder { color:red; }
+
+ input[type="text"] {
+     color: blue;     
+}
+
+        input[type="text"]::placeholder {
+            color: #121213;
+        }
+
+        
+
+        textarea::Placeholder {
+            color: #121213;
+        }
+
+      .required:after {
+            content: "*";
+      position: absolute;
+      top: 0px;
+      right: calc(1% - 17px);
+      color:red;
+        }*/
+            .form-style-5 select {
+                 color: #121213;
+            }
+
+
+        .form-style-5 input[type="text"],
+        .form-style-5 input[type="date"],
+        .form-style-5 input[type="datetime"],
+        .form-style-5 input[type="email"],
+        .form-style-5 input[type="number"],
+        .form-style-5 input[type="search"],
+        .form-style-5 input[type="time"],
+        .form-style-5 input[type="url"],
+        .form-style-5 input[readonly] ,
+        .form-style-5 textarea,
+        
+        .form-style-5 select {
+
+            /*font-family: Georgia, "Times New Roman", Times, serif;*/
+            background: rgba(255,255,255,.1);
+            border: 1px solid #d5d5d5 !important;
+            border-radius: 4px!important;
+            /*font-weight: bold;*/
+            font-size: 13px!important;
+            margin: 0;
+            outline: 0;
+            padding: 7px;
+            width: 100%;
+            box-sizing: border-box;
+            /*-webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -moz-placeholder:bold;*/
+            background-color: #e8eeef!important;
+            color: #121213;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+            margin-bottom: 30px;
+        }
+            .form-style-5 input[type="radio"] {
+                 background: rgba(255,255,255,.1);
+            border: none;
+            border-radius: 4px;
+            /*font-weight: bold;*/
+            font-size: 13px;
+            margin: 0;
+            outline: 0;
+            padding: 7px;
+            /*width: 100%;*/
+            box-sizing: border-box;
+            /*-webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -moz-placeholder:bold;*/
+            background-color: #e8eeef;
+            color: #121213;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+            margin-bottom: 30px;
+            }
+
+            .form-style-5 input[type="text"]:focus,
+            .form-style-5 input[type="date"]:focus,
+            .form-style-5 input[type="datetime"]:focus,
+            .form-style-5 input[type="email"]:focus,
+            .form-style-5 input[type="number"]:focus,
+            .form-style-5 input[type="search"]:focus,
+            .form-style-5 input[type="time"]:focus,
+            .form-style-5 input[type="url"]:focus,
+            .form-style-5 textarea:focus,
+            .form-style-5 select:focus {
+                background: #d2d9dd;
+                color: #121213;
+            }
+            /*.form-style-5 input[type="text"]:after {
+                    content: "*";
+      position: absolute;
+      top: 0px;
+      right: calc(1% - 17px);
+      color:red;
+            }*/
+
+        .btnclass {
+            position: relative;
+            display: block;
+            /* padding: 19px 39px 18px 39px; */
+            color: #FFF;
+            margin: 0 auto;
+            background: #b7c0df;
+            font-size: 18px;
+            text-align: center;
+            font-style: normal;
+            /* width: 100%; */
+            border: 1px solid #b7c0df;
+        }
+
+        .form-style-5 select {
+            -webkit-appearance: menulist-button;
+            height: 35px;
+                color:#5e5f5d;
+        }
+
+        .form-style-5 .number {
+            background: #b7c0df;
+            color: #fff;
+            height: 30px;
+            width: 30px;
+            display: inline-block;
+            font-size: 0.8em;
+            margin-right: 4px;
+            line-height: 30px;
+            text-align: center;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+            border-radius: 15px 15px 15px 0px;
+        }
+
+        /*.form-style-5 input[type="submit"]*/
+        /*.form-style-5 input[type="button"] {
+            position: relative;
+            display: block;
+            padding: 19px 39px 18px 39px;
+            color: #FFF;
+            margin: 0 auto;
+            background: #b7c0df;
+            font-size: 18px;
+            text-align: center;
+            font-style: normal;
+            width: 100%;
+            border: 1px solid #b7c0df;
+            border-width: 1px 1px 3px;
+            margin-bottom: 10px;
+        }*/
+          .form-style-5 input[type="Submit"] {
+            position: relative;
+            /*display: block;*/
+            padding: 19px 39px 18px 39px;
+            color: #FFF;
+            margin: 0 auto;
+            background: #28abe3;
+            font-size: 18px;
+            text-align: center;
+            font-style: normal;
+            width: 20%;
+            border: 1px solid #b7c0df;
+            border-width: 1px 1px 3px;
+            margin-bottom: 10px;
+        }
+
+            .form-style-5 input[type="submit"]:hover,
+            .form-style-5 input[type="button"]:hover {
+                background: #19a6ad;
+            }
+        .form-style-5 input[type="radio"]>span {
+            font-size:13px;
+            color:black;
+            opacity:1;
+        }
+    </style>
+
+
+
+
+
+    <script type="text/javascript">
+        $(function () {
+            window.history.forward(1);
+        });
+        function noBack() { window.history.forward(); }
+    </script>
+
+</head>
+
+<body class="otppage" onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
+
+
+    <header>
+        <div class="container">
+            <div class="row topheader">
+                @*<div class="logo otplogo" id="tips">
+                    <a href='@Url.Content("~/kiosk/Index")'>
+                        <img src="/Kiosk/images/Tipslogo.png" style="height: 80px; width: 120px;"></a>
+                </div>
+                <div class="logo nacelogo" id="logo">
+                    <a href='@Url.Content("~/kiosk/Index")'>
+                        <img src="@Url.Content("~/Images/logonace.jpg")"></a>
+                </div>*@
+
+
+                <div class=" logo otplogo" id="tips">
+                    <a href='@Url.Content("~/kiosk/Index1")'>
+                        <img src="@Url.Content("~/Images/logonace.jpg")"></a>
+                </div>
+
+                 
+                <div class="logo nacelogo" id="logo">
+                    <a href='@Url.Content("~/kiosk/Index1")'>
+                        <img src="/Kiosk/images/Tipslogo.png" style="height: 80px; width: 120px;"></a>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+
+
+
+
+
+    @RenderBody()
+</body>
+</html>

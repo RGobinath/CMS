@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.HRManagementEntities.EmploymentRequestEntities" namespace="TIPS.Entities.HRManagementEntities">
+  <class name="TIPS.Entities.HRManagementEntities.EmploymentRequestEntities, TIPS.Entities" table="HRManagement" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="IssuNo" column="IssuNo" type="string"></property>
+    <property name="Date" column="Date" type="string"></property>
+    <property name="Time" column="Time" type="string"></property>
+    <property name="ProcessedBy" column="ProcessedBy" type="string"></property>
+    <property name="UserRole" column="UserRole" type="string"></property>
+    <property name="RequestStatus" column="RequestStatus" type="string"></property>
+    <property name="NameOfCanditate" column="NameOfCanditate" type="string"></property>
+    <property name="Gender" column="Gender" type="string"></property>
+    <property name="DateOfBirth" column="DateOfBirth" type="string"></property>
+    <property name="Qualification" column="Qualification" type="string"></property>
+    <property name="Experience" column="Experience" type="string"></property>
+    <property name="PostApplyingFor" column="PostApplyingFor" type="string"></property>
+    <property name="RefferedBy" column="RefferedBy" type="string"></property>
+    <property name="PresentlyWorking" column="PresentlyWorking" type="string"></property>
+    <property name="Description" column="Description" type="string"></property>
+    <property name="FileType" column="FileType" type="string"></property>
+     
+    
+    
+
+
+
+
+  </class>
+
+</hibernate-mapping>

@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "EmployeeSalaryDetails";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnUpload").click(function () {
+            if ($('#dllMonthOfSalary').val() == "") { ErrMsg("Please select the month of salary"); return false; }
+            ajaxUploadDocs()
+        });
+        function ajaxUploadDocs() {
+            //var DocTypeText = $('#doctype option:selected').text();
+            $.ajaxFileUpload({
+                url: 'EmployeeSalaryDetails?monthOfSalary=' + $('#dllMonthOfSalary').val(),
+                secureuri: false,
+                fileElementId: 'uploadedFile',
+                dataType: 'json',
+                success: function (data, status) {
+                    //$('#OrdersList').trigger("reloadGrid");
+                    $('#uploadedFile').val('');
+                    if (typeof data.result != 'undefined' && data.result != '') {
+                        if (typeof data.success != 'undefined' && data.success == true) {
+                            InfoMsg(data.result);
+                        } else {
+                            ErrMsg(data.result);
+                        }
+                    }
+                },
+                error: function (data, status, e) {
+                }
+            });
+        }
+    });
+</script>
+@using (Html.BeginForm("EmployeeSalaryDetails", "StaffManagement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h3>
+        Employee Salary Details</h3>
+    <br />
+    <table class="InnerTable" width="100%">
+        <tr>
+            <td>
+                Month Of Salary
+            </td>
+            <td>
+                @Html.DropDownList("dllMonthOfSalary", new SelectList(new[]
+                                          {
+                                             new {Value="",Text="Select"},
+                                              new{Value="1",Text="January"} ,
+                                              new{Value="2",Text="February"} ,
+                                              new{Value="3",Text="March"} ,
+                                              new{Value="4",Text="April"} ,
+                                              new{Value="5",Text="May"} ,
+                                              new{Value="6",Text="June"} ,
+                                              new{Value="7",Text="July"} ,
+                                              new{Value="8",Text="August"} ,
+                                              new{Value="9",Text="September"} ,
+                                              new{Value="10",Text="October"} ,
+                                              new{Value="11",Text="November"} ,
+                                              new{Value="12",Text="December"} 
+                                          },
+                      "Value", "Text", ""), new { @Class = "CSSDropDownList", name = "dllMonthOfSalary", style = "width:145px;" })
+            </td>
+            <td>
+                <input type="file" name="uploadedFile" id="uploadedFile" />
+                <input type="button" name="btnUpload" id="btnUpload" value="Upload" />
+            </td>
+        </tr>
+    </table>
+}

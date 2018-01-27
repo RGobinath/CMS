@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "MaterialDistributionReport";
+    Layout = null;
+}
+<div class="page-content-area">
+        @using (Html.BeginForm("MaterialDistributionReport", "Store", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            <!--Search Pannel-->
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel</div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-3">
+                                            <b>Report Type </b>
+                                            @Html.DropDownList("ddlReportType", new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select"},
+                                              new{Value="OVBC",Text="Over ViewBy Campus"},
+                                              new{Value="OVBM",Text="Over ViewBy Material"},
+                                              new{Value="OVBD",Text="Over ViewBy Date"},
+                                                                                           
+                                          },
+                                                     "Value", "Text", "Open"), new { @Class = "form-control select-sm" })
+                                            @*@Html.Hidden("BackUrl", Url.Action("MaterialIssueMonthlyReport", "Store"))*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.page-content-area -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+
+                    <!-- PAGE CONTENT BEGINS -->
+                  
+                    <div id="divReport"></div>
+                    <!-- PAGE CONTENT ENDS -->
+                </div>
+                <!-- /.col -->
+            </div>
+        }
+    </div>
+
+<script src="../../Scripts/Store/MaterialDistributionReport.js"></script>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="TIPS.Entities.BioMetricsEntities" assembly="TIPS.Entities.BioMetricsEntities.Staff_AttendanceConfigurationsReport_Vw">
+  <class name="TIPS.Entities.BioMetricsEntities.Staff_AttendanceConfigurationsReport_Vw, TIPS.Entities" table="Staff_AttendanceConfigurationsReport_Vw" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"></property>
+    <property name="Name" column="Name" type="string" ></property>
+    <property name="IdNumber" column="IdNumber" type="string" ></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Designation" column="Designation" type="string"></property>
+    <property name="Department" column="Department" type="string"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="StaffType" column="StaffType" type="string"></property>
+    <property name="StaffUserName" column="StaffUserName" type="string" ></property>
+    <property name="IdNumberToEmployeeCode" column="IdNumberToEmployeeCode" type="string" ></property>
+    <property name="StaffBioMetricId" column="StaffBioMetricId" type="Int64"></property>
+    <property name="IsHavingICMSAccount" column="IsHavingICMSAccount" type="string" ></property>
+    <property name="IsAttendanceConfigured" column="IsAttendanceConfigured" type="string" ></property>
+    <property name="IsAttendanceMappedInICMS" column="IsAttendanceMappedInICMS" type="string"></property>
+    <property name="EmployeeId" column="EmployeeId" type="Int64"></property>
+    <property name="StaffCategoryForAttendane" column="StaffCategoryForAttendane" type="string"></property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.AdmissionEntities.DocumentDetails" namespace="TIPS.Entities.AdmissionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AdmissionEntities.DocumentDetails, TIPS.Entities" table="DocumentDetails" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="StudentId" column="StudentId" type="Int64" not-null ="false"></property>
+
+    <property name="DocumentType" column="DocumentType" type="string"></property>
+    <property name="DocumentName" column="DocumentName" type="string"></property>
+
+    <property name="Name" column="Name" type="string"></property>
+    <property name="Phone" column="Phone" type="string"></property>
+
+  </class>
+</hibernate-mapping>
+

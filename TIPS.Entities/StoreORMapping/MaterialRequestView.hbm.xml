@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StoreEntities.MaterialRequestView" namespace="TIPS.Entities.StoreEntities">
+  <class name="TIPS.Entities.StoreEntities.MaterialRequestView, TIPS.Entities" table="MaterialRequest" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="RequestNumber" column="RequestNumber" type="string"></property>
+    <property name="RequestedDate" column="RequestedDate" type="datetime"></property>
+    <property name="ProcessedBy" column="ProcessedBy" type="string"></property>
+    <property name="UserRole" column="UserRole" type="string"></property>
+    <property name="RequestStatus" column="RequestStatus" type="string"></property>
+    <property name="InstanceId" column="InstanceId" type="Int64"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="RequestorDescription" column="RequestorDescription" type="string"></property>
+    <property name="RequiredForCampus" column="RequiredForCampus" type="string"></property>
+    <property name="ApproverComments" column="ApproverComments" type="string"></property>
+    
+    <!--<many-to-one name="MaterialRequestList" class="TIPS.Entities.StoreEntities.MaterialRequestList, TIPS.Entities"
+                    column="Id" cascade="none" />-->
+    
+    <bag batch-size="20" name="MaterialRequestList" lazy="false" cascade="none">
+      <key column="MatReqRefId"/>
+      <one-to-many class="TIPS.Entities.StoreEntities.MaterialRequestList,TIPS.Entities.StoreEntities"/>
+    </bag>
+  </class>
+</hibernate-mapping>

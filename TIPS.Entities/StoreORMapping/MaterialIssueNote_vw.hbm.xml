@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StoreEntities.MaterialIssueNote_vw" namespace="TIPS.Entities.StoreEntities">
+  <class name="TIPS.Entities.StoreEntities.MaterialIssueNote_vw, TIPS.Entities" table="MaterialIssueNote_vw" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="IssNoteId" column="IssNoteId" type="Int64"></property>
+    <property name="MRLId" column="MRLId" type="Int64"></property>
+    <property name="RequestQty" column="RequestQty" type="Int32"></property>
+    <property name="ApprovedQty" column="ApprovedQty" type="Int32"></property>
+    <property name="IssueQty" column="IssueQty" type="Int32"></property>
+    <property name="RequiredFor" column="RequiredFor" type="string"></property>
+    <property name="RequiredForGrade" column="RequiredForGrade" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="Material" column="Material" type="string"></property>
+    <property name="MaterialGroup" column="MaterialGroup" type="string"></property>
+    <property name="MaterialSubGroup" column="MaterialSubGroup" type="string"></property>
+    <property name="Units" column="Units" type="string"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="RequiredDate" column="RequiredDate" type="datetime"></property>
+    <property name="RequestType" column="RequestType" type="string"></property>
+    
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.TimeTableEntities.tt_allotment" namespace="TIPS.Entities.TimeTableEntities" xmlns="urn:nhibernate-mapping-2.2">
+	<class name="TIPS.Entities.TimeTableEntities.tt_allotment,TIPS.Entities" table="tt_allotment" lazy="true">
+		<id name="allotment_id" column="allotment_id" type="Int64">
+			<generator class="native"/>
+		</id>
+		<property name="division_id" column="division_id" type="Int64"></property>
+		<property name="subject_id" column="subject_id" type="Int64"></property>
+		<property name="teacher_id" column="teacher_id" type="Int64"></property>
+		<property name="no_of_periods" column="no_of_periods" type="Int32"></property>
+	
+		<property name="remaining_periods" column="remaining_periods" type="Int32"></property>
+		<property name="charge" column="charge" type="bool"></property>
+		<property name="combined_details_id" column="combined_details_id" type="string"></property>
+		<property name="lab_division_id" column="lab_division_id" type="string"></property>
+
+		<property name="bifurcation_details_id" column="bifurcation_details_id" type="string"></property>
+		<property name="continous_periods" column="continous_periods" type="Int32"></property>
+		<property name="description" column="description" type="string"></property>
+	</class>
+</hibernate-mapping>

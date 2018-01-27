@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AdmissionCountReport_vw" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AdmissionCountReport_vw, TIPS.Entities" table="AdmissionCountReport_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    <property name="Campus" column="Campus" type="string"  />
+    <property name="Grade" column="Grade" type="string"  />
+    <property name="Section" column="Section" type="string"  />
+    <property name="TotalCount" column="TotalCount" type="Int32" />
+    <property name="Vacancy" column="Vacancy" type="Int32" />
+  </class>
+</hibernate-mapping>

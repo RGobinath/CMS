@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.VehicleFuelManagement" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.VehicleFuelManagement, TIPS.Entities" table="VehicleFuelManagement" lazy="false" >
+    <id name="Id" column="Id" type="Int32">
+      <generator class="identity" ></generator>
+    </id>
+    <property name="RefNo" column="RefNo" type="string"></property>
+    <property name="RefId" column="RefId" type="Int32"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="VehicleType" column="VehicleType" type="string"></property>
+    <property name="Type" column="Type" type="string"></property>
+    <property name="VehicleId" column="VehicleId" type="Int32"></property>
+    <property name="VehicleNo" column="VehicleNo" type="string"></property>
+    <property name="FuelQuantity" column="FuelQuantity" type="decimal"></property>
+    <property name="FuelType" column="FuelType" type="string"></property>
+    <property name="FilledBy" column="FilledBy" type="string"></property>
+    <property name="FilledDate" column="FilledDate" type="datetime"></property>
+    <property name="BunkName" column="BunkName" type="string"></property>
+    <property name="BunkContactNo" column="BunkContactNo" type="string"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime"></property>
+    <property name="UserRole" column="UserRole" type="string"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="FuelFillType" column="FuelFillType" type="string"></property>
+    <property name="LastMilometerReading" column="LastMilometerReading" type="decimal"></property>
+    <property name="CurrentMilometerReading" column="CurrentMilometerReading" type="decimal"></property>
+    <property name="Mileage" column="Mileage" type="decimal"></property>
+    <property name="LitrePrice" column="LitrePrice" type="decimal"></property>
+    <property name="TotalPrice" column="TotalPrice" type="decimal"></property>
+<!--Added By Prabakaran-->  
+    <!--<property name="LastMiloMeterReading1" column="LastMiloMeterReading1" type="decimal"></property>
+    <property name="CurrentMiloMeterReading1" column="CurrentMiloMeterReading1" type="decimal"></property>-->
+    <property name="KMResetValue" column="KMResetValue" type="decimal"></property>
+    <property name="IsKMReseted" column="IsKMReseted" type="bool"></property>
+    <property name="Distance" column="Distance" type="decimal"></property>
+
+  </class>
+</hibernate-mapping>

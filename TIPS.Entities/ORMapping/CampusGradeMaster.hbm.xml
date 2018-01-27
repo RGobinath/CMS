@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="CampusGradeMaster" table="CampusGradeMaster" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="Campus" column="Campus" type="string" not-null="false" />
+    <property name="Grade" column="GRADE" type="string" not-null="false" />
+    <property name="gradcod" column="GRADECOD" type="string" not-null="false" />
+    <property name="graddesc" column="GRADDESC" type="string" not-null="false" />
+    <property name="Flag" column="Flag" type="string" not-null="false" />
+    <property name="CreatedBy" column="CreatedBy" type="string" not-null="false" />
+    <property name="CreatedDate" column="CreatedDate" type="string" not-null="false" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string" not-null="false" />
+    <property name="ModifiedDate" column="ModifiedDate" type="string" not-null="false" />
+    <many-to-one name="CampusMaster" column="FormId" not-found="ignore" class="TIPS.Entities.CampusMaster,TIPS.Entities" cascade="none" fetch="join"> </many-to-one>
+  </class>
+</hibernate-mapping>

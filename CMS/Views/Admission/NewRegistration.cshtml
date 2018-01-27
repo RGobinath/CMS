@@ -1,0 +1,243 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+@{
+    ViewBag.Title = "New Registration";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        @using (Html.BeginForm("NewRegistration", "Admission", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.Hidden("RouteNo", "", new { id = "RouteNo", @Value = ViewBag.RouteNo })
+            @Html.Hidden("admissionstatus", "", new { id = "admissionstatus", @Value = ViewBag.admissionstatus })
+            @Html.Hidden("Tabselected", "", new { id = "Tabselected", @Value = ViewBag.Tabselected })
+            @Html.Hidden("errmsg", "", new { id = "errmsg", @Value = ViewBag.errmsg })
+            @Html.Hidden("userrole", "", new { id = "userrole", @Value = Session["userrole"] })
+            @Html.HiddenFor(m => m.PreRegNum, new { @Value = ViewBag.preregno })
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue collapsed">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa  fa-align-justify"></i>&nbsp;Basic Details
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 14px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <strong>Pre-Reg Number</strong></label><br />
+                                            @ViewBag.preregno
+                                            @Html.HiddenFor(m => m.LocationName)
+                                            @Html.HiddenFor(m => m.LocationTamilDescription)
+                                            @Html.HiddenFor(m => m.RouteId)
+                                            @Html.HiddenFor(m => m.LocationOtherDetails)
+                                            @Html.HiddenFor(m => m.SecondLanguage)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <strong>Date</strong></label><br />
+                                            @ViewBag.Date
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <strong>Time</strong></label><br />
+                                            @ViewBag.time
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <strong>Processed By</strong></label><br />
+                                            @ViewBag.processby
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <strong>User Role</strong></label><br />
+                                            @ViewBag.userrole
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <strong>Registration Status</strong></label><br />
+                                            @ViewBag.admissionstatus
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="tabbable">
+                        <ul id="myTab" class="nav nav-tabs tab-color-blue background-blue">
+                            <li class="active"><a href="#StudentDetails" data-toggle="tab">Student Details</a>
+                            </li>
+                            <li><a href="#FamilyDetails" data-toggle="tab">Family Details</a> </li>
+                            <li><a href="#Education" data-toggle="tab">Education</a> </li>
+                            <li><a href="#PastSchoolDetails" data-toggle="tab">Past School Details</a> </li>
+                            <li><a href="#Documents" data-toggle="tab">Documents</a> </li>
+                            <li><a href="#Payment" data-toggle="tab">Payment</a> </li>
+
+                            @if (Session["RegisteredForm"] != "yes")
+                            {
+                                if (Session["userrole"] != "ADM-APP")
+                                {
+                                <li><a href="#Followup" data-toggle="tab">Followup</a> </li>
+                                }
+                            }
+                            else
+                            {
+                                <li><a href="#Issues" data-toggle="tab">Issues</a> </li>
+                                <li><a href="#Attendance" data-toggle="tab">Attendance</a> </li>
+                                @*<li><a href="#Attendance" data-toggle="tab">Attendance</a> </li>*@
+                                if (Model.Grade == "VI" || Model.Grade == "VII" || Model.Grade == "VIII" || Model.Grade == "IX" || Model.Grade == "X")
+                                {
+                                <li><a href="#StudentMarks" id="StuMarksTab" data-toggle="tab">Student Marks</a> </li>
+                                }
+                            }
+                            @if (Session["userrole"] == "ADM-APP")
+                            {    
+                                <li><a href="#ApproveAssign" data-toggle="tab">Approve & Assign</a> </li>
+                            }
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane in active" id="StudentDetails">
+                                @Html.Partial("StudentDetails")
+                            </div>
+                            @if (Session["tabfreeze"] != "yes")
+                            {
+                                <div class="tab-pane" id="FamilyDetails">
+                                    @Html.Partial("FamilyDetails")
+                                </div>
+                            }
+                            <div class="tab-pane" id="Education">
+                                @Html.Partial("EducationDetails")
+                            </div>
+                            @if (Session["tabfreeze"] != "yes")
+                            {
+                                <div class="tab-pane" id="PastSchoolDetails">
+                                    @Html.Partial("PastSchoolDetails")
+                                </div>
+                                <div class="tab-pane" id="Documents">
+                                    @Html.Partial("DocumentDetails")
+                                </div>
+                                <div class="tab-pane" id="Payment">
+                                    @Html.Partial("PaymentDetails")
+                                </div>
+                            }
+                            @if (Session["RegisteredForm"] != "yes")
+                            {
+                                if (Session["tabfreeze"] != "yes")
+                                {
+                                    if (Session["userrole"] != "ADM-APP")
+                                    {
+                                     <div class="tab-pane" id="Followup">
+                                         @Html.Partial("FollowupDetails")
+                                     </div>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <div class="tab-pane" id="Issues">
+                                    @Html.Partial("CallManagementIssues")
+                                </div>
+                                <div class="tab-pane" id="Attendance">
+                                    @Html.Partial("StudentAttendance")
+                                </div>
+                                if (Model.Grade == "VI" || Model.Grade == "VII" || Model.Grade == "VIII" || Model.Grade == "IX" || Model.Grade == "X")
+                                {
+                                <div class="tab-pane" id="StudentMarks">
+                                    @Html.Partial("StudentMarks")
+                                </div>
+                                }
+                                @*<div class="tab-pane" id="Attendance">
+                                    @Html.Partial("StudentAbsentlist")
+                                </div>*@
+                            }
+
+                            @if (Session["userrole"].ToString() == "ADM-APP")
+                            {
+                                <div class="tab-pane" id="ApproveAssign">
+                                    @Html.Partial("Approve&Assign")
+                                </div>
+                            }
+                        </div>
+                        <div class="tab-content padding-8 clearfix nav-tabs background-blue center">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    @{
+                            var rle = Session["userrolesarray"] as IEnumerable<string>;
+                            var Appcode = Session["Role"] as IEnumerable<string>;
+                                    }
+                                    @if (ViewBag.admissionstatus == "New Enquiry")
+                                    {
+                                        <button type="submit" class="btn btn-primary btn-sm" id="Save" name="btnSave" value="Save"
+                                            onclick="return (validate());">
+                                            <i class="ace-icon fa fa-save"></i><span class="bigger-110">Save&nbsp;&nbsp;</span>
+                                        </button>
+                                    }
+                                    &nbsp&nbsp &nbsp&nbsp
+                                    @if (ViewBag.admissionstatus == "Sent For Clearance" && rle.Contains("GRL"))
+                                    {
+                                        <button type="submit" class="btn btn-primary btn-sm" id="sendapproval" name="btnsendapproval"
+                                            value="Submit For Approval">
+                                            <i class="ace-icon fa fa-arrows"></i><span class="bigger-110">Submit For Approval&nbsp;&nbsp;</span>
+                                        </button>
+                                    }
+                                    @if (ViewBag.admissionstatus == "New Registration" && rle.Contains("GRL"))
+                                    {
+                                        <button type="submit" class="btn btn-primary btn-sm" id="Save" name="btnSave" onclick="return (validate());"
+                                            value="Save">
+                                            <i class="ace-icon fa fa-save"></i><span class="bigger-110">Save&nbsp;&nbsp;</span>
+                                        </button>
+                                        <button type="submit" class="btn btn-primary btn-sm" id="sendclearance" name="btnsendclearance"
+                                            onclick="return (validate());" value="Submit For Clearance">
+                                            <i class="ace-icon fa fa-arrows"></i><span class="bigger-110">Submit For Clearance&nbsp;&nbsp;</span>
+                                        </button>
+                                    }
+                                    @if (Session["userrole"].ToString() == "ADM-APP")
+                                    {
+                                        <button type="submit" class="btn btn-primary btn-sm" id="Approve" name="btnApprove"
+                                            value="Update">
+                                            <i class="ace-icon fa fa-arrows"></i><span class="bigger-110">Update&nbsp;&nbsp;</span>
+                                        </button>
+                                    }
+                                    &nbsp&nbsp &nbsp&nbsp
+                                    @if (ViewBag.Studentmgmt == "yes")
+                                    {
+                                        <button type="submit" class="btn btn-primary btn-sm" id="SmgtSave" name="SmgtSave" value="Save" onclick="return (validate());">
+                                            <i class="ace-icon fa fa-arrows"></i><span class="bigger-110">Save&nbsp;&nbsp;</span>
+                                        </button>
+                                        <button type="button" class="btn btn-purple btn-sm" id="Back1">
+                                            <i class="ace-icon fa fa-arrows"></i><span class="bigger-110">Back to Inbox&nbsp;&nbsp;</span>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-purple btn-sm" id="Back">
+                                            <i class="ace-icon fa fa-arrows"></i><span class="bigger-110">Back to Inbox&nbsp;&nbsp;</span>
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <!-- /.page-content-area -->
+</div>
+<div id="ImgCaptureDiv"></div>
+<script src="../../Scripts/AdmissionScripts/NewRegistration.js"></script>

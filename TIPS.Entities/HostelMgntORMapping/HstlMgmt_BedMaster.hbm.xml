@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.HostelMgntEntities.HstlMgmt_BedMaster" namespace="TIPS.Entities.HostelMgntEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.HostelMgntEntities.HstlMgmt_BedMaster, TIPS.Entities" table="HstlMgmt_BedMaster" lazy="false" >
+    <id name="BedMst_Id" column="BedMst_Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="RoomMst_Id" column="RoomMst_Id" type="Int64"/>
+    <property name="HstlMst_Id" column="HstlMst_Id" type="Int64"/>
+    <property name="BedNumber" column="BedNumber" type="string"/>
+    <property name="IsAllocate" column="IsAllocate" type="bool"/>
+    <property name="CreatedBy" column="CreatedBy" type="string"/>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"/>
+    <property name="DateCreated" column="DateCreated" type="datetime"/>
+    <property name="DateModified" column="DateModified" type="datetime"/>
+  </class>
+</hibernate-mapping>

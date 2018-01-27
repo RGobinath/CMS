@@ -1,0 +1,91 @@
+﻿@{
+    Layout = "~/Views/Shared/NewAcePartialViewMaster.cshtml";
+}
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<script type="text/javascript">
+    try { ace.settings.check('main-container', 'fixed') } catch (e) { }
+</script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <div style="padding-top: 3px; padding-left: 18px;">
+            <div class="row">
+                <p style="font-family: Verdana; font-size: 10px; font-weight: bold;" align="center">
+                    Materials Count Report</p>
+                <div class="col-sm-12 infobox-container">
+                    <div class="infobox infobox-red">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa fa-group"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number">@ViewBag.MaterialGroupMasterCount</span>
+                            <div class="infobox-content">
+                                Material Groups</div>
+                        </div>
+                    </div>
+                    <div class="infobox infobox-DarkGreen">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa fa-puzzle-piece"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number">@ViewBag.MaterialSubGroupMasterCount</span>
+                            <div class="infobox-content">
+                                Material Sub Groups
+                            </div>
+                        </div>
+                    </div>
+                    <div class="infobox infobox-indigo">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa fa-suitcase"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number">@ViewBag.MaterialMasterCount</span>
+                            <div class="infobox-content">
+                                Material Masters</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <br />
+                <br />
+                <table>
+                    <tr>
+                        <td>
+                            <div id="StoreCampusWiseRequestChart">
+                            </div>
+                        </td>
+                        <td>
+                            <div id="StoreInwardChart">
+                            </div>
+                        </td>
+                        <td>
+                            <div id="MaterialsMasterChart">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="space-8">
+            </div>
+            <div class="space-8">
+            </div>
+            <div class="space-8">
+            </div>
+            <div class="space-8">
+            </div>
+            <div class="space-8">
+            </div>
+            <div class="space-2">
+            </div>
+        </div>
+    </div>
+    <!-- /.page-content-area -->
+</div>
+<script type="text/javascript">    if ('ontouchstart' in document.documentElement)
+        document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>"); </script>
+<!-- inline scripts related to this page -->
+<script src="../../Scripts/AdminTemplateScripts/Store.js" type="text/javascript"></script>

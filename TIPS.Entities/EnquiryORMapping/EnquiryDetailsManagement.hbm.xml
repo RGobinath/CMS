@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="Entities.EnquiryEntities" namespace="Entities.EnquiryEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Entities.EnquiryEntities.EnquiryDetailsMangement,Entities" table="EnquiryCourse" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="Centre">
+      <column name="Centre" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="Program">
+      <column name="Program" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="Course">
+      <column name="Course" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="CourseType">
+      <column name="CourseType" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="Batch">
+      <column name="Batch" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="Timing">
+      <column name="Timing" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="ThejoProgramId">
+      <column name="ThejoProgramId" sql-type="Int64" not-null="false" />
+    </property>
+    <property name="EnquiryId">
+      <column name="EnquiryId" sql-type="Int64" not-null="false" />
+    </property>
+    <property name="CreatedBy">
+      <column name="CreatedBy" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="CreatedDate">
+      <column name="CreatedDate" sql-type="DateTime" not-null="false" />
+    </property>
+    <property name="ModifiedBy">
+      <column name="ModifiedBy" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="ModifiedDate">
+      <column name="ModifiedDate" sql-type="DateTime" not-null="false" />
+    </property>
+    <many-to-one name="EnquiryDetailsList" class="Entities.EnquiryEntities.EnquiryDetailsList, Entities.EnquiryEntities"
+                     column="EnquiryId" cascade="none" />
+
+  </class>
+</hibernate-mapping>

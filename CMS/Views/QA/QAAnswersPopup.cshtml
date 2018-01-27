@@ -1,0 +1,184 @@
+﻿@{
+    ViewBag.Title = "QAAnswersPopup";
+   // Layout = "~/Views/Shared/NewAcePartialViewMaster.cshtml";
+    Layout = null;
+}
+<style>
+    .divQuestion {
+        background: none repeat scroll 0 0 #fff;
+        font-size: 15px;
+        /*margin: 1em 0 !important;*/
+        overflow: auto !important;
+        padding: 1em 0;
+        position: relative !important;
+        width: 100% !important;
+        box-sizing: border-box;
+        /*border-radius: 5px;*/
+        width: 200px;
+        height: auto;
+        margin-top: 10px;
+        /*border-bottom-right-radius:4px;
+        border-bottom-left-radius:4px;
+        border-top-right-radius:4px;*/
+        padding: 15px 20px 20px;
+        box-shadow: 1px 1px 1px #000;
+    }
+
+    .QuestionDiv {
+        background: none repeat scroll 0 0 #fff;
+        font-size: 14px;
+        color: blue;
+        /*margin: 1em 0 !important;*/
+        overflow: auto !important;
+        padding: 1em 0;
+        position: relative !important;
+        width: 100% !important;
+        box-sizing: border-box;
+        /*border-radius: 5px;*/
+        width: 200px;
+        height: auto;
+        margin-top: 10px;
+        border-bottom-right-radius: 4px;
+        border-bottom-left-radius: 4px;
+        border-top-right-radius: 4px;
+        padding: 15px 20px 20px;
+        box-shadow: 1px 1px 1px #000;
+    }
+
+    .QAImages {
+        height: 30px;
+        width: 30Px;
+        border-radius: 2px;
+    }
+</style>
+ 
+<script type="text/javascript">
+   
+    $(document).ready(function () {
+
+        $.ajax({
+            type: 'Get',
+            url: '@Url.Content("~/QA/AnswerDivCreation")?QuestionId=@ViewBag.QuestionId',
+            success: function (data) {
+                $('#QuestionandAnsDiv').prepend(data);
+            },
+            async: false,
+            dataType: "text"
+        });
+        $("#PostAnswer").click(function () {
+            debugger;
+            var Answer = $('#txtAnswer').val();
+            Answer = Answer.replace(/\r?\n/g, '<br />');
+            $.ajax({
+                type: 'Get',
+                url: '@Url.Content("~/QA/PostAnswer")?QuestionId=@ViewBag.QuestionId&Answer=' + Answer,
+            success: function (data) {
+                //InfoMsg('Answer Posted Successfully');
+                debugger;
+                $("#AnswersPopup").dialog("close");
+                $("#FAQJQGrid").trigger("reloadGrid");
+                DashboardLoading();
+                //$('#Question').html(data);
+            },
+            async: false,
+            dataType: "text"
+        });
+        });
+
+        
+    });
+    function Edit(Id) {
+        debugger;
+        alert($('#AnsDiv_' + Id).html());
+        $('#AnsDiv_'+Id).hide();
+        $('#AnsDiv_' + Id).html(tdsfdfsfdsfdsest);
+
+    }
+
+    function CalculateLike(AnswerId) {
+
+        $.ajax({
+            url: '@Url.Content("~/QA/LikeCount")?AnswerId=' + AnswerId,
+            cache: false,
+            type: 'POST',
+            dataType: 'json',
+
+            success: function (data) {
+                debugger;
+                //alert(data);
+                $('#lblLikes_' + AnswerId).html(data);
+                if (data == "Success") {
+                    //   InfoMsg('Question Posted Successfully !!!');
+                    //  window.location.href = '@Url.Content("~/QA/QAIndex")';
+
+                }
+                else {
+                    // ErrMsg('Error in Posting Question');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+            }
+        });
+    }
+
+
+    //bkLib.onDomLoaded(function () {
+    //    nicEditors.allTextAreas({ id: 'txtAnswer', maxHeight: 80, buttonList: ['bold', 'italic', 'underline', 'left', 'center', 'fontSize', 'fontFamily', 'fontFormat', 'bgcolor', 'forecolor', 'removeformat'] });
+    //});
+
+</script>
+
+<div class="col-sm-12">
+    <div class="widget-box widget-box-small">
+        <div class="widget-header">
+            <h4 class="widget-title lighter smaller">
+                <i class="ace-icon fa fa-comment blue"></i>
+                Question Related Answers Details
+            </h4>
+        </div>
+        <div class="widget-body">
+            <div class="widget-main no-padding">
+                <!-- #section:pages/dashboard.conversations -->
+                <div class="dialogs" id="QuestionandAnsDiv" style="overflow: auto; overflow-x: hidden; height: 336px;">
+                </div>
+                <!-- /section:pages/dashboard.conversations -->
+                <form>
+                    <div class="form-actions">
+                        <div class="input-group">
+                            @Html.TextArea("txtAnswer", new { @class = "CSSTextBox", cols = "112", rows = "5", style = "width: 100%;height:25%", @placeholder = "Type your Answer here" })
+                            <br /> <br />
+                            <button type="button" class="btn btn-mini btn-primary" id="PostAnswer" >
+                                <i class="icon-tags" style="vertical-align: middle"></i>&nbsp;Submit Answer
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- /.widget-main -->
+        </div>
+        <!-- /.widget-body -->
+    </div>
+    <!-- /.widget-box -->
+</div>
+@*<div class="col-sm-12" style="overflow: auto; overflow-x: hidden; height: 336px;">
+    <div class="widget-box">
+        <div class='widget-header'>
+            <div id="QuestionandAnsDiv"></div>
+        </div>
+    </div>
+</div>*@
+@*<table width="100%"><tr><td style="width:100%">
+
+           Enter the Answer :
+     <br />
+    @Html.TextArea("txtAnswer", new { @class = "CSSTextBox", cols = "10", rows = "10", style = "width: 100%;height:25%" })
+                </td></tr>
+          
+         <tr><td>
+             <button type="button" class="btn btn-mini btn-primary" id="PostAnswer" onclick="PostAnswer();" value="">
+                                        <i class="icon-tags" style="vertical-align: middle"></i>&nbsp;Submit Answer
+                                    </button>
+             </td></tr>
+     </table>*@
+
+

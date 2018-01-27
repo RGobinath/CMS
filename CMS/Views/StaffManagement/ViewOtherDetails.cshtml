@@ -1,0 +1,99 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+<div class="row">
+    <div class="col-sm-12">
+        <div id="accordion" class="accordion-style1 panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#OtherDetails">
+                            <i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down"
+                                data-icon-show="ace-icon fa fa-angle-right"></i>&nbsp;Other Details </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse in" id="OtherDetails">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                <div class="col-sm-4">
+                                    <label for="form-field-select-2">
+                                        <b>What Kind Of Growth Are Expecting In Your Career?</b></label>
+
+                                    <br />@Model.CareerGrowthExpectation
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="form-field-select-2">
+                                        <b>Will You Be Willing To Travel On Need Basis?</b></label>
+                                    <br />@Model.WillingToTravel
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="form-field-select-3">
+                                        <b>Will You Be Willing For A Growth Oriented Relocation In Future?</b></label>
+                                    <br />@Model.WillingForRelocation
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-12"></div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2" id="AccType">
+                                    <label for="form-field-mask-2">
+                                        <b>Achievments</b></label>
+
+                                    <br />@Model.Achievments
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="form-field-select-2">
+                                        <b>Any Other Significant Details You Would Like To Furnish?</b></label>
+
+                                    <br />@Model.AnyOtherSignificant
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-2">
+                                        <b>Other Special Interests.</b></label>
+
+                                    <br />@Model.SpecialInterests
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-2">
+                                        <b>Been Short Listed Before</b></label>
+
+                                    <br />@(Model.BeenShortListedBefore == true ? "Yes" : "No")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-12"></div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-3">
+                                    <label for="form-field-select-2">
+                                        <b>Relative Working With Us</b></label>
+
+                                    <br />@(Model.RelativeWorkingWithUs == true ? "Yes" : "No")
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="form-field-select-2">
+                                        <b>How you knew about this vacancy?</b></label>
+
+                                    <br />@Model.HowYouKnowVacancy
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="form-field-select-2">
+                                        <b>If Yes,Short Listed Why</b></label>
+
+                                    <br />@Model.ShortlistedWhy
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="form-field-select-2">
+                                        <b>If Yes,Relative Details</b></label>
+
+                                    <br />@Model.RelativeDetails
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

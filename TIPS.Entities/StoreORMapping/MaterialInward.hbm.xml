@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StoreEntities.MaterialInward" namespace="TIPS.Entities.StoreEntities">
+  <class name="TIPS.Entities.StoreEntities.MaterialInward, TIPS.Entities" table="MaterialInward" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="InwardNumber" column="InwardNumber" type="string"></property>
+    <property name="ProcessedBy" column="ProcessedBy" type="string"></property>
+    <property name="UserRole" column="UserRole" type="string"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime"></property>
+    <property name="PONumber" column="PONumber" type="string"></property>
+    <property name="Supplier" column="Supplier" type="string"></property>
+    <property name="SuppRefNo" column="SuppRefNo" type="string"></property>
+    <property name="ReceivedBy" column="ReceivedBy" type="string"></property>
+    <property name="ReceivedDateTime" column="ReceivedDateTime" type="datetime"></property>
+    <property name="Store" column="Store" type="string"></property>
+    <property name="InvoiceNumber" column="InvoiceNumber" type="string"></property>
+    <property name="InvoiceAmount" column="InvoiceAmount" type="string"></property>
+    <property name="InvoiceDate" column="InvoiceDate" type="datetime"></property>
+    <property name="DCNumber" column="DCNumber" type="string"></property>
+    <property name="DCDate" column="DCDate" type="datetime"></property>
+    <!--<property name="PODate" column="PODate" type="datetime"></property>-->
+    <property name="VehicleType" column="VehicleType" type="string"></property>
+    <property name="VehicleNo" column="VehicleNo" type="string"></property>
+    <property name="DriverName" column="DriverName" type="string"></property>
+    <property name="DriverContactNo" column="DriverContactNo" type="string"></property>
+  </class>
+</hibernate-mapping>

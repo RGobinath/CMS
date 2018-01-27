@@ -1,0 +1,334 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+@{
+    ViewBag.Title = "NewParent";
+    Layout = "~/Views/Shared/Kiosk_Layout.cshtml";
+}
+
+<script type="text/javascript" src="//wurfl.io/wurfl.js"></script>
+
+<script src="@Url.Content("~/Scripts/jquery-1.7.2.js")" type="text/javascript"></script>
+
+<script src='@Url.Content("~/Scripts/JQueryUI/jquery-ui-1.8.22.custom.min.js")'type="text/javascript"></script>
+<link rel="stylesheet" href="@Url.Content("~/assets/css/font-awesome.min.css")" type="text/css" />
+<!-- page specific plugin styles -->
+<link rel="stylesheet" href="@Url.Content("~/assets/css/jquery-ui.min.css")" type="text/css" />
+<link rel="stylesheet" href="@Url.Content("~/assets/css/ace.min.css")" id="main-ace-style" type="text/css" />
+<script src="@Url.Content("~/assets/js/ace-extra.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/assets/js/bootstrap.min.js")" type="text/javascript"></script>
+
+<script src="@Url.Content("~/assets/js/AceJQMsg.js")"  type="text/javascript"></script>
+
+
+
+
+<h2 class="headclass">Enquiry Form</h2>
+@using (Html.BeginForm("EnquiryDetails", "Kiosk", FormMethod.Post, new { enctype = "multipart/form-data", OnSuccess = "Redirect()" }))
+{
+      
+    <div class="form-style-5">
+
+        @Html.HiddenFor(model => model.PreRegNum, new { id = "preregnum" })
+
+         @Html.HiddenFor(model => model.DeviceType, new { id = "devicetype" })
+        @* <form>*@
+        <fieldset>
+            <legend><span class="number">1</span> <b style="font-size: x-large">Student Info</b><c style="font-size: smaller; padding-left: 3px;">(</c><d style="font-size: smaller; color: red;">*</d><e style="font-size: smaller;"> All fields are mandatory)</e></legend>
+            <h2 style="margin-left: 30px; font-size: 14px; margin-top: -2px; margin-bottom: 16px; text-transform: uppercase">Basic Info</h2>
+            <div class="col-xs-12">
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(model => model.Name, new { id = "name", @Placeholder = " Name of your child", @maxlength = "80" })
+                </div>
+                <div class="col-sm-2">
+                    @* @Html.DropDownListFor(model => model.Gender, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Gender"},
+                                              new{Value="Male",Text="Male"},
+                                              new{Value="Female",Text="Female"}
+                                          },
+          "Value", "Text", ""), new { id = "gender",  @maxlength = "15" })*@
+                    @Html.RadioButtonFor(model => model.Gender, "Male", new { id = "male", value = "Male", @placeholder = "Male" })
+                    <span style="color: #838383">&nbsp;Male</span>&nbsp;
+                     @Html.RadioButtonFor(model => model.Gender, "Female", new { id = "female", value = "Female" })
+                    <span style="color: #838383">&nbsp;Female</span>&nbsp;&nbsp;&nbsp;
+                </div>
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(model => model.DOB, new { id = "dob", @Placeholder = "DOB (dd/mm/yyy)" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(model => model.FamilyDetailsList[0].Name, new { id = "name1", @Placeholder = "Father Name", @maxlength = "40" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(model => model.FamilyDetailsList[1].Name, new { id = "mothername", @Placeholder = "Mother Name", @maxlength = "40" })
+                </div>
+            </div>
+
+
+            <h2 style="margin-left: 30px; font-size: 14px; margin-bottom: 16px; text-transform: uppercase">What you are looking for</h2>
+            <div class="col-xs-12">
+
+                <div class="col-sm-3">
+                    @Html.DropDownListFor(model => model.EnquiryLocationFrom, new SelectList(new[]
+                                          {
+                                             new {Value="" ,Text="Current Campus you are at?"},
+                                              new{Value="IB MAIN",Text="Coimbatore"},
+                                              new{Value="CHENNAI MAIN",Text="Chennai"},
+                                              
+                                               //new{Value="Female",Text="CBE CBSE"},
+                                              
+                                              
+                                          }, "Value", "Text", ""), new { id = "EnqLocation" })
+                </div>
+
+
+
+
+                <div class="col-sm-3">
+                    @Html.DropDownListFor(model => model.Campus, new SelectList(new[]
+                                          {
+                                             new {Value="" ,Text="Campus & Board looking for"},
+                                              new{Value="IB MAIN",Text="CBE International Board"},
+                                              new{Value="IB KG",Text="CBE Kinder Garten"},
+                                              new{Value="CBSE MAIN",Text="CBE CBSE"},
+                                              new{Value="KARUR",Text="KARUR International Board"},
+                                              new{Value="KARUR KG",Text="KARUR Kinder Garten"},
+                                              new{Value="KARUR CBSE",Text="KARUR CBSE"},
+                                              new{Value="CHENNAI CITY",Text="CHENNAI International Board"},
+                                              new{Value="CHENNAI MAIN",Text="CHENNAI Kinder Garten"},
+                                              new{Value="TIRUPUR",Text="TIRUPUR International Board"},
+                                              new{Value="TIRUPUR KG",Text="TIRUPUR Kinder Garten"},
+                                              new{Value="TIRUPUR",Text="TIRUPUR CBSE"},
+                                              new{Value="ERNAKULAM",Text="ERNAKULAM"},
+                                               //new{Value="Female",Text="CBE CBSE"},
+                                              
+                                              
+                                          }, "Value", "Text", ""), new { id = "Campus" })
+                </div>
+
+                <div class="col-sm-3">
+
+                    @Html.DropDownListFor(model => model.Grade, new SelectList(ViewBag.gradeddl, "gradcod", "gradcod"), "Grade", new { id = "ddlgrade" })
+
+                </div>
+                <div class="col-sm-3">
+
+                    @Html.DropDownListFor(Model => Model.JoiningAcademicYear, new SelectList(ViewBag.acadyrddl), "Academic Year", new { id = "academicyear" })
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+            <h2 style="margin-left: 30px; font-size: 14px; margin-bottom: 16px; text-transform: uppercase">Contact Info</h2>
+            <div class="col-xs-12">
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(model => model.EmailId, new { id = "Email", @Placeholder = "Email ID", @maxlength = "48" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(model => model.MobileNo, new { id = "Phone", @Placeholder = "Mobile No", @maxlength = "10", @onkeypress = "return isNumber(event)" })
+                </div>
+                 <div class="col-sm-2">
+                    @Html.TextBoxFor(model => model.FamilyDetailsList[0].Mobile ,new { id = "Phone", @Placeholder = " Alternate Mobile No", @maxlength = "10", @onkeypress = "return isNumber(event)" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextAreaFor(model => model.AddressDetailsList[0].Add1, new { rows = 3, cols = 70, @Placeholder = "Flat/Door No. with street name", id = "Address" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextAreaFor(model => model.AddressDetailsList[0].Add2, new { rows = 3, cols = 70, @Placeholder = "Locality (ex:Coimbatore,chennai,...)", id = "Locality" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.HiddenFor(model => model.AddressDetailsList[1].Add1, new { rows = 3, cols = 70, @Placeholder = "Flat/Door No. with street name", id = "Address1" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.HiddenFor(model => model.AddressDetailsList[1].Add2, new { rows = 3, cols = 70, @Placeholder = "Locality (ex:Coimbatore,chennai,...)", id = "Locality1" })
+                </div>
+
+
+            </div>
+
+
+
+            <input type="Submit" class="btn-primary" value="Submit" id="btnsubmit" style="margin-left: 410px; margin-bottom: 16px" />
+        </fieldset>
+    </div>
+                
+                
+                    
+                       
+                   
+               
+            
+         
+@*</form>*@
+        
+}
+
+
+
+
+
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBR6Q2gMAzSgZ9S6pE2JpnKWutGbKPlbUk&libraries=places"></script>
+<script>
+
+
+
+    google.maps.event.addDomListener(window, 'load', function () {
+        var places = new google.maps.places.Autocomplete(document.getElementById('Locality'));
+        google.maps.event.addListener(places, 'place_changed', function () {
+            var place = places.getPlace();
+            var address = place.formatted_address;
+            var latitude = place.geometry.location.k;
+            var longitude = place.geometry.location.D;
+        });
+    });
+
+    function isNumber(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+          && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    $("#Email").change(function () {
+        var Email = $("#Email").val();
+        var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        if (!expr.test(Email)) {
+            ErrMsg("Please enter valid email id");
+            $("#Email").val("");
+            $("#Email").css("border-color", "red");
+            $("#Email").focus();
+            return false;
+        }
+        else {
+            $("#Email").removeClass(':focus');
+            $("#Email").css("border-color", "green");
+        }
+    });
+
+    $("#Phone").change(function () {
+        debugger;
+        var val = $("#Phone").val();
+        if (/^\d{10}$/.test(val)) {
+            $("#Phone").removeClass(':focus');
+        } else {
+            ErrMsg("Phone number must be 10 digits");
+            $("#Phone").val("");
+            return false;
+        }
+    });
+
+
+    $("#btnsubmit").click(function () {
+        debugger;
+        var StudentName = $("#studentname").val();
+        if (StudentName == "") {
+            ErrMsg("Please fill Student Name");
+            return false;
+        }
+        var EnqLocation = $("#EnqLocation").val();
+        if (EnqLocation == "") {
+            ErrMsg("Please fill EnqLocation");
+            return false;
+        }
+        var Campus = $("#Campus").val();
+        if (Campus == "") {
+            ErrMsg("Please fill Campus");
+            return false;
+        }
+        var FatherName = $("#fathername").val();
+        if (FatherName == "") {
+            ErrMsg("Please fill FatherName");
+            return false;
+        }
+        var MotherName = $("#mothername").val();
+        if (MotherName == "") {
+            ErrMsg("Please fill MotherName");
+            return false;
+        }
+        var Grade = $("#ddlgrade").val();
+        if (Grade == "") {
+            ErrMsg("Please fill Grade");
+            return false;
+        }
+        var Gender = $("#gender").val();
+        if (Gender == "") {
+            ErrMsg("Please fill Gender");
+            return false;
+        }
+        var paentName = $("#Parentname").val();
+
+        if (paentName == "") {
+            ErrMsg("Please fill Gender");
+            return false;
+        }
+
+        var AcademicYear = $("#ddlacademicyear").val();
+        if (AcademicYear == "") {
+            ErrMsg("Please fill Academic Year");
+            return false;
+        }
+        var dOB = $("#dob").val();
+        if (dOB == "") {
+            ErrMsg("Please fill DOB");
+            return false;
+        }
+        var Phone = $("#phone").val();
+        if (Phone == "") {
+            ErrMsg("Please fill Phone Number");
+            return false;
+        }
+        var Address = $("#Address").val();
+        if (Address == "") {
+            ErrMsg("Please fill Address");
+            return false;
+        }
+
+        var Locality = $("#Locality").val();
+        if (Locality == "") {
+            ErrMsg("Please fill Locality");
+            return false;
+        }
+
+        var Email = $("#Email").val();
+        if (Email == "") {
+            ErrMsg("Please fill EmailId");
+            return false;
+        }
+       @* $.ajax({
+            type: 'POST',
+            url: "/Kiosk/EnquiryDetails",
+            data: { StudentName: StudentName,Grade:Grade,Campus:Campus,Gender:Gender,AcademicYear:AcademicYear,FatherName:FatherName,MotherName:MotherName,Locality:Locality,DOb:dOB,Phone:Phone,Address:Address,Email:Email},
+            success: function (data) {
+                debugger;
+                if (data != null) {
+                    //InfoMsg(data);
+                    setTimeout(function () {
+                        window.location.href = "@Url.Content("/Kiosk/PrintTicket")";
+                    }, 2500);
+                }
+
+                else
+                    ErrMsg("Not Successfull Try again later! ");
+            }
+        });*@
+    });
+    $('form').one('submit', function () {
+        $(this).find('button[type="submit"]').attr('disabled', 'disabled');
+        setTimeout(function () {
+            $(this).find('button[type="submit"]').attr('disabled', 'disabled');
+        }, 20);
+    });
+
+    if (WURFL.is_mobile === false && WURFL.form_factor === "Desktop") {
+
+        $("#devicetype").val(WURFL.form_factor);
+        //alert("devicetype");
+
+    }
+</script>

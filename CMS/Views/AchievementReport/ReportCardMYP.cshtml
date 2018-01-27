@@ -1,0 +1,1944 @@
+﻿@model TIPS.Entities.Assess.ReportCardClasses.RptCardMYP
+@using CMS.Helpers
+@{
+    ViewBag.Title = "MYP Achievement Report Card";
+    var MrksGrdLstVals = new SelectList(new[] {  new { Text = "--", Value = ""}, new { Text = "A*", Value = "A*"}, new { Text = "A", Value = "A"}, new { Text = "B", Value = "B"}, 
+                                                 new { Text = "C", Value = "C"}, new { Text = "D", Value = "D"}, new { Text = "E", Value = "E"}, new { Text = "F", Value = "F"},  
+                                                 new { Text = "G", Value = "G"}, new { Text = "U", Value = "U"}, }, "Value", "Text");
+    var AchLstVals = new SelectList(new[] {  new { Text = "--", Value = ""}, new { Text = "A", Value = "A"},
+                                                 new { Text = "B", Value = "B"}, new { Text = "C", Value = "C"}, new { Text = "D", Value = "D"} }, "Value", "Text");
+    var SklLstVals = new SelectList(new[] {  new { Text = "--", Value = ""}, new { Text = "A", Value = "A"},
+                                                 new { Text = "B", Value = "B"}, new { Text = "C", Value = "C"}, new { Text = "D", Value = "D"} }, "Value", "Text");
+    var EfrtLstVals = new SelectList(new[] {  new { Text = "--", Value = ""}, new { Text = "A", Value = "A"}, new { Text = "B*", Value = "B*"}, 
+                                                 new { Text = "B", Value = "B"}, new { Text = "C", Value = "C"}, new { Text = "D", Value = "D"} }, "Value", "Text");
+}
+<style type="text/css">
+    table.AchmntRpt
+    {
+        background-color: transparent;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    table.AchmntRpt th, table.AchmntRpt td
+    {
+        text-align: center;
+        border: 1px solid black;
+        padding: 5px;
+        font-size: smaller;
+    }
+    table.AchmntRpt td
+    {
+        text-align: left;
+    }
+    table.AchmntRpt th
+    {
+        background-color: #B6B6B6;
+    }
+    table.AchmntRpt td:first-child
+    {
+        width: 20%;
+    }
+    tdTextAlignCenter
+    {
+        text-align: center;
+    }
+    .DrpDwnAlignCenter
+    {
+        text-align: center !important;
+        vertical-align: middle;
+    }
+</style>
+<script type="text/javascript" language="javascript">
+    $(function () {
+
+        if ($.trim($("#MYPSaveAlrtMsg").val()) != "") { InfoMsg($("#MYPSaveAlrtMsg").val()); }
+
+        /* Disableing the Subject Grade dropdowns */
+        $('#SubjGrd_Eng').attr('disabled', true);
+        $('#SubjGrd_Second_Lang').attr('disabled', true);
+        $('#SubjGrd_Maths').attr('disabled', true);
+        $('#SubjGrd_Phys').attr('disabled', true);
+        $('#SubjGrd_Chstr').attr('disabled', true);
+        $('#SubjGrd_Bio').attr('disabled', true);
+        $('#SubjGrd_HisGeo').attr('disabled', true);
+        $('#SubjGrd_ICT').attr('disabled', true);
+
+        /*for testing purpose only 
+        $('#Semester').val(1);
+        $('#1stSemester').attr("checked", true);
+        $('#1stSemester').attr('disabled', true);
+        $('#2ndSemester').attr('disabled', true);
+        for testing purpose only */
+        //
+        if ($('#RptCardStatus').val() == "Closed") {
+            $('input,select,textarea,button').attr('disabled', true);
+            $('#Action').removeAttr("disabled");
+            $('#btnbkInbox').removeAttr("disabled");
+            $('.ui-state-default').removeAttr("disabled");
+            $('.ui-datepicker-trigger').hide();
+        }
+
+        $('textarea').attr('disabled', true);
+
+        $('#RptDate').datepicker().datepicker('setDate', $("#RptDate").val());
+
+        $("#btnCmpltRpt").click(function () {
+            if (RptCrdValidtion()) {
+                $('#Action').val('Complete');
+                return true;
+            }
+            return false;
+        });
+
+        $("#btnSaveRpt").click(function () {
+            if (RptCrdValidtion()) {
+                $('#Action').val('Save');
+                return true;
+            }
+            return false;
+        });
+        $("#btnbkInbox").click(function () {
+            $('#Action').val('Back');
+
+            window.location.href = '@Url.Action("ReportCardInbox", "AchievementReport")';
+        });
+
+        function RptCrdValidtion() {
+            var vCampus = $('#Campus').val();
+            var vGrade = $('#Grade').val();
+            var vName = $('#Name').val();
+            var vSemester = $('#Semester').val();
+            var vTeacherName = $('#TeacherName').val();
+            var vrptDate = $('#RptDate').val();
+
+            if (vCampus != "Select" && vGrade != "Select" && !isEmptyorNull(vName) && !isEmptyorNull(vSemester)
+                    && !isEmptyorNull(vTeacherName) && !isEmptyorNull(vrptDate)) {
+                return true;
+            } else {
+                ErrMsg("Please enter the mandatory fields.", function () { $("#ddCampus").focus(); });
+            }
+            return false;
+        }
+
+        $(".datepicker").datepicker({
+            showOn: "button",
+            buttonImage: "../../Images/date.gif",
+            buttonImageOnly: true
+        });
+
+        $('.datepicker').datepicker('option', 'dateFormat', 'dd-M-yy');
+
+        if ($('#Semester').val() == "") {
+            $('#Semester').val(1);
+        }
+        $("#MYPReportTabs").tabs({
+            collapsible: true
+        });
+
+        $('#MYPReportTabs').hide();
+
+        window.onload = function () {
+            var txts = document.getElementsByTagName('TEXTAREA')
+
+            for (var i = 0, l = txts.length; i < l; i++) {
+                if (/^[0-9]+$/.test(txts[i].getAttribute("maxlength"))) {
+                    var func = function () {
+                        var len = parseInt(this.getAttribute("maxlength"), 10);
+
+                        if (this.value.length > len) {
+                            //alert('Maximum length exceeded: ' + len);
+                            this.value = this.value.substr(0, len);
+                            return false;
+                        }
+                    }
+
+                    txts[i].onkeyup = func;
+                    txts[i].onblur = func;
+                }
+            }
+        }
+        GetCampus();
+        function GetCampus() {
+            var ddlcam = $("#ddCampus");
+            //
+            $.ajax({
+                type: 'GET',
+                async: false,
+                dataType: "json",
+                url: '@Url.Content("~/AchievementReport/FillCampusCode")',
+                success: function (data) {
+                    ddlcam.empty();
+                    ddlcam.append("<option value=''> Select </option>");
+                    for (var i = 0; i < data.length; i++) {
+                        if ($('#Campus').val() == data[i].Value) {
+                            ddlcam.append("<option value='" + data[i].Value + "' selected='selected'>" + data[i].Text + "</option>");
+                        } else {
+                            ddlcam.append("<option value='" + data[i].Value + "'>" + data[i].Text + "</option>");
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    ErrMsg($.parseJSON(xhr.responseText).Message);
+                }
+            });
+
+            if ($('#Id').val() > 0) {
+                $('#MYPReportTabs').show();
+                $('#1stSemester').attr('disabled', true);
+                $('#2ndSemester').attr('disabled', true);
+                $('#ddSecond_Language').attr('disabled', true);
+            }
+
+            bindSelectedVal(document.getElementById("ddCampus"), $('#Campus').val());
+            bindSelectedVal(document.getElementById("ddSecond_Language"), $('#Second_Language').val());
+        }
+
+        function bindSelectedVal(DrpDwnObj, SelVal) {
+            //
+            for (var g = 0; g < DrpDwnObj.options.length; g++) {
+                if (DrpDwnObj.options[g].text == SelVal) {
+                    DrpDwnObj.selectedIndex = g;
+                    $('#ddCampus').attr('disabled', true);
+                }
+            }
+        }
+
+        /* For Second Language Code */
+        bindSelectedValGrd(document.getElementById("ddSecond_Language"), $('#Second_Language').val());
+        function bindSelectedValGrd(DrpDwnObj, SelVal) {
+            for (var g = 0; g < DrpDwnObj.options.length; g++) {
+                if (DrpDwnObj.options[g].text == SelVal) {
+                    DrpDwnObj.selectedIndex = g;
+                    $('#ddSecond_Language').attr('disabled', true);
+                }
+            }
+        }
+        $('#ddSecond_Language').change(function () {
+            $('#Second_Language').val($('#ddSecond_Language option:selected').text());
+        });
+        /* For Second Language Code */
+
+        /* For Grade Code */
+        bindSelectedValGrdddGrd(document.getElementById("ddGrade"), $('#Grade').val());
+        function bindSelectedValGrdddGrd(DrpDwnObj, SelVal) {
+            for (var g = 0; g < DrpDwnObj.options.length; g++) {
+                if (DrpDwnObj.options[g].text == SelVal) {
+                    DrpDwnObj.selectedIndex = g;
+                    $('#ddGrade').attr('disabled', true);
+                }
+            }
+        }
+        $('#ddGrade').change(function () {
+            $('#Grade').val($('#ddGrade option:selected').text());
+        });
+        /* For Grade Code */
+
+
+        $('#ddCampus').change(function () {
+            $('#Campus').val($('#ddCampus option:selected').text());
+        });
+
+        $("#1stSemester").click(function () {
+            if ($(this).is(":checked")) {
+                $('#Semester').val(1);
+                $('#1stSemester').attr("checked", true);
+                $('#2ndSemester').attr("checked", false);
+            }
+        });
+
+        $("#2ndSemester").click(function () {
+            if ($(this).is(":checked")) {
+                $('#Semester').val(2);
+                $('#1stSemester').attr("checked", false);
+                $('#2ndSemester').attr("checked", true);
+            }
+        });
+        if ($('#Semester').val() == "1") {
+            $('#1stSemester').attr("checked", true);
+            $('#2ndSemester').attr("checked", false);
+        }
+        else if ($('#Semester').val() == "2") {
+            $('#1stSemester').attr("checked", false);
+            $('#2ndSemester').attr("checked", true);
+        }
+
+        $("#btnARStdnPopup").button({ icons: { primary: "ui-icon-search" },
+            text: false
+        });
+
+        $("#btnARStdnPopup").click(function () {
+            var c_name = $('#Campus').val();
+            var Semstr = $('#Semester').val();
+            var c_Grade = $('#Grade').val();
+            if (isEmptyorNull(c_name) || isEmptyorNull(Semstr)) {
+                ErrMsg('Please select Campus, Semeter and Grade', function () { $("#ddCampus").focus(); });
+                return false;
+            } else {
+                LoadPopupDynamicaly(
+            "/AchievementReport/loadPartialView?PartialViewName=StudentPopup",
+            $('#DivStudentSearch'),
+            function () {
+                $("#StdntCampus").val(c_name);
+                $("#StdntGrade").val(c_Grade);
+                LoadSetGridParam($('#StudentList'), "/AchievementReport/GetStudentDtls?Grade=" + c_Grade + "&Campus=" + c_name);
+            },
+            function (rdata) {
+
+                $('#Name').val(rdata.Name);
+                $('#IdNo').val(rdata.IdNo);
+                $('#AcademicYear').val(rdata.AcademicYear);
+                $('#Section').val(rdata.Section);
+                $('#StudentId').val(rdata.Id);
+                $('#PreRegNum').val(rdata.PreRegNum);
+                //$('#MYPReportTabs').show();
+            })
+            }
+        });
+
+        /*all check box vallidation */
+        $('.chkbx input:checkbox').live('change', function () {
+            var n = $(this).closest('tr').find(':checkbox');
+            if ($(this).attr('checked')) {
+                n.attr('checked', false); //.attr('disabled', true);
+                $(this).attr('checked', true); //.attr('disabled', false);
+            } else {
+                n.attr('checked', false); //.attr('disabled', false);
+            }
+        });
+        /**/
+    });
+</script>
+@using (Html.BeginForm("SaveOrUpdateMYPReportCard", "AchievementReport", FormMethod.Post, new { id = "innerForm", enctype = "multipart/form-data" }))
+{    
+    <table width="100%" class="WithBorderOnly" id="AchievementReportHdr">
+        <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+            <td colspan="6">
+                MYP Achievement Report Card
+            </td>
+        </tr>
+    </table>
+    <table width="100%" class="WithBorderOnly" id="AchievementReport">
+        <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+            <td colspan="8">
+                Basic Details
+            </td>
+        </tr>
+        <tr style="height: 15px">
+            <td style="width: 20%">
+                <b>Request No</b>
+            </td>
+            <td style="width: 20%">
+                <b>Campus<span style="color: Red">*</span></b>
+            </td>
+            <td style="width: 20%">
+                <b>Semester<span style="color: Red">*</span></b>
+            </td>
+            <td style="width: 20%">
+                <b>Grade<span style="color: Red">*</span></b>
+            </td>
+            <td style="width: 20%">
+                <b>Name<span style="color: Red">*</span></b>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 20%">
+                @Html.TextBox("RequestNo", @Model.RequestNo, new { @class = "CSSTextBox", @style = "width: 90%", @Readonly = "Readonly" })
+                @Html.Hidden("StudentId", @Model.StudentId)
+                @Html.Hidden("Id", @Model.Id)
+                @Html.Hidden("RptCardStatus", @Model.RptCardStatus)
+                @Html.Hidden("Action")
+                @Html.Hidden("MYPSaveAlrtMsg", TempData["MYPSaveAlrtMsg"])
+                @Html.Hidden("PreRegNum")
+                @Html.Hidden("AcademicYear")
+                @Html.Hidden("RptCardCreatedBy")
+                @Html.Hidden("RptCardModifiedBy")
+            </td>
+            <td style="width: 20%">
+                @Html.Hidden("Campus")
+                @Html.DropDownList("ddCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select Campus", new { @Class = "CSSDropDownList", style = "width:80%;" })
+            </td>
+            <td style="width: 20%">
+                @Html.RadioButton("Semester", "1", new { id = "1stSemester", @style = "width: 10%", name = "Semester", @class = "RdSem" })
+                <label for="1stSemester" style="width: 30%">
+                    I Sem
+                </label>
+                @Html.RadioButton("Semester", "2", new { id = "2ndSemester", @style = "width: 10%", name = "Semester", @class = "RdSem" })
+                <label for="2ndSemester" style="width: 30%">
+                    II Sem
+                </label>
+                @Html.Hidden("Semester")
+            </td>
+            <td style="width: 20%">
+                @*@Html.TextBox("Grade", @Model.Grade, new { @class = "CSSTextBox", @style = "width: 60%", @Readonly = "Readonly" })*@
+                @Html.Hidden("Grade")
+                @Html.DropDownList("ddGrade",
+                    new SelectList(new[] { 
+                        new { Text = "Select", Value = "Select", Seleced = "True" },
+                        new { Text = "VI", Value = "VI", Seleced = "false" },
+                        new { Text = "VII", Value = "VII", Seleced = "false" },
+                        new { Text = "VIII", Value = "VIII", Seleced = "false" }}, "Text", "Value", "Seleced"),
+               new { @Class = "CSSDropDownList" })
+            </td>
+            <td style="width: 20%">
+                @Html.TextBox("Name", @Model.Name, new { @class = "CSSTextBox", @style = "width: 80%", @Readonly = "Readonly" })
+                @if (@Model.Id == 0 || @Model.Id == null)
+                {
+                    <a id="btnARStdnPopup">...</a>
+                }
+            </td>
+        </tr>
+        <tr style="height: 15px; vertical-align: bottom">
+            <td style="width: 20%">
+                <span style="width: 50%"><b>Id Number</b></span> @*</td>
+            <td style="width: 5%">*@ <span style="width: 40%"><b>Section</b></span>
+            </td>
+            <td style="width: 20%">
+                <b>Second Language</b> <span style="color: Red">*</span>
+            </td>
+            <td style="width: 20%">
+                <b>Teacher Name </b><span style="color: Red">*</span>
+            </td>
+            <td style="width: 20%">
+                <b>Date</b> <span style="color: Red">*</span>
+            </td>
+            <td style="width: 20%">
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 15%">
+                @Html.TextBox("IdNo", @Model.IdNo, new { @class = "CSSTextBox", @style = "width: 50%", @Readonly = "Readonly" })
+                @Html.TextBox("Section", @Model.Section, new { @class = "CSSTextBox", @style = "width: 30%", @Readonly = "Readonly" })
+            </td>
+            <td style="width: 20%">
+                @Html.Hidden("Second_Language")
+                @Html.DropDownList("ddSecond_Language",
+                    new SelectList(new[] { 
+                        new { Text = "Select", Value = "Select", Seleced = "True" },
+                        new { Text = "Hindi", Value = "Hindi", Seleced = "false" },
+                        new { Text = "French", Value = "French", Seleced = "false" }}, "Text", "Value", "Seleced"),
+               new { @Class = "CSSDropDownList" })
+            </td>
+            <td style="width: 20%">
+                @Html.TextBox("TeacherName", @Model.TeacherName, new { @class = "CSSTextBox", @style = "width: 90%" })
+            </td>
+            <td style="width: 20%">
+                @Html.TextBox("RptDate", @Model.RptDate, new { @class = "datepicker", @Readonly = "Readonly", @style = "width: 60%" })
+            </td>
+            <td align="center">
+                <button type="submit" id="btnSaveRpt" value="Save">
+                    <b>Save</b></button>&nbsp;
+                @if (ViewBag.loggedInUserRole == "AC360")
+                {                
+@*<button type="submit" id="btnCmpltRpt" value="Complete">Complete</button>*@
+                }&nbsp;
+                <input type="button" id="btnbkInbox" value="Back" name="Back" />
+            </td>
+        </tr>
+    </table>
+    <div id="MYPReportTabs">
+        <div id="Sub-Grade">
+            <table class="AchmntRpt" id="SubGrd" width="100%">
+                <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+                    <td colspan="9">
+                        SUBJECT GRADES
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width: 8%">
+                        Subjects
+                    </th>
+                    <th style="width: 11%">
+                        English
+                    </th>
+                    <th style="width: 11%">
+                        @Model.Second_Language
+                    </th>
+                    <th style="width: 11%">
+                        Mathematics
+                    </th>
+                    <th style="width: 11%">
+                        Physics
+                    </th>
+                    <th style="width: 11%">
+                        Chemistry
+                    </th>
+                    <th style="width: 11%">
+                        Biology
+                    </th>
+                    <th style="width: 11%">
+                        History & Geography
+                    </th>
+                    <th style="width: 11%">
+                        ICT
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        Grades
+                    </td>
+                    <td class="DrpDwnAlignCenter">
+                        @Html.GetDropDown("SubjGrd_Eng", MrksGrdLstVals, @Model.SubjGrd_Eng)
+                    </td>
+                    <td class="DrpDwnAlignCenter">
+                        @Html.GetDropDown("SubjGrd_Second_Lang", MrksGrdLstVals, @Model.SubjGrd_Second_Lang)
+                    </td>
+                    <td class="DrpDwnAlignCenter">
+                        @Html.GetDropDown("SubjGrd_Maths", MrksGrdLstVals, @Model.SubjGrd_Maths)
+                    </td>
+                    <td class="DrpDwnAlignCenter">
+                        @Html.GetDropDown("SubjGrd_Phys", MrksGrdLstVals, @Model.SubjGrd_Phys)
+                    </td>
+                    <td class="DrpDwnAlignCenter">
+                        @Html.GetDropDown("SubjGrd_Chstr", MrksGrdLstVals, @Model.SubjGrd_Chstr)
+                    </td>
+                    <td class="DrpDwnAlignCenter">
+                        @Html.GetDropDown("SubjGrd_Bio", MrksGrdLstVals, @Model.SubjGrd_Bio)
+                    </td>
+                    <td class="DrpDwnAlignCenter">
+                        @Html.GetDropDown("SubjGrd_HisGeo", MrksGrdLstVals, @Model.SubjGrd_HisGeo)
+                    </td>
+                    <td class="DrpDwnAlignCenter">
+                        @Html.GetDropDown("SubjGrd_ICT", MrksGrdLstVals, @Model.SubjGrd_ICT)
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br />
+        <div id="MYPReportTabsDtls">
+            <ul>
+             @if (@ViewBag.Entr != "Hide")
+             { 
+                <li><a href="#MYPtabs-English">English</a></li>
+                <li><a href="#MYPtabs-SecondLang">@Model.Second_Language</a></li>
+                <li><a href="#MYPtabs-Maths">Mathematics</a></li>
+                <li><a href="#MYPtabs-PCB">PCB</a></li>
+                <li><a href="#MYPtabs-HG">History & Geography</a></li>
+                <li><a href="#MYPtabs-ICT">Information Communication Technology</a></li>
+             }
+                <li><a href="#MYPtabs-Others">Others</a></li>
+            </ul>
+            @if (@ViewBag.Entr != "Hide")
+            { 
+                <div id="MYPtabs-English">
+                    <table width="100%">
+                        <tr style="height: 25px">
+                            <td align="center">
+                                <h3>
+                                    <span><b>ENGLISH</b></span></h3>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="AchmntRpt" width="100%">
+                        <tr style="height: 25px">
+                            <td>
+                                Semester Focus:
+                            </td>
+                            <td colspan="7">
+                                @Html.TextArea("RptCardFocus.English", new { rows = 6, cols = 170, @class = "CSSTextArea", @maxlength = "999" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="8" style="text-align: center;">
+                                <h1>
+                                    Writing</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Evaluation Criteria
+                            </th>
+                            <th>
+                                Content
+                            </th>
+                            <th>
+                                Audience
+                            </th>
+                            <th>
+                                Purpose
+                            </th>
+                            <th>
+                                Text structure
+                            </th>
+                            <th>
+                                Sentence structure
+                            </th>
+                            <th>
+                                Vocabulary
+                            </th>
+                            <th>
+                                Spelling
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Skill
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_WrtSkl_Ach_Cntnt", AchLstVals, @Model.Eng_WrtSkl_Ach_Cntnt)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_WrtSkl_Ach_Audn", AchLstVals, @Model.Eng_WrtSkl_Ach_Audn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_WrtSkl_Ach_Purps", AchLstVals, @Model.Eng_WrtSkl_Ach_Purps)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_WrtSkl_Ach_TxtStr", AchLstVals, @Model.Eng_WrtSkl_Ach_TxtStr)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_WrtSkl_Ach_SenStr", AchLstVals, @Model.Eng_WrtSkl_Ach_SenStr)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_WrtSkl_Ach_Vocblry", AchLstVals, @Model.Eng_WrtSkl_Ach_Vocblry)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_WrtSkl_Ach_Splng", AchLstVals, @Model.Eng_WrtSkl_Ach_Splng)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Effort
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_WrtSkl_Efrt_Cntnt", EfrtLstVals, @Model.Eng_WrtSkl_Efrt_Cntnt)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_WrtSkl_Efrt_Audn", EfrtLstVals, @Model.Eng_WrtSkl_Efrt_Audn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_WrtSkl_Efrt_Purps", EfrtLstVals, @Model.Eng_WrtSkl_Efrt_Purps)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_WrtSkl_Efrt_TxtStr", EfrtLstVals, @Model.Eng_WrtSkl_Efrt_TxtStr)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_WrtSkl_Efrt_SenStr", EfrtLstVals, @Model.Eng_WrtSkl_Efrt_SenStr)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_WrtSkl_Efrt_Vocblry", EfrtLstVals, @Model.Eng_WrtSkl_Efrt_Vocblry)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_WrtSkl_Efrt_Splng", EfrtLstVals, @Model.Eng_WrtSkl_Efrt_Splng)
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <table class="AchmntRpt">
+                        <tr>
+                            <td colspan="5" style="text-align: center;">
+                                <h1>
+                                    Other Areas in Writing</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Evaluation Criteria
+                            </th>
+                            <th>
+                                Comprehension
+                            </th>
+                            <th>
+                                Grammar
+                            </th>
+                            <th>
+                                Punctuation
+                            </th>
+                            <th>
+                                Narrative elements
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Skill
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_OAW_Skl_Cmprsn", SklLstVals, @Model.Eng_OAW_Skl_Cmprsn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_OAW_Skl_Grmr", SklLstVals, @Model.Eng_OAW_Skl_Grmr)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_OAW_Skl_Punctn", SklLstVals, @Model.Eng_OAW_Skl_Punctn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_OAW_Skl_NartvElmnts", SklLstVals, @Model.Eng_OAW_Skl_NartvElmnts)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Effort
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_OAW_Efrt_Cmprsn", EfrtLstVals, @Model.Eng_OAW_Efrt_Cmprsn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_OAW_Efrt_Grmr", EfrtLstVals, @Model.Eng_OAW_Efrt_Grmr)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_OAW_Efrt_Punctn", EfrtLstVals, @Model.Eng_OAW_Efrt_Punctn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_OAW_Efrt_NartvElmnts", EfrtLstVals, @Model.Eng_OAW_Efrt_NartvElmnts)
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <table class="AchmntRpt">
+                        <tr>
+                            <td colspan="6" style="text-align: center;">
+                                <h1>
+                                    Listening and Speaking skills</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Evaluation Criteria
+                            </th>
+                            <th>
+                                Confidence
+                            </th>
+                            <th>
+                                Fluency
+                            </th>
+                            <th>
+                                Pronunciation
+                            </th>
+                            <th>
+                                Understanding
+                            </th>
+                            <th>
+                                Vocabulary
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Skill
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_LSS_Skl_Confdnc", SklLstVals, @Model.Eng_LSS_Skl_Confdnc)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_LSS_Skl_Flncy", SklLstVals, @Model.Eng_LSS_Skl_Flncy)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_LSS_Skl_Pronctn", SklLstVals, @Model.Eng_LSS_Skl_Pronctn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_LSS_Skl_udstnd", SklLstVals, @Model.Eng_LSS_Skl_udstnd)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_LSS_Skl_vcblry", SklLstVals, @Model.Eng_LSS_Skl_vcblry)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Effort
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_LSS_Efrt_Confdnc", EfrtLstVals, @Model.Eng_LSS_Efrt_Confdnc)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_LSS_Efrt_Flncy", EfrtLstVals, @Model.Eng_LSS_Efrt_Flncy)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_LSS_Efrt_Pronctn", EfrtLstVals, @Model.Eng_LSS_Efrt_Pronctn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_LSS_Efrt_udstnd", EfrtLstVals, @Model.Eng_LSS_Efrt_udstnd)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Eng_LSS_Efrt_vcblry", EfrtLstVals, @Model.Eng_LSS_Efrt_vcblry)
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                </div>
+                <div id="MYPtabs-SecondLang">
+                    <table width="100%">
+                        <tr style="height: 25px">
+                            <td align="center">
+                                <h3>
+                                    <span><b><u>@Model.Second_Language</u></b></span></h3>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="AchmntRpt" width="100%">
+                        <tr style="height: 25px">
+                            <td>
+                                Semester Focus:
+                            </td>
+                            <td colspan="6">
+                                @if (@Model.Second_Language == "Hindi")
+                                {
+                                    @Html.TextArea("RptCardFocus.Hindi", new { rows = 6, cols = 170, @class = "CSSTextArea", @maxlength = "999" })
+                                }
+                                else
+                                {
+                                    @Html.TextArea("RptCardFocus.French", new { rows = 6, cols = 170, @class = "CSSTextArea", @maxlength = "999" })
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7" style="text-align: center;">
+                                <h1>
+                                    Writing Skill</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Evaluation Criteria
+                            </th>
+                            <th>
+                                Spelling
+                            </th>
+                            <th>
+                                Vocabulary
+                            </th>
+                            <th>
+                                Punctuation
+                            </th>
+                            <th>
+                                Grammar
+                            </th>
+                            <th>
+                                Ideas / Content
+                            </th>
+                            <th>
+                                Neatness & Handwriting
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Skill
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_WrtSkl_Skl_Splng", SklLstVals, @Model.Second_Lng_WrtSkl_Skl_Splng)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_WrtSkl_Skl_Vocblry", SklLstVals, @Model.Second_Lng_WrtSkl_Skl_Vocblry)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_WrtSkl_Skl_Punctn", SklLstVals, @Model.Second_Lng_WrtSkl_Skl_Punctn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_WrtSkl_Skl_Grmr", SklLstVals, @Model.Second_Lng_WrtSkl_Skl_Grmr)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_WrtSkl_Skl_IdsCntnt", SklLstVals, @Model.Second_Lng_WrtSkl_Skl_IdsCntnt)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_WrtSkl_Skl_NetnsHndwrt", SklLstVals, @Model.Second_Lng_WrtSkl_Skl_NetnsHndwrt)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Effort
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_WrtSkl_Efrt_Splng", EfrtLstVals, @Model.Second_Lng_WrtSkl_Efrt_Splng)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_WrtSkl_Efrt_Vocblry", EfrtLstVals, @Model.Second_Lng_WrtSkl_Efrt_Vocblry)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_WrtSkl_Efrt_Punctn", EfrtLstVals, @Model.Second_Lng_WrtSkl_Efrt_Punctn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_WrtSkl_Efrt_Grmr", EfrtLstVals, @Model.Second_Lng_WrtSkl_Efrt_Grmr)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_WrtSkl_Efrt_IdsCntnt", EfrtLstVals, @Model.Second_Lng_WrtSkl_Efrt_IdsCntnt)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_WrtSkl_Efrt_NetnsHndwrt", EfrtLstVals, @Model.Second_Lng_WrtSkl_Efrt_NetnsHndwrt)
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <table class="AchmntRpt">
+                        <tr>
+                            <td colspan="6" style="text-align: center;">
+                                <h1>
+                                    Reading Skill</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Evaluation Criteria
+                            </th>
+                            <th>
+                                Confidence
+                            </th>
+                            <th>
+                                Fluency
+                            </th>
+                            <th>
+                                Tone & Intonation
+                            </th>
+                            <th>
+                                Pronunciation
+                            </th>
+                            <th>
+                                Understanding
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Skill
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_RdgSkl_Skl_Confdnc", SklLstVals, @Model.Second_Lng_RdgSkl_Skl_Confdnc)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_RdgSkl_Skl_Flncy", SklLstVals, @Model.Second_Lng_RdgSkl_Skl_Flncy)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_RdgSkl_Skl_TonInTon", SklLstVals, @Model.Second_Lng_RdgSkl_Skl_TonInTon)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_RdgSkl_Skl_Pronctn", SklLstVals, @Model.Second_Lng_RdgSkl_Skl_Pronctn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_RdgSkl_Skl_udstnd", SklLstVals, @Model.Second_Lng_RdgSkl_Skl_udstnd)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Effort
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_RdgSkl_Efrt_Confdnc", EfrtLstVals, @Model.Second_Lng_RdgSkl_Efrt_Confdnc)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_RdgSkl_Efrt_Flncy", EfrtLstVals, @Model.Second_Lng_RdgSkl_Efrt_Flncy)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_RdgSkl_Efrt_TonInTon", EfrtLstVals, @Model.Second_Lng_RdgSkl_Efrt_TonInTon)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_RdgSkl_Efrt_Pronctn", EfrtLstVals, @Model.Second_Lng_RdgSkl_Efrt_Pronctn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_RdgSkl_Efrt_udstnd", EfrtLstVals, @Model.Second_Lng_RdgSkl_Efrt_udstnd)
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <table class="AchmntRpt">
+                        <tr>
+                            <td colspan="6" style="text-align: center;">
+                                <h1>
+                                    Listening and Speaking Skills</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Evaluation Criteria
+                            </th>
+                            <th>
+                                Confidence
+                            </th>
+                            <th>
+                                Fluency
+                            </th>
+                            <th>
+                                Pronunciation
+                            </th>
+                            <th>
+                                Understanding
+                            </th>
+                            <th>
+                                Vocabulary
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Skill
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_LSS_Skl_Confdnc", SklLstVals, @Model.Second_Lng_LSS_Skl_Confdnc)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_LSS_Skl_Flncy", SklLstVals, @Model.Second_Lng_LSS_Skl_Flncy)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_LSS_Skl_Pronctn", SklLstVals, @Model.Second_Lng_LSS_Skl_Pronctn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_LSS_Skl_udstnd", SklLstVals, @Model.Second_Lng_LSS_Skl_udstnd)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_LSS_Skl_Vocblry", SklLstVals, @Model.Second_Lng_LSS_Skl_Vocblry)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Effort
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_LSS_Efrt_Confdnc", EfrtLstVals, @Model.Second_Lng_LSS_Efrt_Confdnc)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_LSS_Efrt_Flncy", EfrtLstVals, @Model.Second_Lng_LSS_Efrt_Flncy)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_LSS_Efrt_Pronctn", EfrtLstVals, @Model.Second_Lng_LSS_Efrt_Pronctn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_LSS_Efrt_udstnd", EfrtLstVals, @Model.Second_Lng_LSS_Efrt_udstnd)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Second_Lng_LSS_Efrt_Vocblry", EfrtLstVals, @Model.Second_Lng_LSS_Efrt_Vocblry)
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="MYPtabs-Maths">
+                    <table width="100%">
+                        <tr style="height: 25px">
+                            <td align="center">
+                                <h3>
+                                    <span><b><u>MATHEMATICS</u></b></span></h3>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="AchmntRpt">
+                        <tr style="height: 25px">
+                            <td>
+                                Semester Focus:
+                            </td>
+                            <td colspan="5">
+                                @Html.TextArea("RptCardFocus.Maths", new { rows = 6, cols = 170, @class = "CSSTextArea", @maxlength = "999" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Evaluation Criteria
+                            </th>
+                            <th>
+                                Knowledge & Understanding
+                            </th>
+                            <th>
+                                Usage of appropriate mathematical representation
+                            </th>
+                            <th>
+                                Problem Solving
+                            </th>
+                            <th>
+                                Logical & Analytical Thinking
+                            </th>
+                            <th>
+                                Use of Technology
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Achievement
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Maths_Ach_KnwdUndstnd", AchLstVals, @Model.Maths_Ach_KnwdUndstnd)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Maths_Ach_UsgApprMathdsRespn", AchLstVals, @Model.Maths_Ach_UsgApprMathdsRespn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Maths_Ach_PrblmSlvng", AchLstVals, @Model.Maths_Ach_PrblmSlvng)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Maths_Ach_TechSkill", AchLstVals, @Model.Maths_Ach_TechSkill)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Maths_Ach_MntlAblty", AchLstVals, @Model.Maths_Ach_MntlAblty)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Effort
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Maths_Efrt_KnwdUndstnd", EfrtLstVals, @Model.Maths_Efrt_KnwdUndstnd)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Maths_Efrt_UsgApprMathdsRespn", EfrtLstVals, @Model.Maths_Efrt_UsgApprMathdsRespn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Maths_Efrt_PrblmSlvng", EfrtLstVals, @Model.Maths_Efrt_PrblmSlvng)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Maths_Efrt_TechSkill", EfrtLstVals, @Model.Maths_Efrt_TechSkill)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Maths_Efrt_MntlAblty", EfrtLstVals, @Model.Maths_Efrt_MntlAblty)
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="MYPtabs-PCB">
+                    <table width="100%">
+                        <tr style="height: 25px">
+                            <td align="center">
+                                <h3>
+                                    <span><b><u>PHYSICS</u></b></span></h3>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="AchmntRpt">
+                        <tr style="height: 25px">
+                            <td>
+                                Semester Focus:
+                            </td>
+                            <td colspan="6">
+                                @Html.TextArea("RptCardFocus.Physics", new { rows = 6, cols = 170, @class = "CSSTextArea", @maxlength = "999" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Evaluation Criteria
+                            </th>
+                            <th>
+                                Recall of Scientific Information
+                            </th>
+                            <th>
+                                Usage of appropriate scientific languages
+                            </th>
+                            <th>
+                                Scientific Inquiry
+                            </th>
+                            <th>
+                                Scientific Application
+                            </th>
+                            <th>
+                                Interpretation of scientific data
+                            </th>
+                            <th>
+                                Technical skills
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Achievement
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Phys_Ach_RclScnInfo", AchLstVals, @Model.Phys_Ach_RclScnInfo)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Phys_Ach_UsgApprScnficLang", AchLstVals, @Model.Phys_Ach_UsgApprScnficLang)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Phys_Ach_ScnficInq", AchLstVals, @Model.Phys_Ach_ScnficInq)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Phys_Ach_ScnficAppn", AchLstVals, @Model.Phys_Ach_ScnficAppn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Phys_Ach_IntrptnScnficData", AchLstVals, @Model.Phys_Ach_IntrptnScnficData)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Phys_Ach_TechSkill", AchLstVals, @Model.Phys_Ach_TechSkill)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Effort
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Phys_Efrt_RclScnInfo", EfrtLstVals, @Model.Phys_Efrt_RclScnInfo)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Phys_Efrt_UsgApprScnficLang", EfrtLstVals, @Model.Phys_Efrt_UsgApprScnficLang)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Phys_Efrt_ScnficInq", EfrtLstVals, @Model.Phys_Efrt_ScnficInq)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Phys_Efrt_ScnficAppn", EfrtLstVals, @Model.Phys_Efrt_ScnficAppn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Phys_Efrt_IntrptnScnficData", EfrtLstVals, @Model.Phys_Efrt_IntrptnScnficData)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Phys_Efrt_TechSkill", EfrtLstVals, @Model.Phys_Efrt_TechSkill)
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <table width="100%">
+                        <tr style="height: 25px">
+                            <td align="center">
+                                <h3>
+                                    <span><b><u>CHEMISTRY</u></b></span></h3>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="AchmntRpt">
+                        <tr style="height: 25px">
+                            <td>
+                                Semester Focus:
+                            </td>
+                            <td colspan="6">
+                                @Html.TextArea("RptCardFocus.Chemistry", new { rows = 6, cols = 170, @class = "CSSTextArea", @maxlength = "999" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Evaluation Criteria
+                            </th>
+                            <th>
+                                Recall of Scientific Information
+                            </th>
+                            <th>
+                                Usage of appropriate scientific languages
+                            </th>
+                            <th>
+                                Scientific Inquiry
+                            </th>
+                            <th>
+                                Scientific Application
+                            </th>
+                            <th>
+                                Interpretation of scientific data
+                            </th>
+                            <th>
+                                Technical skills
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Achievement
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Chstr_Ach_RclScnInfo", AchLstVals, @Model.Chstr_Ach_RclScnInfo)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Chstr_Ach_UsgApprScnficLang", AchLstVals, @Model.Chstr_Ach_UsgApprScnficLang)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Chstr_Ach_ScnficInq", AchLstVals, @Model.Chstr_Ach_ScnficInq)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Chstr_Ach_ScnficAppn", AchLstVals, @Model.Chstr_Ach_ScnficAppn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Chstr_Ach_IntrptnScnficData", AchLstVals, @Model.Chstr_Ach_IntrptnScnficData)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Chstr_Ach_TechSkill", AchLstVals, @Model.Chstr_Ach_TechSkill)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Effort
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Chstr_Efrt_RclScnInfo", EfrtLstVals, @Model.Chstr_Efrt_RclScnInfo)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Chstr_Efrt_UsgApprScnficLang", EfrtLstVals, @Model.Chstr_Efrt_UsgApprScnficLang)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Chstr_Efrt_ScnficInq", EfrtLstVals, @Model.Chstr_Efrt_ScnficInq)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Chstr_Efrt_ScnficAppn", EfrtLstVals, @Model.Chstr_Efrt_ScnficAppn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Chstr_Efrt_IntrptnScnficData", EfrtLstVals, @Model.Chstr_Efrt_IntrptnScnficData)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Chstr_Efrt_TechSkill", EfrtLstVals, @Model.Chstr_Efrt_TechSkill)
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <table width="100%">
+                        <tr style="height: 25px">
+                            <td align="center">
+                                <h3>
+                                    <span><b><u>BIOLOGY</u></b></span></h3>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="AchmntRpt">
+                        <tr style="height: 25px">
+                            <td>
+                                Semester Focus:
+                            </td>
+                            <td colspan="6">
+                                @Html.TextArea("RptCardFocus.Biology", new { rows = 6, cols = 170, @class = "CSSTextArea", @maxlength = "999" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Evaluation Criteria
+                            </th>
+                            <th>
+                                Recall of Scientific Information
+                            </th>
+                            <th>
+                                Usage of appropriate scientific languages
+                            </th>
+                            <th>
+                                Scientific Inquiry
+                            </th>
+                            <th>
+                                Scientific Application
+                            </th>
+                            <th>
+                                Interpretation of scientific data
+                            </th>
+                            <th>
+                                Technical skills
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Achievement
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Bio_Ach_RclScnInfo", AchLstVals, @Model.Bio_Ach_RclScnInfo)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Bio_Ach_UsgApprScnficLang", AchLstVals, @Model.Bio_Ach_UsgApprScnficLang)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Bio_Ach_ScnficInq", AchLstVals, @Model.Bio_Ach_ScnficInq)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Bio_Ach_ScnficAppn", AchLstVals, @Model.Bio_Ach_ScnficAppn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Bio_Ach_IntrptnScnficData", AchLstVals, @Model.Bio_Ach_IntrptnScnficData)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Bio_Ach_TechSkill", AchLstVals, @Model.Bio_Ach_TechSkill)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Effort
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Bio_Efrt_RclScnInfo", EfrtLstVals, @Model.Bio_Efrt_RclScnInfo)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Bio_Efrt_UsgApprScnficLang", EfrtLstVals, @Model.Bio_Efrt_UsgApprScnficLang)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Bio_Efrt_ScnficInq", EfrtLstVals, @Model.Bio_Efrt_ScnficInq)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Bio_Efrt_ScnficAppn", EfrtLstVals, @Model.Bio_Efrt_ScnficAppn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Bio_Efrt_IntrptnScnficData", EfrtLstVals, @Model.Bio_Efrt_IntrptnScnficData)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("Bio_Efrt_TechSkill", EfrtLstVals, @Model.Bio_Efrt_TechSkill)
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="MYPtabs-HG">
+                    <table width="100%">
+                        <tr style="height: 25px">
+                            <td align="center">
+                                <h3>
+                                    <span><b><u>HISTORY & GEOGRAPHY</u></b></span></h3>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="AchmntRpt">
+                        <tr style="height: 25px">
+                            <td>
+                                Semester Focus:
+                            </td>
+                            <td colspan="4">
+                                @Html.TextArea("RptCardFocus.HistoryGeography", new { rows = 6, cols = 170, @class = "CSSTextArea", @maxlength = "999" })
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="AchmntRpt">
+                        <tr>
+                            <th>
+                                Evaluation Criteria
+                            </th>
+                            <th>
+                                Understanding of the Concept
+                            </th>
+                            <th>
+                                Research Skills
+                            </th>
+                            <th>
+                                Organization and Presentation
+                            </th>
+                            <th>
+                                Recall of information
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Achievement
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("HisGeo_Ach_UndrsndConcpt", AchLstVals, @Model.HisGeo_Ach_UndrsndConcpt)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("HisGeo_Ach_RsrchSkl", AchLstVals, @Model.HisGeo_Ach_RsrchSkl)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("HisGeo_Ach_OrgnPrsntn", AchLstVals, @Model.HisGeo_Ach_OrgnPrsntn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("HisGeo_Ach_RclInfo", AchLstVals, @Model.HisGeo_Ach_RclInfo)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Effort
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("HisGeo_Efrt_UndrsndConcpt", EfrtLstVals, @Model.HisGeo_Efrt_UndrsndConcpt)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("HisGeo_Efrt_RsrchSkl", EfrtLstVals, @Model.HisGeo_Efrt_RsrchSkl)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("HisGeo_Efrt_OrgnPrsntn", EfrtLstVals, @Model.HisGeo_Efrt_OrgnPrsntn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("HisGeo_Efrt_RclInfo", EfrtLstVals, @Model.HisGeo_Efrt_RclInfo)
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="MYPtabs-ICT">
+                    <table width="100%">
+                        <tr style="height: 25px">
+                            <td align="center">
+                                <h3>
+                                    <span><b><u>Information Communication Technology (ICT)</u></b></span></h3>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="AchmntRpt">
+                        <tr style="height: 25px">
+                            <td>
+                                Semester Focus:
+                            </td>
+                            <td colspan="4">
+                                @Html.TextArea("RptCardFocus.ICT", new { rows = 6, cols = 170, @class = "CSSTextArea", @maxlength = "999" })
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="AchmntRpt">
+                        <tr>
+                            <th>
+                                Evaluation Criteria
+                            </th>
+                            <th>
+                                Recall of Information
+                            </th>
+                            <th>
+                                Investigate
+                            </th>
+                            <th>
+                                Planning
+                            </th>
+                            <th>
+                                Application of Technology
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Achievement
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("ICT_Ach_RclInfo", AchLstVals, @Model.ICT_Ach_RclInfo)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("ICT_Ach_Invtgt", AchLstVals, @Model.ICT_Ach_Invtgt)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("ICT_Ach_Plnng", AchLstVals, @Model.ICT_Ach_Plnng)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("ICT_Ach_AppnOfTech", AchLstVals, @Model.ICT_Ach_AppnOfTech)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Effort
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("ICT_Efrt_RclInfo", EfrtLstVals, @Model.ICT_Efrt_RclInfo)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("ICT_Efrt_Invtgt", EfrtLstVals, @Model.ICT_Efrt_Invtgt)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("ICT_Efrt_Plnng", EfrtLstVals, @Model.ICT_Efrt_Plnng)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("ICT_Efrt_AppnOfTech", EfrtLstVals, @Model.ICT_Efrt_AppnOfTech)
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            }
+            <div id="MYPtabs-Others">
+                <table width="100%">
+                    <tr style="height: 25px">
+                        <td align="center">
+                            <h3>
+                                <span><b><u>ROBOTICS</u></b></span></h3>
+                        </td>
+                    </tr>
+                </table>
+                <table class="AchmntRpt">
+                    <tr style="height: 25px">
+                        <td>
+                            Semester Focus:
+                        </td>
+                        <td colspan="4">
+                            @Html.TextArea("RptCardFocus.Robotics", new { rows = 6, cols = 170, @class = "CSSTextArea", @maxlength = "999" })
+                        </td>
+                    </tr>
+                </table>
+                <table class="AchmntRpt">
+                    <tr>
+                        <th>
+                            Evaluation Criteria
+                        </th>
+                        <th>
+                            Knowledge and understanding
+                        </th>
+                        <th>
+                            Building and Design
+                        </th>
+                        <th>
+                            Programming/Activity Sheet
+                        </th>
+                        <th>
+                            Team Participation
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Achievement
+                        </td>
+                        <td class="DrpDwnAlignCenter">
+                            @Html.GetDropDown("Rbt_Ach_KnwdUndstnd", AchLstVals, @Model.Rbt_Ach_KnwdUndstnd)
+                        </td>
+                        <td class="DrpDwnAlignCenter">
+                            @Html.GetDropDown("Rbt_Ach_BldngDsgn", AchLstVals, @Model.Rbt_Ach_BldngDsgn)
+                        </td>
+                        <td class="DrpDwnAlignCenter">
+                            @Html.GetDropDown("Rbt_Ach_Progm", AchLstVals, @Model.Rbt_Ach_Progm)
+                        </td>
+                        <td class="DrpDwnAlignCenter">
+                            @Html.GetDropDown("Rbt_Ach_WrkgInTam", AchLstVals, @Model.Rbt_Ach_WrkgInTam)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Effort
+                        </td>
+                        <td class="DrpDwnAlignCenter">
+                            @Html.GetDropDown("Rbt_Efrt_KnwdUndstnd", EfrtLstVals, @Model.Rbt_Efrt_KnwdUndstnd)
+                        </td>
+                        <td class="DrpDwnAlignCenter">
+                            @Html.GetDropDown("Rbt_Efrt_BldngDsgn", EfrtLstVals, @Model.Rbt_Efrt_BldngDsgn)
+                        </td>
+                        <td class="DrpDwnAlignCenter">
+                            @Html.GetDropDown("Rbt_Efrt_Progm", EfrtLstVals, @Model.Rbt_Efrt_Progm)
+                        </td>
+                        <td class="DrpDwnAlignCenter">
+                            @Html.GetDropDown("Rbt_Efrt_WrkgInTam", EfrtLstVals, @Model.Rbt_Efrt_WrkgInTam)
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr style="height: 25px">
+                        <td align="center">
+                            <h3>
+                                <span><b><u>SPARK</u></b></span></h3>
+                        </td>
+                    </tr>
+                </table>
+                <table class="AchmntRpt">
+                    <tr style="height: 25px">
+                        <td>
+                            Semester Focus:
+                        </td>
+                        <td colspan="4">
+                            @Html.TextArea("RptCardFocus.spark", new { rows = 6, cols = 170, @class = "CSSTextArea", @maxlength = "999" })
+                        </td>
+                    </tr>
+                </table>
+                <table class="AchmntRpt">
+                    <tr>
+                        <th>
+                            Evaluation Criteria
+                        </th>
+                        <th>
+                            Experimental Skill
+                        </th>
+                        <th>
+                            Team Work
+                        </th>
+                        <th>
+                            Attitude for Learning
+                        </th>
+                        <th>
+                            Written Task
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Achievement Level
+                        </td>
+                        <td class="DrpDwnAlignCenter">
+                            @Html.GetDropDown("spark_Eval_ExperiSkil", AchLstVals, @Model.spark_Eval_ExperiSkil)
+                        </td>
+                        <td class="DrpDwnAlignCenter">
+                            @Html.GetDropDown("spark_Eval_TeamWork", AchLstVals, @Model.spark_Eval_TeamWork)
+                        </td>
+                        <td class="DrpDwnAlignCenter">
+                            @Html.GetDropDown("spark_Eval_AttforLearn", AchLstVals, @Model.spark_Eval_AttforLearn)
+                        </td>
+                        <td class="DrpDwnAlignCenter">
+                            @Html.GetDropDown("spark_Eval_WrittenTask", AchLstVals, @Model.spark_Eval_WrittenTask)
+                        </td>
+                    </tr>
+                </table>
+                @if (@ViewBag.CheckFlag != "AB")
+                { 
+                    <table width="100%">
+                        <tr style="height: 25px">
+                            <td align="center">
+                                <h3>
+                                    <span><b><u>PHYSICAL EDUCATION</u></b></span></h3>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="AchmntRpt">
+                        <tr>
+                            <th>
+                                Evaluation Criteria
+                            </th>
+                            <th>
+                                Behaviour
+                            </th>
+                            <th>
+                                Team work
+                            </th>
+                            <th>
+                                Basic Skill
+                            </th>
+                            <th>
+                                Fitness
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Achievement
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("PhysEd_Ach_Bhvr", AchLstVals, @Model.PhysEd_Ach_Bhvr)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("PhysEd_Ach_TmWrk", AchLstVals, @Model.PhysEd_Ach_TmWrk)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("PhysEd_Ach_BscSkl", AchLstVals, @Model.PhysEd_Ach_BscSkl)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("PhysEd_Ach_Ftns", AchLstVals, @Model.PhysEd_Ach_Ftns)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Effort
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("PhysEd_Efrt_Bhvr", EfrtLstVals, @Model.PhysEd_Efrt_Bhvr)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("PhysEd_Efrt_TmWrk", EfrtLstVals, @Model.PhysEd_Efrt_TmWrk)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("PhysEd_Efrt_BscSkl", EfrtLstVals, @Model.PhysEd_Efrt_BscSkl)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("PhysEd_Efrt_Ftns", EfrtLstVals, @Model.PhysEd_Efrt_Ftns)
+                            </td>
+                        </tr>
+                    </table>
+                    <table width="100%">
+                        <tr style="height: 25px">
+                            <td align="center">
+                                <h3>
+                                    <span><b><u>FINE ARTS</u></b></span></h3>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="AchmntRpt">
+                        <tr>
+                            <th rowspan="2">
+                                Evaluation Criteria
+                            </th>
+                            <th colspan="3">
+                                Music
+                            </th>
+                            <th colspan="3">
+                                Dance
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                Participation
+                            </th>
+                            <th>
+                                Behaviour
+                            </th>
+                            <th>
+                                Shows knowledge of unit studies
+                            </th>
+                            <th>
+                                Skills/Technique
+                            </th>
+                            <th>
+                                Problem-solving
+                            </th>
+                            <th>
+                                Collaboration
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Achievement
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("FnArt_Musc_Ach_Prtcpn", AchLstVals, @Model.FnArt_Musc_Ach_Prtcpn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("FnArt_Musc_Ach_Bhvr", AchLstVals, @Model.FnArt_Musc_Ach_Bhvr)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("FnArt_Musc_Ach_ShwKwdUntStuds", AchLstVals, @Model.FnArt_Musc_Ach_ShwKwdUntStuds)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("FnArt_Dnc_Ach_SklTech", AchLstVals, @Model.FnArt_Dnc_Ach_SklTech)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("FnArt_Dnc_Ach_PrblmSlvng", AchLstVals, @Model.FnArt_Dnc_Ach_PrblmSlvng)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("FnArt_Dnc_Ach_Clbrtn", AchLstVals, @Model.FnArt_Dnc_Ach_Clbrtn)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Effort
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("FnArt_Musc_Efrt_Prtcpn", EfrtLstVals, @Model.FnArt_Musc_Efrt_Prtcpn)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("FnArt_Musc_Efrt_Bhvr", EfrtLstVals, @Model.FnArt_Musc_Efrt_Bhvr)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("FnArt_Musc_Efrt_ShwKwdUntStuds", EfrtLstVals, @Model.FnArt_Musc_Efrt_ShwKwdUntStuds)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("FnArt_Dnc_Efrt_SklTech", EfrtLstVals, @Model.FnArt_Dnc_Efrt_SklTech)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("FnArt_Dnc_Efrt_PrblmSlvng", EfrtLstVals, @Model.FnArt_Dnc_Efrt_PrblmSlvng)
+                            </td>
+                            <td class="DrpDwnAlignCenter">
+                                @Html.GetDropDown("FnArt_Dnc_Efrt_Clbrtn", EfrtLstVals, @Model.FnArt_Dnc_Efrt_Clbrtn)
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+    <br />
+    <div id="UOI">
+        <table class="AchmntRpt" width="100%" id="AchievementUOI">
+            <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+                <td colspan="10">
+                    CRITERIA OF ASSESSMENT:
+                </td>
+            </tr>
+            <tr>
+                <th style="width: 8%">
+                    Grade
+                </th>
+                <th style="width: 8%">
+                    A*
+                </th>
+                <th style="width: 8%">
+                    A
+                </th>
+                <th style="width: 8%">
+                    B
+                </th>
+                <th style="width: 8%">
+                    C
+                </th>
+                <th style="width: 8%">
+                    D
+                </th>
+                <th style="width: 8%">
+                    E
+                </th>
+                <th style="width: 8%">
+                    F
+                </th>
+                <th style="width: 8%">
+                    G
+                </th>
+                <th style="width: 8%">
+                    U
+                </th>
+            </tr>
+            <tr>
+                <td style="text-align: center">
+                    %of marks
+                </td>
+                <td style="text-align: center">
+                    90-100
+                </td>
+                <td style="text-align: center">
+                    80-89
+                </td>
+                <td style="text-align: center">
+                    70-79
+                </td>
+                <td style="text-align: center">
+                    60-69
+                </td>
+                <td style="text-align: center">
+                    50-59
+                </td>
+                <td style="text-align: center">
+                    40-49
+                </td>
+                <td style="text-align: center">
+                    30-39
+                </td>
+                <td style="text-align: center">
+                    20-29
+                </td>
+                <td style="text-align: center">
+                    0-19
+                </td>
+            </tr>
+        </table>
+        <span>Achievement:</span>
+        <table class="AchmntRpt" width="100%" id="UOI_Achmnt">
+            <tr>
+                <th style="width: 25%">
+                    Surpassing
+                </th>
+                <th style="width: 25%">
+                    Meeting Expectation
+                </th>
+                <th style="width: 25%">
+                    Satisfactory
+                </th>
+                <th style="width: 25%">
+                    Experiencing Difficulty
+                </th>
+            </tr>
+            <tr>
+                <td style="text-align: center">
+                    A
+                </td>
+                <td style="text-align: center">
+                    B
+                </td>
+                <td style="text-align: center">
+                    C
+                </td>
+                <td style="text-align: center">
+                    D
+                </td>
+            </tr>
+        </table>
+        <span>Skill:</span>
+        <table class="AchmntRpt" width="100%" id="UOI_Skill">
+            <tr>
+                <th style="width: 25%">
+                    Surpassing
+                </th>
+                <th style="width: 25%">
+                    Meeting Expectation
+                </th>
+                <th style="width: 25%">
+                    Improving
+                </th>
+                <th style="width: 25%">
+                    Experiencing Difficulty
+                </th>
+            </tr>
+            <tr>
+                <td style="text-align: center">
+                    A
+                </td>
+                <td style="text-align: center">
+                    B
+                </td>
+                <td style="text-align: center">
+                    C
+                </td>
+                <td style="text-align: center">
+                    D
+                </td>
+            </tr>
+        </table>
+        <span>Effort:</span>
+        <table class="AchmntRpt" width="100%" id="UOI_Effort">
+            <tr>
+                <th style="width: 20%">
+                    High level
+                </th>
+                <th style="width: 20%">
+                    Satisfactory
+                </th>
+                <th style="width: 20%">
+                    Consistent
+                </th>
+                <th style="width: 20%">
+                    Showing development
+                </th>
+                <th style="width: 20%">
+                    Inconsistent
+                </th>
+            </tr>
+            <tr>
+                <td style="text-align: center">
+                    A
+                </td>
+                <td style="text-align: center">
+                    B*
+                </td>
+                <td style="text-align: center">
+                    B
+                </td>
+                <td style="text-align: center">
+                    C
+                </td>
+                <td style="text-align: center">
+                    D
+                </td>
+            </tr>
+        </table>
+        <br />
+    </div>
+}
+<div id="DivStudentSearch">
+</div>

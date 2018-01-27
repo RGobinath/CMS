@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.VehicleMaintance_Vw" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.VehicleMaintance_Vw, TIPS.Entities" table="VehicleMaintance_Vw" lazy="true" >
+    <id name="Id" column="Id">
+      <generator class="identity" />
+    </id>
+    <property name="VehicleId">
+      <column name="VehicleId" sql-type="int" not-null="true" />
+    </property>
+    <property name="VehicleNo">
+      <column name="VehicleNo" sql-type="int" not-null="true"/>
+    </property>
+    <property name="Campus">
+      <column name="Campus" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="VehicleMaintenanceType">
+      <column name="VehicleMaintenanceType" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="VehicleBreakdownLocation">
+      <column name="VehicleBreakdownLocation" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="VehicleDateOfBreakdown">
+      <column name="VehicleDateOfBreakdown" sql-type="datetime" not-null="false" />
+    </property>
+    
+    <property name="VehiclePlannedDateOfService">
+      <column name="VehiclePlannedDateOfService" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="VehicleActualDateOfService">
+      <column name="VehicleActualDateOfService" sql-type="datetime" not-null="false" />
+    </property>
+
+    <property name="VehicleServiceProvider">
+      <column name="VehicleServiceProvider" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="VehicleSeviceCost">
+      <column name="VehicleSeviceCost" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="VehicleServiceBillNo">
+      <column name="VehicleServiceBillNo" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="CreatedDate">
+      <column name="CreatedDate" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="CreatedBy">
+      <column name="CreatedBy" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="VehicleSparePartsUsed">
+      <column name="VehicleSparePartsUsed" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="VM_SparePartsUsedfile">
+      <column name="VM_SparePartsUsedfile" sql-type="nvarchar" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

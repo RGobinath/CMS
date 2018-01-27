@@ -1,0 +1,133 @@
+﻿@{
+    ViewBag.Title = "Assess360Report";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script src="@Url.Content("~/Scripts/Assess360/Assess360ReportList.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Assess360ReportList", "Assess360", FormMethod.Post, new { id = "innerForm", enctype = "multipart/form-data" }))
+{
+   
+
+    <div class="page-content">
+        <!-- /section:settings.box -->
+        <div class="page-content-area">
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-search"></i>&nbsp;Search Criteria</div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="col-sm-2">
+                                                <label for="form-field-select-1">
+                                                    <b>Request No</b></label>
+                                                @Html.TextBox("RequestNo", null, new { @Class = "form-control select-sm" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label for="form-field-select-1">
+                                                    <b>Name</b></label>
+                                                @Html.TextBox("Name", null, new { @Class = "form-control select-sm" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label for="form-field-select-1">
+                                                    <b>Campus Name</b></label>
+                                                @Html.DropDownList("Campus", new SelectList(Enumerable.Empty<SelectListItem>()), "----Select----", new { @Class = "form-control select-sm" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label for="form-field-select-1">
+                                                    <b>Grade</b></label>
+                                                @Html.DropDownList("Grade",
+                    new SelectList(new[] { 
+                        new { Text = "Select", Value = "Select", Seleced = "True" },
+                        new { Text = "VI", Value = "VI", Seleced = "false" },
+                        new { Text = "VII", Value = "VII", Seleced = "false" },
+                        new { Text = "VIII", Value = "VIII", Seleced = "false" },
+                        new { Text = "IX", Value = "IX", Seleced = "false" },
+                        new { Text = "X", Value = "X", Seleced = "false" }
+               }, "Text", "Value", "Seleced"),
+new { @Class = "form-control select-sm" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label for="form-field-select-1">
+                                                    <b>Section</b></label>
+                                                @Html.DropDownList("Section", new SelectList(new[] { 
+                        new { Text = "Select", Value = "Select", Seleced = "True" },
+                        new { Text = "A", Value = "A", Seleced = "false" },
+                        new { Text = "B", Value = "B", Seleced = "false" },
+                        new { Text = "C", Value = "C", Seleced = "false" },
+                        new { Text = "D", Value = "D", Seleced = "false" },
+                        new { Text = "E", Value = "E", Seleced = "false" },
+                        new { Text = "F", Value = "F", Seleced = "false" },
+                        new { Text = "G", Value = "G", Seleced = "false" }
+               }, "Text", "Value", "Seleced"), new { @Class = "form-control select-sm" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label for="form-field-select-1">
+                                                    <b>Academic Year</b></label>
+                                                @Html.DropDownList("AcademicYear", new SelectList(ViewBag.acadddl, "AcademicYear", "AcademicYear"), "Select", new { @Class = "form-control select-sm" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-1">
+                                        <div class="space-2">
+                                        </div>
+                                        <button class="btn btn-success btn-block btn-sm" id="btnSearch" value="Search" type="button"
+                                            name="Search">
+                                            <i class="ace-icon fa fa-search white"></i>Search</button></div>
+                                    <div class="col-sm-1">
+                                        <div class="space-2">
+                                        </div>
+                                        <button class="btn btn-danger btn-block btn-sm" id="btnReset" value="Reset">
+                                            <i class="ace-icon fa fa-undo white"></i>&nbsp;Reset
+                                        </button>
+                                        @Html.Hidden("lgdUserId", "", new { @Value = ViewBag.lgdUserId })
+                                        @Html.Hidden("lgdUserName", "", new { @Value = ViewBag.lgdUserName })
+                                        @Html.Hidden("lgdInUserType", "", new { @Value = ViewBag.lgdInUserType })
+                                        @Html.Hidden("SSTId")
+                                        @Html.Hidden("SSTSearchName")
+                                        @Html.Hidden("SSTSavedSearch")
+                                        @Html.Hidden("SSTIsDefault")
+                                        @Html.Hidden("SSTDateCreated")
+                                        @Html.Hidden("A360Searched", "", new { @Value = @ViewBag.A360Searched })
+                                    </div>
+                                    <div class="col-sm-10">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table id="Assess360InboxList">
+                    </table>
+                    <div id="Assess360InboxPage">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+      
+    
+    
+}

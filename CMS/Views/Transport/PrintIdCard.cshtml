@@ -1,0 +1,78 @@
+﻿@{
+    //ViewBag.Title = "PrintIdCard";
+    Layout = null;
+}
+
+<html>
+<head>
+    <title>Print Id Card</title>
+    <script>
+        function printpage() {
+            window.print();
+        }
+
+        $(document).ready(function () {
+            //  alert('here');
+        });
+
+        function back() {
+            window.location.href = "/StaffManagement/PrintStaffIdCard";
+        }
+    </script>
+    @*<script type="text/javascript">
+          var pfHeaderImgUrl = '';
+          var pfHeaderTagline = '';
+          var pfdisableClickToDel = 0;
+          var pfBtVersion = '1'; (function () {
+              var js, pf; pf = document.createElement('script'); pf.type = 'text/javascript';
+              //        if ('https:' == document.location.protocol)
+              //        { js = 'https://pf-cdn.printfriendly.com/ssl/main.js' }
+              //        else
+              //        { js = 'http://cdn.printfriendly.com/printfriendly.js' }
+              pf.src = js; document.getElementsByTagName('head')[0].appendChild(pf)
+          })();
+ </script>*@ @*<a href="http://www.printfriendly.com" style="color:#6D9F00;text-decoration:none;" class="printfriendly" onclick="window.print();return false;" title="Printer Friendly and PDF">
+ <img style="border:none;" src="../../Images/print3.png" alt="Print Friendly and PDF" height="25px" width="80px"/>
+ </a>*@
+    <style type="text/css" media="print">
+        
+    </style>
+</head>
+<body>
+    <div>
+        <table>
+            @Html.Raw(ViewBag.IdHtmlTag)
+        </table>
+    </div>
+    <br />
+    <input type="button" value="Print this page" onclick="printpage()" />
+    &nbsp&nbsp&nbsp&nbsp&nbsp
+    <input type="button" value="Back" onclick="back()" />
+</body>
+</html>
+<style>
+   label {
+        font-family:Calibri;
+        font-size:11pt;
+        font-weight:bold;
+    }
+    #onbottom {
+        /*width:400px;*/
+        height:50px;
+        background-image:url("../../Images/StaffIdBottom.jpg");
+        font-size:7.5pt;
+        color:white;
+        background-size:350px 44px;
+        background-repeat:no-repeat;
+        text-align:center;
+        font-family:Calibri;
+        padding-top:4px;
+    }
+    table {
+        font-size:13px;
+        
+    }
+    tr, td {
+        /*page-break-inside: avoid !important;*/
+    }
+</style>

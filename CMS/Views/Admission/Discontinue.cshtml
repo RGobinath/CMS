@@ -1,0 +1,98 @@
+﻿@model TIPS.Entities.AdmissionEntities.TransferDetails
+@{
+    Layout = null;
+}
+<script type="text/javascript">
+    function validate() {
+        if (document.getElementById("admittedclass").value == "") {
+            ErrMsg("Please Select Admitted Class!");
+            return false;
+        }
+        else if (document.getElementById("qualified").value == "") {
+            ErrMsg("Please Select Qualified Option!");
+            return false;
+        }
+        else if (document.getElementById("lastdate").value == "") {
+            ErrMsg("Please Enter LastDate In School!");
+            return false;
+        }
+        else if (document.getElementById("reason").value == "") {
+            ErrMsg("Please Enter Reason For Leaving!");
+            return false;
+        }
+        else if (document.getElementById("conduct").value == "") {
+            ErrMsg("Please Select Conduct Option!");
+            return false;
+        }
+        else if (document.getElementById("transferreddate").value == "") {
+            ErrMsg("Please Enter Date Of Issue of TC!");
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+</script>
+@using (Html.BeginForm("Discontinue", "Admission", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-sm-6">
+                <label for="form-field-select-1">
+                    <b>Class To Which Admitted</b></label>
+                @Html.DropDownListFor(Model => Model.AdmittedClass, new SelectList(ViewBag.gradeddl1, "gradcod", "gradcod"), "Select One", new { id = "admittedclass", @Class = "form-control select-sm" })
+                @Html.HiddenFor(Model => Model.PreRegNum, new { id = "preregno3" })
+            </div>
+            <div class="col-sm-6">
+                <label for="form-field-select-1">
+                   <b> Whether Qualified For Promotion To Higher Class</b></label>
+                @Html.DropDownListFor(model => model.QualifiedForPromotion, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Yes",Text="Yes"},
+                                              new{Value="No",Text="No"},
+                                              new{Value="Refer Grade Transcript",Text="Refer Grade Transcript"}
+                                          }, "Value", "Text", ""), new { id = "qualified", @Class = "form-control select-sm" })
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-sm-6">
+                <label for="form-field-select-1">
+                   <b> Last Date Of Attendance In The School</b></label>
+                @Html.TextBoxFor(model => model.LastDateOfAttendance, new { id = "lastdate", @Class = "form-control select-sm date-picker", @maxlength = "10" })
+            </div>
+            <div class="col-sm-6">
+                <label for="form-field-select-1">
+                  <b> Reason For Leaving The School</b></label>
+                @Html.TextBoxFor(model => model.ReasonForLeaving, new { id = "reason", @Class = "form-control select-sm", @maxlength = "30" })
+            </div>
+        </div>
+        <div class="col-xs-12">
+            
+            <div class="col-sm-6">
+                <label for="form-field-select-1">
+                   <b> General Conduct</b></label>
+                @Html.DropDownListFor(model => model.Conduct, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Excellent",Text="Excellent"},
+                                              new{Value="Good",Text="Good"}
+                                          }, "Value", "Text", ""), new { id = "conduct", @Class = "form-control select-sm" })
+            </div>
+            <div class="col-sm-6">
+                <label for="form-field-select-1">
+                    <b>Date Of Issue Of TC</b></label>
+                @Html.TextBoxFor(model => model.TransferedDate, new { id = "transferreddate", @Class = "form-control select-sm date-picker", @maxlength = "10" })
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-3">
+                <br />
+                <button class="btn btn-primary btn-block" type="submit" value="Discontinue" onclick="return(validate());">
+                    <i class="ace-icon fa-ban">&nbsp;</i>Discontinue</button>
+            </div>
+        </div>
+    </div>
+                  
+}

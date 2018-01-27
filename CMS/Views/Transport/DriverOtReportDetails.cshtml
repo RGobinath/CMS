@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "DriverOtReportDetails";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Criteria</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                     <div class="col-sm-2">
+                                        <label for="form-field-select-1" id="drivCampus">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownList("ddlCampus", new SelectList(ViewBag.campusddl,"Name","Name"), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Driver Name</b></label>
+                                              @Html.TextBox("DriverName",null, new { @class = "form-control input-sm" })
+
+                                    </div>
+                                      <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Driver Id</b></label>
+                                          @Html.TextBox("DriverId",null, new { @class = "form-control input-sm", @readonly = true })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>OT Type</b></label>
+                                        @Html.DropDownList("OTType",
+                                            new SelectList(new[] { 
+                                                new { Text = "Select", Value = "Select", Seleced = "True" },
+                                                new { Text = "Evening", Value = "Evening", Seleced = "false" },
+                                                new { Text = "Remedial Trip", Value = "Remedial Trip", Seleced = "false" },
+                                                new { Text = "Night", Value = "Night", Seleced = "false" },
+                                                new { Text = "Holiday", Value = "Holiday", Seleced = "false" },
+                                       }, "Text", "Value", "Seleced"),
+                                       new { @Class = "form-control select-sm" })
+                                    </div>
+                                   <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Month</b></label>
+                                        @Html.DropDownList("ddlmonth", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                       @Html.Hidden("CurMonth", "", new { @Value = ViewBag.CurMonth })
+                                    @Html.Hidden("year", "", new { @Value = ViewBag.CurMonth })
+                                        <div class="col-sm-2">
+                                        <br />
+                                        <button type="submit" class="btn btn-success btn-block btn-sm" id="btnSearch">
+                                            <i class="ace-icon fa fa-search"></i>Get OT Details
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <table id="DriverOtReport">
+                            </table>
+                            <div id="DriverOTPager">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/Transport/DriverOtReportDetails.js"></script>
+<script type="text/javascript">    window.jQuery || document.write("<script src='../assets/js/jquery.min.js'>"
++ "<" + "/script>"); </script>
+<script type="text/javascript">    if ('ontouchstart'
+in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>"
++ "<" + "/script>"); </script>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.StaffBDayWishesStatus" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+	<class name="TIPS.Entities.StaffManagementEntities.StaffBDayWishesStatus, TIPS.Entities" table="StaffBDayWishesStatus" lazy="false" >
+		<id name="Id" column="Id" type="Int64">
+			<generator class="identity"></generator>
+		</id>
+		<property name="Name" column="Name" type="string"></property>
+		<property name="IdNumber" column="IdNumber" type="string"></property>
+		<property name="DOB" column="DOB" type="string"></property>
+		<property name="EmailId" column="EmailId" type="string"></property>
+		<property name="IsSent" column="IsSent" type="bool"></property>
+		<property name="Message" column="Message" type="string"></property>
+		<property name="CheckDate" column="CheckDate" type="string"></property>
+	</class>
+</hibernate-mapping>

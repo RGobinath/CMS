@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.ModeOfPaymentMaster" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.ModeOfPaymentMaster, TIPS.Entities" table="MODEOFPAYMENTMASTER" lazy="false" >
+    <id name="FormId" column="FormId">
+      <generator class="identity" />
+    </id>
+    <property name="FormCode" column="FormCode" type="string" not-null="true" />
+    <property name="ModeOfPayment" column="MDPT" type="string" not-null="true" />
+    <property name="ModeOfPaymentdesc" column="MDPTDESC" type="string" not-null="true" />
+  </class>
+</hibernate-mapping>

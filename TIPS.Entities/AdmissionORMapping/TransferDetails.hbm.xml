@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.AdmissionEntities.TransferDetails" namespace="TIPS.Entities.AdmissionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AdmissionEntities.TransferDetails, TIPS.Entities" table="TransferDetails" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <!--<id name="Id" column="Id" type="Int64">
+        <generator class="native"></generator>
+      </id>-->
+
+    <property name="Type" column="Type" type="string" not-null ="false" length="50"></property>
+
+    <property name="ApplicationNo" column="ApplicationNo" type="string" not-null ="false"></property>
+    <property name="PreRegNum" column="PreRegNum" type="Int64" not-null ="false"></property>
+
+    <property name="Name" column="Name" type="string" not-null ="false" length="50"></property>
+    <property name="Gender" column="Gender" type="string" not-null ="false"></property>
+    <property name="FeeStructYear" column="FeeStructYear" type="string"></property>
+
+    <property name="BeforeId" column="BeforeId" type="string"></property>
+    <property name="AfterId" column="AfterId" type="string"></property>
+
+    <property name="BeforeCampus" column="BeforeCampus" type="string"></property>
+    <property name="AfterCampus" column="AfterCampus" type="string"></property>
+
+    <property name="BeforeSection" column="BeforeSection" type="string"></property>
+    <property name="AfterSection" column="AfterSection" type="string"></property>
+
+    <property name="BeforeGrade" column="BeforeGrade" type="string"></property>
+    <property name="AfterGrade" column="AfterGrade" type="string"></property>
+
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>
+    <property name="TransferedDate" column="TransferedDate" type="string"></property>
+
+    <property name="AdmittedClass" column="AdmittedClass" type="string"></property>
+    <property name="AdmissionDate" column="AdmissionDate" type="string"></property>
+    <property name="QualifiedForPromotion" column="QualifiedForPromotion" type="string"></property>
+    <property name="LastDateOfAttendance" column="LastDateOfAttendance" type="string"></property>
+
+    <property name="ReasonForLeaving" column="ReasonForLeaving" type="string"></property>
+    <property name="Conduct" column="Conduct" type="string"></property>
+
+  </class>
+</hibernate-mapping>

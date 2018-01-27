@@ -1,0 +1,63 @@
+﻿@model TIPS.Entities.CommunictionEntities.ComposeSMSInfo
+@{
+    ViewBag.Title = "SMSSuspend";
+    Layout = null;
+}
+<h3>
+    SMS Suspend Reason</h3>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#SusReason').click(function () {
+            ;
+            var smsComposeId = "@ViewBag.ComposeId";
+
+            var reaSon = $('#SuspndReason').val();
+            if (reaSon != "" && reaSon != null) {
+                $.ajax({
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    url: '/Communication/BulkSMSRequestSuspend?SMSComposeId=' + smsComposeId + '&SReason=' + reaSon + '&smsSusp=Suspend',
+                    success: function (data) {
+                        if (data = true) {
+                            window.location.href = '@Url.Action("SMSSendingLog", "Communication")';
+                        }
+                        else {
+                            ErrMsg("Not Suspending the SMS");
+                        }
+                        //return false;
+                    }
+                });
+            }
+            else
+                ErrMsg("Please enter reason for suspending the SMS!");
+
+        });
+    });
+</script>
+<table style="width: 100%" class="WithBorderOnly">
+    <tr>
+        <td>
+            Reason For Suspend:
+        </td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.ReasonForSuspend, new { id = "SuspndReason" })
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <center>
+                <button type="button" class="btn btn-mini btn-success" id="SusReason" value="Submit">
+                    <i class="icon-ok" style="vertical-align: middle"></i>Submit
+                </button>
+            </center>
+        </td>
+    </tr>
+</table>

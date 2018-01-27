@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   namespace="TIPS.Entities.TransportEntities"
+                   assembly="TIPS.Entities.TransportEntities.RouteMaster">
+
+  <class name="TIPS.Entities.TransportEntities.RouteMaster, TIPS.Entities " table="RouteMaster" dynamic-update="true">
+    <cache usage="read-write"/>
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="RouteId"/>
+    <property name="RouteNo"/>
+    <property name="Campus"/>
+    <property name="VehicleNo"/>
+    <property name="Source"/>
+    <property name="Destination"/>
+    <property name="Via"/>
+    <property name="Distance"/>
+    <property name="District"/>
+    <property name="State"/>
+    <property name="Country"/>
+    <property name="CreatedDate"/>
+    <property name="CreatedBy"/>
+    <property name="ModifiedDate"/>
+    <property name="ModifiedBy"/>
+    <property name="NoOfStudList" column="NoOfStudList" type="Int64"></property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.TransportEntities.VehicleTypeAndSubType" namespace="TIPS.Entities.TransportEntities">
+  <class name="TIPS.Entities.TransportEntities.VehicleTypeAndSubType, TIPS.Entities" table="VehicleSubTypeMaster" lazy="false">
+    <id name="Id" column="Id" type="Int32">
+      <generator class="identity"></generator>
+    </id>
+    <property name="VehicleTypeId" column="VehicleTypeId" type="Int32"></property>
+    <property name="VehicleNo" column="VehicleNo" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Purpose" column="Purpose" type="string"></property>
+    <property name="FuelType" column="FuelType" type="string"></property>
+
+
+    <property name="EngineType" column="EngineType" type="string"></property>
+    <property name="EngineNumber" column="EngineNumber" type="string"></property>
+    <property name="FirstRegisteredDate" column="FirstRegisteredDate" type="datetime"></property>
+    
+    <property name="Make">
+      <column name="Make" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Type">
+      <column name="Type" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="ChassisNo">
+      <column name="ChassisNo" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="BHP">
+      <column name="BHP" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="CC">
+      <column name="CC" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="WheelBase">
+      <column name="WheelBase" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="UnladenWeight">
+      <column name="UnladenWeight" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Color">
+      <column name="Color" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="GVW">
+      <column name="GVW" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Address">
+      <column name="Address" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="RCAttachment">
+      <column name="RCAttachment" sql-type="varchar" not-null="false" />
+    </property>
+
+    <property name="Model">
+      <column name="Model" sql-type="varchar" not-null="false" />
+    </property>
+
+    <property name="IsActive" column="IsActive" type="boolean" />
+    <many-to-one name="VehicleTypeMaster" class="TIPS.Entities.TransportEntities.VehicleTypeMaster, TIPS.Entities"
+                     column="VehicleTypeId" cascade="none" />
+  </class>
+</hibernate-mapping>

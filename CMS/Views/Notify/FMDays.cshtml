@@ -1,0 +1,220 @@
+﻿@model TIPS.Entities.ParentPortalEntities.FMWeeks
+@{
+    ViewBag.Title = "Campus Food Menu";
+    Layout = null;
+}
+<style>
+    .fmdTab
+    {
+        font-size: 12px;
+    }
+</style>
+<script src="../../Scripts/ui.dropdownchecklist-1.4-min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+//        $("#ddlMonBreakFast").dropdownchecklist({ icon: {}, width: 150 });
+//        $("#ddlMonLunchNV").dropdownchecklist({ icon: {}, width: 150 });
+//        $("#ddlMonLunchV").dropdownchecklist({ icon: {}, width: 150 });
+//        $("#ddlMonSnacks").dropdownchecklist({ icon: {}, width: 150 });
+
+//        $("#ddlTueBreakFast").dropdownchecklist({ icon: {}, width: 150 });
+//        $("#ddlTueLunchNV").dropdownchecklist({ icon: {}, width: 150 });
+//        $("#ddlTueLunchV").dropdownchecklist({ icon: {}, width: 150 });
+//        $("#ddlTueSnacks").dropdownchecklist({ icon: {}, width: 150 });
+
+//        $("#ddlWedBreakFast").dropdownchecklist({ icon: {}, width: 150 });
+//        $("#ddlWedLunchNV").dropdownchecklist({ icon: {}, width: 150 });
+//        $("#ddlWedLunchV").dropdownchecklist({ icon: {}, width: 150 });
+//        $("#ddlWedSnacks").dropdownchecklist({ icon: {}, width: 150 });
+
+//        $("#ddlThuBreakFast").dropdownchecklist({ icon: {}, width: 150 });
+//        $("#ddlThuLunchNV").dropdownchecklist({ icon: {}, width: 150 });
+//        $("#ddlThuLunchV").dropdownchecklist({ icon: {}, width: 150 });
+//        $("#ddlThuSnacks").dropdownchecklist({ icon: {}, width: 150 });
+
+//        $("#ddlFriBreakFast").dropdownchecklist({ icon: {}, width: 150 });
+//        $("#ddlFriLunchNV").dropdownchecklist({ icon: {}, width: 150 });
+//        $("#ddlFriLunchV").dropdownchecklist({ icon: {}, width: 150 });
+//        $("#ddlFriSnacks").dropdownchecklist({ icon: {}, width: 150 });
+
+    });
+</script>
+<br />
+<table width="100%" border="0" cellpadding="5" cellspacing="3" class="fmdTab">
+    <tr>
+        <th>
+            Day
+        </th>
+        <th>
+            BreakFast
+        </th>
+        <th>
+            Lunch (Non-Veg)
+        </th>
+        <th>
+            Lunch (Veg)
+        </th>
+        <th>
+            Snacks
+        </th>
+    </tr>
+    <tr>
+        <td>
+            MONDAY
+        </td>
+        <td>
+            @if (Model != null)
+            {  
+                @Html.ListBoxFor(model => model.FMDaysList[0].BreakFast, new SelectList(ViewBag.BreakFast, "FoodName", "FoodName"), new { id = "ddlMonBreakFast", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+        <td>
+            @if (Model != null)
+            {
+                @Html.ListBoxFor(model => model.FMDaysList[0].LunchNonVeg, new SelectList(ViewBag.LunchNonVeg, "FoodName", "FoodName"), new { id = "ddlMonLunchNV", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+        <td>
+            @if (Model != null)
+            {
+                @Html.ListBoxFor(model => model.FMDaysList[0].LunchVeg, new SelectList(ViewBag.LunchVeg, "FoodName", "FoodName"), new { id = "ddlMonLunchV", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+        <td>
+            @if (Model != null)
+            {
+                @Html.ListBoxFor(model => model.FMDaysList[0].LunchVeg, new SelectList(ViewBag.Snacks, "FoodName", "FoodName"), new { id = "ddlMonSnacks", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>
+            TUESDAY
+        </td>
+        <td>
+            @if (Model != null)
+            {  
+                @Html.ListBoxFor(model => model.FMDaysList[1].BreakFast, new SelectList(ViewBag.BreakFast, "FoodName", "FoodName"), new { id = "ddlTueBreakFast", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+        <td>
+            @if (Model != null)
+            {
+                @Html.ListBoxFor(model => model.FMDaysList[1].LunchNonVeg, new SelectList(ViewBag.LunchNonVeg, "FoodName", "FoodName"), new { id = "ddlTueLunchNV", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+        <td>
+            @if (Model != null)
+            {
+                @Html.ListBoxFor(model => model.FMDaysList[1].LunchVeg, new SelectList(ViewBag.LunchVeg, "FoodName", "FoodName"), new { id = "ddlTueLunchV", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+        <td>
+            @if (Model != null)
+            {
+                @Html.ListBoxFor(model => model.FMDaysList[1].LunchVeg, new SelectList(ViewBag.Snacks, "FoodName", "FoodName"), new { id = "ddlTueSnacks", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>
+            WEDNESDAY
+        </td>
+        <td>
+            @if (Model != null)
+            {  
+                @Html.ListBoxFor(model => model.FMDaysList[2].BreakFast, new SelectList(ViewBag.BreakFast, "FoodName", "FoodName"), new { id = "ddlWedBreakFast", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+        <td>
+            @if (Model != null)
+            {
+                @Html.ListBoxFor(model => model.FMDaysList[2].LunchNonVeg, new SelectList(ViewBag.LunchNonVeg, "FoodName", "FoodName"), new { id = "ddlWedLunchNV", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+        <td>
+            @if (Model != null)
+            {
+                @Html.ListBoxFor(model => model.FMDaysList[2].LunchVeg, new SelectList(ViewBag.LunchVeg, "FoodName", "FoodName"), new { id = "ddlWedLunchV", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+        <td>
+            @if (Model != null)
+            {
+                @Html.ListBoxFor(model => model.FMDaysList[2].LunchVeg, new SelectList(ViewBag.Snacks, "FoodName", "FoodName"), new { id = "ddlWedSnacks", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>
+            THURSDAY
+        </td>
+        <td>
+            @if (Model != null)
+            {  
+                @Html.ListBoxFor(model => model.FMDaysList[3].BreakFast, new SelectList(ViewBag.BreakFast, "FoodName", "FoodName"), new { id = "ddlThuBreakFast", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+        <td>
+            @if (Model != null)
+            {
+                @Html.ListBoxFor(model => model.FMDaysList[3].LunchNonVeg, new SelectList(ViewBag.LunchNonVeg, "FoodName", "FoodName"), new { id = "ddlThuLunchNV", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+        <td>
+            @if (Model != null)
+            {
+                @Html.ListBoxFor(model => model.FMDaysList[3].LunchVeg, new SelectList(ViewBag.LunchVeg, "FoodName", "FoodName"), new { id = "ddlThuLunchV", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+        <td>
+            @if (Model != null)
+            {
+                @Html.ListBoxFor(model => model.FMDaysList[3].LunchVeg, new SelectList(ViewBag.Snacks, "FoodName", "FoodName"), new { id = "ddlThuSnacks", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>
+            FRIDAY
+        </td>
+        <td>
+            @if (Model != null)
+            {  
+                @Html.ListBoxFor(model => model.FMDaysList[4].BreakFast, new SelectList(ViewBag.BreakFast, "FoodName", "FoodName"), new { id = "ddlFriBreakFast", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+        <td>
+            @if (Model != null)
+            {
+                @Html.ListBoxFor(model => model.FMDaysList[4].LunchNonVeg, new SelectList(ViewBag.LunchNonVeg, "FoodName", "FoodName"), new { id = "ddlFriLunchNV", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+        <td>
+            @if (Model != null)
+            {
+                @Html.ListBoxFor(model => model.FMDaysList[4].LunchVeg, new SelectList(ViewBag.LunchVeg, "FoodName", "FoodName"), new { id = "ddlFriLunchV", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+        <td>
+            @if (Model != null)
+            {
+                @Html.ListBoxFor(model => model.FMDaysList[4].LunchVeg, new SelectList(ViewBag.Snacks, "FoodName", "FoodName"), new { id = "ddlFriSnacks", @Class = "CSSDropDownList", @multiple = "multiple" })
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+            <button type="button" name="btnSubmit" id="Submit" value="Submit">
+                Submit</button>
+            <input type="reset" id="cancel" value="Cancel" class="CSSButton" />
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+    </tr>
+</table>

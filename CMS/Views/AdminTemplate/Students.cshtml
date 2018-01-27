@@ -1,0 +1,75 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+@{
+    Layout = "~/Views/Shared/NewAcePartialViewMaster.cshtml";
+}
+<div>
+    <div class="row">
+        <div class="col-sm-12" style="font-size: 12px;" align="right">
+            <div class="col-xs-3">
+            </div>
+            <div class="col-xs-2">
+                <label for="form-field-select-1">
+                    <b>Select Campus</b></label></div>
+            <div class="col-xs-2">
+                @Html.DropDownListFor(model => model.Campus, new SelectList(Enumerable.Empty<SelectListItem>()), "", new { @Class = "form-control select-sm", id = "StudDdlCampusList" })
+            </div>
+            <div class="col-xs-2">
+                <label for="form-field-select-1">
+                    <b>Select Grade</b></label></div>
+            <div class="col-xs-2">
+                @Html.DropDownListFor(model => model.Grade, new SelectList(Enumerable.Empty<SelectListItem>()), "", new { @Class = "form-control select-sm", id = "StudddlGradeList" })
+            </div>
+            <div class="col-xs-1">
+                <button type="button" class="btn btn-info" onclick="GetChart()">
+                    Get Chart</button>
+            </div>
+        </div>
+    </div>
+    <div id="AllCampusAndGradeChart">
+        <div class="row" style="padding-top: 3px;">
+            <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div id="StudCampusChart">
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div id="StudGradeChart">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="CampusForAllGradeChart" align="center">
+        <div class="row" style="padding-top: 3px;">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div id="StudCampusChartForAllGrade">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="CampusGradeSectionChart" align="center">
+        <div class="row" style="padding-top: 3px;">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div id="StudCampusAndGradeAndSectionChart">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="space-8">
+    </div>
+    <div class="space-8">
+    </div>
+    <div class="space-8">
+    </div>
+    <div class="space-8">
+    </div>
+    <div class="space-8">
+    </div>
+    <div class="space-8">
+    </div>
+    <div class="space-8">
+    </div>
+    <div class="space-8">
+    </div>
+    <div class="space-8">
+    </div>
+</div>
+<script src="../../Scripts/AdminTemplateScripts/Students.js" type="text/javascript"></script>

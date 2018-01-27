@@ -1,0 +1,1303 @@
+﻿@model TIPS.Entities.CallManagement
+@{
+    ViewBag.Title = "CallRegister";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript" language="javascript">
+
+    $(document).ready(function () {
+        //$("#btnSendMailToParent").hide();
+        $("StudentSearch").click(function () {
+            $(function () {
+                var value = $('#ddlIssueGroup option:selected').val();
+                var isHosteller = $('#IsHosteller').val();
+                if (value == "Hostel" && isHosteller == "False") {
+                    
+                    $("#txtStuNum").val("");
+                    $("#txtstName").val("");
+                    $("#txtschool").val("");
+                    $("#txtgrade").val("");
+                    $("#txtsection").val("");
+                    ErrMsg("Please select Hostel Student only for Hostel related Issue");
+                    return false;
+                }
+            });
+        });
+        $("#txtStuNum").attr("readonly", true).css("background-color", "#F5F5F5");
+        $("#txtstName").attr("readonly", true).css("background-color", "#F5F5F5");
+        $("#txtschool").attr("readonly", true).css("background-color", "#F5F5F5");
+        $("#txtgrade").attr("readonly", true).css("background-color", "#F5F5F5");
+        $("#txtsection").attr("readonly", true).css("background-color", "#F5F5F5");
+
+        $.getJSON("/Home/FillIssueGroup",
+     function (fillig) {
+
+         var ddlig = $("#ddlIssueGroup");
+         ddlig.empty();
+         ddlig.append($('<option/>',
+        {
+            value: "",
+            text: "Select One"
+
+        }));
+
+         $.each(fillig, function (index, itemdata) {
+
+             if (itemdata.Text == '@Model.IssueGroup') {
+                 //if (itemdata.Text == ddlig) {
+                 ddlig.append("<option value='" + itemdata.Value + "' selected='selected'>" + itemdata.Text + "</option>");
+                 GetIssueType();
+             }
+             else {
+                 ddlig.append($('<option/>',
+                 {
+                     value: itemdata.Value,
+                     text: itemdata.Text
+                 }));
+             }
+         });
+
+     });
+
+        var buttons = $('.WithBorderOnly');
+        buttons.find('button').button();
+        buttons.find('a').button({ icons: { primary: "ui-icon-search" },
+            text: false
+        });
+
+        if ("@Model.Status" == "Log Issue" || "@Model.Status" == "LogIssue") {
+
+        }
+        else {
+            $("#IssueDetails").find("text").attr("readonly", true).css("background-color", "#F5F5F5");
+            // $("#IssueDetails").find("input,select").attr("readonly", true).css("background-color", "#F5F5F5");
+            $("#txtDescription").attr("readonly", true).css("background-color", "#F5F5F5");
+            $("#ddlInformationFor").attr("disabled", true).css("background-color", "#F5F5F5");
+
+            $("#ddlCallFrom").attr("readonly", true).css("background-color", "#F5F5F5");
+            $("#ddlIssueGroup").attr("readonly", true).css("background-color", "#F5F5F5");
+            $("#ddlIssueType").attr("readonly", true).css("background-color", "#F5F5F5");
+
+        }
+
+        if ("@Model.Status" == "Complete") {
+            //        if ("@Model.Status" == "ApproveIssue" || "@Model.Status" == "ApproveIssueRejection" || "@Model.Status" == "Complete") {
+            $("#txtResolution").attr("readonly", true).css("background-color", "#F5F5F5");
+        }
+
+        var strStatus = $("#Status").val();
+
+        if (strStatus != null && (strStatus == "Approve Issue" || strStatus == "ApproveIssue")) {
+
+            var UsrId = $('#ReceiverGroup').val();
+            var campus = "@Model.BranchCode";
+
+            $.ajax({
+                type: 'GET',
+                async: true,
+                url: '@Url.Content("~/Home/ReceiverGroup")?Campus=' + campus,
+                success: function (data) {
+                    $("#ReceiverGroup").empty();
+                    $("#ReceiverGroup").append("<option value=''> Select One </option>");
+                    for (var i = 0; i < data.rows.length; i++) {
+                        if (UsrId != null && UsrId == data.rows[i].UserId) {
+                            $("#ReceiverGroup").append("<option value='" + data.rows[i].UserId + "' selected='selected'>" + data.rows[i].UserId + "</option>");
+                        } else {
+                            $("#ReceiverGroup").append("<option value='" + data.rows[i].UserId + "'>" + data.rows[i].UserId + "</option>");
+                        }
+                    }
+                },
+                dataType: "json"
+            });
+        }
+
+        $("#btnAssign").click(function () {
+            var RcvrGrpId = $('#ReceiverGroup').val();
+
+
+            if (RcvrGrpId != "") {
+                $.ajax({
+                    type: 'GET',
+                    async: false,
+                    dataType: "json",
+                    url: '@Url.Content("~/Home/AssignActivityjson")?ActivityId=' + $('#ActivityId').val() + "&UserId=" + RcvrGrpId,
+                    success: function (data) {
+
+                        if (data == true) {
+                            SucessMsg("Issue Assigned to " + RcvrGrpId + ".", function () { window.location.href = '@Url.Action("CallManagement", "Home")'; });
+                        } else {
+                            ErrMsg("Issue not assigned. Please try again.");
+                            return false;
+                        }
+                    }
+                });
+            } else {
+                ErrMsg("Please select value from Receiver Group.", function () { $('#ReceiverGroup').focus(); });
+                return false;
+            }
+        });
+
+        $(function () {
+
+            modalid = $('#DivStudentSearch');
+            $("#StudentSearch").click(function () {
+
+                LoadPopupDynamicaly("/Home/StudentDetails", modalid,
+            function () {
+                LoadSetGridParam($('#StudentList'), "/Home/StudentDetailsListJqGrid")
+            });
+            });
+        });
+
+        var clbPupGrdSel = null;
+        function LoadPopupDynamicaly(dynURL, ModalId, loadCalBack, onSelcalbck, width) {
+
+            if (width == undefined) { width = 597; }
+            if (ModalId.html().length == 0) {
+                $.ajax({
+                    url: dynURL,
+                    type: 'GET',
+                    async: false,
+                    dataType: 'html', // <-- to expect an html response
+                    success: function (data) {
+                        ModalId.dialog({
+                            height: 553,
+                            width: width,
+                            modal: true,
+                            title: 'Student Details',
+                            buttons: {}
+                        });
+                        ModalId.html(data);
+                    }
+                });
+            }
+            clbPupGrdSel = onSelcalbck;
+            ModalId.dialog('open');
+            CallBackFunction(loadCalBack);
+        }
+
+        function LoadSetGridParam(GridId, brUrl) {
+
+            GridId.setGridParam({
+                url: brUrl,
+                datatype: 'json',
+                mtype: 'GET'
+            }).trigger("reloadGrid");
+        }
+
+        $('#btnIdRejectIssue').click(function () {
+            return rejectionValidation("Please enter the comments to reject.");
+        });
+        $('#btnIdRejectIssue1').click(function () {
+            return rejectionValidation("Please enter the comments to reject.");
+        });
+        $('#btnReply').click(function () {
+            return rejectionValidation("Please enter the comments to reply.");
+        });
+        $('#btnApproveReply').click(function () {
+            return rejectionValidation("Please enter the comments to reply.");
+        });
+
+        $('#btnIdResolveIssue').click(function () {
+            if ($('#txtResolution').val() == null || $('#txtResolution').val() == "") {
+                ErrMsg("Please enter the Resolution Comments", function () { $('#txtResolution').focus(); });
+                //                $('#txtRejCommentsArea').attr("readonly", true).css("background-color", "#F5F5F5");
+                //                $('#txtRejCommentsArea').val("");
+                //                $('#txtResolution').attr("readonly", false).css("background-color", "white");
+
+                return false;
+            } else {
+                return true;
+            }
+            return false;
+        });
+
+        function rejectionValidation(msg) {
+
+            if ($('#txtRejCommentsArea').val() == null || $('#txtRejCommentsArea').val() == "") {
+                ErrMsg(msg, function () { $('#txtRejCommentsArea').focus(); });
+                //                $('#txtResolution').attr("readonly", true).css("background-color", "#F5F5F5");
+                //                $('#txtResolution').val("");
+                //                $('#txtRejCommentsArea').attr("readonly", false).css("background-color", "white");
+                return false;
+            } else {
+                return true;
+            }
+            return false;
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        var Status = $("#Status").val();
+
+        if (Status == "SickLeaveNotification-Hostel" || Status == "SickLeaveNotification-Dayscholar" || Status == "TransportPickup") {
+            $("#chkIsInformation").attr("disabled", true);
+            $("#chkIsInformation").attr("checked", true);
+        }
+
+        //        if (Status == "ResolveIssueRejection") {
+        //        $("#RejectionHeading").hide();
+        //        $("#RejectionDescription").hide();
+        //       //  $("#rejctionGridtbl").hide();
+        //        $('#CommentsSection tr:last-child').show();
+        //        }
+
+        //        if ($("#SuccessMsg").val() != null & $("#SuccessMsg").val() != "") {
+        //            InfoMsg("Issue Created Successfully.\n Issue Number is:" + $("#SuccessMsg").val());
+        //        }
+
+        $("#ReceiverGroup").change(function () {
+
+            if ($("#ReceiverGroup").val() != "") {
+                $("#btnAssign").show();
+                $("#ResolveIssue").hide();
+                $("#RejectIssue").hide();
+            }
+            else {
+                $("#btnAssign").hide();
+                $("#RejectIssue").show();
+            }
+        });
+
+
+        //Grid
+        var id = $("#Id").val();
+
+        $("#DocumentsList").jqGrid({
+            url: '/Home/DocumentsListJqGrid?Id=' + $("#Id").val(),
+            datatype: 'json',
+            mtype: 'GET',
+            postData: { Id: id },
+            colNames: ['Issue Number', 'Uploaded By', 'Uploaded On', 'File Name'],
+            colModel: [
+            // { name: 'Upload_Id', index: 'Upload_Id', width: 20, align: 'left', sortable:true },
+              {name: 'EntityRefId', index: 'EntityRefId', width: 80, align: 'left', sortable: true },
+              { name: 'Description', index: 'Description', width: 140, align: 'left', sortable: true },
+              { name: 'UploadedBy', index: 'UploadedBy', width: 80, align: 'left', sortable: true },
+              { name: 'UploadedOn', index: 'UploadedOn', width: 140, align: 'left', sortable: true },
+            // { name: 'Status', index: 'Status', width: 60, align: 'left', sortable:true}
+             ],
+            //  pager: '#DocumentsListPager',
+            height: '130',
+            width: '1160',
+            autowidth: true,
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200 ],
+            sortname: '',
+            sortorder: "",
+            viewrecords: true,
+            multiselect: false,
+            //scrollOffset: null,
+            caption: 'Documents List'
+        });
+
+        $("#Upload").click(function () {
+
+            var id = $("#Id").val();
+            var status = $("#Status").val();
+            var BrowseFile = $("#FileUpload").val();
+            var splitstr = BrowseFile.split('\\');
+            var FileName = splitstr[splitstr.length - 1];
+
+            $.ajaxFileUpload({
+                url: '@Url.Content("~/Home/Upload")?Id=' + id + '&Status=' + status + '&FileName=' + FileName,
+                secureuri: false,
+                fileElementId: 'FileUpload',
+                dataType: 'json',
+                success: function (data, status) {
+                    $("#DocumentsList").setGridParam({ url: '@Url.Content("~/Home/DocumentsListJqGrid")?Id=' + id }).trigger("reloadGrid");
+                    if (typeof (data.error) != 'undefined') {
+                        if (data.error != '') {
+                        } else {
+                            alert(data.msg);
+                        }
+                    }
+                },
+                error: function (data, status, e) {
+                    $("#DocumentsList").setGridParam({ url: '@Url.Content("~/Home/DocumentsListJqGrid")?Id=' + id }).trigger("reloadGrid");
+                }
+            });
+            return false;
+        });
+    });
+
+
+
+    $(function () {
+        
+        var a = "@ViewBag.aa";
+        if (a == "true") {
+            $("#chkWatingForParentCnfm").attr("disabled", true);
+            $("#chkWatingForParentCnfm").attr("checked", true);
+        }
+
+
+        $("#ddlIssueType").change(function () {
+            var issgrp = $("#ddlIssueGroup").val();
+            var isstyp = $("#ddlIssueType").val();
+            var stunum = $("#txtStuNum").val();
+            if ((stunum != "" && issgrp != "" && isstyp != "")) {
+
+                if (isstyp == "Job related" || isstyp == "Non teaching Staff Complaints" || isstyp == "Admission Status" || isstyp == "New Admission Procedures") {
+                    ErrMsg("Student Details not needed for Issue types such as Job related, Admission Status, New Admission Procedures and Non teaching Staff Complaints");
+                    $("#txtStuNum").val("");
+                    $("#txtstName").val("");
+                    $("#txtschool").val("");
+                    $("#txtgrade").val("");
+                    $("#txtsection").val("");
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        });
+
+        $(function () {
+
+            $("#ddlInformationFor").change(function () {
+                
+                var infofor = $("#ddlInformationFor").val();
+                var isHosteller = $('#IsHosteller').val();
+                var stunum = $("#txtStuNum").val();
+                if ((stunum != "" && infofor != "")) {
+                    if (infofor == "Transport Pickup" && isHosteller == "False") {
+                        ErrMsg("Please Select Hostel Students for Transport Pickup. Dont select Dayscholars.");
+                        $("#txtStuNum").val("");
+                        $("#txtstName").val("");
+                        $("#txtschool").val("");
+                        $("#txtgrade").val("");
+                        $("#txtsection").val("");
+                        return false;
+                    }
+                    else {
+
+                        return true;
+                    }
+                }
+            });
+        });
+
+
+        $("#chkWaitingForParentCnfm").change(function () {
+            
+            var isChecked = $('#chkWaitingForParentCnfm').attr('checked') ? true : false;
+            if (isChecked) {
+                $("#btnSendMailToParent").show();
+                $("#btnReply").hide();
+            }
+            else {
+                $("#btnSendMailToParent").hide();
+                $("#btnReply").show();
+            }
+        });
+
+        $("#CompleteLogIssue").click(function () {
+
+            
+            var issgrp = $("#ddlIssueGroup").val();
+            var isstyp = $("#ddlIssueType").val();
+            var stunum = $("#txtStuNum").val();
+            var infofor = $("#ddlInformationFor").val();
+            var value = $('#ddlIssueGroup option:selected').val();
+            var isHosteller = $('#IsHosteller').val();
+            var isChecked = $('#chkIsInformation').attr('checked') ? true : false;
+
+            if (isChecked == true && (infofor == "" || stunum == "")) {
+
+                if (infofor == "" && stunum == "") {
+                    ErrMsg("Please select Student Number and Information For ");
+                    return false;
+                }
+                else if (infofor != "" && stunum == "") {
+                    ErrMsg("Please Select Student Number");
+                    return false;
+                }
+                else if (infofor == "" && stunum != "") {
+                    ErrMsg("Please Select Information For");
+                    return false;
+                }
+
+                return true;
+            }
+
+            if (isChecked == true && (infofor != "" || stunum != "")) {
+                if (infofor == "Transport Pickup" && isHosteller == "False") {
+                    ErrMsg("Please Select Hostel Students for Transport Pickup. Dont select Dayscholars.");
+                    $("#txtStuNum").val("");
+                    $("#txtstName").val("");
+                    $("#txtschool").val("");
+                    $("#txtgrade").val("");
+                    $("#txtsection").val("");
+                    return false;
+                }
+                else {
+
+                    return true;
+                }
+            }
+            else if (isChecked == false) {
+
+                if ((stunum == "" && issgrp == "" && isstyp == "")) {
+
+                    ErrMsg("Please Select Student Number, Issue Group and Issue Type");
+
+                    return false;
+
+                }
+                else if (stunum != "" && issgrp == "" && isstyp == "") {
+
+                    ErrMsg("Please Select Issue Group and Issue Type");
+
+                    return false;
+
+                }
+                else if (stunum == "" && issgrp != "" && isstyp == "") {
+
+
+                    ErrMsg("Please Select Student Number and Issue Type");
+
+                    return false;
+                }
+
+
+                if ((stunum == "" && issgrp != "" && isstyp != "")) {
+
+                    if (isstyp == "Job related" || isstyp == "Non teaching Staff Complaints" || isstyp == "Admission Status" || isstyp == "New Admission Procedures")
+                        return true;
+                    else {
+                        ToCheckHosteller(value, isHosteller);
+
+                        return false;
+                    }
+                }
+                if ((stunum != "" && issgrp == "" && isstyp != "")) {
+
+                    ErrMsg("Please Select Issue Group");
+
+                    return false;
+
+                }
+                if ((stunum != "" && issgrp != "" && isstyp == "")) {
+
+                    ErrMsg("Please Select Issue Type");
+
+                    return false;
+
+                }
+
+                else if (issgrp != "" && isstyp == "") {
+
+                    ErrMsg("Please select Issue Type");
+
+                    return false;
+
+                }
+                if ((stunum != "" && issgrp != "" && isstyp != "")) {
+                    if (isstyp == "Job related" || isstyp == "Non teaching Staff Complaints" || isstyp == "Admission Status" || isstyp == "New Admission Procedures") {
+                        ErrMsg("Student Details not needed for Issue types such as Job related, Admission Status, New Admission Procedures and Non teaching Staff Complaints");
+                        $("#txtStuNum").val("");
+                        $("#txtstName").val("");
+                        $("#txtschool").val("");
+                        $("#txtgrade").val("");
+                        $("#txtsection").val("");
+                        return false;
+                    }
+
+                    else if (value == "Hostel" && isHosteller == "False") {
+                        ToCheckHosteller(value, isHosteller);
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            }
+        });
+
+
+
+        $("#Back").click(function () {
+            window.location.href = '@Url.Action("CallManagement", "Home")';
+        });
+
+
+        $('#InformationForHeading').hide();
+        $('#TdInformationFor').hide();
+
+        if ($('#chkIsInformation').is(':checked')) {
+            $('#IssGrpHeading').hide();
+            $('#IssTypHeading').hide();
+            $('#TdIssueGroup').hide();
+            $('#TdIssueType').hide();
+            $('#InformationForHeading').show();
+            $('#TdInformationFor').show();
+        }
+        else {
+            $('#IssGrpHeading').show();
+            $('#IssTypHeading').show();
+            $('#TdIssueGroup').show();
+            $('#TdIssueType').show();
+            $('#InformationForHeading').hide();
+            $('#TdInformationFor').hide();
+
+        }
+
+
+        $("#chkIsInformation").change(function () {
+
+            var isChecked = $('#chkIsInformation').attr('checked') ? true : false;
+
+            if (isChecked == true) {
+
+                $('#IssGrpHeading').hide();
+                $('#IssTypHeading').hide();
+                $('#TdIssueGroup').hide();
+                $('#TdIssueType').hide();
+                $('#InformationForHeading').show();
+                $('#TdInformationFor').show();
+
+            }
+            else {
+
+                $('#IssGrpHeading').show();
+                $('#IssTypHeading').show();
+                $('#TdIssueGroup').show();
+                $('#TdIssueType').show();
+                $('#InformationForHeading').hide();
+                $('#TdInformationFor').hide();
+                return true;
+            }
+
+        });
+
+    });
+    GetIssueType();
+    function GetIssueType() {
+
+        var value = $('#ddlIssueGroup option:selected').val();
+        var isHosteller = $('#IsHosteller').val();
+        
+        if (value != "") {
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '@Url.Content("~/Home/FillIssueType")?IssueGroup=' + value,
+                success: function (data) {
+
+                    $("#ddlIssueType").empty();
+                    $("#ddlIssueType").append("<option value=''> Select One </option>");
+
+                    for (var i = 0; i < data.rows.length; i++) {
+
+                        if (data.rows[i].Text == "@Model.IssueType") {
+                            //if (data.rows[i].Text == $("#ddlIssueType").val()) {
+                            $("#ddlIssueType").append("<option value='" + data.rows[i].Value + "' selected='selected'>" + data.rows[i].Text + "</option>");
+                        } else {
+                            $("#ddlIssueType").append("<option value='" + data.rows[i].Value + "'>" + data.rows[i].Text + "</option>");
+                        }
+                    }
+                },
+                dataType: "json"
+            });
+        }
+        else {
+            $("#ddlIssueType").empty();
+            $("#ddlIssueType").append("<option value=''> Select One </option>");
+        }
+
+        ToCheckHosteller(value, isHosteller);
+
+    }
+
+    function ToCheckHosteller(value, isHosteller) {
+        if (value == "Hostel" && isHosteller == "False") {
+            
+            $("#txtStuNum").val("");
+            $("#txtstName").val("");
+            $("#txtschool").val("");
+            $("#txtgrade").val("");
+            $("#txtsection").val("");
+            ErrMsg("Please select Hostel Student only for Hostel related Issue");
+            return false;
+        }
+
+    }
+
+   
+</script>
+<script type="text/javascript" language="javascript">
+    $(function () {
+        $("#CommentList").jqGrid({
+            url: '/Home/DescriptionForSelectedIdJqGrid?Id=' + $('#Id').val(),
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Commented By', 'Commented On', 'Rejection Comments', 'Resolution Comments'],
+            colModel: [
+            // { name: 'Issue Number', index: 'EntityRefId', sortable: false },
+              {name: 'CommentedBy', index: 'CommentedBy', sortable: false },
+              { name: 'CommentedOn', index: 'CommentedOn', sortable: false },
+              { name: 'RejectionComments', index: 'RejectionComments', sortable: false },
+              { name: 'ResolutionComments', index: 'ResolutionComments', sortable: false }
+             ],
+            rowNum: -1,
+            //width: 1160,
+            autowidth: true,
+            height: 150,
+            sortname: 'EntityRefId',
+            sortorder: "desc",
+            viewrecords: true,
+            caption: 'Discussion Forum'
+        });
+    });
+</script>
+@using (Html.BeginForm("CallRegister", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h3>
+        Call Register</h3>
+    <table class="WithBorderOnly" width="100%">
+        <tr class="PanelHeading">
+            <th colspan="6" class="PanelHeading">
+                Basic Details
+            </th>
+        </tr>
+        <tr>
+            <th width="15%">
+                Issue Number
+            </th>
+            <th width="15%">
+                Date
+            </th>
+            <th width="15%">
+                Processed By
+            </th>
+            <th width="15%">
+                User Role
+            </th>
+            <th width="15%">
+                Issue Status
+            </th>
+        </tr>
+        <tr style="font-weight: bold;">
+            <td width="15%">
+                @Html.Hidden("hdnIssueType", "", new { id = "hdnIssueType", @Value = Model.IssueType })
+                @Html.Hidden("ActivityId")
+                @Html.HiddenFor(model => model.IsIssueCompleted, new { id = "hdnIsuCmpleted", @Value = Model.IsIssueCompleted })
+                @Html.DisplayFor(model => model.IssueNumber)
+                @Html.Hidden("SuccessMsg", "", new { id = "SuccessMsg", @Value = @TempData["SuccessIssueCreation"] })
+                @Html.HiddenFor(model => model.BranchCode, new { id = "hdnBranchCode", @Value = Model.BranchCode })
+                @Html.HiddenFor(model => model.IsHosteller)
+                @*@Html.HiddenFor(model => model.IsHosteller, new { id = "hdnIsHosteller" })*@
+                @Html.HiddenFor(model => model.ActivityFullName)
+                @if (ViewBag.flag == 1 || ViewBag.flag == 0)
+                {
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.InstanceId, "")
+                    @Html.HiddenFor(model => model.IssueNumber, "")
+                                                       
+@*
+                    @Html.HiddenFor(model => model.IssueNumber, "")
+                    @Html.HiddenFor(model => model.StudentName, "")
+                    @Html.HiddenFor(model => model.ddlCallFrom, "")
+                    @Html.HiddenFor(model => model.StudentNumber, "")
+                    @Html.HiddenFor(model => model.StudentType, "")
+                    @Html.HiddenFor(model => model.School, "")
+                    @Html.HiddenFor(model => model.Section, "")
+                    @Html.HiddenFor(model => model.Approver, "")
+                    @Html.HiddenFor(model => model.ButtonId, "")
+                    @Html.HiddenFor(model => model.Grade, "")
+                   *@
+                    
+@*
+                   @Html.HiddenFor(model => model.CallPhoneNumber, "")
+                   @Html.HiddenFor(model => model.Description, "")
+                   @Html.HiddenFor(model => model.Email, "")
+                   *@
+                }
+            </td>
+            <td width="15%">
+                @if (ViewBag.flag == 1)
+                {
+                    @String.Format("{0:dd-MMM-yyyy }", Model.IssueDate)
+                    @Html.HiddenFor(model => model.IssueDate, "")
+                }
+
+                else
+                {
+                    @String.Format("{0:dd-MMM-yyyy }", Model.IssueDate)
+                    @Html.HiddenFor(model => model.IssueDate, "")
+                }
+            </td>
+            <td width="15%">
+                @if (ViewBag.flag == 1)
+                {
+                    @Model.UserInbox
+                    @Html.HiddenFor(model => model.UserInbox, "")
+                }
+
+                else
+                {
+                    @Model.UserInbox
+                    @Html.HiddenFor(model => model.UserInbox, "")
+                }
+            </td>
+            <td width="15%">
+                @if (ViewBag.flag == 1)
+                {
+                    @Model.UserRoleName
+                    @Html.HiddenFor(model => model.UserRoleName, new { id = "UserRoleName" })
+                }
+                else
+                {
+                    @Model.UserRoleName
+                    @Html.HiddenFor(model => model.UserRoleName, new { id = "UserRoleName" })
+                }
+            </td>
+            <td width="15%">
+                @if (ViewBag.flag == 1)
+                {
+                    @Model.ActivityFullName
+                    @Html.HiddenFor(model => model.Status, new { id = "Status" })
+                    @Html.HiddenFor(model => model.ActivityFullName)
+                }
+                else
+                {
+                    @Model.ActivityFullName
+                    @Html.HiddenFor(model => model.Status, new { id = "Status" })
+                    @Html.HiddenFor(model => model.ActivityFullName)
+                }
+            </td>
+        </tr>
+        @*<tr>
+              <th width="15%">
+                Branch Code
+            </th>
+            </tr>
+           
+         <tr>
+            <td>
+             @if (ViewBag.flag == 1)
+                {
+                    @Model.BranchCode
+                    @Html.HiddenFor(model => model.BranchCode, "")
+                }
+
+                else
+                {
+                    @Model.BranchCode
+                    @Html.HiddenFor(model => model.BranchCode, "")
+                }
+            </td>
+           </tr>*@
+    </table>
+    <table class="WithBorderOnly" width="100%" id="IssueDetails">
+        <tr class="PanelHeading">
+            <th colspan="5" class="PanelHeading">
+                Issue Details
+            </th>
+        </tr>
+        <tr>
+            <th width="20%">
+                Student Number
+            </th>
+            <th width="20%">
+                Student Name
+            </th>
+            <th width="20%">
+                Caller Phone Number
+            </th>
+            <th width="20%">
+                Call from
+            </th>
+            <th width="20%">
+                Caller Name
+            </th>
+        </tr>
+        <tr>
+            <td width="20%">
+                @Html.TextBoxFor(model => model.StudentNumber, new { id = "txtStuNum", @Class = "CSSTextBox" })
+                @if (Model != null && (Model.Status == "Log Issue" || Model.Status == "LogIssue"))
+                {
+                    <a id="StudentSearch">..</a> 
+                    <span style="color: Red">*</span>
+
+                }
+            </td>
+            <td width="20%">
+                @Html.TextBoxFor(model => model.StudentName, new { id = "txtstName", @Class = "CSSTextBox" })
+            </td>
+            <td width="20%">
+                @Html.TextBoxFor(model => model.CallPhoneNumber, new { id = "txtPhNum", @Class = "CSSTextBox" })
+            </td>
+            <td width="20%">
+                @Html.DropDownList("ddlCallFrom", new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Parent",Text="Parent"},
+                                              new{Value="Sibling",Text="Sibling"},
+                                              new{Value="Well wisher",Text="Well wisher"},
+                                              new{Value="Relatives",Text="Relatives"}
+                                          },
+                 "Value", "Text", ""), new { id = "ddlCallFrom", @Class = "CSSDropDownList" })
+                 @* @Html.HiddenFor(model => model.ddlCallFrom) *@
+            </td>
+
+            <td width="20%">
+                @Html.TextBoxFor(model => model.CallerName, new { id = "txtCallerName", @Class = "CSSTextBox" })
+            </td>
+        </tr>
+        <tr>
+            <th width="20%">
+                School
+            </th>
+            <th width="20%">
+                <div>
+                    <div style="float: left; width: 43%">
+                        Grade</div>
+                    <div style="float: left; width: 42%">
+                        Section
+                    </div>
+                </div>
+            </th>
+            <th width="20%" id="IssGrpHeading">
+                Issue Group
+            </th>
+            <th width="20%" id="IssTypHeading">
+                Issue Type
+            </th>
+            <th width="20%" id="InformationForHeading">
+                Information For
+            </th>
+            <th width="20%">
+                Email
+            </th>
+        </tr>
+        <tr>
+            <td width="20%">
+                @Html.TextBoxFor(model => model.School, new { id = "txtschool", @Class = "CSSTextBox" })
+            </td>
+            <td width="20%" style="text-align: left;">
+                <div style="float: left; width: 43%">
+                    @Html.TextBoxFor(model => model.Grade, new { id = "txtgrade", @Class = "CSSTextBox", @Style = "width:50px;" })</div>
+                <div style="float: left; width: 42%">
+                    @Html.TextBoxFor(model => model.Section, new { id = "txtsection", @Class = "CSSTextBox", @Style = "width:50px;" })</div>
+            </td>
+            <td width="20%" id="TdIssueGroup">
+                @Html.DropDownListFor(model => model.IssueGroup, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlIssueGroup", @Class = "CSSDropDownList", @onchange = "GetIssueType()" })
+              @*  @Html.DropDownList("ddlIssueGroup", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList", @onchange = "GetIssueType()" })
+                @Html.HiddenFor(model => model.IssueGroup) *@
+                <span style="color: Red">*</span>
+            </td>
+            <td width="20%" id="TdIssueType">
+                @Html.DropDownListFor(model => model.IssueType, new SelectList(Enumerable.Empty<SelectListItem>()), new { id = "ddlIssueType", @Class = "CSSDropDownList" })
+               @* @Html.DropDownList("ddlissuetype", new SelectList(Enumerable.Empty<SelectListItem>()), "select one", new { @class = "cssdropdownlist" })
+                @Html.HiddenFor(model => model.IssueType) *@
+                <span style="color: Red">*</span>
+                @Html.ValidationMessageFor(model => model.IssueType)
+            </td>
+            <td id="TdInformationFor">
+                @Html.DropDownListFor(model => model.InformationFor, new SelectList(new[]{
+                                           new { Value = "", Text = "Select One" },
+                                           new { Value = "Sick Leave Notification", Text = "Sick Leave Notification" },
+                                           new { Value = "Transport Pickup", Text = "Transport Pickup" },
+               },
+               "Value", "Text", ""), new { id = "ddlInformationFor", @Class = "CSSDropDownList" })
+                <span style="color: Red">*</span>
+            </td>
+            <td width="20%">
+                @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @Class = "CSSTextBox" })
+                <span style="color: Red">*</span>
+                @Html.ValidationMessageFor(model => model.Email)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+            </td>
+            @if (Model != null && (Model.Status == "Log Issue" || Model.Status == "LogIssue" || Model.Status == "Information" || Model.Status == "SickLeaveNotification-Hostel" || Model.Status == "SickLeaveNotification-Dayscholar" || Model.Status == "TransportPickup"))
+            {
+                <td>
+                    @Html.CheckBoxFor(model => model.IsInformation, new { id = "chkIsInformation" })
+                    <span style="font: normal 11px Verdana,Arial,sans-serif;">Is Information</span>
+                </td>
+            }
+            @if (Model.Status == "ResolveIssueRejection")
+            {
+                <td>
+                    @Html.CheckBoxFor(model => model.WaitingForParentCnfm, new { id = "chkWaitingForParentCnfm" })
+                    <span style="font: normal 11px Verdana,Arial,sans-serif;">Wait For Parent Confirmation</span>
+                </td>
+                <td> 
+                 <input type="submit" id="btnSendMailToParent" name="btnSendMailToParent" value = "Send Mail" style="display: none"/>
+                </td>
+            }
+        </tr>
+    </table>
+@*<table class="WithBorderOnly" width="100%" id="IssueDetails">
+        <tr class="PanelHeading">
+            <th colspan="5" class="PanelHeading">
+                Issue Details
+            </th>
+        </tr>
+        <tr>
+            <th width="20%" >
+                Information
+            </th>
+            <th width="20%" id="IssGrpHeading">
+                Issue Group
+            </th>
+            <th width="20%" id="IssTypHeading">
+                Issue Type  
+            </th>
+            <th width="20%">
+                Call from
+            </th>
+            <th width="20%">
+                Caller Name
+            </th>
+        </tr>
+        <tr>
+            
+                @if (Model != null && (Model.Status == "Log Issue" || Model.Status == "LogIssue" || Model.Status == "Information" || Model.Status == "SickLeaveNotification-Hostel" || Model.Status == "SickLeaveNotification-Dayscholar" || Model.Status == "TransportPickup"))
+                {
+                <td>
+                    @Html.CheckBoxFor(model => model.IsInformation, new { id = "chkIsInformation" })
+                    <span style="font: normal 11px Verdana,Arial,sans-serif;">Is Information</span>
+                </td>
+                }
+           
+            <td width="20%" id="TdIssueGroup">
+                @Html.DropDownListFor(model => model.IssueGroup, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlIssueGroup", @Class = "CSSDropDownList", @onchange = "GetIssueType()" })
+                @Html.HiddenFor(model => model.IssueGroup, new { id = "hdnIssueGroup", @Value = Model.IssueGroup })
+                <span style="color: Red">*</span>
+            </td>
+             <td width="20%" id="TdIssueType">
+                @Html.DropDownListFor(model => model.IssueType, new SelectList(Enumerable.Empty<SelectListItem>()), new { id = "ddlIssueType", @Class = "CSSDropDownList" })
+                @Html.HiddenFor(model => model.IssueType, new { id = "hdnIssueType", @Value = Model.IssueType })
+                <span style="color: Red">*</span>
+                @Html.ValidationMessageFor(model => model.IssueType)
+            </td>
+            <td width="20%">
+                @Html.DropDownListFor(model => model.ddlCallFrom, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Parent",Text="Parent"},
+                                              new{Value="Sibling",Text="Sibling"},
+                                              new{Value="Well wisher",Text="Well wisher"},
+                                              new{Value="Relatives",Text="Relatives"}
+                                          },
+                 "Value", "Text", ""), new { id = "ddlCallFrom", @Class = "CSSDropDownList" })
+            </td>
+            <td width="20%">
+                @Html.TextBoxFor(model => model.CallerName, new { id = "txtCallerName", @Class = "CSSTextBox" })
+            </td>
+
+        </tr>
+        <tr>
+            <th width="20%">
+                Student Number
+            </th>
+            <th width="20%">
+                Student Name
+            </th>
+            <th width="20%">
+                School
+            </th>
+            <th width="20%">
+                <div>
+                    <div style="float: left; width: 43%">
+                        Grade</div>
+                    <div style="float: left; width: 42%">
+                        Section
+                    </div>
+                </div>
+            </th>
+            
+            <th width="20%" id="InformationForHeading">
+                Information For
+            </th>
+            <th width="20%">
+                Email
+            </th>
+        </tr>
+        <tr>
+            <td width="20%">
+                @Html.TextBoxFor(model => model.StudentNumber, new { id = "txtStuNum", @Class = "CSSTextBox" })
+                @if (Model != null && (Model.Status == "Log Issue" || Model.Status == "LogIssue"))
+                {
+                    <a id="StudentSearch">..</a> 
+                    <span style="color: Red">*</span>
+                }
+            </td>
+            <td width="20%">
+                @Html.TextBoxFor(model => model.StudentName, new { id = "txtstName", @Class = "CSSTextBox" })
+            </td>
+             <td width="20%">
+                @Html.TextBoxFor(model => model.School, new { id = "txtschool", @Class = "CSSTextBox" })
+            </td>
+            <td width="20%" style="text-align: left;">
+                <div style="float: left; width: 43%">
+                    @Html.TextBoxFor(model => model.Grade, new { id = "txtgrade", @Class = "CSSTextBox", @Style = "width:50px;" })</div>
+                <div style="float: left; width: 42%">
+                    @Html.TextBoxFor(model => model.Section, new { id = "txtsection", @Class = "CSSTextBox", @Style = "width:50px;" })</div>
+            </td>
+            
+          
+            <td id="TdInformationFor">
+                @Html.DropDownListFor(model => model.InformationFor, new SelectList(new[]{
+                                           new { Value = "", Text = "Select One" },
+                                           new { Value = "Sick Leave Notification", Text = "Sick Leave Notification" },
+                                           new { Value = "Transport Pickup", Text = "Transport Pickup" },
+               },
+               "Value", "Text", ""), new { id = "ddlInformationFor", @Class = "CSSDropDownList" })
+                <span style="color: Red">*</span>
+            </td>
+            <td width="20%">
+                @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @Class = "CSSTextBox" })
+                <span style="color: Red">*</span>
+                @Html.ValidationMessageFor(model => model.Email)
+            </td>
+        </tr>
+        
+       @* <tr>
+            <td colspan="2">
+            </td>
+            @if (Model != null && (Model.Status == "Log Issue" || Model.Status == "LogIssue" || Model.Status == "Information" || Model.Status == "SickLeaveNotification-Hostel" || Model.Status == "SickLeaveNotification-Dayscholar" || Model.Status == "TransportPickup"))
+            {
+                <td>
+                    @Html.CheckBoxFor(model => model.IsInformation, new { id = "chkIsInformation" })
+                    <span style="font: normal 11px Verdana,Arial,sans-serif;">Is Information</span>
+                </td>
+            }
+            @if (Model.Status == "ResolveIssueRejection")
+            {
+                <td>
+                    @Html.CheckBoxFor(model => model.WaitingForParentCnfm, new { id = "chkWaitingForParentCnfm" })
+                    <span style="font: normal 11px Verdana,Arial,sans-serif;">Wait For Parent Confirmation</span>
+                </td>
+            }
+        </tr>
+    </table>*@
+    <table class="WithBorderOnly" width="100%">
+        <tr class="PanelHeading">
+            <th colspan="6" class="PanelHeading">
+                Description Section
+            </th>
+        </tr>
+        <tr>
+            <td width="30%" valign="top">
+                <table class="InnerTable" width="100%">
+                    <tr>
+                        <th>
+                            Issue Description
+                        </th>
+                    </tr>
+                    <tr>
+                        @if (Model != null && Model.Status == "Information" || Model.Status == "ResolveIssueRejection" || Model.Status == "ApproveIssueRejection" || Model.Status == "ResolveIssue" || Model.Status == "ApproveIssue" || Model.Status == "Complete")
+                        {  
+                         
+                            <td>
+                                @Html.TextAreaFor(model => model.Description, new { rows = 2, cols = 51, id = "txtDescription", @class = "CSSTextArea" })
+                                <span style="color: Red">*</span>
+                                @Html.ValidationMessageFor(model => model.Description)
+                            </td>
+                           
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.TextAreaFor(model => model.Description, new { rows = 2, cols = 51, id = "txtDescription", @class = "CSSTextArea" })<span
+                                    style="color: Red">*</span>
+                                @Html.ValidationMessageFor(model => model.Description)
+                            </td> 
+                        }
+                    </tr>
+                    <tr>
+                        @if (Model != null && Model.Status == "ResolveIssue" || Model.Status == "ResolveIssueRejection" || Model.Status == "ApproveIssueRejection" || Model.Status == "ApproveIssue" || Model.Status == "Complete")
+                        {  
+                            <th>
+                                Issue Resolution Comments
+                            </th>
+                        }
+                    </tr>
+                    <tr>
+                        @if (Model != null && Model.Status == "ResolveIssue" || Model.Status == "ResolveIssueRejection" || Model.Status == "ApproveIssueRejection" || Model.Status == "ApproveIssue" || Model.Status == "Complete")
+                        {  
+                            <td>
+                                @Html.TextAreaFor(model => model.Resolution, new { rows = 2, cols = 51, id = "txtResolution", @class = "CSSTextArea" })<span
+                                    style="color: Red">*</span>
+                                @Html.ValidationMessageFor(model => model.Resolution)
+                            </td>
+                        }
+                    </tr>
+                    @if (Model != null && (Model.Status == "Resolve Issue" || Model.Status == "ResolveIssue") ||
+                    (Model.Status == "Approve Issue" || Model.Status == "ApproveIssue") ||
+                    (Model.Status == "ResolveIssueRejection" || Model.Status == "Resolve Issue Rejection") ||
+                    (Model.Status == "ApproveIssueRejection" || Model.Status == "Approve Issue Rejection") ||
+                    (Model.Status == "Complete"))
+                    {
+                        <tr id="trComments">
+                            <th colspan="2" valign="top">
+                                Issue Rejection Comments
+                            </th>
+                        </tr>
+                        <tr id="tdComments">
+                            <td colspan="2">
+                                @Html.TextArea("txtRejCommentsArea", new { rows = 2, cols = 51, id = "txtRejCommentsArea", @class = "CSSTextArea" })
+                                <span style="color: Red">*</span>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </td>
+            @if (Model != null && (Model.Status == "Resolve Issue" || Model.Status == "ResolveIssue") ||
+                    (Model.Status == "Approve Issue" || Model.Status == "ApproveIssue") ||
+                    (Model.Status == "ResolveIssueRejection" || Model.Status == "Resolve Issue Rejection") ||
+                    (Model.Status == "ApproveIssueRejection" || Model.Status == "Approve Issue Rejection") ||
+                    (Model.Status == "Complete"))
+            {
+                <td width="60%">
+                    <table class="InnerTable" width="100%" id="rejctionGridtbl">
+                        <tr>
+                            <th>
+                                Rejection Grid
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="CommentList">
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            }
+        </tr>
+        <tr>
+            <td colspan="1">
+            </td>
+            <td>
+                @if (Model != null && (Model.Status != "Log Issue" || Model.Status != "LogIssue"))
+                {
+                    <table class="InnerTable" width="100%">
+                        <tr>
+                            @if (Model != null && (Model.Status == "Approve Issue" || Model.Status == "ApproveIssue"))
+                            {
+                                <th width="33%">
+                                    Receiver Group
+                                </th>
+                            }
+                        </tr>
+                        <tr>
+                            @if (Model != null && (Model.Status == "Approve Issue" || Model.Status == "ApproveIssue"))
+                            {
+                                <td>
+                                    <select id="ReceiverGroup" name="ReceiverGroup" class="CSSDropDownList">
+                                    </select>
+                                    <input type="button" id="btnAssign" value="Assign" style="display: none" />
+                                </td>
+                            }
+@* <td>
+                                <input type="button" id="btnAssign" value="Assign" style="display: none" />
+                            </td>*@
+                        </tr>
+                    </table>
+                }
+            </td>
+        </tr>
+    </table>
+@* if (Model != null && (Model.Status == "Resolve Issue" || Model.Status == "ResolveIssue") ||
+                    (Model.Status == "Approve Issue" || Model.Status == "ApproveIssue") ||
+                    (Model.Status == "ResolveIssueRejection" || Model.Status == "Resolve Issue Rejection") ||
+                    (Model.Status == "ApproveIssueRejection" || Model.Status == "Approve Issue Rejection") ||
+                    (Model.Status == "Complete"))
+                {
+    <table id="rejctionGridtbl" class="WithBorderOnly" width="100%">
+        <tr>
+            <td>
+                @Html.Partial("CommentsGrid")
+            </td>
+        </tr>
+    </table>
+                }
+*@
+@* if (ViewBag.flag == 1 || ViewBag.flag == 0)
+                {
+
+    <table class="WithBorderOnly" width="100%">
+        <tr>
+            <td>
+                @Html.Partial("FileUpload")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table id="DocumentsList">
+                </table>
+                <div id="DocumentsListPager">
+                </div>
+            </td>
+        </tr>
+    </table>
+                }
+  *@
+    <table class="InnerTable" width="100%">
+        <tr align="center">
+            <td width="40%">
+            </td>
+            <td width="100%" align="center">
+                @if (Model != null && (Model.Status == "Log Issue" || Model.Status == "LogIssue" || Model.Status == "ResolveIssueRejection"))
+                {
+                    <button type="submit" name="btnSave" id="Save" value="Save">
+                        Save</button>
+                }
+                @if (Model != null && (Model.Status == "Log Issue" || Model.Status == "LogIssue"))
+                {
+                    <button type="submit" name="btnCompleteLogIssue" id="CompleteLogIssue" value="CompleteLogIssue">
+                        Save and Submit</button>
+                }
+                else if (Model != null && (Model.Status == "Resolve Issue" || Model.Status == "ResolveIssue"))
+                {
+                    <input type="submit" id="btnIdResolveIssue" name="btnResolveIssue" value="Resolve Issue" />
+                    <button type="submit" id="btnIdRejectIssue" name="btnRejectIssue" value="Reject Issue">
+                        More Info Required
+                    </button>
+                }
+                else if (Model != null && (Model.Status == "Resolve Issue Rejection" || Model.Status == "ResolveIssueRejection"))
+                {
+                    <button type="submit" id="btnReply" name="btnReplyIssue" value="Reply Issue">
+                        Reply
+                    </button>
+                }
+@* else if (Model != null && (Model.Status == "Information" || Model.Status == "SickLeaveNotification-Hostel" || Model.Status == "SickLeaveNotification-Dayscholar" || Model.Status == "TransportPickup"))
+                {
+                    <input type="submit" id="CompleteInfo" name="btnCompleteInfo" value="Complete Info" />
+                }*@
+                else if (Model != null && (Model.Status == "Approve Issue" || Model.Status == "ApproveIssue"))
+                {
+                    <input type="submit" id="ApproveIssue" name="btnApproveIssue" value="Approve Issue" />
+                    <input type="submit" id="btnIdRejectIssue1" name="btnRejectIssue" value="Reject Issue" />  
+                }
+                else if (Model != null && (Model.Status == "Approve Issue Rejection" || Model.Status == "ApproveIssueRejection"))
+                {
+                    <button type="submit" id="btnApproveReply" name="btnReplyIssue" value="Reply Issue">
+                        Reply
+                    </button>
+                }
+                else if (Model != null && (Model.Status == "Complete" || Model.Status == "Complete"))
+                {
+                    <script type="text/javascript" language="javascript">
+                        $('#trComments').hide();
+                        $("#tdComments").hide();
+                    </script>
+                    if (Model.IsIssueCompleted != true)
+                    {
+                    <input type="submit" id="btnIdComplete" name="btnIdComplete" value="Complete" />}
+                }
+                <input type="button" id="Back" value="Back to Inbox" />
+            </td>
+            <td>
+            </td>
+        </tr>
+    </table>
+}
+<div id="DivStudentSearch"></div>

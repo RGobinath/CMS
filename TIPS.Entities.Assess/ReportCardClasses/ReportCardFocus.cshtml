@@ -1,0 +1,292 @@
+﻿@model TIPS.Entities.Assess.ReportCardClasses.RptCardFocus
+@using CMS.Helpers
+@{
+    var GradeVals = new SelectList(new[] {  new { Text = "Select", Value = ""}, new { Text = "VI", Value = "VI"},
+                                                 new { Text = "VII", Value = "VII"}, new { Text = "VIII", Value = "VIII"}}, "Value", "Text");
+    var SemesterVals = new SelectList(new[] { new { Text = "Select", Value = 0 }, new { Text = "I Semester", Value = 1 }, new { Text = "II Semester", Value = 2 } }, "Value", "Text");
+}
+<script language="javascript" type="text/javascript">
+    $(function () {
+        if ($.trim($("#FocusSaveAlrtMsg").val()) != "") { InfoMsg($("#FocusSaveAlrtMsg").val()); }
+
+        window.onload = function () {
+            var txts = document.getElementsByTagName('TEXTAREA')
+
+            for (var i = 0, l = txts.length; i < l; i++) {
+                if (/^[0-9]+$/.test(txts[i].getAttribute("maxlength"))) {
+                    var func = function () {
+                        var len = parseInt(this.getAttribute("maxlength"), 10);
+
+                        if (this.value.length > len) {
+                            this.value = this.value.substr(0, len);
+                            return false;
+                        }
+                    }
+
+                    txts[i].onkeyup = func;
+                    txts[i].onblur = func;
+                }
+            }
+        }
+
+        GetCampus();
+        function GetCampus() {
+            var ddlcam = $("#ddCampus");
+            $.ajax({
+                type: 'GET',
+                async: false,
+                dataType: "json",
+                url: '@Url.Content("~/AchievementReport/FillCampusCode")',
+                success: function (data) {
+                    ddlcam.empty();
+                    ddlcam.append("<option value=''> Select </option>");
+                    for (var i = 0; i < data.length; i++) {
+                        if ($('#Campus').val() == data[i].Value) {
+                            ddlcam.append("<option value='" + data[i].Value + "' selected='selected'>" + data[i].Text + "</option>");
+                        } else {
+                            ddlcam.append("<option value='" + data[i].Value + "'>" + data[i].Text + "</option>");
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    ErrMsg($.parseJSON(xhr.responseText).Message);
+                }
+            });
+
+            bindSelectedVal(document.getElementById("ddCampus"), $('#Campus').val());
+        }
+
+        $('#ddCampus').change(function () {
+            $('#RptCardFocusId').val(0);
+            $('#Campus').val($('#ddCampus option:selected').val());
+        });
+
+        function bindSelectedVal(DrpDwnObj, SelVal) {
+            for (var g = 0; g < DrpDwnObj.options.length; g++) {
+                if (DrpDwnObj.options[g].val == SelVal) {
+                    DrpDwnObj.selectedIndex = g;
+                }
+            }
+        }
+
+        //        if ($('#RptCardFocusId').val() > 0) {
+        //            $("#btnGetFocusDtls").hide();
+        //        } else {
+        //            $("#btnGetFocusDtls").show();
+        //        }
+
+        $('#AcademicYear').change(function () {
+            $('#RptCardFocusId').val(0);
+            $("#btnGetFocusDtls").click();
+
+        });
+
+        //        $('#Grade').change(function () {
+        //            $('#RptCardFocusId').val(0);
+        //            $("#btnGetFocusDtls").click();
+        //        });
+
+        $("#btnReset").click(function () {
+            var vCampus = $('#Campus').val();
+            var vGrade = $('#Grade').val();
+            var vSemester = $('#Semester').val();
+            var vAcademicYear = $('#AcademicYear').val();
+            alert(vAcademicYear);
+            $('#RptCardFocusId').val(0);
+            if (vCampus != "Select" && vGrade != "Select" && vSemester != "Select" && vAcademicYear != "Select") {
+                $('#Action').val('Reset');
+                return true;
+            }
+            return false;
+        });
+
+        $("#btnGetFocusDtls").click(function () {
+            debugger;
+            var vCampus = $('#Campus').val();
+            var vGrade = $('#Grade').val();
+            var vSemester = $('#Semester').val();
+
+            if (vCampus != "Select" && vGrade != "Select" && vSemester != "Select") {
+                $('#Action').val('Get');
+                return true;
+            }
+            return false;
+        });
+
+        $("#btnSaveFocus").click(function () {
+            if (RptCrdFocusValidtion()) { $('#Action').val('Save'); return true; }
+            return false;
+        });
+
+        $("#btnbkInbox").click(function () {
+            $('#Action').val('Back');
+
+            window.location.href = '@Url.Action("ReportCardInbox", "AchievementReport")';
+        });
+
+        function RptCrdFocusValidtion() {
+            var vCampus = $('#Campus').val();
+            var vGrade = $('#Grade').val();
+            var vSemester = $('#Semester').val();
+
+            if (vCampus != "Select" && vGrade != "Select" && vSemester != "Select" &&
+           (!isEmptyorNull($('#English').val()) || !isEmptyorNull($('#Hindi').val()) || !isEmptyorNull($('#French').val()) ||
+            !isEmptyorNull($('#Maths').val()) || !isEmptyorNull($('#Physics').val()) || !isEmptyorNull($('#Chemistry').val()) ||
+            !isEmptyorNull($('#Biology').val()) || !isEmptyorNull($('#HistoryGeography').val()) || !isEmptyorNull($('#ICT').val()) || !isEmptyorNull($('#Robotics').val()))) {
+                return true;
+            } else {
+                ErrMsg("Please enter the Subject Focus fields.", function () { $("#English").focus(); });
+            }
+            return false;
+        }
+
+    });
+</script>
+@using (Html.BeginForm("SaveOrUpdateReportCardFocus", "AchievementReport", FormMethod.Post, new { id = "innerForm", enctype = "multipart/form-data" }))
+{
+    <h3>
+        Report Card Focus Entry
+    </h3>   
+    
+    <table width="100%" class="WithBorderOnly" id="TicketFormDtls">
+        <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+            <td colspan="5">
+                Report Card Focus
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                Campus Name
+            </td>
+            <td width="20%">
+                Semester
+            </td>
+            <td width="20%">
+                Grade
+            </td>
+            <td width="20%">
+                AcademicYear
+            </td>
+            <td width="20%">
+                <button type="submit" id="btnGetFocusDtls">
+                    Get Details
+                </button>
+                <button type="submit" id="btnSaveFocus">
+                    Save
+                </button>
+                <input type="submit" id="btnReset" value="Reset" name="Reset" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 20%">
+                @Html.Hidden("RptCardFocusId")
+                @Html.Hidden("CreatedBy")
+                @Html.Hidden("ModifiedBy")
+                @Html.Hidden("Action")
+                @Html.Hidden("Campus")
+                @Html.DropDownList("ddCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select Campus", new { @Class = "CSSDropDownList", style = "width:80%;" })
+            </td>
+            <td style="width: 20%">
+                @Html.GetDropDown("Semester", SemesterVals, @Model.Semester)
+            </td>
+            <td style="width: 20%">
+                @Html.GetDropDown("Grade", GradeVals, @Model.Grade)
+            </td>
+            <td style="width: 20%">
+                @* @Html.TextBox("AcademicYear", @Model.AcademicYear, new { @Class = "CSSTextBox", style = "width: 80%", @Readonly = "Readonly" })*@
+                @Html.DropDownListFor(m => m.AcademicYear, new SelectList(ViewBag.acadyrddl, "AcademicYear", "AcademicYear"), "Select", new { id = "AcademicYear", @Class = "CSSDropDownList" })
+            </td>
+            <td>
+                <input type="button" id="btnbkInbox" value="Back to Inbox" name="Back to Inbox" />
+            </td>
+        </tr>
+        <tr>
+            <td width="10%">
+                English
+            </td>
+            <td width="85%" colspan="4">
+                @Html.TextArea("English", new { rows = 3, cols = 150, @class = "CSSTextArea", @maxlength = "1000", @tabindex = "8" })
+            </td>
+        </tr>
+        <tr>
+            <td width="10%">
+                Hindi
+            </td>
+            <td width="85%" colspan="4">
+                @Html.TextArea("Hindi", new { rows = 3, cols = 150, @class = "CSSTextArea", @maxlength = "1000", @tabindex = "9" })
+            </td>
+        </tr>
+        <tr>
+            <td width="10%">
+                French
+            </td>
+            <td width="85%" colspan="4">
+                @Html.TextArea("French", new { rows = 3, cols = 150, @class = "CSSTextArea", @maxlength = "1000", @tabindex = "10" })
+            </td>
+        </tr>
+        <tr>
+            <td width="10%">
+                Maths
+            </td>
+            <td width="85%" colspan="4">
+                @Html.TextArea("Maths", new { rows = 3, cols = 150, @class = "CSSTextArea", @maxlength = "1000", @tabindex = "11" })
+            </td>
+        </tr>
+        <tr>
+            <td width="10%">
+                Physics
+            </td>
+            <td width="85%" colspan="4">
+                @Html.TextArea("Physics", new { rows = 3, cols = 150, @class = "CSSTextArea", @maxlength = "1000", @tabindex = "12" })
+            </td>
+        </tr>
+        <tr>
+            <td width="10%">
+                Chemistry
+            </td>
+            <td width="85%" colspan="4">
+                @Html.TextArea("Chemistry", new { rows = 3, cols = 150, @class = "CSSTextArea", @maxlength = "1000", @tabindex = "13" })
+            </td>
+        </tr>
+        <tr>
+            <td width="10%">
+                Biology
+            </td>
+            <td width="85%" colspan="4">
+                @Html.TextArea("Biology", new { rows = 3, cols = 150, @class = "CSSTextArea", @maxlength = "1000", @tabindex = "14" })
+            </td>
+        </tr>
+        <tr>
+            <td width="10%">
+                HistoryGeography
+            </td>
+            <td width="85%" colspan="4">
+                @Html.TextArea("HistoryGeography", new { rows = 3, cols = 150, @class = "CSSTextArea", @maxlength = "1000", @tabindex = "15" })
+            </td>
+        </tr>
+        <tr>
+            <td width="10%">
+                ICT
+            </td>
+            <td width="85%" colspan="4">
+                @Html.TextArea("ICT", new { rows = 3, cols = 150, @class = "CSSTextArea", @maxlength = "1000", @tabindex = "16" })
+            </td>
+        </tr>
+        <tr>
+            <td width="10%">
+                Robotics
+            </td>
+            <td width="85%" colspan="4">
+                @Html.TextArea("Robotics", new { rows = 3, cols = 150, @class = "CSSTextArea", @maxlength = "1000", @tabindex = "17" })
+            </td>
+        </tr>
+        <tr>
+            <td width="10%">
+                Spark
+            </td>
+            <td width="85%" colspan="4">
+                @Html.TextArea("spark", new { rows = 3, cols = 150, @class = "CSSTextArea", @maxlength = "1000", @tabindex = "17" })
+            </td>
+        </tr>
+    </table>
+}

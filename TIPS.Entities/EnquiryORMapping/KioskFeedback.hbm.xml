@@ -1,0 +1,15 @@
+﻿<hibernate-mapping assembly="TIPS.Entities.EnquiryEntities.KioskFeedback" namespace="TIPS.Entities.EnquiryEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.EnquiryEntities.KioskFeedback, TIPS.Entities" table="KioskFeedback" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+<property name="StudentId" column="StudentId" type="Int64" ></property>
+    <property name="StudentName" column="StudentName" type="string" ></property>
+    <property name="Campus" column="Campus" type="string" ></property>
+    <property name="Section" column="Section" type="string" ></property>
+    <property name="Grade" column="Grade" type="string" ></property>
+    <property name="Feedback" column="Feedback" type="string" ></property>
+   
+  
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,31 @@
+﻿@model TIPS.Entities.Assess.NotEnteredCount
+@{
+    ViewBag.Title = "NotEntered";
+    Layout = "~/Views/Shared/NewAcePartialViewMaster.cshtml";
+}
+<script src="@Url.Content("~/Scripts/StaffManagementScripts/NotSubmittedMarks.js")" type="text/javascript"></script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <table id="NotSubmittedMarksList">
+                                    </table>
+                                    <div id="NotSubmittedMarksListPager">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

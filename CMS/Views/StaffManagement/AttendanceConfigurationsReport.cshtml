@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "Attendance Configurations Report";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="fa fa-search"></i>&nbsp;Search
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                        </div>
+                        <div class="space-2"></div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Campus</b></label>
+                                    @Html.DropDownList("ddlCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "---Select---", new { id = "ddlCampus", @Class = "form-control select-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Id Number</b></label>
+                                    @Html.TextBox("txtIdNumber", "", new { @id = "txtIdNumber" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Name</b></label>
+                                    @Html.TextBox("txtName", "", new { @id = "txtName" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Designation</b></label>
+                                    @Html.DropDownList("ddlDesignation", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlDesignation", @Class = "form-control select-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Department</b></label>
+                                    @Html.DropDownList("ddlDepartment", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlDepartment",  @Class = "form-control select-sm" })
+                                </div>
+                                 <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Staff Category</b></label>
+                                    @Html.DropDownList("ddlStaffType", new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Teaching",Text="Teaching"},
+                                              new{Value="Non Teaching-Admin",Text="Non Teaching [Admin]"},
+                                              new{Value="Non Teaching-Support",Text="Non Teaching [Support]"}
+                                          },
+                   "Value", "Text", ""), new { id = "ddlStaffCategoryForAttendane", @Class = "form-control select-sm" })
+                                </div>
+                            </div>
+                        </div>
+                         <div class="space-2"></div>
+                        <div class="row">
+                             <div class="col-xs-12">
+                           @*  <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Is Having ICMS Account</b></label>
+                                    @Html.DropDownList("ddlIsHavingICMSAccount", new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Yes",Text="Yes"},
+                                              new{Value="No",Text="No"}
+                                          },
+                   "Value", "Text", ""), new { id = "ddlIsHavingICMSAccount", @Class = "form-control select-sm" })
+                                </div>*@
+                            <div class="col-sm-3">
+                                    <label for="form-field-select-1">
+                                        <b>Is Attendance[ESSL] Configured</b></label>
+                                    @Html.DropDownList("ddlIsAttendanceConfigured", new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Yes",Text="Yes"},
+                                              new{Value="No",Text="No"}
+                                          },
+                   "Value", "Text", ""), new { id = "ddlIsAttendanceConfigured", @Class = "form-control select-sm" })
+                                </div>
+                            <div class="col-sm-3">
+                                    <label for="form-field-select-1">
+                                        <b>Is Attendance[ESSL] Mapped</b> [in ICMS]</label>
+                                    @Html.DropDownList("ddlIsAttendanceMappedInICMS", new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Yes",Text="Yes"},
+                                              new{Value="No",Text="No"}
+                                          },
+                   "Value", "Text", ""), new { id = "ddlIsAttendanceMappedInICMS", @Class = "form-control select-sm" })
+                                </div>
+                            <div class="col-sm-1">
+                                    <br />
+                                    <button class="btn btn-sm btn-primary pull-left" type="button" id="btnSearch">
+                                        <i class="ace-icon fa fa-search white"></i>Search</button>
+                                </div>
+                                <div class="col-sm-1">
+                                    <br />
+                                    <button class="btn btn-sm btn-primary pull-left" type="button" id="btnReset">
+                                        <i class="ace-icon fa fa-undo white"></i>Reset</button>
+                                </div>
+                                  <div class="col-sm-1">
+                                    <br />
+                                    <button class="btn btn-sm btn-primary pull-left" type="button" id="btnMapIntoICMS">
+                                        <i class="ace-icon fa fa-arrows white"></i>Map into ICMS</button>
+                                </div>
+                            </div>
+                            </div>
+                        <div class="space-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2"></div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="AttendanceConfigurationsReportList">
+                </table>
+                <div id="AttendanceConfigurationsReportListPager">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/StaffManagementScripts/AttendanceConfigurationsReport.js"></script>

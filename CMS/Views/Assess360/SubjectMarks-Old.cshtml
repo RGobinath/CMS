@@ -1,0 +1,508 @@
+﻿@{
+    ViewBag.Title = "SubjectMarks";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<h3>
+    SubjectMarks</h3>
+<style>
+    .NoBorder
+    {
+        border: none;
+        background: white;
+        color: Black;
+    }
+</style>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var lastsel2 = "";
+
+        $('#idFinalResult').click(function () {
+            var PreRegNum = "";
+            if ($('#Campus').val() == "") { ErrMsg("Please fill the Campus"); return false; }
+            if ($('#Grade').val() == "") { ErrMsg("Please fill the Grade"); return false; }
+            if ($('#Section').val() == "") { ErrMsg("Please fill the Section"); return false; }
+            if ($('#Semester').val() == "") { ErrMsg("Please fill the Semester"); return false; }
+            if ($('#AcademicYear').val() == "") { ErrMsg("Please fill the Academic Year"); return false; }
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '/Assess360/SemesterResultVaild?&PreRegNum=' + PreRegNum + '&campus=' + $('#Campus').val() + '&grade=' + $('#Grade').val() + '&section=' + $('#Section').val() + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val(),
+                success: function (data) {
+                    if (data == "Success") {
+                        return window.location.href = '/Assess360/FinalResultZipPdfGen?&campus=' + $('#Campus').val() + '&grade=' + $('#Grade').val() + '&section=' + $('#Section').val() + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val();
+                    }
+                    else {
+                        ErrMsg("Semester marks are not available");
+                        return false;
+                    }
+                }
+            });
+            // return window.location.href = '/Assess360/FinalResultZipPdfGen?&campus=' + $('#Campus').val() + '&grade=' + $('#Grade').val() + '&section=' + $('#Section').val() + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val();
+        });
+        $('#overAllZipFile').click(function () {
+            var PreRegNum = "";
+            if ($('#Campus').val() == "") { ErrMsg("Please fill the Campus"); return false; }
+            if ($('#Grade').val() == "") { ErrMsg("Please fill the Grade"); return false; }
+            if ($('#Section').val() == "") { ErrMsg("Please fill the Section"); return false; }
+            if ($('#Semester').val() == "") { ErrMsg("Please fill the Semester"); return false; }
+            if ($('#AcademicYear').val() == "") { ErrMsg("Please fill the Academic Year"); return false; }
+
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '/Assess360/OverAllGradeMarksValidation?&PreRegNum=' + PreRegNum + '&campus=' + $('#Campus').val() + '&grade=' + $('#Grade').val() + '&section=' + $('#Section').val() + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val(),
+                success: function (data) {
+                    if (data == "Success") {
+                        return window.location.href = '/Assess360/OverAllGradeZipPdfGen?&campus=' + $('#Campus').val() + '&grade=' + $('#Grade').val() + '&section=' + $('#Section').val() + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val();
+                    }
+                    else {
+                        ErrMsg("Subject marks not available");
+                        return false;
+                    }
+                }
+            });
+            //return window.location.href = '/Assess360/OverAllGradeZipPdfGen?&campus=' + $('#Campus').val() + '&grade=' + $('#Grade').val() + '&section=' + $('#Section').val() + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val();
+        });
+
+        $("#SubjectGrid").jqGrid({
+
+            url: '/Assess360/GetSubjectMarksJqGrid/',
+            datatype: 'json',
+            type: 'POST',
+            colNames: ['', 'PreRegNum', 'Student Name', 'Test I (10)', 'Test II (10)', 'Test III (10)', 'Project (20)', 'Total (50)', 'Total (50)', 'OutOf (100)', 'FA + SA', 'Grade', '', '', '', '', '', 'Academic Year', 'Final Result', 'OverAllResult', ''],
+            colModel: [
+            { name: 'MarksId', index: 'MarksId', editable: true, hidden: true },
+            { name: 'PreRegNum', index: 'PreRegNum', editable: true, hidden: true, key: true },
+            { name: 'Name', index: 'Name', width: 40, editable: true, editoptions: { disabled: true, class: 'NoBorder'} },
+            { name: 'Test1', index: 'Test1', align: 'center', width: 15, editable: true, edittype: 'text', editrules: { custom: true, custom_func: checkvalid }, sortable: false },
+            { name: 'Test2', index: 'Test2', align: 'center', width: 15, editable: true, edittype: 'text', editrules: { custom: true, custom_func: checkvalid }, sortable: false },
+            { name: 'Test3', index: 'Test3', align: 'center', width: 15, editable: true, edittype: 'text', editrules: { custom: true, custom_func: checkvalid }, sortable: false },
+            { name: 'Project', index: 'Project', align: 'center', width: 15, editable: true, edittype: 'text', editrules: { custom: true, custom_func: checkvalid1 }, sortable: false },
+            { name: 'FATotal', index: 'FATotal', align: 'center', width: 15, sortable: false },
+            { name: 'SATotal', index: 'SATotal', align: 'center', width: 15, editable: true, edittype: 'text', editrules: { custom: true, custom_func: checkvalid2 }, sortable: false },
+            { name: 'Outof', index: 'Outof', align: 'center', width: 15, sortable: false },
+            { name: 'Fa1andFa2', index: 'Fa1andFa2', align: 'center', width: 15, sortable: false },
+            { name: 'SEMGrade', index: 'SEMGrade', align: 'center', width: 15, sortable: false },
+            { name: 'Subject', index: 'Subject', editable: true, hidden: true, sortable: false },
+            { name: 'Semester', index: 'Semester', editable: true, hidden: true, sortable: false },
+            { name: 'Campus', index: 'Campus', align: 'center', width: 20, editable: true, hidden: true, sortable: false },
+            { name: 'Grade', index: 'Grade', align: 'center', width: 10, editable: true, hidden: true, sortable: false },
+            { name: 'Section', index: 'Section', align: 'center', width: 10, editable: true, hidden: true, sortable: false },
+            { name: 'AcademicYear', index: 'AcademicYear', width: 60, editable: true, hidden: true, sortable: false },
+            { name: 'History', index: 'History', width: 10, align: 'center', sortable: false, sortable: false },
+            { name: 'History', index: 'History', width: 10, align: 'center', sortable: false, sortable: false },
+            { name: 'CreatedBy', index: 'CreatedBy', width: 10, align: 'center', hidden: false },
+
+        ],
+            onSelectRow: function (id) {
+                var userid = jQuery('#SubjectGrid').jqGrid('getCell', id, 'CreatedBy');
+                if (id && id !== lastsel2) {
+                    jQuery('#SubjectGrid').restoreRow(lastsel2);
+                    // jQuery('#SubjectGrid').editRow(id, true);
+                    if (('@Session["UserId"].ToString()' == userid)) {
+
+                        jQuery('#SubjectGrid').jqGrid("editRow", id, true, '', '', '', '', function reload(rowid, result) {
+                            $("#SubjectGrid").trigger("reloadGrid");
+                        });
+                    }
+                    lastsel2 = id;
+                }
+            },
+            editurl: '/Assess360/GetSubjectEditRowList',
+            rowNum: 50,
+            rowList: [50, 100],
+            width: 1200,
+            height: 250,
+            pager: '#SubjectPager',
+            sortname: 'Id',
+            sortorder: 'Desc',
+            viewrecords: true,
+            caption: 'Subject Marks List'
+
+        });
+        jQuery("#SubjectGrid").navGrid('#SubjectPager', { add: false, edit: false, del: false, search: false });
+        $("#SubjectGrid").jqGrid('navButtonAdd', '#SubjectPager', {
+            caption: "Export To Excel",
+            onClickButton: function () {
+                window.open("GetSubjectMarksJqGrid" + '?rows=9999' +
+                         '&page=1' +
+                         '&sidx=Id' +
+                         '&sord=Asc' +
+                         '&campus=' + $('#Campus').val() +
+                         '&grade=' + $('#Grade').val() +
+                         '&section=' + $('#Section').val() +
+                         '&subject=' + $('#Subject').val() +
+                         '&semester=' + $('#Semester').val() +
+                         '&academicyear=' + $('#AcademicYear').val() +
+                         '&ExportType=Excel'
+                         );
+            }
+        });
+        jQuery("#SubjectGrid").jqGrid('setGroupHeaders', {
+            useColSpanStyle: true,
+            groupHeaders: [
+         { startColumnName: 'Test1', numberOfColumns: 5, titleText: '<em>Formative Assessment (FA)</em>' },
+         { startColumnName: 'SATotal', numberOfColumns: 2, titleText: '<em>Summative Assessment (SA)</em>' },
+         { startColumnName: 'Fa1andFa2', numberOfColumns: 2, titleText: '<em>SEM</em>' },
+        ]
+        });
+
+
+        function checkvalid(value, column) {
+            if (value == "") {
+                return [true];
+            }
+            if (!$.isNumeric(value)) {
+                //  ErrMsg(column + 'Should be numeric');
+                return [false, column + 'Should be numeric'];
+            }
+            else if (parseInt(value) > parseInt(10)) {
+                //  ErrMsg(column + 'Should be numeric');
+                return [false, column + ' Mark Should not be greater than 10'];
+            }
+            else {
+                return [true];
+            }
+        }
+
+        function checkvalid1(value, column) {
+            if (value == "") { return [true]; }
+            if (!$.isNumeric(value)) { return [false, column + 'Should be numeric']; }
+            else if (parseInt(value) > parseInt(20)) { return [false, column + ' Mark Should not be greater than 20']; }
+            else { return [true]; }
+        }
+        function checkvalid2(value, column) {
+            if (value == "") { return [true]; }
+            if (!$.isNumeric(value)) { return [false, column + 'Should be numeric']; }
+            else if (parseInt(value) > parseInt(50)) { return [false, column + ' Mark Should not be greater than 50']; }
+            else { return [true]; }
+        }
+
+        $("#search").click(function () {
+            var campus = $('#Campus').val();
+            var grade = $('#Grade').val();
+            var section = $('#Section').val();
+            var subject = $('#Subject').val();
+            var semester = $('#Semester').val();
+
+            if (campus == "") {
+                ErrMsg("Please fill the Campus");
+                return false;
+            }
+            if (grade == "") {
+                ErrMsg("Please fill the Grade");
+                return false;
+            }
+            if (section == "") {
+                ErrMsg("Please fill the Section");
+                return false;
+            }
+            if (subject == "") {
+                ErrMsg("Please fill the Subject");
+                return false;
+            }
+            if (semester == "") {
+                ErrMsg("Please fill the Semester");
+                return false;
+            }
+            if ($('#AcademicYear').val() == "") {
+                ErrMsg("Please fill the Academic Year");
+                return false;
+            }
+            $("#SubjectGrid").setGridParam(
+             {
+                 datatype: "json",
+                 url: '@Url.Content("~/Assess360/GetSubjectMarksJqGrid")',
+                 type: 'POST',
+                 postData: { campus: campus, grade: grade, section: section, subject: subject, semester: semester, academicyear: $('#AcademicYear').val() },
+                 page: 1
+             }).trigger("reloadGrid");
+
+        });
+
+        $("#reset").click(function () {
+            window.location.href = '@Url.Action("SubjectMarks", "Assess360")';
+        });
+
+        // fill the branch code or campus from the base controller....
+
+        $.getJSON("/Base/FillBranchCode",
+    function (fillig) {
+        var ddlcam = $("#Campus");
+        ddlcam.empty();
+        ddlcam.append($('<option/>',
+    {
+        value: "",
+        text: "Select One"
+
+    }));
+
+        $.each(fillig, function (index, itemdata) {
+            ddlcam.append($('<option/>',
+    {
+        value: itemdata.Value,
+        text: itemdata.Text
+    }));
+        });
+    });
+
+        $("#Campus").change(function () {
+            gradeddl();
+        });
+    });
+
+    function gradeddl() {
+
+        var campus = $("#Campus").val();
+        $.getJSON("/Admission/CampusGradeddl/", { campus: campus },
+                    function (modelData) {
+                        var select = $("#Grade");
+                        select.empty();
+                        select.append($('<option/>'
+            , {
+                value: "",
+                text: "Select Grade"
+            }));
+                        $.each(modelData, function (index, itemData) {
+
+                            select.append($('<option/>',
+            {
+                value: itemData.gradcod,
+                text: itemData.gradcod
+            }));
+                        });
+                    });
+    }
+
+    function ShowComments(PreRegNum, campus, grade, section) {
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: '/Assess360/SemesterResultVaild?&PreRegNum=' + PreRegNum + '&campus=' + campus + '&grade=' + grade + '&section=' + section + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val(),
+            success: function (data) {
+                if (data == "Success") {
+                    return window.location.href = '/Assess360/FinalResultPDF?&PreRegNum=' + PreRegNum + '&campus=' + campus + '&grade=' + grade + '&section=' + section + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val();
+                }
+                else {
+                    ErrMsg("Semester marks are not available");
+                    return false;
+                }
+            }
+        });
+    }
+
+    function ShowComments1(PreRegNum, campus, grade, section) {
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: '/Assess360/OverAllGradeMarksValidation?&PreRegNum=' + PreRegNum + '&campus=' + campus + '&grade=' + grade + '&section=' + section + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val(),
+            success: function (data) {
+                if (data == "Success") {
+                    return window.location.href = '/Assess360/OverAllGrade?&PreRegNum=' + PreRegNum + '&campus=' + campus + '&grade=' + grade + '&section=' + section + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val();
+                }
+                else {
+                    ErrMsg("Subject marks not available");
+                    return false;
+                }
+            }
+        });
+
+        // return window.location.href = '/Assess360/OverAllGrade?&PreRegNum=' + PreRegNum + '&campus=' + campus + '&grade=' + grade + '&section=' + section + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val();
+    }
+
+    //    function doFinalResultFunction() {
+    //        if ($('#Campus').val() == "") { ErrMsg("Please fill the Campus"); return false; }
+    //        if ($('#Grade').val() == "") { ErrMsg("Please fill the Grade"); return false; }
+    //        if ($('#Section').val() == "") { ErrMsg("Please fill the Section"); return false; }
+    //        if ($('#Semester').val() == "") { ErrMsg("Please fill the Semester"); return false; }
+    //        if ($('#AcademicYear').val() == "") { ErrMsg("Please fill the Academic Year"); return false; }
+    //        $.ajax({
+    //            type: 'POST',
+    //            async: false,
+    //            url: '/Assess360/SemesterResultVaild?&PreRegNum=' + PreRegNum + '&campus=' + campus + '&grade=' + grade + '&section=' + section + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val(),
+    //            success: function (data) {
+    //                if (data == "Success") {
+    //                    return window.location.href = '/Assess360/FinalResultZipPdfGen?&campus=' + $('#Campus').val() + '&grade=' + $('#Grade').val() + '&section=' + $('#Section').val() + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val();
+    //                }
+    //                else {
+    //                    ErrMsg("Semester marks are not available");
+    //                    return false;
+    //                }
+    //            }
+    //        });
+    //       // return window.location.href = '/Assess360/FinalResultZipPdfGen?&campus=' + $('#Campus').val() + '&grade=' + $('#Grade').val() + '&section=' + $('#Section').val() + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val();
+    //    }
+
+    //    function doOverAllZipFileFunction() {
+    //        if ($('#Campus').val() == "") { ErrMsg("Please fill the Campus"); return false; }
+    //        if ($('#Grade').val() == "") { ErrMsg("Please fill the Grade"); return false; }
+    //        if ($('#Section').val() == "") { ErrMsg("Please fill the Section"); return false; }
+    //        if ($('#Semester').val() == "") { ErrMsg("Please fill the Semester"); return false; }
+    //        if ($('#AcademicYear').val() == "") { ErrMsg("Please fill the Academic Year"); return false; }
+
+    //        $.ajax({
+    //            type: 'POST',
+    //            async: false,
+    //            url: '/Assess360/OverAllGradeMarksValidation?&PreRegNum=' + PreRegNum + '&campus=' + campus + '&grade=' + grade + '&section=' + section + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val(),
+    //            success: function (data) {
+    //                if (data == "Success") {
+    //                    return window.location.href = '/Assess360/OverAllGradeZipPdfGen?&campus=' + $('#Campus').val() + '&grade=' + $('#Grade').val() + '&section=' + $('#Section').val() + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val();
+    //                }
+    //                else {
+    //                    ErrMsg("Subject marks not available");
+    //                    return false;
+    //                }
+    //            }
+    //        });
+    //        //return window.location.href = '/Assess360/OverAllGradeZipPdfGen?&campus=' + $('#Campus').val() + '&grade=' + $('#Grade').val() + '&section=' + $('#Section').val() + '&semester=' + $('#Semester').val() + '&academicyear=' + $('#AcademicYear').val();
+    //    }
+
+    var clbPupGrdSel = null;
+    function LoadPopupDynamicaly(dynURL, ModalId, loadCalBack, onSelcalbck, width) {
+
+
+        if (width == undefined) { width = 1110; }
+        //  if (ModalId.html().length == 0) {
+        $.ajax({
+            url: dynURL,
+            type: 'GET',
+            async: false,
+            dataType: 'html', // <-- to expect an html response
+            success: function (data) {
+                ModalId.dialog({
+                    height: 340,
+                    width: width,
+                    modal: true,
+                    title: 'FinalResult Marks List'
+                    //  buttons: {}
+                });
+                ModalId.html(data);
+            }
+        });
+        // }
+        clbPupGrdSel = onSelcalbck;
+        ModalId.dialog('open');
+        CallBackFunction(loadCalBack);
+    }
+    function LoadSetGridParam(GridId, brUrl) {
+
+        GridId.setGridParam({
+            url: brUrl,
+            datatype: 'json',
+            mtype: 'GET'
+        }).trigger("reloadGrid");
+    }
+</script>
+<table style="width: 100%" class="WithBorderOnly">
+    <tr>
+        <td>
+            Campus
+        </td>
+        <td>
+            Grade
+        </td>
+        <td>
+            Section
+        </td>
+        <td>
+            Subject
+        </td>
+        <td>
+            Semester
+        </td>
+        <td>
+            Academic Year
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DropDownList("Campus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownList("Grade", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownList("Section",
+                    new SelectList(new[] { 
+                        new { Text = "", Value = "Select", Seleced = "True" },
+                        new { Text = "A", Value = "A", Seleced = "false" },
+                        new { Text = "B", Value = "B", Seleced = "false" },
+                        new { Text = "C", Value = "C", Seleced = "false" },
+                        new { Text = "D", Value = "D", Seleced = "false" },
+                        new { Text = "E", Value = "E", Seleced = "false" },
+                        new { Text = "F", Value = "F", Seleced = "false" }
+               }, "Text", "Value", "Seleced"),
+               new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownList("Subject",
+                    new SelectList(new[] { 
+                        new { Text = "", Value = "Select", Seleced = "True" },
+                        new { Text = "English", Value = "English", Seleced = "false" },
+                       // new { Text = "Language", Value = "Language", Seleced = "false" },
+                        new { Text = "Language-Hindi", Value = "Language-Hindi", Seleced = "false" },
+                        new { Text = "Language-French", Value = "Language-French", Seleced = "false" },
+                        new { Text = "HC&G", Value = "HC&G", Seleced = "false" },
+                        new { Text = "Mathematics", Value = "Mathematics", Seleced = "false" },
+                        new { Text = "Biology", Value = "Biology", Seleced = "false" },
+                        new { Text = "Physics", Value = "Physics", Seleced = "false" },
+                        new { Text = "Chemistry", Value = "Chemistry", Seleced = "false" },
+                        new { Text = "ICT", Value = "ICT", Seleced = "false" },
+                        new { Text = "Economics", Value = "Economics", Seleced = "false" },
+                        new { Text = "Physical Education", Value = "Physical Education", Seleced = "false" }
+               }, "Text", "Value", "Seleced"),
+               new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownList("Semester",
+                    new SelectList(new[] { 
+                         new { Text = "", Value = "Select", Seleced = "True" },
+                        new { Text = "Sem I", Value = "Sem I", Seleced = "True" },
+                        new { Text = "Sem II", Value = "Sem II", Seleced = "false" }
+                    
+               }, "Text", "Value", "Seleced"),
+               new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownList("AcademicYear",
+                    new SelectList(new[] { 
+                         new { Text = "", Value = "Select", Seleced = "True" },
+                        new { Text = "2013-2014", Value = "2013-2014", Seleced = "True" },
+                        new { Text = "2014-2015", Value = "2014-2015", Seleced = "false" }
+                    
+               }, "Text", "Value", "Seleced"),
+               new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            <input type="button" id="search" value="Search" />
+        </td>
+        <td>
+            <input type="button" id="reset" value="Reset" />
+        </td>
+    </tr>
+</table>
+<table width="100%">
+    <tr>
+        <td>
+            <table id="SubjectGrid">
+            </table>
+            <div id="SubjectPager">
+            </div>
+        </td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td>
+            <input type="button" id="idFinalResult" value="Final Result ZipFile" />
+        </td>
+        <td>
+            <input type="button" id="overAllZipFile" value="OverAll ZipFile" />
+        </td>
+    </tr>
+</table>

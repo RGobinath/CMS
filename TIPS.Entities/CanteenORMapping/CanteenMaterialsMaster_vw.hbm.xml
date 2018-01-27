@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.CanteenEntities.CanteenMaterialsMaster_vw" namespace="TIPS.CanteenEntities.StoreEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.CanteenEntities.CanteenMaterialsMaster_vw, TIPS.Entities" table="CanteenMaterialsMaster_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="MaterialGroupId" column="MaterialGroupId" type="Int64"></property>
+    <property name="Material" column="Material" type="string"></property>
+    <property name="ItemCode" column="ItemCode" type="string"></property>
+    <property name="Notes" column="Notes" type="string"></property>
+    <property name="ItemLocation" column="ItemLocation" type="string"></property>
+    <property name="MaterialGroup" column="MaterialGroup" type="string"></property>
+    <property name="IsActive" column="IsActive" type="bool"></property>
+    <property name="UnitCode" column="UnitCode" type="string"></property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.TransportEntities.VehicleCostDetails_Updated" namespace="TIPS.Entities.TransportEntities">
+  <class name="TIPS.Entities.TransportEntities.VehicleCostDetails_Updated, TIPS.Entities" table="VehicleCostDetails_Updated" lazy="false">
+    <id name="VehicleCostId" column="VehicleCostId" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="VehicleId" column="VehicleId" type="Int64"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="TypeOfTrip" column="TypeOfTrip" type="string"></property>
+    <property name="VehicleTravelDate" column="VehicleTravelDate" type="DateTime"></property>
+    <property name="VehicleNo" column="VehicleNo" type="string"></property>
+    <many-to-one name="DriverMaster" column="DriverMasterId" not-found="ignore" class="TIPS.Entities.TransportEntities.DriverMaster,  TIPS.Entities" cascade="none" fetch="join"> </many-to-one>
+    <many-to-one name="StaffDetails" column="HelperId" class="TIPS.Entities.StaffManagementEntities.StaffDetails,TIPS.Entities" cascade="none" insert="false" update="false" fetch="join" not-found="ignore"/>
+    <property name="VehicleRoute" column="VehicleRoute" type="string"></property>
+    <property name="StartKmrs" column="StartKmrs" type="Int64"></property>
+    <property name="EndKmrs" column="EndKmrs" type="Int64"></property>
+    <property name="Distance" column="Distance" type="Int64"></property>
+    <property name="DriverOt" column="DriverOt" type="decimal"></property>
+    <property name="HelperOt" column="HelperOt" type="decimal"></property>
+    <property name="Diesel" column="Diesel" type="decimal"></property>
+    <property name="Maintenance" column="Maintenance" type="decimal"></property>
+    <property name="Service" column="Service" type="decimal"></property>
+    <property name="FC" column="FC" type="decimal"></property>
+    <property name="Others" column="Others" type="decimal"></property>
+    <property name="HelperId" column="HelperId" type="Int64"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"></property>
+    <property name="EntryType" column="EntryType" type="string"></property>
+    <property name="IsKMReseted" column="IsKMReseted" type="bool"></property>   
+    <property name="KMResetValue" column="KMResetValue" type="Int64"></property>   
+
+
+  </class>
+</hibernate-mapping>
+

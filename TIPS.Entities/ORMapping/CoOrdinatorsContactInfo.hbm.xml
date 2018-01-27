@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="TIPS.Entities.CoOrdinatorsContactInfo" assembly="TIPS.Entities">
+  <class lazy="false" table="CoOrdinatorsContactInfo" name="TIPS.Entities.CoOrdinatorsContactInfo, TIPS.Entities">
+    <id name="Id" column="Id">
+      <generator class="identity"/>
+    </id>
+    <property name="Campus" column="Campus" not-null="true" type="string"/>
+    <property name="Server" column="Server" not-null="true" type="string"/>
+    <property name="Category" column="Category"  type="string"/>
+    <property name="EmailId" column="EmailId"  type="string"/>
+    <property name="MobileNo" column="MobileNo"  type="string"/>
+  </class>
+</hibernate-mapping>

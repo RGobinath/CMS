@@ -1,0 +1,418 @@
+﻿@{
+    ViewBag.Title = "Attendance";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<h3>
+    Attendance</h3>
+<style type="text/css">
+    #dvLoading
+    {
+        background: url(../../Images/ajax-loader.gif) no-repeat center center;
+        height: 100px;
+        width: 100px;
+        position: fixed;
+        z-index: 1000;
+        left: 50%;
+        top: 50%;
+        margin: -25px 0 0 -25px;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblBulk').hide();
+        $('#chkBox').hide();
+        $('#chkLabel').hide();
+
+        var HoliDays = "";
+        $('#dvLoading')
+          .hide()  // hide it initially.
+          .ajaxStart(function () {
+              $(this).show(); // show on any Ajax event.
+          })
+          .ajaxStop(function () {
+              $(this).hide(); // hide it when it is done.
+          });
+
+        $("#chbBulkAbs").click(function () {
+            if ($(this).is(":checked")) {
+                $('#tblBulk').show();
+                $('#txtDate').val('');
+                $('#txtDate').attr("disabled", "disabled");
+            } else {
+                $('#tblBulk').hide();
+                $('#txtDate').val('@ViewBag.dattime');
+                $('#txtDate').removeAttr("disabled", "disabled");
+            }
+        });
+
+        $("#txtFromDate").datepicker({
+            // showOn: "button",
+            numberOfMonths: 1,
+            dateFormat: "dd/mm/yy",
+            // buttonImage: "../../Images/date.gif",
+            buttonImageOnly: true,
+            beforeShowDay: function (date) {
+                var day = date.getDay();
+                return [day != 0, ''];
+            },
+            onSelect: function (selected) {
+                $("#txtToDate").datepicker("option", "minDate", selected)
+            }
+        });
+        $("#txtToDate").datepicker({
+            //showOn: "button",
+            numberOfMonths: 2,
+            // buttonImage: "../../Images/date.gif",
+            buttonImageOnly: true,
+            dateFormat: "dd/mm/yy",
+            beforeShowDay: function (date) {
+                var day = date.getDay();
+                return [day != 0, ''];
+            },
+            onSelect: function (selected) {
+                $("#txtFromDate").datepicker("option", "maxDate", selected)
+            }
+        });
+
+        $("#txtToDate").click(function () {
+            var SDate = $("#txtFromDate").val();
+            if (SDate == "") {
+                ErrMsg("Please select From Date");
+                return false;
+            }
+        });
+
+        $(".Attendancedatepicker").datepicker({
+            showOn: "button",
+            // maxDate: '+0d',
+            dateFormat: "dd/mm/yy",
+            buttonImage: "../../Images/date.gif",
+            maxDate: new Date('@DateTime.Now.ToString()'),
+            buttonImageOnly: true,
+            changeMonth: true,
+            timeFormat: 'hh:mm:ss',
+            autowidth: true,
+            // changeYear: true,
+            beforeShowDay: isAvailable
+        });
+
+        function isAvailable(date) {
+            var day = date.getDay();
+            var dateAsString = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+            var result = (($.inArray(dateAsString, HoliDays) == -1) && (day != 0)) ? [true] : [false];
+            return result
+        }
+
+        $("#AttendanceList").jqGrid({
+            url: '@Url.Content("~/Attendance/GetAttendanceViewJqGrid")',
+            datatype: 'json',
+            type: 'GET',
+            colNames: ['', 'Student Id', 'Name', 'Campus', 'Grade', 'Section', 'Date', 'Present / Absent', '', 'Complete Status'],
+            colModel: [
+                                  { name: 'PreRegNum', index: 'PreRegNum', width: 15, key: true, hidden: true },
+                                  { name: 'NewId', index: 'NewId', width: 15, sortable: false },
+                                  { name: 'Name', index: 'Name', width: 30 },
+                                  { name: 'Campus', index: 'Campus', width: 10, sortable: false },
+                                  { name: 'Grade', index: 'Grade', width: 10, sortable: false },
+                                  { name: 'Section', index: 'Section', width: 10, sortable: false },
+                                  { name: 'StudentAbsent', index: 'StudentAbsent', width: 10, editable: true, sortable: false },
+                                  { name: 'IsAbsent', index: 'IsAbsent', width: 15, sortable: false },
+                                  { name: 'AttId', index: 'AttId', width: 10, hidden: true, sortable: false },
+                                  { name: 'CompleteStatus', index: 'CompleteStatus', width: 60, sortable: false, hidden: true },
+
+                                  ],
+            rowNum: 300,
+            rowList: [300, 500, 800],
+            pager: '#AttendanceListPager',
+            sortname: 'Name',
+            viewrecords: true,
+            sortorder: "Asc",
+            width: 1200,
+            height: 250,
+            caption: 'Attendance List',
+            multiselect: true,
+            forceFit: true,
+            cellEdit: true,
+            cellsubmit: 'clientArray',
+            loadComplete: function () {
+                var rowIds = $("#AttendanceList").jqGrid('getDataIDs');
+                for (i = 0; i < rowIds.length; i++) {
+                    rowData = $("#AttendanceList").jqGrid('getRowData', rowIds[i]);
+                    if (rowData.AttId != "") {
+                        // $("#" + rowIds[i]).find("td").css("background-color", "#FF0000");
+                        $("#AttendanceList").jqGrid('setRowData', rowIds[i], false, { color: '#FF0000' });
+                    }
+
+                    if (rowData.CompleteStatus == "Completed") {
+                        $("#AttendanceList").jqGrid('setColProp', 'StudentAbsent', { editable: false });
+                        $("#btnAbsent_" + rowIds[i]).attr('disabled', 'disabled');
+                        $("#" + rowIds[i]).find("td").css("background-color", "#DEE3E4");
+                    } else {
+                        $("#AttendanceList").jqGrid('setColProp', 'StudentAbsent', { editable: true });
+                        $("#btnAbsent_" + rowIds[i]).removeAttr('disabled');
+                    }
+
+                }
+            },
+            afterEditCell: function (id, name, val, iRow, iCol) {
+                if (name == 'StudentAbsent') {
+                    jQuery("#" + iRow + "_StudentAbsent", "#AttendanceList").datepicker({ dateFormat: 'dd/mm/yy', maxDate: '+0d', beforeShowDay: isAvailable,
+                        onClose: function (data) {
+                            var GridIdList = $("#AttendanceList").jqGrid('getRowData', id);
+                            $.ajax({
+                                type: 'POST',
+                                async: false,
+                                dataType: "json",
+                                url: '/Attendance/FindAbsList?PreRegNum=' + id + '&date=' + data,
+                                success: function (date) {
+                                    if (date != null) {
+                                        $("#AttendanceList").jqGrid('setRowData', id, { 'AttId': "" });
+                                        $("#AttendanceList").jqGrid('setRowData', id, { 'StudentAbsent': data });
+                                        $("#AttendanceList").jqGrid('setRowData', id, { 'IsAbsent': "<input type=\"button\" id=\"btnAbsent\" value=\"Mark Absent\" />" });
+                                    }
+                                    else {
+                                        ErrMsg('Already Absent on this day');
+                                        $("#AttendanceList").trigger("reloadGrid");
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            },
+            beforeSelectRow: function (rowid, e) {
+                var GridIdList = $(this).jqGrid('getRowData', rowid);
+                var attid = GridIdList.AttId;
+                var name = GridIdList.Name;
+                var campus = GridIdList.Campus;
+                var absentdate = GridIdList.StudentAbsent;
+                var selecteddate = $('#txtDate').val();
+                if ($(e.target).is('input[type="button"]')) {
+                    var dialog = "";
+                    if (attid == "") {
+                        dialog = $('<div id="div_Confirm"></div>').text("Are you sure to Mark Absent for " + GridIdList.Name + "?");
+                    } else {
+                        dialog = $('<div id="div_Confirm"></div>').text("Are you sure to Mark Present for " + GridIdList.Name + "?");
+                    }
+                    $('body').append(dialog);
+                    $('#div_Confirm').dialog({
+                        autoOpen: true,
+                        modal: true,
+                        title: 'Comfirm Message',
+                        buttons: {
+                            "Yes": function () {
+                                $.ajax({
+                                    type: 'GET',
+                                    async: false,
+                                    dataType: "json",
+                                    url: '/Attendance/SaveAttendance?PreRegNum=' + rowid + '&Attid=' + attid + '&AbsentDate=' + absentdate + '&SelectedDate=' + selecteddate + '&Name=' + name + '&campus=' + campus,
+                                    success: function (data) {
+                                        if (data != null && data == "sucess") { InfoMsg("Message has been sent"); }
+                                        $("#AttendanceList").trigger("reloadGrid");
+                                    }
+                                });
+                                $('#div_Confirm').remove();
+                            },
+                            "No": function () {
+                                //write your logic here for no button
+                                $('#div_Confirm').remove();
+                            }
+
+                        }
+                    });
+                }
+                return true; // allow row selection
+            }
+        });
+        jQuery("#AttendanceList").navGrid('#AttendanceListPager', { add: false, edit: false, del: false, search: false });
+
+        $('#txtDate').val('@ViewBag.dattime');
+
+        $('#btnGetStdntLst').click(function () {
+
+            if ($('#Campus').val() == "") { ErrMsg("Please fill the Campus"); return false; }
+            if ($('#Grade').val() == "") { ErrMsg("Please fill the Grade"); return false; }
+            if ($('#Section').val() == "Select") { ErrMsg("Please fill the Section"); return false; }
+            if ($('#txtDate').val() == "") { ErrMsg("Please fill the Date"); return false; }
+
+            $("#AttendanceList").setGridParam(
+                {
+                    datatype: "json",
+                    url: '@Url.Content("~/Attendance/GetAttendanceViewJqGrid")',
+                    postData: { campus: $('#Campus').val(), grade: $('#Grade').val(), section: $('#Section').val(), date: $('#txtDate').val() },
+                    page: 1
+                }).trigger("reloadGrid");
+
+            $('#chkBox').show();
+            $('#chkLabel').show();
+
+        });
+
+
+        $('#btnBlkSave').click(function () {
+            debugger;
+            if ($('#Campus').val() == "") { ErrMsg("Please fill the Campus"); return false; }
+            if ($('#Grade').val() == "") { ErrMsg("Please fill the Grade"); return false; }
+            if ($('#Section').val() == "Select") { ErrMsg("Please fill the Section"); return false; }
+            if ($('#txtFromDate').val() == "") { ErrMsg("Please fill the Date"); return false; }
+            if ($('#txtToDate').val() == "") { ErrMsg("Please fill the To Date"); return false; }
+            var GridIdList = $("#AttendanceList").jqGrid('getGridParam', 'selarrrow');
+            var rowData = [];
+            debugger;
+            if (GridIdList.length > 0) {
+                if (GridIdList.length > 1) {
+                    ErrMsg("Only 1 Student can be Mark Bulk Absent"); return false;
+                }
+            } else {
+                ErrMsg("Please fill select the student"); return false;
+            }
+
+            rowData = $("#AttendanceList").jqGrid('getRowData', GridIdList[0]);
+            $.ajax({
+                type: 'GET',
+                async: false,
+                dataType: "json",
+                url: '/Attendance/BulkSaveFunc?preRegNum=' + GridIdList[0] + '&name=' + rowData.Name + '&campus=' + $('#Campus').val() + '&grade=' + $('#Grade').val() + '&section=' + $('#Section').val() + '&fromdate=' + $('#txtFromDate').val() + '&todate=' + $('#txtToDate').val(),
+                success: function (data) {
+                    if (data != null && data == "sucess") { InfoMsg("Message has been sent"); }
+                    $("#AttendanceList").trigger("reloadGrid");
+                }
+            });
+        });
+
+        $.getJSON("/Base/FillBranchCode",
+    function (fillig) {
+        var ddlcam = $("#Campus");
+        ddlcam.empty();
+        ddlcam.append($('<option/>',{value: "",text: "Select One"}));
+
+        $.each(fillig, function (index, itemdata) {
+            ddlcam.append($('<option/>',{value: itemdata.Value,text: itemdata.Text}));
+        });
+    });
+
+        $("#Campus").change(function () {
+            var campus = $('#Campus').val();
+            gradeddl();
+            $.ajax({
+                type: 'GET',
+                async: false,
+                dataType: "json",
+                url: '/Attendance/DisableDateinDatepicker?Campus=' + campus,
+                success: function (data) {
+                    HoliDays = data;
+                }
+            });
+        });
+
+
+        $('#btnCompleted').click(function () {
+            if ($('#Campus').val() == "") { ErrMsg("Please fill the Campus"); return false; }
+            if ($('#Grade').val() == "") { ErrMsg("Please fill the Grade"); return false; }
+            if ($('#Section').val() == "Select") { ErrMsg("Please fill the Section"); return false; }
+            if ($('#txtDate').val() == "") { ErrMsg("Please fill the Date"); return false; }
+            var status = "Completed";
+            $.ajax({
+                type: 'GET',
+                async: false,
+                dataType: "json",
+                url: '/Attendance/AttendanceCompleted?campus=' + $('#Campus').val() + '&grade=' + $('#Grade').val() + '&section=' + $('#Section').val() + '&date=' + $('#txtDate').val() + '&status=' + status,
+                success: function (data) {
+                    $("#AttendanceList").trigger("reloadGrid");
+                }
+            });
+        });
+    });
+
+
+    function gradeddl() {
+
+        var campus = $("#Campus").val();
+        $.getJSON("/Admission/CampusGradeddl/", { campus: campus },
+function (modelData) {
+    var select = $("#Grade");
+    select.empty();
+    select.append($('<option/>', {value: "",text: "Select Grade"}));
+    $.each(modelData, function (index, itemData) {
+
+        select.append($('<option/>',{value: itemData.gradcod,text: itemData.gradcod}));
+    });
+});
+    }
+
+</script>
+<table style="width: 100%" class="WithBorderOnly">
+    <tr>
+        <th class="PanelHeading" colspan="6">
+            Search Critera
+        </th>
+    </tr>
+    <tr>
+        <td>
+            Campus
+        </td>
+        <td>
+            Grade
+        </td>
+        <td>
+            Section
+        </td>
+        <td>
+            Date
+        </td>
+        <td>
+            <span id="chkLabel">Long Absent</span> &nbsp;
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DropDownList("Campus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownList("Grade", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownList("Section",
+                    new SelectList(new[] { 
+                        new { Text = "Select", Value = "Select", Seleced = "True" },
+                        new { Text = "A", Value = "A", Seleced = "false" },
+                        new { Text = "B", Value = "B", Seleced = "false" },
+                        new { Text = "C", Value = "C", Seleced = "false" },
+                        new { Text = "D", Value = "D", Seleced = "false" },
+                        new { Text = "E", Value = "E", Seleced = "false" },
+                        new { Text = "F", Value = "F", Seleced = "false" }
+               }, "Text", "Value", "Seleced"),
+               new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.TextBox("txtDate", "", new { @Class = "Attendancedatepicker", @readonly = true, style = "border: #006699 1px solid" })
+        </td>
+        <td>
+            <span id="chkBox">@Html.CheckBox("chbBulkAbs", new { id = "chbBulkAbs" })</span>
+        </td>
+        <td>
+            <input type="button" value="Get Student List" id="btnGetStdntLst" />
+            <input type="button" id="btnCompleted" value="Completed" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5" id="tblBulk">
+            From: @Html.TextBox("txtFromDate", "", new { @readonly = true, style = "border: #006699 1px solid" })
+            To: @Html.TextBox("txtToDate", "", new { @readonly = true, style = "border: #006699 1px solid" })
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="button" id="btnBlkSave" value="Bulk Absent" />
+        </td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td>
+            <table id="AttendanceList">
+            </table>
+            <div id="AttendanceListPager">
+            </div>
+        </td>
+    </tr>
+</table>
+<div id="dvLoading">
+</div>

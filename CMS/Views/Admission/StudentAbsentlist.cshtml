@@ -1,0 +1,115 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+@*<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">*@
+<script type="text/javascript">
+    var Studentholiday = JSON.parse('@Html.Raw(Json.Encode(ViewBag.studentholiday))');
+    var leavelist = JSON.parse('@Html.Raw(Json.Encode(ViewBag.leavelist))');
+ 
+   
+    function unavailable(date) {
+        dmy = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+        if ($.inArray(dmy, Studentholiday) == -1) {
+            if ($.inArray(dmy, leavelist) == -1) {
+                return [true, ""];
+            }
+            else {
+                return [true, 'holiday', ""];
+            }
+        }
+        else {
+            return [true, 'bgclr', ""];
+        }
+    }
+
+    $(function () {
+        $(".datepicker").datepicker({
+            dateFormat: 'dd/MM/yyyy',
+            maxDate: new Date('@DateTime.Now.ToString()'),
+            // maxDate: new Date(currentYear, currentMonth, currentDate),
+            beforeShowDay: unavailable,
+            onSelect: function (dateText, inst) {
+                unavailable(this);
+            }
+        });
+    });
+</script>
+<style type="text/css">
+    .bgclr {
+        background-color: #CD5C5C;
+    }
+
+    .holiday {
+        background-color: #6BD3CE;
+    }
+
+    td, th {
+        padding: 0;
+        width: 1000px;
+    }
+
+    .datepicker td, .datepicker th {
+        min-width: 93px;
+    }
+
+    .ui-datepicker {
+        display: none;
+        padding: 0.2em 0.2em 0;
+        width: 51em;
+    }
+
+    .ui-datepicker {
+        padding: .2em .2em 0;
+        display: none;
+    }
+
+        .ui-datepicker table {
+            width: 100%;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .ui-datepicker td > a, .ui-datepicker td > span {
+            box-sizing: content-box;
+            color: #393939;
+            display: inline-block;
+            font-size: 13px;
+            height: 22px;
+            max-width: 57px;
+            min-width: 81px;
+            text-align: center;
+        }
+
+            .ui-datepicker td > a.ui-state-active {
+                background-color: #f3f3ff;
+                color: #2b2b2b;
+            }
+
+</style>
+
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa  fa-align-justify"></i>&nbsp;Student Attendance
+                </div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <div class="col-xs-12 datepicker">
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StoreEntities.StudentMaterialDistribution_vw" namespace="TIPS.Entities.StoreEntities">
+  <class name="TIPS.Entities.StoreEntities.StudentMaterialDistribution_vw, TIPS.Entities" table="StudentMaterialDistribution_vw" lazy="false">
+    <id name="MaterialviewId" column="MaterialviewId" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="StudId" column="StudId" type="Int64"></property>
+    <property name="NewId" column="NewId" type="string"></property>
+   <property name="Name" column="Name" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    
+    <property name="Material" column="Material" type="string"></property>
+    <property name="Quantity" column="Quantity" type="Int64"></property>
+    
+    
+    
+    <property name="Section" column="Section" type="string"></property>
+    <property name="MaterialSubGroup" column="MaterialSubGroup" type="string"></property>  
+    <property name="MaterialSubGroupId" column="MaterialSubGroupId" type="Int64"></property> 
+    <property name="Gender" column="Gender" type="string"></property>
+    <property name="IsHosteller" column="IsHosteller" type="bool"></property>
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>
+    <property name="IssueId" column="IssueId" type="Int64"></property>
+    <property name="StudentId" column="StudentId" type="Int64"></property>
+    <property name="MaterialId" column="MaterialId" type="Int64"></property>
+    <property name="IssuedQty" column="IssuedQty" type="Int64"></property>
+    <property name="ReceivedQty" column="ReceivedQty" type="Int64"></property>
+    <property name="PendingItems" column="PendingItems" type="string"></property>
+    <property name="ExtraQty" column="ExtraQty" type="Int64"></property>
+    <property name="TotalQty" column="TotalQty" type="Int64"></property>
+    <property name="MaterialDistributionId" column="MaterialDistributionId" type="Int64"></property>
+    
+    </class>
+</hibernate-mapping>

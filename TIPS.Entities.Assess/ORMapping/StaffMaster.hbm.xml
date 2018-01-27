@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="StaffMaster" table="StaffMaster" lazy="true" >
+    <id name="Id" column="Id" type="Int32">
+      <generator class="native" />
+    </id>
+    <property name="StaffName" column="StaffName" type="AnsiString" not-null="false" />
+    <property name="SubjectTeaching" column="SubjectTeaching" type="AnsiString" not-null="false" />
+    <property name="DateJoined" column="DateJoined" type="datetime" not-null="false" />
+    <property name="Grade" column="Grade" type="AnsiString" not-null="false" />
+    <property name="Campus" column="Campus" type="String"  />
+  </class>
+</hibernate-mapping>

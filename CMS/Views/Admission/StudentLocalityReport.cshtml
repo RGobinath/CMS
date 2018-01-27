@@ -1,0 +1,296 @@
+﻿@{
+    ViewBag.Title = "StudentLocalityUpadateReport";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="fa fa-pencil-square-o"></i>&nbsp;Search Details
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b></label>
+                                         @Html.DropDownList("campusddl", new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { @Class = "form-control select-sm" })
+                                        </div>
+                                             <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Locality</b></label>
+                                            @Html.TextBox("location", null, new { @class = "form-control input-sm" })
+                                        </div>
+                                        <div class="space-10"></div>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn btn-primary btn-block btn-sm" id="btnSearch">
+                                                <i class="ace-icon fa fa-search white"></i>Search
+
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-1">
+
+                                            <button type="button" class="btn btn-danger btn-block btn-sm" id="btnReset">
+                                                <i class="ace-icon fa fa-undo white"></i>Reset
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+             
+                <table id="jqStudentReport">
+                </table>
+                <div id="jqStudentLocalityReportPager">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        var grid_selector = "#jqStudentReport";
+        var pager_selector = "#jqStudentLocalityReportPager";
+        //resize to fit page size
+        $(window).on('resize.jqGrid', function () {
+            $(grid_selector).jqGrid('setGridWidth', $(".page-content").width());
+        })
+
+        //resize on sidebar collapse/expand
+        var parent_column = $(grid_selector).closest('[class*="col-"]');
+        $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+            if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                setTimeout(function () {
+                    $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                }, 0);
+            }
+        })
+        var dllCampus = $("#campusddl").val();
+        var Location = $("#location").val();
+        debugger;
+        jQuery(grid_selector).jqGrid({
+            url: '/admission/StudentLocalityReportJqgrid/?Campus=' + dllCampus + '&Location=' + Location,
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'Locality', 'Campus', 'Location Count'],
+            colModel: [
+            //if any column added need to check formateadorLink
+            { name: 'Id', index: 'Id', editable: true, hidden: true,  search: false },
+                 
+                 { name: 'Locality', index: 'Locality', key: true, width: 100 },
+                 { name: 'Campus', index: 'Campus' },
+                 { name: 'LocationCount', index: 'LocationCount',width:60 },
+            ],
+            pager: '#jqStudentLocalityReportPager',
+            rowNum: '20',
+            rowList: [20, 50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: 440,
+            //autowidth:true,
+            //shrinktofit: true,
+            viewrecords: true,
+            altRows: true,
+            multiselect: true,
+            multiboxonly: true,
+            subGrid: true,
+            caption: 'Student Location Report List',
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    updatePagerIcons(table);
+                    enableTooltips(table);
+                }, 0);
+                $(window).triggerHandler('resize.jqGrid');
+            },
+            subGridOptions: {
+                plusicon: "ace-icon fa fa-plus center bigger-110 blue",
+                minusicon: "ace-icon fa fa-minus center bigger-110 blue",
+                openicon: "ace-icon fa fa-chevron-right center orange",
+                // load the subgrid data only once // and the just show/hide 
+                "reloadOnExpand": false,
+                // select the row when the expand column is clicked 
+                "selectOnExpand": true
+            },
+          
+            subGridRowExpanded: function (StudentList, Locality) {
+                //alert(Locality);
+                var grid_selector = "#StudentListTable";
+                var pager_selector = "#StudentListPager";
+                var selectedData = $(grid_selector).jqGrid('getRowData', Locality);
+                if (parseInt(selectedData.TotalCount) == 0) {
+                    InfoMsg("No Items to display");
+                    return false;
+                }
+                else {
+                    var StudentListTable, StudentListPager;
+                    StudentListTable = StudentList + "_t";
+                    StudentListPager = "p_" + StudentListTable;
+                    $("#" + StudentList).html("<table id='" + StudentListTable + "' ></table><div id='" + StudentListPager + "' ></div>");
+                    jQuery("#" + StudentListTable).jqGrid({
+                        url: '/admission/StudentSubLocalityReportJqgrid?Locality=' + Locality,
+                        datatype: 'json',
+                        mtype: 'GET',
+                        colNames: ['Id', 'Campus', 'Name', 'NewId', 'Grade', 'Section', 'Academic Year', 'Admission Status', 'Transport', 'Locality', 'Sub Locality','Kilometer'],
+                        colModel: [
+                        //if any column added need to check formateadorLink
+                          { name: 'Id', index: 'Id', editable: true, hidden: true, key: true, search: false },
+                             { name: 'Campus', index: 'Campus', width: 60 },
+                             { name: 'Name', index: 'Name', width: 120 },
+                             { name: 'NewId', index: 'NewId', width: 100 },
+                             { name: 'Grade', index: 'Grade', width: 50 },
+                             { name: 'Section', index: 'Section', width: 100 },
+                             { name: 'AcademicYear', index: 'AcademicYear',width:100 },
+                             { name: 'AdmissionStatus', index: 'AdmissionStatus', width: 50 },
+                             { name: 'Transport', index: 'Transport' },
+                             { name: 'Locality', index: 'Locality', width: 80 },
+                             { name: 'Place', index: 'Place', width: 100 },
+                             { name: 'Kilometer', index: 'Kilometer', width: 100 }],
+                        pager: StudentListPager,
+                        rowNum: '5',
+                        rowList: [5, 10, 20, 50],
+                        sortname: 'Id',
+                        sortorder: "Asc",
+                        height: '130',
+                        loadComplete: function () {
+                            var table = this;
+                            setTimeout(function () {
+                                updatePagerIcons(table);
+                                enableTooltips(table);
+                            }, 0);
+                        },
+                        autowidth: true,
+                        viewrecords: true
+                    });
+                    jQuery("#" + StudentListTable).jqGrid('navGrid', "#" + StudentListPager, { edit: false, add: false, del: false, search: false, searchicon: 'ace-icon fa fa-search orange', refresh: true, refreshicon: 'ace-icon fa fa-refresh green' })
+                }
+            }
+        });
+
+
+        $("#location").autocomplete({
+            source: function (request, response) {
+                var Campus = $("#campusddl").val();
+                $.getJSON('/admission/GetAutoCompleteLocationByCampus?term=' + request.term + '&Campus=' + Campus, function (data) {
+                    response(data);
+                });
+            },
+            minLength: 1,
+            delay: 100
+        });
+       
+        $("#btnSearch").click(function () {
+            debugger;
+            jQuery(grid_selector).clearGridData();
+            var Campus = $("#campusddl").val();
+            var Location = $("#location").val();
+            if (Campus == '') {
+                ErrMsg('Please select Campus', function () { $("#ddlcampus").focus(); });
+                return false;
+            }
+            $(grid_selector).setGridParam(
+                    {
+                        datatype: "json",
+                        url: '/admission/StudentLocalityReportJqgrid',
+                        postData: { Campus: Campus, Location: Location },
+                        page: 1
+                    }).trigger("reloadGrid");
+
+        });
+        $("#btnReset").click(function () {
+            $("input[type=text], textarea, select").val("");
+            var Campus = $("#campusddl").val();
+            var Location = $("#location").val();
+            $(grid_selector).setGridParam(
+                    {
+                        datatype: "json",
+                        url: '/admission/StudentLocalityReportJqgrid',
+                        postData: { Campus: Campus, Location: Location },
+                        page: 1
+                    }).trigger("reloadGrid");
+        });
+        jQuery(grid_selector).jqGrid('navGrid', pager_selector, {
+            //navbar options
+            edit: false,
+            editicon: 'ace-icon fa fa-pencil blue',
+            add: false,
+            addicon: 'ace-icon fa fa-plus-circle purple',
+            del: false,
+            delicon: 'ace-icon fa fa-trash-o red',
+            search: false,
+            searchicon: 'ace-icon fa fa-search orange',
+            refresh: true,
+            refreshicon: 'ace-icon fa fa-refresh green',
+            view: false,
+            viewicon: 'ace-icon fa fa-search-plus grey'
+        }, {}, {}, {}, {})
+
+        $(document).on('ajaxloadstart', function (e) {
+            $(grid_selector).jqGrid('GridUnload');
+            $('.ui-jqdialog').remove();
+        });
+
+        //$(grid_selector).jqGrid('navButtonAdd', pager_selector, {
+        //    caption: "<i class='fa fa-file-excel-o'></i> &nbsp;Export To Excel",
+        //    onClickButton: function () {
+        //        debugger;
+        //        Campus = $("#campusddl").val();
+        //        Location = $("#location").val();
+        //        if (Campus == '') {
+        //            ErrMsg('Please select Campus', function () { $("#campusddl").focus(); });
+        //            return false;
+        //        }
+        //        window.open("/admission/StudentLocalityReportJqgrid" + '?ExportType=Excel'
+        //            + '&Campus=' + Campus
+        //            + ' &rows=9999 ');
+        //    }
+        //});
+
+    })
+    function updatePagerIcons(table) {
+        var replacement =
+                    {
+                        'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                        'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                        'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                        'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+                    };
+        $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+            var icon = $(this);
+            var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+            if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+        })
+    }
+    function enableTooltips(table) {
+        $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+        $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+    }
+
+</script>
+

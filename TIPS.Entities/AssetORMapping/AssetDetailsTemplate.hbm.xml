@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.AssetDetailsTemplate" namespace="TIPS.Entities.AssetDetailsTemplate" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.AssetDetailsTemplate, TIPS.Entities" table="AssetDetailsTemplate" lazy="false" >
+    <id name="Asset_Id" column="Asset_Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="AssetCode" column="AssetCode" type="string"></property>
+    <property name="Location" column="Location" type="string"></property>
+    <property name="SerialNumber" column="SerialNumber" type="string"></property>
+    <property name="Specifications" column="Specifications" type="string"></property>
+    <!--<property name="Descriptions" column="Descriptions" type="string"></property>-->
+    <property name="SpecificationsDetails" column="SpecificationsDetails" type="string"></property>
+    <property name="AssetType" column="AssetType" type="string"></property>
+
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime" />
+    <property name="IsSubAsset" column="IsSubAsset" type="bool"></property>
+    <!--<many-to-one name="CampusMaster" column="FormId" class="TIPS.Entities.CampusMaster,TIPS.Entities" fetch="join"> </many-to-one>-->
+  </class>
+</hibernate-mapping>

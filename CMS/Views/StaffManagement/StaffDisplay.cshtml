@@ -1,0 +1,141 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+@{
+    ViewBag.Title = "StaffDisplay";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+     @{
+        var rlecode = Session["userrolesarray"] as IEnumerable<string>;
+        var Appcode = Session["Role"] as IEnumerable<string>;
+    }
+    @if (rlecode.Contains("STM-APP"))
+    { 
+        @Html.Hidden("showexcel", "", new { @Value = true })        
+    }
+    else
+    {
+        @Html.Hidden("showexcel", "", new { @Value = false })    
+    }
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownListFor(m => m.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Designation</b></label>
+                                        @Html.DropDownList("Designation", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "designation", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Department</b></label>
+                                        @Html.DropDownList("department", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Status</b></label>
+                                        @Html.DropDownListFor(m => m.Status, new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                              new{Value="New Registration",Text="New Registration"},    
+                                              new{Value="Registered",Text="Registered"},
+                                              new{Value="Discontinued",Text="Discontinued"},
+                                              new{Value="Inactive",Text="Inactive"}                                   
+                                 }, "Value", "Text", ""), new { id = "stat", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Employee Name</b></label>
+                                        @Html.TextBox("appname", "", new { @Class = "form-control select-sm", @maxlength = "10" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Id Number</b></label>
+                                        @Html.TextBox("idno", "", new { @Class = "form-control select-sm", @maxlength = "20" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-success btn-block btn-sm"  type="button" id="Search">
+                                            <i class="ace-icon fa fa-search white"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                       <button class="btn btn-danger btn-block btn-sm"  type="button" id="reset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                   <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Certificate</b></label>
+                                        @Html.DropDownList("ddlCertificate", new SelectList(new[] {
+                                                        new{ Value="", Text="Select One"},
+                                                        new{Value="AddressProofLetter",Text="Address Proof Letter"},
+                                                        new{Value="BonafideCertificate",Text="Bonafide Certificate"},
+                                                        new{Value="NOCLetter",Text="NOC Letter"} ,
+                                                        new{Value="RedesignationLetter",Text="Redesignation Letter"},
+                                                        new{Value="RelievingLSCertificate",Text="Relieving Letter and Service Certificate"},
+                                                        new{Value="SalaryAppraisalLetter",Text="Salary Appraisal Letter "},
+                                                        new{Value="SalaryCertificate",Text="Salary Certificate"},
+                                                        new{Value="AppointmentLetter",Text="Appointment Letter"},
+                                                        new{Value="TransferLetter",Text="Transfer Letter"}                                                        
+                                                        }, "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-primary btn-info btn-block btn-sm" id="btnCertfy" value="Certificate">
+                                            <i class="ace-icon fa fa-search white"></i>Certificate
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="grid-table">
+                </table>
+                <div id="grid-pager">
+                </div>
+                <script type="text/javascript">
+                    var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+                </script>
+            </div>
+            @if (Session["staffapproverrole"].ToString() == "STM-APP")
+            {
+                <div class="col-sm-2">
+                    <br />
+                    <button class="btn btn-success btn-block btn-sm" type="button" id="btnPromotion">
+                        <i class="ace-icon fa fa-search white"></i>Promotion
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script src="@Url.Content("~/Scripts/StaffManagementScripts/StaffDisplay.js")" type="text/javascript"></script>
+<div id="DivStudentSearch"></div>
+<div id="PromotionDiv"></div>

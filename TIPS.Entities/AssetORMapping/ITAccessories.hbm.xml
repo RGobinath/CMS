@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.ITAccessories" namespace="TIPS.Entities.AssetEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.ITAccessories, TIPS.Entities" table="ITAccessories" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>    
+    <many-to-one name="CampusMaster" column="CampusId" class="TIPS.Entities.CampusMaster,TIPS.Entities" cascade="none" fetch="join" not-found="ignore"/> 
+    <many-to-one name="AssetProductMaster" column="ProductNameId" class="TIPS.Entities.AssetEntities.AssetProductMaster,TIPS.Entities" cascade="none" fetch="join" not-found="ignore"/>
+    <many-to-one name="AssetProductTypeMaster" column="ProductTypeId" class="TIPS.Entities.AssetEntities.AssetProductTypeMaster,TIPS.Entities" cascade="none" fetch="join" not-found="ignore"/>
+    <many-to-one name="ITAccessoriesBrandMaster" column="BrandId" class="TIPS.Entities.AssetEntities.ITAccessoriesBrandMaster,TIPS.Entities" cascade="none" fetch="join" not-found="ignore"/>         
+    <many-to-one name="ITAccessoriesModelMaster" column="ModelId" class="TIPS.Entities.AssetEntities.ITAccessoriesModelMaster,TIPS.Entities" cascade="none" fetch="join" not-found="ignore"/>         
+    <property name="Quantity" column="Quantity" type="Int64"></property>
+    <property name="Amount" column="Amount" type="decimal"></property>
+    <property name="Warranty" column="Warranty" type="string"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"></property>    
+    <many-to-one name="AssetInvoiceDetails" column="InvoiceDetailsId" class="TIPS.Entities.AssetEntities.AssetInvoiceDetails,TIPS.Entities" cascade="none" fetch="join" not-found="ignore"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,446 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+@{
+    ViewBag.Title = "Application Form";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        @Html.Hidden("displayidnum", "", new { id = "displayidnum", @Value = ViewBag.displayidnum })
+        @Html.Hidden("PKId", "", new { id = "PKId", @Value = ViewBag.PKId })
+        @Html.Hidden("viewbagidno", "", new { id = "viewbagidno", @Value = ViewBag.idnum })
+        @using (Html.BeginForm("ApplicationForm", "StaffManagement", FormMethod.Post, new { enctype = "multipart/form-data", test = "wew" }))
+        {
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-user"></i>&nbsp;Basic Details
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                @*<div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Request Number</b>
+                                            </label>
+                                            <br />
+                                            @ViewBag.RequestNum
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Date</b></label>
+                                            <br />
+                                            @ViewBag.Date
+                                            @Html.HiddenFor(x => x.CreatedDate)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Time</b></label>
+                                            <br />
+                                            @ViewBag.Time
+                                            @Html.HiddenFor(x => x.CreatedTime)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Processed By</b></label>
+                                            <br />
+                                            @ViewBag.processby
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>User Role</b></label>
+                                            <br />
+                                            @ViewBag.userrole
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Registration Status</b></label>
+                                            <br />
+                                            @Session["status"]
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-12">
+                                            <div id="progressbar"></div>
+                                        </div>
+                                    </div>
+
+                                </div>*@
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                            <div class="col-xs-12">
+                                                @*<div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Request Number</b>
+                                                    </label>
+                                                    <br />
+                                                    @ViewBag.RequestNum
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Date</b></label>
+                                                    <br />
+                                                    @ViewBag.Date
+                                                    @Html.HiddenFor(x => x.CreatedDate)
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Time</b></label>
+                                                    <br />
+                                                    @ViewBag.Time
+                                                    @Html.HiddenFor(x => x.CreatedTime)
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Processed By</b></label>
+                                                    <br />
+                                                    @ViewBag.processby
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>User Role</b></label>
+                                                    <br />
+                                                    @ViewBag.userrole
+                                                </div>*@
+                                                @if (@ViewBag.idnum == null)
+                                                {
+                                                    <div class="col-sm-2">
+                                                        <label for="form-field-select-1">
+                                                            <b>Temp Id Number</b>
+                                                        </label>
+                                                        <br />
+                                                        @(Model!=null?Model.TempIdNumber:"")
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-sm-2">
+                                                        <label for="form-field-select-1">
+                                                            <b>Id Number</b>
+                                                        </label>
+                                                        <br />
+                                                        @ViewBag.idnum
+                                                    </div>
+                                                }
+                                                <div class="col-sm-3">
+                                                    <label for="form-field-select-1">
+                                                        <b>Staff Name</b></label>
+                                                    <br />
+                                                    @(Model != null ? Model.Name : "")
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <label for="form-field-select-1">
+                                                        <b>Age</b></label>
+                                                    <br />
+                                                    @(Model != null ? Model.Age : 0)
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Gender</b></label>
+                                                    <br />
+                                                    @(Model != null ? Model.Gender : "")
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Marital Status</b></label>
+                                                    <br />
+                                                    @(Model != null ? Model.MaritalStatus : "")
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Campus</b>
+                                                    </label>
+                                                    <br />
+                                                    @ViewBag.campus
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                            <div class="col-xs-12">
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Designation</b>
+                                                    </label>
+                                                    <br />
+                                                    @ViewBag.desig
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Department</b>
+                                                    </label>
+                                                    <br />
+                                                    @ViewBag.dept
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Sub Group</b>
+                                                    </label>
+                                                    <br />
+                                                    @(Model != null ? Model.StaffSubGroup : "")
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Staff Type</b>
+                                                    </label>
+                                                    <br />
+                                                    @(Model != null ? Model.StaffType : "")
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Date of Join</b>
+                                                    </label>
+                                                    <br />
+                                                    @ViewBag.doj
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="form-field-select-1">
+                                                        <b>Registration Status</b></label>
+                                                    <br />
+                                                    @Session["status"]
+                                                    @Html.Hidden("SessionStatus", "", new { id = "SessionStatus", @Value = @Session["status"] })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top: 53px; margin-left: 3px; margin-bottom: 5px;">
+                                            <div class="col-xs-12">
+                                                <div class="col-sm-12">
+                                                    @*<div id="progressbar"></div>*@
+                                                    @if (Convert.ToInt64(ViewData["perVar"]) <= 40)
+                                                    {
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow='@ViewData["perVar"]' aria-valuemin="0" aria-valuemax="100" style="width: @ViewData["perVar"]%">
+                                                                @ViewData["perVar"]% Complete
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    else if (Convert.ToInt64(ViewData["perVar"]) > 40 && Convert.ToInt64(ViewData["perVar"]) <= 65)
+                                                    {
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="@ViewData["perVar"]" aria-valuemin="0" aria-valuemax="100" style="width: @ViewData["perVar"]%">
+                                                                @ViewData["perVar"]% Complete
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    else if (Convert.ToInt64(ViewData["perVar"]) > 65 && Convert.ToInt64(ViewData["perVar"]) <= 90)
+                                                    {
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="@ViewData["perVar"]" aria-valuemin="0" aria-valuemax="100" style="width: @ViewData["perVar"]%">
+                                                                @ViewData["perVar"]% Complete
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    else if (Convert.ToInt64(ViewData["perVar"]) > 90 && Convert.ToInt64(ViewData["perVar"]) <= 100)
+                                                    {
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="@ViewData["perVar"]" aria-valuemin="0" aria-valuemax="100" style="width: @ViewData["perVar"]%">
+                                                                @ViewData["perVar"]% Complete
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                            @*<div class="col-sm-2">
+                                                <img src="@Url.Action("uploaddisplay1", "StaffManagement", new { id = Session["Reqnum"] })" id="image1" width= "130px" height="120px"/>
+                                                <input type="file" id="my_file" style="display: none;" />
+                                            </div>*@
+                                            <span class="profile-picture">
+                                                <img class="editable img-responsive" src="@Url.Action("uploaddisplay1", "StaffManagement", new { id = Session["Reqnum"] })" id="image1" width= "130px" height="130px"/>
+                                            </span>
+                                            <br />
+                                            <button type="button" class="btn btn-primary btn-sm" name="CaptureImg" id="CaptureImg" value="CaptureImage">
+                                                <i class="ace-icon fa fa-save">&nbsp;</i>Capture
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <!-- PAGE CONTENT BEGINS -->
+                    <div class="tabbable tabs-top">
+                        <ul id="myTab" class="nav nav-tabs">
+                            <li class="active"><a href="#Employment" data-toggle="tab"><i class="ace-work fa fa-dashboard"></i>&nbsp;Employment Details</a> </li>
+                            <li><a data-toggle="tab" href="#Personal"><i class="ace-icon fa fa-tags"></i>&nbsp;Personal
+                                Details</a></li>
+                            <li><a data-toggle="tab" href="#Experience"><i class="ace-icon fa fa-phone"></i>&nbsp;Experience
+                                Details</a></li>
+                            <li><a data-toggle="tab" href="#Training"><i class="ace-icon fa fa-user"></i>&nbsp;Training
+                                Details</a></li>
+                            <li><a data-toggle="tab" href="#Reference"><i class="ace-icon fa fa-book"></i>&nbsp;Reference
+                                Details</a></li>
+                            <li><a data-toggle="tab" href="#Other"><i class="ace-icon fa fa-envelope-square"></i>
+                                &nbsp;Other Details</a></li>
+                            <li><a data-toggle="tab" href="#SubjectsHandling"><i class="ace-icon fa fa-envelope-square"></i>
+                                &nbsp;Subjects handling</a></li>
+                            @if (Session["staffapproverrole"].ToString() == "STM-APP")
+                            {
+                                <li><a data-toggle="tab" href="#ApproveDetails"><i class="ace-icon fa fa-mobile"></i>
+                                    &nbsp;Approve</a></li>
+                            }
+                        </ul>
+                        <div class="tab-content col-xs-6.col-sm-10">
+                            <div class="tab-pane in active" id="Employment">
+                                @Html.Partial("WorkDetails")
+                            </div>
+                            <div class="tab-pane" id="Personal">
+                                @Html.Partial("PersonalDetails")
+                            </div>
+                            <div class="tab-pane" id="Experience">
+                                @Html.Partial("ExperienceDetails")
+                            </div>
+                            <div class="tab-pane" id="Training">
+                                @Html.Partial("TrainingDetails")
+                            </div>
+                            <div class="tab-pane" id="Reference">
+                                @Html.Partial("ReferenceDetails")
+                            </div>
+                            <div class="tab-pane" id="Other">
+                                @Html.Partial("OtherDetails")
+                            </div>
+                             <div class="tab-pane" id="SubjectsHandling">
+                                @Html.Partial("SubjectsHandling")
+                            </div>
+                            @if (Session["staffapproverrole"].ToString() == "STM-APP")
+                            {
+                                <div class="tab-pane" id="ApproveDetails">
+                                    @Html.Partial("Approve")
+                                </div>
+                            }
+                            @Html.HiddenFor(model => model.DocCheck, new { id = "doccheck" })
+                            @Html.HiddenFor(model => model.QualCheck, new { id = "qualcheck" })
+                            @Html.HiddenFor(model => model.TempIdNumber)
+                        </div>
+                    </div>
+                    <!-- PAGE CONTENT ENDS -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <div class="row" style="padding-top: 10px;">
+                <div class="col-xs-12">
+                    @if ((Session["status"].ToString() == "New Registration") || (Session["status"].ToString() == "Registered"))
+                    {
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-primary btn-block btn-sm" value="Save" id="btnSave"
+                                name="btnSave" onclick="return(validate1());">
+                                <i class="ace-icon fa fa-plus-square-o white"></i>Save
+                            </button>
+                        </div>                        
+                    }
+                    @if ((Session["status"].ToString() == "New Registration") && (ViewBag.initialpage != "yes"))
+                    {
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-info btn-block btn-sm" value="Send For Approval"
+                                name="btnsentforapproval" onclick="return(validate1());" style="font-size: 10px;">
+                                <i class="ace-icon fa fa-check white"></i>Send For Approval
+                            </button>
+                        </div>
+                    }
+                    @if (Session["staffapproverrole"].ToString() == "STM-APP")
+                    {
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-success btn-block btn-sm" id="Approve" name="btnapprove" value="Approve"
+                                onclick="return(validate2());">
+                                <i class="ace-icon fa fa-check-square-o white"></i>Approve
+                            </button>
+                        </div>                        
+                    }
+                    @if (Session["staffapproverrole"].ToString() == "STM-APP" && ((Session["status"].ToString() == "New Registration") || (Session["status"].ToString() == "Sent For Approval")))
+                    {
+                    <div class="col-sm-2">
+                            <button type="submit" class="btn btn-primary btn-block btn-sm" value="Save" id="btnSendMail"
+                                name="btnSave" onclick="SendMailClick();return false;">
+                                <i class="ace-icon fa fa-envelope white"></i>Send Mail
+                            </button>
+                        </div>
+                    }
+                    @if ((ViewBag.admissionstatus == "Registered") && Session["staffapproverrole"].ToString() == "STM-APP")
+                    {
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-success btn-block btn-sm" id="btnResignation" name="btnSave" value="Submitted Resignation"
+                                onclick="return(validate1());">
+                                <i class="ace-icon fa fa-file"></i>&nbsp;&nbsp;Submitted Resignation
+                            </button>
+                        </div>
+                    }
+                    @if ((ViewBag.admissionstatus == "Submitted Resignation") && Session["staffapproverrole"].ToString() == "STM-APP")
+                    {
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-success btn-block btn-sm" id="btnServNotes" name="btnSave" value="Serving Notes Period"
+                                onclick="return(validate1());">
+                                <i class="ace-icon fa fa-file"></i>&nbsp;&nbsp;Serving Notes Period
+                            </button>
+                        </div>
+                    }
+                    @if ((ViewBag.admissionstatus == "Registered") || (ViewBag.admissionstatus == "Inactive") || (ViewBag.admissionstatus == "Discontinued"))
+                    {
+                        if (Session["staffapproverrole"].ToString() == "STM-APP")
+                        {
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-purple btn-block btn-sm" value="Back to Inbox"
+                                id="Back1">
+                                <i class="ace-icon fa fa-arrow-left white"></i>Back to Inbox
+                            </button>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-warning btn-block btn-sm" value="Back to Report" id="BackToRpt">
+                                <i class="ace-icon fa fa-arrow-left white"></i>Back to Report
+                            </button>
+                        </div>
+                        }
+                        else
+                        {
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-purple btn-block btn-sm" value="Back to Profile" id="BackToProfile">
+                                <i class="ace-icon fa fa-arrow-left white"></i>Back
+                            </button>
+                        </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-purple btn-block btn-sm" value="Back to Inbox"
+                                id="Back">
+                                <i class="ace-icon fa fa-arrow-left white"></i>Back to Inbox
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <!-- /.page-content-area -->
+</div>
+<div id="ImgCaptureDiv"></div>
+<script src="../../Scripts/StaffManagementScripts/ApplicationForm.js"></script>
+<script>
+    $(function () {
+        @*$("#progressbar").progressbar({
+            value: @ViewData["perVar"]
+            });
+        $("#progressbar > div").css({ 'background': 'url(images/dustyblue-1x100.png) #4CAF50 repeat-x 50% 50%','color':'solid black','font-weight':'bold' });
+        $("#progressbar > div").text(@ViewData["perVar"] + ' %');
+        $('#progressbar').css('width', 100 + "%");*@
+    });
+</script>

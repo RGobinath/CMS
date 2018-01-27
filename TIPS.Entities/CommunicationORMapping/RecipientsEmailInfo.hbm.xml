@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.CommunictionEntities.RecipientsEmailInfo" namespace="TIPS.Entities.CommunictionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.CommunictionEntities.RecipientsEmailInfo, TIPS.Entities" table="RecipientsEmailInfo" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="ComposeId" column="ComposeId" type="Int64"></property>
+    <property name="Name" column="Name" type="string"></property>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    
+    <property name="AdmissionStatus" column="AdmissionStatus" type="string"></property>
+    <property name="NewId" column="NewId" type="string"></property>
+    <property name="FeeStructYear" column="FeeStructYear" type="string"></property>
+    <property name="IsHosteller" column="IsHosteller" type="string"></property>
+    
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>
+    <property name="FatherEmailId" column="FatherEmailId" type="string"></property>
+    <property name="MotherEmailId" column="MotherEmailId" type="string"></property>
+    <property name="GeneralEmailId" column="GeneralEmailId" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="SendMail" column="SendMail" type="bool"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="RecipientsCreatedDate" column="RecipientsCreatedDate" type="DateTime"></property>
+    <property name="RecipientsModifiedDate" column="RecipientsModifiedDate" type="DateTime"></property>
+    <property name="ExceptionErrMsg" column="ExceptionErrMsg" type="string"></property>
+
+    <property name="IdKeyValue" column="IdKeyValue" type="Int64"></property>
+    <property name="U_EmailId" column="EmailId" type="string"></property>
+    <property name="FamilyDetailType" column="FamilyDetailType" type="string"></property>
+    <property name="VanNo" column="VanNo" type="string"></property>
+    <property name="AppliedDate" column="AppliedDate" type="date"></property>
+
+  </class>
+</hibernate-mapping>

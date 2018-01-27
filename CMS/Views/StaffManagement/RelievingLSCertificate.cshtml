@@ -1,0 +1,190 @@
+﻿<style type="text/css">
+    .breakhere
+    {
+        page-break-after: always;
+    }
+</style>
+@model TIPS.Entities.StaffManagementEntities.StaffDetails
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<p>
+    Date : @DateTime.Now.ToString("dd-MM-yyyy")</p>
+<br />
+<br />
+<center>
+    <h2>
+        Relieving Letter</h2>
+</center>
+<br />
+<br />
+NAME : <b>@Model.Name</b><br />
+Employee Code: <b>@Model.IdNumber</b>
+<br />
+<br />
+Dear <b>@Model.Name</b>, With reference to your resignation letter dated <b>@Model.Letterdate.ToString("dd-MM-yyyy")</b>,
+we wish to inform you that the management has accepted the same. You are relieved
+from the organization with effect from <b>@Model.DateofRelv.ToString("dd-MM-yyyy")</b>.
+<br />
+<br />
+<br />
+We wish you good luck for your bright and prospective career.<br />
+<br />
+With regards,
+<br />
+<br />
+<b>For The Indian Public School </b>
+<br />
+<br />
+<br />
+Authorised Signatory
+<p class="breakhere">
+</p>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<p>
+    Date : @DateTime.Now.ToString("dd-MM-yyyy")</p>
+<br />
+<br />
+<br />
+<center>
+    <h2>
+        Service Certificate
+        <br />
+        <br />
+        TO WHOM IT MAY CONCERN</h2>
+</center>
+<br />
+<br />
+This is to certify that <b>@Model.Name</b> had been employed with <b>The Indian Public
+    School</b> and the details of the employment are listed below:
+<br />
+<br />
+<br />
+<br />
+<table>
+    <tr>
+        <td>
+            Employee Code
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <b>@Model.IdNumber</b>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Employee Name
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <b>@Model.Name</b>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Type of Employment
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <b>FULL TIME OR PART TIME</b>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Date of Joining
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <b>@Model.DateOfJoin</b>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Designation at the time of joining
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <b>@Model.Designation</b>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Date of leaving
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <b>@Model.DateofRelv.ToString("dd-MM-yyyy")</b>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Designation at the time of leaving
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <b>@Model.Designation</b>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Location
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <b>@Model.Campus</b>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Conduct and Character
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <b>@Model.RSCertfy</b>
+        </td>
+    </tr>
+</table>
+<br />
+<br />
+<br />
+<br />
+We wish you Good Luck in your entire future endeavour.<br />
+<br />
+<br />
+<br />
+<br />
+<b>For The Indian Public School,</b>
+<br />
+<br />
+<br />
+<b>Authorised Signatory</b>

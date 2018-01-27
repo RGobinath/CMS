@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.NotUsedAssignmentList" table="NotUsedAssignmentList_vw" lazy="true" >
+    <id name="Id" column="Id" type="Int32">
+      <generator class="native" />
+    </id>
+    <property name="Campus">
+      <column name="Campus" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Grade">
+      <column name="Grade" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="Subject">
+      <column name="Subject" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="AssignmentName">
+      <column name="AssignmentName" sql-type="nvarchar" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

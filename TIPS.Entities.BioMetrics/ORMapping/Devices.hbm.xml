@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="TIPS.Entities.BioMetrics" assembly="TIPS.Entities.BioMetrics.Devices">
+  <class name="TIPS.Entities.BioMetrics.Devices, TIPS.Entities" table="Devices" >
+    <id name="DeviceId" column="DeviceId" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="DeviceFname" column="DeviceFname" type="string"/>
+    <property name="DeviceSname" column="DeviceSname" type="string" />
+    <property name="IsRealTime" column="IsRealTime" type="Int64"/>
+  </class>
+</hibernate-mapping>

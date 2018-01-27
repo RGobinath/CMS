@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "MaterialRequestList";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<!-- #section:basics/navbar.layout -->
+<!-- /section:basics/navbar.layout -->
+<script type="text/javascript">
+    try { ace.settings.check('main-container', 'fixed') } catch (e) { }
+</script>
+<div class="page-content">
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Criteria</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Request Number</b></label>
+                                        @Html.TextBox("RequestNumber", "", new { @Class = "form-control select-sm" })
+                                        @Html.Hidden("NewMRQUrl", Url.Action("MaterialRequest", "Store"))
+                                        @Html.Hidden("BackUrl", Url.Action("MaterialRequestList", "Store"))
+                                        @Html.Hidden("flag", "", new { id = "flag", @Value = ViewBag.Flag })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Request Date</b></label>
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBox("RequestedDate", "", new { @Class = "form-control date-picker" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                        @*@Html.TextBox("RequestedDate", "", new { @Class = "datepicker" })*@
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.TextBox("Campus", "", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Inbox Status</b>
+                                        </label>
+                                        @Html.DropDownList("ddlStatus", new SelectList(new[]
+                                          {
+                                              new{Value="Available",Text="Available"},
+                                              new{Value="Assigned",Text="Assigned"},
+                                              new{Value="Sent",Text="Sent"},
+                                              new{Value="Completed",Text="Completed"},
+                                                                                           
+                                          }, "Value", "Text", "Available"), new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                    <br />
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <button type="submit" class="btn btn-primary btn-block btn-sm" id="Search">
+                                                    <i class="ace-icon fa fa-search white"></i>Search
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <button type="button" class="btn btn-danger btn-block btn-sm" id="reset">
+                                                    <i class="ace-icon fa fa-undo white"></i>Reset
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <button type="button" class="btn btn-success btn-block btn-sm" id="NewRequest">
+                                                    <i class="ace-icon fa fa-plus white"></i>New Request
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="MaterialRequestList">
+                </table>
+                <div id="MaterialRequestListPager">
+                </div>
+                <script type="text/javascript">
+                    var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+                </script>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+            <br />
+                <div class="col-xs-2">
+                    <button type="button" class="btn btn-success btn-block btn-sm" id="btnCreateIssueNote">
+                        <i class="ace-icon fa fa-check white"></i>Create Issue Note
+                    </button>
+                </div>
+                <div class="col-xs-5"></div>
+                <div class="col-xs-5">
+                    <img src="../../Images/blue.jpg" alt="" height="12px" width="12px" /><label style="font-size: x-small">&nbsp
+                        Information</label>
+                    &nbsp&nbsp
+                    <img src="../../Images/yellow.jpg" alt="" height="10px" width="10px" /><label style="font-size: x-small">&nbsp
+                        Below 24 hrs</label>
+                    &nbsp&nbsp
+                    <img src="../../Images/orange.jpg" alt="" height="10px" width="10px" /><label style="font-size: x-small">&nbsp
+                        24-48 hrs</label>
+                    &nbsp&nbsp
+                    <img src="../../Images/redblink3.gif" alt="" height="10px" width="10px" /><label
+                        style="font-size: x-small">&nbsp SLA Breached</label>
+                    &nbsp&nbsp
+                    <img src="../../Images/green.jpg" alt="" height="12px" width="12px" /><label style="font-size: x-small">&nbsp
+                        Completed</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src='@Url.Content("~/Scripts/Store/MaterialRequestList.js")' type="text/javascript"></script>
+<script type="text/javascript">    window.jQuery || document.write("<script src='../assets/js/jquery.min.js'>"
++ "<" + "/script>");</script> <script type="text/javascript">                                  if ('ontouchstart'
+in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>"
++ "<" + "/script>"); </script> 

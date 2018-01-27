@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StoreEntities.StockTransaction" namespace="TIPS.Entities.StoreEntities">
+  <class name="TIPS.Entities.StoreEntities.StockTransaction, TIPS.Entities" table="StockTransaction" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="TransactionCode" column="TransactionCode" type="string"></property>
+    <property name="Store" column="Store" type="string"></property>
+    <property name="ItemId" column="ItemId" type="Int64"></property>
+    <property name="Units" column="Units" type="string"></property>
+    <property name="TransactionDate" column="TransactionDate" type="datetime"></property>
+    <property name="TransactionBy" column="TransactionBy" type="string"></property>
+    <property name="TransactionType" column="TransactionType" type="string"></property>
+    <property name="Qty" column="Qty" type="Int32"></property>
+    <property name="DamagedQty" column="DamagedQty" type="Int32"></property>
+    <!--<property name="DamagedRemarks" column="DamagedRemarks" type="string"></property>-->
+    <property name="TransactionComments" column="TransactionComments" type="string"></property>
+    <property name="RequiredForStore" column="RequiredForStore" type="string"></property>
+    <property name="RequiredFromStore" column="RequiredFromStore" type="string"></property>
+    
+  </class>
+</hibernate-mapping>

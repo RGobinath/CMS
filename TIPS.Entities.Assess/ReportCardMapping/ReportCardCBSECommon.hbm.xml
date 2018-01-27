@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess.ReportCardClasses" namespace="TIPS.Entities.Assess.ReportCardClasses" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.ReportCardClasses.ReportCardCBSECommon,TIPS.Entities.Assess" table="ReportCardCBSECommon" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="RptRequestId" column="RptRequestId " type="long" />
+    <property name="PreRegNum" column="PreRegNum" type="long" />
+    <property name="NewId" column="NewId" type="string" />
+    <property name="Name" column="Name" type="string" />
+    <property name="Campus" column="Campus" type="string" />
+    <property name="Grade" column="Grade" type="string" />
+    <property name="Section" column="Section" type="string" />
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    <property name="TofWorkingDayT1" column="TofWorkingDayT1" type="Int64" />
+    <property name="TofWorkingDayT2" column="TofWorkingDayT2" type="Int64" />
+    <property name="TotalAttendenceT1" column="TotalAttendenceT1" type="decimal" />
+    <property name="TotalAttendenceT2" column="TotalAttendenceT2" type="decimal" />
+    <property name="HeightT1" column="HeightT1" type="decimal" />
+    <property name="HeightT2" column="HeightT2" type="decimal" />
+    <property name="WeightT1" column="WeightT1" type="decimal" />
+    <property name="WeightT2" column="WeightT2" type="decimal" />
+
+    <property name="CreatedDate" column="CreatedDate" type="datetime" />
+    <property name="CreatedBy" column="CreatedBy" type="string" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string" />
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime" />
+    
+  </class>
+</hibernate-mapping>

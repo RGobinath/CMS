@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess.ReportCardClasses" namespace="TIPS.Entities.Assess.ReportCardClasses" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.ReportCardClasses.RptCardFocus,TIPS.Entities.Assess" table="RptCardFocus" lazy="true" >
+    <id name="RptCardFocusId" column="RptCardFocusId" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="Campus" column="Campus" type="string"/>
+    <property name="Grade" column="Grade" type="string"/>
+    <property name="Semester" column="Semester" type="Int64"/>
+    <property name="AcademicYear" column="AcademicYear" type="string"/>
+    <property name="English" column="English" type="string"/>
+    <property name="Hindi" column="Hindi" type="string"/>
+    <property name="French" column="French" type="string"/>
+    <property name="Maths" column="Maths" type="string"/>
+    <property name="Physics" column="Physics" type="string"/>
+    <property name="Chemistry" column="Chemistry" type="string"/>
+    <property name="Biology" column="Biology" type="string"/>
+    <property name="HistoryGeography" column="HistoryGeography" type="string"/>
+    <property name="ICT" column="ICT" type="string"/>
+    <property name="Robotics" column="Robotics" type="string"/>
+    <property name="CreatedBy" column="CreatedBy" type="string"/>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"/>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"/>
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"/>
+
+    <property name="spark" column="spark" type="string"/>
+  </class>
+</hibernate-mapping>

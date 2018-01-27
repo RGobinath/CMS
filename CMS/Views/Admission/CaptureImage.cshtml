@@ -1,0 +1,181 @@
+﻿@{
+    ViewBag.Title = "CaptureImage";
+    Layout = null;
+}
+<script src="@Url.Content("~/Scripts/WebCam/jquery.webcam.js")"></script>
+<script src="../../assets/WebCam/Jcrop/js/jquery.Jcrop.min.js"></script>
+<link href="../../assets/WebCam/Jcrop/css/jquery.Jcrop.min.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(document).ready(function () {
+        var imageCropWidth = 0;
+        var imageCropHeight = 0;
+        var cropPointX = 0;
+        var cropPointY = 0;
+
+        $('#btnUpload').click(function () {
+            ajaxUploadDocs();
+        });
+
+        $("#imgCrop").on("click", function (e) {
+            cropImage();
+        });
+    });
+    function initCrop() {
+        $('#show').Jcrop({
+            onChange: setCoordsAndImgSize,
+            aspectRatio: 1
+        });
+    }
+    function setCoordsAndImgSize(e) {
+        imageCropWidth = e.w;
+        imageCropHeight = e.h;
+        cropPointX = e.x;
+        cropPointY = e.y;
+    }
+
+    function cropImage() {
+
+        if (imageCropWidth == 0 && imageCropHeight == 0) {
+            alert("Please select crop area.");
+            return;
+        }
+        $.ajax({
+            url: '/Admission/CropImage',
+            type: 'POST',
+            data: {
+                imagePath: $("#show").attr("src"),
+                cropPointX: cropPointX,
+                cropPointY: cropPointY,
+                imageCropWidth: imageCropWidth,
+                imageCropHeight: imageCropHeight
+            },
+            success: function (data) {
+                $('#imgCrop').attr('disabled', true);
+                $('#undoCrop').attr('disabled', false);
+                $('#btnUpload').attr('disabled', false);
+                $("#show").attr("src", data);
+                //initCrop();
+                $('.jcrop-holder img').attr('src', data);
+                //$('.jcrop-holder div').css("display", "none")
+                //$("#my-cropped-image")
+                //    .attr("src", data.photoPath + "?t=" + new Date().getTime())
+                //    .show();
+            },
+            error: function (data) { }
+        });
+    }
+    function UploadPic() {
+        $.ajax({
+            type: 'POST',
+            url: ("@Url.Content("~/Admission/Rebind")/"),
+            dataType: 'json',
+            success: function (data) {
+                $('#imgCrop').attr('disabled', false);
+                $('#undoCrop').attr('disabled', true);
+                $('#btnUpload').attr('disabled', true);
+                //$('#undoCrop').attr('disabled', false);
+                $("#show").attr("src", data);
+                initCrop();
+                $('.jcrop-holder img').attr('src', data);
+                //document.getElementById('Submit1').disabled = false;
+                //alert("Photo Capture successfully!");
+            }
+        });
+    }
+    function ajaxUploadDocs() {
+        var files = document.getElementById('show').files;
+        var regno = $('#PreRegNum').val();
+        $.ajaxFileUpload({
+            //url: '/StaffManagement/UploadDocuments?docType=' + doctype + '',
+            url: '/Admission/UploadCropedPhotos?docType=Student Photo&documentFor=Student&RegNo=' + regno,
+            secureuri: false,
+            fileElementId: 'uploadedFile',
+            dataType: 'json',
+            success: function (data, status) {
+                InfoMsg(status, function () { window.location.href = "/Admission/NewRegistration"; });
+            },
+            error: function (data, status, e) {
+            }
+        });
+    }
+
+    function Uploadsubmit() {
+        var src = $('img').attr('src');
+        src_array = src.split('/');
+        src = src_array[4];
+        if (src != "") {
+            $.ajax({
+                type: 'POST',
+                url: ("@Url.Content("~/Photo/Index")/"),
+                dataType: 'json',
+                data: { Imagename: src },
+                success: function () { }
+            });
+            window.opener.location.href = "http://localhost:55694/Photo/Changephoto";
+            self.close();
+        }
+    }
+</script>
+@using (Html.BeginForm())
+{
+    <script src="@Url.Content("~/Scripts/jquery.webcam.js")"></script>
+    <script type="text/javascript">
+        $("#Camera").webcam({
+            width: 320,
+            height: 240,
+            mode: "save",
+            swffile: "@Url.Content("~/Scripts/WebCam/jscam.swf")",
+            onTick: function () { },
+            onSave: function () {
+                UploadPic();
+            },
+            onCapture: function () {
+                //Save();
+                webcam.save("@Url.Content("~/Admission/Capture")/");
+            },
+            debug: function () { },
+            onLoad: function () { }
+
+        });
+
+    </script>
+}
+@Html.Hidden("PreRegNum", "", new { id = "PreRegNum", @Value = ViewBag.PreRegNum })
+@Html.Hidden("IsPhotoUploaded", "", new { id = "IsPhotoUploaded", @Value = ViewBag.IsPhotoUploaded })
+<div class="row">
+    <div class="col-xs-12">
+        <div class="col-sm-6">
+            <div id="Camera"></div>
+            <br>
+             
+            <button type="button" class="btn btn-primary btn-block btn-sm" onclick="webcam.capture();">
+                <i class="ace-icon fa fa-camera white"></i>Capture
+            </button>
+        </div>
+        <div class="col-sm-6">
+            <img id="show" style="width: 320px; height: 240px;" src="@Url.Action("uploaddisplay1", "Admission", new { id = ViewBag.PreRegNum })" />
+            <br>
+            <br>
+            <div class="col-xs-12">
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-purple btn-block btn-sm" id="imgCrop">
+                        <i class="ace-icon fa fa-square-o white"></i>Crop Img
+                    </button>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-danger btn-block btn-sm" onclick="UploadPic();" id="undoCrop">
+                        <i class="ace-icon fa fa-undo white"></i>Undo Crop
+                    </button>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-success btn-block btn-sm" id="btnUpload">
+                        <i class="ace-icon fa fa-cloud-upload white"></i>Upload
+                    </button>
+                </div>
+            </div>
+            @*<input id="Submit1" type="submit" onclick="Uploadsubmit();" value="submit" />*@
+        </div>
+    </div>
+</div>
+
+

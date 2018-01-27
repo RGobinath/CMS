@@ -1,0 +1,51 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa  fa-book"></i>&nbsp;Education Goal
+                </div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-2">
+                                <label for="EduGoalYes"> 
+                                @Html.RadioButtonFor(model => model.EducationGoalYesorNo, true, new { id = "EduGoalYes", onclick = "EnableTextbox(this);", @Class = "ace" })
+                                <span class="lbl">&nbsp;Yes</span></label>&nbsp;&nbsp;&nbsp;
+                                <label for="EduGoalNo">
+                                @Html.RadioButtonFor(model => model.EducationGoalYesorNo, false, new { id = "EduGoalNo", onclick = "DisableTextbox(this);", @Class = "ace" })
+                                <span class="lbl">&nbsp;No</span></label>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12">
+                            <label for="form-field-select-1">
+                                <strong>Education Goals for my Child</strong></label><br />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            @Html.TextAreaFor(model => model.EducationGoals, new { rows = 4, cols = 70, id = "EduGoal", @class = "form-control textarea", @maxlength = "400" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 space-30">
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col-xs-12 space-70">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/AdmissionScripts/EducationDetails.js"></script>

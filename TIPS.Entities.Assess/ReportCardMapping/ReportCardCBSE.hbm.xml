@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess.ReportCardClasses" namespace="TIPS.Entities.Assess.ReportCardClasses" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.ReportCardClasses.ReportCardCBSE,TIPS.Entities.Assess" table="ReportCardCBSE" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="RptRequestId" column="RptRequestId " type="long" />
+    <property name="PreRegNum" column="PreRegNum" type="long" />
+    <property name="NewId" column="NewId" type="string" />
+    <property name="Name" column="Name" type="string" />
+    <property name="Campus" column="Campus" type="string" />
+    <property name="Grade" column="Grade" type="string" />
+    <property name="Section" column="Section" type="string" />
+    <property name="Subject" column="Subject" type="string" />
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    <property name="FA1ASlip" column="FA1ASlip" type="decimal" />
+    <property name="FA1ASlipTotal" column="FA1ASlipTotal" type="decimal" />
+    <property name="FA1BTotal" column="FA1BTotal" type="decimal" />
+    <property name="FA1CTotal" column="FA1CTotal" type="decimal" />
+    <property name="FA1DTotal" column="FA1DTotal" type="decimal" />
+    <property name="FA1Total" column="FA1Total" type="decimal" />
+    <property name="FA1" column="FA1" type="decimal" />
+    <property name="FA1Grade" column="FA1Grade" type="string" />
+    <property name="FA2ASlip" column="FA2ASlip" type="decimal" />
+    <property name="FA2ASlipTotal" column="FA2ASlipTotal" type="decimal" />
+    <property name="FA2BTotal" column="FA2BTotal" type="decimal" />
+    <property name="FA2CTotal" column="FA2CTotal" type="decimal" />
+    <property name="FA2DTotal" column="FA2DTotal" type="decimal" />
+    <property name="FA2Total" column="FA2Total" type="decimal" />
+    <property name="FA2" column="FA2" type="decimal" />
+    <property name="FA2Grade" column="FA2Grade" type="string" />
+    <property name="SA1" column="SA1" type="decimal" />
+    <property name="SA1Total" column="SA1Total" type="decimal" />
+    <property name="SA1Grade" column="SA1Grade" type="string" />
+    <property name="Term1Total" column="Term1Total" type="decimal" />
+    <property name="FA3ASlip" column="FA3ASlip" type="decimal" />
+    <property name="FA3ASlipTotal" column="FA3ASlipTotal" type="decimal" />
+    <property name="FA3BTotal" column="FA3BTotal" type="decimal" />
+    <property name="FA3CTotal" column="FA3CTotal" type="decimal" />
+    <property name="FA3DTotal" column="FA3DTotal" type="decimal" />
+    <property name="FA3Total" column="FA3Total" type="decimal" />
+    <property name="FA3" column="FA3" type="decimal" />
+    <property name="FA3Grade" column="FA3Grade" type="string" />
+    <property name="FA4ASlip" column="FA4ASlip" type="decimal" />
+    <property name="FA4ASlipTotal" column="FA4ASlipTotal" type="decimal" />
+    <property name="FA4BTotal" column="FA4BTotal" type="decimal" />
+    <property name="FA4CTotal" column="FA4CTotal" type="decimal" />
+    <property name="FA4DTotal" column="FA4DTotal" type="decimal" />
+    <property name="FA4Total" column="FA4Total" type="decimal" />
+    <property name="FA4" column="FA4" type="decimal" />
+    <property name="FA4Grade" column="FA4Grade" type="string" />
+    <property name="SA2" column="SA2" type="decimal" />
+    <property name="SA2Total" column="SA2Total" type="decimal" />
+    <property name="SA2Grade" column="SA2Grade" type="string" />
+    <property name="Term2Total" column="Term2Total" type="decimal" />
+    <property name="Absent" column="Absent" type="string" />
+
+    <property name="CreatedDate" column="CreatedDate" type="datetime" />
+    <property name="CreatedBy" column="CreatedBy" type="string" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string" />
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime" />
+  </class>
+</hibernate-mapping>

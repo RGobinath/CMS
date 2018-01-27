@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.LMSEntities.LMS_StaffDetails" namespace="TIPS.Entities.LMSEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.LMSEntities.LMS_StaffDetails,TIPS.Entities" table="LMS_StaffDetails" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="StaffPreRegNumber" column="StaffPreRegNumber" type="Int64"></property>
+    <property name="StaffIdNumber" column="StaffIdNumber" type="string"></property>
+    <property name="StaffName" column="StaffName" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="Subject" column="Subject" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>
+    <property name="UserId" column="UserId" type="string"></property>
+    <property name="IsActive" column="IsActive" type="bool"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime"></property>
+  </class>
+</hibernate-mapping>

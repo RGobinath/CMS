@@ -1,0 +1,436 @@
+﻿@model TIPS.Entities.EnquiryEntities.EnquiryDetails
+@{
+    ViewBag.Title = "Enquiry Inbox";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".datepicker").datepicker({
+            showOn: "button",
+            buttonImage: "../../Images/date.gif",
+            buttonImageOnly: true
+        });
+
+        $.getJSON("/Enquiry/Program",
+     function (Program) {
+         var ddlig = $("#ddlProgram");
+         ddlig.empty();
+         ddlig.append($('<option/>', { value: "", text: "Select One" }));
+
+         $.each(Program, function (index, itemdata) {
+             if ('@Model' != null && itemdata.Text == '@Model.Program') {
+                 ddlig.append("<option value='" + itemdata.Value + "' selected='selected'>" + itemdata.Text + "</option>");
+                 //GetProgramlist();
+             }
+             else {
+                 ddlig.append($('<option/>', { value: itemdata.Value, text: itemdata.Text }));
+             }
+         });
+
+     });
+        $.getJSON("/Enquiry/Course",
+     function (Course) {
+         var ddlig = $("#ddlCourse");
+         ddlig.empty();
+         ddlig.append($('<option/>',
+        {
+            value: "",
+            text: "Select One"
+
+        }));
+
+         $.each(Course, function (index, itemdata) {
+             if ('@Model' != null && itemdata.Text == '@Model.Course') {
+                 ddlig.append("<option value='" + itemdata.Value + "' selected='selected'>" + itemdata.Text + "</option>");
+             }
+             else {
+                 ddlig.append($('<option/>',
+                 {
+                     value: itemdata.Value,
+                     text: itemdata.Text
+                 }));
+             }
+         });
+
+     });
+        $.getJSON("/Enquiry/CourseType",
+     function (CourseType) {
+         var ddlig = $("#ddlCourseType");
+         ddlig.empty();
+         ddlig.append($('<option/>',
+        {
+            value: "",
+            text: "Select One"
+
+        }));
+
+         $.each(CourseType, function (index, itemdata) {
+             if ('@Model' != null && itemdata.Text == '@Model.CourseType') {
+                 ddlig.append("<option value='" + itemdata.Value + "' selected='selected'>" + itemdata.Text + "</option>");
+                 //GetProgramlist();
+             }
+             else {
+                 ddlig.append($('<option/>',
+                 {
+                     value: itemdata.Value,
+                     text: itemdata.Text
+                 }));
+             }
+         });
+
+     });
+        $.getJSON("/Enquiry/Batch",
+     function (Batch) {
+         var ddlig = $("#ddlBatch");
+         ddlig.empty();
+         ddlig.append($('<option/>',
+        {
+            value: "",
+            text: "Select One"
+
+        }));
+
+         $.each(Batch, function (index, itemdata) {
+             if ('@Model' != null && itemdata.Text == '@Model.Batch') {
+                 ddlig.append("<option value='" + itemdata.Value + "' selected='selected'>" + itemdata.Text + "</option>");
+             }
+             else {
+                 ddlig.append($('<option/>',
+                 {
+                     value: itemdata.Value,
+                     text: itemdata.Text
+                 }));
+             }
+         });
+
+     });
+        $.getJSON("/Enquiry/Timing",
+     function (Timing) {
+         var ddlig = $("#ddlTiming");
+         ddlig.empty();
+         ddlig.append($('<option/>',
+        {
+            value: "",
+            text: "Select One"
+
+        }));
+
+         $.each(Timing, function (index, itemdata) {
+             if ('@Model' != null && itemdata.Text == '@Model.Timing') {
+                 ddlig.append("<option value='" + itemdata.Value + "' selected='selected'>" + itemdata.Text + "</option>");
+             }
+             else {
+                 ddlig.append($('<option/>',
+                 {
+                     value: itemdata.Value,
+                     text: itemdata.Text
+                 }));
+             }
+         });
+
+     });
+        $(function () {
+            if ('@Session["emailsent"]' == 'yes') {
+                InfoMsg('Email Sent Successfully');
+                $.ajax({
+                    url: '/Enquiry/ResetSession?type=enquiryemail',
+                    type: 'GET',
+                    dataType: 'json',
+                    traditional: true
+                });
+            }
+            function FrmtEnqryDtlsId(cellvalue, options, rowObject) {
+                return "<span id='ViewFlupDtls_" + rowObject[0] + "'class='T2ViewFUDtls' vId='" + rowObject[0] + "'>" + cellvalue + "</span>";
+            }
+            $("#EnquiryDtlsList").jqGrid({
+                mtype: 'GET',
+                url: '/Enquiry/GetEnquiryDetailsList',
+                datatype: 'json',
+                height: '200',
+                autowidth: true,
+                shrinkToFit: true,
+                colNames: ['Id', 'ENQ Ref', 'Parent Name', 'Student Name', 'Campus', 'Course_Program', 'Mobile', 'Enquirer Email', 'Enquiry Status', 'Followup Date', 'Created Date', 'Created By', 'Modified By'],
+                colModel: [
+                        { name: 'EnquiryDetailsId', index: 'EnquiryDetailsId', key: true, hidden: true },
+                        { name: 'EnquiryDetailsCode', index: 'EnquiryDetailsCode', formatter: FrmtEnqryDtlsId, width: '81px' },
+                        { name: 'ParentName', index: 'ParentName', sortable: false, width: '81' },
+                        { name: 'StudentName', index: 'StudentName', sortable: false, width: '98px' },
+                        { name: 'Campus', index: 'Campus', sortable: false, width: '98px' },
+                        { name: 'Program', index: 'Program', sortable: false, width: '171px' },
+                        { name: 'EnquirerMobileNo', index: 'EnquirerMobileNo', sortable: false, width: '98px' },
+                        { name: 'EnquirerEmailId', index: 'EnquirerEmailId', sortable: false, hidden: true },
+                        { name: 'EnquiryStatus', index: 'EnquiryStatus', sortable: false, width: '98px' },
+                        { name: 'FollowupDate', index: 'FollowupDate', sortable: false, width: '91px' },
+                        { name: 'EnquiredDate', index: 'EnquiredDate', sortable: false, width: '98px' },
+                        { name: 'CreatedBy', index: 'CreatedBy', sortable: false },
+                        { name: 'ModifiedBy', index: 'ModifiedBy', sortable: false, width: '98px' }
+                      ],
+                pager: '#EnquiryDtlsPage',
+                rowNum: '10',
+                sortname: 'EnquiryDetailsId',
+                sortorder: 'asc',
+                rowList: [5, 10, 20, 50],
+                viewrecords: true,
+                multiselect: true,
+                caption: '&nbsp;&nbsp;Enquiry Detail Inbox ',
+                gridComplete: function () {
+                    var rdata = $("#EnquiryDtlsList").getRowData();
+                    if (rdata.length > 0) {
+                        $('.T2ViewFUDtls').click(function () { GetFollupDtlsPopup($(this).attr('vId')) });
+                    }
+                }
+            });
+            $("#EnquiryDtlsList").navGrid('#EnquiryDtlsPage', { add: false, edit: false, del: false, search: false, refresh: true });
+
+            jQuery("#EnquiryDtlsList").jqGrid('navButtonAdd', '#EnquiryDtlsPage', {
+                caption: "Export To Excel",
+                onClickButton: function () {
+                    var ExportType = "excel";
+                    window.open("GetEnquiryDetailsList" + '?rows=9999&ExportType=' + ExportType + '&StudentName=' + $('#StudentName').val() +
+                '&ParentName=' + $('#ParentName').val() +
+                '&ContactMobile=' + $('#ContactMobile').val() +
+                '&EnquiryDetailsId=' + $('#RefNo').val() +
+                '&ddlcampus=' + $('#ddlcampus option:selected').val() +
+                '&ddlProgram=' + $('#ddlProgram option:selected').val() +
+                '&CourseTrack=' + $('#CourseTrack option:selected').val() +
+                '&FollowupDate=' + $('#FollowupDate').val());
+                }
+            });
+
+            $("#btnNewEnquiry").click(function () {
+                window.location.href = '@Url.Action("NewEnquiry", "Enquiry")';
+            });
+
+            $("#reset").click(function () {
+                debugger;
+                $("#ddlcampus    ").val(0);
+                $("#ddlProgram   ").val(0);
+                $("#CourseTrack  ").val(0);
+                $("#EnquiryStatus").val(0);
+                $("#StudentName").val('');
+                $("#ParentName").val('');
+                $("#ContactMobile").val('');
+                $("#RefNo").val('');
+                $("#FollowupDate").val('');
+                $('#EnquiryDtlsList').clearGridData();
+                LoadSetGridParam($('#EnquiryDtlsList'), "/Enquiry/GetEnquiryDetailsList");
+
+            });
+            if ($("#SubmitSuccessMsg").val() != null & $("#SubmitSuccessMsg").val() != "") {
+                InfoMsg("Enquiry created Successfully.\n Reference Number is: ENQ-" + $("#SubmitSuccessMsg").val(), function () { $("#SubmitSuccessMsg").val(""); });
+            }
+            if ($("#AfterCompleteMsg").val() != null & $("#AfterCompleteMsg").val() != "") {
+                InfoMsg("Enquiry has been completed Successfully.\nRegistration process has been initiated with the Reference Number is: " + $("#AfterCompleteMsg").val(), function () { $("#AfterCompleteMsg").val(""); });
+            }
+            $('#btnEnqSearch').click(function () {
+                //ParentName/StudentName/Board/Campus/Enquirer Cell No/Enquirer Email/Comments/Date/Admitted
+                //Admitted RefNo/Admitted Date/Batch/Timing/Course Track/Course
+                if (!isEmptyorNull($('#StudentName').val()) || !isEmptyorNull($('#ParentName').val()) || !isEmptyorNull($('#Mobile').val()) || !isEmptyorNull($('#RefNo').val())
+               || $('#ddlcampus').val() != 'Select One'
+               || $('#ddlProgram').val() != 'Select One'
+               || $('#CourseTrack').val() != 'Select One'
+               || !isEmptyorNull($('#FollowupDate').val())) {
+                    $('#EnquiryDtlsList').clearGridData();
+                    LoadSetGridParam($('#EnquiryDtlsList'), "/Enquiry/GetEnquiryDetailsList?StudentName=" + $('#StudentName').val() +
+                '&ParentName=' + $('#ParentName').val() +
+                '&ContactMobile=' + $('#ContactMobile').val() +
+                '&EnquiryDetailsId=' + $('#RefNo').val() +
+                '&ddlcampus=' + $('#ddlcampus option:selected').val() +
+                '&ddlProgram=' + $('#ddlProgram option:selected').val() +
+                '&CourseTrack=' + $('#CourseTrack option:selected').val() +
+                '&RefNo=' + $('#RefNo').val() +
+                '&EnquiryStatus=' + $('#EnquiryStatus option:selected').val() +
+                '&FollowupDate=' + $('#FollowupDate').val()
+            );
+                } else {
+                    ErrMsg('Please enter or select any values', function () { $("#RequestNo").focus(); });
+                    return false;
+                }
+            });
+
+            $("#EnqEmail").click(function () {
+                var objsearchCriteria = {
+                    Campus: $('#ddlcampus').val(),
+                    Program: $('#ddlProgram').val(),
+                    Course: $('#ddlCourse').val(),
+                    CourseType: $('#ddlCourseType').val(),
+                    Batch: $('#ddlBatch').val(),
+                    Timing: $('#ddlTiming').val(),
+                    CourseTrack: $('#CourseTrack').val(),
+                    StudentName: $('#StudentName').val(),
+                    EnquirerMobileNo: $('#ContactMobile').val(),
+                    AdmittedRefNo: $('#RefNo').val(),
+                    EnquiryStatus: $('#EnquiryStatus').val(),
+                    FollowupDate: $('#FollowupDate').val()
+                }
+                LoadPopupDynamicaly1("/Enquiry/EnquiryEmail", $('#EnquirymailDiv'),
+                            function () {
+                                $('#ddlcampus1').val($('#ddlcampus').val());
+                                $('#ddlProgram1').val($('#ddlProgram').val());
+                                $('#CourseTrack1').val($('#CourseTrack').val());
+                                $('#StudentName1').val($('#StudentName').val());
+                                $('#ParentName1').val($('#ParentName').val());
+                                $('#ContactMobile1').val($('#ContactMobile').val());
+                                $('#RefNo1').val($('#RefNo').val());
+                                $('#EnquiryStatus1').val($('#EnquiryStatus').val());
+                                $('#FollowupDate1').val($('#FollowupDate').val());
+
+                                $.ajax({
+                                    url: '/Enquiry/EnquiryEmail',
+                                    type: 'GET',
+                                    dataType: 'json',
+                                    //  data: objsearchCriteria,
+                                    traditional: true
+                                });
+                            });
+            });
+            function LoadPopupDynamicaly1(dynURL, ModalId, loadCalBack, onSelcalbck, width) {
+                //  alert('here');
+                if (width == undefined) { width = 550; }
+                if (ModalId.html().length == 0) {
+                    $.ajax({
+                        url: dynURL,
+                        type: 'GET',
+                        // type: 'POST',
+                        async: false,
+                        dataType: 'html', // <-- to expect an html response
+                        //    data: { ActivityId: rowData1 },
+                        success: function (data) {
+                            ModalId.dialog({
+                                height: 400,
+                                width: width,
+                                modal: true,
+                                //title: 'Email',
+                                buttons: {}
+                            });
+                            ModalId.html(data);
+                        }
+                    });
+                }
+                clbPupGrdSel = onSelcalbck;
+                ModalId.dialog('open');
+                CallBackFunction(loadCalBack);
+            }
+        });
+    });
+</script>
+@using (Html.BeginForm())
+{
+    
+    <table class="InnerTable" width="100%">
+        <tr>
+            <td colspan="6" align="left" class="ui-widget-header">
+                &nbsp;&nbsp;Search
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Hidden("SubmitSuccessMsg", "", new { @Value = TempData["NewEnquiryMsg"] })
+                @Html.Hidden("AfterCompleteMsg", "", new { @Value = TempData["NewRegistrationMsg"] })
+                <table width="100%">
+                    <tr>
+                        <th width="20%">
+                            ENQ Reference No
+                        </th>
+                        <th width="20%">
+                            Parent Name
+                        </th>
+                        <th width="20%">
+                            Student Name
+                        </th>
+                        <th width="20%">
+                            Campus
+                        </th>
+                        <th width="20%">
+                            Mobile
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.TextBox("RefNo", "", new { @Class = "CSSTextBox", @maxlength = "30" })
+                        </td>
+                        <td>
+                            @Html.TextBox("ParentName", "", new { @Class = "CSSTextBox", @maxlength = "10" })
+                        </td>
+                        <td>
+                            @Html.TextBox("StudentName", "", new { @Class = "CSSTextBox", @maxlength = "30" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus", @Class = "CSSDropDownList" })
+                        </td>
+                        <td>
+                            @Html.TextBox("ContactMobile", "", new { @Class = "CSSTextBox", @maxlength = "10" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Enquiry Status
+                        </th>
+                        <th>
+                            Followup Date
+                        </th>
+                        <th colspan="3">
+                        </th>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            @Html.DropDownList("EnquiryStatus", new SelectList(new[]
+                                          {
+                                              new{Value= "Select One",        Text="",Seleced = "True"    },
+                                              new{Value="Opened",   Text="Opened"    ,Seleced = "False"   },
+                                              new{Value="Progress", Text="Progress"  ,Seleced = "False"   },
+                                              new{Value="Pending",  Text="Pending"   ,Seleced = "False"   },
+                                              new{Value="Completed",Text="Completed" ,Seleced = "False"   }
+
+                                          },
+                                         "Text", "Value", "Seleced"), new { @Class = "CSSDropDownList" })
+                        </td>
+                        <td valign="top">
+                            @Html.TextBox("FollowupDate", "", new { @Class = "datepicker", @maxlength = "30" })
+                        </td>
+                        <td align="center" colspan="3">
+                            <input type="button" value="Search" id="btnEnqSearch" class="btnStyle" />
+                            <input type="button" value="Reset" id="reset" class="btnStyle" />
+                            <input type="button" value="New Enquiry" id="btnNewEnquiry" class="btnStyle" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <br style="display: block; margin: 2px 0;" />
+    <table id="EnquiryDtlsList">
+    </table>
+    <div id="EnquiryDtlsPage">
+    </div>
+    <div>
+        @if (Session["pagename"].ToString() == "enquirymail")
+        {
+            <p style="padding-left: 0px;">
+                <input type="button" value="Compose Email" id="EnqEmail" class="btnStyle" />
+            </p>              
+        }
+    </div>
+    <div id="EnquirymailDiv">
+    </div>
+
+    <table>
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+}

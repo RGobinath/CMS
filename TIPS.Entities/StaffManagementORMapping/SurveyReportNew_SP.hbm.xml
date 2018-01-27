@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.SurveyReportNew_SP" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.SurveyReportNew_SP, TIPS.Entities" table="SurveyReportNew_SP" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="StaffEvaluationCategoryId" column="StaffEvaluationCategoryId" type="Int64"></property>
+    <property name="Campus" column="Campus" type="string" ></property>    
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="Section" column="Section" type="string" ></property>
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>
+    <property name="CategoryName" column="CategoryName" type="string"></property>
+    <property name="EvaluationDate" column="EvaluationDate" type="datetime"></property>
+    <property name="StaffName" column="StaffName" type="string"></property>
+    <property name="Subject" column="Subject" type="string"></property>
+    <property name="StaffPreRegNumber" column="StaffPreRegNumber" type="Int64"></property>
+    <property name="StudentCount" column="StudentCount" type="Int64"></property>
+    <property name="QuestionCount" column="QuestionCount" type="Int64"></property>
+    <property name="CampusBasedStaffDetails_Id" column="CampusBasedStaffDetails_Id" type="Int64"></property>
+    <property name="Score" column="Score" type="decimal"></property>
+    <property name="Average" column="Average" type="decimal"></property>
+  </class>
+<sql-query name="GetSurveyReportNew_SPList" callable="true">
+    <query-param name="Campus" type="string"/>
+    <query-param name="Grade" type="string"/>
+    <query-param name="Section" type="string"/>
+    <query-param name="AcademicYear" type="string"/>
+    <query-param name="CategoryName" type="string"/>
+    <query-param name="StaffEvaluationCategoryId" type="Int64"/>
+    <query-param name="StaffPreRegNumber" type="Int64"/>
+  <query-param name="CampusBasedStaffDetails_Id" type="Int64"/>
+  <return class="TIPS.Entities.StaffManagementEntities.SurveyReportNew_SP, TIPS.Entities">
+      <return-property name="Id" column="Id" />
+      <return-property name="StaffEvaluationCategoryId" column="StaffEvaluationCategoryId" />
+      <return-property name="Campus" column="Campus"/>
+      <return-property name="Grade" column="Grade"/>
+      <return-property name="Section" column="Section"/>
+      <return-property name="AcademicYear" column="AcademicYear"/>
+      <return-property name="CategoryName" column="CategoryName"/>
+      <return-property name="EvaluationDate" column="EvaluationDate"/>
+      <return-property name="StaffName" column="StaffName"/>
+      <return-property name="Subject" column="Subject"/>
+      <return-property name="StaffPreRegNumber" column="StaffPreRegNumber"/>
+      <return-property name="StudentCount" column="StudentCount" />
+      <return-property name="QuestionCount" column="QuestionCount"/>
+      <return-property name="Score" column="Score"/>
+      <return-property name="Average" column="Average"/>
+    <return-property name="CampusBasedStaffDetails_Id" column="CampusBasedStaffDetails_Id"/>
+    </return>
+    <![CDATA[ 
+     EXEC [SurveyReportNew_SP] @SPCampus=:Campus
+     ,@SPGrade=:Grade
+     ,@SPSection=:Section
+     ,@SPAcademicYear=:AcademicYear
+     ,@SPCategoryName=:CategoryName
+     ,@SPStaffEvaluationCategoryId=:StaffEvaluationCategoryId
+     ,@SPStaffPreRegNumber=:StaffPreRegNumber
+     ,@SPCampusBasedStaffDetails_Id=:CampusBasedStaffDetails_Id
+     ]]>
+  </sql-query>
+</hibernate-mapping>

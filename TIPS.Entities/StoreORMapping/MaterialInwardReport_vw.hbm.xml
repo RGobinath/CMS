@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.StoreEntities.MaterialInwardReport_vw" namespace="TIPS.Entities.StoreEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StoreEntities.MaterialInwardReport_Vw, TIPS.Entities" table="MaterialInwardReport_vw" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="Campus">
+      <column name="Campus" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Material">
+      <column name="Material" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="MaterialGroup">
+      <column name="MaterialGroup" sql-type="varchar" not-null="false"/>
+    </property>
+    <property name="MaterialSubGroup">
+      <column name="MaterialSubGroup" sql-type="varchar" not-null="false"/>
+    </property>
+    <property name="Store">
+      <column name="Store" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="ReceivedQty">
+      <column name="ReceivedQty" sql-type="int" not-null="false" />
+    </property>
+    <property name="DamagedQty">
+      <column name="DamagedQty" sql-type="int" not-null="false" />
+    </property>
+    <property name="Month">
+      <column name="Month" sql-type="int" not-null="false" />
+    </property>
+    <property name="Year">
+      <column name="Year" sql-type="int" not-null="false" />
+    </property>
+    <property name="TotalPrice">
+      <column name="TotalPrice" sql-type="decimal" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

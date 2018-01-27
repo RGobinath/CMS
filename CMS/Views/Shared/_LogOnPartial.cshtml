@@ -1,0 +1,44 @@
+﻿@*@model TIPS.Entities.User  *@
+@if (Session["UserId"] != null)
+{
+    var username = Session["UserName"].ToString();
+    <text><strong><i class="fa fa-user"></i>&nbsp;@username</strong> &nbsp&nbsp&nbsp&nbsp&nbsp
+    <i class="fa fa-clock-o"></i>&nbsp;@String.Format("{0:dd-MMM-yyyy }", System.DateTime.Now)
+    &nbsp&nbsp&nbsp <a href="/Account/CustomChangePassword"><i class="icon-white icon-edit"></i>&nbsp;Change Password</a>&nbsp
+    &nbsp <a href="/Account/LogOff" style="color: red; background-color: white;"><i class="fa fa-sign-out"></i>&nbsp;LogOff</a></text>
+}
+&nbsp&nbsp&nbsp
+<script>
+    var seconds = null;
+    var ticker = null;
+
+    function startTimer() {
+        seconds = -1;
+        ticker = setInterval("tick( )", 1000);
+        tick();
+    }
+
+    function tick() {
+        ++seconds;
+        var secs = seconds;
+        var hrs = Math.floor(secs / 3600);
+        secs %= 3600;
+        var mns = Math.floor(secs / 60);
+        secs %= 60;
+        var pretty = (hrs < 10 ? "0" : "") + hrs
+               + ":" + (mns < 10 ? "0" : "") + mns
+               + ":" + (secs < 10 ? "0" : "") + secs;
+        document.getElementById("ELAPSED").innerHTML = pretty;
+
+    }
+    //$('.pagelinks').click(function(){
+    if ("@Session" == null) {
+        window.location = '@Url.Action("LogOn", "Account")';
+    }
+    //});
+</script>
+@*<body onLoad="startTimer( )">
+
+<span id="ELAPSED"></span>
+
+</body>*@

@@ -1,0 +1,410 @@
+﻿@{
+    ViewBag.Title = "Material Return Material Search";
+    Layout = null;
+            //Layout = "~/Views/Shared/PartialViewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var Campus = '@ViewBag.Campus';
+        $.getJSON("/Store/FillMaterialGroup",
+                 function (fillig) {
+                     var ddlmatgrp = $("#ddlMaterialGroup");
+                     ddlmatgrp.empty();
+                     ddlmatgrp.append($('<option/>',
+                     {
+                         value: "",
+                         text: "Select One"
+                     }));
+                     $.each(fillig, function (index, itemdata) {
+                         ddlmatgrp.append($('<option/>',
+                             {
+                                 value: itemdata.Value,
+                                 text: itemdata.Text
+                             }));
+                     });
+                 });
+        $("#ddlMaterialGroup").change(function () {
+            var matgrp = $("#ddlMaterialGroup").val();
+            if (matgrp != "") {
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: '/Store/FillMaterialSubGroup?MaterialGroupId=' + matgrp,
+                    success: function (data) {
+
+                        $("#ddlMaterialSubGroup").empty();
+                        $("#ddlMaterialSubGroup").append("<option value=''> Select One </option>");
+                        for (var i = 0; i < data.length; i++) {
+                            $("#ddlMaterialSubGroup").append("<option value='" + data[i].Value + "'>" + data[i].Text + "</option>");
+                        }
+                    },
+                    dataType: "json"
+                });
+            }
+            else {
+                $("#ddlMaterialSubGroup").empty();
+                $("#ddlMaterialSubGroup").append("<option value=''> Select One </option>");
+            }
+        });
+
+        $("#ddlMaterialSubGroup").change(function () {
+
+            var matgrp = $("#ddlMaterialGroup").val();
+            var matsubgrp = $(this).val();
+            if (matgrp != "") {
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: '@Url.Content("~/Store/FillMaterial")?MaterialGroupId=' + matgrp + "&MaterialSubGroupId=" + matsubgrp,
+                    success: function (data) {
+
+                        $("#ddlMaterial").empty();
+                        $("#ddlMaterial").append("<option value=''> Select One </option>");
+                        for (var i = 0; i < data.length; i++) {
+                            $("#ddlMaterial").append("<option value='" + data[i].Value + "'>" + data[i].Text + "</option>");
+                        }
+                    },
+                    dataType: "json"
+                });
+            }
+            else {
+                $("#ddlMaterial").empty();
+                $("#ddlMaterial").append("<option value=''> Select One </option>");
+            }
+        });
+        var idsOfSelectedRows = [];
+        var FromStore;
+        $.ajax({
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            url: '@Url.Content("~/Store/FillStore")?Campus=' + Campus,
+            success: function (data) {
+                FromStore = data.rows[0].Value;
+            }
+        });
+
+        jQuery("#StoreMaterialsList").jqGrid({
+            url: '/Store/StoreSKUListJqGridForMaterialReturn?Store=' + FromStore,
+            // url:'/Store/StoreSKUListJqGrid',
+            datatype: 'json',
+            mtype: 'POST',
+            height: '150',
+           // width: '1000',
+            shrinkToFit: true,
+            colNames: ['Id', 'Material Group', 'Material Sub Group', 'Material', 'Units', 'Store', 'Stock Availability', 'Inward Ids', 'Inward Availability'],
+            colModel: [
+                { name: 'Id', index: 'Id', width: 50, align: 'left', editable: true, hidden: true, edittype: 'text', key: true },
+                { name: 'MaterialGroup', index: 'MaterialGroup', width: 100, align: "left" },
+                { name: 'MaterialSubGroup', index: 'MaterialSubGroup', width: 100, align: 'left' },
+                { name: 'Material', index: 'Material', width: 100, align: 'left' },
+                { name: 'Units', index: 'Units', width: 100, align: 'left' },
+                { name: 'Store', index: 'Store', width: 100, search: true },
+                { name: 'ClosingBalance', index: 'ClosingBalance', width: 100, align: 'left', cellattr: function (rowId, cellValue, rawObject, cm, rdata) {
+                    if (cellValue == 0) {
+                        return 'class="ui-state-error ui-state-error-text"';
+                    }
+                }
+                },
+              { name: 'InwardIds', index: 'InwardIds', width: 100, search: false },
+              { name: 'AvailableQtys', index: 'AvailableQtys', width: 100, search: false },
+                ],
+            pager: '#StoreMaterialsListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100],
+            sortname: 'Material',
+            sortorder: "",
+            viewrecords: true,
+            multiselect: true,
+            autowidth: true,
+            caption: 'Storer Materials List',
+
+            onSelectRow: function (id, status) {
+                var index = $.inArray(id, idsOfSelectedRows);
+                if (!status && index >= 0) {
+                    idsOfSelectedRows.splice(index, 1); // remove id from the list
+                } else if (index < 0) {
+                    idsOfSelectedRows.push(id);
+                };
+                var RowList1;
+                var selectedData1;
+                RowList1 = $('#StoreMaterialsList').getGridParam('selarrrow');
+                var Id = $("#Id").val();
+                selectedData1 = $('#StoreMaterialsList').jqGrid('getRowData', id);
+                if (status == true) {
+                    if (parseInt(selectedData1.ClosingBalance) == 0) {
+                        ErrMsg("Available quantity is 0");
+                        return false
+                    }
+                    else {
+                        $('#StoreMaterialsList1').jqGrid('addRowData', id, selectedData1);
+                        jQuery('#StoreMaterialsList1').editRow(id, true);
+                    }
+                }
+                else {
+                    $('#StoreMaterialsList1').jqGrid('delRowData', id, selectedData1);
+                }
+            },
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    updatePagerIcons(table);
+                    enableTooltips(table);
+                }, 0);
+                var $this = $(this), i, count;
+                for (i = 0, count = idsOfSelectedRows.length; i < count; i++) {
+                    $this.jqGrid('setSelection', idsOfSelectedRows[i], false);
+                }
+            }
+        });
+
+        $("#StoreMaterialsList").jqGrid('filterToolbar', { searchOnEnter: true, beforeSearch: function () {
+            $('#StoreMaterialsList').clearGridData();
+            return false;
+        }
+        });
+        $("#gs_Store").val(FromStore).attr("readonly", "readonly");
+
+        $("#gs_Material").autocomplete({
+            source: function (request, response) {
+                $.getJSON('/Store/GetMaterials?term=' + request.term, function (data) {
+                    response(data);
+                });
+            },
+            minLength: 1,
+            delay: 100
+        });
+
+        jQuery("#StoreMaterialsList1").jqGrid({
+            url: '/Store/EmptyJsonUrl',
+            datatype: 'json',
+            mtype: 'POST',
+            height: '140',
+            //width: '1000',
+            colNames: ['Id', 'Material Group', 'Material Sub Group', 'Material', 'Units', 'Available Qty', 'Inward Ids', 'Inward Availability', 'Return Qty'],
+            colModel: [
+                                { name: 'Id', index: 'Id', width: 50, align: 'left', editable: true, hidden: true, edittype: 'text', key: true, sortable: false },
+                                { name: "MaterialGroup", index: "MaterialGroup", width: 100, align: "left", editable: true, editoptions: { disabled: true, class: 'NoBorder'} },
+                                { name: 'MaterialSubGroup', index: 'MaterialSubGroup', width: 100, align: 'left', sortable: false, editable: true, editoptions: { disabled: true, class: 'NoBorder'} },
+                                { name: 'Material', index: 'Material', width: 100, align: 'left', sortable: false, editable: true, editoptions: { disabled: true, class: 'NoBorder'} },
+                                { name: 'Units', index: 'Units', width: 100, align: 'left', sortable: false, editable: true, editoptions: { readonly: true, class: 'NoBorder'} },
+                                { name: 'ClosingBalance', index: 'ClosingBalance', width: 70 },
+                                { name: 'InwardIds', index: 'InwardIds', width: 100, search: false },
+                                { name: 'AvailableQtys', index: 'AvailableQtys', width: 100, search: false },
+                                { name: 'ReturnQty', index: 'ReturnQty', width: 50, editable: true, edittype: 'text', editrules: { integer: true} }
+
+                                ],
+            pager: '#StoreMaterialsList1Pager',
+            rowNum: '50',
+            rowList: [5, 10, 20, 50, 100],
+            sortname: 'Id',
+            sortorder: "asc",
+            viewrecords: true,
+            autowidth: true,
+            caption: 'Selected Materials List',
+            forceFit: true,
+            gridview: true,
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    updatePagerIcons(table);
+                    enableTooltips(table);
+                }, 0);
+            }
+        });
+
+        $("#btnSubmitAndClose").click(function () {
+            if (ValidateSave() == false) {
+                return false;
+            }
+            else {
+                idsOfSelectedRows = [''];
+                $("#StoreMaterialsList").jqGrid("clearGridData", true).trigger("reloadGrid");
+                $("#StoreMaterialsList1").jqGrid("clearGridData", true).trigger("reloadGrid");
+
+                $('#DivMaterialSearch').dialog('close');
+            }
+        });
+
+        $("#btnSearch").click(function () {
+            $("#StoreMaterialsList").clearGridData();
+            var MaterialGroupId = $("#ddlMaterialGroup").val();
+            var MaterialSubGroupId = $("#ddlMaterialSubGroup").val();
+            var MaterialId = $("#ddlMaterial").val();
+            var frmstr=$("#gs_Store").val();
+            $("#StoreMaterialsList").setGridParam(
+                {
+                    datatype: "json",
+                    url: '@Url.Content("~/Store/StoreSKUListJqGridForMaterialReturn/")',
+                    postData: { MaterialGroupId: MaterialGroupId, MaterialSubGroupId: MaterialSubGroupId, MaterialId: MaterialId, Units: '', Store: frmstr },
+                    page: 1
+                }).trigger("reloadGrid");
+        });
+        $("#btnReset").click(function () {
+            $("#ddlMaterialGroup").val('');
+            $("#ddlMaterialSubGroup").val('');
+            $("#ddlMaterial").val('');
+            $("#ddlRequiredForGrade").val('');
+            $("#txtstName").val('');
+            var frmstr=$("#gs_Store").val();
+            $("#StoreMaterialsList").setGridParam(
+                {
+                    datatype: "json",
+                    url: '/Store/StoreSKUListJqGridForMaterialReturn/',
+                    postData: { MaterialGroupId: 0, MaterialSubGroupId: 0, MaterialId: 0, Units: '', Store: frmstr },
+                    page: 1
+                }).trigger("reloadGrid");
+        });
+        $("#StoreMaterialsList").jqGrid("clearGridData", true).trigger("reloadGrid");
+        $("#StoreMaterialsList1").jqGrid("clearGridData", true).trigger("reloadGrid");
+    });
+    function updatePagerIcons(table) {
+        var replacement = {
+            'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+            'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+            'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+            'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+        };
+        $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+            var icon = $(this);
+            var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+            if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+        })
+    }
+    function enableTooltips(table) {
+        $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+        $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+    }
+    function ValidateSave() {
+        var RowList;
+        var selectedData;
+        var MatReqLst = '';
+        var reqfor = $("#txtstName").val();
+
+        RowList = $('#StoreMaterialsList1').getDataIDs();
+        var MatRetId = $("#MatRetId").val();
+        var qty = '';
+        var reqdate = '';
+        for (var i = 0, list = RowList.length; i < list; i++) {
+            var selectedId = RowList[i];
+            qty = $("#" + selectedId + "_ReturnQty").val();
+            if (qty == "") {
+                ErrMsg("Please type Quantity");
+                $("#" + selectedId + "_ReturnQty").focus();
+                return false;
+                break;
+            }
+            if (isNaN(qty)) {
+                ErrMsg("Quantity should be in number");
+                $("#" + selectedId + "_ReturnQty").focus();
+                return false;
+                break;
+            }
+            selectedData = $('#StoreMaterialsList1').jqGrid('getRowData', selectedId);
+            if (parseInt(qty) > parseInt(selectedData.ClosingBalance)) {
+                ErrMsg("Request Quantity should not be greater than Available Quantity.");
+                $("#" + selectedId + "_ReturnQty").focus().css("color", "#CD0A0A");
+                return false;
+                break;
+            }
+            MatReqLst += "&[" + i + "].MaterialGroup=" + encodeURIComponent($("#" + selectedId + "_MaterialGroup").val())
+                + "&[" + i + "].MaterialSubGroup=" + encodeURIComponent($("#" + selectedId + "_MaterialSubGroup").val())
+                + "&[" + i + "].Material=" + encodeURIComponent($("#" + selectedId + "_Material").val())
+                + "&[" + i + "].Units=" + $("#" + selectedId + "_Units").val()
+                + "&[" + i + "].ReturnQty=" + $("#" + selectedId + "_ReturnQty").val()
+                + "&[" + i + "].Status=" + 'Requested'
+
+                + "&[" + i + "].MatRetId=" + MatRetId
+        }
+        $.ajax({
+            url: '/Store/SaveMaterialReturnList/',
+            type: 'POST',
+            dataType: 'json',
+            data: MatReqLst,
+            success: function (data) {
+                var Id = $("#Id").val();
+                $("#MaterialReturnList").setGridParam({ url: '/Store/MaterialReturnListJqGrid?MatRetId=' + MatRetId }).trigger("reloadGrid");
+                idsOfSelectedRows = [''];
+                $("#StoreMaterialsList").jqGrid('resetSelection');
+                $("#StoreMaterialsList1").clearGridData();
+            }
+        });
+        return true;
+    }
+   
+</script>
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+                        <div class="col-xs-12">
+                            <div class="col-sm-3">
+                                <label for="form-field-select-1">
+                                    <b>Materials Group</b></label>
+                                @Html.DropDownList("ddlMaterialGroup", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="form-field-select-1">
+                                    <b>Material Sub Group</b></label>
+                                @Html.DropDownList("ddlMaterialSubGroup", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="form-field-select-1">
+                                    <b>Material</b></label>
+                                @Html.DropDownList("ddlMaterial", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-3">
+                                <br />
+                                <button type="submit" class="btn btn-success btn-sm" id="btnSearch">
+                                    <i class="ace-icon fa fa-search white"></i>Search
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm" id="btnReset">
+                                    <i class="ace-icon fa fa-undo white"></i>Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <table id="StoreMaterialsList">
+        </table>
+        <div id="StoreMaterialsListPager">
+        </div>
+    </div>
+</div>
+<div class="space-2">
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-primary btn-block btn-sm" id="btnSubmit" onclick="ValidateSave()">
+                <i class="ace-icon fa fa-file white"></i>Save
+            </button>
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-primary btn-block btn-sm" id="btnSubmitAndClose">
+                <i class="ace-icon fa fa-dot-circle-o white"></i>Save & Close
+            </button>
+        </div>
+        <div class="col-sm-10">
+        </div>
+    </div>
+</div>
+<div class="space-2">
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <table id="StoreMaterialsList1">
+        </table>
+        <div id="StoreMaterialsList1Pager">
+        </div>
+    </div>
+</div>

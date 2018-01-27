@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.Staff_WorkingDaysMaster" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.Staff_WorkingDaysMaster,TIPS.Entities" table="Staff_WorkingDaysMaster" lazy="true" >
+    <id name="Staff_WorkingDaysMaster_Id" column="Staff_WorkingDaysMaster_Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="StaffType" column="StaffType" type="string"></property>
+    <property name="Month" column="Month" type="Int64"></property>
+    <property name="Year" column="Year" type="Int64"></property>
+    <property name="NoOfworkingDays" column="NoOfworkingDays" type="Int64"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime"></property>
+  </class>
+</hibernate-mapping>

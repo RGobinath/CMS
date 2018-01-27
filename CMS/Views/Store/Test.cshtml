@@ -1,0 +1,151 @@
+﻿@{
+    ViewBag.Title = "Test";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script>
+$(document).ready(
+    function () {
+        // This is executed as soon as the DOM is loaded and before the page contents are loaded
+        var lastsel;
+        // $ is short for JQuery which is in turn a super overloaded function that does lots of things.
+        // # means select an element by its ID name, i.e. below we have <table id="ts"
+        // .jqGrid means attach a jqGrid 'thing' to all elements that have ts as their element name (there's only one)
+        // jqGrid is a thing defined in the jqGrid javascript file
+        $("#ts").jqGrid({
+            //=============
+            // Grid Setup
+            url: 'Timesheet/GridData/',
+            datatype: 'json',
+            mtype: 'GET',
+            pager: $('#pager'),
+            rowNum: 30,
+            rowList: [10, 20, 30, 40, 80],
+            viewrecords: true,
+            caption: 'Timesheet',
+            height: 450,
+            // Column definition
+            colNames: ['hCustomer_ID', 'hProject_ID', 'hTask_ID', 'Date', 'Customer', 'Project', 'Task', 'Description', 'Hours', '$'],
+            colModel: [
+              { name: 'hCustomer_ID', index: 'hCustomer_ID', editable: false, hidden: true },
+              { name: 'hProject_ID', index: 'hProject_ID', editable: false, hidden: true },
+              { name: 'hTask_ID', index: 'hTask_ID', editable: false, hidden: true },
+              { name: 'tsdate', index: 'tsdate', width: 80, editable: true, datefmt: 'yyyy-mm-dd' },
+            // Defintion for customer column
+              {name: 'Customer', index: 'Customer', width: 250, align: 'left', editable: true, edittype: "select",
+              editoptions: {
+                  // Default URL used to populate drop down when the column goes into edit mode  
+                  dataUrl: 'Timesheet/CustomerList',
+                  dataEvents: [
+                      {
+                          // this is the change handler. This is called when the customer is changed
+                          type: 'change',
+                          fn: function (e) {
+                              // get a reference to the project and task drop downs on this same row
+                              var eProject = '#' + $(this).attr("id").replace("_Customer", "_Project");
+                              var eTask = '#' + $(this).attr("id").replace("_Customer", "_Task");
+                              // Call getJSON to get data from a URL and process it with a callback function
+                              $.getJSON(
+                              // the URL to call
+                                'Timesheet/ProjectListJSON',
+                              // the parameter(s) to pass to the URL
+                                {Customer_ID: this.value },
+                              // The callback function. The results of the JSON call are passed into jData
+                                function (jData) {
+                                    var selectHtml = ""
+                                    // Repopulate the project drop down with the results of the JSON call
+                                    $.each(
+                                        jData,
+                                        function (jdIndex, jdData) {
+                                            selectHtml = selectHtml + "<option value='" + jdData.Value + "'>" + jdData.Text + "</option>";
+                                        });
+                                    // dont use innerHTML as it is not supported properly by IE
+                                    // insted use jQuery html to change the select list options
+                                    $(eProject).html(selectHtml);
+                                    // blank out tasks
+                                    $(eTask).html("");
+                                } // END getJSON callback function definition
+                              ); // END getJSON function call
+                          } // END change event definition
+                      }] // END dataEvents definition
+              } // END editoptions list
+          }, // END Customer jqGrid field definition
+            // Definition for Project drop down
+          {name: 'Project', index: 'Project', width: 250, align: 'left', editable: true, edittype: "select",
+          editoptions: {
+              dataUrl: 'Timesheet/ProjectList',
+              dataEvents: [
+                      {
+                          type: 'change',
+                          fn: function (e) {
+                              var eTask = '#' + $(this).attr("id").replace("_Project", "_Task");
+                              $.getJSON(
+                                'Timesheet/TaskListJSON',
+                                { CustomerProject_ID: this.value },
+                                function (jData) {
+                                    var selectHtml = "";
+                                    $.each(
+                                        jData,
+                                        function (jdIndex, jdData) {
+                                            selectHtml = selectHtml + "<option value='" + jdData.Value + "'>" + jdData.Text + "</option>";
+                                        });
+                                        $(eTask).html(selectHtml);
+                                } // END getJSON callback function definition
+                              ); // END getJSON function call
+                          } // END change event handler definition
+                      }] // END dataevents definition
+          } // END editoptions list
+      }, // END Project jqGrid field definition
+              { name: 'Task', index: 'Task', width: 250, align: 'left', editable: true, edittype: "select", editoptions: { dataUrl: 'Timesheet/TaskList'} },
+              { name: 'Desc', index: 'Desc', width: 300, align: 'left', editable: true },
+              { name: 'Hours', index: 'Hours', width: 50, align: 'left', editable: true },
+              { name: 'Charge', index: 'Charge', edittype: 'checkbox', width: 18, align: 'center', editoptions: { value: "0:1" }, formatter: "checkbox", formatoptions: { disabled: false }, editable: true }
+            ],
+            //=============
+            // Grid Events
+            // when selecting, undo anything else
+            onSelectRow: function (rowid, iRow, iCol, e) {
+                if (rowid && rowid !== lastsel) {
+                    // $(this).jqGrid('restoreRow', lastsel);
+                    lastsel = rowid;
+                }
+            },
+            // double click to edit
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                // browser independent stuff
+                if (!e) e = window.event;
+                var element = e.target || e.srcElement
+
+                // When editing, change the drop down datasources to filter on the current parent
+                $(this).jqGrid('setColProp', 'Project', { editoptions: { dataUrl: 'Timesheet/ProjectList?Customer_ID=' + $(this).jqGrid('getCell', rowid, 'hCustomer_ID')} });
+                $(this).jqGrid('setColProp', 'Task', { editoptions: { dataUrl: 'Timesheet/TaskList?CustomerProject_ID=' + $(this).jqGrid('getCell', rowid, 'hProject_ID')} });
+
+                // Go into edit mode (automatically moves focus to first field)
+                // Use setTimout to apply the focus and datepicker after the first field gets the focus
+                $(this).jqGrid(
+                    'editRow',
+                    rowid,
+                    {
+                        keys: true,
+                        oneditfunc: function (rowId) {
+                            setTimeout(function () {
+                                $("input, select", element).focus();
+                                $("#" + rowId + "_tsdate").datepicker({ dateFormat: 'yy-mm-dd' });
+                            }, 50);
+                        }
+                    }
+                );
+
+            },  // end ondblClickRow event handler
+            postData:
+                {
+                    startDate: function () { return $('#startDate').val(); }
+                }
+        }); // END jQuery("#ts").jqGrid
+
+        $("#ts").jqGrid('navGrid', '#pager', { view: false, edit: false, add: false, del: false, search: false });
+        $("#ts").jqGrid('inlineNav', "#pager");
+
+    });                                       // END jQuery(document).ready(function () {
+    </script>
+
+

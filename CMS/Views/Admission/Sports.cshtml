@@ -1,0 +1,139 @@
+﻿@model TIPS.Entities.AdmissionEntities.Sports
+@{
+    Layout = null;
+}
+<script type="text/javascript">
+    jQuery(function () {
+        debugger;
+        //alert('@ViewBag.preregno');
+        $('#Preregno1').val('@ViewBag.preregno');
+
+    });
+</script>
+<link rel="stylesheet" href="../../assets/css/jquery-ui.min.css" type="text/css" />
+<link rel="stylesheet" href="../../assets/css/datepicker.css" type="text/css" />
+<script src="../../assets/js/date-time/bootstrap-datepicker.min.js" type="text/javascript"></script>
+<div class="page-content">
+    <div class="page-content-area">
+        @using (Html.BeginForm("Sports", "Admission", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-sm-4">
+                        <label for="form-field-select-1">
+                            Academic Year</label>
+                        @Html.DropDownListFor(Model => Model.acady, new SelectList(ViewBag.Acadyddl, "AcademicYear", "AcademicYear"), "Select Academic year", new { id = "acady", @Class = "form-control select-sm" })
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="form-field-select-1">
+                            Sport</label>
+                        @Html.TextBoxFor(model => model.Sport, new { id = "sport", @Class = "form-control input-sm", @maxlength = "20" })
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="form-field-select-1">
+                            Event</label>
+                        @Html.TextBoxFor(model => model.Event, new { id = "event", @Class = "form-control input-sm", @maxlength = "20" })
+                    </div>
+                </div>
+            </div> 
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-sm-4">
+                        <label for="form-field-select-1">
+                            Award</label>
+                        @Html.TextBoxFor(model => model.Award, new { id = "award", @Class = "form-control input-sm", @maxlength = "20" })
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="form-field-select-1">
+                            Date</label>
+                        @Html.TextBoxFor(model => model.Date, new { id = "sportsdate", @Class = "form-control date-picker", @maxlength = "10" })
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="form-field-select-1">
+                            Place</label>
+                        @Html.TextBoxFor(model => model.Place, new { id = "place", @Class = "form-control input-sm", @maxlength = "20" })
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-sm-2">
+                        <button class="btn btn-white btn-primary" type="submit" onclick="return(sportsvalidate());">
+                        <i class="ace-icon fa fa-spotify">&nbsp;</i>Generate SC</button>
+                         @Html.HiddenFor(model => model.Preregno1, new { id = "sportspreregno"})
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    jQuery(function ($) {
+        debugger;
+        $("#sportsdate").datepicker({
+            showOn: "button",
+            format: "dd/mm/yy",
+            changeYear: true,
+            changeMonth: true,
+            maxDate: 0,
+            numberOfMonths: 1
+        });
+        //enable datepicker
+        function pickDate(cellvalue, options, cell) {
+            setTimeout(function () {
+                $(cell).find('input[type=text]')
+                            .datepicker({ format: 'yyyy-mm-dd', autoclose: true });
+            }, 0);
+        }
+        function style_edit_form(form) {
+            //enable datepicker on "sdate" field and switches for "stock" field
+            form.find('input[name=sdate]').datepicker({ format: 'yyyy-mm-dd', autoclose: true })
+                    .end().find('input[name=stock]')
+                        .addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
+            //don't wrap inside a label element, the checkbox value won't be submitted (POST'ed)
+            //.addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
+
+            //update buttons classes
+            var buttons = form.next().find('.EditButton .fm-button');
+            buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide(); //ui-icon, s-icon
+            buttons.eq(0).addClass('btn-primary').prepend('<i class="ace-icon fa fa-check"></i>');
+            buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>')
+
+            buttons = form.next().find('.navButton a');
+            buttons.find('.ui-icon').hide();
+            buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
+            buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');
+        }
+    });
+    function sportsvalidate() {
+        if (document.getElementById("acady").value == "") {
+            ErrMsg("Please Select Academic Year Field!");
+            return false;
+        }
+        else if (document.getElementById("sport").value == "") {
+            ErrMsg('Please Enter Sport Field!');
+            return false;
+        }
+        else if (document.getElementById("event").value == "") {
+            ErrMsg('Please Enter Event Field!');
+            return false;
+        }
+        else if (document.getElementById("award").value == "") {
+            ErrMsg("Please Enter Award Field!");
+            return false;
+        }
+        else if (document.getElementById("sportsdate").value == "") {
+            ErrMsg("Please Enter Date Field!");
+            return false;
+        }
+        else if (document.getElementById("place").value == "") {
+            ErrMsg("Please Enter Place Field!");
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+</script>

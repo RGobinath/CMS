@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.Attendance.MonthMasterForAttendance" namespace="TIPS.Entities.Attendance" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Attendance.MonthMasterForAttendance, TIPS.Entities" table="MonthMaster" lazy="false" >
+    <id name="Id" column="Id">
+      <generator class="identity" />
+    </id>
+    <property name="MonthName" column="MonthName" type="string" />
+    <property name="MonthCode" column="MonthCode" type="string"/>
+    <property name="Code" column="Code" type="string"/>
+  </class>
+</hibernate-mapping>
+
+

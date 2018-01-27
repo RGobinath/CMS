@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.TransportEntities.RouteStudConfig" namespace="TIPS.Entities.TransportEntities">
+  <class name="TIPS.Entities.TransportEntities.RouteStudConfig, TIPS.Entities" table="RouteStudConfig" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="RouteStudCode" column="RouteStudCode" type="string"></property>
+    
+    <property name="DateCreated" column="DateCreated" type="datetime"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="RouteId" column="RouteId" type="Int64"></property>
+    <!-- many to one with routemaster-->
+    <!-- one to many with route-location config-->
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,92 @@
+﻿@model TIPS.Entities.TransportEntities.VehicleFCEntry
+@{
+    ViewBag.Title = "VehicleFCEntryForm";
+}
+
+<div id="FitnessCertificateEntry">
+    <div class="row">
+        @*<div class="col-xs-12 widget-container-col">
+            <div class="widget-box widget-color-CustomizeBlue ">*@
+        @*<div class="widget-header widget-header-flat widget-header-small">
+                    <div class="PanelHeader">
+                        Fitness Certificate Details
+                    </div>
+                </div>*@
+        @*<div class="widget-body">
+                    <div class="widget-main no-padding">*@
+        <div class="row" style="margin-top: 10px; margin-bottom: 5px;">
+            <div class="col-xs-12">
+                <div class="col-sm-3">
+                    <label for="form-field-select-1">
+                        <b>Vendor</b></label>
+                    <br />
+                    @Html.HiddenFor(model => model.FCId, new { id = "hdnFCId" })
+                    @Html.Hidden("VehicleCostId", "", new { id = "hdnVehicleCostId3", @Value = ViewBag.VehicleCostId })
+                    @if (Model != null)
+                    {
+                        @Html.TextBoxFor(model => model.Vendor, new { id = "Vendor3", @class = "form-control input-sm", disabled = "true" })
+                    }
+                    else
+                    {
+                        @Html.TextBox("Vendor", "", new { id = "Vendor3", @class = "form-control input-sm", @Value = "RTO", disabled = "true" })
+                    }
+                </div>
+                <div class="col-sm-3">
+                    <label for="form-field-select-1">
+                        <b>Invoice Number<sup style="color: red">*</sup></b>
+                    </label>
+                    @if (Model != null)
+                    {
+                        @Html.TextBoxFor(model => model.InvoiceNo, new { id = "InvoiceNo3", @class = "form-control input-sm" })
+                    }
+                    else
+                    {
+                        @Html.TextBox("InvoiceNo", "", new { id = "InvoiceNo3", @class = "form-control input-sm" })
+                    }
+                </div>
+                <div class="col-sm-3">
+                    <b>Travel Date</b><br />
+                    <div class="input-group input-group-sm">
+                        @if (Model != null)
+                        { 
+                            @Html.TextBoxFor(model => model.EntryDate, new { id = "EntryDate3", @Class = "form-control date-picker", disabled = "true", @Value = Model.EntryDate.Value.ToString("dd'/'MM'/'yyyy") })
+                        }
+                        else
+                        {
+                            @Html.TextBox("EntryDate", "", new { id = "EntryDate3", @Class = "form-control date-picker", disabled = "true", @Value = ViewBag.EntryDate != null ? ViewBag.EntryDate.ToString("dd'/'MM'/'yyyy") : "" })
+                        }
+                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-sm-6">
+                    <label for="form-field-select-1">
+                        <b>Description(Mention Area)</b></label>
+                    @if (Model != null)
+                    {
+                        @Html.TextAreaFor(model => model.Description, new { id = "Description3", rows = 5, cols = 50, @class = "form-control input-sm" })
+                    }
+                    else
+                    {
+                        @Html.TextArea("Description", "", new { id = "Description3", rows = 5, cols = 50, @class = "form-control textarea" })
+                    }
+                </div>
+                <div class="col-sm-2 ">
+                    <br />
+                    <button class="btn btn-success btn-info btn-block btn-sm" id="btnSave" type="button"
+                        onclick="FitnessCertificateDetailsCreate();return false;">
+                        <i class="ace-icon fa fa-floppy-o bigger-120 white"></i>&nbsp Save
+                    </button>
+                </div>
+            </div>
+        </div>
+        @*</div>
+                </div>*@
+        @* </div>
+        </div>*@
+    </div>
+</div>
+<script src="../../Scripts/Transport/VehicleFCEntryForm.js"></script>

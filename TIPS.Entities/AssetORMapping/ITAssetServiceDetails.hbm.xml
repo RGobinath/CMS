@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.ITAssetServiceDetails" namespace="TIPS.Entities.ITAssetServiceDetails" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.ITAssetServiceDetails, TIPS.Entities" table="ITAssetServiceDetails" lazy="false" >
+    <id name="AssetService_Id" column="AssetService_Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="DCNo" column="DCNo" type="string"></property>
+    <property name="DCDate" column="DCDate" type="datetime" />
+    <property name="Problem" column="Problem" type="string"></property>
+    <property name="PhysicalCondition" column="PhysicalCondition" type="string"></property>
+    <property name="EngineerName" column="EngineerName" type="string"></property>
+    <property name="PendingAge" column="PendingAge" type="Int64"></property>
+    <property name="Vendor" column="Vendor" type="string"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime" />
+    
+    <property name="FromCampus" column="FromCampus" type="string"></property>
+    <property name="FromLocation" column="FromLocation" type="string"></property>
+    <property name="ExpectedDate" column="ExpectedDate" type="datetime"></property>
+    <property name="InwardDate" column="InwardDate" type="datetime"></property>
+    <property name="FromBlock" column="FromBlock" type="string"></property>
+    <many-to-one name="AssetDetails" column="AssetDet_Id" class="TIPS.Entities.AssetEntities.AssetDetails,TIPS.AssetEntities" fetch="join"> </many-to-one>
+    <property name="InvoiceDetailsId" column="InvoiceDetailsId" type="Int64"></property>
+    <property name="Warranty" column="Warranty" type="string"></property>
+    <property name="Amount" column="Amount" type="decimal"></property>
+    <property name="IsExpired" column="IsExpired" type="bool"></property>
+    <property name="AssetRefId" column="AssetRefId" type="Int64" />
+    <property name="IsSubAsset" column="IsSubAsset" type="bool" />
+  </class>
+</hibernate-mapping>

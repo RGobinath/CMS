@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StudentsReportEntities.AdmissionStatusReport_vw" namespace="TIPS.Entities.StudentsReportEntities">
+	<class name="TIPS.Entities.StudentsReportEntities.AdmissionStatusReport_vw,TIPS.Entities" table="AdmissionStatusReport_vw" lazy="false">
+		<id name="Id" column="Id" type="Int64">
+			<generator class="identity"></generator>
+		</id>
+		<property name="Campus" column="Campus" type="string"></property>
+		<property name="AcademicYear" column="AcademicYear" type="string"></property>
+		<property name="NewEnquiry" column="NewEnquiry" type="Int64"></property>
+    <property name="NewRegistration" column="NewRegistration" type="Int64"></property>
+    <property name="SentForClearance" column="SentForClearance" type="Int64"></property>
+    <property name="NotInterested" column="NotInterested" type="Int64"></property>
+    <property name="SentForApproval" column="SentForApproval" type="Int64"></property>
+    <property name="Registered" column="Registered" type="Int64"></property>
+    <property name="Discontinued" column="Discontinued" type="Int64"></property>
+	</class>
+</hibernate-mapping>

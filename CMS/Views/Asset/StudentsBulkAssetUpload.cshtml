@@ -1,0 +1,230 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+@{
+    ViewBag.Title = "Students Laptop Entry";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script src="../../Scripts/ajaxfileupload.js" type="text/javascript"></script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+         <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue collapsed">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="space-2"></div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Academic Year</b></label>
+                                        @Html.DropDownListFor(Model => Model.AcademicYear, new System.Web.Mvc.SelectList(ViewBag.acadddl, "AcademicYear", "AcademicYear"), "Select", new { id = "ddlsaAcademicYear", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownList("ddlsCampus", new System.Web.Mvc.SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Vendor Name</b></label>
+                                        @Html.DropDownList("ddlsVendorName", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Invoice No</b></label>
+                                        @Html.DropDownList("ddlsInvoiceNo", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Laptop Type</b></label>
+                                        @Html.DropDownList("ddlsLaptopType",
+                                            new SelectList(new[] { 
+                                                new { Text = "Select", Value = ""},
+                                                new { Text = "SMALL", Value = "SMALL"},
+                                                new { Text = "BIG", Value = "BIG"},
+                                       }, "Value", "Text", ""),
+                                       new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Windows OS</b></label>
+                                        @Html.DropDownList("ddlsOperatingSystem",
+                                            new SelectList(new[] { 
+                                                new { Text = "Select", Value = ""},
+                                                new { Text = "YES", Value = "YES"},
+                                                new { Text = "NO", Value = "NO"},
+                                       }, "Value", "Text", ""),
+                                       new { @Class = "form-control select-sm" })
+                                    </div>
+                                    </div>
+                                
+                                 <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Transaction Type
+                                            </b></label>
+                                        @Html.DropDownList("ddlsTransactionType",
+                                            new SelectList(new[] { 
+                                                new { Text = "Select", Value = ""},
+                                                new { Text = "Stock", Value = "Stock"},
+                                                new { Text = "Distributed", Value = "Distributed"},
+                                       }, "Value", "Text", ""),
+                                       new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Total Laptop</b></label>
+                                        @Html.TextBox("txtsTotalLaptop", "", new { @class = "form-control input-sm", disabled = "disabled"  })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Stock</b></label>
+                                        @Html.TextBox("txtsStock", "", new { @class = "form-control input-sm", disabled = "disabled" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Distributed</b></label>
+                                        @Html.TextBox("txtsDistributed", "", new { @class = "form-control input-sm", disabled = "disabled" })
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button type="submit" class="btn btn-success btn-block btn-sm" id="btnSearch">
+                                            <i class="ace-icon fa fa-search"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button type="button" class="btn btn-danger btn-block btn-sm" id="btnsReset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                             
+                            </div>
+                            <div class="space-2"></div>
+                        </div>
+                    </div>
+                    <div class="space-2"></div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue ">
+
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-th-list"></i>&nbsp;Student Laptop - Entry
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Academic Year</b></label>
+                                        @Html.DropDownListFor(Model => Model.AcademicYear, new System.Web.Mvc.SelectList(ViewBag.acadddl, "AcademicYear", "AcademicYear"), "Select", new { id = "ddlAcademicYear1", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b>
+                                        </label>
+                                        @Html.DropDownList("ddlNewCampus1", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlNewCampus1", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Vendor Name</b>
+                                        </label>
+                                        @Html.DropDownList("ddlVendorName1", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlVendorName1", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Invoice No</b>
+                                        </label>
+                                        @Html.DropDownList("ddlInvoiceNo1", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlInvoiceNo1", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <br />
+                                        <button class="btn btn-primary btn-block btn-sm" type="button" id="btnAdd">
+                                            <i class="ace-icon fa fa-plus-circle white"></i>Add Laptop
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button type="button" class="btn btn-danger btn-block btn-sm" id="btnReset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <br />
+                                        <button class="btn btn-white btn-primary" type="button" id="btnexcel" name="btnexcel">
+                                            <i class="ace-icon fa fa-file-excel-o"></i>Generate Excel</button>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <br />
+                                        <input type="file" name="uploadedFile" id="uploadedFile" />
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <br />
+                                        <button class="btn btn-white btn-primary" type="button" id="btnUpload" name="btnUpload">
+                                            <i class="ace-icon fa fa-upload bigger-110"></i>Upload</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <table id="grid-table"></table>
+                <div id="grid-pager">
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <div class="space-2">
+        </div>
+        <div id="newDistribution">
+        </div>
+    </div>
+</div>
+<script src='@Url.Content("/assets/js/AceJQMsg.js")' type="text/javascript"></script>
+<script src="@Url.Content("../../Scripts/Asset/StudentBulkAssetUpload.js")" type="text/javascript"></script>
+<style>
+    #newDistribution {
+        z-index: 10000;
+    }
+</style>
+

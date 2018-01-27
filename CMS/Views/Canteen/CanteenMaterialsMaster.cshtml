@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "CanteenSKUMaster";
+    Layout = "~/Views/Shared/PartialViewMaster.cshtml";
+}
+<style>
+    .ui-widget-content
+    {
+        border: 0px solid #aaaaaa;
+        background: #ffffff url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x; /* font-size: 0.8em;*/
+        color: #222222;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var MaterialGroup = "";
+        jQuery("#CanteenMaterialsList").jqGrid({
+            url: '/Canteen/CanteenMaterialsMasterListJqGrid',
+            datatype: 'json',
+            mtype: 'GET',
+            height: '265',
+            width: '970',
+            // shrinkToFit: true,
+            colNames: ['Id', 'Material Group',  'Material Group',  'Material', 'Units', 'Item Code', 'Item Location', 'Notes', 'Is Active'],
+            colModel: [
+                { name: 'Id', index: 'Id', width: 10, align: 'left', editable: true, hidden: true, edittype: 'text', key: true, sortable: false },
+                { name: "MaterialGroupId", index: "MaterialGroupId", width: 20, align: "left", editable: true, hidden: true, formoptions: { elmsuffix: ' *' }, editrules: { edithidden: true }, edittype: 'select',
+                            editoptions: {
+                                dataUrl: '@Url.Action("FillMaterialGroup")',
+                                buildSelect: function (data) {
+                                    jqGridMaterialGroup = jQuery.parseJSON(data);
+                                    var s = '<select>';
+                                    s += '<option value=" ">------Select------</option>';
+                                    if (jqGridMaterialGroup && jqGridMaterialGroup.length) {
+                                        for (var i = 0, l = jqGridMaterialGroup.length; i < l; i++) {
+                                            var mg = jqGridMaterialGroup[i];
+                                            s += '<option value="' + jqGridMaterialGroup[i].Value + '">' + jqGridMaterialGroup[i].Text + '</option>';
+                                        }
+                                    }
+                                    return s + "</select>";
+                                }
+                            }
+                        },
+                    
+                {name: 'MaterialGroup', index: 'MaterialGroup', width: 300, align: 'left', sortable: true, editrules: { required: true} },
+                { name: 'Material', index: 'Material', width: 300, align: 'left', sortable: true, editable: true, edittype: 'text', editrules: { required: true }, formoptions: { elmsuffix: ' *' }, editoptions: { maxlength: 50} },
+                { name: 'UnitCode', index: 'UnitCode', width: 150, align: 'left', sortable: true, editable: true, search: true, stype: 'text',
+                    //sorttype: function (cell) { return buildDataforDrpDwn(@Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.CanteenUnitsList)))[cell]; },
+                    edittype: 'select', editrules: { required: true }, formoptions: { elmsuffix: ' *' },
+                    // editoptions: { value: buildDataforDrpDwn(@Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.CanteenUnitsList))) },
+                    editoptions: {
+                        dataUrl: '@Url.Action("Unitsddl")',
+                        buildSelect: function (data) {
+                            jqGridMaterialGroup = jQuery.parseJSON(data);
+                            var s = '<select>';
+                            s += '<option value=" ">------Select------</option>';
+                            if (jqGridMaterialGroup && jqGridMaterialGroup.length) {
+                                for (var i = 0, l = jqGridMaterialGroup.length; i < l; i++) {
+                                    var mg = jqGridMaterialGroup[i];
+                                    s += '<option value="' + mg + '">' + mg + '</option>';
+                                }
+                            }
+                            return s + "</select>";
+                        }
+                    }
+                },
+                { name: 'ItemCode', index: 'ItemCode', editable: true, editoptions: { readonly: true }, sortable: true },
+                { name: 'ItemLocation', index: 'ItemLocation', editable: true, sortable: true, editoptions: { maxlength: 50} },
+                { name: 'Notes', index: 'Notes', sortable: true, editable: true, edittype: 'textarea', editoptions: { rows: "4", cols: "18" }, editoptions: { maxlength: 4000} },
+                { name: 'IsActive', index: 'IsActive', width: 100, align: 'left', stype: 'select', formatter: showYesOrNo, sortable: true, editable: true, edittype: 'select', editrules: { required: true }, formoptions: { elmsuffix: ' *' }, editoptions: { value: "True:Yes;False:No"} },
+                ],
+            pager: '#CanteenMaterialsListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'Material',
+            sortorder: "Desc",
+            viewrecords: true,
+            multiselect: true,
+            closeAfterEdit: true,
+            closeAfterAdd: true,
+            // autowidth: true,
+            reloadAfterSubmit: true,
+            caption: 'Canteen Materials List'
+        });
+        jQuery("#CanteenMaterialsList").navGrid('#CanteenMaterialsListPager', { add: true, edit: true, del: false, search: false, refresh: false },
+        {
+            beforeShowForm: function (form) { $('#tr_ItemCode', form).hide(); },
+            height: 350, width: 480, url: '/Canteen/AddMaterial?test=edit'
+        },
+        {
+            beforeShowForm: function (form) { $('#tr_ItemCode', form).hide(); },
+            height: 350, width: 480, url: '/Canteen/AddMaterial'
+        });
+        jQuery("#CanteenMaterialsList").jqGrid('navButtonAdd', '#CanteenMaterialsListPager', {
+            caption: "Export To Excel",
+            onClickButton: function () {
+
+                var ExptType = 'Excel';
+                window.open("/Canteen/CanteenMaterialsMasterListJqGrid" + '?rows=9999' + '&ExptType=' + ExptType);
+            }
+        });
+
+        $("#CanteenMaterialsList").jqGrid('filterToolbar', { stringResult: false, searchOnEnter: true, beforeSearch: function () {
+            $('#CanteenMaterialsList').clearGridData();
+            return false;
+        }
+        });
+    });
+    function showYesOrNo(cellvalue, options, rowObject) {
+        if (cellvalue == 'True') {
+            return 'Yes';
+        }
+        else {
+            return 'No';
+        }
+    }
+</script>
+<table id="CanteenMaterialsList" class="WithBorderOnly" width="100%">
+</table>
+<div id="CanteenMaterialsListPager">
+</div>

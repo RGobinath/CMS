@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.DriverOTDetails" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.DriverOTDetails, TIPS.Entities" table="DriverOTDetails" lazy="true" >
+    <id name="Id" column="Id" type="Int32">
+      <generator class="native"/>
+    </id>
+    <property name="Campus">
+      <column name="Campus" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="DriverName">
+      <column name="DriverName" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="DriverIdNo">
+      <column name="DriverIdNo" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="OTDate">
+      <column name="OTDate" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="OTType">
+      <column name="OTType" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Allowance">
+      <column name="Allowance" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="CreatedDate">
+      <column name="CreatedDate" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="CreatedBy">
+      <column name="CreatedBy" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="ModifiedDate">
+      <column name="ModifiedDate" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="ModifiedBy">
+      <column name="ModifiedBy" sql-type="varchar" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

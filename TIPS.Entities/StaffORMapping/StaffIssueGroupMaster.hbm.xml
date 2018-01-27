@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StaffEntities.StaffIssueGroupMaster" namespace="TIPS.Entities.StaffEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffEntities.StaffIssueGroupMaster, TIPS.Entities" table="StaffIssueGroupMaster" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="FormCode" column="FormCode" not-null="true" type="string"/>
+    <property name="IssueGroup" column="IssueGroup" type="string" />
+  </class>
+</hibernate-mapping>

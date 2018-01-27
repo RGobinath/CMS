@@ -1,0 +1,656 @@
+﻿@model TIPS.Entities.CommunictionEntities.StaffComposeSMSInfo
+@{
+    ViewBag.Title = "StaffBulkSMSRequest";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+@*<script src="@Url.Content("~/Scripts/BootStrap/bootstrap-maxlength.js")" type="text/javascript"></script>*@
+@*<script src="../../Scripts/BootStrap/bootstrap-maxlength.js"></script>*@
+@*<script src="../../Content/bootstrap-3.1.1/BootstrapFunctions/bootstrap-maxlength.js"></script>*@
+<script src="@Url.Content("~/Scripts/BootStrap/bootstrap-maxlength.js")" type="text/javascript"></script>
+@using (Html.BeginForm("StaffBulkSMSRequest", "Communication", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="page-content">
+        <div class="page-content-area">
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-search"></i>&nbsp;Compose SMS
+                                 @Html.HiddenFor(m => m.SMSReqId)
+                                @Html.HiddenFor(m => m.Id)
+                                @Html.HiddenFor(m => m.Status)
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-8">
+                                            <div class="col-xs-12">
+                                                <b>
+                                                    Bulk SMS Request :  <code>@Model.SMSReqId </code>Created By : <code>@Model.CreatedBy </code>On <code>@Model.CreatedDate</code>
+                                                </b>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                @if (Model.Id != 0)
+                                                {
+                                                    @Html.TextAreaFor(model => model.Info, new { id = "bulkcontent", @class = "form-control textarea", @maxlength = "120", @placeholder = "Type the content here", @readonly = "readonly" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextAreaFor(model => model.Info, new { id = "bulkcontent", @class = "form-control textarea", @maxlength = "120", @placeholder = "Type the content here" })
+                                                }
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <div class="col-sm-8">
+                                                    <label for="form-field-select-1">
+                                                        <b>Message : </b>
+                                                    </label>
+                                                    <label id="SMSText"></label>
+                                                    @Html.HiddenFor(model => model.SMSTemplateValue, new { Value = "Dear Sir/Madam, temp8 .TIPS Team" })
+                                                    @if (Model.Id != 0)
+                                                    {
+                                                        @Html.DisplayFor(model => model.Message)
+                                                    }
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <br />
+                                                    <button type="submit" class="btn btn-success btn-block btn-sm" id="SMSbtn" value="Save"
+                                                        onclick="return(validate());">
+                                                        <i class="ace-icon fa fa-save white"></i>&nbsp;Save
+                                                    </button>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <br />
+                                                    <button type="button" class="btn btn-danger btn-block btn-sm" id="cancel" value="Cancel">
+                                                        <i class="ace-icon fa fa-times-circle white"></i>&nbsp;Cancel
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="col-xs-12">
+                                                <div class="col-sm-8">
+                                                    <br />
+                                                    <label for="form-field-select-1" id="SMSCreditShow" style="background-color: cornsilk; font-size: 13px">
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <button type="button" class="btn btn-mini btn-purple" id="SMSCreditbtn" value="" style="margin-top: 12px;">
+                                                        <i class="fa fa-money" style="vertical-align: middle"></i>&nbsp;Show SMS Credit
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <div class="col-sm-8">
+                                                    <label for="form-field-select-1">
+                                                        <b>Test Message</b></label>
+                                                    <br />
+                                                    <input type="text" value="" id="txtTestMsg" class="form-control input-sm" name=""
+                                                        onkeypress="return isNumber(event)" placeholder="Enter test Mobile Number" />
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <br />
+                                                    <button id="testMsg" class="btn btn-primary btn-mini" value="" style="float: right" type="button">
+                                                        <i class="fa fa-lightbulb-o" style="vertical-align: middle"></i>
+                                                        Test SMS
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        @Html.HiddenFor(model => model.Message, new { id = "SMSMessage" })
+                                    </div>
+                                </div>
+                                <div class="space-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-2"></div>
+            <div class="row" id="SMSRecipients">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b></label>
+                                            @Html.DropDownListFor(m => m.Campus, new SelectList(Enumerable.Empty<SelectListItem>()), new { @Class = "form-control input-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Department</b></label>
+                                            @Html.DropDownListFor(model => Model.Department, new SelectList(ViewBag.departmentddl, "Department", "Department"), "Select One", new { id = "Department", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Designation</b></label>
+                                            @Html.DropDownListFor(model => Model.Designation, new SelectList(ViewBag.designationddl, "Designation", "Designation"), "Select One", new { id = "Designation", @Class = "form-control select-sm" })
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>StaffName</b></label>
+                                            @Html.TextBoxFor(m => m.Name, new { id = "appname", @maxlength = "30", @Class = "form-control input-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Id Number</b></label>
+                                            @Html.TextBoxFor(model => Model.IdNumber, new { id = "idnumber", @maxlength = "30", @Class = "form-control input-sm" })
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <br />
+                                            <button type="button" class="btn btn-success btn-block btn-sm" id="search">
+                                                <i class="ace-icon fa fa-search white"></i>Search
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <br />
+                                            <button type="button" class="btn btn-danger btn-block btn-sm" id="reset">
+                                                <i class="ace-icon fa fa-undo white"></i>Reset
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="space-2"></div>
+                                    <div class="space-2"></div>
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-1">
+                                            <br />
+                                            <button type="button" class="btn btn-mini btn-success" id="saveList" value="Save List">
+                                                <i class="fa fa-file-o" style="vertical-align: middle"></i>&nbsp;Save List
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <br />
+                                            <button type="button" class="btn btn-mini btn-danger" id="clearList" value="Clear List">
+                                                <i class="fa fa-trash-o" style="vertical-align: middle"></i>&nbsp;Clear List
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <br />
+                                            <button type="button" class="btn btn-success btn-mini" id="sendBulkSMS" value="Send Bulk SMS">
+                                                <i class="fa fa-paper-plane white"></i>&nbsp;Send Bulk SMS
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <br />
+                                            <button type="button" class="btn btn-mini btn-primary" id="SelectedSend">
+                                                <i class="fa fa-share" style="vertical-align: middle"></i>&nbsp;Send Selected
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <br />
+                                            <button type="button" class="btn btn-mini btn-warning" id="Suspended">
+                                                <i class="fa fa-ban" style="vertical-align: middle"></i>&nbsp;Suspend
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-2"></div>
+                <div class="col-xs-12">
+                    <table id="BulkSMSGrid">
+                    </table>
+                    <div id="BulkSMSGridPager">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+        
+}
+<div id="divSuspendReson"></div>
+<div id="dvLoading"></div>
+
+<script type="text/javascript">
+
+    function validate() {
+        if (document.getElementById("SMSMessage").value == "") {
+            ErrMsg("Please Type Message Content!");
+            return false;
+        }
+        $('#SMSRecipients').show();
+    }
+
+    $(document).ready(function () {
+        var grid_selector = "#BulkSMSGrid";
+        var pager_selector = "#BulkSMSGridPager";
+        //resize to fit page size
+        $(window).on('resize.jqGrid', function () {
+
+            $(grid_selector).jqGrid('setGridWidth', $(".page-content").width());
+        })
+        //resize on sidebar collapse/expand 
+        var parent_column = $(grid_selector).closest('[class*="col-"]');
+        $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+            if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                setTimeout(function () {
+                    $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                }, 0);
+            }
+        })
+
+        $(document).on('ajaxloadstart', function (e) {
+            $(grid_selector).jqGrid('GridUnload');
+            $('.ui-jqdialog').remove();
+        });
+
+        $('#dvLoading').hide() // hide it initially.
+        .ajaxStart(function () {
+            $(this).show(); // show on any Ajax event.
+        })
+        .ajaxStop(function () {
+            $(this).hide(); // hide it when it is done.
+        });
+
+        if ('@Model.Id' == 0) {
+            $('#SMSRecipients').hide();
+            $('#TextTest').hide();
+        }
+        else {
+            $('#TextTest').show();
+            $('#SMSbtn').attr('disabled', true);
+        }
+        if ('@Model.Status' == "Message Sent") {
+            $('#SelectedSend').hide();
+            $('#newMessage :input').each(function () {
+                $(this).attr('disabled', true);
+            });
+            $('#clearList').attr('disabled', true);
+            $('#cancel').attr('disabled', false);
+        }
+        $('#bulkcontent').keyup(function () { ShowMessage(); });
+
+        $('#search').click(function () {
+            if ($('#Campus').val() == "") { ErrMsg("Please fill the Campus"); return false; }
+            else {
+                $("#BulkSMSGrid").setGridParam(
+                {
+                    datatype: "json",
+                    url: '@Url.Content("~/Communication/StaffBulkSMSRequestJqGrid")',
+                    postData: {
+                        Campus: $('#Campus').val(),
+                        Department: $('#Department').val(),
+                        Name: $('#appname').val(),
+                        NewId: $('#idnumber').val(),
+                        Designation: $('#Designation').val(),
+                        saveOrClear: "",
+                        SMSComposeId: $('#Id').val(),
+                    },
+                    page: 1
+                }).trigger("reloadGrid");
+            }
+        });
+        $('#reset').click(function () {
+            $("#BulkSMSGrid").setGridParam(
+                {
+                    datatype: "json",
+                    url: '@Url.Content("~/Communication/StaffBulkSMSRequestJqGrid")',
+                    postData: { Id: 0, Campus: "", Designation: "", Department: "", saveOrClear: "", ComposeId: 0 },
+                    page: 1
+                }).trigger("reloadGrid");
+            $('#Campus').val('');
+            $('#appname').val('');
+            $('#idnumber').val('');
+            // $('#Grade').attr('selected', false)
+            // $('#Section').dropdownchecklist('destroy');
+            //Refreshddl();
+        });
+        //send Selected SMS
+        $('#SelectedSend').click(function () {
+            var IdKeyValues = $("#BulkSMSGrid").jqGrid('getGridParam', 'selarrrow');
+            if (IdKeyValues.length === 0) { ErrMsg("Please, select row"); return false; }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: "/Communication/SendSMSToSelectedStaff?IdKeyValues=" + IdKeyValues + '&SMSComposeId=' + $('#Id').val(),
+                    success: function (data) {
+                    }
+                });
+            }
+        });
+        //send Test Message
+        $('#testMsg').click(function () {
+            var txtMobileNum = $('#txtTestMsg').val();
+            if ('@Model.Id' == 0) { ErrMsg("Please Save the Request"); return false; }
+            else if (txtMobileNum.length > 0) {
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: "/Communication/SendTestSMSFunctionToStaff?TestNumber=" + txtMobileNum + '&SMSComposeId=' + $('#Id').val(),
+                    success: function (data) {
+                        if (data != null) {
+                            //  GetSMSCredit();
+                            InfoMsg(data);
+                        }
+                        else {
+                            ErrMsg("Sending Message Error");
+                        }
+                    }
+
+                });
+            }
+            else
+                ErrMsg("Enter test mobile Number");
+
+        });
+
+
+        $('#saveList').click(function () {
+            debugger;
+            if ($('#Campus').val() == "") { ErrMsg("Please fill the Campus"); return false; }
+            else {
+                $('#cancel').attr('disabled', false);
+                $('#saveList').attr('disabled', true);
+                $('#clearList').attr('disabled', false);
+                $('#sendBulkSMS').attr('disabled', false);
+
+                $("#BulkSMSGrid").setGridParam({
+                    datatype: "json",
+                    url: '@Url.Content("~/Communication/StaffBulkSMSRequestJqGrid")',
+                    postData: { Campus: $('#Campus').val(), saveOrClear: "Save", SMSComposeId: $('#Id').val() },
+                    page: 1
+                }).trigger("reloadGrid");
+                $('#clearList').show();
+                $('#reset').attr('disabled', true);
+                $('#idnumber').attr('disabled', true);
+                $('#Department').attr('disabled', true); $('#Designation').attr('disabled', true);
+                $('#appname').attr('disabled', true);
+                $('#Campus').attr('disabled', true);                
+                $('#sendBulkSMS').show();
+                $('#Suspended').show();
+                $('#SelectedSend').show();
+                $('#edit_BulkSMSGrid').show();
+                $('#del_BulkSMSGrid').show();
+                setTimeout(function () {
+                    $('#BulkSMSGrid').trigger('reloadGrid');
+                }, 3000);                
+                
+            }
+        });
+        $('#sendBulkSMS').click(function () {
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '/Communication/StaffCheckSMSCredit?SMSComposeId=' + $('#Id').val(),
+                success: function (data) {
+                    if (data == "Success") {
+                        $.ajax({
+                            type: 'GET',
+                            async: false,
+                            dataType: "json",
+                            url: '/Communication/SendBulkSMSToStaff?SMSComposeId=' + $('#Id').val(),
+                            success: function (data) {
+                                if (data != null) {
+                                    InfoMsg("Bulk send SMS has been initiated and in progress", function () { window.location.href = '@Url.Action("StaffSMSSendingLog", "Communication")'; });
+                                }
+                            }
+                        });
+                    }
+                    else { ErrMsg("Insufficient Message Credit"); return false; }
+                }
+            });
+        });
+        $('#Suspended').click(function () {
+            $('#SMSRecipients :input').each(function () {
+                $(this).attr('disabled', false);
+            });
+            if ($('#Campus').val() == "") { ErrMsg("Please fill the Campus"); return false; }
+            Id = $('#Id').val();
+            LoadPopupDynamicaly('/Communication/StaffSMSSuspend?SMSComposeId=' + Id, $('#divSuspendReson'), function () { }, function () { }, 400);
+            $('#clearList').attr('disabled', true);
+            $('#sendBulkSMS').attr('disabled', true);
+            $('#SelectedSend').attr('disabled', true);
+            $('#Suspended').attr('disabled', true);
+        });
+        $('#clearList').click(function () {
+            $('#SMSRecipients :input').each(function () {
+                $(this).attr('disabled', false);
+            });
+            $('#Suspended').hide();
+            if ($('#Campus').val() == "") { ErrMsg("Please fill the Campus"); return false; }
+            var Department = $("#Department").val();
+            var Designation = $("#Designation").val();
+            $("#BulkSMSGrid").setGridParam(
+
+                {
+                    datatype: "json",
+                    url: '@Url.Content("~/Communication/StaffBulkSMSRequestJqGrid")',
+                    postData: { Campus: $('#Campus').val(), Designation: Designation, Department: Department, saveOrClear: "Clear", SMSComposeId: $('#Id').val() },
+                    page: 1
+                }).trigger("reloadGrid");
+            $('#sendBulkSMS').hide();
+            $('#Suspended').hide();
+            $('#SelectedSend').hide();
+            $('#edit_BulkSMSGrid').hide();
+            $('#del_BulkSMSGrid').hide();
+        });
+        $('#cancel').click(function () {
+            window.location.href = '@Url.Action("StaffSMSSendingLog", "Communication")';
+        });
+
+        $('#SMSCreditbtn').click(function () {
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: "/Communication/TestSMSCreditFunction",
+                success: function (data) {
+                    if (data != null) {
+                        document.getElementById("SMSCreditShow").innerHTML = data;
+                    }
+                }
+            });
+        });
+       
+        $(grid_selector).jqGrid({
+            url: '/Communication/StaffBulkSMSRequestJqGrid?SMSComposeId=' + '@Model.Id',
+            type: 'GET',
+            datatype: 'json',
+            colNames: ['Id', 'PreRegNum', 'Id Number', 'Name', 'Campus', 'Department', 'Designation', 'Status', 'MobileNumber', 'Created Date', 'Modified Date', 'SentSMSStatusWithTid', 'SentSMSReportsWithStatus'],
+            colModel: [
+            { name: 'Id', index: 'Id', hidden: true, editable: true,key:true, editoptions: { disabled: true, class: 'NoBorder' } },
+            { name: 'PreRegNum', index: 'PreRegNum', hidden: true, width: 35, editable: true, editoptions: { disabled: true, class: 'NoBorder' } },
+            { name: 'IdNumber', index: 'IdNumber', width: 50 },
+            { name: 'Name', index: 'Name', editable: true, editoptions: { disabled: true, class: 'NoBorder' } },
+            { name: 'Campus', index: 'Campus', width: 50 },
+            { name: 'Department', index: 'Department', width: 50, search: false },
+            { name: 'Designation', index: 'Designation', width: 50 },
+            { name: 'Status', index: 'Status', width: 50, stype: 'select', searchoptions: { sopt: ["eq", "ne"], value: ":All;Success:Success;Number wrong:Number wrong;InProgress:InProgress;No Phone Number:No Phone Number" } },
+            { name: 'MobileNumber', index: 'MobileNumber', width: 80, editable: true, search: false, editoptions: {
+                    dataInit: function (elem) {
+                        $(elem).keyup(function () {
+                            var enteredval = elem.value;
+                            var num = new Number(enteredval);
+                            if (isNaN(num))
+                            { ErrMsg("Please enter only number!"); }
+                            else if (num.length > 10)
+                            { ErrMsg("Please enter only 10 numbers!"); }
+                        })
+                    }
+                }
+            },
+           // { name: 'AppliedDate', index: 'AppliedDate', width: 50, search: false, hidden: false },
+            { name: 'SMSRecipientCreatedDate', index: 'SMSRecipientCreatedDate', width: 50, search: false, hidden: true },
+            { name: 'SMSRecipientModifiedDate', index: 'SMSRecipientModifiedDate', width: 50, search: false, hidden: true },
+            { name: 'SentSMSStatusWithTid', index: 'SentSMSStatusWithTid', width: 30, editable: true, hidden: true, search: false },
+            { name: 'SentSMSReportsWithStatus', index: 'SentSMSReportsWithStatus', width: 30, editable: true, hidden: true, search: false },
+            ],
+            autowidth: true,
+            height: 200,
+            rowNum: 150,
+            rowList: [150, 200],
+            viewrecords: true,
+            multiselect: true,
+            pager: pager_selector,
+            sortname: 'Id',
+            sortorder: 'Desc',
+            caption: 'Bulk SMS Request',
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    updatePagerIcons(table);
+                    enableTooltips(table);
+                }, 0);
+            },
+        });
+        $(grid_selector).navGrid(pager_selector, {
+            add: false, edit: true, del: true, search: false, refresh: true,
+            refreshicon: 'ace-icon fa fa-refresh green'
+        },
+        {url: '/Communication/EditStaffSMSRecipient?SMSComposeId=' + $('#Id').val(), width: 450, beforeSubmit: function (postdata, formid) {                
+                if (postdata.MobileNumber != "") {
+                    if (postdata.MobileNumber.length > 10)
+                        return [false, 'Invalid Mobile Number.'];
+                }
+                return [true, '']; // no error
+            }, closeAfterEdit: true
+        }, {},
+        {url: '/Communication/DeleteStaffSMSRecip?SMSComposeId=' + $('#Id').val(), left: '10%', top: 200, height: '50%', width: 400, beforeShowForm: function (params) {
+                selectedrows = $(grid_selector).jqGrid('getGridParam', 'selarrrow'); return { Id: selectedrows }
+            }
+
+        });
+        $("#bulkcontent").attr('maxlength', 120);
+        $('#bulkcontent').maxlength({
+            alwaysShow: true,
+            placement: 'bottom-right'
+        });
+        if ('@Model.IsSaveList' == "False") {
+            $('#clearList').hide();
+            $('#sendBulkSMS').hide();
+            $('#SelectedSend').hide();
+            $('#Suspended').hide();
+            $('#edit_BulkSMSGrid').hide();
+            $('#del_BulkSMSGrid').hide();
+        }
+        else {
+            $('#saveList').attr('disabled', true);
+            $('#edit_BulkSMSGrid').show();
+            $('#del_BulkSMSGrid').show();
+            $('#idnumber').attr('disabled', true);
+            $('#Department').attr('disabled', true);
+            $('#Designation').attr('disabled', true);
+            $('#appname').attr('disabled', true);
+            $('#newMessage :input').each(function () {
+                $(this).attr('disabled', true);
+            });
+            $('#reset').attr('disabled', true); $('#Campus').attr('disabled', true);
+            $('#search').attr('disabled', true);
+            $('#sendBulkSMS').attr('disabled', false);
+            $('#cancel').attr('disabled', false);
+
+        }
+        if ('@Model.BulkSMSSent' == "True") {
+            $('#newMessage :input').each(function () {
+                $(this).attr('disabled', true);
+            });
+            $('#cancel').attr('disabled', false);
+            $('#SelectedSend').attr('disabled', false);
+            $('#Suspended').hide();
+            $('#clearList').attr('disabled', true);
+            $('#sendBulkSMS').attr('disabled', true);
+            $('#edit_BulkSMSGrid').hide();
+            $('#del_BulkSMSGrid').hide();
+        }
+        if ('@Model.Suspended' == "True") {
+            $('#newMessage :input').each(function () {
+                $(this).attr('disabled', true);
+            });
+            $('#SMSRecipients :input').each(function () {
+                $(this).attr('disabled', true);
+            });
+            $('#cancel').attr('disabled', false);
+        }
+        $.getJSON("/Base/FillBranchCode",
+    function (fillig) {
+        var ddlcam = $("#Campus"); ddlcam.empty();
+        ddlcam.append($('<option/>', { value: "", text: "Select One" }));
+        $.each(fillig, function (index, itemdata) {
+            ddlcam.append($('<option/>', { value: itemdata.Value, text: itemdata.Text }));
+            if ('@Model.Id' != 0) {
+                //  $('#Campus').val() == '@*@Model.Grade*@'
+            }
+        });
+    });
+
+
+
+
+
+    });
+
+    function updatePagerIcons(table) {
+        var replacement =
+            {
+                'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+            };
+        $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+            var icon = $(this);
+            var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+            if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+        })
+    }
+
+    function enableTooltips(table) {
+        $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+        $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+    }
+
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        //alert(charCode);
+        var txtMobileNum = $('#txtTestMsg').val();
+
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        else if (txtMobileNum.length >= 10 && charCode != 8) {
+            return false;
+        }
+        else { }
+        return true;
+    }
+    function ShowMessage() {
+        if ($("#bulkcontent").val() != "") {
+            var str = $('#SMSTemplateValue').val();
+            var n = str.replace("temp8", $("#bulkcontent").val());
+            $("#SMSMessage").val(n);
+            var buildmsg = n;
+            $("#SMSText").html(buildmsg);
+        }
+        else
+            $("#SMSText").html('');
+    }
+</script>

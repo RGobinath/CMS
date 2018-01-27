@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "Add Invoice Details";
+    Layout = null;
+}
+<div class="row">
+    @Html.Hidden("viewbagAssetDet_Id", "",new { @Value = ViewBag.AssetDetailsId })
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                        <div class="col-xs-12">
+                            <div class="col-sm-6">
+                                <label for="form-field-select-1">
+                                    <b>Document Type</b>
+                                </label>
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.DropDownList("ddlDocumentType1", new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select"},                                              
+                                              new{Value="PurchaseInvoice",Text="PurchaseInvoice"}
+                                              //new{Value="ServiceInvoice",Text="ServiceInvoice"},                                              
+                                          },
+          "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="col-sm-6">
+                                <label for="form-field-select-1">
+                                    <b>Vendor Name</b>
+                                </label>
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.DropDownList("ddlVendorName1", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlVendorName1", @Class = "form-control select-sm" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="col-sm-6">
+                                <label for="form-field-select-1">
+                                    <b>Invoice No</b>
+                                </label>
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.DropDownList("ddlInvoiceNo1", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlInvoiceNo1", @Class = "form-control select-sm" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="col-sm-6">
+                                <label for="form-field-select-1">
+                                    <b>Amount</b>
+                                </label>
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.TextBox("txtAmount1", "", new { id = "txtAmount1", @Class = "form-control input-sm" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="col-sm-6">
+                                <label for="form-field-select-1"><b>Warranty</b></label>
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.DropDownList("ddlYear1", new SelectList(Enumerable.Empty<SelectListItem>()), "Year", new { id = "ddlYear1", @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.DropDownList("ddlMonth1", new SelectList(Enumerable.Empty<SelectListItem>()), "Month", new { id = "ddlMonth1", @Class = "form-control select-sm" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="col-sm-4">
+                                <br />
+                                <button class="btn btn-success btn-block btn-sm" type="button" id="btnAddInvoice">
+                                    <i class="ace-icon fa fa-plus white"></i>Add
+                                </button>
+                            </div>
+                            <div class="col-sm-4">
+                                <br />
+                                <button class="btn btn-danger btn-block btn-sm" type="button" id="btnExit1">
+                                    <i class="ace-icon fa fa-arrow-right white"></i>Exit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src='@Url.Content("~/Scripts/Asset/AddInvoiceDetails.js")'></script>

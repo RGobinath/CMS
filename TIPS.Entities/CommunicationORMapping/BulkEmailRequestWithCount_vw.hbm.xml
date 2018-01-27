@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.CommunictionEntities.BulkEmailRequestWithCount_vw" namespace="TIPS.Entities.CommunictionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.CommunictionEntities.BulkEmailRequestWithCount_vw, TIPS.Entities" table="BulkEmailRequestWithCount_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="BulkReqId" column="BulkReqId" type="string"></property>
+    <property name="UserId" column="UserId" type="string" not-null ="false"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>   
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>    
+    <property name="Father" column="Father" type="bool"></property>
+    <property name="Mother" column="Mother" type="bool"></property>
+    <property name="General" column="General" type="bool"></property>
+    <property name="Subject" column="Subject" type="string"></property>
+    <property name="Attachment" column="Attachment" type="bool"></property>
+    <property name="Message" column="Message" type="string"></property>        
+    <property name="Status" column="Status" type="string"></property>        
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"></property>
+    <property name="InProgress" column="InProgress" type="Int64"></property>
+    <property name="InvalidMail" column="InvalidMail" type="Int64"></property>
+    <property name="Sent" column="Sent" type="Int64"></property>
+    <property name="NotSent" column="NotSent" type="Int64"></property>
+    <property name="Total" column="Total" type="Int64"></property>
+  </class>
+</hibernate-mapping>
+

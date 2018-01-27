@@ -1,0 +1,120 @@
+﻿@model TIPS.Entities.TransportEntities.DriverMaster
+@{
+    Layout = "~/Views/Shared/NewAcePartialViewMaster.cshtml";
+}
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa fa-search"></i>&nbsp;Search Pannel</div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Campus</b></label>
+                                @Html.TextBoxFor(model => model.Campus, new { id = "txtDrvrCampus", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Name</b></label>
+                                @Html.TextBoxFor(model => model.Name, new { id = "txtDrvrName", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>DOB</b></label>
+                                @Html.TextBoxFor(model => model.Dob, new { id = "txtDrvrDob", @Class = "form-control date-picker" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Age</b></label>
+                                @Html.TextBoxFor(model => model.Age, new { id = "txtDrvrAge", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Gender</b></label>
+                                @Html.DropDownListFor(m => m.Status, new SelectList(new[] {
+                                  new{Value="",Text="--Select--"},
+                                              new{Value="Male",Text="Male"},
+                                              new{Value="Female",Text="Female"}                                 
+                                 }, "Value", "Text", ""), new { id = "txtDrvrSex", @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>LicenseNo</b></label>
+                                @Html.TextBoxFor(model => model.LicenseNo, new { id = "txtDrvrLicenseNo", @Class = "form-control input-sm" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>DriverIdNo</b></label>
+                                @Html.TextBoxFor(model => model.DriverIdNo, new { id = "txtDriverIdNo", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>BatchNo</b></label>
+                                @Html.TextBoxFor(model => model.BatchNo, new { id = "txtDrvrBatchNo", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>LicenseValDate</b></label>
+                                @Html.TextBoxFor(model => model.LicenseValDate, new { id = "txtDrvrLicenseValDate", @Class = "form-control date-picker" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>NonTraLicenseValDate</b></label>
+                                @Html.TextBoxFor(model => model.NonTraLicenseValDate, new { id = "txtDrvrNonTraLicenseValDate", @Class = "form-control date-picker" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Status</b></label>
+                                @Html.DropDownListFor(m => m.Status, new SelectList(new[] {
+                                  new{Value="",Text="--Select--"},
+                                              new{Value="Active",Text="Active"},
+                                              new{Value="InActive",Text="In Active"}                                 
+                                 }, "Value", "Text", ""), new { id = "txtDrvrStatus", @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-1">
+                                <br />
+                                <button class="btn btn-success btn-block btn-sm" id="btnDrvrSearch">
+                                    <i class="ace-icon fa fa-search white"></i>Search
+                                </button>
+                            </div>
+                            <div class="col-sm-1">
+                                <br />
+                                <button class="btn btn-danger btn-block btn-sm" id="btnDrvrReset">
+                                    <i class="ace-icon fa fa-undo white"></i>Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-2">
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <table id="jqGridDriverMaster">
+        </table>
+        <div id="jqGridDriverMasterPager">
+        </div>
+        <script type="text/javascript">
+            var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+        </script>
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+    <!-- /.col -->
+</div>
+<script src="../../Scripts/Transport/DriverMaster.js" type="text/javascript"></script>
+<script src="../../assets/js/AceJQMsg.js" type="text/javascript"></script>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.CanteenEntities.CanteenMaterialGroupMaster" namespace="TIPS.Entities.CanteenEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.CanteenEntities.CanteenMaterialGroupMaster, TIPS.Entities" table="CanteenMaterialGroupMaster" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="MaterialGroup" column="MaterialGroup" type="string"></property>
+    <property name="MatGrpCode" column="MatGrpCode" type="string"></property>
+  </class>
+</hibernate-mapping>

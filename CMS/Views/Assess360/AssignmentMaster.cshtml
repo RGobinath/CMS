@@ -1,0 +1,168 @@
+﻿@model  TIPS.Entities.AssignmentNameMaster
+@{
+    ViewBag.Title = "AssignmentNameMaster";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script src="@Url.Content("~/Scripts/Assess360/AssignmentMaster.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm("AssignmentMaster", "Assess360", FormMethod.Post))
+{
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+    @Html.Hidden("BackTo", Url.Action("SaveBulkComponent", "Assess360"))
+
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Criteria</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b></label>
+                                            @Html.DropDownListFor(model => model.Campus, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlCampus", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Grade</b></label>
+                                            @Html.DropDownListFor(model => model.Grade, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlGrade", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Subject</b></label>
+                                            @Html.DropDownListFor(model => model.Subject, new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "Subject", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <div class="space-10">
+                                            </div>
+                                            <button class="btn btn-success btn-block btn-sm" id="Search" value="Search"
+                                                type="button">
+                                                <i class="ace-icon fa fa-search white"></i>Search</button></div>
+                                        <div class="col-sm-1">
+                                            <div class="space-10">
+                                            </div>
+                                            <button class="btn btn-danger btn-block btn-sm" id="reset" value="Reset">
+                                                <i class="ace-icon fa fa-undo white"></i>&nbsp;Reset
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-4"></div>
+                                    </div>
+                                </div>
+                                <div class="space-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-1">
+        </div>
+        @*added by anto*@
+          <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class=" glyphicon glyphicon-plus-sign"></i>&nbsp;Add Assignment Name</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b></label>
+                                            @Html.DropDownListFor(model => model.Campus, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "Campusddl", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Grade</b></label>
+                                            @Html.DropDownListFor(model => model.Grade, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "Gradeddl", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Academic Year</b></label>
+                                            @Html.DropDownList("ddlyear", new SelectList(ViewBag.acadddl, "AcademicYear", "AcademicYear"), "Select One", new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Assessment Type</b></label>
+                                            @Html.DropDownList("ddlAssTyp", new SelectList(ViewBag.AssCompMast, "GroupId", "CompName"), "Select One", new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Subject</b></label>
+                                            @Html.DropDownListFor(model => model.Subject, new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "AssSubject", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Assignment Name</b></label>
+                                            @Html.TextBox("AssignmentName", null, new { @Class = "form-control input-sm" })
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <div class="space-10">
+                                            </div>
+                                            <button class="btn btn-info btn-block btn-sm" id="Add" type="button" onclick="AddAssignmentName(); return false;">
+                                                <i class="glyphicon glyphicon-plus-sign"></i>&nbsp Add</button></div>
+                                        <div class="col-sm-1">
+                                            <div class="space-10">
+                                            </div>
+                                            <button class="btn btn-danger btn-block btn-sm" id="resetAdd" value="Reset">
+                                                <i class="ace-icon fa fa-undo white"></i>&nbsp;Reset
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-4"></div>
+                                    </div>
+                                </div>
+                                <div class="space-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       @* -----------------------ended by anto----------*@
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="AssignmentNameList">
+                </table>
+                <div id="AssignmentNameListPager">
+                </div>
+            </div>
+        </div>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+            <div class="col-sm-2">
+                <button class="btn btn-purple btn-block btn-sm" id="BackToBulkEntry" value="Reset" type="button">
+                    <i class="fa fa-arrow-left"></i>&nbsp;Back to Assess Bulk Entry
+                </button></div>
+                @*<a href="/Assess360/SaveBulkComponent/"><u>Back to Assess Bulk Entry</u></a>*@
+
+            </div>
+        </div>
+    </div>
+</div>
+} 

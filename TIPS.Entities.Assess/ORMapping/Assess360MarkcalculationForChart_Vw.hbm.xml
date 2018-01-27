@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Assess360MarkcalculationForChart_Vw" table="Assess360MarkcalculationForChart_Vw" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="RequestNo" column="RequestNo" type="string" not-null="false" />
+    <property name="StudentId" column="StudentId" type="Int64" not-null="false" />
+    <property name="IdNo" column="IdNo" type="string" not-null="false" />
+    <property name="Name" column="Name" type="string" not-null="false" />
+    <property name="Campus" column="Campus" type="AnsiString" not-null="false" />
+    <property name="Grade" column="Grade" type="AnsiString" not-null="false" />
+    <property name="Section" column="Section" type="AnsiString" not-null="false" />
+    <property name="AcademicYear" column="AcademicYear" type="string" not-null="false" />
+    <property name="Assess360Id" column="Assess360Id" type="Int64" not-null="false" />
+    <property name="GroupName" column="GroupName" type="AnsiString" not-null="false" />
+    <property name="IncidentDate" column="IncidentDate" type="date" not-null="false" />
+    <property name="Mark" column="Mark" type="decimal" not-null="false" />
+    <property name="Subject" column="Subject" type="AnsiString" not-null="false" />
+    <property name="AssignmentName" column="AssignmentName" type="AnsiString" not-null="false" />
+    <property name="MarksOutOff" column="MarksOutOff" type="decimal" not-null="false" />
+    <property name="Semester" column="Semester" type="AnsiString" not-null="false" />
+    <property name="MonthRslt" column="MonthRslt" type="Int32" not-null="false" />
+    <property name="CalculatedMarks" column="CalculatedMarks" type="decimal" not-null="false" />
+  </class>
+</hibernate-mapping>

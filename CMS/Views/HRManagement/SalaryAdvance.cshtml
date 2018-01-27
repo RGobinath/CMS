@@ -1,0 +1,476 @@
+﻿@model TIPS.Entities.HRManagementEntities.SalaryAdvance
+@{
+    ViewBag.Title = "SalaryAdvance";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<h3>
+    Salary Advance Request Details</h3>
+<script src="../../Scripts/datepicker1.js" type="text/javascript"></script>
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        var Details = "@ViewBag.SalaryAdvanceDetails";
+        var Reply = "@ViewBag.SalalryAdvanceReply";
+        if (Details == 5) {
+            $("#btnSentApproval").hide();
+        } else if (Reply == 1) {
+            $("#Reply").hide();
+        }
+
+        if ('@Model.Status' == "ResolveRequest") {
+            $('#txtLeaveDescription').attr("disabled", true);
+            $('#txtDescription').attr("disabled", true);
+        }
+        else if ('@Model.Status' == "ApproveRequest") {
+            $('#txtLeaveDescription').attr("disabled", true);
+            $('#txtResolutionDescription').attr("disabled", true);
+            $('#txtRejectionDetails').attr("disabled", true);
+            $('#txtDescription').attr("disabled", true);
+            $('#idRejection').hide();
+            $('#idtxtRejection').hide();
+        }
+        else if ('@Model.Status' == "ResolveRequestRejection") {
+            $('#txtResolutionDescription').attr("disabled", true);
+            $('#txtRejectionDetails').attr("disabled", true);
+            $('#txtDescription').attr("disabled", true);
+        }
+        else if ('@Model.Status' == "Complete") {
+            $('#txtLeaveDescription').attr("disabled", true);
+            $('#txtResolutionDescription').attr("disabled", true);
+            // $('#txtRejectionDetails').attr("disabled", true);
+            $('#txtRejectionDetails').hide();
+            $('#idRejection').hide();
+            $('#txtDescription').attr("disabled", true);
+        }
+
+        function rejectionValidation(msg) {
+            if ($('#txtRejectionDetails').val() == null || $('#txtRejectionDetails').val() == "") {
+                ErrMsg(msg, function () { $('#txtRejectionDetails').focus(); });
+                return false;
+            }
+            else {
+                return true;
+            }
+            return false;
+        }
+
+        $('#LeaderRejection').click(function () {
+            return rejectionValidation("Please enter the comments to reject.");
+
+        });
+
+        function ResolutionValidation(msg) {
+            if ($('#txtResolutionDescription').val() == null || $('#txtResolutionDescription').val() == "") {
+                ErrMsg(msg, function () { $('#txtResolutionDescription').focus(); });
+                return false;
+            }
+            else {
+                return true;
+            }
+            return false;
+        }
+
+        $('#SendResolveRequest').click(function () {
+            return ResolutionValidation("Please enter the Resolution comments.");
+
+        });
+
+        function LeaveDescription(msg) {
+            if ($('#txtLeaveDescription').val() == null || $('#txtLeaveDescription').val() == "") {
+                ErrMsg(msg, function () { $('#txtLeaveDescription').focus(); });
+                //                $('#txtResolution').attr("readonly", true).css("background-color", "#F5F5F5");
+                //                $('#txtResolution').val("");
+                //                $('#txtRejCommentsArea').attr("readonly", false).css("background-color", "white");
+                return false;
+            }
+            else {
+                return true;
+            }
+            return false;
+        }
+
+
+        $('#Reply').click(function () {
+            return LeaveDescription("Please enter the Reply Description comments.");
+        });
+
+        $("#Rejection").click(function () {
+            var Rejection = $("#txtRejectionDetails").val();
+            if (Rejection == "") {
+                ErrMsg("Please fill the Rejection Comments");
+                return false;
+            }
+        });
+
+        $("#Approve").click(function () {
+            var Approve = $("#txtApprovedDetails").val();
+            if (Approve == "") {
+                ErrMsg("Please Fill the Approve Comments");
+                return false;
+            }
+        });
+
+        // Sent For Approval  Button Validation Details...
+        $("#btnSentApproval").click(function () {
+
+            ValidateIssueDescription();
+
+            var Issdesc = $("#txtDescription").val();
+            var Amountneeded = $("#txtAmountNeeded").val();
+            var DateAmountNeeded = $("#txtDateAmountNeeded").val();
+
+
+            if (Amountneeded == "") {
+                ErrMsg("Please fill the Amount.");
+                return false;
+            }
+            else if (DateAmountNeeded == "") {
+                ErrMsg("Please fill Date Amount Needed.");
+                return false;
+            }
+            else if (Issdesc == "") {
+                ErrMsg("Please fill Description.");
+                return false;
+            }
+            function ValidateIssueDescription() {
+                var Issdesc = $("#txtDescription").val();
+                // alert(Issdesc.length);
+                if (Issdesc.length > 4000)
+                    return false;
+            }
+            if (ValidateIssueDescription() == false) {
+                ErrMsg("Description should not exceed 4000 characters.");
+                return false;
+            }
+        });
+
+        $("#Staffinbox").click(function () {
+            window.location.href = '@Url.Action("SalaryAdvanceGrid", "HRManagement")';
+        });
+        $("#Approveinbox").click(function () {
+            window.location.href = '@Url.Action("SalaryAdvanceGrid", "HRManagement")';
+        });
+        $("#btnCancel").click(function () {
+            window.location.href = '@Url.Action("SalaryAdvanceGrid", "HRManagement")';
+        });
+        $("#Resolveinbox").click(function () {
+            window.location.href = '@Url.Action("SalaryAdvanceGrid", "HRManagement")';
+        });
+
+        $("#CommentList").jqGrid({
+            url: '/HRManagement/SalaryAdvanceRejectionGrid?Id=' + $('#Id').val(),
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Commented By', 'Commented On', 'Rejection Comments', 'Reply Comments'],
+            colModel: [
+            // { name: 'Issue Number', index: 'EntityRefId', sortable: false },
+              {name: 'CommentedBy', index: 'CommentedBy', sortable: false },
+              { name: 'CommentedOn', index: 'CommentedOn', sortable: false },
+              { name: 'RejectionComments', index: 'RejectionComments', sortable: false },
+              { name: 'ResolutionComments', index: 'ResolutionComments', sortable: false }
+             ],
+            rowNum: -1,
+            //width: 1160,
+            autowidth: true,
+            height: 150,
+            sortname: 'EntityRefId',
+            sortorder: "desc",
+            viewrecords: true,
+            caption: 'Discussion Forum'
+        });
+
+        $("#Staffinbox").click(function () {
+            window.location.href = '@Url.Action("SalaryAdvanceGrid", "HRManagement")';
+        });
+        $("#Approveinbox").click(function () {
+            window.location.href = '@Url.Action("SalaryAdvanceGrid", "HRManagement")';
+        });
+        $("#btnCancel").click(function () {
+            window.location.href = '@Url.Action("SalaryAdvanceGrid", "HRManagement")';
+        });
+        $("#Resolveinbox").click(function () {
+            window.location.href = '@Url.Action("SalaryAdvanceGrid", "HRManagement")';
+        });
+
+
+        //Back to inbox Button Details...
+        $("#Back").click(function () {
+            window.location.href = '@Url.Action("SalaryAdvanceGrid", "HRManagement")';
+        });
+
+    });
+</script>
+@using (Html.BeginForm("SalaryAdvance", "HRManagement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{                                  
+    <table width="100%" class="WithBorderOnly">
+        <tr class="PanelHeading">
+            <th colspan="5">
+                Basic Details
+            </th>
+        </tr>
+        <tr>
+            <td width="20%">
+                <label class="lblheader">
+                    Request Number</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    DateTime</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    Procesed By</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    UserRole</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    Status</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Model.RequestNo
+                @Html.HiddenFor(m => m.RequestNo)
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.InstanceId)
+            </td>
+            <td>
+                @String.Format("{0:dd/MM/yyyy h:mm tt }", Model.CreateDate)
+                @* @Model.CreateDate*@
+                @Html.HiddenFor(m => m.CreateDate)
+            </td>
+            <td>
+                @Model.ProcessedBy
+                @Html.HiddenFor(m => m.ProcessedBy)
+            </td>
+            <td>
+                @Model.UserRole
+                @Html.HiddenFor(m => m.UserRole)
+            </td>
+            <td>
+                @Model.Status
+                @Html.HiddenFor(m => m.Status)
+                @Html.HiddenFor(model => model.ActivityFullName)
+            </td>
+        </tr>
+    </table>
+
+    <table width="100%" class="WithBorderOnly" cellpadding="2px" cellspacing="2px">
+        <tr class="PanelHeading">
+            <th colspan="7">
+                Registration Details
+            </th>
+        </tr>
+        <tr>
+            <td width="20%">
+                <label class="lblheader">
+                    Staff Name</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    Staff Id Number</label>
+            </td>
+            <th width="20%">
+                Campus
+            </th>
+            <td width="20%">
+                <label class="lblheader">
+                    Department</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Model.StaffName
+                @Html.HiddenFor(m => m.StaffName)
+            </td>
+            <td>
+                @Model.StaffIdNumber
+                @Html.HiddenFor(m => m.StaffIdNumber)
+            </td>
+            <td>
+                @Model.BranchCode
+                @Html.HiddenFor(m => m.BranchCode)
+            </td>
+            <td>
+                @Model.Department
+                @Html.HiddenFor(m => m.Department)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="lblheader">
+                    Amount Needed</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Date Amount Needed</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Description</label>
+            </td>
+        </tr>
+        @if (@Model.Status == "ResolveRequest" || @Model.Status == "ApproveRequest" || @Model.Status == "Complete")
+        {
+            <tr valign="top">
+                <td>@Model.AmountNeeded
+                    @Html.HiddenFor(m => m.AmountNeeded)
+                </td>
+                <td>@Model.DateAmountNeeded
+                    @Html.HiddenFor(m => m.DateAmountNeeded)
+                </td>
+                <td>@*@Model.Description*@
+                    @Html.TextAreaFor(model => model.Description, new { rows = 3, cols = 52, id = "txtDescription", @class = "CSSTextArea", @readonly = "true" })
+                    @Html.HiddenFor(m => m.Description)
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr valign="top">
+                <td>
+                    @Html.TextBoxFor(model => model.AmountNeeded, new { id = "txtAmountNeeded", @Class = "CSSTextBox" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.DateAmountNeeded, new { id = "txtDateAmountNeeded", @Class = "datepicker1", @readonly = "true", style = "border: #006699 1px solid;" })<span
+                        style="color: Red">*</span>
+                </td>
+                <td colspan="2">
+                    @Html.TextAreaFor(model => model.Description, new { rows = 3, cols = 52, id = "txtDescription", @class = "CSSTextArea" })
+                    <span style="color: Red">*</span>@Html.ValidationMessageFor(model => model.Description)
+                </td>
+            </tr>
+        }
+    </table>
+        if (Model != null && (Model.Status == "ResolveRequest") ||
+                           (Model.Status == "ResolveRequestRejection") || (Model.Status == "Complete") || (Model.Status == "ApproveRequest"))
+        {
+    <table width="100%" class="WithBorderOnly">
+        <tr class="PanelHeading">
+            <th colspan="7">
+                Rejection Details
+            </th>
+        </tr>
+        <tr valign="baseline">
+            <td>
+                <table>
+                    @if (Model.ActivityFullName == "Resolve Request Rejection")
+                    {
+                        <tr id="idDescription1">
+                            <th>
+                                Reply Description
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.TextArea("txtLeaveDescription", new { rows = 3, cols = 52, id = "txtLeaveDescription", @class = "CSSTextArea" })
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <th>
+                            Resolution Description
+                        </th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            @Html.TextAreaFor(model => model.ResolveComments, new { rows = 3, cols = 52, id = "txtResolutionDescription", @class = "CSSTextArea" })
+                            @Html.HiddenFor(m => m.ResolveComments)
+                        </td>
+                    </tr>
+                    <tr id="idRejection">
+                        <th>
+                            Rejection Comments
+                        </th>
+                    </tr>
+                    <tr id="idtxtRejection">
+                        <td colspan="2">@Html.TextArea("txtRejectionDetails", new { rows = 3, cols = 52, id = "txtRejectionDetails", @class = "CSSTextArea" })
+                            @Html.HiddenFor(m => m.RejectionDetails)
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td width="60%">
+                <table class="InnerTable" width="100%" id="rejctionGridtbl">
+                    <tr>
+                        <th>
+                            Rejection Grid
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table id="CommentList">
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+        }
+
+        if (@Model.Status == "ResolveRequest")
+        {
+    <table class="InnerTable" width="100%">
+        <tr align="center">
+            <td width="40%">
+            </td>
+            <td width="100%" align="center">
+                <input type="submit" id="SendResolveRequest" name="btnResolveRequest" value="Resolve Request" />
+                <input type="submit" id="LeaderRejection" name="btnLeaderRejection" value="Reject" />
+                <input type="button" id="Resolveinbox" name="BacktoInbox" value="Back to Inbox" />
+            </td>
+        </tr>
+    </table>
+        }
+        else if (@Model.Status == "ApproveRequest")
+        {
+    <table class="InnerTable" width="100%">
+        <tr align="center">
+            <td width="40%">
+            </td>
+            <td width="100%" align="center">
+                <input type="submit" id="Approve" name="btnApproval" value="Approve" />
+                <input type="button" id="Approveinbox" name="BacktoInbox" value="Back to Inbox" />
+            </td>
+        </tr>
+    </table>
+        }
+        else if (@Model.Status == "Complete")
+        {
+    <table class="InnerTable" width="100%">
+        <tr align="center">
+            <td width="40%">
+            </td>
+            <td width="100%" align="center">
+                <input type="submit" id="idComplete" name="nameComplete" value="Complete" />
+                <input type="button" id="Staffinbox" name="BacktoInbox" value="Back to Inbox" />
+            </td>
+        </tr>
+    </table>
+        
+        }
+
+        else
+        {
+            // Staff Login Details...
+    <table class="InnerTable" width="100%">
+        <tr align="center">
+            <td width="40%">
+            </td>
+            <td width="100%" align="center">
+                <input type="submit" id="btnSentApproval" name="btnSentApproval" value="Apply" />
+                <input type="submit" id="Reply" name="StaffReply" value="Reply" />
+                <input type="button" value="Cancel" id="btnCancel" />
+            </td>
+        </tr>
+    </table>
+        }
+
+
+
+}

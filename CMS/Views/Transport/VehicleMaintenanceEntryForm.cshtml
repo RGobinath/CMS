@@ -1,0 +1,184 @@
+﻿@model TIPS.Entities.TransportEntities.VehicleMaintenanceEntry
+@{
+    ViewBag.Title = "VehicleMaintenanceEntryForm";
+}
+
+<div class="row">
+    @*<div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue ">*@
+    @*<div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    &nbsp;Breakdown Maintenance
+                </div>
+            </div>*@
+    @*<div class="widget-body">
+                <div class="widget-main no-padding">*@
+    <div class="row" style="margin-top: 10px; margin-bottom: 5px;">
+        <div class="col-xs-12">
+            <div class="col-sm-3 ">
+                @Html.HiddenFor(model => model.Campus, new { id = "hdnCampus" })
+                @Html.HiddenFor(model => model.VehicleId, new { id = "hdnVehicleId" })
+                @Html.HiddenFor(model => model.SupplierName, new { id = "hdnSupplierName1" })
+                @Html.Hidden("VehicleCostId", "", new { id = "hdnVehicleCostId1", @Value = ViewBag.VehicleCostId })
+                @Html.HiddenFor(model => model.MaintenanceId, new { id = "hdnMaintenanceId" })
+                @if (Model != null)
+                {
+                    @(Html.CheckBoxFor(model => model.AC, new { id = "AC" }))
+                }
+                else
+                {
+                    @Html.CheckBox("AC", new { id = "AC" })
+                }
+                &nbsp;Ac
+            </div>
+            <div class="col-sm-3 ">
+                @if (Model != null)
+                {
+                    @(Html.CheckBoxFor(model => model.Battery, new { id = "Battery" }))
+                }
+                else
+                {
+                    @Html.CheckBox("Battery", new { id = "Battery" })
+                }
+                &nbsp;Battery 
+            </div>
+            <div class="col-sm-3 ">
+                @if (Model != null)
+                {
+                    @(Html.CheckBoxFor(model => model.Tyre, new { id = "Tyre" }))
+                }
+                else
+                {
+                    @Html.CheckBox("Tyre", new { id = "Tyre" })
+                }
+                &nbsp;Tyre 
+            </div>
+            <div class="col-sm-3 ">
+                @if (Model != null)
+                {
+                    @(Html.CheckBoxFor(model => model.MechanicalMaintenance, new { id = "MechanicalMaintenance" }))
+                }
+                else
+                {
+                    @Html.CheckBox("MechanicalMaintenance", new { id = "MechanicalMaintenance" })
+                }
+                &nbsp;Mechanical
+            </div>
+            @*<div class="col-sm-3">
+                                <label for="form-field-select-1">
+                                    <b>Amount<sup style="color: red">*</sup></b>
+                                </label>
+                                @if (Model != null)
+                                {
+                                    @Html.TextBoxFor(model => model.Amount, new { @class = "form-control input-sm" })
+                                }
+                                else
+                                {
+                                    @Html.TextBox("Amount", "", new { @class = "form-control input-sm" })
+                                }
+                            </div>*@
+
+
+        </div>
+            
+        <div class="space-20">
+</div>
+        <div class="col-xs-12"></div>
+        <div class="col-xs-12">
+            <div class="col-sm-3 ">
+                @if (Model != null)
+                {
+                    @(Html.CheckBoxFor(model => model.ElectricalMaintenance, new { id = "ElectricalMaintenance" }))
+                }
+                else
+                {
+                    @Html.CheckBox("ElectricalMaintenance", new { id = "ElectricalMaintenance" })
+                }
+                &nbsp;Electrical
+            </div>
+            <div class="col-sm-3 ">
+                @if (Model != null)
+                {
+                    @(Html.CheckBoxFor(model => model.BodyMaintenance, new { id = "BodyMaintenance" }))
+                }
+                else
+                {
+                    @Html.CheckBox("BodyMaintenance", new { id = "BodyMaintenance" })
+                }
+                &nbsp;Body 
+            </div>
+            <div class="col-sm-3">
+                <label for="form-field-select-1">
+                    <b>Vendor<sup style="color: red">*</sup></b></label>
+                @if (Model != null)
+                {
+                    @Html.DropDownListFor(model => model.SupplierName, new SelectList(Enumerable.Empty<SelectListItem>()), "----Select----", new { @Class = "form-control select-sm" })
+                    //,@onfocus="this.size=10;",@onblur="this.size=1;",@onmousedown="this.size=10;",@onchange="this.size=1; this.blur();" 
+                }
+                else
+                {
+                    @Html.DropDownList("SupplierName", new SelectList(Enumerable.Empty<SelectListItem>()), "----Select----", new { @Class = "form-control select-sm" })
+                }
+            </div>
+            <div class="col-sm-3">
+                <label for="form-field-select-1">
+                    <b>Invoice Number<sup style="color: red">*</sup></b>
+                </label>
+                @if (Model != null)
+                {
+                    @Html.TextBoxFor(model => model.InvoiceNo, new { id = "InvoiceNo1", @class = "form-control input-sm" })
+                }
+                else
+                {
+                    @Html.TextBox("InvoiceNo", "", new { id = "InvoiceNo1", @class = "form-control input-sm" })
+                }
+            </div>
+          </div>
+         <div class="space-10">
+</div>
+            <div class="col-xs-12">
+                    <div class="col-sm-3">
+                <label for="form-field-select-1">
+                    <b>Travel Date</b></label>
+                <div class="input-group input-group-sm">
+                    @if (Model != null)
+                    { 
+                        @Html.TextBoxFor(model => model.VehicleTravelDate, new { id = "VehicleTravelDate", @Class = "form-control date-picker", disabled = "true", @Value = Model.VehicleTravelDate.Value.ToString("dd'/'MM'/'yyyy") })
+                    }
+                    else
+                    {
+                        @Html.TextBox("VehicleTravelDate", "", new { id = "VehicleTravelDate", @Class = "form-control date-picker", disabled = "true", @Value = ViewBag.EntryDate != null ? ViewBag.EntryDate.ToString("dd'/'MM'/'yyyy") : "" })
+                    }
+                    <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="form-field-select-1">
+                    <b>Description</b></label>
+                @if (Model != null)
+                { 
+                    @Html.TextAreaFor(model => model.Description, new { id = "Description1", rows = 5, cols = 58, @class = "form-control textarea" })
+                }
+                else
+                {
+                    @Html.TextArea("Description", "", new { id = "Description1", rows = 5, cols = 58, @class = "form-control textarea" })
+                }
+            </div>
+                <div class="col-sm-2">
+                    <br />
+                    <button type="button" class="btn btn-success btn-info btn-block btn-sm" id="btnAdd"
+                        onclick="MaintenanceCreate();return false;">
+                        <i class="ace-icon fa fa-floppy-o bigger-120 white"></i>Save 
+                    </button>
+                </div>
+            </div>
+      
+    </div>
+    <div class="row">
+    </div>
+    @* </div>
+            </div>
+        </div>
+    </div>*@
+</div>
+<script src="../../Scripts/Transport/VehicleMaintenanceEntryForm.js"></script>

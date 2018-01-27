@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.TripPurposeMaster" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.TripPurposeMaster,TIPS.Entities" table="TripPurposeMaster" lazy="true" >
+    <id name="Id" column="Id" type="Int32">
+      <generator class="native"/>
+    </id>
+    <property name="Purpose">
+      <column name="Purpose" sql-type="varchar" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Assess360AssessmentSubgrids" table="Assess360AssessmentSubgrids_vw" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+   
+    <property name="Campus" column="Campus" type="string" />
+    <property name="Section" column="Section" type="string" />
+    <property name="Grade" column="Grade" type="string" />
+    <property name="AssessCompGroup" column="AssessCompGroup" type="Int32" />
+    <property name="Staff" column="Staff" type="string" />
+    <property name="StudentName" column="Name" type="string" />
+    <property name="Subject" column="Subject" type="string" />
+    
+    <property name="IDNo" column="IDNo" type="string" />
+    <property name="AssignmentName" column="AssignmentName" type="string" />
+    <property name="Mark" column="Mark" type="string" />
+    <property name="MarksOutOff" column="MarksOutOff" type="string" />
+    <property name="EnteredBy" column="EnteredBy" type="string" />
+    <property name="DateCreated" column="DateCreated" type="datetime" />
+    <property name="ConsolidatedMarks" column="ConsolidatedMarks" type="string" />
+    
+  </class>
+</hibernate-mapping>

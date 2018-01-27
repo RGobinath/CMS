@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "FuelManagement";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script src="../../Scripts/Transport/FuelManagement.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnNew").click(function () {
+            window.location.href = '@Url.Action("FuelRefill", "Transport")';
+        });
+       
+    });
+</script>
+<h3>
+    Fuel Management</h3>
+<br />
+<table class="WithBorderOnly" width="100%">
+    <tr class="PanelHeading">
+        <th colspan="7">
+            Search Criteria
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <input type="button" id="btnNew" value="New" />
+        </td>
+    </tr>
+</table>
+<table id="FuelRefillList" class="InnerTable" width="100%">
+</table>
+<div id="FuelRefillListPager">
+</div>

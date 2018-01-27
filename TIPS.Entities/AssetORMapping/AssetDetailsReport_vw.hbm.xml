@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.AssetDetailsReport_vw" namespace="TIPS.Entities.AssetEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.AssetDetailsReport_vw, TIPS.Entities" table="AssetDetailsReport_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="AssetType" column="AssetType" type="string"></property>
+    <property name="Using" column="Using" type="Int64"></property>
+    <property name="Scrap" column="Scrap" type="Int64"></property>
+    <property name="Service" column="Service" type="Int64"></property>
+    <property name="Stock" column="Stock" type="Int64"></property>
+    <property name="TotalAsset" column="TotalAsset" type="Int64"></property>
+  </class>
+</hibernate-mapping>

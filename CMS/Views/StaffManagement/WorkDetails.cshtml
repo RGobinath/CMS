@@ -1,0 +1,250 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+<div class="row">
+    <div class="col-sm-12">
+        <div id="accordion" class="accordion-style1 panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#WorkDetails">
+                            <i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down"
+                                data-icon-show="ace-icon fa fa-angle-right"></i>&nbsp;Work Details </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse in" id="WorkDetails">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        @Html.HiddenFor(model => model.PreRegNum, new { @Value = ViewBag.RequestNum })
+                                        @Html.HiddenFor(Model => Model.Id)
+                                        @if (@ViewBag.idnum == null)
+                                        {
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Temp Id Number</b>
+                                            </label>
+                                            @Html.TextBoxFor(model => model.TempIdNumber, new { id = "tempidno", @Class = "form-control input-sm", @Readonly = "Readonly" })                                            
+                                        </div>
+                                        }
+                                        else
+                                        {
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Id Number</b>
+                                            </label>
+                                            @Html.TextBoxFor(model => model.IdNumber, new { id = "sidno", @Class = "form-control input-sm", @Readonly = "Readonly", value = "TIPS" })                                            
+                                        </div>
+                                        }
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Name</b>
+                                            </label>
+                                            @Html.TextBoxFor(model => model.Name, new { id = "sname", @Class = "form-control input-sm", @maxlength = "30" })                                            
+                                            @Html.HiddenFor(model => model.StaffUserName, new { id = "susrname" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b>
+                                            </label>
+                                            @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Location"), "Select One", new { id = "ddlcampus", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Staff Group</b>
+                                            </label>
+                                            @Html.DropDownListFor(m => m.StaffGroup, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "staffgroup", @Class = "form-control select-sm" })
+                                            @Html.HiddenFor(m => m.StaffGroup)
+                                            @*@if (ViewBag.HideValidation == "True")
+                                            {
+                                                @Html.DropDownListFor(m => m.StaffGroup, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "staffgroup", @Class = "form-control select-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownListFor(m => m.StaffGroup, new SelectList(ViewBag.staffgroupddl, "GroupName","GroupName"), "Select One", new { id = "staffgroup", @Class = "form-control select-sm" })
+                                            }*@
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Staff Sub Group</b>
+                                            </label>
+                                            @Html.DropDownListFor(m => m.StaffSubGroup, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "staffsubgroup", @Class = "form-control select-sm" })
+                                            @Html.HiddenFor(m => m.StaffSubGroup)
+                                            @*@if (ViewBag.HideValidation == "True")
+                                            {
+                                                @Html.DropDownListFor(m => m.StaffSubGroup, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "staffsubgroup", @Class = "form-control select-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownListFor(m => m.StaffSubGroup, new SelectList(ViewBag.staffsubgroupddl, "StaffSubGroup", "StaffSubGroup"), "Select One", new { id = "staffsubgroup", @Class = "form-control select-sm" })
+                                            }*@
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Designation</b>
+                                            </label>
+                                            @if (ViewBag.HideValidation == "True")
+                                            {
+                                                @Html.DropDownListFor(m => m.Designation, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "designation", @Class = "form-control select-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownListFor(m => m.Designation, new SelectList(ViewBag.designationddl, "Designation", "Designation"), "Select One", new { id = "designation", @Class = "form-control select-sm" })
+                                            }
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Department</b>
+                                            </label>
+                                            @if (ViewBag.HideValidation == "True")
+                                            {
+                                                @Html.DropDownListFor(m => m.Department, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "department", @Class = "form-control select-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownListFor(m => m.Department, new SelectList(ViewBag.departmentddl, "Department", "Department"), "Select One", new { id = "department", @Class = "form-control select-sm" })
+                                            }
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Official Email</b>
+                                            </label>
+                                            @Html.TextBoxFor(model => model.OfficialEmailId, new { id = "OfficialEmailId", @Class = "form-control input-sm", @maxlength = "40" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>DOJ</b>
+                                            </label>
+                                            @Html.TextBoxFor(model => model.DateOfJoin, new { id = "dateofjoin", @Class = "form-control date-picker", @maxlength = "10" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>P.F. No</b>
+                                            </label>
+                                            @Html.TextBoxFor(model => model.PFNo, new { id = "pfno", @Class = "form-control input-sm", @maxlength = "40" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>E.S.I. No.</b>
+                                            </label>
+                                            @Html.TextBoxFor(model => model.ESINo, new { id = "esino", @Class = "form-control input-sm", @maxlength = "40" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Reporting Manager</b>
+                                            </label>
+                                            @Html.TextBoxFor(model => model.ReportingManager, new { id = "reportingmanager", @Class = "form-control input-sm", @Readonly = "Readonly", @maxlength = "40" })
+                                        </div>
+                                      
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Staff Type</b>
+                                            </label>
+                                            @if (ViewBag.HideValidation == "True")
+                                            {
+                                                @Html.DropDownListFor(m => m.StaffType, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "stafftype", @Class = "form-control select-sm" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownListFor(m => m.StaffType, new SelectList(ViewBag.stafftypeddl, "StaffType", "StaffType"), "Select One", new { id = "stafftype", @Class = "form-control select-sm" })
+                                            }
+                                        </div>
+                                          <div class="col-sm-3">
+                                    <label for="form-field-select-1">
+                                        <b>Is Work as Reporting Manager?</b></label>
+                                    @Html.DropDownListFor(model => model.IsReportingManager, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="true",Text="Yes"},
+                                              new{Value="false",Text="No"}
+                                          },
+                   "Value", "Text", ""), new { id = "IsReportingManager", @Class = "form-control select-sm" })
+                                </div>
+                                       
+                                    </div>
+                                </div>
+                                @* <div class="col-sm-2">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <span class="profile-picture">
+                                                <img class="editable img-responsive" src="@Url.Action("uploaddisplay1", "StaffManagement", new { id = Session["Reqnum"] })" id="image1" width= "130px" height="120px"/>
+                                            </span>
+                                            <br />
+                                            <button type="button" class="btn btn-primary btn-sm" name="CaptureImg" id="CaptureImg" value="CaptureImage">
+                                                <i class="ace-icon fa fa-save">&nbsp;</i>Capture
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion"
+                            href="#DocumentDetails"><i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down"
+                                data-icon-show="ace-icon fa fa-angle-right"></i>&nbsp;Document Details</a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="DocumentDetails">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-3">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <label for="form-field-select-1">
+                                                <b>Document Type</b>
+                                            </label>
+                                            @Html.DropDownListFor(Model => Model.UploadedFilesList[0].DocumentType, new SelectList(ViewBag.documentddl, "DocumentType", "DocumentType"), "Select One", new { id = "ddldocumenttype", @Class = "form-control input-sm" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <label for="form-field-select-1" id="doctypenote" style="color: Red">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <label for="form-field-select-1">
+                                                <b>Document Name</b>
+                                            </label>
+                                            <input type="file" name="uploadedFile" id="uploadedFile" value="Browse" />
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <button type="button" class="btn btn-primary btn-block btn-sm" id="btnAddDocuments">
+                                                <i class="ace-icon fa fa-plus-square-o white"></i>Add
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-9">
+                                    <table id="DocumentList">
+                                    </table>
+                                    <div id="DocumentListPager">
+                                    </div>
+                                    <script type="text/javascript">
+                                        var $path_base = "..";
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/StaffManagementScripts/WorkDetails.js" type="text/javascript"></script>

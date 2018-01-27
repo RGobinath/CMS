@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.CommunictionEntities.BulkEmailRequest" namespace="TIPS.Entities.CommunictionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.CommunictionEntities.BulkEmailRequest, TIPS.Entities" table="BulkEmailRequest_Vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"></property>
+    <property name="Name" column="Name" type="string" not-null ="false"></property>
+    <property name="NewId" column="NewId" type="string" not-null ="false"></property>
+
+    <property name="FeeStructYear" column="FeeStructYear" type="string" not-null ="false"></property>
+    <property name="IsHosteller" column="IsHosteller" type="bool"></property>
+
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>
+    <property name="AdmissionStatus" column="AdmissionStatus" type="string"></property>
+    <!--<property name="GeneralEmailId" column="General_EmailId" type="string"></property>-->
+
+    <!--<property name="FatherEmailId" column="Father_EmailId" type="string"></property>
+    <property name="MotherEmailId" column="Mother_EmailId" type="string"></property>-->
+    <property name="U_EmailId" column="U_EmailId" type="string"></property>
+    <property name="FamilyDetailType" column="FamilyDetailType" type="string"></property>
+    <property name="IdKeyValue" column="Id" type="Int64"></property>
+    <property name="VanNo" column="VanNo" type="string"></property>
+    <property name="CreatedDateNew" column="CreatedDateNew" type="date"></property>
+
+  </class>
+</hibernate-mapping>

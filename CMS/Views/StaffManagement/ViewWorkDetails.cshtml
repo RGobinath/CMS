@@ -1,0 +1,130 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+<script>
+    $(document).ready(function () {
+        $('#dateofjoin').datepicker({
+            format: 'dd/mm/yyyy'
+
+        });
+
+        $('.dp').on('change', function () {
+            $('.datepicker').hide();
+        });
+
+    });
+
+</script>
+<div class="row">    
+    <div class="col-sm-12">
+        <div id="accordion" class="accordion-style1 panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#WorkDetails">
+                            <i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down"
+                                data-icon-show="ace-icon fa fa-angle-right"></i>&nbsp;Work Details </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse in" id="WorkDetails">
+                    <div class="panel-body" id="workdetails">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>DOB</b></label>
+                                            <br />@(Model.DOB != null ? DateTime.Parse(Model.DOB).ToString("dd'/'MM'/'yyyy") : "")
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Gender</b></label>
+                                            <br />@Model.Gender
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Father's Name</b></label>
+                                            <br />@Model.FatherName
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Staff Type</b>
+                                            </label>
+                                            <br />@Model.StaffType
+                                        </div>
+                                        <div class="col-sm-2 dis">
+                                            <label for="form-field-select-1">
+                                                <b>Reporting Manager</b>
+                                            </label>
+                                            <br />@Model.ReportingManager
+                                        </div>
+                                    </div>
+                                    <div class="space-10"></div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label for="form-field-select-1">
+                                                <b>Email</b>
+                                            </label>
+                                            <br />@Model.EmailId
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*<script src="../../Scripts/StaffManagementScripts/WorkDetails.js" type="text/javascript"></script>*@
+@*<script src="../../Scripts/StaffManagementScripts/ExperienceDetails.js"></script>*@
+@*<script src="../../Scripts/StaffManagementScripts/ApplicationForm.js" type="text/javascript"></script>*@
+<script src="../../assets/js/AceJQMsg.js" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

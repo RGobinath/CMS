@@ -1,0 +1,336 @@
+﻿@model TIPS.Entities.Attendance.Holidays
+@{
+    ViewBag.Title = "Holidays";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+    
+}
+<script type="text/javascript" src="@Url.Content("~/Scripts/ui.dropdownchecklist-1.4-min.js")" ></script>
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+        var lastsel2;
+        // Date Details...
+        $("#txtFromDate").datepicker({
+            dateFormat: "dd/mm/yy",
+            numberOfMonths: 1,
+            onSelect: function (selected) {
+                $("#txtToDate").datepicker("option", "minDate", selected)
+            }
+        });
+        $("#txtToDate").datepicker({
+            dateFormat: "dd/mm/yy",
+            numberOfMonths: 1,
+            onSelect: function (selected) {
+                $("#txtFromDate").datepicker("option", "maxDate", selected)
+                function parseDate(str) {
+                    var mdy = str.split('/')
+                    return new Date(mdy[2], mdy[1], mdy[0] - 1);
+                }
+            }
+        });
+        $("#txtToDate").click(function () {
+            if ($("#txtFromDate").val() == "") {
+                ErrMsg("Please select From Date");
+                return false;
+            }
+        });
+
+
+        $("#HolidayList").jqGrid({
+            url: '@Url.Content("~/Attendance/AddandListHolidaysJqGrid")',
+            datatype: 'json',
+            type: 'GET',
+            colNames: ['', 'Date', 'Comments', 'Campus', 'Grade', 'Academic Year'],
+            colModel: [
+                                  { name: 'Id', index: 'Id', width: 5, hidden: true, key: true },
+                                  { name: 'Holiday', index: 'Holiday', width: 10, editable: true, editoptions: { dataInit: function (el) {
+                                      $(el).datepicker({
+                                          dateFormat: 'dd/mm/yy'
+                                      }).attr('readonly', 'readonly');
+                                  }
+                                  }
+                                  },
+                                  { name: 'Comments', index: 'Comments', width: 30, search: false, editable: true },
+             { name: 'Campus', index: 'Campus', editable: true, width: 15, edittype: 'select', editrules: { required: true }, editoptions: {
+                 dataUrl: '/Assess360/GetCampusddl',
+                 dataEvents: [{
+                     type: 'change',
+                     fn: function (e) {
+                         var Campus = $(e.target).val();
+                         if (Campus != '') {
+                             $.getJSON('@Url.Action("GetGradeByCampus", "Assess360")',
+                                       { Campus: Campus },
+                                       function (recipes) {
+                                           var selectHtml = "";
+                                           selectHtml += '<option value=" ">--select--</option>';
+                                           $.each(recipes, function (jdIndex, jdData) {
+                                               selectHtml = selectHtml + "<option value='" + jdData.Value + "'>" + jdData.Text + "</option>";
+                                           });
+                                           if ($(e.target).is('.FormElement')) {
+                                               var form = $(e.target).closest('form.FormGrid');
+                                               $("select#Grade.FormElement", form[0]).html(selectHtml);
+                                           }
+                                       });
+                         }
+                     }
+                 }]
+             },
+                 stype: 'select', sortable: true,
+                 searchoptions: {
+                     dataUrl: '/Assess360/GetCampusddl',
+                     dataEvents: [{
+                         type: 'change',
+                         fn: function (e) {
+                             var Campus = $(e.target).val();
+                             if (Campus != '') {
+                                 $.getJSON('@Url.Action("GetGradeByCampus", "Assess360")',
+                                                                   { Campus: Campus },
+                                                                   function (cmp) {
+                                                                       var selectHtml1 = "";
+                                                                       selectHtml1 += '<option value="">--select--</option>';
+                                                                       $.each(cmp, function (jdIndex1, jdData1) {
+                                                                           selectHtml1 = selectHtml1 + "<option value='" + jdData1.Value + "'>" + jdData1.Text + "</option>";
+                                                                       });
+                                                                       $("#gs_Grade").html(selectHtml1);
+                                                                   });
+                             }
+                         }
+                     }]
+                 }
+             },
+                       { name: 'Grade', index: 'Grade', editable: true, search: true, width: 15, edittype: 'select',
+                           editoptions: { dataUrl: '/Assess360/GetGradeddl' },
+                           editrules: { required: true, custom: false }, sortable: true, stype: 'select',
+                           searchoptions: { dataUrl: '/Assess360/GetGradeddl' }
+                       },
+                                  {name: 'AcademicYear', index: 'AcademicYear', width: 15, sortable: true, align: 'center', editable: true, edittype: 'select', editoptions: { 
+                dataUrl: '/Base/GetJsonAcademicYear',
+                buildSelect: function (data) {
+                 var response, s = '<select>', i;
+                         response = jQuery.parseJSON(data);
+                          if (response && response.length) {
+                             $.each(response, function (i) {
+                                 s += '<option value="' + response[i].Text+ '">' + response[i].Value + '</option>';
+                             });
+                         }
+                         return s + '</select>';
+                },
+            
+            } 
+            },
+                                  ],
+            onSelectRow: function (id) {
+                if (id && id !== lastsel2) {
+                    $("#HolidayList").restoreRow(lastsel2);
+                    $("#HolidayList").editRow(id, true);
+                    lastsel2 = id;
+                }
+            },
+            serializeRowData: function (data) {
+            data.Holiday= MMDDYYFormatFunc(data.Holiday);
+            return data;
+            },
+            editurl: "/Attendance/SaveHodlidaysEditRecords",
+            rowNum: 50,
+            rowList: [5, 10, 20, 50, 100],
+            pager: '#HolidayListPager',
+            sortname: 'Name',
+            viewrecords: true,
+            multiselect: true,
+            sortorder: "Desc",
+            width: 900,
+            height: 200,
+            caption: 'Holiday List'
+
+        });
+        $('#HolidayList').jqGrid('filterToolbar', { searchOnEnter: true, enableClear: false, beforeSearch: function () {
+            $('#HolidayList').clearGridData();
+            return false;
+        }
+        });
+        jQuery("#HolidayList").jqGrid('navGrid', '#HolidayListPager', { del: true, add: false, edit: false },
+        {},
+         {},
+         { width: 'auto', url: '/Attendance/Delete/', left: '10%', top: '10%', height: '50%', width: 400, beforeShowForm: function (params) {
+
+             selectedrows = $("#HolidayList").jqGrid("getGridParam", "selarrrow");
+             return { Id: selectedrows }
+         }
+         }
+                 );
+
+        $('#txtHolidays').click(function () {
+            if ($('#Campus').val() == null) {ErrMsg("Please fill the Campus"); return false;}
+            if ($('#Grade').val() == null) {ErrMsg("Please fill the Grade"); return false; }
+            if ($('#txtFromDate').val() == "") { ErrMsg("Please fill the FromDate"); return false; }
+            if ($('#txtToDate').val() == "") { ErrMsg("Please fill the ToDate"); return false; }
+             if ($('#ddlacademicyear').val() == "") { ErrMsg("Please fill the Academic Year"); return false; }
+            if ($('#txtComments').val() == "") { ErrMsg("Please fill the Comments"); return false; }
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '/Attendance/Holidays?fromdate=' + $('#txtFromDate').val() + '&todate=' + $('#txtToDate').val() + '&Comments=' + $('#txtComments').val() + '&Campus=' + $('#Campus').val() + '&Grade=' + $('#Grade').val() + '&Academicyear=' + $('#ddlacademicyear').val(),
+                success: function (date) {
+                    InfoMsg("Holidays added successfully.", function () {
+                        $('#btnReset').click();
+                    });
+                    $("#HolidayList").trigger("reloadGrid");
+                }
+            });
+
+        });
+        $("#Grade").dropdownchecklist({
+            firstItemChecksAll: true,
+            maxDropHeight: 150,
+            Height: 100,
+            width: 150
+        });
+
+        $.getJSON("/Base/FillBranchCode",
+    function (fillig) {
+        var ddlcam = $("#Campus");
+        ddlcam.dropdownchecklist('destroy');
+        ddlcam.append("<option value=' '> All </option>");
+        $.each(fillig, function (index, itemdata) {
+            ddlcam.append($('<option/>', { value: itemdata.Value, text: itemdata.Text }));
+        });
+        $("#Campus").dropdownchecklist({
+            firstItemChecksAll: true,
+            maxDropHeight: 150,
+            Height: 80,
+            width: 155
+        });
+    });
+
+
+        $("#Campus").change(function () {
+            GetGrade();
+        });
+
+        $('#btnReset').click(function () {
+
+            window.location.href = '@Url.Action("Holidays", "Attendance")';
+
+        });
+
+    });
+
+    function GetGrade() {
+        $.ajax({
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            url: '/Communication/FillGradesWithArrayCriteria?campus=' + $("#Campus").val(),
+            success: function (data) {
+                $("#Grade").empty();
+                $("#Grade").dropdownchecklist('destroy');
+                if (data != null && data != "") {
+                    $("#Grade").append("<option value=' '> All </option>");
+                    for (var k = 0; k < data.length; k++) {
+                        $("#Grade").append("<option value='" + data[k].Value + "'>" + data[k].Text + "</option>");
+                    }
+                }
+                Refreshddl();
+            }
+        });
+    }
+    function Refreshddl() {
+        $("#Grade").dropdownchecklist({
+            firstItemChecksAll: true,
+            maxDropHeight: 150,
+            Height: 80,
+            width: 155
+        });
+    }
+     function MMDDYYFormatFunc(rowObject) {
+        var value = rowObject.split("/");
+        var dd = value[0];
+        var mm = value[1];
+        var yy = value[2];
+        var resultField = mm + "/" + dd + "/" + yy;
+        return resultField;
+
+    }
+
+</script>
+<h3>
+    Holidays</h3>
+<table style="width: 100%" class="WithBorderOnly">
+    <tr valign="top">
+        <td width="50%">
+            <table style="width: 100%">
+                <tr>
+                    <th class="PanelHeading" colspan="2">
+                        Search Criteria
+                    </th>
+                </tr>
+                <tr>
+                    <td style="width: 50%">
+                        From Date
+                    </td>
+                    <td>
+                        @Html.TextBox("txtFromDate", "", new { style = "border: #006699 1px solid;width:155px;", @readonly = true, })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%">
+                        To Date
+                    </td>
+                    <td>
+                        @Html.TextBox("txtToDate", "", new { style = "border: #006699 1px solid;width:155px;", @readonly = true, })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%">
+                        Campus
+                    </td>
+                    <td>
+                        @Html.DropDownList("Campus", new MultiSelectList(Enumerable.Empty<SelectListItem>()), new { @multiple = "multiple", @Class = "CSSDropDownList" })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%">
+                        Grade
+                    </td>
+                    <td>
+                        @Html.DropDownList("Grade", new MultiSelectList(Enumerable.Empty<SelectListItem>()), new { @multiple = "multiple", @Class = "CSSDropDownList" })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%">
+                        Academic Year
+                    </td>
+                    <td>
+                        @Html.DropDownList("AcademicYear", new SelectList(ViewBag.acadyrddl, "AcademicYear", "AcademicYear"), "Select One", new { id = "ddlacademicyear", @Class = "CSSDropDownList" })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%">
+                        Comments
+                    </td>
+                    <td>@Html.TextAreaFor(model => model.Comments, new { rows = 2, cols = 20, id = "txtComments", @class = "CSSTextArea" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="button" id="txtHolidays" value="   Save     " />
+                    </td>
+                    <td>
+                        <input type="button" id="btnReset" value="   Reset   " />
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <td>
+                        <table id="HolidayList">
+                        </table>
+                        <div id="HolidayListPager">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

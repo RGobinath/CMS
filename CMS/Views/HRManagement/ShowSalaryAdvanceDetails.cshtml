@@ -1,0 +1,240 @@
+﻿@model TIPS.Entities.HRManagementEntities.SalaryAdvance
+@{
+    ViewBag.Title = "ShowSalaryAdvanceDetails";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+
+        if ('@Model.Status' == "Complete" || '@Model.Status' == "Completed" || '@Model.Status' == "ResolveRequest" || '@Model.Status' == "ResolveRequestRejection") {
+            $('#txtDescription1').attr("disabled", true);
+            $('#txtResolutionDescription').attr("disabled", true);
+            $('#txtRejectionDetails').attr("disabled", true);
+            $('#txtDescription').attr("disabled", true);
+            $("#test").hide();
+        }
+
+        $("#CommentList").jqGrid({
+            url: '/HRManagement/SalaryAdvanceRejectionGrid?Id=' + $('#Id').val(),
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Commented By', 'Commented On', 'Rejection Comments', 'Resolution Comments'],
+            colModel: [
+            // { name: 'Issue Number', index: 'EntityRefId', sortable: false },
+              {name: 'CommentedBy', index: 'CommentedBy', sortable: false },
+              { name: 'CommentedOn', index: 'CommentedOn', sortable: false },
+              { name: 'RejectionComments', index: 'RejectionComments', sortable: false },
+              { name: 'ResolutionComments', index: 'ResolutionComments', sortable: false },
+             ],
+            rowNum: -1,
+            //width: 1160,
+            autowidth: true,
+            height: 150,
+            sortname: 'EntityRefId',
+            sortorder: "desc",
+            viewrecords: true,
+            caption: 'Discussion Forum'
+        });
+
+
+        // go to the SalaryAdvanceGrid page...
+        $("#BacktoInbox").click(function () {
+            window.location.href = '@Url.Action("SalaryAdvanceGrid", "HRManagement")';
+        });
+
+    });
+
+
+
+
+
+</script>
+<h3>
+    Salary Advance Details</h3>
+<table width="100%" class="WithBorderOnly">
+    <tr class="PanelHeading">
+        <th colspan="5">
+            Basic Details
+        </th>
+    </tr>
+    <tr>
+        <td width="20%">
+            <label class="lblheader">
+                Request Number</label>
+        </td>
+        <td width="20%">
+            <label class="lblheader">
+                DateTime</label>
+        </td>
+        <td width="20%">
+            <label class="lblheader">
+                Procesed By</label>
+        </td>
+        <td width="20%">
+            <label class="lblheader">
+                UserRole</label>
+        </td>
+        <td width="20%">
+            <label class="lblheader">
+                Status</label>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Model.RequestNo
+            @Html.HiddenFor(m => m.RequestNo)
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.InstanceId)
+        </td>
+        <td>
+            @String.Format("{0:dd/MM/yyyy h:mm tt }", Model.CreateDate)
+            @*       // @Model.CreateDate*@
+            @Html.HiddenFor(m => m.CreateDate)
+        </td>
+        <td>
+            @Model.ProcessedBy
+            @Html.HiddenFor(m => m.ProcessedBy)
+        </td>
+        <td>
+            @Model.UserRole
+            @Html.HiddenFor(m => m.UserRole)
+        </td>
+        <td>
+            @Model.ActivityFullName
+            @Html.HiddenFor(m => m.Status)
+            @Html.HiddenFor(model => model.ActivityFullName)
+        </td>
+    </tr>
+</table>
+<table width="100%" class="WithBorderOnly" cellpadding="2px" cellspacing="2px">
+    <tr class="PanelHeading">
+        <th colspan="7">
+            Registration Details
+        </th>
+    </tr>
+    <tr>
+        <td width="20%">
+            <label class="lblheader">
+                Staff Name</label>
+        </td>
+        <td width="20%">
+            <label class="lblheader">
+                Staff Id Number</label>
+        </td>
+        <th width="20%">
+            Campus
+        </th>
+        <td width="20%">
+            <label class="lblheader">
+                Department</label>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Model.StaffName
+            @Html.HiddenFor(m => m.StaffName)
+        </td>
+        <td>
+            @Model.StaffIdNumber
+            @Html.HiddenFor(m => m.StaffIdNumber)
+        </td>
+        <td>
+            @Model.BranchCode
+            @Html.HiddenFor(m => m.BranchCode)
+        </td>
+        <td>
+            @Model.Department
+            @Html.HiddenFor(m => m.Department)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="lblheader">
+                Amount Needed</label>
+        </td>
+        <td>
+            <label class="lblheader">
+                Date Amount Needed</label>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td>@Model.AmountNeeded
+            @Html.HiddenFor(m => m.AmountNeeded)
+        </td>
+        <td>@Model.DateAmountNeeded
+            @Html.HiddenFor(m => m.DateAmountNeeded)
+        </td>
+    </tr>
+</table>
+<table width="100%" class="WithBorderOnly">
+    <tr class="PanelHeading">
+        <th colspan="7">
+            Rejection Details
+        </th>
+    </tr>
+    <tr valign="baseline">
+        <td>
+            <table>
+                <tr>
+                    <td>
+                        <label class="lblheader">
+                            Description</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        @Html.TextAreaFor(model => model.Description, new { rows = 3, cols = 52, id = "txtDescription", @class = "CSSTextArea", @readonly = "true" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="lblheader">
+                            Resolution Description</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        @Html.TextAreaFor(model => model.ResolveComments, new { rows = 3, cols = 52, id = "txtResolutionDescription", @class = "CSSTextArea", @readonly = "true" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="lblheader">
+                            Rejection Comments</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">@Html.TextArea("txtRejectionDetails", new { rows = 3, cols = 52, id = "txtRejectionDetails", @class = "CSSTextArea", @readonly = "true" })
+                        <span style="color: Red">*</span>
+                        @Html.HiddenFor(m => m.RejectionDetails)
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td width="60%">
+            <table class="InnerTable" width="100%" id="rejctionGridtbl">
+                <tr>
+                    <th>
+                        Rejection Grid
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <table id="CommentList">
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<table class="InnerTable" width="100%">
+    <tr align="center">
+        <td width="40%">
+        </td>
+        <td width="100%" align="center">
+            <input type="submit" id="BacktoInbox" name="btnBacktoInbox" value="Back to Inbox" />
+        </td>
+    </tr>
+</table>

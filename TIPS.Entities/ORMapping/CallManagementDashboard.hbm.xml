@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities" namespace="TIPS.Entities" >
+  <class name="CallManagementDashboard" table="CallManagement" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"/>
+    </id>
+    <property name="IssueNumber" column="IssueNumber" type="string"/>
+    <property name="Description" column="Description" type="string"/>
+    <property name="UserInbox" column="UserInbox" type="string"/>
+    <property name="IssueGroup" column="IssueGroup" type="string"/>
+    <property name="IssueType" column="IssueType" type="string"/>
+    <property name="Status" column="Status" type="string"/>
+    <property name="StudentName" column="StudentName" type="string"/>
+    <property name="IssueDate" column="IssueDate" type="datetime"/>
+    <property name="StudentNumber"  column="StudentNumber" type="string"/>
+    <property name="School" column="School" type="string"/>
+    <property name="Section" column="Section" type="string"/>
+    <property name="InstanceId" column="InstanceId" type="Int64"/>
+    <property name="Email" column="Email" type="string"/>
+    <property name="UserRoleName" column="UserRoleName" type="string"/>
+    <property name="Resolution" column="Resolution" type="string"/>
+    <property name="IsInformation" column="IsInformation" type="boolean"/>
+    <property name="Grade" column="Grade" type="string"/>
+    <property name="InformationFor" column="InformationFor" type="string"/>
+    <property name="IsHosteller" column="IsHosteller" type="boolean"  />
+    <property name="BranchCode" column="BranchCode" type="string" not-null="false" />
+    <property name="DeptCode" column="DeptCode" type="string" not-null="false" />
+    <property name="ActivityFullName" column="ActivityFullName" type="string" not-null="false" />
+    <property name="LeaveType" column="LeaveType" type="string"  />
+    <property name="ActionDate" column="ActionDate" type="datetime"/>
+  </class>
+</hibernate-mapping>

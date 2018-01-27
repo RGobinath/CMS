@@ -1,0 +1,193 @@
+﻿@{
+    ViewBag.Title = "Survey Configuration";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    @*<div class="widget-header widget-header-small">*@
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Academic Year</b></label>
+                                        @Html.DropDownList("Srchddlacademicyear", new SelectList(ViewBag.acadddl, "AcademicYear", "AcademicYear", ViewBag.currentAcyear), "Select One", new { id = "Srchddlacademicyear", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownList("Srchddlcampus", new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "Srchddlcampus", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Grade</b></label>
+                                        @Html.DropDownList("Srchddlgrade", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "Srchddlgrade", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Survey Number</b></label>
+                                        @*@Html.DropDownList("SrchddlSurveyNumber", new SelectList(new[]
+                                          {
+                                               new{Value="",Text="Select One"},
+                                              new{Value="Survey-1",Text="Survey-1"},
+                                              new{Value="Survey-2",Text="Survey-2"},
+                                              new{Value="Survey-3",Text="Survey-3"},                                              
+                                          },
+                            "Value", "Text", ""), new { @Class = "form-control select-sm" })*@
+                                        @Html.DropDownList("SrchddlSurveyNumber", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "SrchddlSurveyNumber", @Class = "form-control select-sm" })
+                                    </div>
+                                    @*<div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Is Active</b></label>
+                                        @Html.DropDownList("ddlIsActive", new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="True",Text="Yes"},
+                                              new{Value="False",Text="No"}                                              
+                                          },
+                            "Value", "Text", ""), new { id = "ddlIsActive", @Class = "form-control select-sm" })
+                                    </div>*@
+                                    @*<div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Survey Group</b></label>
+                                        @Html.DropDownList("SrchddlSurveyGroup", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "SrchddlSurveyGroup", @Class = "form-control select-sm" })
+                                    </div>*@
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-primary btn-info btn-block btn-sm" id="btnSearch">
+                                            <i class="ace-icon fa fa-search white"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-danger btn-warning btn-block btn-sm" id="SrchbtnReset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue collapsed">
+                    @*<div class="widget-header widget-header-small">*@
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-plus-circle"></i>&nbsp;Add Survey Configuration
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Academic Year</b></label>
+                                        @Html.DropDownList("ddlacademicyear", new SelectList(Enumerable.Empty<SelectListItem>(), ViewBag.currentAcyear), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownList("ddlcampus", new MultiSelectList(Enumerable.Empty<SelectListItem>()), new { id = "ddlcampus", @multiple = "multiple", @class = "multiselect", style = "width:270px;" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Grade</b></label>
+                                        @Html.DropDownList("ddlgrade", new MultiSelectList(Enumerable.Empty<SelectListItem>()), new { @multiple = "multiple", @class = "multiselect" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Survey Number</b></label>
+                                       @* @Html.DropDownList("ddlSurveyNumber", new SelectList(new[]
+                                          {
+                                               new{Value="",Text="Select One"},
+                                              new{Value="Survey-1",Text="Survey-1"},
+                                              new{Value="Survey-2",Text="Survey-2"},
+                                              new{Value="Survey-3",Text="Survey-3"},                                              
+                                          },
+                            "Value", "Text", ""), new { @Class = "form-control select-sm" })*@
+                                        @Html.DropDownList("ddlSurveyNumber", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlSurveyNumber", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Survey Group</b></label>
+                                        @*@Html.DropDownList("ddlSurveyGroup", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlSurveyGroup", @Class = "form-control select-sm" })*@
+                                        @Html.DropDownList("ddlSurveyGroup", new MultiSelectList(Enumerable.Empty<SelectListItem>()), new { @multiple = "multiple", @class = "multiselect" })
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-success btn-info btn-block btn-sm" id="btnSave">
+                                            <i class="ace-icon fa fa-save white"></i>Save
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-danger btn-warning btn-block btn-sm" id="btnReset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                </div>                                
+                            </div>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <table id="grid-table">
+                </table>
+                <div id="grid-pager">
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.page-content-area -->
+</div>
+<script src="@Url.Content("~/Scripts/StaffManagementScripts/SurveyConfiguration.js")" type="text/javascript"></script>
+
+<script src="@Url.Content("~/assets/js/bootstrap-multiselect.js")" type="text/javascript"></script>
+<link href="../../assets/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+<style>
+    /*#ddlcampus {
+        overflow:auto;
+    }*/   
+</style>

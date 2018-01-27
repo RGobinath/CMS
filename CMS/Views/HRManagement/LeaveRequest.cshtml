@@ -1,0 +1,370 @@
+﻿@model TIPS.Entities.HRManagementEntities.LeaveRequest
+@{
+    ViewBag.Title = "LeaveRequest";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+
+        // Search Text hide Text Details...
+        $("#txtNumberOfLeaves").attr("readonly", true).css("background-color", "#F5F5F5");
+
+
+        var Details = "@ViewBag.Details";
+        var Reply = "@ViewBag.Reply";
+        var Hrapp = "@ViewBag.HRApprole";
+        if (Hrapp == "8") { $("#HRRejection1").show(); $('#txtRejectionDetails').attr("disabled", false); } else { $("#HRRejection1").hide(); }
+
+        // Date Details...
+        $("#StartDate").datepicker({
+            dateFormat: "dd/mm/yy",
+            minDate: 0,
+            maxDate: "+60D",
+            numberOfMonths: 1,
+            onSelect: function (selected) {
+
+                $("#EndDate").datepicker("option", "minDate", selected)
+            }
+        });
+        $("#EndDate").datepicker({
+            dateFormat: "dd/mm/yy",
+            minDate: 0,
+            //            maxDate: "+60D",
+            numberOfMonths: 1,
+            onSelect: function (selected) {
+                $("#StartDate").datepicker("option", "maxDate", selected)
+                function parseDate(str) {
+                    var mdy = str.split('/')
+                    return new Date(mdy[2], mdy[1], mdy[0] - 1);
+                }
+
+                function daydiff(SDate, EDate) {
+                    return (EDate - SDate) / (1000 * 60 * 60 * 24)
+                }
+                //                alert(daydiff(parseDate($("#StartDate").val()), parseDate($("#EndDate").val())));
+                var datevalue = daydiff(parseDate($("#StartDate").val()), parseDate($("#EndDate").val()));
+                if (datevalue == 0) {
+                    document.getElementById("txtNumberOfLeaves").value = daydiff(parseDate($("#StartDate").val()), parseDate($("#EndDate").val())) + 1;
+                }
+                else {
+                    document.getElementById("txtNumberOfLeaves").value = daydiff(parseDate($("#StartDate").val()), parseDate($("#EndDate").val())) + 1;
+                }
+            }
+        });
+
+        $("#EndDate").click(function () {
+            var SDate = $("#StartDate").val();
+            if (SDate == "") {
+                ErrMsg("Please select From Date");
+                return false;
+            }
+        });
+        function rejectionValidation(msg) {
+            if ($('#txtRejectionDetails').val() == null || $('#txtRejectionDetails').val() == "") {
+                ErrMsg(msg, function () { $('#txtRejectionDetails').focus(); });
+                return false;
+            }
+            else {
+                return true;
+            }
+            return false;
+        }
+
+        $('#LeaderRejection').click(function () {
+            return rejectionValidation("Please enter the comments to reject.");
+
+        });
+
+        $('#HRRejection1').click(function () {
+            return rejectionValidation("Please enter the comments to reject.");
+
+        });
+
+        function ResolutionValidation(msg) {
+            if ($('#txtResolutionDescription').val() == null || $('#txtResolutionDescription').val() == "") {
+                ErrMsg(msg, function () { $('#txtResolutionDescription').focus(); });
+                return false;
+            }
+            else {
+                return true;
+            }
+            return false;
+        }
+
+        $('#SendResolveLeave').click(function () {
+            return ResolutionValidation("Please enter the Resolution comments.");
+
+        });
+
+        function LeaveDescription(msg) {
+            if ($('#txtReplyDescription').val() == null || $('#txtReplyDescription').val() == "") {
+                ErrMsg(msg, function () { $('#txtReplyDescription').focus(); });
+                return false;
+            }
+            else {
+                return true;
+            }
+            return false;
+        }
+
+
+        $('#Reply').click(function () {
+            return LeaveDescription("Please enter the Reply Description comments.");
+        });
+
+        $("#Rejection").click(function () {
+            var Rejection = $("#txtRejectionDetails").val();
+            if (Rejection == "") {
+                ErrMsg("Please fill the Rejection Comments");
+                return false;
+            }
+        });
+
+        $("#Approve").click(function () {
+            var Approve = $("#txtApprovedDetails").val();
+            if (Approve == "") {
+                ErrMsg("Please Fill the Approve Comments");
+                return false;
+            }
+        });
+
+
+
+
+
+
+        // Sent For Approval  Button Validation Details...
+        $("#btnSentApply").click(function () {
+
+            ValidateIssueDescription();
+
+            var Leave = $("#ddlTypeOfLeave").val();
+            var SDate = $('#StartDate').val();
+            var EDate = $('#EndDate').val();
+            var Issdesc = $("#txtDescription").val();
+
+            if (Leave == "") {
+                ErrMsg("Please fill the Type Of Leave");
+                return false;
+            }
+            if (SDate == "") {
+                ErrMsg("Please fill the From Date");
+                return false;
+            }
+            if (EDate == "") {
+                ErrMsg("Please fill the To Date");
+                return false;
+            }
+
+            if (Issdesc == "") {
+                ErrMsg("Please fill Description.");
+                return false;
+            }
+            function ValidateIssueDescription() {
+                var Issdesc = $("#txtDescription").val();
+                if (Issdesc.length > 4000)
+                    return false;
+            }
+            if (ValidateIssueDescription() == false) {
+                ErrMsg("Description should not exceed 4000 characters.");
+                return false;
+            }
+        });
+        $("#btnBacktoInbox").click(function () {
+            window.location.href = '@Url.Action("LeaveRequestGrid", "HRManagement")';
+        });
+        $("#btnBacktoInbox1").click(function () {
+            window.location.href = '@Url.Action("LeaveRequestGrid", "HRManagement")';
+        });
+
+        $("#CommentList").jqGrid({
+            url: '/HRManagement/LeaveRejectionGrid?Id=' + $('#Id').val(),
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Commented By', 'Commented On', 'Rejection Comments', 'Reply Comments'],
+            colModel: [
+              { name: 'CommentedBy', index: 'CommentedBy', sortable: false },
+              { name: 'CommentedOn', index: 'CommentedOn', sortable: false },
+              { name: 'RejectionComments', index: 'RejectionComments', sortable: false },
+              { name: 'ResolutionComments', index: 'ResolutionComments', sortable: false }
+             ],
+            rowNum: -1,
+            autowidth: true,
+            height: 150,
+            sortname: 'EntityRefId',
+            sortorder: "desc",
+            viewrecords: true,
+            caption: 'Discussion Forum'
+        });
+
+    });
+</script>
+<h3>
+    Leave Request Details</h3>
+@using (Html.BeginForm("LeaveRequest", "HRManagement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{       
+    @Html.HiddenFor(m => m.CreatedBy)                           
+    <table width="100%" class="WithBorderOnly" id="BasicDetails">
+        <tr class="PanelHeading">
+            <th colspan="5">
+                Basic Details
+            </th>
+        </tr>
+        <tr>
+            <td width="20%">
+                <label class="lblheader">
+                    Request Number</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    DateTime</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    Procesed By</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    UserRole</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    Status</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Model.RequestNo
+                @Html.HiddenFor(m => m.RequestNo)
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.InstanceId)
+            </td>
+            <td>
+                @String.Format("{0:dd/MM/yyyy h:mm tt }", Model.CreateDate)
+                @Html.HiddenFor(m => m.CreateDate)
+            </td>
+            <td>
+                @Model.ProcessedBy
+                @Html.HiddenFor(m => m.ProcessedBy)
+            </td>
+            <td>
+                @Model.UserRole
+                @Html.HiddenFor(m => m.UserRole)
+            </td>
+            <td>
+                @Model.ActivityFullName
+                @Html.HiddenFor(m => m.Status)
+                @Html.HiddenFor(model => model.ActivityFullName)
+            </td>
+        </tr>
+    </table>
+
+    <table width="100%" class="WithBorderOnly" cellpadding="2px" cellspacing="2px" id="RejectionDetails">
+        <tr class="PanelHeading">
+            <th colspan="7">
+                Registration Details
+            </th>
+        </tr>
+        <tr>
+            <td width="20%">
+                <label class="lblheader">
+                    Staff Name</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    Staff Id Number</label>
+            </td>
+            <th width="20%">
+                Campus
+            </th>
+            <td width="20%">
+                <label class="lblheader">
+                    Reporting Manager</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Model.StaffName
+                @Html.HiddenFor(m => m.StaffName)
+            </td>
+            <td>
+                @Model.StaffIdNumber
+                @Html.HiddenFor(m => m.StaffIdNumber)
+            </td>
+            <td>
+                @Model.BranchCode
+                @Html.HiddenFor(m => m.BranchCode)
+            </td>
+            <td>
+                @Model.ReportingManager
+                @Html.HiddenFor(m => m.ReportingManager)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="lblheader">
+                    Type Of Leave</label>
+            </td>
+            <td colspan="2">
+                <label class="lblheader">
+                    Date Applying For Leave</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Total Number Of Leaves</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DropDownListFor(model => model.TypeOfLeave, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="--Select One--"},
+                                              new{Value="Medical Leave",Text="Medical Leave"},
+                                              new{Value="Casual Leave",Text="Casual Leave"},
+                                              new{Value="On Duty",Text="On Duty"},
+                                              new{Value="Privelege Leave",Text="Privelege Leave"},
+                                              new{Value="Compensatory Leave",Text="Compensatory Leave"},
+
+                                          },
+         "Value", "Text", ""), new { id = "ddlTypeOfLeave", style = "background-color: white;color: #666666;border: #006699 1px solid;font: normal 11px Verdana,Arial,sans-serif;" })
+                <span style="color: Red">*</span>
+            </td>
+            <td>
+                From : @Html.TextBoxFor(model => model.DateFrom, new { id = "StartDate", @Class = "CSSTextBox", @readonly = "true" })
+                <span style="color: Red">*</span>
+            </td>
+            <td>
+                To : @Html.TextBoxFor(model => model.DateTo, new { id = "EndDate", @Class = "CSSTextBox", @readonly = "true" })
+                <span style="color: Red">*</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.NumberOfLeaves, new { id = "txtNumberOfLeaves", @Class = "CSSTextBox", @maxlength = "48", @readonly = "true" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="lblheader">
+                    Description</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                @Html.TextAreaFor(model => model.Description, new { rows = 3, cols = 52, id = "txtDescription", @class = "CSSTextArea" })
+                @Html.HiddenFor(m => m.Description)
+                <span style="color: Red">*</span>@Html.ValidationMessageFor(model => model.Description)
+            </td>
+        </tr>
+    </table>
+    <table class="InnerTable" width="100%" id="ApplyDetails">
+        <tr align="center">
+            <td width="40%">
+            </td>
+            <td width="100%" align="center">
+                <input type="submit" id="btnSentApply" name="btnSentApply" value="Apply" />
+                <input type="button" value="Back to Inbox" id="btnBacktoInbox" />
+            </td>
+        </tr>
+    </table>
+    
+}

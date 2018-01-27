@@ -1,0 +1,148 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+<style type="text/css">
+    #relCert {
+        font-family: Arial,Verdana;
+    }
+
+    .TblCls {
+        font-size: 18px;
+    }
+
+    #empDtl {
+        font-weight: bold;
+    }
+
+    .TblClsAdd {
+        font-weight: bold;
+    }
+</style>
+
+@{
+    var pre = ""; var pre1 = "";//pre - to identify gender"Mr. or Mrs.or Miss and so", pre1 -  that refers to either a male or female "his/her"
+    if (Model.Gender == "Male")
+    {
+        pre = "Mr.";
+        pre1 = "his";
+    }
+    else
+    {
+        if (Model.MaritalStatus == "MARRIED" || Model.MaritalStatus == "Married")
+        {
+            pre = "Mrs.";
+        }
+        else
+        {
+            pre = "Ms.";
+        }
+        pre1 = "her";
+
+    }
+   
+}
+<div id="relCert">
+
+    <table width="100%" id="cerHeadTbl">
+
+        <tr>
+            <td id="cerHead">
+
+                <h3>
+                    <center><u> Letter of Appointment</u></center>
+                </h3>
+                <br />
+                <br />
+                <br />
+            </td>
+
+        </tr>
+        <tr>
+            <td style="text-align: right">@DateTime.Now.ToString("dd/MM/yyyy")</td>
+        </tr>
+
+    </table>
+    <br /><br />
+    <table class="TblClsAdd">
+        <tr>
+            <td>
+                <p>@Model.Name</p>
+                <p>@Model.Add1</p>
+                <br />
+                <br />
+                <br />
+
+            </td>
+        </tr>
+        <tr>
+            <td>Dear @Model.Name,
+            </td>
+        </tr>
+    </table>
+    <br /><br />
+    <table width="100%">
+        <tr>
+
+            <td>
+                <b><u>Sub: Offer & Appointment</u></b>
+            </td>
+        </tr>
+    </table>
+   <br />
+    <table class="TblCls">
+        <tr>
+            <td>
+                <p>With reference to your application and subsequent interview you had with us, we have the pleasure in offering you an appointment for the position of <b>@Model.Designation</b> in our institution. You will be based in our <b>The Indian Public School, @Model.Campus.</b></p>
+                <br />
+               
+                <p>The terms and conditions relating to this offer are detailed in the Annexure - A.</p>
+                <br />
+               
+                <p>As a token of your acceptance for our offer, please return the duplicate copy duly signed indicating the date by which you will be able to join us.</p>
+                <br />
+                
+                <p>
+                    We congratulate you on your appointment and wish you a long and successful career with us.</p>               
+                         
+                <br />
+                
+                <p>Thanking you,</p>
+              
+                <p>Your Truly,</p>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <br />
+    <br />
+   
+    <table class="TblCls" width="100%">
+        <tr>
+            <td><b>For The Indian Public School</b>
+
+            </td>
+           
+        </tr>
+    </table>
+   
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <table class="TblCls">
+        <tr>
+            <td>
+                <b>Authorized Signatory</b>
+
+
+
+            </td>
+        </tr>
+        @* <tr>
+        <td>The Indian Public School : Chennimalai Road, Sennapathypalayam, Goundachipalayam(PO), Erode 6381. Ph: +91 424 2330099</td>
+    </tr>*@
+    </table>
+</div>
+
+

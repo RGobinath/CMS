@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.VehicleACMaintenance" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.VehicleACMaintenance, TIPS.Entities" table="VehicleACMaintenance" lazy="true" >
+    <id name="Id" column="Id">
+      <generator class="identity" />
+    </id>
+    <property name="VehicleId">
+      <column name="VehicleId" sql-type="int" not-null="true" />
+    </property>
+    <property name="VehicleNo">
+      <column name="VehicleNo"/>
+    </property>
+    <property name="ACMaintenanceType">
+      <column name="ACMaintenanceType" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="ACBreakdownLocation">
+      <column name="ACBreakdownLocation" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="ACDateOfBreakdown">
+      <column name="ACDateOfBreakdown" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="ACModel">
+      <column name="ACModel" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="ACMaintenanceDescription">
+      <column name="ACMaintenanceDescription" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="ACPlannedDateOfService">
+      <column name="ACPlannedDateOfService" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="ACActualDateOfService">
+      <column name="ACActualDateOfService" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="ACServiceProvider">
+      <column name="ACServiceProvider" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="ACServiceCost">
+      <column name="ACServiceCost" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="ACServiceBillNo">
+      <column name="ACServiceBillNo" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="CreatedDate">
+      <column name="CreatedDate" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="CreatedBy">
+      <column name="CreatedBy" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="ACSparePartsUsed">
+      <column name="ACSparePartsUsed" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="AM_SparePartsUsedfile">
+      <column name="AM_SparePartsUsedfile" sql-type="nvarchar" not-null="false" />
+    </property>
+    
+  </class>
+</hibernate-mapping>

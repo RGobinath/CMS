@@ -1,0 +1,139 @@
+﻿@model TIPS.Entities.EnquiryEntities.EnquiryDetails
+@{
+    Layout = null;
+}
+<link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    function validate2() {
+        if (document.getElementById("EnqEmailContent").value == "") {
+            ErrMsg("Please Enter The Email Content!");
+            return false;
+        }
+    }
+
+    $(document).ready(function () {
+    });
+    var splitstr = "";
+    function resethtml2() {
+        //    alert('hre');
+        $('#clear2').html($('#clear2').html());
+        var div = document.getElementById('Attachfiles2');
+        div.innerHTML = 'Attached Files &nbsp;&nbsp;&nbsp;  ';
+        $.ajax({
+            url: '/Admission/DeleteAttachment/',
+            type: 'POST',
+            dataType: 'json',
+            traditional: true
+        });
+    }
+
+    function uploaddoc2() {
+        if (document.getElementById("file2").value == "") {
+            ErrMsg("Please Browse a Document");
+        }
+        else {
+            splitstr = splitstr + $('#file2').val().split('\\');
+
+            $.ajaxFileUpload({
+                url: '/Admission/MailAttachments2',
+                secureuri: false,
+                fileElementId: 'file2',
+                dataType: 'json',
+                success: function (data, success) {
+                    var div = document.getElementById('Attachfiles2');
+
+                    if ((div.innerHTML == 'Attached Files &nbsp;&nbsp;&nbsp;  ')) {
+                        div.innerHTML = div.innerHTML + data.result;
+                    }
+                    else {
+                        div.innerHTML = div.innerHTML + ', ' + data.result;
+                    }
+                }
+            });
+            $('#clear2').html($('#clear2').html());
+        }
+    }                                  
+</script>
+<!DO CTYPE html>
+@using (Html.BeginForm("EnquiryEmail", "Enquiry", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <html>
+    <head>
+        <title>CampusEmail</title>
+    </head>
+    <body>
+        <div style="height: 5px">
+        </div>
+        <div>
+            <table width="100%" class="InnerTable">
+                <tr>
+                    <th colspan="5" class="ui-widget-header">
+                        &nbsp;&nbsp;Send Email
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <table style="border: none" width="100%">
+                        <tr><th></th></tr>
+                            <tr>
+                                <th align="left">
+                                    @Html.HiddenFor(model => model.Campus, new { id = "ddlcampus1" })
+                                    @Html.HiddenFor(model => model.Program, new { id = "ddlProgram1" })
+                                    @Html.HiddenFor(model => model.Course, new { id = "ddlCourse1" })
+                                    @Html.HiddenFor(model => model.CourseType, new { id = "ddlCourseType1" })
+                                    @Html.HiddenFor(model => model.Batch, new { id = "ddlBatch1" })
+                                    @Html.HiddenFor(model => model.Timing, new { id = "ddlTiming1" })
+                                    @Html.HiddenFor(model => model.CourseTrack, new { id = "CourseTrack1" })
+                                    @Html.HiddenFor(model => model.StudentName, new { id = "StudentName1" })
+                                    @Html.HiddenFor(model => model.ParentName, new { id = "ParentName1" })
+                                    @Html.HiddenFor(model => model.EnquirerMobileNo, new { id = "ContactMobile1" })
+                                    @Html.HiddenFor(model => model.AdmittedRefNo, new { id = "RefNo1" })
+                                    @Html.HiddenFor(model => model.EnquiryStatus, new { id = "EnquiryStatus1" })
+                                    @Html.HiddenFor(model => model.FollowupDate1, new { id = "FollowupDate1" })
+                                    &nbsp Subject &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp @Html.TextBoxFor(model => model.Subject, new { id = "EnqSubject", @class = "CSSLengthyTextBox" })
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div id="clear2">
+                                        &nbsp Attachment &nbsp&nbsp&nbsp
+                                        <input type="file" name="file2" id="file2" value="Browse" style="height: 22px" />
+                                        <input type="button" value="Upload" onclick="uploaddoc2()" class="btnStyle"/>
+                                        <input type="button" value="Clear" onclick="resethtml2()" class="btnStyle"/></div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div id="Attachfiles2">
+                                        &nbsp Attached Files &nbsp&nbsp&nbsp
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th align="left">
+                                    &nbsp Email Content
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        &nbsp @Html.TextAreaFor(model => model.EmailContent, new { rows = 10, cols = 75, id = "EnqEmailContent", @class = "CSSTextArea" })
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    &nbsp<input type="submit" value="Send Email" onclick="return(validate2());" id="emailbtn" class="btnStyle"/>
+                                    <table id="StudentList">
+                                    </table>
+                                </td>
+                            </tr>
+                             <tr><th></th></tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+    </html>
+}

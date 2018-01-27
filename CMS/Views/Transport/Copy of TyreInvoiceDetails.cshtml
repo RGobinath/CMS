@@ -1,0 +1,366 @@
+﻿@model TIPS.Entities.TransportEntities.TyreInvoiceDetails
+@{
+    ViewBag.Title = "TyreManagement";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+        $('#PurchasedDate').datepicker().datepicker('setDate', $("#PurchasedDate").val());
+        $('#IdNum').val('@Model.Id');
+
+        jQuery("#TyreDetailsList").jqGrid({
+            url: '/Transport/TyreDetailsListJqGrid?InvoiceId=' + $("#Id").val(),
+            datatype: 'json',
+            mtype: 'POST',
+            colNames: ['Id', 'Invoice Id', 'Tyre No', 'Make', 'Model', 'Size', 'Type', 'Tube Cost', 'Tyre Cost', 'Total Cost'],
+            colModel: [
+              { name: 'Id', index: 'Id', hidden: true, key: true, editable: true },
+              { name: 'InvoiceId', index: 'InvoiceId', hidden: true, editable: true },
+              { name: 'TyreNo', index: 'TyreNo', editable: true },
+              { name: 'Make', index: 'Make', editable: true },
+              { name: 'Model', index: 'Model', editable: true, edittype: 'select', editrules: { required: true },
+                  editoptions: { value: ":Select;Tube:Tube;Tubeless:Tubeless",
+                      dataEvents: [
+                                            { type: 'change',
+                                                fn: function (e) {
+                                                    debugger;
+                                                    CalculateTotalCost();
+                                                }
+                                            }
+                                                ]
+                  }
+              },
+              { name: 'Size', index: 'Size', editable: true },
+              { name: 'Type', index: 'Type', editable: true, stype: 'select', edittype: 'select', editrules: { required: true }, editoptions: { value: ":Select;New:New;Retreaded:Retreaded"} },
+              { name: 'TubeCost', index: 'TubeCost', editable: true, editoptions: {
+                  dataEvents: [
+                                            { type: 'keyup',
+                                                fn: function (e) {
+                                                    debugger;
+                                                    CalculateTotalCost();
+                                                }
+                                            }
+                                                ]
+              }
+              },
+              { name: 'TyreCost', index: 'TyreCost', editable: true, editoptions: {
+                  dataEvents: [
+                                            { type: 'keyup',
+                                                fn: function (e) {
+                                                    debugger;
+                                                    CalculateTotalCost();
+                                                }
+                                            }
+                                                ]
+              }
+              },
+              { name: 'TotalCost', index: 'TotalCost', editable: true, editrules: { required: true }, editoptions: { readonly: true, style: "background-color:#f5f5f5"} },
+               ],
+            pager: '#TyreDetailsListPager',
+            rowNum: '50',
+            rowList: [50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: 'asc',
+            height: '200',
+            width: 1225,
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: 'Tyre Details',
+            forceFit: true,
+            gridview: true,
+            multiselect: true,
+            footerrow: true,
+            loadComplete: function () {
+                debugger;
+                jQuery("#TyreDetailsList").trigger("reloadGrid");
+                var $self = $(this),
+                TubeCost = parseFloat($self.jqGrid("getCol", "TubeCost", false, "sum")).toFixed(2);
+                TyreCost = parseFloat($self.jqGrid("getCol", "TyreCost", false, "sum")).toFixed(2);
+                TotalCost = parseFloat($self.jqGrid("getCol", "TotalCost", false, "sum")).toFixed(2);
+                $self.jqGrid("footerData", "set", { '': '', '': '', '': '', '': '', '': '', '': '', '': '', TubeCost: TubeCost, TyreCost: TyreCost, TotalCost: TotalCost });
+                $("#TotalCost1").val(TotalCost);
+                $("#TaxPercentage").keyup();
+                $("#OtherExpenses").keyup();
+            }
+        });
+        jQuery("#TyreDetailsList").navGrid('#TyreDetailsListPager', { add: true, edit: true, del: false, search: false, refresh: false },
+         { width: 'auto', url: '/Transport/AddTyreDetails?test=edit' },
+         { width: 'auto', url: '/Transport/AddTyreDetails'
+         , beforeSubmit: function (postdata, formid) {
+             debugger;
+             postdata.InvoiceId = $("#IdNum").val();
+             return [true, ''];
+         }
+         });
+
+        $("#btnSave").click(function () {
+            var Campus = $("#Campus").val();
+            var PurchasedDate = $("#PurchasedDate").val();
+            var PurchasedFrom = $("#PurchasedFrom").val();
+            var PurchasedBy = $("#PurchasedBy").val();
+            var InvoiceNo = $("#InvoiceNo").val();
+            if (Campus == '' || PurchasedDate == '' || PurchasedFrom == '' || PurchasedBy == '' || InvoiceNo == '') {
+                ErrMsg("Please fill all Mandatory fields.");
+                return false;
+            }
+        });
+
+        $("#btnBack").click(function () {
+            window.location.href = '@Url.Action("TyreManagement", "Transport")';
+        });
+        debugger;
+        if (parseInt($("#Id").val()) == 0) {
+            //  $("#add_TyreDetailsList").prop("disabled", true);
+            //  $("#edit_TyreDetailsList").prop("disabled", true);
+            $("#add_TyreDetailsList").hide();
+            $("#edit_TyreDetailsList").hide();
+        }
+        //        else {
+        //            $("#add_TyreDetailsList").attr("disabled", false);
+        //            $("#edit_TyreDetailsList").attr("disabled", false);
+        //        }
+
+        $("#btnComplete").click(function () {
+            var RecordCount = jQuery("#TyreDetailsList").jqGrid('getGridParam', 'records');
+            if (RecordCount == 0) {
+                ErrMsg("Empty items cannot be completed. Please add tyre details.");
+                return false;
+            }
+            if (confirm("Are you sure to Complete?") == false)
+                return false;
+        });
+        $("#TotalCost").keyup(function (TotalCost) {
+            debugger;
+            $("#TotalCost").val(TotalCost);
+        });
+        $("#TaxPercentage").keyup(function () {
+            debugger;
+            if ($(this).val() != '') {
+                $("#TaxAmount").val(((parseFloat($(this).val()) * parseFloat($("#TotalCost1").val()))) / 100);
+                $("#RoundedOffCost").val((parseFloat($("#TotalCost1").val()) + parseFloat($("#TaxAmount").val()) + ($("#OtherExpenses").val() != '' ? parseFloat($("#OtherExpenses").val()) : 0)).toFixed(2));
+            }
+            else {
+                $("#TaxAmount").val(0);
+                $("#RoundedOffCost").val((parseFloat($("#TotalCost1").val()) + ($("#OtherExpenses").val() != '' ? parseFloat($("#OtherExpenses").val()) : 0)).toFixed(2));
+            }
+        });
+        $("#OtherExpenses").keyup(function () {
+            debugger;
+            if ($(this).val() != '')
+                $("#RoundedOffCost").val((parseFloat($("#TotalCost1").val()) + parseFloat($("#TaxAmount").val()) + parseFloat($(this).val())).toFixed(2));
+            else
+                $("#RoundedOffCost").val((parseFloat($("#TotalCost1").val()) + parseFloat($("#TaxAmount").val())).toFixed(2));
+        });
+        $("#VendorSearch").click(function () {
+//            var Id = $("#Id").val();
+//            if (Id == 0) {
+//                ErrMsg("Please Save");
+//                return false;
+//            }
+            $("#TransportVendorList").jqGrid('resetSelection');
+            LoadPopupDynamicaly("/Transport/ChooseTransportVendor", $('#DivVendorSearch'),
+            function () {
+                LoadSetGridParam($('#TransportVendorList'), "/Transport/TransportVendorMasterListJqGrid")
+            }, "", 1000);
+        });
+    });
+   
+    function ValidateAndSave() {
+        var objInvoiceDetails = {
+            Campus: $("#Campus").val(),
+            PurchasedDate: $("#PurchasedDate").val(),
+            PurchasedFrom: $("#PurchasedFrom").val(),
+            PurchasedBy: $("#PurchasedBy").val(),
+            InvoiceNo: $("#InvoiceNo").val()
+        }
+        $.ajax({
+            url: '/Transport/SaveTyreInvoiceDetails',
+            type: 'POST',
+            dataType: 'json',
+            data: objInvoiceDetails,
+            traditional: true,
+            success: function (data) {
+                $("#Id").val(data);
+                //                $('#Id').val(data.substring(data.lastIndexOf("-") + 1, data.length));
+            },
+            error: function (xhr, status, error) {
+                ErrMsg($.parseJSON(xhr.responseText).Message);
+            }
+        });
+    }
+
+    function CalculateTotalCost() {
+        debugger;
+        if ($("#Model").val() != '' && $("#Model").val() == "Tube")
+            $("#TotalCost").val(($("#TubeCost").val() != '' ? parseFloat($("#TubeCost").val()) : 0) + ($("#TyreCost").val() != '' ? parseFloat($("#TyreCost").val()) : 0));
+        else {
+            $("#TubeCost").val('');
+            $("#TotalCost").val($("#TyreCost").val() != '' ? parseFloat($("#TyreCost").val()) : 0);
+        }
+    }
+</script>
+@using (Html.BeginForm("TyreInvoiceDetails", "Transport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h3>
+        Tyre Invoice Details</h3>
+    <table width="100%" class="WithBorderOnly">
+        <tr class="PanelHeading">
+            <td colspan="7" class="PanelHeading">
+                Invoice Details
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="lblheader">
+                    Ref No</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Campus</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Purchase Date</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Purchased From</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Purchased By</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Invoice No</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Status</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @*@Html.TextBoxFor(m => m.RefNo, new { @class = "CSSTextBox", @readonly = true })*@
+                @if (Model != null && Model.RefNo != null)
+                {
+                    @Model.RefNo
+                }
+                @Html.HiddenFor(m => m.Id)
+                @Html.Hidden("IdNum")
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.Campus, new { @class = "CSSTextBox", @readonly = true, @style = "Background-color:f5f5f5" })
+                <span style="color: Red">*</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.PurchasedDate, new { @class = "datetimepicker" })
+                <span style="color: Red">*</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.PurchasedFrom, new { @class = "CSSTextBox", @readonly = true, @style = "Background-color:f5f5f5" })
+                <a id="VendorSearch" style="cursor:pointer;"><i class="fa fa-search"></i></a>
+                <span style="color: Red">*</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.PurchasedBy, new { @class = "CSSTextBox" })
+                <span style="color: Red">*</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.InvoiceNo, new { @class = "CSSTextBox" })
+                <span style="color: Red">*</span>
+            </td>
+            <td>
+                @Model.Status
+                @Html.HiddenFor(m => m.Status)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="lblheader">
+                    Payment Type</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Total Cost</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Tax %</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Tax Amount</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Other Expenses</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Round Off Cost</label>
+            </td>
+            @*<td>
+                <label class="lblheader">
+                    Payable Cost</label>
+            </td>*@
+        </tr>
+        <tr>
+            <td>
+                @Html.DropDownListFor(m => m.PaymentType, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select"},
+                                              new{Value="Credit",Text="Credit"},
+                                              new{Value="Paid",Text="Paid"},
+                                          },
+                     "Value", "Text", ""), new { @Class = "CSSDropDownList" })
+                <span style="color: Red">*</span> @*@Html.TextBoxFor(m => m.PaymentType, new { @class = "CSSTextBox" })*@
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.TotalCost, new {id="TotalCost1", @class = "CSSTextBox", @readonly = true, @style = "Background-color:f5f5f5" })
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.TaxPercentage, new { @class = "CSSTextBox" })
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.TaxAmount, new { @class = "CSSTextBox", @readonly = true, @style = "Background-color:f5f5f5" })
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.OtherExpenses, new { @class = "CSSTextBox" })
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.RoundedOffCost, new { @class = "CSSTextBox", @readonly = true, @style = "Background-color:f5f5f5" })
+            </td>
+            @*<td>
+                @Html.TextBoxFor(m => m.PayableCost, new { @class = "CSSTextBox" })
+            </td>*@
+        </tr>
+        <tr>
+            <td colspan="7">
+                <table id="TyreDetailsList" class="WithBorderOnly" width="100%">
+                </table>
+                <div id="TyreDetailsListPager">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" id="btnSave" name="btnSave" value="Save">
+                    Save
+                </button>
+                <button type="submit" id="btnComplete" name="btnComplete" value="Complete">
+                    Complete
+                </button>
+            </td>
+            <td>
+                <input type="button" id="btnBack" value="<<Back to Inbox" />
+            </td>
+            <td>
+                <span style="color: Red">*</span>&nbsp&nbsp&nbsp&nbsp Mandatory Fields
+            </td>
+        </tr>
+    </table>
+}
+<div id="DivVendorSearch"></div>

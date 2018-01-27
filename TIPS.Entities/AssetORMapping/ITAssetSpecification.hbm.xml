@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.ITAssetSpecification" namespace="TIPS.Entities.ITAssetSpecification" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.ITAssetSpecification, TIPS.Entities" table="ITAssetSpecification" lazy="false" >
+    <id name="Spec_Id" column="Spec_Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="Specification" column="Specification" type="string"></property>
+    <property name="Description" column="Description" type="string"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime" />
+  </class>
+</hibernate-mapping>

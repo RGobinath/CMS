@@ -1,0 +1,60 @@
+﻿@{
+    //ViewBag.Title = "StaffIdCard";
+    Layout = null;
+}
+
+<html>
+<head>
+    <title>Staff Id Card</title>
+    <script>
+        function printpage() {
+            window.print();
+        }
+
+        $(document).ready(function () {
+            //  alert('here');
+        });
+
+        function back() {
+            window.location.href = "/StaffManagement/PrintStaffIdCard";
+        }
+    </script>   
+    <style type="text/css" media="print">
+        
+    </style>
+</head>
+<body>
+    <div>
+        <table>
+            @Html.Raw(ViewBag.StaffIdHtmlTag)
+        </table>
+    </div>
+    <br />
+    <input type="button" value="Print this page" onclick="printpage()" />
+    &nbsp&nbsp&nbsp&nbsp&nbsp
+    <input type="button" value="Back" onclick="back()" />
+</body>
+</html>
+<style>
+   label {
+        font-family:Calibri;
+        font-size:11pt;
+        font-weight:bold;
+    }
+    #onbottom {
+        /*width:400px;*/
+        height:50px;
+        background-image:url("../../Images/StaffIdBottom.jpg");
+        font-size:7.5pt;
+        color:white;
+        background-size:350px 44px;
+        background-repeat:no-repeat;
+        text-align:center;
+        font-family:Calibri;
+        padding-top:4px;
+        /*page-break-inside: avoid;*/
+    }
+    table {
+        font-size:13px;        
+    }    
+</style>

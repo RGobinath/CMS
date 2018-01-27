@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.StaffAttendanceNewStatus" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.StaffAttendanceNewStatus,TIPS.Entities" table="StaffAttendanceNewStatus" lazy="true" >
+    <id name="StaffStatus_Id" column="StaffStatus_Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="StaffName" column="StaffName" type="string"></property>
+    <property name="IdNumber" column="IdNumber" type="string"></property>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"></property>
+    <property name="StaffStatus" column="StaffStatus" type="string"></property>
+    <property name="DateOfLongLeaveAndResigned" column="DateOfLongLeaveAndResigned" type="datetime"></property>
+    <property name="ToDateOfLongLeaveAndResigned" column="ToDateOfLongLeaveAndResigned" type="string"></property>
+    <property name="Remarks" column="Remarks" type="string"></property>
+    <property name="DateOfCreated" column="DateOfCreated" type="datetime"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    
+  </class>
+</hibernate-mapping>

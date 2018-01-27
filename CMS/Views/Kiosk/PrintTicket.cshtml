@@ -1,0 +1,379 @@
+﻿@{
+    ViewBag.Title = "Ticket";
+    Layout = "~/Views/Shared/Kiosk_Layout.cshtml";
+    //Layout = null;
+}
+@model TIPS.Entities.AdmissionEntities.StudentTemplate
+<style>
+    .newbanner {
+        position: relative;
+        /*padding: 20% 0 15% 0;*/
+        padding-top: 10%;
+    }
+
+    .buttonnew {
+        /*margin-bottom:15px*/
+        padding-top: 5%;
+        margin-left: 390px;
+    }
+
+    .btn {
+        margin-bottom: 31px!important;
+    }
+
+    .btn-primary {
+        /*text-transform: uppercase;*/
+        font-weight: 300;
+        color: #fff;
+        width: 120px;
+        font-size: 25px;
+        border-color: #28ABE3;
+        background-color: #28ABE3;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        -o-border-radius: 3px;
+        /*border-radius: 3px;*/
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition: all 0.3s;
+    }
+
+    .form-style-5 input[type="button"] {
+        position: relative;
+        /*display: block;*/
+        padding: 19px 39px 18px 39px;
+        color: #FFF;
+        margin: 0 auto;
+        background: #28abe3;
+        font-size: 18px;
+        text-align: center;
+        font-style: normal;
+        /*width: 20%!important;*/
+        border: 1px solid #b7c0df;
+        border-width: 1px 1px 3px;
+        margin-bottom: 10px;
+    }
+</style>
+
+
+
+
+
+<title>Print Page</title>
+
+
+<script src="@Url.Content("~/Scripts/jquery-1.7.2.js")" type="text/javascript"></script>
+
+<script src='@Url.Content("~/Scripts/JQueryUI/jquery-ui-1.8.22.custom.min.js")'type="text/javascript"></script>
+<link rel="stylesheet" href="@Url.Content("~/assets/css/font-awesome.min.css")" type="text/css" />
+<!-- page specific plugin styles -->
+<link rel="stylesheet" href="@Url.Content("~/assets/css/jquery-ui.min.css")" type="text/css" />
+<link rel="stylesheet" href="@Url.Content("~/assets/css/ace.min.css")" id="main-ace-style" type="text/css" />
+<script src="@Url.Content("~/assets/js/ace-extra.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/assets/js/bootstrap.min.js")" type="text/javascript"></script>
+
+<script src="@Url.Content("~/assets/js/AceJQMsg.js")"  type="text/javascript"></script>
+
+<h2 class="headclass">Enquiry Ticket</h2>
+@if (ViewBag.devicetype == "Desktop")
+{
+    <div class="form-style-5" style="margin-top: 10px">
+
+
+
+        <fieldset>
+            <legend><span class="number">2</span> <b style="font-size: x-large">Enquiry Info</b></legend>
+
+            <div style="margin-left: 25px; text-align: center; margin-top: 134px; font-size: 16px">
+                <span>Enquiry Number for your child
+                    <c style="color: #cd0aef;">"@Model.Name" </c>
+                    is
+                    <d style="color: #E91E63;">"@Model.ApplicationNo"</d>
+                    .
+                    <br>
+                    <br>
+                    &nbsp;</span>Our team will reach you soon.
+            </div>
+
+
+            <input type="Submit" class="btn-primary" onclick="printpage()" value="Print" id="btnsubmit" style="margin-left: 392px; margin-top: 45px; width: 15%">
+
+            <input type="Submit" class="btn-primary" style="margin-left: 20px; width: 15%" onclick="    home()" value="Close" id="close">
+        </fieldset>
+        <div style="margin-top: 1px; padding-left: 500px; font-size: 15px; margin-bottom: 50px;">(Please take a printout)</div>
+
+    </div>
+}
+else
+{
+    <div class="form-style-5" style="margin-top: 10px">
+
+
+
+        <fieldset>
+            <legend><span class="number">2</span> <b style="font-size: x-large">Enquiry Info</b></legend>
+
+            <div style="margin-left: 25px; text-align: center; margin-top: 134px; font-size: 16px">
+                <span>Enquiry Number for your child
+                    <c style="color: #cd0aef;">"@Model.Name" </c>
+                    is
+                    <d style="color: #E91E63;">"@Model.ApplicationNo"</d>
+                    .
+                    <br>
+                    <br>
+                    &nbsp;</span>Our team will reach you soon.
+            </div>
+            <input type="Submit" class="btn-primary" style="text-align:center; width: 15%" onclick="    home()" value="Close" id="close1">
+        </fieldset>
+
+    </div>
+      
+}
+
+
+
+
+
+
+
+@*</form>*@
+
+<script>
+    function printpage() {
+        //window.print();
+        CallPrintBill(0);
+    }
+
+    $(document).ready(function () {
+        //  alert('here');
+    });
+
+    function home() {
+        window.location.href = "/kiosk/Index";
+    }
+    function CallPrintBill(selectedrow) {
+
+        @* var WinPrint = window.open('', '', 'left=0,top=0,width=0,height=0,toolbar=1,scrollbars=1,status=0');
+        WinPrint.document.write('<html><head>');
+        WinPrint.document.write('<style>.font {font-size: 10px; font-family: verdana; }</style>');
+        WinPrint.document.write('<style>.Class {font-size: 15px;text-align:center;border: 1px solid black;border-collapse: collapse; font-family: verdana; }</style>');
+        WinPrint.document.write('</head><body onLoad="self.print();self.close();">');
+        
+        WinPrint.document.write('<table width=80%><tr><td><img src="@Url.Content("~/Images/logonace.jpg")" alt="" height=60 width=150></td><td ><img src="@Url.Content("~/kiosk/Images/Tipslogo.png")"  alt="" height=90 width=150 style="margin-left:100%;margin-top:2px"></tr></table>')
+        WinPrint.document.write('<center>');
+        WinPrint.document.write(' <table style="width:100% ;margin-top: 20px;">');
+        WinPrint.document.write(' <tr>');
+        WinPrint.document.write('    <th>The Indian Public School</th>');
+        WinPrint.document.write('  </tr>');
+        WinPrint.document.write(' <tr>');
+        WinPrint.document.write(' <td style="text-align:center;">Phone: 0422 - 2366666, 6472222</td>');
+        WinPrint.document.write('  </tr>');
+        //WinPrint.document.write('<tr>  <td style="text-align:center;">ViewBag.Campus</td></tr>');
+        WinPrint.document.write(' <tr>  <td style="text-align:center;">----------------------------------------------------------------------------------------</td></tr>');
+        WinPrint.document.write('</table>');
+        WinPrint.document.write('</center>');
+        WinPrint.document.write('<tr><td>');
+        WinPrint.document.write('<table style="margin-Left: 138px;"><tr>');
+        WinPrint.document.write('<td>');
+        WinPrint.document.write('Dear Parent, ');
+        WinPrint.document.write('</td>');
+        WinPrint.document.write('</tr></table>');
+        WinPrint.document.write('</tr></td>');
+        WinPrint.document.write('<center>');
+        WinPrint.document.write('<p style="margin-top: 20px;margin-left:100px">Thanks for your enquiry and your enquiry number is <b>@Model.ApplicationNo</b>.</p>');
+        WinPrint.document.write('<table class="Class" style="width:60%;margin-top: 30px;"cellpadding="10" >');
+        WinPrint.document.write('  <tr class="Class">');
+        WinPrint.document.write('    <th class="Class" >Name</th>');
+        WinPrint.document.write('    <td class="Class" >@Model.Name</td>');
+        WinPrint.document.write('</tr>');
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">Grade</th>');
+        WinPrint.document.write(' <td  class="Class">@Model.Grade</td>');
+        WinPrint.document.write('</tr>');
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">Academic Year</th>');
+        WinPrint.document.write(' <td  class="Class">@Model.JoiningAcademicYear</td>');
+        WinPrint.document.write('</tr>');
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">Campus</th>');
+        WinPrint.document.write(' <td  class="Class">@ViewBag.Institution</td>');
+        WinPrint.document.write('</tr>');
+
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">Father Name</th>');
+        WinPrint.document.write(' <td  class="Class">@ViewBag.FatherName</td>');
+        WinPrint.document.write('</tr>');
+
+
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">Mother Name</th>');
+        WinPrint.document.write(' <td  class="Class">@ViewBag.MotherName</td>');
+        WinPrint.document.write('</tr>');
+
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">Mobile</th>');
+        WinPrint.document.write(' <td  class="Class">@ViewBag.Phone</td>');
+        WinPrint.document.write('</tr>');
+
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">Alt Mobile</th>');
+        WinPrint.document.write(' <td  class="Class">@ViewBag.AltMobile</td>');
+        WinPrint.document.write('</tr>');
+
+
+
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">Email Id</th>');
+        WinPrint.document.write(' <td  class="Class">@ViewBag.Email</td>');
+        WinPrint.document.write('</tr>');
+
+
+
+        WinPrint.document.write('</table>');
+
+
+        WinPrint.document.write('<table style="width:60%;margin-top: 10px;margin-left:5px"cellpadding="10" >');
+
+        WinPrint.document.write('<tr>');
+        WinPrint.document.write('<td>Admission Team comments:</td>');
+
+        WinPrint.document.write('</tr>');
+        WinPrint.document.write('<tr>');
+        WinPrint.document.write(' <td  class="Class" style="width:35%;height:120px"></td>');
+        WinPrint.document.write('</tr>');
+
+        WinPrint.document.write('</table>');
+
+        WinPrint.document.write('</table>');
+
+        WinPrint.document.write('</center></body></html>');
+        WinPrint.document.close();
+        WinPrint.focus();
+
+        *@
+
+        var WinPrint = window.open('', '', 'left=0,top=0,width=0,height=0,toolbar=1,scrollbars=1,status=0');
+        WinPrint.document.write('<html><head>');
+        WinPrint.document.write('<style>.font {font-size: 15px; font-family: verdana; }.content{font-size: 13px; font-family: verdana;}.Class {font-size: 13px;text-align:left;border: 1px solid black;border-collapse: collapse; font-family: verdana; }</style>');
+        WinPrint.document.write('</head><body onLoad="self.print();self.close();">');
+        WinPrint.document.write(' <table style="width:100% ;font-size:15px;">');
+        WinPrint.document.write('<table width=70% style="margin-left:45px;"><tr><td style="margin-left:10px;margin-top:25px"><img src="@Url.Content("~/Images/logonace.jpg")" alt="" height=45 width=150></td><td ><img src="@Url.Content("~/kiosk/Images/Tipslogo.png")"  alt="" height=80 width=150 style="margin-left:90%;margin-top:2px"></tr></table>')
+        WinPrint.document.write('<center>');
+        WinPrint.document.write(' <table class="font" style="width:100% ;margin-top: 20px;">');
+        WinPrint.document.write(' <tr>');
+        WinPrint.document.write('    <th class="font" style="font-size:23px">The Indian Public School</th>');
+        WinPrint.document.write('  </tr>');
+        WinPrint.document.write(' <tr>');
+        WinPrint.document.write(' <th class="font" style="text-align:center;">Phone: 0422 - 2366666, 6472222</th>');
+        WinPrint.document.write('  </tr>');
+        WinPrint.document.write(' <tr>');
+        WinPrint.document.write(' <th class="font" style="text-align:center;">Email: askcbemain@tipsglobal.net , Website: www.tipsglobal.org</th>');
+        WinPrint.document.write('  </tr>');
+        //WinPrint.document.write('<tr>  <td style="text-align:center;">ViewBag.Campus</td></tr>');
+        WinPrint.document.write(' <tr>  <td style="text-align:center;">-----------------------------------------------------------------------------------------</td></tr>');
+        WinPrint.document.write('</table>');
+        WinPrint.document.write('</center>');
+
+        WinPrint.document.write(' <table class="content" style="width:20% ;margin-top: 20px;margin-left:58px;">');
+        WinPrint.document.write(' <tr>');
+        WinPrint.document.write('    <td >Dear Parent,</td>');
+        WinPrint.document.write('  </tr>');
+        WinPrint.document.write('</table>');
+
+        WinPrint.document.write(' <table class="content" style="width:85% ;margin-top: 20px;margin-left:58px;font-sixze:14px;">');
+        WinPrint.document.write(' <tr>');
+        WinPrint.document.write('    <td ><p>Thanks for your enquiry and your enquiry number is <b>@Model.ApplicationNo</b>.</p></td>');
+        WinPrint.document.write('  </tr>');
+        WinPrint.document.write('</table>');
+
+        WinPrint.document.write('<center>');
+        WinPrint.document.write('<table class="Class" style="width:60%;margin-top: 30px;"cellpadding="10" >');
+        WinPrint.document.write('  <tr class="Class">');
+        WinPrint.document.write('    <th class="Class" >Name</th>');
+        WinPrint.document.write('    <td class="Class" >@Model.Name</td>');
+        WinPrint.document.write('</tr>');
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">DOB</th>');
+        WinPrint.document.write(' <td  class="Class">@Model.DOB</td>');
+        WinPrint.document.write('</tr>');
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">Grade</th>');
+        WinPrint.document.write(' <td  class="Class">@Model.Grade</td>');
+        WinPrint.document.write('</tr>');
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">Academic Year</th>');
+        WinPrint.document.write(' <td  class="Class">@Model.JoiningAcademicYear</td>');
+        WinPrint.document.write('</tr>');
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">Campus</th>');
+        WinPrint.document.write(' <td  class="Class">@ViewBag.Institution</td>');
+        WinPrint.document.write('</tr>');
+
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">Father Name</th>');
+        WinPrint.document.write(' <td  class="Class">@ViewBag.FatherName</td>');
+        WinPrint.document.write('</tr>');
+
+
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">Mother Name</th>');
+        WinPrint.document.write(' <td  class="Class">@ViewBag.MotherName</td>');
+        WinPrint.document.write('</tr>');
+
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">Mobile</th>');
+        WinPrint.document.write(' <td  class="Class">@ViewBag.Phone</td>');
+        WinPrint.document.write('</tr>');
+
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">Alt Mobile</th>');
+        WinPrint.document.write(' <td  class="Class">@ViewBag.AltMobile</td>');
+        WinPrint.document.write('</tr>');
+
+
+
+        WinPrint.document.write('<tr class="Class">');
+        WinPrint.document.write('<th class="Class">Email Id</th>');
+        WinPrint.document.write(' <td  class="Class">@ViewBag.Email</td>');
+        WinPrint.document.write('</tr>');
+
+
+
+        WinPrint.document.write('</table>');
+
+
+        WinPrint.document.write('<table style="width:60%;margin-left:5px"cellpadding="10" >');
+
+        WinPrint.document.write('<tr>');
+        WinPrint.document.write('<td>Admission Team comments:</td>');
+
+        WinPrint.document.write('</tr>');
+        WinPrint.document.write('<tr>');
+        WinPrint.document.write(' <td  class="Class" style="width:35%;height:70px"></td>');
+        WinPrint.document.write('</tr>');
+        WinPrint.document.write('</table>');
+        WinPrint.document.write('</center>');
+
+
+        WinPrint.document.write('<tr>');
+        WinPrint.document.write(' <p style="margin-left:58px;font-sixze:14px;">For additional information,Contact: <b>Ms.Sita (Head of admission)@@95002-40111</b></p>');
+        //WinPrint.document.write(' <p style="margin-left:154px">contact: <b>Ms.Sita (Head of admission)</b></p>');
+        //WinPrint.document.write(' <p style="margin-left:154px">Phone  : 95002-40111.</p>');
+        WinPrint.document.write('</tr>');
+
+
+        WinPrint.document.write('</table>');
+        WinPrint.document.close();
+        WinPrint.focus();
+
+
+    }
+
+    (function () {
+        setTimeout(function () {
+            window.location.href = "@Url.Content("/Kiosk/Index")";
+        }, 420000);
+    })();
+
+</script>

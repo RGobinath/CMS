@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.HostelMgntEntities.HostelMasters_Vw" namespace="TIPS.Entities.HostelMgntEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.HostelMgntEntities.HostelMasters_Vw, TIPS.Entities" table="HostelMasters_Vw" lazy="false" >
+    <id name="HstlMst_Id" column="HstlMst_Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="HostelName" column="HostelName" type="string"/>
+    <property name="HostelType" column="HostelType" type="string"/>
+    <property name="Campus" column="Campus" type="string"/>
+    <property name="Rooms" column="Rooms" type="Int64"/>
+    <property name="Beds" column="Beds" type="Int64"/>
+     <property name="Floor" column="Floor" type="string"/>
+    <property name="InCharge" column="InCharge" type="string"/>
+  </class>
+</hibernate-mapping>

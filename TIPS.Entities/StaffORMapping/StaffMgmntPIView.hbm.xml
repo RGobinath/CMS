@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.StaffEntities.StaffMgmntPIView" namespace="TIPS.Entities.StaffEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffEntities.StaffMgmntPIView, TIPS.Entities" table="StaffManagement" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="IssueGroup" column="IssueGroup" type="string"></property>
+    <property name="IssueType" column="IssueType" type="string"></property>
+    <property name="Description" column="Description" type="string"></property>
+    <property name="IssueNumber" column="IssueNumber" type="string"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="ActivityFullName" column="ActivityFullName" type="string"></property>
+    <property name="UserRoleName" column="UserRoleName" type="string"></property>
+    <property name="InstanceId" column="InstanceId" type="long"></property>
+    <property name="BranchCode" column="BranchCode" type="string"></property>
+    <property name="DeptCode" column="DeptCode" type="string"></property>
+    <property name="IsIssueCompleted" column="IsIssueCompleted" type="boolean"></property>
+    <property name="Resolution" column="Resolution" type="string"></property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,308 @@
+﻿@model TIPS.Entities.AdmissionEntities.TCRequestDetails
+@{
+    ViewBag.Title = "TCRequest";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+@using (Html.BeginForm("TCRequest", "Admission", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="page-content">
+        <!-- /section:settings.box -->
+        <div class="page-content-area">
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue collapsed">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                &nbsp;<i class="fa fa-globe"></i> Basic Details
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <br />
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <b>Student Name</b><br />
+                                            @Model.Name&nbsp;@Model.Initial
+                                            @Html.HiddenFor(model => model.Id)
+                                            @Html.HiddenFor(model => model.Name)
+                                            @Html.HiddenFor(model => model.Initial)
+                                            @Html.HiddenFor(model => model.PreRegNum)
+                                            @Html.HiddenFor(model => model.CreatedBy)
+                                            @Html.HiddenFor(model => model.CreatedDate)
+                                            @Html.HiddenFor(model => model.ModifiedBy)
+                                            @Html.HiddenFor(model => model.ModifiedDate)
+
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Id Number</b><br />
+                                            @Model.NewId
+                                            @Html.HiddenFor(model => model.NewId)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Campus</b><br />
+                                            @Model.Campus
+                                            @Html.HiddenFor(model => model.Campus)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Grade</b><br />
+                                            @Model.Grade
+                                            @Html.HiddenFor(model => model.Grade)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>AcademicYear</b><br />
+                                            @Model.AcademicYear
+                                            @Html.HiddenFor(model => model.AcademicYear)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Request Status</b><br />
+                                            @Model.Status
+                                            @Html.HiddenFor(model => model.Status)
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding: 0px">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                &nbsp;<i class="fa fa-user-md"></i>TC Details
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <br />
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <b>TC Requested Date</b><br />
+                                            @Html.TextBoxFor(model => model.TCRequestedDate, new { @Class = "form-control input-sm date-picker", @Readonly = "Readonly" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>TC Required on</b><br />
+                                            @Html.TextBoxFor(model => model.TCRequiredOnDate, new { @Class = "form-control input-sm date-picker", @Readonly = "Readonly" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Is NoDues Form</b><br />
+                                            @Html.DropDownListFor(model => model.IsNoDueForm, new SelectList(new[]{
+                                           new { Value = "", Text = "Select One" },
+                                           new { Value = "true", Text = "Yes" },
+                                           new { Value = "false", Text = "No" }
+                                            }, "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>NoDues FormDate</b><br />
+                                            @Html.TextBoxFor(model => model.NoDueFormDate, new { @Class = "form-control input-sm date-picker", @Readonly = "Readonly" })
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <b>Short Reson For TC Request</b><br />
+                                            @Html.DropDownListFor(model => Model.ReasonForTCRequest, new SelectList(ViewBag.ReasonForLeaving, "RelievingReason", "RelievingReason"), "Select Reason", new {id="ddlReasonForTCRequest", @Class = "form-control select-sm" })
+                                            @Html.HiddenFor(model=>model.ReasonForTCRequest)
+                                            @Html.HiddenFor(model=>model.IsOtherReason)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2" id="othrReason">
+                                                <b>Other Reason</b>
+                                            @Html.TextBox("otherReason","", new { @Class = "form-control input-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Is Counseling Needed</b><br />
+                                            @Html.DropDownListFor(model => model.IsNoDueForm, new SelectList(new[]{
+                                           new { Value = "", Text = "Select One" },
+                                           new { Value = "true", Text = "Yes" },
+                                           new { Value = "false", Text = "No" }
+                                            }, "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Counseling Date</b><br />
+                                            @Html.TextBoxFor(model => model.NoDueFormDate, new { @Class = "form-control input-sm date-picker", @Readonly = "Readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue collapsed">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-upload bigger-110"></i>&nbsp;Documents Upload
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-3">
+                                    <b>Document Type</b><br />
+                                    @Html.DropDownListFor(model => model.DocumentType, new SelectList(new[]
+                                          {
+                                              new{Value=" ",Text="Select One"},
+                                              new{Value="Letter",Text="Letter"},
+                                              new{Value="Mail",Text="Mail"},
+                                          }, "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                    <br />
+                                    <input type="file" name="file1" id="file1" />
+                                    <br />
+                                    <button class="btn btn-block btn-warning" type="submit" id="Upload" name="DocUpload" value="Upload">
+                                        <i class="ace-icon fa fa-upload bigger-110"></i>Upload</button>
+                                </div>
+                                <div class="col-sm-9">
+                                    <table id="Uploadedfileslist">
+                                    </table>
+                                    <div id="uploadedfilesgridpager">
+                                    </div>
+                                    <br />
+                                </div>
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="fa fa-pencil-square-o"></i>&nbsp;Comments Section
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <br />
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-4">
+                                            <b>Coordinator Comments</b>
+                                            @Html.TextAreaFor(model => model.CoordComments, new { rows = 1, cols = 45, @class = "form-control select-sm", @style = "resize:vertical;" })
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <b>Admission Coordinator Comments </b>
+                                            @Html.TextAreaFor(model => model.ADMCordComments, new { rows = 1, cols = 45, id = "txtResolution", @class = "form-control select-sm", @style = "resize:vertical;" })
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <b>Religion Coordinator Comments</b>
+                                            @Html.TextAreaFor(model => model.RCordComments, new { rows = 1, cols = 45, id = "txtResolution", @class = "form-control select-sm", @style = "resize:vertical;" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding: 0px">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                &nbsp;<i class="fa fa-user-md"></i>Student DisContinue Details
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <br />
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <b>Class To Which Admitted</b>
+                                            @Html.DropDownListFor(model => Model.AdmittedClass, new SelectList(ViewBag.gradeddl, "gradcod", "gradcod"), "Select One", new { id = "admittedclass", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Last Date Of Attendance</b>
+                                            @Html.TextBoxFor(model => model.LastDateOfAttendance, new { id = "lastdate", @Class = "form-control select-sm date-picker", @maxlength = "10" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>General Conduct</b>
+                                            @Html.DropDownListFor(model => model.Conduct, new SelectList(new[]
+                                             {
+                                                 new{Value="",Text="Select One"},
+                                                 new{Value="Excellent",Text="Excellent"},
+                                                 new{Value="Good",Text="Good"}
+                                             }, "Value", "Text", ""), new { id = "conduct", @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Reason For Leaving The School</b>
+                                            @Html.TextBoxFor(model => model.ReasonForLeaving, new { id = "reason", @Class = "form-control select-sm", @maxlength = "30" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <b>Is Qualified For Promotion To Higher Class</b>
+                                            @Html.DropDownListFor(model => model.QualifiedForPromotion, new SelectList(new[]
+                                             {
+                                                 new{Value="",Text="Select One"},
+                                                 new{Value="Yes",Text="Yes"},
+                                                 new{Value="No",Text="No"},
+                                                 new{Value="Refer Grade Transcript",Text="Refer Grade Transcript"}
+                                             }, "Value", "Text", ""), new { id = "qualified", @Class = "form-control select-sm" })
+                                        </div>
+                                         <div class="col-sm-2">
+                                            <b>TC Issue date on</b><br />
+                                            @Html.TextBoxFor(model => model.TransferedDate, new { @Class = "form-control input-sm date-picker", @Readonly = "Readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-3">
+                </div>
+                <div class="col-xs-6">
+                    <button type="submit" class="btn btn-primary btn-sm" name="btnSaveRequest" id="SaveRequest" value="SaveRequest">
+                        <i class="fa fa-save">&nbsp;</i>Save
+                    </button>
+                    <button class="btn btn-success btn-sm" type="submit" id="btnIdComplete" name="btnIdComplete" value="Complete">
+                        <i class="fa fa-archive">&nbsp;</i>Complete
+                    </button>
+                    <button class="btn btn-purble btn-sm" type="button" id="Back">
+                        <i class="fa fa-arrow-left">&nbsp;</i>Back To List
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+<script src="../../assets/js/AceJQMsg.js" type="text/javascript"></script>
+<script src="../../Scripts/AdmissionScripts/TCRequest.js" type="text/javascript"></script>

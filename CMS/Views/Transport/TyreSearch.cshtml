@@ -1,0 +1,57 @@
+﻿<script type="text/javascript">
+    $(document).ready(function () {
+        jQuery("#TyreDetailsList").jqGrid({
+            url: '/Transport/GetTyresFromStock',
+            datatype: 'json',
+            mtype: 'POST',
+            colNames: ['Id', 'Invoice Id', 'InvoiceNo', 'Tyre No', 'Make', 'Model', 'Size', 'Type', 'Tube Cost', 'Tyre Cost', 'Total Cost', 'Is Assigned', 'Assigned To'],
+            colModel: [
+              { name: 'Id', index: 'Id', hidden: true, key: true },
+              { name: 'InvoiceId', index: 'InvoiceId', hidden: true },
+              { name: 'InvoiceNo', index: 'InvoiceNo' },
+              { name: 'TyreNo', index: 'TyreNo' },
+              { name: 'Make', index: 'Make' },
+              { name: 'Model', index: 'Model' },
+              { name: 'Size', index: 'Size' },
+              { name: 'Type', index: 'Type' },
+              { name: 'TubeCost', index: 'TubeCost' },
+              { name: 'TyreCost', index: 'TyreCost' },
+              { name: 'TotalCost', index: 'TotalCost' },
+              { name: 'IsAssigned', index: 'IsAssigned' },
+              { name: 'AssignedTo', index: 'AssignedTo' },
+               ],
+            pager: '#TyreDetailsListPager',
+            rowNum: '50',
+            rowList: [50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: 'asc',
+            height: '230',
+            width: 1225,
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: 'Tyre Details',
+            forceFit: true,
+            gridview: true,
+            multiselect: true,
+            onSelectRow: function (rowid) {
+                if (rowid != null) {
+                    rowData = jQuery("#TyreDetailsList").jqGrid('getRowData', rowid);
+                    $("#TypeOfTyre").val(rowData.Type);
+                    $("#TyreMake").val(rowData.Make);
+                    $("#TyreModel").val(rowData.Model);
+                    $("#TyreSize").val(rowData.Size);
+                    //$("#TyreBillNo").val(rowData.InvoiceNo);
+                    $("#TyreCost").val(rowData.TotalCost);
+                    $("#TyreNo").val(rowData.TyreNo);
+                    $("#TyreBillNo").val(rowData.InvoiceNo);
+                    $('#DivTyreSearch').dialog('close');
+                }
+            }
+        });
+    });
+</script>
+<table id="TyreDetailsList" class="WithBorderOnly" width="100%">
+</table>
+<div id="TyreDetailsListPager">
+</div>

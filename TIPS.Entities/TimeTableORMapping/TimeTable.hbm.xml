@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.TimeTableEntities.TimeTable" namespace="TIPS.Entities.TimeTableEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TimeTableEntities.TimeTable,TIPS.Entities" table="TimeTable" lazy="true">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="Day" column="Day" type="string"></property>
+    
+    <property name="Period1" column="Period1" type="string"></property>
+    <property name="Period1Caption" column="Period1Caption" type="string"></property>
+    <property name="Period1Icon" column="Period1Icon" type="string"></property>
+    
+    <property name="Period2" column="Period2" type="string"></property>
+    <property name="Period2Caption" column="Period2Caption" type="string"></property>
+    <property name="Period2Icon" column="Period2Icon" type="string"></property>
+    
+    <property name="Period3" column="Period3" type="string"></property>
+    <property name="Period3Caption" column="Period3Caption" type="string"></property>
+    <property name="Period3Icon" column="Period3Icon" type="string"></property>
+   
+    <property name="Period4" column="Period4" type="string"></property>
+    <property name="Period4Caption" column="Period4Caption" type="string"></property>
+    <property name="Period4Icon" column="Period4Icon" type="string"></property>
+    
+    <property name="Period5" column="Period5" type="string"></property>
+    <property name="Period5Caption" column="Period5Caption" type="string"></property>
+    <property name="Period5Icon" column="Period5Icon" type="string"></property>
+    
+    <property name="Period6" column="Period6" type="string"></property>
+    <property name="Period6Caption" column="Period6Caption" type="string"></property>
+    <property name="Period6Icon" column="Period6Icon" type="string"></property>
+    
+    <property name="Period7" column="Period7" type="string"></property>
+    <property name="Period7Caption" column="Period7Caption" type="string"></property>
+    <property name="Period7Icon" column="Period7Icon" type="string"></property>
+    
+    <property name="Period8" column="Period8" type="string"></property>
+    <property name="Period8Caption" column="Period8Caption" type="string"></property>
+    <property name="Period8Icon" column="Period8Icon" type="string"></property>
+    
+    <property name="Period9" column="Period9" type="string"></property>
+    <property name="Period9Caption" column="Period9Caption" type="string"></property>
+    <property name="Period9Icon" column="Period9Icon" type="string"></property>
+    
+    <property name="Period10" column="Period10" type="string"></property>
+    <property name="Period10Caption" column="Period10Caption" type="string"></property>
+    <property name="Period10Icon" column="Period10Icon" type="string"></property>
+  </class>
+</hibernate-mapping>

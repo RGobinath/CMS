@@ -1,0 +1,300 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+@{
+    ViewBag.Title = "NewStaffDisplay";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script type="text/javascript">
+    var campus = "";
+    var designation = "";
+    var department = "";
+    var appname = "";
+    var idno = "";
+
+    $(document).ready(function () {
+
+        // written by felix kinoniya
+        $("#ddlcampus").change(function () {
+
+            if ($("#ddlcampus").val() == "") {
+
+                var designation = $("#designation");
+                designation.empty();
+                designation.append($('<option/>',
+        {
+            value: "",
+            text: "Select One"
+        }));
+
+            } else {
+                $.getJSON("/Base/DesignationByCampus?campus=" + $("#ddlcampus").val(),
+     function (fillbc) {
+         var designation = $("#designation");
+         designation.empty();
+         designation.append($('<option/>',
+        {
+            value: "",
+            text: "Select One"
+        }));
+         $.each(fillbc, function (index, itemdata) {
+             designation.append($('<option/>',
+                 {
+                     value: itemdata.Value,
+                     text: itemdata.Text
+                 }));
+         });
+
+     });
+            }
+
+            // for Department
+            if ($("#ddlcampus").val() == "") {
+
+                var designation = $("#department");
+                department.empty();
+                department.append($('<option/>',
+        {
+            value: "",
+            text: "Select One"
+        }));
+
+            } else {
+                $.getJSON("/Base/DepartmentByCampus?campus=" + $("#ddlcampus").val(),
+     function (fillbc) {
+         var department = $("#department");
+         department.empty();
+         department.append($('<option/>',
+        {
+            value: "",
+            text: "Select One"
+        }));
+         $.each(fillbc, function (index, itemdata) {
+             department.append($('<option/>',
+                 {
+                     value: itemdata.Value,
+                     text: itemdata.Text
+                 }));
+         });
+
+     });
+            }
+
+
+        });
+
+        //end
+
+        var grid_selector = "#NewStaffList";
+        var pager_selector = "#NewStaffListPager";
+
+        //resize to fit page size
+        $(window).on('resize.jqGrid', function () {
+            $(grid_selector).jqGrid('setGridWidth', $(".page-content").width());
+        })
+        //resize on sidebar collapse/expand
+        var parent_column = $(grid_selector).closest('[class*="col-"]');
+        $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+            if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                setTimeout(function () {
+                    $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                }, 0);
+            }
+        })
+
+
+
+        function loadgrid() {
+            debugger;
+            // alert(campus);
+            jQuery(grid_selector).jqGrid({
+                mtype: 'GET',
+                url: '/StaffManagement/StaffListJqGrid',
+                postData: { campus: campus, designation: designation, department: department, appname: appname, idno: idno, type: 'new' },
+                datatype: 'json',
+                colNames: ['Request No', 'Name', 'Temp Id Number', 'Campus', 'Designation', 'Department', 'Gender', 'Status', 'Id'],
+                colModel: [
+              { name: 'PreRegNum', index: 'PreRegNum', align: 'left' },
+              { name: 'Name', index: 'Name',align: 'left' },
+              { name: 'TempIdNumber', index: 'TempIdNumber', align: 'left',search:false },
+              { name: 'Campus', index: 'Campus', align: 'left', sortable: true },
+              { name: 'Designation', index: 'Designation', align: 'left', sortable: true },
+              { name: 'Department', index: 'Department', align: 'left', sortable: true },
+              { name: 'Gender', index: 'Gender',  align: 'left', sortable: true },
+                            { name: 'Status', index: 'Status', align: 'left', sortable: true },
+               { name: 'Id', index: 'Id', align: 'left', sortable: false, hidden: true, key: true }
+              ],
+                pager: pager_selector,
+                rowNum: '10',
+                rowList: [5, 10, 20, 50, 100, 150, 200],
+                multiselect: true,
+                viewrecords: true,               
+                height: '220',
+                loadComplete: function () {
+                    var table = this;
+                    setTimeout(function () {
+                        styleCheckbox(table);
+                        updateActionIcons(table);
+                        updatePagerIcons(table);
+                        enableTooltips(table);
+                    }, 0);
+                },
+                caption: 'Inbox'
+            });
+            $(grid_selector).jqGrid('filterToolbar', { searchOnEnter: true });
+            $(window).triggerHandler('resize.jqGrid'); //trigger window resize to make the grid get the correct size
+
+        }
+
+        window.onload = loadgrid();
+
+
+        $("#Search").click(function () {
+
+            //            $("#NewStaffList").GridUnload();
+
+            var e = document.getElementById("ddlcampus");
+            campus = e.options[e.selectedIndex].value;
+            //     alert(campus);
+            designation = document.getElementById("designation").value;
+
+            var g = document.getElementById("department");
+            department = g.options[g.selectedIndex].value;
+
+            appname = document.getElementById('appname').value;
+
+            idno = document.getElementById("idno").value;
+
+            loadgrid();
+        });
+
+        $("#reset").click(function () {
+            //$("#NewStaffList").GridUnload();
+            campus = "";
+            designation = "";
+            department = "";
+            appname = "";
+            idno = "";
+
+            var e = document.getElementById('ddlcampus');
+            e.options[0].selected = true; // "Select";
+            // alert(e.options[e.selectedIndex].value);
+            var f = document.getElementById('department');
+            f.options[0].selected = true; // "Select";
+
+            document.getElementById('appname').value = "";
+            //document.getElementById('dateapplied').value = "";
+            document.getElementById('idno').value = "";
+
+            document.getElementById('designation').value = "";
+            loadgrid();
+        });
+
+
+        $("#AddNew").click(function () {
+
+            window.location.href = '@Url.Action("ApplicationForm", "StaffManagement")';
+        });
+
+    });
+    function styleCheckbox(table) {
+    }
+    function updateActionIcons(table) {
+    }
+</script>
+<div class="page-content">
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Applicant Name</b></label>
+                                        @Html.TextBox("appname", "", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    @*<div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Id Number</b></label>
+                                        @Html.TextBox("idno", "", new { @Class = "form-control select-sm" })
+                                    </div>*@
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "----Select----", new { id = "ddlcampus", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Designation</b></label>
+                                        @Html.DropDownList("designation", new SelectList(Enumerable.Empty<SelectListItem>()), "----Select----", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Department</b></label>
+                                        @Html.DropDownList("department", new SelectList(Enumerable.Empty<SelectListItem>()), "----Select----", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Gender</b></label>
+                                        @Html.DropDownListFor(m => m.Status, new SelectList(new[] {
+                                  new{Value="",Text="----Select----"},
+                                              new{Value="Male",Text="Male"},
+                                              new{Value="Female",Text="Female"}                                  
+                                 }, "Value", "Text", ""), new { id = "Gender", @Class = "form-control select-sm" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-success btn-block btn-sm" type="button" id="Search">
+                                            <i class="ace-icon fa fa-search white"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-danger btn-block btn-sm" type="button" id="reset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="NewStaffList">
+                </table>
+                <div id="NewStaffListPager">
+                </div>
+                <script type="text/javascript">
+                    var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+                </script>
+            </div>
+        </div>
+        <div class="space-2">
+        </div>
+        <div class="col-xs-12">
+            <div class="col-sm-2">
+                <button class="btn btn-primary btn-block btn-sm" type="button" id="AddNew" value="Add New Employee">
+                    <i class="ace-icon fa fa-plus-square-o white"></i>Add New Employee</button>
+            </div>
+            @Html.Hidden("AddNewUrl", Url.Action("ApplicationForm", "StaffManagement"))
+        </div>
+    </div>
+</div>

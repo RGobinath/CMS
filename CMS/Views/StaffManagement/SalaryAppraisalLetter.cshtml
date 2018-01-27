@@ -1,0 +1,58 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div style="width: 800px;">
+    <div style="float: right">
+        <img src="../../Images/TipsLogo.jpg" width="100px" />
+    </div>
+    <div style="float: left">
+        <img src="../../Images/logonace.jpg" width="100px" />
+    </div>
+</div>
+<br />
+<br />
+<center>
+    <h2>
+        INTERNAL COMMUNICATION</h2>
+</center>
+<br />
+<br />
+<p>
+    Date    :   @DateTime.Now.ToString("dd-MM-yyyy")</p>
+<br />
+<br />
+To
+<br />
+<br />
+<b>@Model.Name</b><br />
+<b>@Model.Campus</b>
+<br />
+<br />
+<b>Dear @Model.Name</b>,
+<br />
+<br />
+Your performance and contribution to the growth of The Indian Public School is appreciable.
+Recognizing your effort and performance, we are pleased to inform you that your
+total compensation (including employer component of PF) has been revised to Rs.
+<b>@Model.AmountSalryApr</b> /- per month, with effect from <b>@Model.DateofSalryApr.ToString("dd-MM-yyyy")</b>
+which will be paid in the month of September 2014.<br />
+<br />
+We do hope the management’s recognition to your performance will further motivate
+you for an elevated performance in the coming years and grow along with the organisation.<br />
+<br />
+Please be noted that your salary details are strictly private and confidential and
+details in this letter must not be disclosed and discussed with others. Please acknowledge
+your acceptance of the revised terms by signing a duplicate copy of this letter.<br />
+<br />
+Good Luck.<br />
+<br />
+<b>For The Indian Public School,</b>
+<br />
+<br />
+<b>Authorised Signatory. </b>

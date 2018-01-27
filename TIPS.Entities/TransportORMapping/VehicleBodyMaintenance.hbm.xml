@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.VehicleBodyMaintenance" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.VehicleBodyMaintenance, TIPS.Entities" table="VehicleBodyMaintenance" lazy="true" >
+     <id name="Id" column="Id" type="Int32">
+      <generator class="native"/>
+    </id>
+    <property name="VehicleId">
+      <column name="VehicleId" sql-type="int" not-null="true" />
+    </property>
+    <property name="VehicleNo">
+      <column name="VehicleNo" />
+    </property>
+    <property name="BTypeOfBody">
+      <column name="BTypeOfBody" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="BDateOfRepair">
+      <column name="BDateOfRepair" sql-type="date" not-null="false" />
+    </property>
+    <property name="BTypeOfRepair">
+      <column name="BTypeOfRepair" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="BPartsRequired">
+      <column name="BPartsRequired" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="BServiceProvider">
+      <column name="BServiceProvider" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="BServiceCost">
+      <column name="BServiceCost" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="BBillNo">
+      <column name="BBillNo" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="BDescription">
+      <column name="BDescription" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="CreatedDate">
+      <column name="CreatedDate" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="CreatedBy">
+      <column name="CreatedBy" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="BM_SparePartsUsedfile">
+      <column name="BM_SparePartsUsedfile" sql-type="varchar" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

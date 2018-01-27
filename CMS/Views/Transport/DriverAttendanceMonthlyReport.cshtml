@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "Driver Attendance Report B/W Date";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Pannel
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownList("Campus", new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Driver Name</b></label>
+                                        @Html.TextBox("txtDriverName", "", new { @class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Driver ID</b></label>
+                                        @Html.TextBox("txtDriverNo", "", new { @class = "form-control input-sm" })
+                                    </div>
+                                    @* <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Month</b></label>
+                                        @Html.DropDownList("ddlmonth", new SelectList(Enumerable.Empty<SelectListItem>()), "----Select----", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Year</b></label>
+                                        @Html.DropDownList("ddlyear", new SelectList(ViewBag.Years, "", ""), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>*@
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>From Date</b></label>
+
+
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBox("FromDate", "", new { @Class = "form-control from_date", @maxlength = "10", })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>ToDate</b></label>
+                                        <div class="input-group input-group-sm">
+
+                                            @Html.TextBox("ToDate", "", new { @Class = "form-control to_date", @maxlength = "10" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="space-12"></div>
+                                    <div class="col-sm-1">
+                                        @Html.Hidden("CurMonth", "", new { @Value = ViewBag.CurMonth })
+                                        @Html.Hidden("CurYear", "", new { @Value = ViewBag.CurYear })
+                                        <button type="button" class="btn btn-primary btn-block btn-sm" id="btnSearch">
+                                            <i class="ace-icon fa fa-search white"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+
+                                        <button type="button" class="btn btn-danger btn-block btn-sm" id="btnReset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table id="DriverAttendanceMonthReport">
+        </table>
+        <div id="DriverAttendanceMonthReportPager">
+        </div>
+    </div>
+</div>
+
+<script src="../../Scripts/Transport/DriverAttendanceMonthlyReport.js"></script>
+<script src="../../assets/js/AceJQMsg.js"></script>

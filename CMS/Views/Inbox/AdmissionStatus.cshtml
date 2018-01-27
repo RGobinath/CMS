@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Activities";
+    Layout = null;
+}
+
+@Html.Hidden("Id", "", new { @Value = ViewBag.Id })
+@Html.Hidden("UserType", "", new { @Value = ViewBag.UserType })
+<script src="../../Scripts/Inbox/AdmissionStatus.js"></script>
+
+<script src="../../Scripts/Inbox/Inbox.js"></script>
+<table id="AdmissionList">
+</table>
+<div id="AdmissionListPager">
+</div>
+<div id="ActivitiesHistory"></div>

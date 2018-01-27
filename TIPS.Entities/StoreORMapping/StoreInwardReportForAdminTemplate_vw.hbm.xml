@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StoreEntities.StoreInwardReportForAdminTemplate_vw" namespace="TIPS.Entities.StoreEntities">
+	<class name="TIPS.Entities.StoreEntities.StoreInwardReportForAdminTemplate_vw, TIPS.Entities" table="StoreInwardReportForAdminTemplate_vw" lazy="false">
+		<id name="Id" column="Id" type="Int64">
+			<generator class="identity"></generator>
+		</id>
+		<property name="Store" column="Store" type="string"></property>
+		<property name="Count" column="Count" type="Int64"></property>
+	</class>
+</hibernate-mapping>

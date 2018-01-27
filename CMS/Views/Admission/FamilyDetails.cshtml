@@ -1,0 +1,134 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa  fa-align-justify"></i>&nbsp;Add Family Details
+                </div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>RelationType</b></label><br />
+                                @Html.HiddenFor(model => model.FamilyDetailsList[0].Id)
+                                @Html.DropDownListFor(Model => Model.FamilyDetailsList[0].FamilyDetailType, new SelectList(ViewBag.familyddl, "Relationships", "Relationships"), "Select One", new { id = "relationtype", @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Name</b></label><br />
+                                @Html.TextBoxFor(model => model.FamilyDetailsList[0].Name, new { id = "name1", @Class = "form-control input-sm", @maxlength = "40" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Education</b></label><br />
+                                @Html.TextBoxFor(model => model.FamilyDetailsList[0].Education, new { id = "name2", @Class = "form-control input-sm", @maxlength = "30" })
+
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Mobile</b></label><br />
+                                @Html.TextBoxFor(model => model.FamilyDetailsList[0].Mobile, new { id = "mobile", @Class = "form-control input-sm", @maxlength = "40" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Age</b></label><br />
+                                @Html.TextBoxFor(model => model.FamilyDetailsList[0].Age, new { id = "age", @Class = "form-control input-sm", @maxlength = "2", @onkeyup = "integersOnly(this)" })
+
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Email Id</b></label><br />
+                                @Html.TextBoxFor(model => model.FamilyDetailsList[0].Email, new { id = "email", @Class = "form-control input-sm", @maxlength = "40" })
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Employee Type</b></label>
+                                @Html.DropDownListFor(model => model.FamilyDetailsList[0].EmpType, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Self Employed",Text="Self Employed"},
+                                              new{Value="Salaried",Text="Salaried"},
+                                              new{Value="Others",Text="Others"}
+                                          },
+          "Value", "Text", ""), new { id = "EmpType", @Class = "form-control select-sm", @maxlength = "15" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Occupation</b></label><br />
+                                @Html.TextBoxFor(model => model.FamilyDetailsList[0].Occupation, new { id = "occupation", @Class = "form-control input-sm", @maxlength = "30" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Company Name</b></label><br />
+                                @Html.TextBoxFor(model => model.FamilyDetailsList[0].CompName, new { id = "compname", @Class = "form-control input-sm", @maxlength = "40" })
+
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Company Address</b></label><br />
+                                @Html.TextBoxFor(model => model.FamilyDetailsList[0].CompAddress, new { id = "compadd", @Class = "form-control input-sm", @maxlength = "95" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Staying with Child</b></label><br />
+                                <label for="StayingWithChild_true">
+                                    @Html.RadioButtonFor(model => model.FamilyDetailsList[0].StayingWithChild, true, new { id = "StayingWithChild_true", @Class = "ace" })
+                                    <span class="lbl">Yes</span></label>
+                                <label for="StayingWithChild_false">
+                                    @Html.RadioButtonFor(model => model.FamilyDetailsList[0].StayingWithChild, false, new { id = "StayingWithChild_false", @Class = "ace" })
+                                    <span class="lbl">No</span></label>
+
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>PickUp Card Required</b></label>
+                                <label for="transportreq_true">
+                                    @Html.RadioButtonFor(model => model.FamilyDetailsList[0].TransportReq, true, new { id = "transportreq_true", @Class = "ace" })
+                                    <span class="lbl">Yes</span></label>
+                                <label for="transportreq_false">
+                                    @Html.RadioButtonFor(model => model.FamilyDetailsList[0].TransportReq, false, new { id = "transportreq_false", @Class = "ace" })
+                                    <span class="lbl">No</span></label>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                </div>
+                <div class="widget-toolbox padding-8 clearfix">
+                    <button type="button" class="btn btn-xs btn-primary pull-right" name="famsub" id="family">
+                        <i class="ace-icon fa fa-arrows"></i>
+                        <span class="bigger-110">ADD&nbsp;&nbsp;&nbsp;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-2"></div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
+        <table id="family-grid-table">
+        </table>
+        <div id="family-grid-pager">
+        </div>
+        <script type="text/javascript">
+            var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+        </script>
+    </div>
+</div>
+<script src="../../Scripts/AdmissionScripts/FamilyDetails.js"></script>

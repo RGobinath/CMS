@@ -1,0 +1,83 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa  fa-align-justify"></i>&nbsp;Add PastSchool Details
+                </div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>From</b></label>
+                                <div class="input-group input-group-sm">
+                                    @Html.TextBoxFor(model => model.PastSchoolDetailsList[0].FromDate, new { id = "fromdate", @Class = "form-control from_date", @maxlength = "10" })
+                                    <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>To</b></label>
+                                <div class="input-group input-group-sm">
+                                    @Html.TextBoxFor(model => model.PastSchoolDetailsList[0].ToDate, new { id = "todate", @Class = "form-control to_date", @maxlength = "10" })
+                                    <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>School Name</b></label>
+                                @Html.TextBoxFor(model => model.PastSchoolDetailsList[0].SchoolName, new { id = "schoolname1", @Class = "form-control input-sm", @maxlength = "100" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>City</b></label><br />
+                                @Html.TextBoxFor(model => model.PastSchoolDetailsList[0].City, new { id = "city", @Class = "form-control input-sm", @maxlength = "30" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>From Grade</b></label><br />
+                                @Html.DropDownListFor(Model => Model.PastSchoolDetailsList[0].FromGrade, new SelectList(ViewBag.gradeddl1, "gradcod", "gradcod"), "Select Grade", new { id = "grade1", @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>To Grade</b></label><br />
+                                @Html.DropDownListFor(Model => Model.PastSchoolDetailsList[0].ToGrade, new SelectList(ViewBag.gradeddl1, "gradcod", "gradcod"), "Select Grade", new { id = "grade2", @Class = "form-control select-sm" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                </div>
+                <div class="widget-toolbox padding-8 clearfix">
+                    <button type="button" class="btn btn-xs btn-primary pull-right" id="pastschool" name="PastAdd">
+                        <i class="ace-icon fa fa-arrows"></i>
+                        <span class="bigger-110">ADD&nbsp;&nbsp;&nbsp;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-2"></div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
+        <table id="PastSchool-grid-table">
+        </table>
+        <div id="PastSchool-grid-pager">
+        </div>
+        <script type="text/javascript">
+            var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+        </script>
+    </div>
+</div>
+<script src="../../Scripts/AdmissionScripts/PastSchoolDetails.js"></script>
+
+

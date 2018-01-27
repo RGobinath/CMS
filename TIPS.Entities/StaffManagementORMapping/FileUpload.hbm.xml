@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.FileUpload" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.FileUpload, TIPS.Entities" table="UploadedFiles" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="PreRegNum" column="PreRegNum" type="Int64" not-null ="false"></property>
+
+    <property name="DocumentFor" column="DocumentFor" type="string" not-null ="false"></property>
+    <property name="DocumentType" column="DocumentType" type="string" not-null ="false"></property>
+    <property name="DocumentName" column="DocumentName" type="string" not-null ="false"></property>
+
+    <property name="DocumentData"  type="Serializable" >
+      <column name="DocumentData" not-null="true" sql-type="varbinary(MAX)" length="2147483647"></column>
+      
+    </property>
+    <property name="DocumentSize" column="DocumentSize" type="string" not-null ="false"></property>
+
+    <property name="UploadedDate" column="UploadedDate" type="string" not-null ="false"></property>
+
+
+  </class>
+</hibernate-mapping>
+

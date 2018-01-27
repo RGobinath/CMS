@@ -1,0 +1,216 @@
+﻿@{
+    Layout = null;
+    
+}
+<html>
+<head>
+    <script>
+        function printpage() {
+            window.print();
+        }
+
+        $(document).ready(function () {
+            //  alert('here');
+        });
+
+        function back() {
+            window.location.href = "/Admission/StudentManagement?pagename=IdPickup";
+        }
+    </script>
+    @*<script type="text/javascript">
+          var pfHeaderImgUrl = '';
+          var pfHeaderTagline = '';
+          var pfdisableClickToDel = 0;
+          var pfBtVersion = '1'; (function () {
+              var js, pf; pf = document.createElement('script'); pf.type = 'text/javascript';
+              //        if ('https:' == document.location.protocol)
+              //        { js = 'https://pf-cdn.printfriendly.com/ssl/main.js' }
+              //        else
+              //        { js = 'http://cdn.printfriendly.com/printfriendly.js' }
+              pf.src = js; document.getElementsByTagName('head')[0].appendChild(pf)
+          })();
+ </script>*@ @*<a href="http://www.printfriendly.com" style="color:#6D9F00;text-decoration:none;" class="printfriendly" onclick="window.print();return false;" title="Printer Friendly and PDF">
+ <img style="border:none;" src="../../Images/print3.png" alt="Print Friendly and PDF" height="25px" width="80px"/>
+ </a>*@
+    <style type="text/css" media="print">
+        
+    </style>
+</head>
+<body>
+    <div>
+        <table>
+            @Html.Raw(ViewBag.IdHtmlTag)
+        </table>
+    </div>
+    <br />
+    <input type="button" value="Print this page" onclick="printpage()" />
+    &nbsp&nbsp&nbsp&nbsp&nbsp
+    <input type="button" value="Back" onclick="back()" />
+</body>
+</html>
+@*<table>
+                      <tr style="page-break-after: always">
+                        <td>
+
+                        <div style="width: 311px; border: solid 2px black; text-align: center; padding: 5px;
+                            height: 160px;">
+                           
+                           <span style="font-size: 10pt; float:left"><img src="../../Images/Tips Logo.JPG" height="30px";width="50px"/><br/>    </span>
+                            <span style="font-size: 10pt; float:right"><img src="../../Images/Tips Logo.JPG" height="30px";width="50px"/><br/>    </span>
+
+                            <br />
+                            <span style="font-size: 8pt">  <img src="../../Images/smile.jpg" height="70px";width="100px" /> <br /></span>
+
+                            <span style="font-family: Arial"><strong>  Gilbert, Guy<br />  </strong></span>
+                            <span style="font-size: 10pt">Software Developer<br /></span>
+                            <span style="font-size: 10pt">ID Number<br /></span>
+                            <span style="font-size: 10pt">BloodGrp:jdd &nbsp&nbsp&nbsp  Phone No: 98733933922</span>
+<br />
+                        </div>
+                        </td>
+
+                        <td>
+
+                        <div style="width: 311px; border: solid 2px black; text-align: center; padding: 5px;
+                            height: 160px;">
+                           
+                           <span style="font-size: 10pt; float:left"><img src="../../Images/Tips Logo.JPG" height="30px";width="50px"/><br/>    </span>
+                            <span style="font-size: 10pt; float:right"><img src="../../Images/Tips Logo.JPG" height="30px";width="50px"/><br/>    </span>
+
+                            <br />
+                            <span style="font-size: 8pt">  <img src="../../Images/smile.jpg" height="70px";width="100px" /> <br /></span>
+
+                            <span style="font-family: Arial"><strong>  Gilbert, Guyjffjfso<br />  </strong></span>
+                            <span style="font-size: 10pt">Software Developejhdjsaaar<br /></span>
+                            <span style="font-size: 10pt">ID Number<br /></span>
+                            <span style="font-size: 10pt">BloodGrp:jdd &nbsp&nbsp&nbsp  Phone No: 98733933922</span>
+<br />
+                        </div>
+                        </td>                        
+                        </tr>
+                        <tr style="page-break-after: always">
+                        <td>
+
+                        <div style="width: 311px; border: solid 2px black; text-align: center; padding: 5px;
+                            height: 160px;">
+                           
+                           <span style="font-size: 10pt; float:left"><img src="../../Images/Tips Logo.JPG" height="30px";width="50px"/><br/>    </span>
+                            <span style="font-size: 10pt; float:right"><img src="../../Images/Tips Logo.JPG" height="30px";width="50px"/><br/>    </span>
+
+                            <br />
+                            <span style="font-size: 8pt">  <img src="../../Images/smile.jpg" height="70px";width="100px" /> <br /></span>
+
+                            <span style="font-family: Arial"><strong>  Gilbert, Guy<br />  </strong></span>
+                            <span style="font-size: 10pt">Software Developer<br /></span>
+                            <span style="font-size: 10pt">ID Number<br /></span>
+                            <span style="font-size: 10pt">BloodGrp:jdd &nbsp&nbsp&nbsp  Phone No: 98733933922</span>
+<br />
+                        </div>
+                        </td>
+
+                        <td>
+
+                        <div style="width: 311px; border: solid 2px black; text-align: center; padding: 5px;
+                            height: 160px;">
+                           
+                           <span style="font-size: 10pt; float:left"><img src="../../Images/Tips Logo.JPG" height="30px";width="50px"/><br/>    </span>
+                            <span style="font-size: 10pt; float:right"><img src="../../Images/Tips Logo.JPG" height="30px";width="50px"/><br/>    </span>
+
+                            <br />
+                            <span style="font-size: 8pt">  <img src="../../Images/smile.jpg" height="70px";width="100px" /> <br /></span>
+
+                            <span style="font-family: Arial"><strong>  Gilbert, Guyjffjfso<br />  </strong></span>
+                            <span style="font-size: 10pt">Software Developejhdjsaaar<br /></span>
+                            <span style="font-size: 10pt">ID Number<br /></span>
+                            <span style="font-size: 10pt">BloodGrp:jdd &nbsp&nbsp&nbsp  Phone No: 98733933922</span>
+<br />
+                        </div>
+                        </td>                        
+                        </tr>
+       </table>       
+*@ @*    @Html.Raw(ViewBag.IdHtmlTag) *@ @*@for (int i = 1; i <= Convert.ToInt32(Session["idcardcnt"]); i++)
+ {*@ @*<tr>
+<td style=" border-style:solid; border-width:medium; border-color:Black">
+
+<table style="padding-bottom:-30px"><tr>
+<td ><img src="../../Images/Tips Logo.JPG" height="30px";width="50px"/></td>
+<td></td>
+<td><img src="../../Images/Tips Logo.JPG" height="30px";width="50px"/></td>
+</tr>
+
+<tr>
+<td></td>
+<td style="padding-left:25px"><img src="../../Images/smile.jpg" height="70px";width="100px" /></td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td style="padding-left:30px; font-weight:600"">G Kanishka</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td style="padding-left:30px; font-weight:600">Grade</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td style="padding-left:30px; font-weight:600"">Id Number</td>
+<td></td>
+</tr>
+
+<tr>
+<td colspan="2" style="font-weight:600">&nbsp&nbsp&nbsp&nbsp Blood Group &nbsp&nbsp  Emergency Number</td>
+<td></td>
+</tr>
+
+</table>
+
+</td>
+
+
+<td style=" border-style:solid; border-width:medium; border-color:Black">
+
+<table style="padding-bottom:-30px"><tr>
+<td ><img src="../../Images/Tips Logo.JPG" height="30px";width="50px"/></td>
+<td ></td>
+<td><img src="../../Images/Tips Logo.JPG" height="30px";width="50px"/></td>
+</tr>
+
+<tr>
+<td></td>
+<td style="padding-left:25px"><img src="../../Images/smile.jpg" height="70px";width="100px"/ /></td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td style="padding-left:30px; font-weight:600"">Narain Prabhakar</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td style="padding-left:30px; font-weight:600">Grade</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td style="padding-left:30px; font-weight:600"">Id Number</td>
+<td></td>
+</tr>
+
+<tr>
+<td colspan="2" style="font-weight:600">&nbsp&nbsp&nbsp&nbsp Blood Group &nbsp&nbsp  Emergency Number</td>
+<td></td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+*@ 

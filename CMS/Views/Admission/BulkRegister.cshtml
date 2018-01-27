@@ -1,0 +1,93 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+@{
+    Layout = "~/Views/Shared/NewAcePartialViewMaster.cshtml";
+}
+
+        @using (Html.BeginForm("BulkRegister", "Admission", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                        <div class="col-xs-12">
+                            <div class="col-sm-4">
+                                <label for="form-field-select-1">
+                                    Status</label>
+                                @Html.DropDownListFor(Model => Model.AdmissionStatus, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Registered",Text="Registered"},
+                                              new{Value="On Hold",Text="On Hold"},
+                                              new{Value="Declined",Text="Declined"},
+                                              new{Value="Call For Interview",Text="Call For Interview"}
+                                          },
+                     "Value", "Text", ""), new { id = "Status", @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="form-field-select-1">
+                                    Fee Structure Year</label>
+                                @Html.DropDownListFor(Model => Model.FeeStructYear, new SelectList(ViewBag.feestructyrddl, "FeeStructureYear", "AcademicYear"), "Select", new { id = "feestructddl", @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="form-field-select-1">
+                                    Assign Section</label>
+                                @Html.DropDownListFor(Model => Model.Section, new SelectList(ViewBag.sectionddl, "Section", "Section"), "Select", new { id = "AssignSection", @Class = "form-control select-sm" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="col-sm-3">
+                                <br />
+                                <button class="btn btn-white btn-primary" type="submit" onclick="return(validateregister());">
+                            <i class="ace-icon fa fa-qrcode bigger-110"></i>Register</button>
+                                @*<input type="submit" value="Register" onclick="return(validateregister());" />*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+          
+            
+        }
+
+<script type="text/javascript">
+
+    function validateregister() {
+
+        var feestruct = document.getElementById("feestructddl").value;
+
+        var status = document.getElementById("Status").value;
+
+        var asignsection = document.getElementById("AssignSection").value;
+
+        if ((status == 'Registered')) {
+            if (status == "") {
+                ErrMsg('Please Select Status!');
+                return false;
+            }
+            if (feestruct == "") {
+                ErrMsg('Please Select Fee Structure Year!');
+                return false;
+            }
+            if (asignsection == "") {
+                ErrMsg('Please Select Section!');
+                return false;
+            }
+        }
+        if ((status == '')) {
+            if (status == "") {
+                ErrMsg('Please Select Status!');
+                return false;
+            }
+            if (feestruct == "") {
+                ErrMsg('Please Select Fee Structure Year!');
+                return false;
+            }
+            if (asignsection == "") {
+                ErrMsg('Please Select Section!');
+                return false;
+            }
+        }
+        else {
+            return true;
+        }
+    }
+</script>

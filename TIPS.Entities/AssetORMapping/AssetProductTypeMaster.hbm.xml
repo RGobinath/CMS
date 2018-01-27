@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.AssetProductTypeMaster" namespace="TIPS.Entities.AssetEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.AssetProductTypeMaster, TIPS.Entities" table="AssetProductTypeMaster" lazy="false" >
+    <id name="AssetProductTypeMasterId" column="AssetProductTypeMasterId" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <many-to-one name="AssetProductMaster" column="ProductNameId" class="TIPS.Entities.AssetEntities.AssetProductMaster,TIPS.Entities" cascade="none" fetch="join" not-found="ignore"/>
+    <property name="ProductType" column="ProductType" type="string"></property>
+    <property name="IsActive" column="IsActive" type="bool"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"></property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,22 @@
+﻿@{
+    //ViewBag.Title = "BarCodePrint";
+    Layout = null;
+}
+@Html.Raw(ViewBag.StaffIdHtmlTag)
+<input type="button" value="Print this page" onclick="printpage()" />
+&nbsp&nbsp&nbsp&nbsp&nbsp
+    <input type="button" value="Back" onclick="back()" />
+
+<script>
+    function printpage() {
+        window.print();
+    }
+
+    $(document).ready(function () {
+        //  alert('here');
+    });
+
+    function back() {
+        window.location.href = "/StaffManagement/PrintStaffIdCard";
+    }
+</script>

@@ -1,0 +1,226 @@
+﻿@model TIPS.Entities.StudentsReportEntities.MISCampusReport
+@{
+    ViewBag.Title = "MIS Report";
+    Layout = "~/Views/Shared/NewBootstrapMaster.cshtml";
+            //var ddlCampusValue = TempData["ddlCampusValue"];
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ('@ViewBag.Pagename' == "Single") {
+            $('#OverAllReport').hide();
+            $('#SingleCampusReport').show();
+        }
+        else if ('@ViewBag.Pagename' == "OverAll") {
+            $('#SingleCampusReport').hide();
+            $('#OverAllReport').show();
+        }
+        $.getJSON("/StudentsReport/getCampusList",
+  function (getCampusList) {
+      var ddlCampus = $("#ddlCampus");
+      ddlCampus.empty();
+      ddlCampus.append($('<option/>',{value: "",text: "--Select Campus--"}));
+      ddlCampus.append($('<option/>',{value: "All",text: "All Campus"}));
+      $.each(getCampusList, function (index, itemdata) {
+          ddlCampus.append($('<option/>',
+              {
+                  value: itemdata.Value,
+                  text: itemdata.Text
+              }));
+      });
+  });
+        //$('#ddlCampus').val(ddlCampusValue);
+        //$('#SingleCampusReport').hide();
+        $('#ddlCampus').change(function () {
+            var ddlCampus = $('#ddlCampus').val();
+            if (ddlCampus == "") {
+                ddlCampus = "All";
+                window.location.href = "/StudentsReport/MISReport?campus=" + ddlCampus;
+                $('#SingleCampusReport').hide();
+                $('#OverAllReport').show();
+            }
+            else {
+                window.location.href = "/StudentsReport/MISReport?campus=" + ddlCampus;
+                $('#OverAllReport').hide();
+                $('#SingleCampusReport').show();
+                $('#OverAllReport').hide();
+            }
+        });
+
+        $("#GetMISReport").click(function () {
+            var ddlCampus = $("#ddlCampus").val();
+            if (ddlCampus == null) ddlCampus = "";
+            window.open('/StudentsReport/MISReportWithExcel?Campus=' + '@Session["MISCampus"].ToString()', '_blank');
+
+        });
+        
+        if ('@Session["MISCampus"]' != null) {
+          
+            $('#ddlCampus').val('@Session["MISCampus"].ToString()');
+        }
+    });
+</script>
+<br />
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <i class="fa fa-lg fa-dashboard"></i>&nbsp;<label>MIS Report</label>
+    </div>
+    <div class="panel-body">
+        <br />
+        <div>
+            <table align="right">
+                <tr align="right">
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div>
+                                        @Html.DropDownList("ddlCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "", new { @Class = "form-control" })
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <button type="button" class="btn btn-primary" id="GetMISReport">
+                                            <i class="fa fa-print fa-fw"></i>&nbsp;Generate Excel</button>&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <br />
+                    </td>
+                </tr>
+            </table>
+
+            <div id="OverAllReport">
+                <table width="600" border="1" align="center" class="panel-body">
+                    <thead>
+                        <tr>
+                            <td rowspan="2" style="width: 200px;">
+                                <div align="center">Campus</div>
+                            </td>
+                            <td colspan="2">
+                               <div align="center">@ViewBag.AcademicYear</div>
+                            </td>
+                            <td rowspan="2">
+                                <div align="center">Total</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div align="center">Boys</div>
+                            </td>
+                            <td>
+                                <div align="center">Girls</div>
+                            </td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (ViewBag.OverAllList != null)
+                        {
+                            foreach (var item in ViewBag.OverAllList)
+                            {
+                            <tr>
+                                <td align="left">@item.Campus</td>
+                                <td align="center">@item.Boys</td>
+                                <td align="center">@item.Girls</td>
+                                <td align="center">@item.Total</td>
+                            </tr>
+                            }
+                        }
+                    </tbody>
+
+                    @{
+                        long OverAllTotal = 0;
+                        long BoysTotal = 0;
+                        long GirlsTotal = 0;
+                    }
+
+                    @if (ViewBag.OverAllList != null)
+                    {
+
+                        foreach (var item in ViewBag.OverAllList)
+                        {
+                            BoysTotal = BoysTotal + item.Boys;
+                            GirlsTotal = GirlsTotal + item.Girls;
+                            OverAllTotal = OverAllTotal + item.Total;
+                        }
+                    }
+                    <tr>
+                        <td>Total</td>
+                        <td align="center">@BoysTotal</td>
+                        <td align="center">@GirlsTotal</td>
+                        <td align="center">@OverAllTotal</td>
+                    </tr>
+                </table>
+                <br />
+            </div>
+            <div id="SingleCampusReport">
+                <table width="600" border="1" align="center" class="panel-body">
+                    <thead>
+                        <tr>
+                            <td rowspan="2" style="width: 200px;">
+                                <div align="center">Grade</div>
+                            </td>
+                            <td colspan="2">
+                                <div align="center">@ViewBag.AcademicYear</div>
+                            </td>
+                            <td rowspan="2">
+                                <div align="center">Total</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div align="center">Boys</div>
+                            </td>
+                            <td>
+                                <div align="center">Girls</div>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @if (ViewBag.SingleCampusList != null)
+                        {
+                            foreach (var item in ViewBag.SingleCampusList)
+                            {
+                            <tr>
+                                <td align="left">@item.ShowGrade</td>
+                                <td align="center">@item.Boys</td>
+                                <td align="center">@item.Girls</td>
+                                <td align="center">@item.Total</td>
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                    @{
+                        OverAllTotal = 0;
+                        BoysTotal = 0;
+                        GirlsTotal = 0;
+                    }
+                    @if (ViewBag.SingleCampusList != null)
+                    {
+
+                        foreach (var item in ViewBag.SingleCampusList)
+                        {
+                            BoysTotal = BoysTotal + item.Boys;
+                            GirlsTotal = GirlsTotal + item.Girls;
+                            OverAllTotal = OverAllTotal + item.Total;
+                        }
+                    }
+                    <tr>
+                        <td>Total</td>
+                        <td align="center">@BoysTotal</td>
+                        <td align="center">@GirlsTotal</td>
+                        <td align="center">@OverAllTotal</td>
+                    </tr>
+                </table>
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
+

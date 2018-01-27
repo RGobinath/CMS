@@ -1,0 +1,177 @@
+﻿@{
+    ViewBag.Title = "Staff Consolidate Summary";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+@Html.Hidden("hdnEmptyValue", "", new { id = "hdnEmptyValue" })
+@Html.Hidden("hdnFlag", "", new { id = "hdnFlag" , @Value = ViewBag.Flag })
+@Html.Hidden("hdnCampus", "", new { id = "hdnCampus" , @Value = ViewBag.Campus })
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="fa fa-search"></i>&nbsp;Search
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Campus</b></label>
+                                    @Html.DropDownList("ddlCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlCampus", @Class = "form-control select-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Staff Type</b></label>
+                                    @Html.DropDownList("ddlStaffType", new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Teaching",Text="Teaching"},
+                                              new{Value="Non Teaching-Admin",Text="Non Teaching [Admin]"},
+                                              new{Value="Non Teaching-Support",Text="Non Teaching [Support]"}
+                                          },
+                   "Value", "Text", ""), new { id = "ddlStaffType", @Class = "form-control select-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Staff ID</b></label>
+                                    @Html.TextBox("StaffId", "", new { @Class = "form-control height-20", @maxlength = "30" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Staff Name</b></label>
+                                    @Html.TextBox("StaffName", "", new { @Class = "form-control height-20", @maxlength = "30" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Status</b></label>
+                                    @Html.DropDownList("Status", new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                               new{Value="LongLeave",Text="LongLeave"},
+                                               new{Value="Resigned",Text="Resigned"},  
+                                              new{Value="Others",Text="Others"},                                  
+                                 }, "Value", "Text", ""), new { id = "Status", @Class = "form-control select-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Attendance From Date</b></label>
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBox("AttendanceFromDate", "", new { @id = "AttendanceFromDate", placeholder = "dd/MM/yyyy", @Class = "maxLength form-control height-20", @onkeypress = "return isNumberKey(event, this)", @onkeyup = "return datecheck(event, this)", @maxlength = "10" })
+                                        <span class="input-group-addon" style="cursor: pointer;"><i class="ace-icon fa fa-calendar AttFromdate"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="space-6"></div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Attendance To Date</b></label>
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBox("AttendanceToDate", "", new { @id = "AttendanceToDate", placeholder = "dd/MM/yyyy", @Class = "maxLength form-control height-20", @onkeypress = "return isNumberKey(event, this)", @onkeyup = "return datecheck(event, this)", @maxlength = "10" })
+                                        <span class="input-group-addon" style="cursor: pointer;"><i class="ace-icon fa fa-calendar AttTodate"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>
+                                        <b>Month Year</b>
+                                    </label>
+                                    @Html.TextBox("MonthYear", "", new { id = "txtMonthYear", @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-1">
+                                    <br />
+                                    <button class="btn btn-success btn-block btn-sm" id="Search">
+                                        <i class="ace-icon fa fa-search white"></i>Search
+                                    </button>
+                                </div>
+                                <div class="col-sm-1">
+                                    <br />
+                                    <button class="btn btn-danger btn-block btn-sm" id="Reset">
+                                        <i class="ace-icon fa fa-undo white"></i>Reset
+                                    </button>
+                                </div>
+                                @if (ViewBag.Flag == "Show-ALL")
+                                {
+                                <div class="col-sm-2">
+                                    <br />
+                                    <button class="btn btn-info btn-block btn-sm" type="button" id="btnGetSearch" value="Search">
+                                        <i class="ace-icon fa fa-file white"></i>Generate Attendance
+                                    </button>
+                                </div>
+                                @*<div class="col-sm-3">
+                                    <br />
+                                    <button class="btn btn-primary btn-block btn-sm" type="button" id="btnOverView" value="Overview">
+                                        <i class="ace-icon fa fa-file white"></i>Staff Monthly Attendance Report</button>
+                                </div>*@
+                                }
+                                else
+                                {
+                                    @*<div class="col-sm-3">
+                                    <br />
+                                    <button class="btn btn-primary btn-block btn-sm" type="button" id="btnOverView" value="Overview">
+                                        <i class="ace-icon fa fa-file white"></i>Staff Monthly Attendance Report</button>
+                                </div>*@
+                                }
+
+                            </div>
+                            <div class="space-6"></div>
+                        </div>                        
+                        <div class="space-6"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-6"></div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="StaffConsolidateSummaryNewGridList">
+                </table>
+                <div id="StaffConsolidateSummaryNewGridListPager">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div id="LoadEditButton" style="margin: 0px; padding: 0px; position: fixed; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(102, 102, 102); z-index: 30001; opacity: 0.8;">
+    <p style="position: absolute; color: White; top: 50%; left: 45%;">
+        <img src="../../Images/ajax-loader.gif" />
+    </p>
+</div>*@
+<div id="LoadEditButton" style="display: none; z-index: 10001">
+    <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height: 65px">
+        <img src="../../Images/ajax-loader.gif" alt="Loading..." />
+    </div>
+</div>
+<div id="divShowStaffAttendanceDetailsNew"></div>
+<div id="divEditStaffAttendanceDetails"></div>
+<div id="divClosingBalanceView"></div>
+<div id="divStaffStatusChange"></div>
+<script src="../../Scripts/BioMetricAttendance/StaffConsolidateSummaryNew.js"></script>
+<style>
+    #LoadEditButton {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+    .Datepicker {
+        z-index:1000000000;
+    }
+</style>

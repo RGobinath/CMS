@@ -1,0 +1,174 @@
+﻿@model TIPS.Entities.StaffEntities.StaffIssueManagementReportPDF
+@{
+    Layout = null;
+}
+<style type="text/css">
+    .LineSpace {
+        line-height: 16px;
+    }
+
+    .OutTable {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+        font-family: Verdana;
+    }
+
+        /*.OutTable tr {
+            border: none;
+        }*/
+
+        .OutTable td {
+            border: none;
+        }
+
+    .trBrdr {
+        border: 1px solid black;
+    }
+
+    .page-break {
+        page-break-before: always;
+    }
+</style>
+@if (Model.StaffIssueManagementReportList.Count > 0)
+{
+    string[] files = new string[5];
+    files[0] = Server.MapPath("~/Images/green.jpg");
+    files[1] = Server.MapPath("~/Images/orange.jpg");
+    files[2] = Server.MapPath("~/Images/red.jpg");
+    files[3] = Server.MapPath("~/Images/blue.jpg");
+    files[4] = Server.MapPath("~/Images/yellow.jpg");  
+    <table border="0" cellpadding='1' width='95%' cellspacing='0' style="font-family: Verdana; border: medium; margin-top: 10px; border-collapse: collapse;" align="center">
+        <tr border="0" style=' height: 45px; font-size: 19px; color: black'>
+            <td colspan="15" style='border: 1px solid black;text-align:right;border-top:none;border-left:none;border-right:none'>@DateTime.Now.ToString("dd/MM/yyyy")</td>
+            </tr>
+        <tr border="0" style='border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 25px; color: black'>
+            <td colspan="15" style='border: 1px solid black;text-align:center'><b>STAFF ISSUE MANAGEMENT DATEWISE REPORT</b></td>
+            </tr>
+        <tr border="0" style='border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 19px; color: black'>
+            <td colspan="5" style='border: 1px solid black;'>
+                <b>Campus:</b>
+                @if (ViewBag.Campus != null) {
+                    @ViewBag.Campus
+                }
+             </td>
+            <td colspan="5" style='border: 1px solid black;'>
+                <b>Performer:</b>
+                @if (ViewBag.Performer != null) {
+                    @ViewBag.Performer
+                }
+            <td colspan="5" style='border: 1px solid black;'>
+                <b>Issue Group:</b>
+                @if (ViewBag.IssueGroup != null) {
+                    @ViewBag.IssueGroup
+                }
+                </td>
+            </tr>
+        <tr border="0" style='border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 19px; color: black'>
+            <td colspan="5" style='border: 1px solid black;'>
+               <b>Issue Type:</b>
+                @if (ViewBag.IssueType != null)
+                {
+                    @ViewBag.IssueType
+                }
+             </td>
+            <td colspan="5" style='border: 1px solid black;'>
+                <b>From Date:</b>
+                @if (ViewBag.FromDate != null)
+                {
+                    @ViewBag.FromDate
+                }
+            <td colspan="5" style='border: 1px solid black;'>
+                <b>To Date:</b>
+                @if (ViewBag.ToDate != null)
+                {
+                    @ViewBag.ToDate
+                }
+                </td>
+            </tr>                                                
+        <tr border="0" style='border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 16px; color: black'>
+            <td style='border: 1px solid black;width: 5%'><b>Sl. No</b></td>
+            <td style='border: 1px solid black;width: 9%'><b>Issue Number</b></td>
+            <td style='border: 1px solid black;width: 7%'><b>Campus</b></td>
+            <td style='border: 1px solid black;width: 5%'><b>Issue Group</b></td>
+            <td style='border: 1px solid black;width: 5%'><b>Issue Type</b></td>
+            <td style='border: 1px solid black;width: 10%'><b>Description</b></td>
+            <td style='border: 1px solid black;width: 7%'><b>Created By</b></td>
+            <td style='border: 1px solid black;width: 10%'><b>Created&nbsp; Date</b></td>
+            <td style='border: 1px solid black;width: 7%'><b>Status</b></td>
+            <td style='border: 1px solid black;width: 10%'><b>Resolution</b></td>
+            <td style='border: 1px solid black;width: 10%'><b>Resolved Date</b></td>
+            <td style='border: 1px solid black;width: 10%'><b>Due Date</b></td>
+            <td style='border: 1px solid black;width: 5%'><b>SLA Status</b></td>
+            <td style='border: 1px solid black;width: 5%'><b>Due Date Type</b></td>
+            <td style='border: 1px solid black;width: 5%'><b>Issue Hours</b></td>
+        </tr>
+        @foreach (var List in @Model.StaffIssueManagementReportList)
+        {                   
+            <tr border="0" style="border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 16px; color: black">
+                <td style='border: 1px solid black; width: 5%'>@List.Id</td>
+                <td style='border: 1px solid black; width: 9%'>@List.IssueNumber</td>
+                <td style='border: 1px solid black; width: 7%'>@List.BranchCode</td>
+                <td style='border: 1px solid black; width: 5%'>@List.IssueGroup</td>
+                <td style='border: 1px solid black; width: 5%'>@List.IssueType</td>
+                <td style='border: 1px solid black; width: 10%'>@List.Description</td>
+                <td style='border: 1px solid black; width: 7%'>@List.CreatedBy</td>
+                <td style='border: 1px solid black; width: 10%'>@(List.CreatedDate!=null?List.CreatedDate.Value.ToString("dd/MM/yyyy"):"")</td>
+                <td style='border: 1px solid black; width: 7%'>@List.Status</td>
+                <td style='border: 1px solid black; width: 10%'>@List.Resolution</td>
+                <td style='border: 1px solid black; width: 10%'>@(List.ModifiedDate!=null?List.ModifiedDate.Value.ToString("dd/MM/yyyy HH:mm:ss"):"")</td>
+                <td style='border: 1px solid black; width: 10%'>@(List.DueDate!=null?List.DueDate.Value.ToString("dd/MM/yyyy HH:mm:ss"):"")</td>                
+                @if (List.DueDate != null)
+                {
+                    if (List.Status == "Completed")
+                    {                         
+                    <td style='border: 1px solid black; width: 5%;text-align:center'>
+                        <img src="@files[0]" alt="" height="12x" width="12px" /></td>            
+                    }                    
+                    else if (List.DifferenceInHours.Value.TotalHours <= 0)
+                    {                         
+                    <td style='border: 1px solid black; width: 5%;text-align:center'>
+                        <img src="@files[4]" alt="" height="12px" width="12px" /></td>            
+                    }
+                    else if (List.DifferenceInHours.Value.TotalHours > 0 && List.DifferenceInHours.Value.TotalHours <= 24)
+                    {                         
+                    <td style='border: 1px solid black; width: 5%;text-align:center'>
+                        <img src="@files[1]" alt="" height="12px" width="12px" /></td>            
+                    }
+                    else if (List.DifferenceInHours.Value.TotalHours > 24)
+                    {                         
+                    <td style='border: 1px solid black; width: 5%;text-align:center'>
+                       
+                        <img src="@files[2]" alt="" height="12px" width="12px" /></td>            
+                    }
+                }
+                else
+                {
+                    <td style='border: 1px solid black; width: 5%;text-align:center'>
+                        <img src="@files[3]" alt="" height="12px" width="12px" /></td> 
+                }
+                @if (List.ModifiedDate != null)
+                {                    
+                    if (List.DifferenceInHours1.Value.TotalHours <= 0)
+                    {                         
+                    <td style='border: 1px solid black; width: 5%'>Completed Before Due Date</td>            
+                    }
+                    else if (List.DifferenceInHours1.Value.TotalHours > 0 && List.DifferenceInHours1.Value.TotalHours <= 24)
+                    {                         
+                    <td style='border: 1px solid black; width: 5%'>Completed After Due Date Within 24 hours</td>            
+                    }
+                    else if (List.DifferenceInHours1.Value.TotalHours > 24)
+                    {                         
+                    <td style='border: 1px solid black; width: 5%'>Completed Above Due Date After 24 hours</td>            
+                    }
+                }
+                else
+                {
+                    <td style='border: 1px solid black; width: 5%'>Not Completed</td>            
+                }
+                <td style='border: 1px solid black; width: 10%'>@(List.DueDate!=null?List.DifferenceInHours2.Value.Days + "d " + List.DifferenceInHours2.Value.Hours + "h " + List.DifferenceInHours2.Value.Minutes + "m ":"0d 0h 0m")</td>
+            </tr>
+        }
+    </table>
+}
+

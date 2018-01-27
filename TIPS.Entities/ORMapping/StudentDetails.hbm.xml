@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StudentDetails" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StudentDetails, TIPS.Entities" table="StudentDetails" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="id_no" column="id_no" type="string" />
+    <property name="name" column="name" type="string" />
+    <property name="campus_name" column="campus_name" type="string"  />
+    <property name="section" column="section" type="string" />
+    <property name="grade" column="grade" type="string"  />
+    <property name="IsHosteller" column="IsHosteller" type="boolean"  />
+    <property name="application_no" column="application_no" type="string" />
+    <property name="academicyear" column="academicyear" type="string" />
+    <property name="feestructure" column="feestructure" type="string" />
+    <property name="father_name" column="father_name" type="string" />
+    <property name="father_mobile" column="father_mobile" type="Int64" />
+    <property name="mother_name" column="mother_name" type="string" />
+    <property name="mother_mobile" column="mother_mobile" type="Int64" />
+    <property name="guardian_name" column="guardian_name" type="string" />
+    <property name="guardian_mobile" column="guardian_mobile" type="Int64" />
+    <property name="BoardingType" column="BoardingType" type="string" />
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess.ReportCardClasses" namespace="TIPS.Entities.Assess.ReportCardClasses" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.ReportCardClasses.SubjectMarksForRptCard_Vw,TIPS.Entities.Assess" table="SubjectMarksForRptCard_Vw" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="PreRegNum" column="PreRegNum" type="Int64" />
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    <property name="Name" column="Name" type="string" />
+    <property name="CreatedBy" column="CreatedBy" type="string" />
+    <property name="EngSemI" column="EngSemI" type="string"/>
+    <property name="EngSemII" column="EngSemII" type="string" />
+    <property name="LangSemI" column="LangSemI" type="string" />
+    <property name="LangSemII" column="LangSemII" type="string" />
+    <property name="HcSemI" column="HcSemI" type="string" />
+    <property name="HcSemII" column="HcSemII" type="string" />
+    <property name="MathsSemI" column="MathsSemI" type="string" />
+    <property name="MathsSemII" column="MathsSemII" type="string" />
+    <property name="BioSemI" column="BioSemI" type="string" />
+    <property name="BioSemII" column="BioSemII" type="string" />
+    <property name="PhySemI" column="PhySemI" type="string" />
+    <property name="PhySemII" column="PhySemII" type="string" />
+    <property name="CheSemI" column="CheSemI" type="string" />
+    <property name="CheSemII" column="CheSemII" type="string" />
+    <property name="IctSemI" column="IctSemI" type="string" />
+    <property name="IctSemII" column="IctSemII" type="string" />
+    <property name="EcoSemI" column="EcoSemI" type="string" />
+    <property name="EcoSemII" column="EcoSemII" type="string" />
+    
+    <property name="Subject" column="Subject" type="string" />
+    <property name="Campus" column="Campus" type="string" />
+    <property name="Grade" column="Grade" type="string" />
+    <property name="Section" column="Section" type="string" />
+    <property name="Semester" column="Semester" type="string" />
+  </class>
+</hibernate-mapping>

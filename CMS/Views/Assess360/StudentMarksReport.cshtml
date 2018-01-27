@@ -1,0 +1,120 @@
+﻿@model TIPS.Entities.Assess.Assess360
+<html>
+<head>
+    <title></title>
+    <style type="text/css">
+        .red .ui-slider-range
+        {
+            background: #ef2929;
+        }
+        .red .ui-slider-handle
+        {
+            border-color: #ef2929;
+        }
+        
+        .ui-progressbar.beginning .ui-progressbar-value
+        {
+            background: red;
+        }
+        .ui-progressbar.middle .ui-progressbar-value
+        {
+            background: yellow;
+        }
+        .ui-progressbar.end .ui-progressbar-value
+        {
+            background: green;
+        }
+    </style>
+    <script type="text/javascript" language="javascript">
+        function loadStudentMarksDtlsLst(CompId) {return false;
+            $('#StudentMarksDtlsLst').clearGridData();
+            if ($('#StudentMarksDtlsLst').hide()) {
+                $('#StudentMarksDtlsLst').show();
+            }
+            LoadSetGridParam($('#StudentMarksDtlsLst'),
+                 "/Assess360/GetAssess360ComponentListWithPagingAndCriteria?Assess360Id=" + $('#Id').val() + "&compId=" + CompId);
+        }
+    </script>
+</head>
+<body style="width: 100%">
+    <div id="StudentMarksTab">
+        <table width="100%" class="" id="StudentMarksTable">
+        <tr></tr><br />
+            <tr>
+                <td style="width: 20%">
+                    Marks Awarded : <b><span id="MarksAwarded" style="color:red; background-color:white;"></span></b>
+                </td>
+                <td style="width: 20%">
+                </td>
+                <td style="width: 20%">
+                </td>
+                <td style="width: 20%">
+                </td>
+                <td style="width: 20%">
+                </td>
+            </tr>
+            <tr style="height: 50px; width: 99%">
+                <td colspan="5" align="center">
+                    <div id="progressbar" class="red" style="width: 98%;">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table width="100%">
+            <tr style="font-weight: bold">
+                <td width='15%'>
+                    <a onclick="return loadStudentMarksDtlsLst(1)">Character (20)</a>
+                </td>
+                <td width='15%'>
+                    <a onclick="return loadStudentMarksDtlsLst(2)">Attendnce / Punctuality (10)</a>
+                </td>
+                <td width='15%'>
+                    <a onclick="return loadStudentMarksDtlsLst(3)">Homework Completion (05)</a>
+                </td>
+                <td width='15%'>
+                    <a onclick="return loadStudentMarksDtlsLst(4)">Homework Accuracy (15)</a>
+                </td>
+                <td width='15%'>
+                    <a onclick="return loadStudentMarksDtlsLst(5)">Weekly / Chapter Tests (20)</a>
+                </td>
+                <td width='13%'>
+                    <a onclick="return loadStudentMarksDtlsLst(6)">SLC Parent Assessment (05)</a>
+                </td>
+                <td width='12%'>
+                    <a onclick="return loadStudentMarksDtlsLst(7)">Terms Assessment (25)</a>
+                </td>
+            </tr>
+            <tr>
+                <td width='15%'>
+                    <div id="CharacterChart">
+                    </div>
+                </td>
+                <td width='15%'>
+                    <div id="AttendncePunctualityChart">
+                    </div>
+                </td>
+                <td width='15%'>
+                    <div id="HomeworkCompletionChart">
+                    </div>
+                </td>
+                <td width='15%'>
+                    <div id="HomeworkAccuracyChart">
+                    </div>
+                </td>
+                <td width='15%'>
+                    <div id="WeeklyChapterTestsChart">
+                    </div>
+                </td>
+                <td width='13%'>
+                    <div id="SLCParentAssessmentChart">
+                    </div>
+                </td>
+                <td width='12%'>
+                    <div id="TermsAssessmentChart">
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,266 @@
+﻿@model TIPS.Entities.EnquiryEntities.EnquiryDetails
+@{
+    ViewBag.Title = "NewEnquiry";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+
+<style>
+    #tabs
+    {
+        padding: 0px;
+        background: none;
+        border-width: 0px;
+    }
+    #tabs .ui-tabs-nav
+    {
+        padding-left: 0px;
+        background: transparent;
+        border-width: 0px 0px 1px 0px;
+        -moz-border-radius: 0px;
+        -webkit-border-radius: 0px;
+        border-radius: 0px;
+    }
+    #tabs .ui-tabs-panel
+    {
+        background: url(images/ui-bg_highlight-hard_100_f5f3e5_1x100.png) repeat-x scroll 50% top white;
+        border-width: 0px 1px 1px 1px;
+    }
+    
+    #EnquiryStudentDetails
+    {
+        padding: 0px;
+        background: none;
+        border-width: 0px;
+    }
+    #EnquiryStudentDetails .ui-tabs-nav
+    {
+        padding-left: 0px;
+        background: transparent;
+        border-width: 0px 0px 1px 0px;
+        -moz-border-radius: 0px;
+        -webkit-border-radius: 0px;
+        border-radius: 0px;
+    }
+    #EnquiryStudentDetails .ui-tabs-panel
+    {
+        background: url(images/ui-bg_highlight-hard_100_f5f3e5_1x100.png) repeat-x scroll 50% top white;
+        border-width: 0px 1px 1px 1px;
+    }
+    .ui-tabs .ui-tabs-panel
+    {
+        display: block;
+        border-width: 0;
+        background: none;
+    }
+</style>
+
+<script type="text/javascript">
+    if ("@ViewBag.errmsg" == "error") {
+        ErrMsg('Payment Not Done');
+    }
+
+    var tabindex = "";
+    
+    if ('@ViewBag.Followup' == "yes") {
+        $(function () {
+            $("#tabs").tabs({ selected: 3 });
+        });
+    }
+    else {
+        $(function () {
+            $("#tabs").tabs({
+            });
+        });
+    }
+    $(function () {
+        var btnlst = null;
+        $("#link1").find('a').click(function () {
+            if (btnlst) {
+                btnlst.removeClass("ui-state-hover ui-state-focus").addClass("ui-state-default").button('enable');
+            }
+            $(this).button('disable');
+            btnlst = $(this)
+        });
+        setTimeout(function () { btnlst = $("#EnquiryFamilyDetails").click().button('disable'); }, 200)
+    });
+        
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(".datepicker1").datepicker({
+            dateFormat: "dd/mm/yy",
+            //showOn: "button",
+            maxDate: '+0d'
+            //buttonImage: "../../Images/date.gif",
+            //buttonImageOnly: true
+        });
+        //hide past date use for Followup
+        $(".datepicker2").datepicker({
+            //showOn: "button",
+            dateFormat: "dd/mm/yy",
+            minDate: 0
+            //buttonImage: "../../Images/date.gif",
+            //buttonImageOnly: true
+        });
+        $(".datepicker").datepicker({
+            //showOn: "button",
+            dateFormat: "dd/mm/yy",
+            maxDate: '+0d'
+            //buttonImage: "../../Images/date.gif",
+            //buttonImageOnly: true
+        });
+        window.onload = "PastSchoolDetails.cshtml";
+
+        $("#Back").click(function () {
+            window.location.href = "/Enquiry/EnquiryManagement";
+        });
+
+        $("#Back1").click(function () {
+            window.location.href = "/Enquiry/NewEnquiry";   // rowData1
+        });
+        if ($("#UpdateSuccessMsg").val() != null & $("#UpdateSuccessMsg").val() != "") {
+            InfoMsg("Enquiry Updated Successfully");
+        }
+        $('#Savebtn').click(function () {
+            var parentname = $('#parntname').val();
+            var studname = $('#studntname').val();
+            var gender = $('#gender').val();
+            var dob = $('#DOB').val();
+            //alert(dob);
+            var enqdate = $('#EnquiredDate').val();
+            var follupdate = $('#FollowupDate').val();
+            var board = $('#Board').val();
+            var campus = $('#ddlcampus').val();
+            var enqstatus = $('#EnquiryStatus').val();
+            var enqthrough = $('#EnquiryThrough').val();
+            var location = $('#location').val();
+            var enqdetailscode = $('#Enquirydetailscode').val();
+            var enqmobileno = $('#EnquirerMobileNo').val();
+          
+
+            if (parentname == "") { ErrMsg("Please fill the Parent Name!"); return false; }
+            else if (studname == "") { ErrMsg("Please fill the Student Name!"); return false; }
+            else if (gender == "") { ErrMsg("Please select the Gender!"); return false; }
+            else if (subject == "") { ErrMsg("Please fill the Subject!"); return false; }
+            else if (dob == "") {ErrMsg("Please fill the Date Of Birth!"); return false; }
+
+            else if (enqdate == "") { ErrMsg("Please fill the Enquiry Date!"); return false; }
+            else if (board == "") { ErrMsg("Please fill the Board!"); return false; }
+            else if (campus == "") { ErrMsg("Please select the Campus!"); return false; }
+            else if (program == "") { ErrMsg("Please fill the Program!"); return false; }
+            else if (course == "") { ErrMsg("Please fill the Level!"); return false; }
+            else if (coursetype == "") { ErrMsg("Please fil the Class!"); return false; }
+            else if (batch == "") { ErrMsg("Please fill the Batch!"); return false; }
+            else if (timing == "") { ErrMsg("Please fill the Timing!"); return false; }
+            else if (enqmobileno == "") { ErrMsg("Please fill the Mobile Number!"); return false; }
+            else if ($.trim(email).length == 0) {
+                ErrMsg('Please enter Email Address');
+                return false;
+            }
+            else {
+                debugger;
+                var GridIdList = $("#EnquiryCourseList").jqGrid('getGridParam', 'selarrrow');
+                var rowData = [];
+                var rowData1 = [];
+                var MainrowData1 = "";
+                if (GridIdList.length > 0) {
+                    for (i = 0; i < GridIdList.length; i++) {
+                        rowData[i] = $("#EnquiryCourseList").jqGrid('getRowData', GridIdList[i]);
+                        rowData1[i] = rowData[i].Id;
+                        if (MainrowData1 != "") {
+                            MainrowData1 = MainrowData1 + ',' + rowData1[i];
+                        }
+                        else {
+                            MainrowData1 = rowData1[i];
+                        }
+                    }
+                    //$("#CourseEntryId").val(MainrowData1);
+                    document.getElementById("CourseEntryId").value = MainrowData1;
+                    //window.location.href = "/TheJomaya/NewEnquiry?Enqcourseid=" + MainrowData1;
+                }
+                return false;
+            }
+        });
+
+        $("#EnquiryStatus").change(function () {
+            var Status = $('#EnquiryStatus option:selected').val();
+            if (Status == 'Completed') {
+                InfoMsg("Please Select Course from Course Details");
+                $("#tabs").tabs({ selected: 1 });
+            }
+        });
+    });
+</script>
+@using (Html.BeginForm("NewEnquiry", "Enquiry", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h3> Enquiry Details</h3>
+    <table width="100%">
+        <tr>
+            <td>
+                <input type="hidden" id="tabindex" /><br style="display: block; margin: -5px 0;" />
+                <table class="InnerTable" width="100%">
+                    @Html.Hidden("CreatedBy")
+                    @Html.Hidden("ModifiedBy")
+                    @Html.Hidden("CreatedDate")
+                    @Html.Hidden("ModifiedDate")
+                    @Html.Hidden("CourseEntryId")
+                    <tr>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="tabs">
+                                <ul>
+                                    <li><a href="#EnquiryStudentDetails" id="link1" style="font: bold 11px Verdana,Arial,sans-serif;">
+                                        Student Details</a></li>
+                                    <li><a href="#EnquiryCourse" style="font: bold 11px Verdana,Arial,sans-serif;">Course
+                                        Details</a></li>
+                                    <li><a href="#EnquiryInbox" style="font: bold 11px Verdana,Arial,sans-serif;">FollowUp
+                                        Details</a></li>
+                                </ul>
+                                @Html.HiddenFor(model => model.EnquiryDetailsId)
+                                @Html.HiddenFor(model => model.EnquiryDetailsCode)
+                                @Html.Partial("EnquiryStudentDetails")
+                                @if (ViewBag.hidevalue != "hide")
+                                {
+                                    @Html.Partial("EnquiryCourse")
+                                    @Html.Partial("EnquiryInbox")
+                                }
+                            </div>
+                            <div id="loadpartial">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table class="InnerTable" width="100%">
+        <tr>
+            <td width="40%">
+                &nbsp
+            </td>
+            <td width="20%" align="center">
+                @if (ViewBag.completed != "hide")
+                {
+                    <input type="submit" id="Savebtn" name="btnSave" value="Save" class="btnStyle"/>
+                }
+                <input type="button" id="Back" value="Back to Inbox" class="btnStyle"/>
+            </td>
+            <td width="40%">
+            </td>
+        </tr>
+    </table>
+
+}

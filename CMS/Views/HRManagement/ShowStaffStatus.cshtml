@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "ShowStaffStatus";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<h3>
+    StaffLeaveDetails</h3>
+<br />
+@using (Html.BeginForm("ShowStaffStatus", "HRManagement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <script language="javascript" type="text/javascript">
+
+        $(document).ready(function () {
+
+            // create Button Details...
+            $("#btnCreate").click(function () {
+                window.location.href = '@Url.Action("LeaveRequest", "HRManagement")';
+            });
+
+            // Staff Status Details ...
+            jQuery("#StaffDetailsGrid").jqGrid({
+                mtype: 'GET',
+                url: '/HRManagement/ShowStaffStatusJqGrid',
+                datatype: 'json',
+                height: '300',
+                width: '1200',
+                shrinkToFit: true,
+                colNames: ['Id', 'IssuNo', 'Processed By', 'UerRole', 'Request Status', 'Staff Name', 'StaffId Number', 'Campus', 'Department', 'Type Of Leave', 'Date Applying For Leave'],
+                colModel: [
+                          { name: 'Id', index: 'Id', hidden: true },
+                          { name: 'IssuNo', index: 'IssuNo', width: '150%', align: 'left', sortable: false },
+                          { name: 'ProcessedBy', index: 'ProcessedBy', width: '50%', align: 'left', sortable: false },
+                          { name: 'UerRole', index: 'UerRole', align: 'left', sortable: false },
+                          { name: 'RequestStatus', index: 'RequestStatus', align: 'left', sortable: false },
+                          { name: 'StaffName', index: 'StaffName', align: 'left', sortable: false },
+                          { name: 'StaffIdNumber', index: 'StaffIdNumber', align: 'left', sortable: false },
+                          { name: 'Campus', index: 'Campus', align: 'left', sortable: false },
+                          { name: 'Department', index: 'Department', align: 'left', sortable: false },
+                          { name: 'TypeOfLeave', index: 'TypeOfLeave', align: 'left', sortable: false },
+                          { name: 'DateApplyingForLeave', index: 'DateApplyingForLeave', align: 'left', sortable: false },
+
+                       ],
+                pager: '#StaffDetailsGridPagger',
+                rowNum: '10',
+                rowList: [5, 10, 20, 50, 100, 150, 200 ],
+                sortname: 'Id',
+                sortorder: "Desc",
+                multiselect: true,
+                viewrecords: true,
+                caption: 'Leave Request Details'
+            });
+        });
+
+    </script>
+    <table id="StaffDetailsGrid">
+    </table>
+    <div id="StaffDetailsGridPagger">
+    </div>
+    <table>
+        <tr>
+            <td>
+                <input type="button" name="btnCreate" id="btnCreate" value="Create Leave Request" />
+            </td>
+        </tr>
+    </table>
+        
+}

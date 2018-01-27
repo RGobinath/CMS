@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.VehicleTyreMaintenance" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.VehicleTyreMaintenance, TIPS.Entities" table="VehicleTyreMaintenance" lazy="true" >
+    <id name="Id" column="Id">
+      <generator class="identity" />
+    </id>
+    <property name="VehicleId">
+      <column name="VehicleId" sql-type="int" not-null="true" />
+    </property>
+    <property name="VehicleNo">
+      <column name="VehicleNo" />
+    </property>
+    <property name="TyreMaintenanceType">
+      <column name="TyreMaintenanceType" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="TyreLocation">
+      <column name="TyreLocation" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="TypeOfTyre">
+      <column name="TypeOfTyre" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="TyreMake">
+      <column name="TyreMake" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="TyreModel">
+      <column name="TyreModel" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="TyreSize">
+      <column name="TyreSize" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="TyreAssignedDate">
+      <column name="TyreAssignedDate" sql-type="date" not-null="false" />
+    </property>
+    <property name="TyreMilometerReading">
+      <column name="TyreMilometerReading" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="TyreReasonForRemoving">
+      <column name="TyreReasonForRemoving" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="TyreCost">
+      <column name="TyreCost" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="TyreNo">
+      <column name="TyreNo" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="TyreBillNo">
+      <column name="TyreBillNo" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="TyreDateOfAlignment">
+      <column name="TyreDateOfAlignment" sql-type="date" not-null="false" />
+    </property>
+    <property name="TyreDateOfRotation">
+      <column name="TyreDateOfRotation" sql-type="date" not-null="false" />
+    </property>
+    <property name="TyreDateOfWheelService">
+      <column name="TyreDateOfWheelService" sql-type="date" not-null="false" />
+    </property>
+    <property name="TyreServiceCost">
+      <column name="TyreServiceCost" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="TyreMaintenanceBillNo">
+      <column name="TyreMaintenanceBillNo" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="CreatedDate">
+      <column name="CreatedDate" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="CreatedBy">
+      <column name="CreatedBy" sql-type="varchar" not-null="false" />
+    </property>
+
+    <property name="TyreDateOfService">
+      <column name="TyreDateOfService" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="TyreServiceProvider">
+      <column name="TyreServiceProvider" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="CostOfService">
+      <column name="CostOfService" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="TyreServicedBy">
+      <column name="TyreServicedBy" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="TyreServiceBillNo">
+      <column name="TyreServiceBillNo" sql-type="varchar" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.AssetModelMaster" namespace="TIPS.Entities.AssetEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.AssetModelMaster, TIPS.Entities" table="AssetModelMaster" lazy="false" >
+    <id name="ModelMasterId" column="ModelMasterId" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="Brand" column="Brand" type="string"></property>
+    <property name="Model" column="Model" type="string"></property>
+    <property name="IsActive" column="IsActive" type="bool"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"></property>
+  </class>
+</hibernate-mapping>

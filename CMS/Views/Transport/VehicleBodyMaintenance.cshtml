@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Vehicle Body Maintenance";
+}
+<div id="VehicleBodyMaintenance">
+    <div class="row">
+        <div class="col-xs-12 widget-container-col">
+            <div class="widget-box widget-color-CustomizeBlue ">
+                <div class="widget-header widget-header-flat widget-header-small">
+                    <div class="PanelHeader">
+                        Body Maintenance Details</div>
+                   @* <div class="widget-toolbar">
+                        <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                        </a>
+                    </div>*@
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2 ">
+                                    <label for="form-field-select-1 ">
+                                        <b>Type of Body</b></label>
+                                    @Html.DropDownList("BTypeOfBody", new SelectList(new[]
+                                          {
+                                             new {Value="",Text="Select"},
+                                              new{Value="Company Built",Text="Company Built"},
+                                              new{Value="Locally Built",Text="Locally Built"},
+                                          },
+                                      "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                </div>
+                                <div class="col-sm-2 ">
+                                    <label for="form-field-select-1 ">
+                                        <b>Date of Repair</b></label>
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBox("BDateOfRepair", "", new { @class = "form-control date-picker" })
+                                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2 ">
+                                    <label for="form-field-select-1 ">
+                                        <b>Type of Repair</b></label>
+                                    @Html.TextBox("BTypeOfRepair", "", new { @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-2 ">
+                                    <label for="form-field-select-1 ">
+                                        <b>Parts Required</b></label>
+                                    @Html.TextBox("BPartsRequired", "", new { @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-2 ">
+                                    <label for="form-field-select-1 ">
+                                        <b>Service Provider</b></label>
+                                    @Html.TextBox("BServiceProvider", "", new { @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-2 ">
+                                    <label for="form-field-select-1 ">
+                                        <b>Service Cost</b></label>
+                                    @Html.TextBox("BServiceCost", "", new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-sm-2 ">
+                                    <label for="form-field-select-1 ">
+                                        <b>Bill No</b></label>
+                                    @Html.TextBox("BBillNo", "", new { @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-2 ">
+                                    <label for="form-field-select-1 ">
+                                        <b>Spare Parts Attachment</b></label>
+                                    <input type="file" id="BM_SparePartsUsedfile" name="BM_SparePartsUsedfile" />
+                                </div>
+                                <div class="col-sm-4 ">
+                                    <label for="form-field-select-1 ">
+                                        <b>Description of Fault</b></label>
+                                    @Html.TextArea("BDescription", "", new { rows = 1, cols = 58, @class = "form-control textarea" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <br />
+                                    <button class="btn btn-success btn-info btn-block btn-sm" id="btnSave" type="button"
+                                        onclick="AddVehicleBodyMaintenance();return false;">
+                                        <i class="ace-icon fa fa-floppy-o bigger-120 white"></i>&nbsp Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <table id="VehicleBodyMaintenanceList">
+            </table>
+            <div id="VehicleBodyMaintenanceListPager">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="@Url.Content("~/Scripts/Transport/VehicleBodyMaintenance.js")" type="text/javascript"></script>

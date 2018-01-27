@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.BioMetricsEntities.Staff_DeviceLogSummaryStatus_sp" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.BioMetricsEntities.Staff_DeviceLogSummaryStatus_sp,TIPS.Entities" table="Staff_DeviceLogSummaryStatus_sp" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="Name" column="Name" type="string"/>
+    <property name="IdNumber" column="IdNumber" type="string"/>
+    <property name="Campus" column="Campus" type="string"/>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"/>
+    <property name="UserId" column="UserId" type="string"/>
+    <property name="AttendanceDate" column="AttendanceDate" type="date"/>
+    <property name="EmployeeId" column="EmployeeId" type="Int64"/>
+    <property name="LogDate" column="LogDate" type="datetime"/>
+    <property name="INOUT" column="INOUT" type="string"/>
+  </class>
+  <sql-query name="GetDeviceLogStatusSummaryList" callable="true">
+    <query-param name="spDeviceLogTableName" type="string"/>
+    <query-param name="spCampus" type="string"/>
+    <query-param name="spIdNumber" type="string"/>
+    <query-param name="spName" type="string"/>
+    <query-param name="spStaffType" type="string"/>
+    <query-param name="spAttendanceFromDate" type="string"/>
+    <query-param name="spAttendanceToDate" type="string"/>
+    <return class="TIPS.Entities.BioMetricsEntities.Staff_DeviceLogSummaryStatus_sp, TIPS.Entities">
+      <return-property name="Id" column="Id" />
+      <return-property name="Name" column="Name" />
+      <return-property name="IdNumber" column="IdNumber" />
+      <return-property name="Campus" column="Campus" />
+      <return-property name="PreRegNum" column="PreRegNum" />
+      <return-property name="UserId" column="UserId" />
+      <return-property name="AttendanceDate" column="AttendanceDate" />
+      <return-property name="EmployeeId" column="EmployeeId" />
+      <return-property name="LogDate" column="LogDate" />
+      <return-property name="INOUT" column="INOUT" />
+    </return>
+    <![CDATA[ 
+     EXEC [Staff_DeviceLogSummaryStatus_sp]
+      @spDeviceLogTableName=:spDeviceLogTableName
+     ,@spCampus=:spCampus
+     ,@spIdNumber=:spIdNumber
+     ,@spName=:spName
+     ,@spStaffType=:spStaffType
+     ,@spAttendanceFromDate=:spAttendanceFromDate
+     ,@spAttendanceToDate=:spAttendanceToDate
+     ]]>
+  </sql-query>
+</hibernate-mapping>
+

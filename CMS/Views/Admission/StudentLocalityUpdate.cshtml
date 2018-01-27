@@ -1,0 +1,309 @@
+@{
+    ViewBag.Title = "StudentLocality Update";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var grid_selector = "#jqStudentLocalityUpdation";
+        var pager_selector = "#jqStudentLocalityUpdationPager";
+        $(window).on('resize.jqGrid', function () {
+            $(grid_selector).jqGrid('setGridWidth', $(".page-content").width());
+        })
+        //resize on sidebar collapse/expand
+        var parent_column = $(grid_selector).closest('[class*="col-"]');
+        $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+            if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                setTimeout(function () {
+                    $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                }, 0);
+            }
+        })
+        $('#ddlCampus').change(function () {
+            debugger;
+            if ($('#ddlCampus').val() == "") { ErrMsg("Please fill the Campus"); return false; }
+            gradeddl();
+            $(grid_selector).GridUnload();
+            loadgrid();
+        });
+
+        function loadgrid() {
+            ddlCampus = $("#ddlCampus").val();
+            $(grid_selector).jqGrid({
+                url: "/Admission/StudentLocalityDetailsUpdateJQGrid?Campus=" + ddlCampus,
+                datatype: 'json',
+                type: 'POST',
+                colNames: ['Id', 'StudentTemplateId', 'PreRegNum', 'New Id', 'Name', 'Initial', 'Campus', 'Grade', 'Section', 'Boarding Type', 'Van No', 'Admission Status', 'Academic Year', 'Locality', 'Sub Locality', 'Kilometer', 'PickUp Time', 'Drop Time', 'Edit'],
+                colModel: [{ name: 'Id', index: 'Id', hidden: true, editable: true, width: 120, editoptions: { disabled: true, class: 'NoBorder' } },
+                { name: 'StudentTemplateId', index: 'StudentTemplateId', search: false, hidden: true, editable: true, width: 120, editoptions: { class: 'NoBorder' } },
+                { name: 'PreRegNum', index: 'PreRegNum', search: true, hidden: true, editable: false, width: 120, editoptions: { disabled: true } },
+                { name: 'NewId', index: 'NewId', search: true, editable: false, width: 100, editoptions: { disabled: true, class: 'NoBorder' } },
+                { name: 'Name', index: 'Name', search: true, editable: false, width: 200, editoptions: { class: 'NoBorder' } },
+                { name: 'Initial', index: 'Initial', search: true, editable: false, width: 50, editoptions: { class: 'NoBorder' } },
+
+                { name: 'Campus', index: 'Campus', search: true, editable: false, width: 120, editoptions: { disabled: true, class: 'NoBorder' } },
+                { name: 'Grade', index: 'Grade', search: true, width: 60, editable: false, editoptions: { disabled: true, class: 'NoBorder' } },
+                { name: 'Section', index: 'Section', search: true, width: 50, editable: true, sortable: true, edittype: 'text', editrules: { custom: true, custom_func: SectionValidation } },
+                { name: 'BoardingType', index: 'BoardingType', search: true, hidden: true, editable: false, width: 120, editoptions: { disabled: true, class: 'NoBorder' } },
+                { name: 'VanNo', index: 'VanNo', search: true, editable: false, width: 70, editoptions: { disabled: true, class: 'NoBorder' } },
+                { name: 'AdmissionStatus', index: 'AdmissionStatus', search: true, editable: false, editoptions: { disabled: true, class: 'NoBorder' } },
+                { name: 'AcademicYear', index: 'AcademicYear', search: true, editable: false, editoptions: { disabled: true, border: 0 } },
+                {name: 'Locality', index: 'Locality', search: true, editable: true, edittype: 'select', editoptions: { dataUrl: '/Admission/GetLocality?Campus=' + $('#ddlCampus').val() },
+                    buildSelect: function (data) {
+                        var response, s = '<select>', i;
+                        response = jQuery.parseJSON(data);
+                        if (response && response.length) {
+                            $.each(response, function (i) {
+                                s += '<option value="' + response[i].Text + '">' + response[i].Value + '</option>';
+                            });
+                        }
+                        return s + '</select>';
+                    }
+                },
+                {
+                    name: 'Place', index: 'Place', search: true, editable: true, editoptions: {
+                        dataInit: function (elem) {
+                            myAutocomplete(elem, "/Admission/GetSubLocality");
+                        }
+                    }
+                },
+
+                { name: 'Kilometer', index: 'Kilometer', search: true, width: 70, editable: true, sortable: true, edittype: 'text' },
+                { name: 'PickUpTime', index: 'PickUpTime', search: true, editable: true, editoptions: { disabled: false, class: 'NoBorder' } },
+                { name: 'DropTime', index: 'DropTime', search: true, editable: true, editoptions: { disabled: false, border: 0 } },
+                { name: 'Edit', index: 'Edit', width: 100, search: false, formatoptions: { keys: false, editbutton: true, delbutton: false }, formatter: 'actions', width: 60, border: null }
+                ],
+                pager: pager_selector,
+                rowNum: '10',
+                rowList: [10, 20, 50, 100, 500],
+                sortname: 'Id',
+                sortorder: 'Asc',
+                reloadAfterSubmit: true,
+                autowidth: true,
+                height: 350,
+                viewrecords: true,
+                caption: 'Locality Details Update',
+                loadComplete: function () {
+                    var table = this;
+                    setTimeout(function () {
+                        //styleCheckbox(table);
+                        //updateActionIcons(table);
+                        updatePagerIcons(table);
+                        enableTooltips(table);
+                    }, 0);
+                },
+                editurl: '/Admission/EditLocalityDetails'
+                //cellEdit: true,
+                //cellsubmit: 'remote',
+                //cellurl: '/Admission/EditEmailDetails'
+            });
+            $(grid_selector).jqGrid('filterToolbar', { searchOnEnter: true });
+            jQuery(grid_selector).jqGrid('navGrid', pager_selector, { edit: false, add: false, del: false, reload: false, search: false, refreshtext: 'Refresh', viewrecords: true });
+            //$("#jqEmailUpdation").jqGrid('inlineNav', '#CommunicationDetailsUpdatePager', { edit: false, add: false, del: false });
+
+        }
+        $("#btnSearch").click(function () {
+            if ($('#ddlCampus').val() == "") { ErrMsg("Please fill the Campus"); return false; }
+            ddlCampus = $("#ddlCampus").val();
+            ddlGrade = $("#ddlgrade").val();
+            AdmissionStatus = $("#AdmissionStatus").val();
+            section = $("#ddlSection").val();
+            $(grid_selector).clearGridData();
+            $(grid_selector).setGridParam(
+                {
+                    datatype: "json",
+                    url: "/Admission/StudentLocalityDetailsUpdateJQGrid",
+                    postData: { Campus: ddlCampus, Grade: ddlGrade, Section: section, AdmissionStatus: AdmissionStatus },
+                    page: 1
+                }).trigger("reloadGrid");
+            loadgrid();
+        });
+        $("#btnReset").click(function () {
+            ddlCampus = $('#ddlCampus').val('');
+            ddlGrade = $('#ddlgrade').val('');
+            AdmissionStatus = $('#AdmissionStatus').val('');
+            $(grid_selector).GridUnload();
+        });
+        $.getJSON("/Base/FillAllBranchCode",
+        function (fillcampus) {
+        var ddlcam = $("#ddlCampus");
+        ddlcam.empty();
+        ddlcam.append($('<option/>', { value: "", text: "Select One" }));
+        $.each(fillcampus, function (index, itemdata) {
+            ddlcam.append($('<option/>', { value: itemdata.Value, text: itemdata.Text }));
+        });
+    });
+
+        function myAutocomplete(elem, url) {
+            setTimeout(function () {
+                $(elem).autocomplete({
+                    source: url,
+                    minLength: 1,
+                    select: function (event, ui) {
+                        $(elem).val(ui.item.value);
+                        $(elem).trigger('change');
+                    }
+                });
+            }, 10);
+        }
+
+        function updatePagerIcons(table) {
+            var replacement =
+                        {
+                            'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                            'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                            'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                            'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+                        };
+            $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+                var icon = $(this);
+                var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+                if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+            })
+        }
+        function enableTooltips(table) {
+            $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+            $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+        }
+    });
+
+        function gradeddl() {
+        var e = document.getElementById('ddlCampus');
+        var campus = e.options[e.selectedIndex].value;
+        //     alert(campus);
+        $.getJSON("/Admission/CampusGradeddl/", { campus: campus },
+                    function (modelData) {
+                        var select = $("#ddlgrade");
+                        select.empty();
+                        select.append($('<option/>', { value: "", text: "Select Grade" }));
+                        $.each(modelData, function (index, itemData) {
+                            select.append($('<option/>', { value: itemData.gradcod, text: itemData.gradcod }));
+                        });
+                    });
+    }
+    function CheckValidEmail(value, column) {
+        if (value == "")
+            return [value];
+        else if (!ValidateEmail(value))
+            return [false, ' Is Incorrect Email ! The email you entered is not correct format.'];
+        else
+            return [value];
+    }
+
+    function MobileNumberValidation(value, column) {
+        if (value == "") {
+            return [value];
+        }
+        if (!$.isNumeric(value)) {
+            return [false, ' Should be numeric'];
+        }
+        var MobileNum = parseInt(value);
+        var MobileNumberLength = MobileNum.toString().length;
+        if (MobileNumberLength < 10) {
+            return [false, ' Is less than 10 Digit Mobile Number!'];
+        }
+        else if (MobileNumberLength > 10) {
+            return [false, ' Is greater than 10 Digit Mobile Number!'];
+        }
+        else return [MobileNum];
+    }
+
+    function SectionValidation(value, column) {
+        if (value == "") {
+            return [false, 'Assign any one section'];
+        }
+        if ($.isNumeric(value)) {
+            return [false, ' Should be alphabets'];
+        }
+        else return [value];
+    }
+</script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="fa fa-pencil-square-o"></i>&nbsp;Search Details
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b></label>
+                                            @Html.DropDownList("ddlCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "", new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Grade</b></label>
+                                            @Html.DropDownList("ddlgrade", new MultiSelectList(Enumerable.Empty<SelectListItem>()), "Select", new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Section</b></label>
+                                            @Html.DropDownList("ddlSection", new SelectList(new[]{
+                                             new {Value="",Text="Select"},
+                                              new{Value="A",Text="A"},
+                                              new{Value="B",Text="B"},
+                                              new{Value="C",Text="C"},
+                                              new{Value="D",Text="D"},
+                                              new{Value="E",Text="E"},
+                                              new{Value="F",Text="F"} }, "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>AdmissionStatus</b></label>
+                                            @Html.DropDownList("AdmissionStatus", new SelectList(new[] {
+                                  new{Value="",Text="Select One"},
+                                  new{Value="New Enquiry",Text="New Enquiry"},
+                                  new{Value="New Registration",Text="New Registration"},
+                                  new{Value="Registered",Text="Registered"} 
+                                 }, "Value", "Text", ""), new { @Class = "form-control input-sm" })
+                                        </div>
+                                        <div class="space-10"></div>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn btn-primary btn-block btn-sm" id="btnSearch">
+                                                <i class="ace-icon fa fa-search white"></i>Search
+
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-1">
+
+                                            <button type="button" class="btn btn-danger btn-block btn-sm" id="btnReset">
+                                                <i class="ace-icon fa fa-undo white"></i>Reset
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                @Html.TextBox("LocationTamilDescription", null, new { style = "display:none;", @class = "form-control input-sm" })
+                <table id="jqStudentLocalityUpdation">
+                </table>
+                <div id="jqStudentLocalityUpdationPager">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

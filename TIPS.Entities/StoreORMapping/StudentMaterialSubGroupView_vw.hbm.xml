@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StoreEntities.StudentMaterialSubGroupView_vw" namespace="TIPS.Entities.StoreEntities">
+  <class name="TIPS.Entities.StoreEntities.StudentMaterialSubGroupView_vw, TIPS.Entities" table="StudentMaterialSubGroupView_vw" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+   
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>
+    <property name="MaterialSubGroupId" column="MaterialSubGroupId" type="Int64"></property>
+    <property name="MaterialId" column="MaterialId" type="Int64"></property>
+    <property name="MaterialSubGroup" column="MaterialSubGroup" type="string"></property>
+    <property name="Material" column="Material" type="string"></property>
+    <property name="Total" column="Total" type="Int64"></property>
+  
+
+  </class>
+</hibernate-mapping>

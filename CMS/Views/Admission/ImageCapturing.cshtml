@@ -1,0 +1,129 @@
+﻿@{
+    ViewBag.Title = "ImageCapturing";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+<script type="text/javascript" src="../../assets/WebCam/jquery-1.7.1.min.js"></script>
+@*<script src="../../Scripts/JqueryUI/jquery-1.7.2.min.js" type="text/javascript"></script>*@
+<script src="../../assets/WebCam/scriptcam.js" type="text/javascript"></script>
+<script src="../../assets/WebCam/swfobject.js" type="text/javascript"></script>
+<link href="../../assets/Jcrop/css/jquery.Jcrop.min.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var imageCropWidth = 0;
+        var imageCropHeight = 0;
+        var cropPointX = 0;
+        var cropPointY = 0;
+
+        initCrop();
+
+
+        $("#hl-crop-image").on("click", function (e) {
+            e.preventDefault();
+            cropImage();
+        });
+
+        $("#webcam").scriptcam({
+            showMicrophoneErrors: false,
+            onError: onError,
+            cornerRadius: 20,
+            cornerColor: 'e3e5e2',
+            onWebcamReady: onWebcamReady,
+            uploadImage: 'upload.gif',
+            onPictureAsBase64: base64_tofield_and_image
+        });
+
+
+
+    });
+    function initCrop() {
+        $('#my-origin-image').Jcrop({
+            onChange: setCoordsAndImgSize,
+            aspectRatio: 1
+        });
+    }
+    function setCoordsAndImgSize(e) {
+
+        imageCropWidth = e.w;
+        imageCropHeight = e.h;
+
+        cropPointX = e.x;
+        cropPointY = e.y;
+    }
+
+    function cropImage() {
+
+        if (imageCropWidth == 0 && imageCropHeight == 0) {
+            alert("Please select crop area.");
+            return;
+        }
+
+        $.ajax({
+            url: '/Admission/CropImage',
+            type: 'POST',
+            data: {
+                PreReNum: 1922,
+                cropPointX: cropPointX,
+                cropPointY: cropPointY,
+                imageCropWidth: imageCropWidth,
+                imageCropHeight: imageCropHeight
+            },
+            success: function (data) {
+                $("#my-cropped-image")
+                    .attr("src", data.photoPath + "?t=" + new Date().getTime())
+                    .show();
+            },
+            error: function (data) { }
+        });
+    }
+    //function base64_tofield() {
+    //	$('#formfield').val($.scriptcam.getFrameAsBase64());
+    //};
+    function base64_toimage() {
+        $('#image').attr("src", "data:image/png;base64," + $.scriptcam.getFrameAsBase64());
+    };
+    function base64_tofield_and_image(b64) {
+        $('#formfield').val(b64);
+        $('#image').attr("src", "data:image/png;base64," + b64);
+    };
+    function changeCamera() {
+        $.scriptcam.changeCamera($('#cameraNames').val());
+    }
+    function onError(errorId, errorMsg) {
+        $("#btn1").attr("disabled", true);
+        $("#btn2").attr("disabled", true);
+        alert(errorMsg);
+    }
+    function onWebcamReady(cameraNames, camera, microphoneNames, microphone, volume) {
+        $.each(cameraNames, function (index, text) {
+            $('#cameraNames').append($('<option></option>').val(index).html(text))
+        });
+        $('#cameraNames').val(camera);
+    }
+
+</script>
+@Html.Hidden("PreRegNum", "", new { id = "PreRegNum", @Value = ViewBag.PreRegNum })
+<div class="row">
+    <div class="col-xs-12">
+        <div class="col-sm-6">
+            <div id="webcam"></div>
+            <div style="margin: 5px;">
+                <img src="../../assets/WebCam/webcamlogo.png" style="vertical-align: text-top" />
+                <select id="cameraNames" size="1" onchange="changeCamera()" style="font-size: 10px; height: 25px;">
+                </select>
+                @*<button class="btn btn-small" id="btn2" onclick="base64_toimage()">Snapshot to image</button>*@
+                <button class="btn btn-primary btn-block" type="submit" id="btn2" value="Discontinue" onclick="base64_toimage()">
+                    <i class="ace-icon fa-ban">&nbsp;</i>Snapshot</button>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <p><a href="#" id="hl-crop-image">Crop Image</a></p>
+            <img id="my-origin-image" src="@Url.Action("uploaddisplay1", "Admission", new { id = 1922 })"/>
+             <img id="my-cropped-image" src="#" style="display:none;" />
+        </div>
+    </div>
+</div>
+<script src="../../assets/Jcrop/js/jquery.Jcrop.min.js"></script>

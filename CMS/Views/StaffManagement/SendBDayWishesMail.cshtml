@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Birth Day Wish Status";
+    Layout = "~/Views/Shared/NewBootstrapMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+        $("#jqGridBDayWishesStatus").jqGrid({
+            url: '@Url.Content("~/StaffManagement/StaffBDayWisheStatusJqgrid")',
+            datatype: 'json',
+            type: 'GET',
+            colNames: ['Id', 'IdNumber', 'Name', 'Date of Birth','Email Id', 'Mail Status'],
+            colModel: [
+            { name: 'Id', index: 'Id', key: true,hidden:true },
+            { name: 'IdNumber', index: 'IdNumber', editable: true },
+            { name: 'Name', index: 'Name', editable: true },
+            { name: 'DOB', index: 'DOB', editable: true },
+            { name: 'EmailId', index: 'EmailId', editable: true },
+            { name: 'IsSent', index: 'IsSent', editable: true },
+            ],
+            pager: '#jqGridBDayWishesStatusPager',
+            rowNum: '10',
+            rowList: [25, 50, 100,500,1000],
+            sortname: 'Id',
+            sortorder: 'Asc',
+            reloadAfterSubmit: true,
+            width: 1220,
+            height: 370,
+            viewrecords: true,
+            caption: 'Birth Day Wish Status',
+            multiselect: false
+        });
+    });
+</script>
+<br />
+<table id="jqGridBDayWishesStatus">
+</table>
+<div id="jqGridBDayWishesStatusPager">
+</div>

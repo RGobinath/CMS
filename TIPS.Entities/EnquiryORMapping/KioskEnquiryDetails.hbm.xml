@@ -1,0 +1,22 @@
+﻿<hibernate-mapping assembly="TIPS.Entities.EnquiryEntities.KioskEnquiryDetails" namespace="TIPS.Entities.EnquiryEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.EnquiryEntities.KioskEnquiryDetails, TIPS.Entities" table="KioskEnquiryDetails" lazy="false" >
+    <id name="Enq_Id" column="Enq_Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="StudentName" column="StudentName" type="string" ></property>
+    <property name="FatherName" column="FatherName" type="string" ></property>
+    <property name="MotherName" column="MotherName" type="string" ></property>
+    <property name="Campus" column="Campus" type="string" ></property>
+    <property name="AcademicYear" column="AcademicYear" type="string" ></property>
+    <property name="Grade" column="Grade" type="string" ></property>
+    <property name="Gender" column="Gender" type="string" ></property>
+    <property name="DOB" column="DOB" type="string" ></property>
+    <property name="ParentName" column="ParentName" type="string" ></property>
+    <property name="Phone" column="Phone" type="string" ></property>
+    <property name="Address" column="Address" type="string" ></property>
+    <property name="Locality" column="Locality" type="string" ></property>
+    <property name="EmailId" column="EmailId" type="string" ></property>
+    <property name="Enq_Number" column="Enq_Number" type="string" ></property>
+  </class>
+</hibernate-mapping>

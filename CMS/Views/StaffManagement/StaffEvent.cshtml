@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Staff Event";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script src="../../assets/js/ace-extra.min.js"></script>
+<script src="../../assets/js/date-time/moment.min.js" type="text/javascript"></script>
+@*<script src="../../Scripts/Asset/AssetOrgansizer.js"></script>*@
+<script src="../../Scripts/StaffManagementScripts/StaffEvent.js"></script>
+<script src="../../assets/FullcalanderForAsset.js"></script>
+<link href="../../assets/fullcalandar_Asset.css" rel="stylesheet" />
+<div class="row">
+    @Html.Hidden("userId","", new { id = "userId", @Value = ViewBag.UserName })
+    @Html.Hidden("Id","", new { id = "Id", @Value = ""})
+    <div class="col-xs-12 widget-container-col">
+        <div class="CalanderContainer">
+            <div id='calendar' style="width: 100%"></div>
+        </div>
+    </div>
+</div>
+<div id="eventId"></div>
+
+

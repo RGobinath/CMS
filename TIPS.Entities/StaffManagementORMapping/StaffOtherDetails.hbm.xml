@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.StaffOtherDetails" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.StaffOtherDetails, TIPS.Entities" table="StaffOtherDetails" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="PreRegNum" column="PreRegNum" type="Int32"  not-null ="false"></property>
+    <property name="Achievments" column="Achievments" type="string" ></property>
+    <property name="AnyOtherSignificant" column="AnyOtherSignificant" type="string" ></property>
+    <property name="SpecialInterests" column="SpecialInterests" type="string"></property>
+    <property name="HowYouKnowVacancy" column="HowYouKnowVacancy" type="string"></property>
+    <property name="BeenShortListedBefore" column="BeenShortlistedBefore" type="bool" not-null ="false"></property>
+    <property name="ShortlistedWhy" column="ShortlistedWhy" type="string"></property>
+    <property name="RelativeWorkingWithUs" column="RelativeWorkingWithUs" type="bool" not-null ="false"></property>
+    <property name="RelativeDetails" column="RelativeDetails" type="string"></property>
+    <property name="CommitTimeWithTIPS" column="CommitTimeWithTIPS" type="string"></property>
+    <property name="CareerGrowthExpectation" column="CareerGrowthExpectation" type="string"></property>
+    <property name="WillingToTravel" column="WillingToTravel" type="string"></property>
+    <property name="WillingForRelocation" column="WillingForRelocation" type="string"></property>
+  </class>
+</hibernate-mapping>

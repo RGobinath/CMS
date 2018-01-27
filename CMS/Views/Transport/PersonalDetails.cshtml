@@ -1,0 +1,310 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+
+<div class="row">
+    <div class="col-sm-12">
+        <div id="PersonalAccordion" class="accordion-style1 panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#PersonalAccordion"
+                            href="#GeneralDetails"><i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down"
+                                data-icon-show="ace-icon fa fa-angle-right"></i>&nbsp;General Details </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse in" id="GeneralDetails">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>DOB</b></label>
+                                    @Html.TextBoxFor(model => model.DOB, new { id = "DOB", @Class = "form-control date-picker", @maxlength = "20" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Age</b></label>
+                                    @Html.TextBoxFor(model => model.Age, new { id = "age", @Class = "form-control input-sm", @maxlength = "10" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Gender</b></label>
+                                    @Html.DropDownListFor(model => model.Gender, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Male",Text="Male"},
+                                              new{Value="Female",Text="Female"}
+                                          },
+                   "Value", "Text", ""), new { id = "gender", @Class = "form-control select-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Marital Status</b></label>
+                                    @Html.DropDownListFor(model => model.MaritalStatus, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Single",Text="Single"},
+                                              new{Value="Married",Text="Married"},
+                                              new{Value="Seperated",Text="Seperated"}
+                                          },
+                   "Value", "Text", ""), new { id = "gender", @Class = "form-control select-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Blood Group</b></label>
+                                    @Html.DropDownListFor(Model => Model.BGRP, new SelectList(ViewBag.bloodgrpddl, "BloodGroup", "BloodGroup"), "--Select--", new { id = "bgrp", @Class = "form-control select-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Phone No</b></label>
+                                    @Html.TextBoxFor(model => model.PhoneNo, new { id = "phoneno", @Class = "form-control select-sm", @maxlength = "40" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Alt Phone No </b>
+                                    </label>
+                                    @Html.TextBoxFor(model => model.AltPhoneNo, new { id = "AltPhoneNo", @Class = "form-control input-sm", @maxlength = "40" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Email Id </b>
+                                    </label>
+                                    @Html.TextBoxFor(model => model.EmailId, new { id = "emailid", @Class = "form-control input-sm", @maxlength = "40" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Father's Name</b></label>
+                                    @Html.TextBoxFor(model => model.FatherName, new { id = "fathername", @Class = "form-control input-sm", @maxlength = "45" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Father Occupation</b></label>
+                                    @Html.TextBoxFor(model => model.FatherOccupation, new { id = "FatherOccupation", @Class = "form-control input-sm", @maxlength = "45" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Spouse Name</b></label>
+                                    @Html.TextBoxFor(model => model.SpouseName, new { id = "spousename", @Class = "form-control input-sm", @maxlength = "45" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Spouse Occupation</b></label>
+                                    @Html.TextBoxFor(model => model.SpouseOccupation, new { id = "SpouseOccupation", @Class = "form-control input-sm", @maxlength = "45" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Mother's Name</b>
+                                    </label>
+                                    @Html.TextBoxFor(model => model.MotherName, new { id = "mothername", @Class = "form-control input-sm", @maxlength = "45" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Emrg Cont Person</b>
+                                    </label>
+                                    @Html.TextBoxFor(model => model.EmergencyContactPerson, new { id = "emergencycontactperson", @Class = "form-control input-sm", @maxlength = "45" })</label>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Emrg Cont No</b></label>
+                                    @Html.TextBoxFor(model => model.EmergencyContactNo, new { id = "emergencyno", @Class = "form-control input-sm", @maxlength = "45" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Native State</b></label>
+                                    @Html.TextBoxFor(model => model.NativeState, new { id = "nativestate", @Class = "form-control input-sm", @maxlength = "45" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Lang Known Spkn</b></label>
+                                    @Html.TextBoxFor(model => model.LanguagesKnown, new { id = "languagesknown", @Class = "form-control input-sm", @maxlength = "45" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Lang Known Written</b></label>
+                                    @Html.TextBoxFor(model => model.Written_LanguagesKnown, new { id = "languagesknown", @Class = "form-control input-sm", @maxlength = "45" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>No.of Childs, if any</b>
+                                    </label>
+                                    @Html.TextBoxFor(model => model.ChildrenIfAny, new { id = "childrenifany", @Class = "form-control input-sm", @maxlength = "90" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Bank Name</b>
+                                    </label>
+                                    @Html.TextBoxFor(model => model.BankName, new { id = "bankname", @Class = "form-control input-sm", @maxlength = "45" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Bank A/C No</b></label>
+                                    @Html.TextBoxFor(model => model.BankAccountNumber, new { id = "bankaccountno", @Class = "form-control input-sm", @maxlength = "45" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Insurance Details</b></label>
+                                    @Html.TextBoxFor(model => model.InsuranceDetails, new { id = "insurancedetails", @Class = "form-control input-sm", @maxlength = "45" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-sm-6">
+                                    <label for="form-field-select-1">
+                                        <b>Permanant Address</b>
+                                    </label>
+                                    @Html.TextAreaFor(model => model.PermanantAddress, new { rows = 1, cols = 72, id = "pmtadd", @class = "form-control textarea", @maxlength = "800" })
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="form-field-select-1">
+                                        <b>Communication Address</b>
+                                    </label>
+                                    @Html.TextAreaFor(model => model.AlternateAddress, new { rows = 1, cols = 72, id = "altadd", @class = "form-control textarea", @maxlength = "800" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#PersonalAccordion"
+                            href="#QualificationDetails"><i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down"
+                                data-icon-show="ace-icon fa fa-angle-right"></i>&nbsp;Qualification Details</a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="QualificationDetails">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Course</b>
+                                    </label>
+                                    @Html.TextBoxFor(model => model.StaffQualificationList[0].Course, new { id = "course", @Class = "form-control input-sm", @maxlength = "100" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Board/University</b>
+                                    </label>
+                                    @Html.TextBoxFor(model => model.StaffQualificationList[0].Board, new { id = "board", @Class = "form-control input-sm", @maxlength = "100" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>School/College</b></label>
+                                    @Html.TextBoxFor(model => model.StaffQualificationList[0].Institute, new { id = "institute", @Class = "form-control input-sm", @maxlength = "90" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Year Of Completion</b></label>
+                                    @Html.TextBoxFor(model => model.StaffQualificationList[0].YearOfComplete, new { id = "yearofcomplete", @Class = "form-control input-sm", @maxlength = "10" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Major Subjects</b></label>
+                                    @Html.TextBoxFor(model => model.StaffQualificationList[0].MajorSubjects, new { id = "majorsubject", @Class = "form-control input-sm", @maxlength = "100" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Percentage/Percentile</b></label>
+                                    @Html.TextBoxFor(model => model.StaffQualificationList[0].Percentage, new { id = "percentage", @Class = "form-control input-sm", @maxlength = "10" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-sm-1">
+                                    <br />
+                                    <button type="button" class="btn btn-success btn-block btn-sm" id="btnAddQualData">
+                                        <i class="ace-icon fa fa-plus white"></i>Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-4">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table id="QualificationList">
+                                </table>
+                                <div id="QualificationListPager">
+                                </div>
+                                <script type="text/javascript">
+                                    var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+                                </script>
+                                <!-- PAGE CONTENT ENDS -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#PersonalAccordion"
+                            href="#FamilyLivingDetails"><i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down"
+                                data-icon-show="ace-icon fa fa-angle-right"></i>&nbsp;FamilyLivingDetails</a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="FamilyLivingDetails">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Name</b>
+                                    </label>
+                                    @Html.TextBoxFor(model => model.StaffFamilyDetailsList[0].Name, new { id = "FamilyName", @Class = "form-control input-sm", @maxlength = "100" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Occupation</b>
+                                    </label>
+                                    @Html.TextBoxFor(model => model.StaffFamilyDetailsList[0].Occupation, new { id = "FamilyOccupation", @Class = "form-control input-sm", @maxlength = "100" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Age(Years)</b></label>
+                                    @Html.TextBoxFor(model => model.StaffFamilyDetailsList[0].Age, new { id = "FamilyAge", @Class = "form-control input-sm", @maxlength = "90" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Relationship</b></label>
+                                    @Html.TextBoxFor(model => model.StaffFamilyDetailsList[0].Relationship, new { id = "FamilyRelationship", @Class = "form-control input-sm", @maxlength = "90" })
+                                </div>
+                                <div class="col-sm-1">
+                                    <br />
+                                    <button type="button" class="btn btn-success btn-block btn-sm" id="btnAddFamilyData">
+                                        <i class="ace-icon fa fa-plus white"></i>Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-4">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table id="FamilyDetailsList">
+                                </table>
+                                <div id="FamilyDetailsPager">
+                                </div>
+                                <script type="text/javascript">
+                                    var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+                                </script>
+                                <!-- PAGE CONTENT ENDS -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/StaffManagementScripts/PersonalDetails.js" type="text/javascript"></script>
+<script src="../../assets/js/AceJQMsg.js" type="text/javascript"></script>
+<script src="../../Scripts/StaffManagementScripts/QualificationDetails.js" type="text/javascript"></script>
+<script src="../../Scripts/StaffManagementScripts/FamilyDetails.js" type="text/javascript"></script>

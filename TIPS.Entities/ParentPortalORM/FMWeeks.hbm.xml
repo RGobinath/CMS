@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.ParentPortalEntities.FMWeeks" namespace="TIPS.Entities.ParentPortalEntities">
+  <class name="TIPS.Entities.ParentPortalEntities.FMWeeks, TIPS.Entities" table="FMWeeks" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"/>
+    </id>
+    <property name="Campus" column="Campus" type="string"/>
+    <property name="Month" column="Month" type="string" />
+    <property name="Notes" column="Notes" type="string" />
+    <property name="Performer" column="Performer" type="string" />
+    <property name="CreatedOn" column="CreatedOn" type="string" />
+    <property name="AcademicYear" column="AcademicYear" type="string"/>
+    <bag batch-size="20" name="FMDaysList" lazy="false" cascade="all">
+      <key column="FMWeekId"/>
+      <one-to-many class="TIPS.Entities.ParentPortalEntities.FMDays,TIPS.Entities.ParentPortalEntities"/>
+    </bag>
+  </class>
+</hibernate-mapping>

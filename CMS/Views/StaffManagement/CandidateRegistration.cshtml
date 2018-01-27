@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "CandidateRegistration";
+    Layout = null;
+}
+@model TIPS.Entities.StaffManagementEntities.CandidateDtls
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget widget-color-CustomizeBlue">
+
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-xs-12">
+                    <div class="space-2"></div>
+                    <div class="col-sm-12">
+                        <label for="form-field-select-1">
+                            <b>Candidate Name</b></label>
+                        @Html.TextBoxFor(model => model.Name, new {  id = "txtSCandidateName", @class = "form-control input-sm",})
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-xs-12">
+                    <div class="space-2"></div>
+                    <div class="col-sm-12">
+                        <label for="form-field-select-1">
+                            <b>Temporary ID</b></label>
+                        @Html.TextBoxFor(model => model.TempId, new {  id = "txtSTemporaryID", @class = "form-control input-sm",})
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-xs-12">
+                    <div class="space-1"></div>
+                    <div class="col-sm-12">
+                        <label for="form-field-select-1">
+                            <b>Selected Campus</b></label>
+                        @Html.TextBoxFor(model => model.Campus, new {  id = "txtSSelectedCampus", @class = "form-control input-sm",})
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-xs-12">
+
+                    <div class="col-sm-12">
+                        <label for="form-field-select-1">
+                            <b>Selected Position</b></label>
+                        @Html.TextBox("txtSSelectedDepartment", "", new { @class = "form-control input-sm", Value="Teacher-PT"})
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-xs-12">
+                    <div class="space-1"></div>
+                    <div class="col-sm-12">
+                        <label for="form-field-select-1">
+                            <b>Remarks</b></label>
+                        @Html.TextArea("txtSRemarks", "", new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-xs-12">
+                    <div class="space-1"></div>
+                    <div class="col-sm-12">
+                        <label for="form-field-select-">
+                            <b>Staff ID</b></label>
+                        @Html.TextBox("txtSStaffID", "", new { @class = "form-control input-sm", })
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-xs-12">
+                    <div class="space-1"></div>
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4">
+                        <br />
+                        <button type="submit" class="btn btn-success btn-block btn-sm" id="btnsSearch">
+                            <i class="fa fa-check-square-o"></i>Register
+                        </button>
+
+                    </div>
+                    <div class="col-sm-4">
+                        <br />
+                        <button type="button" class="btn btn-danger btn-block btn-sm" id="btnsReset">
+                            <i class="ace-icon fa fa-arrow-right white"></i>Exit
+                        </button>
+                    </div>
+                    <div class="col-sm-2"></div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../Scripts/StaffManagementScripts/CandidateRegistration.js"></script>

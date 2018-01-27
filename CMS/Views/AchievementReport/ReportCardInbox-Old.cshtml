@@ -1,0 +1,280 @@
+﻿@{
+    ViewBag.Title = "Report Card Inbox";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+
+    function GetCampus() {
+        var ddlcam = $("#Campus");
+        $.ajax({
+            type: 'POST',
+            async: true,
+            dataType: "json",
+            url: '@Url.Content("~/AchievementReport/FillCampusCode")',
+            success: function (data) {
+                ddlcam.empty();
+                ddlcam.append("<option value=''> Select </option>");
+                for (var i = 0; i < data.length; i++) {
+                    ddlcam.append("<option value='" + data[i].Value + "'>" + data[i].Text + "</option>");
+                }
+            },
+            error: function (xhr, status, error) {
+                ErrMsg($.parseJSON(xhr.responseText).Message);
+            }
+        });
+    }
+
+    $(function () {
+        $('#RequestNo').css('ui-corner-all');
+        GetCampus();
+        if ('@Session["RptCardMYPSearched"]' != null) {
+            var srchitems = '@Session["RptCardMYPSearched"]';
+            var srchitemsArr = srchitems.split(',');
+            $("#RequestNo").val(srchitemsArr[0]);
+            $("#Campus").val(srchitemsArr[1]);
+            $("#Name").val(srchitemsArr[2]);
+            $("#Section").val(srchitemsArr[3]);
+            $("#Grade").val(srchitemsArr[4]);
+            $("#RptStatus").val(srchitemsArr[5]);
+            $("#Semester").val(srchitemsArr[6]);
+            $("#academicyear").val(srchitemsArr[7]);
+        }
+        function formateadorLink(cellvalue, options, rowObject) {
+            if (rowObject[6] == 'III' || rowObject[6] == 'IV' || rowObject[6] == 'V') {
+                return "<a href=/AchievementReport/ReportCardPYP?Id=" + rowObject[0] + ">" + cellvalue + "</a>";
+            } else if (rowObject[6] == 'VI' || rowObject[6] == 'VII' || rowObject[6] == 'VIII' || rowObject[6] == 'IX' || rowObject[6] == 'X') {
+                return "<a href=/AchievementReport/ReportCardMYP?Id=" + rowObject[0] + ">" + cellvalue + "</a>";
+            }
+            return;
+        }
+
+        function formateadPDFLink(cellvalue, options, rowObject) {
+            return "<span id='T2btnViewPdf_" + rowObject[0] + "'class='ui-icon ui-icon-document T2ViewPDF'  vId='" + rowObject[0] + "' vGrade='" + rowObject[6] + "' vSemester='" + rowObject[9] + "'title='View PDF'></span>";
+        }
+
+        function ViewPDF(pGrade, pSemester, pId) {
+            //return window.location.href = '/AchievementReport/GenerateReportCardPDF?Grade=' + pGrade + '&Semester=' + pSemester + '&Id=' + pId;
+            return window.location.href = '/AchievementReport/MYPReportCardPDFGen?&Id=' + pId;
+        }
+
+        $("#ReportCardList").jqGrid({
+            mtype: 'GET',
+            url: '/AchievementReport/GetReportCardInbox?RequestNo=' + $('#RequestNo').val() +
+            '&Name=' + $('#Name').val() +
+            '&Campus=' + $('#Campus option:selected').val() +
+            '&Section=' + $('#Section option:selected').val() +
+            '&Grade=' + $('#Grade option:selected').val() +
+            '&RptStatus=' + $('#RptStatus option:selected').val() +
+             '&Semester=' + $('#Semester').val() +
+              '&AcademicYear=' + $('#academicyear').val(),
+            datatype: 'json',
+            height: '150',
+            width: '1225',
+            shrinkToFit: true,
+            colNames: ['Id', 'RequestNo', 'Campus Name', 'Id No', 'Name', 'Section', 'Grade', 'StudentId', 'Teacher Name', 'Semester', 'Academic Year', ''],
+            colModel: [
+                          { name: 'Id', index: 'Id', hidden: true, key: true }, //0
+                          {name: 'RequestNo', index: 'RequestNo', formatter: formateadorLink }, //1
+                          {name: 'Campus', index: 'Campus', sortable: false }, //2
+                          {name: 'IdNo', index: 'IdNo', sortable: false }, //3
+                          {name: 'Name', index: 'Name', sortable: false }, //4
+                          {name: 'Section', index: 'Section', sortable: false }, //5
+                          {name: 'Grade', index: 'Grade', sortable: false }, //6
+                          {name: 'StudentId', index: 'StudentId', hidden: true }, //7
+                          {name: 'TeacherName', index: 'TeacherName', hidden: true }, //8
+                          {name: 'Semester', index: 'Semester' }, //9
+                          {name: 'AcademicYear', index: 'AcademicYear' }, //10  added by felix kinoniya
+                          {name: 'pdfView', index: 'pdfView', width: '30%', formatter: formateadPDFLink}//11
+
+                          ],
+            pager: '#ReportCardPage',
+            rowNum: '10',
+            sortname: 'RequestNo',
+            sortorder: 'asc',
+            rowList: [10, 20, 50, 100, 150, 200],
+            //multiselect: true,
+            viewrecords: true,
+            gridComplete: function () {
+                var rdata = $("#ReportCardList").getRowData();
+                if (rdata.length > 0) {
+                    $('.T2ViewPDF').click(function () { ViewPDF($(this).attr('vGrade'), $(this).attr('vSemester'), $(this).attr('vId')); });
+                }
+            }
+        });
+        $("#ReportCardList").navGrid('#ReportCardPage', { add: false, edit: false, del: false, search: false, refresh: false });
+
+        $('#btnSearch').click(function () {
+            if ($('#Grade').val() == 'Select') { ErrMsg('Please fill the Grade'); return false; }
+            if (!isEmptyorNull($('#RequestNo').val()) || !isEmptyorNull($('#Name').val()) ||
+                $('#Campus option:selected').val() != 'Select' || $('#Section option:selected').val() != 'Select' ||
+                $('#Grade option:selected').val() != 'Select' || $('#RptStatus option:selected').val() != 'Select') {
+                $('#ReportCardList').clearGridData();
+                LoadSetGridParam($('#ReportCardList'), "/AchievementReport/GetReportCardInbox?RequestNo=" + $('#RequestNo').val() +
+            '&Name=' + $('#Name').val() +
+            '&Campus=' + $('#Campus option:selected').val() +
+            '&Section=' + $('#Section option:selected').val() +
+            '&Grade=' + $('#Grade option:selected').val() +
+            '&RptStatus=' + $('#RptStatus option:selected').val() +
+             '&Semester=' + $('#Semester').val() +
+              '&AcademicYear=' + $('#academicyear').val()
+            );
+            } else {
+                ErrMsg('Please enter or select any values', function () { $("#RequestNo").focus(); });
+                return false;
+            }
+
+        });
+
+        $('#btnReset').click(function () {
+            $('#ReportCardList').clearGridData();
+            $('#RequestNo').val('');
+            $('#Name').val('');
+            $('#Campus').val('');
+            $('#Section').val('Select');
+            $('#Grade').val('Select');
+            $('#RptStatus').val('Select');
+            $('#academicyear').val('Select');
+            $('#Semester').val('Select');
+            LoadSetGridParam($('#ReportCardList'), "/AchievementReport/GetReportCardInbox?page=1");
+        });
+
+        $('#btnNewReport').click(function () {
+            return window.location.href = '/AchievementReport/ReportCardMYP/';
+        });
+
+        $('#btnRptFocus').click(function () {
+            return window.location.href = '/AchievementReport/ReportCardFocus?Id=0';
+        });
+
+        /*enter key press event*/
+        function defaultFunc(e) {
+            if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                $('#btnSearch').click();
+                return false;
+            }
+            return true;
+        };
+
+        $('#RequestNo').keypress(function (event) { if (isEmptyorNull($('#RequestNo').val())) { return true; } else { return defaultFunc(event); } });
+        $('#Name').keypress(function (event) { if (isEmptyorNull($('#Name').val())) { return true; } else { return defaultFunc(event); } });
+        $('#Campus').keypress(function (event) { if (isEmptyorNull($('#Campus').val())) { return true; } else { return defaultFunc(event); } });
+        /*enter key press event*/
+    });
+</script>
+@using (Html.BeginForm("ReportCardInbox", "AchievementReport", FormMethod.Post, new { id = "innerForm", enctype = "multipart/form-data" }))
+{
+    <h3>
+        Report Card Inbox</h3>
+    <table width="100%" class="WithBorderOnly" id="ReportCardInbox">
+        <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+            <td colspan="9">
+                Search Panel
+            </td>
+        </tr>
+        <tr>
+            <td width="13%">
+                Request No
+            </td>
+            <td width="10%">
+                Campus Name
+            </td>
+            <td width="13%">
+                Name
+            </td>
+            <td width="7%">
+                Section
+            </td>
+            <td width="7%">
+                Grade
+            </td>
+            <td width="8%">
+                Status
+            </td>
+            <td width="8%">
+                Semester
+            </td>
+            <td width="15%">
+                Academic Year
+            </td>
+            <td width="36%">
+                @* <a href='/AchievementReport/ReportCardPYP' style="color:red; background-color:white;" >I-Sem III-Grade New Report</a>&nbsp&nbsp&nbsp&nbsp&nbsp
+                <a href='/AchievementReport/ReportCardMYP' style="color:red; background-color:white;" >I-Sem VI-Grade New Report</a>*@
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.TextBox("RequestNo", null, new { @Class = "CSSTextBox", style = "width: 80%" })
+            </td>
+            <td>
+                @Html.DropDownList("Campus", new SelectList(Enumerable.Empty<SelectListItem>()), "----Select----", new { @Class = "CSSDropDownList", style = "width:145px;" })
+            </td>
+            <td>
+                @Html.TextBox("Name", null, new { @Class = "CSSTextBox", style = "width: 80%" })
+            </td>
+            <td>
+                @Html.DropDownList("Section", new SelectList(new[] { 
+                        new { Text = "Select", Value = "Select", Seleced = "True" },
+                        new { Text = "A", Value = "A", Seleced = "false" },
+                        new { Text = "B", Value = "B", Seleced = "false" },
+                        new { Text = "C", Value = "C", Seleced = "false" },
+                        new { Text = "D", Value = "D", Seleced = "false" }
+               }, "Text", "Value", "Seleced"), new { @Class = "CSSTextBox", style = "width: 80%" })
+            </td>
+            <td>
+                @Html.DropDownList("Grade",
+                    new SelectList(new[] { 
+                        new { Text = "Select", Value = "Select", Seleced = "True" },
+                        new { Text = "VI", Value = "VI", Seleced = "false" },
+                        new { Text = "VII", Value = "VII", Seleced = "false" },
+                        new { Text = "VIII", Value = "VIII", Seleced = "false" },
+                        new { Text = "IX", Value = "IX", Seleced = "false" },
+                        new { Text = "X", Value = "X", Seleced = "false" }
+               }, "Text", "Value", "Seleced"),
+        new { @Class = "CSSDropDownList", style = "width: 80%" })
+            </td>
+            <td>
+                @Html.DropDownList("RptStatus", new SelectList(new[] { 
+                        new { Text = "Open", Value = "WIP", Seleced = "true" },
+                        new { Text = "Closed", Value = "Closed", Seleced = "false" }
+               }, "Text", "Value", "Seleced"), new { @Class = "CSSTextBox", style = "width: 80%" })
+            </td>
+            <td>
+                @Html.DropDownList("Semester",
+                    new SelectList(new[] { 
+                         new { Text = "", Value = "Select", Seleced = "True" },
+                        new { Text = "1", Value = "Sem I", Seleced = "True" },
+                        new { Text = "2", Value = "Sem II", Seleced = "false" }
+                    
+               }, "Text", "Value", "Seleced"),
+            new { @Class = "CSSDropDownList", @style = "width:70%;" })
+            </td>
+            <td>@Html.DropDownList("AcademicYear", new SelectList(ViewBag.acadddl, "AcademicYear", "AcademicYear"), "Select", new { id = "academicyear", @Class = "CSSDropDownList", @style = "width:70%;" })
+            </td>
+            <td align="center">
+                <input type="button" id="btnSearch" value="Search" name="Search" />&nbsp
+                <input type="button" id="btnReset" value="Reset" name="Reset" />&nbsp
+                <input type="button" id="btnNewReport" value="New Report" name="Reset" />&nbsp
+                <input type="button" id="btnRptFocus" value="Focus Master" name="Reset" />&nbsp
+                &nbsp
+                @Html.Hidden("lgdUserId", "", new { @Value = ViewBag.lgdUserId })
+                @Html.Hidden("lgdUserName", "", new { @Value = ViewBag.lgdUserName })
+                @Html.Hidden("lgdInUserType", "", new { @Value = ViewBag.lgdInUserType })
+            </td>
+        </tr>
+    </table>
+    <table width="100%" class="WithBorderOnly" id="ReportCardInboxresult">
+        <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+            <td colspan="5">
+                Search Panel
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table id="ReportCardList">
+                </table>
+                <div id="ReportCardPage">
+                </div>
+            </td>
+        </tr>
+    </table>
+}

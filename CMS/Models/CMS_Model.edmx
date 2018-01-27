@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CMSModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="CMSModelStoreContainer">
+          <EntitySet Name="Admission_Table" EntityType="CMSModel.Store.Admission_Table" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="CMS_Table" EntityType="CMSModel.Store.CMS_Table" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="History" EntityType="CMSModel.Store.History" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Upload_Table" EntityType="CMSModel.Store.Upload_Table" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+        </EntityContainer>
+        <EntityType Name="Admission_Table">
+          <Key>
+            <PropertyRef Name="ApplicationNo" />
+          </Key>
+          <Property Name="ApplicationNo" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="PreRegNo" Type="varchar" MaxLength="50" />
+          <Property Name="ApplicantName" Type="varchar" MaxLength="50" />
+          <Property Name="Grade" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="AppliedDate" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CMS_Table">
+          <Key>
+            <PropertyRef Name="Issue" />
+          </Key>
+          <Property Name="Issue" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="UserInbox" Type="varchar" MaxLength="50" />
+          <Property Name="IssueType" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="StudentName" Type="varchar" MaxLength="50" />
+          <Property Name="History" Type="varchar" MaxLength="50" />
+          <Property Name="IssueDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Issue" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="CommentedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CommentedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Upload_Table">
+          <Key>
+            <PropertyRef Name="Upload_Id" />
+          </Key>
+          <Property Name="Upload_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Issue" Type="int" />
+          <Property Name="FileId" Type="varchar" MaxLength="50" />
+          <Property Name="FileName" Type="varchar" MaxLength="50" />
+          <Property Name="UploadedOn" Type="datetime" />
+          <Property Name="UploadedBy" Type="varchar" MaxLength="50" />
+          <Property Name="UpdateStatus" Type="varchar" MaxLength="50" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CMSModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="CMSEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="Admission_Table" EntityType="CMSModel.Admission_Table" />
+          <EntitySet Name="CMS_Table" EntityType="CMSModel.CMS_Table" />
+          <EntitySet Name="Histories" EntityType="CMSModel.History" />
+          <EntitySet Name="Upload_Table" EntityType="CMSModel.Upload_Table" />
+        </EntityContainer>
+        <EntityType Name="Admission_Table">
+          <Key>
+            <PropertyRef Name="ApplicationNo" />
+          </Key>
+          <Property Type="String" Name="ApplicationNo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PreRegNo" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ApplicantName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Grade" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Status" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="AppliedDate" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CMS_Table">
+          <Key>
+            <PropertyRef Name="Issue" />
+          </Key>
+          <Property Type="Int32" Name="Issue" Nullable="false" />
+          <Property Type="String" Name="Description" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="UserInbox" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="IssueType" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Status" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="StudentName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="History" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="IssueDate" />
+        </EntityType>
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="Issue" />
+          <Property Type="String" Name="Description" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Status" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CommentedBy" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CommentedOn" />
+        </EntityType>
+        <EntityType Name="Upload_Table">
+          <Key>
+            <PropertyRef Name="Upload_Id" />
+          </Key>
+          <Property Type="Int32" Name="Upload_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="Issue" />
+          <Property Type="String" Name="FileId" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FileName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="UploadedOn" />
+          <Property Type="String" Name="UploadedBy" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="UpdateStatus" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CMSModelStoreContainer" CdmEntityContainer="CMSEntities">
+          <EntitySetMapping Name="Admission_Table">
+            <EntityTypeMapping TypeName="CMSModel.Admission_Table">
+              <MappingFragment StoreEntitySet="Admission_Table">
+                <ScalarProperty Name="AppliedDate" ColumnName="AppliedDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="ApplicantName" ColumnName="ApplicantName" />
+                <ScalarProperty Name="PreRegNo" ColumnName="PreRegNo" />
+                <ScalarProperty Name="ApplicationNo" ColumnName="ApplicationNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CMS_Table">
+            <EntityTypeMapping TypeName="CMSModel.CMS_Table">
+              <MappingFragment StoreEntitySet="CMS_Table">
+                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+                <ScalarProperty Name="History" ColumnName="History" />
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IssueType" ColumnName="IssueType" />
+                <ScalarProperty Name="UserInbox" ColumnName="UserInbox" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Issue" ColumnName="Issue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Histories">
+            <EntityTypeMapping TypeName="CMSModel.History">
+              <MappingFragment StoreEntitySet="History">
+                <ScalarProperty Name="CommentedOn" ColumnName="CommentedOn" />
+                <ScalarProperty Name="CommentedBy" ColumnName="CommentedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Issue" ColumnName="Issue" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Upload_Table">
+            <EntityTypeMapping TypeName="CMSModel.Upload_Table">
+              <MappingFragment StoreEntitySet="Upload_Table">
+                <ScalarProperty Name="UpdateStatus" ColumnName="UpdateStatus" />
+                <ScalarProperty Name="UploadedBy" ColumnName="UploadedBy" />
+                <ScalarProperty Name="UploadedOn" ColumnName="UploadedOn" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileId" ColumnName="FileId" />
+                <ScalarProperty Name="Issue" ColumnName="Issue" />
+                <ScalarProperty Name="Upload_Id" ColumnName="Upload_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="CMS_Model">
+        <EntityTypeShape EntityType="CMSModel.Admission_Table" Width="1.5" PointX="3.375" PointY="0.75" Height="2.1725878906249996" />
+        <EntityTypeShape EntityType="CMSModel.CMS_Table" Width="1.5" PointX="0.75" PointY="0.75" Height="2.3648893229166665" />
+        <EntityTypeShape EntityType="CMSModel.History" Width="1.5" PointX="5.75" PointY="0.875" Height="2.1725878906249996" />
+        <EntityTypeShape EntityType="CMSModel.Upload_Table" Width="1.5" PointX="7.625" PointY="0.875" Height="2.3648893229166656" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

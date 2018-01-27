@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Email Recipients Details";
+}
+@Html.Hidden("viewbagComposeId", "", new { @Value = ViewBag.ComposeId })
+@Html.Hidden("viewbagStatus", "", new { @Value = ViewBag.Status })
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        <table id="ShowRecipientsDetailsList">
+        </table>
+        <div id="ShowRecipientsListPager">
+
+        </div>
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+<script src="../../Scripts/Notification/ShowEmailRecipientsDetails.js"></script>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.StudentLaptopDistribution_vw" namespace="TIPS.Entities.AssetEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.StudentLaptopDistribution_vw, TIPS.Entities" table="StudentLaptopDistribution_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="Id" column="Id" type="Int64"></property>
+    <property name="studentId" column="studentId" type="Int64"></property>
+    <property name="NewId" column="NewId" type="string"></property>
+    <property name="Name" column="Name" type="string"></property>
+    <property name="AssetCode" column="AssetCode" type="string"></property>
+    <property name="TransactionType" column="TransactionType" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"></property>
+    <property name="ReceivedAcademicYr" column="ReceivedAcademicYr" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="AdmissionStatus" column="AdmissionStatus" type="string"></property>
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>
+    <property name="SpecificationsDetails" column="SpecificationsDetails" type="string"></property>
+    
+    <property name="ReceivedCampus" column="ReceivedCampus" type="string"></property>
+    <property name="ReceivedGrade" column="ReceivedGrade" type="string"></property>
+    <property name="ReceivedDate" column="ReceivedDate" type="DateTime"></property>
+    <property name="LTSize" column="LTSize" type="string"></property>
+    <property name="OperatingSystemDtls" column="OperatingSystemDtls" type="string"></property>
+    
+  
+  </class>
+</hibernate-mapping>

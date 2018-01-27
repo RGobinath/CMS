@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.AdmissionEntities.AddressDetails" namespace="TIPS.Entities.AdmissionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AdmissionEntities.AddressDetails, TIPS.Entities" table="AddressDetails" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="StudentId" column="StudentId" type="Int64" not-null ="false"></property>
+    
+    <property name="AddressType" column="AddressType" type="string"></property>
+    <property name="Add1" column="Add1" type="string"></property>
+    <property name="Add2" column="Add2" type="string"></property>
+    <property name="Add3" column="Add3" type="string"></property>
+    
+    <property name="City" column="City" type="string"></property>
+    <property name="State" column="State" type="string"></property>
+
+    <property name="Country" column="Country" type="string"></property>
+    <property name="Pin" column="Pin" type="string"></property>
+    <property name="Phone" column="Phone" type="string"></property>
+    
+
+
+  </class>
+</hibernate-mapping>

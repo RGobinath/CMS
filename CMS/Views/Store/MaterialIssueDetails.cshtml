@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "MaterialIssueDetails";
+    Layout = null;
+}
+
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        @Html.Hidden("hdnstudid", "", new { @Value = ViewBag.StudId })
+        <!--Search Pannel-->
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Student Details
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Academic Year</b></label><br />
+                                        @ViewBag.AcademicYear
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label><br />
+                                        @ViewBag.Campus
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Grade</b></label><br />
+                                        @ViewBag.Grade
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>New Id </b>
+                                        </label>
+                                        <br />
+                                        @ViewBag.NewId
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Name </b>
+                                        </label>
+                                        <br />
+                                        @ViewBag.Name
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Gender </b>
+                                        </label>
+                                        <br />
+                                        @ViewBag.Gender
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Is Hosteller </b>
+                                        </label>
+                                        <br />
+                                        @(ViewBag.IsHosteller == true ? "Yes" : "No")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- /.page-content-area -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <!-- PAGE CONTENT BEGINS -->
+                <table id="jqGridStudentIssueDetailsList">
+                </table>
+                <div id="jqGridStudentIssueDetailsListPager">
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="@Url.Content("~/Scripts/Store/MaterialIssueDetails.js")" type="text/javascript"></script>

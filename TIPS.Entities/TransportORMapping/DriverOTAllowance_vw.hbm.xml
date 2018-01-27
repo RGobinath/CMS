@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.DriverOTAllowance_vw" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.DriverOTAllowance_vw, TIPS.Entities" table="DriverOTAllowance_vw" lazy="true" >
+    <id name="Id" column="Id" type="Int32">
+      <generator class="native"/>
+    </id>
+    <property name="Campus">
+      <column name="Campus" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="DriverName">
+      <column name="DriverName" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="DriverIdNo">
+      <column name="DriverIdNo" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Month">
+      <column name="Month" sql-type="Int32" not-null="false" />
+    </property>
+    <property name="Year">
+      <column name="Year" sql-type="Int32" not-null="false" />
+    </property>
+    <property name="Evening">
+      <column name="Evening" sql-type="Int32" not-null="false" />
+    </property>
+    <property name="EveningAllowance">
+      <column name="EveningAllowance" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="Night">
+      <column name="Night" sql-type="Int32" not-null="false" />
+    </property>
+    <property name="NightAllowance">
+      <column name="NightAllowance" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="OutStation">
+      <column name="OutStation" sql-type="Int32" not-null="false" />
+    </property>
+    <property name="OutStationAllowance">
+      <column name="OutStationAllowance" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="Holiday">
+      <column name="Holiday" sql-type="Int32" not-null="false" />
+    </property>
+    <property name="HolidayAllowance">
+      <column name="HolidayAllowance" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="Remedial">
+      <column name="Remedial" sql-type="Int32" not-null="false" />
+    </property>
+    <property name="RemedialAllowance">
+      <column name="RemedialAllowance" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="TotalOTCount">
+      <column name="TotalOTCount" sql-type="Int32" not-null="false" />
+    </property>
+    <property name="TotalAllowance">
+      <column name="TotalAllowance" sql-type="decimal" not-null="false" />
+    </property>
+    
+  </class>
+</hibernate-mapping>

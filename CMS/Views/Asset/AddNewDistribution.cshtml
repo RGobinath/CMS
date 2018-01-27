@@ -1,0 +1,241 @@
+﻿@model TIPS.Entities.AssetEntities.AssetDetailsTemplate
+@{
+    ViewBag.Title = "AddNewDistribution";
+    Layout = null;
+}
+<div class="row">
+    @Html.Hidden("assetId", "", new { @id = "assetId", @Value = Model.Asset_Id })
+    @Html.Hidden("IsSubAsset", "", new { @id = "IsSubAsset", @Value = ViewBag.IsSubAsset})
+    @Html.Hidden("IdNum", "", new { id = "IdNum" })
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    @if (@Model.specList != null && @Model.specList.Count > 0)
+                    {
+                        <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                            <div class="col-xs-12">
+                                <div class="col-sm-6">
+                                    <label for="form-field-select-1">
+                                        <b>Campus</b>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.DropDownList("ddlNewCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlNewCampus", @Class = "form-control select-sm" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-sm-6">
+                                    <label for="form-field-select-1">
+                                        <b>Asset Name</b>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input id="assetNameId" type="text" class="form-control" value='@(Model.AssetType)' readonly="readonly" />
+                                </div>
+                            </div>                            
+                           @* <div id="StudentDiv">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-6">
+                                        <label for="form-field-select-1">
+                                            <b>Grade</b>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.DropDownList("ddlNewGrade", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlNewGrade", @Class = "form-control select-sm" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div class="col-sm-6">
+                                        <label for="form-field-select-1">
+                                            <b>Student Name</b>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.DropDownList("ddlNewStudentName", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlNewStudentName", @Class = "form-control select-sm" })
+                                    </div>
+                                </div>                                
+                            </div> *@                                                       
+                            <div class="col-xs-12">
+                                <div class="col-sm-6">
+                                    <label for="form-field-select-1">
+                                        <b>Brand</b>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.DropDownList("assetMake", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "assetMake", @Class = "form-control select-sm" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-sm-6">
+                                    <label for="form-field-select-1">
+                                        <b>Model</b>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.DropDownList("assetModel", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "assetModel", @Class = "form-control select-sm" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-sm-6">
+                                    <label for="form-field-select-1">
+                                        <b>Serial No</b>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input id="assetSerial" type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-sm-6">
+                                    <label for="form-field-select-1">
+                                        <b>Vendor Name</b>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.DropDownList("ddlVendorName", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlVendorName", @Class = "form-control select-sm" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-sm-6">
+                                    <label for="form-field-select-1">
+                                        <b>Invoice No</b>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.DropDownList("ddlInvoiceNo", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlInvoiceNo", @Class = "form-control select-sm" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-sm-6">
+                                    <label for="form-field-select-1">
+                                        <b>Amount</b>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">                                    
+                                        @Html.TextBox("txtAmount", "", new { id = "txtAmount", @Class = "form-control input-sm" })                                                                                                             
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-sm-6">
+                                    <label for="form-field-select-1"><b>Warranty</b></label>
+                                </div>
+                                <div class="col-sm-3">
+                                    @Html.DropDownList("ddlYear", new SelectList(Enumerable.Empty<SelectListItem>()), "Year", new { id = "ddlYear", @Class = "form-control select-sm" })
+                                </div>
+                                <div class="col-sm-3">
+                                    @Html.DropDownList("ddlMonth", new SelectList(Enumerable.Empty<SelectListItem>()), "Month", new { id = "ddlMonth", @Class = "form-control select-sm" })
+                                </div>
+                            </div> 
+                            <div class="col-xs-12">
+                                <div class="col-sm-6">
+                                    <label for="form-field-select-1">
+                                        <b>Windows OS</b>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                        @Html.DropDownList("ddlOperatingSystem",
+                                            new SelectList(new[] { 
+                                                new { Text = "Select", Value = ""},
+                                               
+                                                new { Text = "YES", Value = "YES"},
+                                                
+                                                new { Text = "NO", Value = "NO"}
+                                       }, "Value", "Text", ""),
+                                       new { @Class = "form-control select-sm" })                                
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-sm-6">
+                                    <label for="form-field-select-1">
+                                        <b>Laptop Type</b>
+                                    </label>
+                                </div>
+                               <div class="col-sm-6">
+                                        @Html.DropDownList("ddlSS",
+                                            new SelectList(new[] { 
+                                                new { Text = "Select", Value = ""},
+                                                 new { Text = "SMALL", Value = "SMALL"},
+                                                new { Text = "BIG", Value = "BIG"}
+                                               
+                                       }, "Value", "Text", ""),
+                                       new { @Class = "form-control select-sm" })                                
+                                </div>
+
+                            </div>
+                            
+                                                       
+                            @*<div class="col-xs-12">
+                                <div class="col-sm-6">
+                                    <label for="form-field-select-1">
+                                        <b>Block Name</b>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.DropDownList("ddlNewBlock", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlNewBlock", @Class = "form-control select-sm" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-sm-6">
+                                    <label for="form-field-select-1">
+                                        <b>Location</b>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.DropDownList("ddlNewLocation", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlNewLocation", @Class = "form-control select-sm" })
+                                </div>
+                            </div>*@  
+                                                      
+                            @foreach (var item in Model.specList)
+                            {
+                                if (@item != "Id")
+                                {
+                                <div class="col-xs-12">
+                                    @foreach (var descitem in ViewBag.DescList)
+                                    {
+                                        if (string.Equals(item, descitem.Replace(" ", string.Empty), StringComparison.CurrentCultureIgnoreCase))
+                                        {
+                                        <div class="col-sm-6">
+                                            <label for="form-field-select-1">
+                                                <b>@descitem</b>
+                                            </label>
+                                        </div>
+                                            break;
+                                        }
+                                    }
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id='@item' />
+                                    </div>
+                                </div>
+                                }
+                            }     
+                            
+                            
+
+
+                            
+                            
+                                                   
+                            <div class="col-xs-12">
+                                <div class="col-sm-4">
+                                    <br />
+                                    <button class="btn btn-success btn-block btn-sm" type="button" id="btnAddAsset">
+                                        <i class="ace-icon fa fa-plus white"></i>Add
+                                    </button>
+                                </div>                               
+                                <div class="col-sm-4">
+                                    <br />
+                                    <button class="btn btn-danger btn-block btn-sm" type="button" id="btnExit">
+                                        <i class="ace-icon fa fa-arrow-right white"></i>Exit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Asset/AddNewDistribution.js")"></script>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.WidgetEntities.WidgetMaster" namespace="TIPS.Entities.WidgetEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.WidgetEntities.WidgetMaster,TIPS.Entities" table="WidgetMaster" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="WidgetModule" column="WidgetModule" type="string"/>
+    
+    <property name="RoleCode" column="RoleCode" type="string"/>
+    <property name="Description" column="Description" type="string"/>
+
+    <property name="SordOrder" column="SordOrder" type="long"/>
+    <property name="WidgetName" column="WidgetName" type="string"/>
+    <property name="DivId" column="DivId" type="string"/>
+    <property name="CloseId" column="CloseId" type="string"/>
+    <property name="FooterText" column="FooterText" type="string"/>
+    <property name="IsActive" column="IsActive" type="bool"/>
+    <property name="CreatedDate" column="CreatedDate" type="datetime"/>
+    <property name="CreatedBy" column="CreatedBy" type="string"/>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime"/>
+    <property name="ModifiedBy" column="ModifiedBy" type="bool"/>
+  </class>
+</hibernate-mapping>

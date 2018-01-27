@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.AssetOrganizer_vw" namespace="TIPS.Entities.AssetEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.AssetOrganizer_vw, TIPS.Entities" table="AssetOrganizer_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="RequestNo" column="RequestNo" type="string"></property>
+    <property name="AssetName" column="AssetName" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="ReasonForBooking" column="ReasonForBooking" type="string"></property>
+    <property name="Date" column="Date" type="DateTime"></property>
+    <property name="StaffIncharge" column="StaffIncharge" type="string"></property>
+    <!--<property name="StartTime" column="StartTime" type="DateTime"></property>-->
+    <property name="StartTimeString" column="StartTimeString" type="string"></property>
+    <!--<property name="EndTime" column="EndTime" type="DateTime"></property>-->
+    <property name="EndTimeString" column="EndTimeString" type="string"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="IsActive" column="IsActive" type="boolean"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"></property>
+    <property name="AssetColor" column="AssetColor" type="string"></property>
+  </class>
+</hibernate-mapping>

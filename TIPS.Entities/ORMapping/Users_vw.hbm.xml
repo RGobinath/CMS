@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.Users_vw" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Users_vw, TIPS.Entities" table="Users_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int32">
+      <generator class="identity" />
+    </id>
+    <property name="UserId" column="UserId" type="string"/>
+    <property name="EmployeeId" column="EmployeeId" type="string"/>
+    <property name="UserName" column="UserName" type="string"/>
+    <property name="Campus" column="Campus" type="string"/>
+    <property name="UserType" column="UserType" type="string"/>
+    <property name="Password" column="Password" type="string"/>    
+    <property name="EmailId" column="EmailId" type="string"/>
+    <property name="IsActive" column="IsActive" type="bool"/>    
+    <property name="Grade" column="Grade" type="string"/>
+    <property name="Section" column="Section" type="string"/>
+    <property name="NewId" column="NewId" type="string"/>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"/>
+    <property name="StudentName" column="Name" type="string"/>
+    <property name="AcademicYear" column="AcademicYear" type="string"/>
+  </class>
+</hibernate-mapping>
+

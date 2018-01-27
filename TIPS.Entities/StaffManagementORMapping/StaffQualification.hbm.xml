@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.StaffQualification" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.StaffQualification, TIPS.Entities" table="StaffQualification" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="PreRegNum" column="PreRegNum" type="Int32"  not-null ="false"></property>
+    <property name="Course" column="Course" type="string" ></property>
+    <property name="Board" column="Board" type="string" ></property>
+    <property name="Institute" column="Institute" type="string"></property>
+    <property name="YearOfComplete" column="YearOfComplete" type="string"></property>
+    <property name="MajorSubjects" column="MajorSubjects" type="string"></property>
+    <property name="Percentage" column="Percentage" type="string"></property>
+  </class>
+</hibernate-mapping>
+  

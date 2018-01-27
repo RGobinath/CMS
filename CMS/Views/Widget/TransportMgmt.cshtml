@@ -1,0 +1,43 @@
+﻿<style type="text/css">
+
+.ui-jqgrid .ui-pg-input
+{
+    width:30px;
+}
+.ui-jqgrid .ui-pg-selbox
+{
+    width:50px;
+   height:25px;
+}
+</style>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#Transport').jqGrid({
+            url: '/Widget/TransportDetailsjqgrid',
+            datatype: 'Json',
+            type: 'GET',
+            width: 350,
+            height: 140,
+            colNames: ['VehicleNo', 'Campus'],
+            colModel: [
+
+            { name: 'VehicleNo', index: 'VehicleNo', width: 60, align: "center" },
+            { name: 'Campus', index: 'Campus', width: 60, align: "center" }, ],
+            rowNum: 7,
+            rowList: [7, 10],
+            sortorder: 'Asc',
+            sortname: 'VehicleNo',
+            pager: 'TransportPager'
+        });
+        $('#Transport').jqGrid('filterToolbar', { searchOnEnter: true, enableClear: false });
+    });
+</script>
+<div id="TransportDetails">
+    <table id="Transport">
+    </table>
+    <div id="TransportPager">
+    </div>
+</div>

@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "Material Group Supplier";
+    Layout = "~/Views/Shared/PartialViewMaster.cshtml";
+}
+<style>
+.ui-widget-content
+        {
+            border: 0px solid #aaaaaa;
+            background: #ffffff url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x;
+           /* font-size: 0.8em;*/
+            color: #222222;
+        }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        jQuery("#MatGrpSupplierList").jqGrid({
+            url: '/Store/MaterialGroupSupplierList',
+            datatype: 'json',
+            mtype: 'GET',
+            height: '265',
+            width: '970',
+            shrinkToFit: true,
+            colNames: ['Id', 'Supplier Name', 'Supplier Name', 'Material Group'],
+            colModel: [
+                { name: 'Id', index: 'Id', width: 50, align: 'left', editable: true, hidden: true, edittype: 'text', key: true, sortable: false },
+                { name: 'SupplierId', index: 'SupplierId', width: 50, align: 'left', edittype: 'select', editable: true, sortable: false, hidden: true, editrules: { edithidden: true },
+                    editoptions: {
+                        dataUrl: '@Url.Action("GetSupplierName")',
+                        buildSelect: function (data) {
+                            Suppliername = jQuery.parseJSON(data);
+                            var s = '<select>';
+                            s += '<option value=" ">------Select------</option>';
+                            if (Suppliername && Suppliername.length) {
+                                for (var i = 0, l = Suppliername.length; i < l; i++) {
+                                    s += '<option value="' + Suppliername[i].Value + '">' + Suppliername[i].Text + '</option>';
+                                }
+                            }
+                            return s + "</select>";
+                        }
+                    }
+                },
+                { name: "SupplierName", index: "SupplierName", width: 100, align: "left", sortable: true },
+                { name: "MaterialGroup", index: "MaterialGroup", width: 100, align: "left", sortable: true, editable: true, edittype: 'select',
+                    editoptions: {
+                        dataUrl: '@Url.Action("MaterialGroupddl")',
+                        buildSelect: function (data) {
+                            jqGridMaterialGroup = jQuery.parseJSON(data);
+                            var s = '<select>';
+                            s += '<option value=" ">------Select------</option>';
+                            if (jqGridMaterialGroup && jqGridMaterialGroup.length) {
+                                for (var i = 0, l = jqGridMaterialGroup.length; i < l; i++) {
+                                    var mg = jqGridMaterialGroup[i];
+                                    s += '<option value="' + mg + '">' + mg + '</option>';
+                                }
+                            }
+                            return s + "</select>";
+                        }
+                    }
+                }
+                ],
+            pager: '#DivMatGrpSupplierListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200 ],
+            sortname: '',
+            sortorder: "",
+            labelswidth: 60,
+            viewrecords: true,
+            multiselect: true,
+            closeAfterEdit: true,
+            closeAfterAdd: true,
+            // autowidth: true,
+            reloadAfterSubmit: true,
+            caption: 'Material Group Supplier'
+        });
+        jQuery("#MatGrpSupplierList").navGrid('#DivMatGrpSupplierListPager', { add: true, edit: true, del: false, search: false, refresh: false },
+        { height: 170, width: 333, url: '/Store/AddMaterialGroupSupplier?test=edit' },
+        { height: 170, width: 333, url: '/Store/AddMaterialGroupSupplier' });
+        $("#MatGrpSupplierList").jqGrid('filterToolbar', { stringResult: false, searchOnEnter: true, beforeSearch: function () {
+            $('#MatGrpSupplierList').clearGridData();
+            return false;
+        }
+        });
+    });
+</script>
+<table id="MatGrpSupplierList">
+</table>
+<div id="DivMatGrpSupplierListPager">
+</div>

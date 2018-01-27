@@ -1,0 +1,180 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+@{
+    ViewBag.Title = "Application Form";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+@{
+    var rle = Session["userrolesarray"] as IEnumerable<string>;
+    var Appcode = Session["Role"] as IEnumerable<string>;
+}
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        @using (Html.BeginForm("Employee", "Employee", FormMethod.Post, new { enctype = "multipart/form-data", test = "wew" }))
+        {
+            Html.ValidationSummary(true);
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-user"></i>&nbsp;Basic Details
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Request Number</b>
+                                            </label>
+                                            <br />
+                                            @ViewBag.RequestNum
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Date</b></label>
+                                            <br />
+                                            @ViewBag.Date
+                                            @Html.HiddenFor(x => x.CreatedDate)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Time</b></label>
+                                            <br />
+                                            @ViewBag.Time
+                                            @Html.HiddenFor(x => x.CreatedTime)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Processed By</b></label>
+                                            <br />
+                                            @ViewBag.processby
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>User Role</b></label>
+                                            <br />
+                                            @ViewBag.userrole
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Registration Status</b></label>
+                                            <br />
+                                            @Session["status"]
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <!-- PAGE CONTENT BEGINS -->
+                    <div class="tabbable tabs-left">
+                        <ul id="myTab" class="nav nav-tabs">
+                            <li class="active"><a href="#Employment" data-toggle="tab"><i class="ace-work fa fa-dashboard"></i>&nbsp;Employment Details</a> </li>
+                            <li><a data-toggle="tab" href="#Personal"><i class="ace-icon fa fa-tags"></i>&nbsp;Personal
+                                Details</a></li>
+                            @if (rle.Contains("EMP-APP"))
+                            {
+                                <li><a data-toggle="tab" href="#ApproveDetails"><i class="ace-icon fa fa-mobile"></i>
+                                    &nbsp;Approve</a></li>
+                            }
+                        </ul>
+                        <div class="tab-content col-xs-6.col-sm-10">
+                            <div class="tab-pane in active" id="Employment">
+                                @Html.Partial("WorkDetails")
+                            </div>
+                            <div class="tab-pane" id="Personal">
+                                @Html.Partial("PersonalDetails")
+                            </div>
+                            @if (rle.Contains("EMP-APP"))
+                            {
+                                <div class="tab-pane" id="ApproveDetails">
+                                    @Html.Partial("Approve")
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                    <!-- PAGE CONTENT ENDS -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <div class="row" style="padding-top: 10px;">
+                <div class="col-xs-3">
+                </div>
+                <div class="col-xs-9">
+                    @if ((Session["status"].ToString() == "New Registration") || (Session["status"].ToString() == "Registered"))
+                    {
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-primary btn-block btn-sm" value="Save" id="btnSave"
+                                name="btnSave" onclick="return(validate1());">
+                                <i class="ace-icon fa fa-plus-square-o white"></i>Save
+                            </button>
+                        </div>
+                    }
+                    @if ((Session["status"].ToString() == "New Registration") && (ViewBag.initialpage != "yes"))
+                    {
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-info btn-block btn-sm" value="Send For Approval"
+                                name="btnsentforapproval" onclick="return(validate1());" style="font-size: 10px;">
+                                <i class="ace-icon fa fa-check white"></i>Send For Approval
+                            </button>
+                        </div>
+                    }
+                    @if (rle.Contains("EMP-APP"))
+                    {
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-success btn-block btn-sm" id="Approve" name="btnapprove" value="Approve"
+                                onclick="return(validate2());">
+                                <i class="ace-icon fa fa-check-square-o white"></i>Approve
+                            </button>
+                        </div>
+                    }
+                    @if ((ViewBag.admissionstatus == "Registered") || (ViewBag.admissionstatus == "Inactive") || (ViewBag.admissionstatus == "Discontinued"))
+                    {
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-purple btn-block btn-sm" value="Back to Inbox"
+                                id="Back1">
+                                <i class="ace-icon fa fa-arrow-left white"></i>Back to Inbox
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-purple btn-block btn-sm" value="Back to Inbox"
+                                id="Back">
+                                <i class="ace-icon fa fa-arrow-left white"></i>Back to Inbox
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <!-- /.page-content-area -->
+</div>
+<script>
+    jQuery(function ($) {
+        $("#Back").click(function () {
+            window.location.href = '/Employee/NewEmployeeRegistration';
+        });
+
+        $("#Back1").click(function () {
+            window.location.href = '/Employee/EmployeeDetails';
+        });
+    });
+
+</script>
+<div id="ImgCaptureDiv"></div>

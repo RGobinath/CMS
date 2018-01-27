@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.StudentSurveyStaffWiseReport_Vw" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.StudentSurveyStaffWiseReport_Vw, TIPS.Entities" table="StudentSurveyStaffWiseReport_Vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>    
+    <property name="StaffEvaluationCategoryId" column="StaffEvaluationCategoryId" type="Int64" ></property>
+    <property name="Campus" column="Campus" type="string" ></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>
+    <property name="CategoryName" column="CategoryName" type="string"></property>
+    <property name="EvaluationDate" column="EvaluationDate" type="datetime"></property>
+    <property name="StaffName" column="StaffName" type="string"></property>
+    <property name="StudentCount" column="StudentCount" type="Int64"></property>
+    <property name="Bad" column="Bad" type="string"></property>
+    <property name="Average" column="Average" type="string"></property>
+    <property name="Good" column="Good" type="string"></property>
+  </class>
+</hibernate-mapping>

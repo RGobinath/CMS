@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.UserAppRole" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.UserAppRole, TIPS.Entities" table="UserAppRole" lazy="false" >
+    <id name="Id" column="Id" type="Int32">
+      <generator class="identity" />
+    </id>
+
+    <property name="UserId" column="UserId" type="string"/>
+    <property name="AppCode" column="AppCode" type="string" />
+    <property name="AppName" column="AppName" type="string" />
+    <property name="DeptCode" column="DeptCode" type="string" />
+    <property name="BranchCode" column="BranchCode" type="string" />
+    <property name="RoleCode" column="RoleCode" type="string" />
+    <property name="RoleName" column="RoleName" type="string" />
+    <property name="Email" column="Email" type="string" />
+    <property name="Grade" column="Grade" type="string" />
+  </class>
+</hibernate-mapping>

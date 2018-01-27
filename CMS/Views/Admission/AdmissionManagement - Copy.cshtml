@@ -1,0 +1,415 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+@{
+    ViewBag.Title = "AdmissionManagement";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    var id = "";
+    var grade = "";
+    var acadyr = "";
+    var appname = "";
+    var section = "";
+    var admstat = "";
+    var appno = "";
+    var preregno = "";
+    var flag = "";
+    var reset = "";
+    var Gender = "";
+    var appliedfrmdate = "";
+    var appliedtodate = "";
+
+    if ("@ViewBag.Registered" == "yes") {
+        InfoMsg("Student Registered Successfully \n Student Id is @ViewBag.RegId ");
+    }
+
+    $(document).ready(function () {
+        var cmps = document.getElementById("ddlcampus");
+        for (i = 0; i < cmps.options.length; i++) {
+            if (cmps.options[i].text == '@Session["cmpnm"]') {
+                cmps.selectedIndex = i;
+            }
+        }
+        var grd = document.getElementById("ddlgrade");
+        for (j = 0; j < grd.options.length; j++) {
+            if (grd.options[j].text == '@Session["grd"]') {
+                grd.selectedIndex = j;
+            }
+        }
+        var acyr = document.getElementById("ddlacademicyear");
+        for (l = 0; l < acyr.options.length; l++) {
+            if (acyr.options[l].text == '@Session["acdyr"]') {
+                acyr.selectedIndex = l;
+            }
+        }
+        if ('@Session["apnam"]' != "") {
+            document.getElementById('appname').value = '@Session["apnam"]';
+        }
+        if ('@Session["appno"]' != "") {
+            document.getElementById('txtAppNum').value = '@Session["appno"]';
+        }
+        var adstat = document.getElementById("AdmissionStatus");
+        for (m = 0; m < adstat.options.length; m++) {
+            if (adstat.options[m].text == '@Session["stats"]') {
+                adstat.selectedIndex = m;
+            }
+        }
+        if ('@Session["regno"]' != "") {
+            document.getElementById('txtPreRegNum').value = '@Session["regno"]';
+        }
+        $("#ddlcampus").change(function () {
+            gradeddl();
+        });
+        // Applied Date search Details...
+        $("#txtAppliedFrmDate").datepicker({
+            showOn: "button",
+            dateFormat: "dd/mm/yy",
+            buttonImage: "../../Images/date.gif",
+            buttonImageOnly: true,
+            changeYear: true,
+            changeMonth: true,
+            maxDate: 0,
+            numberOfMonths: 1,
+            onSelect: function (selected) {
+                $("#txtAppliedToDate").datepicker("option", "minDate", selected)
+            }
+
+        });
+
+        $("#txtAppliedToDate").datepicker({
+            showOn: "button",
+            dateFormat: "dd/mm/yy",
+            buttonImage: "../../Images/date.gif",
+            buttonImageOnly: true,
+            changeYear: true,
+            changeMonth: true,
+            maxDate: 0,
+            numberOfMonths: 1,
+            onSelect: function (selected) {
+            }
+        });
+        window.onload = loadgrid();
+        $("#New").click(function () {
+            window.location.href = '@Url.Action("NewRegistration", "Admission")';
+        });
+        $("#Search").click(function () {
+            $("#AdmissionManagementList").GridUnload();
+            var e = document.getElementById("ddlcampus");
+            id = e.options[e.selectedIndex].value;
+
+            var f = document.getElementById("ddlgrade");
+            grade = f.options[f.selectedIndex].value;
+
+            var g = document.getElementById("ddlacademicyear");
+            acadyr = g.options[g.selectedIndex].value;
+            appname = document.getElementById('appname').value;
+
+            var h = document.getElementById("AdmissionStatus");
+            admstat = h.options[h.selectedIndex].value;
+
+            var Gen = document.getElementById("ddlGender");
+            Gender = Gen.options[Gen.selectedIndex].value;
+
+            appno = document.getElementById('txtAppNum').value;
+            preregno = document.getElementById('txtPreRegNum').value;
+            appliedfrmdate = document.getElementById("txtAppliedFrmDate").value;
+            appliedtodate = document.getElementById("txtAppliedToDate").value;
+
+            reset = "no";
+            if ('@Session["userrole"].ToString()' == "ADM-APP") {
+                flag = "ADM-APP";
+            }
+            if ('@Session["UserId"].ToString()' == "GRL-ADMS") {
+                flag = "GRL-ADMS";
+            }
+            if ('@Session["UserId"].ToString()' == "CHE-GRL") {
+                flag = "CHE-GRL";
+            }
+            loadgrid();
+        });
+
+        $("#reset").click(function () {
+            $("#AdmissionManagementList").GridUnload();
+            id = "";
+            grade = "";
+            acadyr = "";
+            appname = "";
+            admstat = "";
+            appno = "";
+            preregno = "";
+            appliedfrmdate = "";
+            appliedtodate = "";
+            reset = "yes";
+
+            flag = "";
+            var e = document.getElementById('ddlcampus');
+            e.options[0].selected = true; // "Select";
+            // alert(e.options[e.selectedIndex].value);
+            var f = document.getElementById('ddlgrade');
+            f.options[0].selected = true; // "Select";
+
+            var g = document.getElementById('ddlacademicyear');
+            g.options[0].selected = true; // "Select";
+
+            var h = document.getElementById('AdmissionStatus');
+            h.options[0].selected = true; // "Select";
+
+            document.getElementById('appname').value = "";
+            document.getElementById('txtAppNum').value = "";
+            document.getElementById('txtPreRegNum').value = "";
+            document.getElementById('txtAppliedFrmDate').value = "";
+            document.getElementById('txtAppliedToDate').value = "";
+            gradeddl();
+            //   LoadSetGridParam($("#AdmissionManagementList"), '/Admission/AdmissionManagementListJqGrid/');
+            loadgrid();
+        });
+
+        $("#PrintPRF").click(function () {
+            var GridIdList = $("#AdmissionManagementList").jqGrid('getGridParam', 'selarrrow');
+            var rowData = [];
+            var rowData1 = [];
+            if (GridIdList.length == 1) {
+                for (i = 0; i < GridIdList.length; i++) {
+                    rowData[i] = $("#AdmissionManagementList").jqGrid('getRowData', GridIdList[i]);
+                    rowData1[i] = rowData[i].PreRegNo;
+                }
+                window.location.href = "/Admission/PrintPRF?PreRegNo=" + rowData1; // rowData1;
+            }
+            else { ErrMsg('Only 1 student should be selected at a time'); }
+        });
+
+        $("#BulkRegister").click(function () {
+            var GridIdList = $("#AdmissionManagementList").jqGrid('getGridParam', 'selarrrow');
+            var rowData = [];
+            var rowData1 = "";
+            if (GridIdList.length > 0) {
+                for (i = 0; i < GridIdList.length; i++) {
+                    rowData[i] = $("#AdmissionManagementList").jqGrid('getRowData', GridIdList[i]);
+                    if (rowData1 == "") { rowData1 = rowData[i].PreRegNo; }
+                    else { rowData1 = rowData1 + "," + rowData[i].PreRegNo; }
+                }
+                LoadPopupDynamicaly("/Admission/BulkRegister", $('#BulkRegisterdiv'),
+            function () {
+                $.ajax({
+                    url: '/Admission/BulkRegister',
+                    type: 'GET',
+                    //   dataType: 'json',
+                    data: { PreRegNo: rowData1 },
+                    traditional: true
+                });
+            });
+            }
+        });
+
+    });
+    function Source(cellvalue, options, rowObject) {
+        if (cellvalue == 'Parent') { return 'Parent' }
+        else { return 'School' }
+    }
+    function loadgrid() {
+        jQuery("#AdmissionManagementList").jqGrid({
+            mtype: 'GET',
+            url: '/Admission/AdmissionManagementListJqGrid',
+            postData: { Id: id, Gender: Gender, grade: grade, section: section, acadyr: acadyr, feestructyr: '', appname: appname, admstat: admstat, appno: appno, idnum: '', preregnumber: preregno, ishosteller: '', flag: flag, flag1: '', reset: reset, stdntmgmt: '', AppDateFrm: appliedfrmdate, AppDateTo: appliedtodate },
+            datatype: 'json',
+            colNames: ['Id', 'Application No', 'Pre-Reg No', 'Name of Applicant', 'Gender', 'Grade', 'Section', 'Campus', 'Fee Structure Year', 'Admission Status', 'Student Id', 'Academic Year', 'Applied Date', 'Source'],
+            colModel: [
+                           { name: 'Id', index: 'Id', sortable: false, hidden: true },
+                           { name: 'ApplicationNo', index: 'ApplicationNo', width: 60, align: 'left', sortable: true },
+                           { name: 'PreRegNo', index: 'PreRegNum', width: 30, align: 'left', sortable: true },
+                           { name: 'Name', index: 'Name', width: 100, align: 'left', sortable: true },
+                           { name: 'Gender', index: 'Gender', width: 30, align: 'left', sortable: true },
+                           { name: 'Grade', index: 'Grade', width: 30, align: 'left', sortable: true },
+                           { name: 'Section', index: 'Section', width: 30, align: 'left', sortable: true },
+                           { name: 'Campus', index: 'Campus', width: 60, align: 'left', sortable: true },
+                           { name: 'FeeStructYear', index: 'FeeStructYear', width: 30, align: 'left', sortable: true },
+                           { name: 'AdmissionStatus', index: 'AdmissionStatus', width: 60, align: 'left', sortable: true },
+                           { name: 'NewId', index: 'NewId', width: 60, align: 'left', sortable: true },
+                           { name: 'AcademicYear', index: 'AcademicYear', width: 60, align: 'left', sortable: true },
+                           { name: 'AppliedDate', index: 'CreatedDateNew', width: 60, align: 'left', sortable: true },
+                           { name: 'EntryFrom', index: 'EntryFrom', width: 60, align: 'left', sortable: true, formatter: Source }
+                           ],
+            pager: '#AdmissionManagementListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: 'desc',
+            multiselect: true,
+            viewrecords: true,
+            height: '220',
+            width: '1230',
+            caption: 'Inbox'
+        });
+        $("#AdmissionManagementList").navGrid('#AdmissionManagementListPager', { add: false, edit: false, del: false, search: false, refresh: false });
+        jQuery("#AdmissionManagementList").jqGrid('navButtonAdd', '#AdmissionManagementListPager', {
+            caption: "Export To Excel",
+            onClickButton: function () {
+                window.open("ExportToExcel" + '?rows=9999' + '&Id=' + id + '&grade=' + grade + '&section=' + section + '&acadyr=' + acadyr + '&feestructyr=&appname=' + appname + '&admstat=' + admstat + '&appno=' + appno + '&idnum=&preregnumber=' + preregno + '&ishosteller=&flag=' + flag + '&flag1=&reset=' + reset + '&stdntmgmt=&AppDateFrm=' + appliedfrmdate + '&AppDateTo=' + appliedtodate);
+            }
+        });
+    }
+    function gradeddl() {
+        var e = document.getElementById('ddlcampus');
+        var campus = e.options[e.selectedIndex].value;
+        //     alert(campus);
+        $.getJSON("/Admission/CampusGradeddl/", { campus: campus },
+                function (modelData) {
+                    var select = $("#ddlgrade");
+                    select.empty();
+                    select.append($('<option/>', { value: "", text: "Select Grade" }));
+                    $.each(modelData, function (index, itemData) {
+                        select.append($('<option/>', { value: itemData.gradcod, text: itemData.gradcod }));
+                    });
+                });
+    }
+    function getdata(id1) {
+        window.location.href = "/Admission/GetFormData?Id=" + id1;
+        '@ViewBag.editid' == id1;
+    }
+
+</script>
+<div id="BulkRegisterdiv">
+</div>
+@using (Html.BeginForm("AdmissionManagement", "Admission", FormMethod.Post))
+{
+    if (Session["UserId"] != null)
+    {
+        var user = Session["UserId"].ToString();
+        var user1 = Session["Role"].ToString();
+        
+    <h3>
+        Admission Management</h3>
+    <table class="InnerTable" width="100%">
+        <tr>
+            <td>
+                <table class="InnerTable" width="100%">
+                    <tr>
+                        <td>
+                            <table class="WithBorderOnly" width="100%">
+                                <tr class="PanelHeading">
+                                    <th align="left" colspan="7">
+                                        Search
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Campus
+                                    </th>
+                                    <th>
+                                        Grade
+                                    </th>
+                                    <th>
+                                        Gender
+                                    </th>
+                                    <th>
+                                        Academic Year
+                                    </th>
+                                    <th>
+                                        Applicant Name
+                                    </th>
+                                    <th>
+                                        Application Number
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus", @Class = "CSSDropDownList" })
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(Model => Model.Grade, new SelectList(ViewBag.gradeddl, "gradcod", "gradcod"), "Select One", new { id = "ddlgrade", @Class = "CSSDropDownList" })
+                                    </td>
+                                    <td>
+                                        @Html.DropDownList("ddlGender", new SelectList(new[]
+                                          {
+                                             new {Value="",Text="Select"},
+                                              new{Value="Male",Text="Male"},
+                                              new{Value="Female",Text="Female"}
+                                          }, "Value", "Text", ""), new { @Class = "CSSDropDownList", style = "width:155px;" })
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(Model => Model.AcademicYear, new SelectList(ViewBag.acadddl, "AcademicYear", "AcademicYear"), "Select One", new { id = "ddlacademicyear", @Class = "CSSDropDownList" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("appname", "", new { @Class = "CSSTextBox", @maxlength = "30" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("txtAppNum", "", new { @Class = "CSSTextBox", @maxlength = "30" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Admission Status
+                                    </th>
+                                    <th>
+                                        Pre-Registration Number
+                                    </th>
+                                    <th colspan="2">
+                                        Applied Date
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DropDownListFor(Model => Model.AdmissionStatus, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="New Enquiry",Text="New Enquiry"},
+                                              new{Value="New Registration",Text="New Registration"},
+                                              new{Value="Sent For Clearance",Text="Sent For Clearance"},
+                                              new{Value="Sent For Approval",Text="Sent For Approval"},
+                                              new{Value="On Hold",Text="On Hold"},
+                                              new{Value="Declined",Text="Declined"},
+                                              new{Value="Not Interested",Text="Not Interested"},
+                                              new{Value="Not Joined",Text="Not Joined"},
+                                              new{Value="Call For Interview",Text="Call For Interview"},
+                                              new{Value="Joining Next Year",Text="Joining Next Year"},
+                                              new{Value="Waiting For Reply",Text="Waiting For Reply"},
+                                              new{Value="Call For Interview",Text="Call For Interview"}
+                                          }, "Value", "Text", ""), new { id = "AdmissionStatus", @Class = "CSSDropDownList" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("txtPreRegNum", "", new { @Class = "CSSTextBox", @maxlength = "10" })
+                                    </td>
+                                    <td colspan="2">
+                                        From: @Html.TextBox("txtAppliedFrmDate", "", new { @Class = "CSSTextBox", @maxlength = "10", @style = "width: 125px;" })
+                                        &nbsp;&nbsp; To: @Html.TextBox("txtAppliedToDate", "", new { @Class = "CSSTextBox", @maxlength = "10", @style = "width: 125px;" })
+                                    </td>
+                                    <td>
+                                        <input type="button" value="Search" id="Search" />
+                                        <input type="button" value="Reset" id="reset" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    
+    <table>
+        <tr>
+            <td>
+                <table id="AdmissionManagementList">
+                </table>
+                <div id="AdmissionManagementListPager">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @if (Session["pagename"].ToString() != "PRF") 
+                {
+                    <input type="button" id="New" value="Add New Student" />                                                
+                }
+                @if (Session["userrole"].ToString() == "ADM-APP")
+                {                     
+                    <input type="button" value="Bulk Register" id="BulkRegister" />
+                }
+                @if (Session["pagename"].ToString() == "PRF")
+                {
+                    <input type="button" value="Print PRF" id="PrintPRF" />
+                }
+            </td>
+        </tr>
+    </table>
+    }
+}

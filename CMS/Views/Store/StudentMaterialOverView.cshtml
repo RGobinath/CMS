@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Student Material Over View";
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                </div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 10px;">
+                        <div class="col-xs-12" >
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Academic Year</b></label>
+                               @* @Html.DropDownList("AcademicYear", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })*@
+                                @Html.DropDownList("ddlacademicyear", new SelectList(ViewBag.acadddl, "AcademicYear", "AcademicYear",ViewBag.currentAcyear), "Select One", new { id = "ddlacademicyear", @Class = "form-control select-sm" })
+                            </div>
+                            @*<div class="col-sm-2">    
+                                <label for="form-field-select-1">
+                                    <b></b></label>
+                                @Html.DropDownList("ddlrptVehicleType", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlrptVehicleType", @Class = "form-control select-sm" })
+                            </div>*@
+                       
+                            <div class="col-sm-2">
+                                <br />
+                                <button class="btn btn-success btn-block btn-sm" id="btnrptSearch1">
+                                    <i class="ace-icon fa fa-search white"></i>Search
+                                </button>
+                            </div>
+                            <div class="col-sm-2">
+                                <br />
+                                <button class="btn btn-danger btn-block btn-sm" id="btnrptReset1">
+                                    <i class="ace-icon fa fa-undo white"></i>Reset
+                                </button>
+                            </div>
+                        </div>
+                         </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <div class="space-2">
+        </div>
+<div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <!-- PAGE CONTENT BEGINS -->
+                <table id="GetJqGridStudentMaterialOverView_vwList">
+                </table>
+                <div id="GetJqGridStudentMaterialOverView_vwListPager">
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            </div>
+<script src="../../Scripts/Store/StudentMaterialOverView.js"></script>
+<style>
+    .ui-jqgrid-sortable {
+        margin-top:10px;
+    }
+</style>

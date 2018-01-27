@@ -1,0 +1,177 @@
+﻿@{
+    ViewBag.Title = "EmailLog";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnCheck").click(function () {
+            ;
+            var ids = $("#EmailLogGrid").jqGrid('getGridParam', 'selarrrow');
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: "/Admission/SendFailedEmailFromApplication?Ids=" + ids,
+                success: function (data) {
+                }
+
+            });
+        });
+    });
+</script>
+<h3>
+    EmailLog</h3>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#search").click(function () {
+            var emaifrom = $('#txtFrom').val();
+            var txtTo = $('#txtTo').val();
+            var subject = $('#txtSubject').val();
+            var date = $('#txtEmailDate').val();
+            var IsSent = $('#IsSent').val();
+            var message = $('#txtComments').val();
+            var name = $('#txtName').val();
+            var newid = $('#txtNewId').val();
+
+            $("#EmailLogGrid").setGridParam(
+                             {
+                                 datatype: "json",
+                                 url: '@Url.Content("~/Admission/EmailLogGrid/")',
+                                 type: 'POST',
+                                 postData: { EmailFrom: emaifrom, EmailTo: txtTo, Subject: subject, EmailDateTime: date, IsSent: IsSent, Message: message, StudName: name, NewId: newid },
+                                 page: 1
+                             }).trigger("reloadGrid");
+
+        });
+
+        $("#reset").click(function () {
+            window.location.href = '@Url.Action("EmailLog", "Admission")';
+        });
+
+        function loadgrid() {
+            jQuery("#EmailLogGrid").jqGrid({
+                mtype: 'GET',
+                url: '/Admission/EmailLogGrid',
+                datatype: 'json',
+                colNames: ['Id', 'Student Name', 'NewId', 'From', 'To', 'BCC', 'BCC_Count', 'Subject', 'Message', 'EmailDateTime', 'IsSent','Actual Exception'],
+                colModel: [
+                            { name: 'Id', index: 'Id',key:true, hidden: true },
+                            { name: 'StudName', index: 'StudName', width: 40, align: 'left' },
+                            { name: 'NewId', index: 'NewId', width: 40, align: 'left' },
+                            { name: 'EmailFrom', index: 'EmailFrom', width: 40, align: 'left' },
+                            { name: 'EmailTo', index: 'EmailTo', width: 40, align: 'left' },
+                            { name: 'EmailBCC', index: 'EmailBCC', width: 100, align: 'left' },
+                            { name: 'BCC_Count', index: 'BCC_Count', width: 40, align: 'left' },
+                            { name: 'Subject', index: 'Subject', width: 40, align: 'left' },
+                            { name: 'Message', index: 'Message', width: 80, align: 'left' },
+                            { name: 'EmailDateTime', index: 'EmailDateTime', width: 40, align: 'left' },
+                            { name: 'IsSent', index: 'IsSent', width: 40, align: 'left' },
+                            { name: 'ActualException', index: 'ActualException', width: 100, align: 'left' }
+                            ],
+                pager: '#EmailLogGridPager',
+                rowNum: '10',
+                rowList: [5, 10, 20, 50, 100, 150, 200],
+                sortname: 'Id',
+                sortorder: 'desc',
+                viewrecords: true,
+                multiselect: true,
+                height: '320',
+                width: '1225',
+                //autowidth:true,
+                shrinktofit:true,
+                caption: 'Email Log'
+            });
+            $("#EmailLogGrid").navGrid('#EmailLogGridPager', { add: false, edit: false, del: false, search: false, refresh: false });
+            jQuery("#StudentManagementList").jqGrid('navButtonAdd', '#StudentManagementListPager', {
+            });
+
+        }
+        window.onload = loadgrid();
+    });
+</script>
+<table style="width: 100%" class="WithBorderOnly">
+    <tr class="PanelHeading">
+        <th colspan="5">
+            Search Criteria
+        </th>
+    </tr>
+    <tr>
+        <td>
+            Student Name
+        </td>
+        <td>
+            Student Id Number
+        </td>
+        <td>
+            Email From
+        </td>
+        <td>
+            Email To
+        </td>
+        <td>
+            Subject
+        </td>
+    </tr>
+    <tr valign="top">
+        <td>
+            @Html.TextBox("txtName", "", new { @style = "border: #006699 1px solid;" })
+        </td>
+        <td>
+            @Html.TextBox("txtNewId", "", new { @style = "border: #006699 1px solid;" })
+        </td>
+        <td>
+            @Html.TextBox("txtFrom", "", new { @style = "border: #006699 1px solid;" })
+        </td>
+        <td>
+            @Html.TextBox("txtTo", "", new { @style = "border: #006699 1px solid;" })
+        </td>
+        <td>
+            @Html.TextBox("txtSubject", "", new { @style = "border: #006699 1px solid;" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Message
+        </td>
+        <td>
+            Is Sent
+        </td>
+        @*<td>
+            Date
+        </td>*@
+        <td>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td>
+            @Html.TextArea("txtComments", new { rows = 2, cols = 30, id = "txtComments", @class = "CSSTextArea" })
+        </td>
+        <td>
+            @Html.DropDownList("IsSent",
+                    new SelectList(new[] { 
+                        new { Text = "Select", Value = "Select", Seleced = "True" },
+                        new { Text = "Yes", Value = "Yes", Seleced = "false" },
+                        new { Text = "No", Value = "No", Seleced = "false" }
+               }, "Text", "Value", "Seleced"),
+               new { @Class = "CSSDropDownList" })
+        </td>
+       @* <td>
+            @Html.TextBox("txtEmailDate", "", new { @style = "border: #006699 1px solid;" })
+        </td>*@
+        <td>
+            <input type="button" id="search" name="Search" value="Search" />&nbsp;&nbsp;&nbsp;<input
+                type="button" id="reset" name="reset" value="Reset" />
+        </td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td>
+            <table id="EmailLogGrid" width="100%">
+            </table>
+            <div id="EmailLogGridPager">
+            </div>
+        </td>
+    </tr>
+</table>
+<input type="button" id="btnCheck" value="Check Failed Mails and Send again" />

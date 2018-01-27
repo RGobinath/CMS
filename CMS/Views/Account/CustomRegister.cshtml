@@ -1,0 +1,363 @@
+﻿@model TIPS.Entities.User
+@{
+    ViewBag.Title = "Register";
+    // Layout = "~/Views/Shared/NewMaster.cshtml";
+    Layout = "~/Views/Shared/Account_Master.cshtml";
+}
+
+<style>
+    .drpdwnwdth {
+        height: 30px;
+        padding: 3px 4px;
+        width: 300px;
+    }
+</style>
+<script type="text/javascript" language="javascript">
+    var error = "@ViewBag.Error";
+
+    if (error != "") {
+        ErrMsg(error);
+    }
+    $(function () {
+        $.getJSON("/Base/FillAllBranchCode",
+             function (fillig) {
+                 var ddlcam = $("#ddlCampus");
+                 ddlcam.empty();
+                 ddlcam.append($('<option/>',
+                {
+                    value: "",
+                    text: "Select Campus"
+
+                }));
+
+                 $.each(fillig, function (index, itemdata) {
+                     ddlcam.append($('<option/>',
+                         {
+                             value: itemdata.Value,
+                             text: itemdata.Text
+                         }));
+                 });
+             });
+
+        $("#UserSearch").click(function () {
+            LoadPopupDynamicaly("/Account/UserList", $('#DivUserSearch'),
+            function () {
+                LoadSetGridParam($('#UserList'), "/Account/UserListJqGrid")
+            });
+        });
+
+        var clbPupGrdSel = null;
+        function LoadPopupDynamicaly(dynURL, ModalId, loadCalBack, onSelcalbck, width) {
+
+            if (width == undefined) { width = 850; }
+            if (ModalId.html().length == 0) {
+                $.ajax({
+                    url: dynURL,
+                    type: 'GET',
+                    async: false,
+                    dataType: 'html', // <-- to expect an html response
+                    success: function (data) {
+                        ModalId.dialog({
+                            height: 500,
+                            width: width,
+                            modal: true,
+                            title: 'User Details',
+                            buttons: {}
+                        });
+                        ModalId.html(data);
+                    }
+                });
+            }
+            clbPupGrdSel = onSelcalbck;
+            ModalId.dialog('open');
+            CallBackFunction(loadCalBack);
+        }
+
+        function LoadSetGridParam(GridId, brUrl) {
+            GridId.setGridParam({
+                url: brUrl,
+                datatype: 'json',
+                mtype: 'GET'
+            }).trigger("reloadGrid");
+        }
+
+
+
+
+        $.getJSON("/Account/FillUserType",
+                 function (fillusertype) {
+                     var ddlusrtyp = $("#ddlUserType");
+                     ddlusrtyp.empty();
+                     ddlusrtyp.append($('<option/>',
+                    {
+                        value: "",
+                        text: "Select User Type"
+
+                    }));
+
+                     $.each(fillusertype, function (index, itemdata) {
+                         ddlusrtyp.append($('<option/>',
+                             {
+                                 value: itemdata.Value,
+                                 text: itemdata.Text
+                             }));
+
+                     });
+                 });
+        debugger;
+        $('#empid').hide();
+        $('#ddlUserType').change(function () {
+            debugger;
+            var UsrTpe = $('#ddlUserType').val();
+            if (UsrTpe == 'Staff') {
+                $('#empid').show();
+            } else { $('#empid').hide(); }
+        });
+
+        $('#btnSubmit').click(function () {
+            var userid = $('#UserId').val();
+            var usertyp = $('#ddlUserType').val();
+            var userName = $('#UserName').val();
+            var sEmail = $('#EmailId').val();
+            //var pass = $('#Password').val();
+            //var confirmpass = $('#ConfirmPassword').val();
+            var campus = $('#ddlCampus').val();
+            var empid = $('#txtEmployeeId').val();
+            if ($.trim(userid).length == 0) {
+                ErrMsg('UserId is Mandatory.');
+                return false;
+            }
+            if (userName == "") {
+                ErrMsg('User Name is Mandatory.');
+                return false;
+            }
+            if (campus == "") {
+                ErrMsg('Campus is Mandatory.');
+                return false;
+            }
+
+            if ($.trim(usertyp).length == 0) {
+                ErrMsg('User Type is Mandatory.');
+                return false;
+            }
+
+            if (usertyp == 'Staff' && empid == "") {
+                ErrMsg('Employee Id is Must.');
+                return false;
+            }
+
+            //if ($.trim(pass).length < 6) {
+            //    ErrMsg('Password should be minimum of 6 characters.');
+            //    return false;
+            //}
+            //if (pass != confirmpass) {
+            //    ErrMsg("Password and Confirm Password doesn't match.");
+            //    return false;
+            //}
+            if (sEmail == "") {
+                ErrMsg('Email-Id is required.');
+                return false;
+            }
+        });
+
+        $("#btnReset").click(function () {
+            window.location.href = '@Url.Action("CustomRegister", "Account")';
+        });
+        if ($("#SuccessUserCreation").val() == 1) {
+            InfoMsg("User Created Successfully.\n Try to login with registered UserId", function () { $("#SuccessUserCreation").val(""); window.location.href = '@Url.Action("CustomRegister", "Account")'; });
+        }
+
+        // select all desired input fields and attach tooltips to them
+        $("#myform :input").tooltip({
+
+            // place tooltip on the right edge
+            position: "center right",
+
+            // a little tweaking of the position
+            offset: [-2, 10],
+
+            // use the built-in fadeIn/fadeOut effect
+            effect: "fade",
+
+            // custom opacity setting
+            opacity: 0.7
+
+        });
+
+        //        function CheckColors(val) {
+        //            var element = document.getElementById('Staff');
+        //            if (val == '' || val == '')
+        //                element.style.display = 'block';
+        //            else
+        //                element.style.display = 'none';
+        //        }
+    });
+</script>
+
+<div id="DivUserSearch">
+</div>
+
+
+
+<body class="login-layout light-login">
+    <div class="main-container">
+        <div class="main-content">
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <div class="login-container">
+                        <div class="space-6">
+                        </div>
+                        <div class="position-relative">
+                            <div id="forgot-box" class="forgot-box visible widget-box no-border">
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div class="clearfix">
+
+                                            <div>
+                                                <img src="../../Images/logonace.jpg" style="float: left; height: 57px; width: 113px" />
+                                            </div>
+                                            <div>
+                                                <img src="../../Images/tips.gif" style="float: right; height: 57px; width: 113px" />
+                                            </div>
+                                        </div>
+                                        <h4 class="header red lighter bigger">
+                                            <i class="ace-icon fa fa-users"></i>Register User
+                                        </h4>
+                                        <div class="space-6">
+                                        </div>
+                                        <p>
+                                            Enter your Below details to Register New User
+                                        </p>
+                                        <label class="block clearfix">
+                                            <span class="block input-icon input-icon-right">
+                                                @Html.TextBoxFor(m => m.UserId, new { @class = "form-control input-sm", placeholder = "User-Id", id = "UserId", autocomplete = "off" })
+                                                @Html.ValidationMessageFor(m => m.UserId)
+                                                <i class="ace-icon fa fa-user-plus"></i></span>
+                                        </label>
+                                        <label class="block clearfix">
+                                            <span class="block input-icon input-icon-right">
+                                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control input-sm", placeholder = "User-Name", id = "UserName", autocomplete = "off" })
+                                                @Html.ValidationMessageFor(m => m.UserName)
+                                                <i class="ace-icon fa fa-user"></i></span>
+                                        </label>
+                                        <label class="block clearfix">
+                                            <span class="block input-icon input-icon-right">
+                                                @Html.DropDownListFor(model => model.Campus, new SelectList(Enumerable.Empty<SelectListItem>()), "Select Campus", new { id = "ddlCampus", @Class = "drpdwnwdth" })
+                                                @Html.ValidationMessageFor(m => m.Campus)
+                                            </span>
+                                        </label>
+                                        <label class="block clearfix">
+                                            <span class="block input-icon input-icon-right">
+                                                @Html.DropDownListFor(model => model.UserType, new SelectList(Enumerable.Empty<SelectListItem>()), "Select User Type", new { id = "ddlUserType", @class = "drpdwnwdth", })
+                                                @Html.ValidationMessageFor(m => m.UserType)
+                                            </span>
+                                        </label >
+                                        <div id="empid">
+                                            <label class="block clearfix" >
+                                                <span class="block input-icon input-icon-right">
+                                                    @Html.TextBoxFor(m => m.EmployeeId, new { id = "txtEmployeeId", @Class = "form-control input-sm", placeholder = "Employee ID is Must" })
+                                                    @Html.ValidationMessageFor(m => m.UserType)
+                                                </span>
+                                            </label>
+                                        </div>
+
+                                        <label class="block clearfix">
+                                            <span class="block input-icon input-icon-right">
+                                                @Html.TextBoxFor(m => m.EmailId, new { @Class = "form-control", placeholder = "Email Id", autocomplete = "off", id = "emailId" })
+                                                @Html.ValidationMessageFor(m => m.EmailId)
+                                                <i class="ace-icon  fa fa-envelope-o"></i>
+                                            </span>
+                                        </label>
+                                        <div class="space">
+                                        </div>
+                                        @Html.ValidationSummary(false, "", new { @class = "red bigger" })
+                                        <div class="clearfix">
+                                            <button type="submit" class="width-42 pull-right btn btn-sm btn-danger" id="btnRegister" value="btnRegister" onclick="RegisterUser();return false;">
+                                                <i class="ace-icon fa fa-user"></i><span class="bigger-110">Register New User</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- /.widget-main -->
+                                    <div class="toolbar center">
+                                        <a href="/Home/NewHome" class="back-to-login-link">
+                                            <i class="ace-icon fa fa-university"></i>&nbsp Back to Home</a>
+                                    </div>
+                                </div>
+                                <!-- /.widget-body -->
+                            </div>
+                            <!-- /.forgot-box -->
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.main-content -->
+    </div>
+
+</body>
+
+
+<script>
+
+    function RegisterUser() {
+        debugger;
+        var UserId = $("#UserId").val();
+        //var Password = $("#newPassword").val();
+        //var CnfrmPassword = $("#cnfmPassword").val();
+        var Campus = $("#ddlCampus").val();
+        var Email = $("#emailId").val();
+        var UserType = $("#ddlUserType").val();
+        var UserName = $("#UserName").val();
+        var empid = $('#txtEmployeeId').val();
+        if ($.trim(UserId).length == 0) {
+            ErrMsg('UserId is Mandatory.');
+            return false;
+        }
+
+        //if ($.trim(Password).length == 0) {
+        //    ErrMsg('Old Password is Mandatory.');
+        //    return false;
+        //}
+        //if ($.trim(CnfrmPassword).length == 0) {
+        //    ErrMsg('Confirm Password is Mandatory.');
+        //    return false;
+        //}
+        //if ($.trim(CnfrmPassword).length < 6) {
+        //    ErrMsg('Password should be minimum of 6 characters.');
+        //    return false;
+        //}
+        //if (Password != CnfrmPassword) {
+        //    ErrMsg("New Password and Confirm New Password doesn't match.");
+        //    return false;
+        //}
+        ValidateEmail(Email);
+        if (ValidateEmail($("#emailId").val())) {
+            ErrMsg("Please Enter a valid Email Id.");
+            $("#emailId").val('');
+            return false;
+           
+        }
+        $.ajax({
+            type: 'POST',
+            url: "/Account/CustomRegister?UserId=" + UserId + '&Campus=' + Campus + '&EmailId=' + Email + '&UserType=' + UserType + '&UserName=' + UserName + '&EmployeeId=' + empid,
+            success: function (data) {
+                $("#UserId").val('');
+                //$("#newPassword").val('');
+                //$("#cnfmPassword").val('');
+                $("#ddlCampus").val('');
+                $("#emailId").val('');
+                $("#ddlUserType").val('');
+                $("#UserName").val('');
+            },
+
+        });
+    }
+
+    function ValidateEmail(Email) {
+        debugger;
+        var expr = /^([\w-\.]+)((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        return expr.test(Email);
+    };
+</script>

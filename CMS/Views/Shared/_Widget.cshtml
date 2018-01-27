@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "_Widget";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model TIPS.Entities.WidgetEntities.IWidget
+<link href="@Url.Content("~/Content/BootStrap/BootStrap.css")" rel="stylesheet" type="text/css" />
+<script src="../../Scripts/Widget.js" type="text/javascript"></script>
+@if (Model.WidgetName != null)
+{
+    <div id="@Model.DivId">
+        <div class="@Model.ClassName">
+            <div class="header">
+                &nbsp;&nbsp;@Model.HeaderText
+            </div>
+            @*@Html.Partial(string.Concat(new[] { "_SubWidget" }), @Model.SubWidget)*@
+            @Html.Partial(@Model.WidgetName)
+            @*<i id="close" class="icon-remove"></i>*@
+            <img id="@Model.CloseId" height="20px" width="21px" src="../../Images/erase.png" />
+        </div>
+    </div>
+}

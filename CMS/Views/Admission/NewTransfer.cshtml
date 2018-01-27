@@ -1,0 +1,91 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transfer</title>
+    <script type="text/javascript">
+
+        function Newtransfervalidate() {
+            if (document.getElementById("ddlcampus2").value == "") {
+                ErrMsg("Please Select Campus!");
+                return false;
+            }
+            else if (document.getElementById("ddlgrade2").value == "") {
+                ErrMsg("Please Select Grade!");
+                return false;
+            }
+            else if (document.getElementById("ddlsection2").value == "") {
+                ErrMsg("Please Select Section!");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm("NewTransfer", "Admission", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+             @Html.Hidden("BulkPromTransferRequestId")
+              @Html.Hidden("BulkPreRegNum")
+            <table>
+                <tr>
+                    <td>
+                        <table class="WithBorderOnly" style="border: none" width="100%">
+                            <tr>
+                                <td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Campus &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp : &nbsp&nbsp&nbsp
+                                    @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus2", @Class = "CSSDropDownList" })
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>@Html.HiddenFor(Model => Model.PreRegNum, new { id = "preregno2" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Grade &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    : &nbsp&nbsp&nbsp @Html.DropDownListFor(Model => Model.Grade, new SelectList(ViewBag.gradeddl, "gradcod", "gradcod"), "Select One", new { id = "ddlgrade2", @Class = "CSSDropDownList", @disabled = "disabled" })
+                                    @Html.HiddenFor(model => model.Grade)
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Section &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp :
+                                    &nbsp&nbsp&nbsp @Html.DropDownListFor(Model => Model.Section, new SelectList(ViewBag.sectionddl, "Section", "Section"), "Select One", new { id = "ddlsection2", @Class = "CSSDropDownList" })
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="submit" value="Transfer" onclick="return(Newtransfervalidate());" />
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+</body>
+</html>

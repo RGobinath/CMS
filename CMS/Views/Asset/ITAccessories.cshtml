@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "IT Accessories";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">                    
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownList("SrchddlCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "SrchddlCampus", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Product Name</b></label>
+                                        @Html.DropDownList("SrchddlProductName", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "SrchddlProductName", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Product Type</b></label>
+                                        @Html.DropDownList("SrchddlProductType", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "SrchddlProductType", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Brand</b>
+                                        </label>
+                                        @Html.DropDownList("SrchddlBrand", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "SrchddlBrand", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Model</b>
+                                        </label>
+                                        @Html.DropDownList("SrchddlModel", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "SrchddlModel", @Class = "form-control select-sm" })
+                                    </div>                                    
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 1px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-primary btn-info btn-block btn-sm" id="btnSearch">
+                                            <i class="ace-icon fa fa-search white"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-danger btn-warning btn-block btn-sm" id="srchbtnReset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <br />
+                                        <button class="btn btn-success btn-success btn-block btn-sm" id="btnAdd">
+                                            <i class="ace-icon fa fa-plus-circle white"></i>Add Accessories
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <table id="grid-table">
+                </table>
+                <div id="grid-pager">
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.page-content-area -->
+</div>
+<div id="newITAccessories"></div>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../assets/js/jquery.min.js'>" + "<" + "/script>");
+</script>
+<script type="text/javascript">
+    if ('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+</script>
+<!-- inline scripts related to this page -->
+<script src="@Url.Content("~/Scripts/Asset/ITAccessories.js")" type="text/javascript"></script>

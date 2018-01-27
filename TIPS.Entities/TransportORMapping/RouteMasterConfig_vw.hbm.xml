@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.TransportEntities.RouteMasterConfig_vw" namespace="TIPS.Entities.TransportEntities">
+  <class name="TIPS.Entities.TransportEntities.RouteMasterConfig_vw, TIPS.Entities" table="RouteMasterConfig_vw" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="RouteId" column="RouteId" type="Int64"></property>
+    <property name="RouteStudCode" column="RouteStudCode" type="string"></property>
+    <property name="RouteNo" column="RouteNo" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Source" column="Source" type="string"></property>
+
+    <property name="Destination" column="Destination" type="string"></property>
+    <property name="Via" column="Via" type="string"></property>
+    <property name="NoOfStudents" column="NoOfStudents" type="Int64"></property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="TIPS.Entities.BioMetricsEntities" assembly="TIPS.Entities.BioMetricsEntities.BioAttendanceStaffWise_Vw">
+  <class name="TIPS.Entities.BioMetricsEntities.BioAttendanceStaffWise_Vw, TIPS.Entities" table="BioAttendanceStaffWise_Vw" dynamic-update="true">
+    <cache usage="read-write"/>
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="UserId"  column="UserId" type="Int64" />
+    <property name="EmployeeName"  column="EmployeeName" type="string" />
+    <property name="LogDate" column="LogDate" type="datetime" />
+    <property name="P1"      column="P1"     type="Int64" />
+    <property name="P1Grade" column="P1Grade" type="string" />
+    <property name="P1In"    column="P1In"   type="string" />
+    <property name="P1Out"   column="P1Out"  type="string" />
+    <property name="P2"      column="P2"     type="Int64" />
+    <property name="P2Grade" column="P2Grade" type="string" />
+    <property name="P2In"    column="P2In"   type="string" />
+    <property name="P2Out"   column="P2Out"  type="string" />
+    <property name="P3"      column="P3"     type="Int64" />
+    <property name="P3Grade" column="P3Grade" type="string" />
+    <property name="P3In"    column="P3In"   type="string" />
+    <property name="P3Out"   column="P3Out"  type="string" />
+    <property name="P4"      column="P4"     type="Int64" />
+    <property name="P4Grade" column="P4Grade" type="string" />
+    <property name="P4In"    column="P4In"   type="string" />
+    <property name="P4Out"   column="P4Out"  type="string" />
+    <property name="P5"      column="P5"     type="Int64" />
+    <property name="P5Grade" column="P5Grade" type="string" />
+    <property name="P5In"    column="P5In"   type="string" />
+    <property name="P5Out"   column="P5Out"  type="string" />
+    <property name="P6"      column="P6"     type="Int64" />
+    <property name="P6Grade" column="P6Grade" type="string" />
+    <property name="P6In"    column="P6In"   type="string" />
+    <property name="P6Out"   column="P6Out"  type="string" />
+    <property name="P7"      column="P7"     type="Int64" />
+    <property name="P7Grade" column="P7Grade" type="string" />
+    <property name="P7In"    column="P7In"   type="string" />
+    <property name="P7Out"   column="P7Out"  type="string" />
+    <property name="P8"      column="P8"     type="Int64" />
+    <property name="P8Grade" column="P8Grade" type="string" />
+    <property name="P8In"    column="P8In"   type="string" />
+    <property name="P8Out"   column="P8Out"  type="string" />
+    <property name="P9"      column="P9"     type="Int64" />
+    <property name="P9Grade" column="P9Grade" type="string" />
+    <property name="P9In"    column="P9In"   type="string" />
+    <property name="P9Out"   column="P9Out"  type="string" />
+  </class>
+</hibernate-mapping>

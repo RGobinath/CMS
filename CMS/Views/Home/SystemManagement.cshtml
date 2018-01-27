@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "SystemManagement";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+@using (Html.BeginForm("SystemManagement", "Home", FormMethod.Post))
+{
+    <h3>
+        System Management</h3>
+
+    <table width="100%">
+        <tr>
+            <td width="70%">
+                <fieldset>
+                    <table class="InnerTable" width="100%" cellspacing="4" cellpadding="4">
+                        <tr>
+                            <td width="17%">
+                                <img src="../../../Images/System Management/settings.png" height="50" width="50" />
+                            </td>
+                            <td width="17%">
+                                Settings
+                            </td>
+                            <td width="17%">
+                                <img src="../../Images/System Management/alerts.png" height="50" width="50" />
+                            </td>
+                            <td width="17%">
+                                Alerts
+                            </td>
+                            <td width="17%">
+                                <img src="../../Images/System Management/backup.png" height="50" width="50" />
+                            </td>
+                            <td width="17%">
+                                Backup
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="../../Images/System Management/modules.png" height="50" width="50" />
+                            </td>
+                            <td>
+                                Modules
+                            </td>
+                            <td>
+                                <img src="../../Images/System Management/masters.png" height="50" width="50" />
+                            </td>
+                            <td>
+                                <a href="Masters">Masters</a>
+                            </td>
+                            <td>
+                                <img src="../../Images/System Management/restore.png" height="50" width="50" />
+                            </td>
+                            <td>
+                                Restore
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <div style="background-color: #B6B6B6; height: 20px; width: 795px; font-style: italic;
+                                    text-align: left;">
+                                    System Settings
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </td>
+            <td width="30%">
+                <fieldset>
+                    <table class="InnerTable" width="100%" cellspacing="4" cellpadding="4">
+                        <tr>
+                        <td width="50%">
+                        </td>
+                            <td>
+                                <img src="../../Images/System Management/roles.png" height="50" width="50" />
+                            
+                                Roles
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="UserAppRole"><img src="../../Images/System Management/user_creation.png" height="50" width="50" /></a>
+                            
+                               <a href="UserAppRole"> User Role Mapping</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                                <img src="../../Images/System Management/permissions.png" height="50" width="50" />
+                                Permissions
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </td>
+        </tr>
+    </table>
+}

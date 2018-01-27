@@ -1,0 +1,29 @@
+﻿@{
+    Layout = null;
+}
+<script type="text/javascript">
+    function printpage() {
+        window.print();
+    }
+
+    function back() {
+        window.location.href = "/Admission/StudentManagement?pagename=IdPickup";
+    }
+</script>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PickupCard</title>
+</head>
+<body>
+    <div>
+        <table>
+            @Html.Raw(ViewBag.PickupHtmlTag)
+        </table>
+    </div>
+    <br />
+    <input type="button" value="Print this page" onclick="printpage()" />
+    &nbsp&nbsp&nbsp&nbsp&nbsp
+    <input type="button" value="Back" onclick="back()" />
+</body>
+</html>

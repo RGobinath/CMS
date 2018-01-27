@@ -1,0 +1,186 @@
+﻿@model TIPS.Entities.Assess.Assess360
+@{
+    Layout = "~/Views/Shared/NewAceMaster.cshtml"; 
+}
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+    @Html.Hidden("AdminRole", new { @Value = Session["AdminRole"] })
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="space-2">
+            </div>
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Bulk Component</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <b>Campus</b>
+                                        @Html.DropDownList("SBCCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "SBCCampus", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>Grade</b>
+                                        @Html.DropDownList("SBCGrade",
+                                                    new SelectList(new[] { 
+                                                        new { Text = "Select", Value = "Select", Seleced = "True" },
+                                                        new { Text = "VI", Value = "VI", Seleced = "false" },
+                                                        new { Text = "VII", Value = "VII", Seleced = "false" },
+                                                        new { Text = "VIII", Value = "VIII", Seleced = "false" },
+                                                        new { Text = "IX", Value = "IX", Seleced = "false" },
+                                                        new { Text = "X", Value = "X", Seleced = "false" }
+                                               }, "Text", "Value", "Seleced"),
+                                                        new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>Section</b>
+                                        @Html.DropDownList("SBCSection",
+                                                new SelectList(new[] { 
+                                                    new { Text = "Select", Value = "Select", Seleced = "True" },
+                                                    new { Text = "A", Value = "A", Seleced = "false" },
+                                                    new { Text = "B", Value = "B", Seleced = "false" },
+                                                    new { Text = "C", Value = "C", Seleced = "false" },
+                                                    new { Text = "D", Value = "D", Seleced = "false" },
+                                                    new { Text = "E", Value = "E", Seleced = "false" },
+                                                    new { Text = "F", Value = "F", Seleced = "false" }
+                                           }, "Text", "Value", "Seleced"),
+                                                    new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>Staff</b>
+                                        @if (Session["AdminRole"].ToString() == "All")
+                                        {   @Html.Hidden("SBCStaff")
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBox("SBCStaffUserName", " ", new { @Class = "form-control input-sm", @Readonly = "Readonly" })
+                                                <span class="input-group-addon"><a id="btnSBCStaffPopup" style="cursor: pointer;"><i
+                                                    class="fa fa-search"></i></a></span>
+                                            </div>
+                                        }
+                                        else
+                                        {   @Html.Hidden("SBCStaff", "", new { id = "SBCStaff", @Value = Session["UserId"] })
+                                            @Html.TextBox("SBCStaffUserName", "", new { @Class = "form-control input-sm", @Readonly = "Readonly", @tabindex = "2", @Value = Session["UserName"] });
+                                        }
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>Assessment Type</b>
+                                        @Html.DropDownList("SBCAssmntType", new SelectList(new[] { new { Text = "Select", Value = "Select", Seleced = "True" } }, "Text", "Value", "Selected"), new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>Subject</b>
+                                        @Html.DropDownList("SBCSubject", new SelectList(new[] { new { Text = "Select", Value = "Select", Seleced = "True" } }, "Text", "Value", "Selected"), new { @Class = "form-control select-sm" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2" id="divSBCSemester">
+                                        <b>Semester Type</b>
+                                        @Html.DropDownList("SBCSemester",new SelectList(new[] { 
+                                                        new { Text = "Select", Value = "", Seleced = "True" },
+                                                        new { Text = "Sem I", Value = "Sem I", Seleced = "false" },
+                                                        new { Text = "Sem II", Value = "Sem II", Seleced = "false" },
+                                                        new { Text = "Sem III", Value = "Sem III", Seleced = "false" },
+                                                        new { Text = "Model I", Value = "Model I", Seleced = "false" },
+                                                        new { Text = "Model II", Value = "Model II", Seleced = "false" },
+                                                        new { Text = "Model III", Value = "Model III", Seleced = "false" },
+                                                        new { Text = "Model IV", Value = "Model IV", Seleced = "false" },
+                                               }, "Value","Text", ""), new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>Date of Assignment</b>
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBox("SBCDatofAssgn", "", new { @Class = "form-control", @Readonly = "Readonly" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>Assignment Name</b>
+                                        @Html.DropDownList("SBCAssmntName", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>Total Marks</b>
+                                        @Html.TextBox("totalmks", "", new { @Class = "form-control input-sm", @tabindex = "7" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <br />
+                                        <button type="button" id="btnGetStdntLst" class="btn btn-success btn-block btn-sm">
+                                            <i class="fa fa-th-list"></i>&nbsp;Get Student List</button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button type="button" id="btnReset" name="Reset" class="btn btn-danger">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset</button>
+                                        @Html.Hidden("loggedInUserType")
+                                        @Html.Hidden("hdnIsCredit")
+                                        @Html.Hidden("lgdUserId")
+                                        @Html.Hidden("SSTId")
+                                        @Html.Hidden("SSTSearchName")
+                                        @Html.Hidden("SSTSavedSearch")
+                                        @Html.Hidden("SSTIsDefault")
+                                        @Html.Hidden("SSTDateCreated")
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <b>Search Template Name</b>
+                                        @Html.DropDownList("SavedSearchTempl", new SelectList(new[] { new { Text = "Select", Value = "Select", Seleced = "True" } }, "Text", "Value", "Seleced"), new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>Default</b><br />
+                                        @Html.CheckBox("IsDefaultSST")
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>New Template Name</b>
+                                        @Html.TextBox("NameSSTName", null, new { @class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <br />
+                                        <button type="button" id="btnSaveSST" class="btn btn-primary btn-block btn-sm">
+                                            <i class="ace-icon fa fa-floppy-o bigger-100"></i>Save Search Template</button>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span style="color: Red; font-size: 10px;">* Please Do not add sample entries! if added,
+                                            they cannot be roled back here. Contact support team for further clarification.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                            <div id="SaveBulkComponent">
+                                <div id="DivStaffMasterSearch">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12" id="jqgrid">
+                        <table id="blkCompSaveLst">
+                        </table>
+                        <div id="blkCompSavePage">
+                        </div>
+                    </div>
+                </div>
+                <div class="space-2">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src='@Url.Content("/Scripts/Assess360/SaveBulkComponent.js")' type="text/javascript"></script>
+<script src='@Url.Content("/assets/js/AceJQMsg.js")' type="text/javascript"></script>

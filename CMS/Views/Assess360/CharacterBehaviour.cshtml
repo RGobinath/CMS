@@ -1,0 +1,140 @@
+﻿@model TIPS.Entities.Assess.Assess360
+@{
+    ViewBag.Title = "Character Behaviour";
+    //Layout = null;
+    Layout = "~/Views/Shared/NewAcePartialViewMaster.cshtml";
+}
+<script src="../../Scripts/Assess360/CharacterBehaviour.js" type="text/javascript"></script>
+<script type="text/javascript">
+   
+</script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        @Html.Hidden("BackUrl1", Url.Action("ComponentInbox", "Assess360"))
+        @Html.Hidden("BackUrl", Url.Action("Assess360", "Assess360"))
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="fa fa-child"></i>&nbsp;Character and behaviour
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-7">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="col-sm-4">
+                                                        <div class="row">
+                                                            <div class="col-xs-12">
+                                                                <label for="form-field-mask-1">
+                                                                    <b>Staff</b></label>
+                                                                @if (Session["AdminRole"].ToString() == "All")
+                                                                {
+                                                                    <div class="input-group input-group-sm">
+                                                                        @Html.TextBox("SBCStaffUserName", " ", new { @Class = "form-control input-sm", @Readonly = "Readonly", @tabindex = "1" })
+                                                                        <span class="input-group-addon"><a id="btnStaffPopup" style="cursor: pointer;"><i
+                                                                            class="fa fa-search"></i></a></span>
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Html.TextBox("SBCStaffUserName", "", new { @Class = "form-control input-sm", @Readonly = "Readonly", @tabindex = "2", @Value = Session["UserName"] });
+                                                                    //@Html.TextBox("Staff", " ", new { @Class = "form-control input-sm", @Readonly = "Readonly", @tabindex = "1", @Value = Session["UserId"].ToString() });
+                                                                    @Html.Hidden("Staff", "", new { id = "Staff", @Value = Session["UserId"] })
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <label for="form-field-mask-1">
+                                                            <b>Assessment</b></label><div class="space-1">
+                                                            </div>
+                                                        @Html.RadioButton("Assessment", false, new { id = "AssessmentNtv", name = "Assessment", @Class = "ace", @tabindex = "2" })<span
+                                                            class="lbl"></span>
+                                                        <label for="Transport_true">
+                                                            Negative</label>
+                                                        @Html.RadioButton("Assessment", true, new { id = "AssessmentPtv", name = "Assessment", @Class = "ace", @tabindex = "3" })<span
+                                                            class="lbl"></span>
+                                                        <label for="Transport_false">
+                                                            Positive</label>
+                                                        @Html.Hidden("Assessment")
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <label for="form-field-mask-1">
+                                                            <b>Issue / Credit</b></label>
+                                                        @Html.DropDownList("IssuesCredits", new SelectList(new[] { new { Text = "Select", Value = "Select", Seleced = "True" } }, "Text", "Value", "Seleced"), new { @Class = "form-control select-sm", @tabindex = "4" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="col-sm-4">
+                                                        <label for="form-field-mask-1">
+                                                            <b>Incident Date</b></label>
+                                                        <div class="input-group input-group-sm">
+                                                            @Html.TextBox("IncidentDate", " ", new { @Class = "form-control date-picker", @Readonly = "Readonly", @tabindex = "6" })
+                                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <label for="form-field-mask-1">
+                                                            <b>Marks</b></label>
+                                                        @Html.DropDownList("Marks", new SelectList(new[] { new { Text = "Select", Value = "Select", Seleced = "True" } }, "Text", "Value", "Seleced"), new { @Class = "form-control select-sm", @tabindex = "7" })
+                                                        @Html.TextBox("OtherMarks", null, new { @Class = "form-control input-sm", @maxlength = "5", @onblur = "extractNumber(this,2,false);", @onkeyup = "extractNumber(this,2,false);", @onkeypress = "return blockNonNumbers(this, event, true, false);", @tabindex = "8" })
+                                                    </div>
+                                                    <div class="space-10">
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-primary btn-block btn-sm" id="btnAddChrtr" name="btnApprove"
+                                                            value="Add" tabindex="9">
+                                                            <i class="fa fa-plus-circle"></i><span class="bigger-110">&nbsp;Add</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-danger btn-block btn-sm" id="btnReset" name="btnApprove"
+                                                            value="Add" tabindex="9">
+                                                            <i class="fa fa-undo"></i><span class="bigger-110">&nbsp;Reset</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <label for="form-field-mask-1">
+                                                <b>Description</b></label>
+                                            @Html.TextArea("Description", new { rows = 2, cols = 70, @class = "form-control textarea", @maxlength = "1500", @tabindex = "5" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="CharacterBehaviourList">
+                </table>
+                <div id="CharacterBehaviourPage">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../assets/js/AceJQMsg.js" type="text/javascript"></script>

@@ -1,0 +1,784 @@
+﻿@using TIPS.Entities.Assess
+@model ReportCardFromAssess360VItoVIII
+@if (Model.RptMarks != null)
+{
+    List<ReportCardSubjectMarks> SemIList = new List<ReportCardSubjectMarks>();
+    if (Model.Grade == "IX" && (Model.Section != "A" || Model.Section != "B"))
+    {
+        SemIList = (from n in Model.RptMarks
+                    where n.Semester == "Sem I" && n.SubjectName != "PHYSICAL EDUCATION"
+                        select n).ToList();
+    }
+    else
+    {
+        SemIList = (from n in Model.RptMarks
+                        where n.Semester == "Sem I"
+                        select n).ToList();
+    }
+
+    <table class="termOneImage" width="250%">
+        <tr>
+            <td valign="top">
+                <div style="height: 280px;">
+                    &nbsp;
+                </div>
+                <div style="height: 150px;">
+                    <p>
+                        <b style="float: left; color: #ffffff; margin-left: 50px;">Name : @Model.Name</b><b
+                            style="float: right; color: #ffffff; margin-right: 100px;">Grade : @Model.Grade
+                            - @Model.Section</b></p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <div class="rightBox">
+                    @if (SemIList.Count > 0)
+                    {
+                        <table>
+                            <tr valign="top">
+                                <td colspan="2" style="width: 750px; color: #0a9c88;">
+                                    <p style="text-align: center">@SemIList[0].SubjectName</p>
+                                </td>
+                                <td rowspan="5">
+                                    @for (int i = 0; i < SemIList[0].SubjectStarGrade; i++)
+                                    {
+                                        <div style="float: left; margin: 2px;">
+                                            <img src="../../Images/PDF%20Images/Star.png" width="45px" /></div>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        HW&nbsp;&nbsp;&nbsp;: @SemIList[0].SubjectEffort %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[0].SubjectGEffort</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        FA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[0].SubjectFA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[0].SubjectGFA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        SA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[0].SubjectSA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[0].SubjectGSA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        OSP : @SemIList[0].SubjectOverAll %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[0].SubjectGOverAll</p>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+                <div class="leftBox">
+                    @if (SemIList.Count > 6)
+                    {
+                        <table>
+                            <tr valign="top">
+                                <td rowspan="5" style="width: 270px;">
+                                    @for (int i = 0; i < SemIList[6].SubjectStarGrade; i++)
+                                    {
+                                        <div style="float: left; margin: 2px;">
+                                            <img src="../../Images/PDF%20Images/Star.png" width="45px" /></div>
+                                    }
+                                </td>
+                                <td colspan="2" style="width: 750px; color: #ee302f;">
+                                    <p style="text-align: center">@SemIList[6].SubjectName</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        HW&nbsp;&nbsp;&nbsp;: @SemIList[6].SubjectEffort %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[6].SubjectGEffort</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        FA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[6].SubjectFA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[6].SubjectGFA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        SA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[6].SubjectSA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[6].SubjectGSA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        OSP : @SemIList[6].SubjectOverAll %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[6].SubjectGOverAll</p>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <div class="rightBox">
+                    @if (SemIList.Count > 1)
+                    {
+                        <table>
+                            <tr valign="top">
+                                <td colspan="2" style="width: 750px; color: #ee302f;">
+                                    <p style="text-align: center">@SemIList[1].SubjectName</p>
+                                </td>
+                                <td rowspan="5">
+                                    @for (int i = 0; i < SemIList[1].SubjectStarGrade; i++)
+                                    {
+                                        <div style="float: left; margin: 2px;">
+                                            <img src="../../Images/PDF%20Images/Star.png" width="45px" /></div>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        HW&nbsp;&nbsp;&nbsp;: @SemIList[1].SubjectEffort %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[1].SubjectGEffort</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        FA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[1].SubjectFA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[1].SubjectGFA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        SA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[1].SubjectSA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[1].SubjectGSA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        OSP : @SemIList[1].SubjectOverAll %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[1].SubjectGOverAll</p>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+                <div class="leftBox">
+                    @if (SemIList.Count > 7)
+                    {
+                        <table>
+                            <tr valign="top">
+                                <td rowspan="5" style="width: 270px;">
+                                    @for (int i = 0; i < SemIList[7].SubjectStarGrade; i++)
+                                    {
+                                        <div style="float: left; margin: 2px;">
+                                            <img src="../../Images/PDF%20Images/Star.png" width="45px" /></div>
+                                    }
+                                </td>
+                                <td colspan="2" style="width: 750px; color: #a92245;">
+                                    <p style="text-align: center">@SemIList[7].SubjectName</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        HW&nbsp;&nbsp;&nbsp;: @SemIList[7].SubjectEffort %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[7].SubjectGEffort</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        FA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[7].SubjectFA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[7].SubjectGFA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        SA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[7].SubjectSA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[7].SubjectGSA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        OSP : @SemIList[7].SubjectOverAll %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[7].SubjectGOverAll</p>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <div class="rightBox">
+                    @if (SemIList.Count > 2)
+                    {
+               
+                        <table>
+                            <tr valign="top">
+                                <td colspan="2" style="width: 750px; color: #a92245;">
+                                    <p style="text-align: center">@SemIList[2].SubjectName</p>
+                                </td>
+                                <td rowspan="5">
+                                    @for (int i = 0; i < SemIList[2].SubjectStarGrade; i++)
+                                    {
+                                        <div style="float: left; margin: 2px;">
+                                            <img src="../../Images/PDF%20Images/Star.png" width="45px" /></div>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        HW&nbsp;&nbsp;&nbsp;: @SemIList[2].SubjectEffort %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[2].SubjectGEffort</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        FA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[2].SubjectFA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[2].SubjectGFA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        SA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[2].SubjectSA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[2].SubjectGSA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        OSP : @SemIList[2].SubjectOverAll %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[2].SubjectGOverAll</p>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+                <div class="leftBox">
+                    @if (SemIList.Count > 8)
+                    {
+                        <table>
+                            <tr valign="top">
+                                <td rowspan="5" style="width: 270px;">
+                                    @for (int i = 0; i < SemIList[8].SubjectStarGrade; i++)
+                                    {
+                                        <div style="float: left; margin: 2px;">
+                                            <img src="../../Images/PDF%20Images/Star.png" width="45px" /></div>
+                                    }
+                                </td>
+                                <td colspan="2" style="width: 750px; color: #0a9c88;">
+                                    <p style="text-align: center">@SemIList[8].SubjectName</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        HW&nbsp;&nbsp;&nbsp;: @SemIList[8].SubjectEffort %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[8].SubjectGEffort</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        FA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[8].SubjectFA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[8].SubjectGFA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        SA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[8].SubjectSA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[8].SubjectGSA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        OSP : @SemIList[8].SubjectOverAll %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[8].SubjectGOverAll</p>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <div class="rightBox">
+                    @if (SemIList.Count > 3)
+                    {
+               
+                        <table>
+                            <tr valign="top">
+                                <td colspan="2" style="width: 750px; color: #0a9c88;">
+                                    <p style="text-align: center">@SemIList[3].SubjectName</p>
+                                </td>
+                                <td rowspan="5">
+                                    @for (int i = 0; i < SemIList[3].SubjectStarGrade; i++)
+                                    {
+                                        <div style="float: left; margin: 2px;">
+                                            <img src="../../Images/PDF%20Images/Star.png" width="45px" /></div>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        HW&nbsp;&nbsp;&nbsp;: @SemIList[3].SubjectEffort %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[3].SubjectGEffort</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        FA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[3].SubjectFA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[3].SubjectGFA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        SA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[3].SubjectSA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[3].SubjectGSA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        OSP : @SemIList[3].SubjectOverAll %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[3].SubjectGOverAll</p>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+                <div class="leftBox">
+                    @if (SemIList.Count > 9)
+                    {
+                        <table>
+                            <tr valign="top">
+                                <td rowspan="5" style="width: 270px;">
+                                    @for (int i = 0; i < SemIList[9].SubjectStarGrade; i++)
+                                    {
+                                        <div style="float: left; margin: 2px;">
+                                            <img src="../../Images/PDF%20Images/Star.png" width="45px" /></div>
+                                    }
+                                </td>
+                                <td colspan="2" style="width: 750px; color: #ee302f;">
+                                    <p style="text-align: center">@SemIList[9].SubjectName</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        HW&nbsp;&nbsp;&nbsp;: @SemIList[9].SubjectEffort %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[9].SubjectGEffort</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        FA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[9].SubjectFA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[9].SubjectGFA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        SA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[9].SubjectSA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[9].SubjectGSA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        OSP : @SemIList[9].SubjectOverAll %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[9].SubjectGOverAll</p>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <div class="rightBox">
+                    @if (SemIList.Count > 4)
+                    {
+                        <table>
+                            <tr valign="top">
+                                <td colspan="2" style="width: 750px; color: #ee302f;">
+                                    <p style="text-align: center">@SemIList[4].SubjectName</p>
+                                </td>
+                                <td rowspan="5">
+                                    @for (int i = 0; i < SemIList[4].SubjectStarGrade; i++)
+                                    {
+                                        <div style="float: left; margin: 2px;">
+                                            <img src="../../Images/PDF%20Images/Star.png" width="45px" /></div>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        HW&nbsp;&nbsp;&nbsp;: @SemIList[4].SubjectEffort %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[4].SubjectGEffort</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        FA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[4].SubjectFA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[4].SubjectGFA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        SA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[4].SubjectSA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[4].SubjectGSA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        OSP : @SemIList[4].SubjectOverAll %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[4].SubjectGOverAll</p>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+                <div class="leftBox">
+                    @if (SemIList.Count > 10)
+                    {
+                        <table>
+                            <tr valign="top">
+                                <td rowspan="5" style="width: 270px;">
+                                    @for (int i = 0; i < SemIList[10].SubjectStarGrade; i++)
+                                    {
+                                        <div style="float: left; margin: 2px;">
+                                            <img src="../../Images/PDF%20Images/Star.png" width="45px" /></div>
+                                    }
+                                </td>
+                                <td colspan="2" style="width: 750px; color: #a92245;">
+                                    <p style="text-align: center">@SemIList[10].SubjectName</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        HW&nbsp;&nbsp;&nbsp;: @SemIList[10].SubjectEffort %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[10].SubjectGEffort</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        FA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[10].SubjectFA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[10].SubjectGFA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        SA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[10].SubjectSA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[10].SubjectGSA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        OSP : @SemIList[10].SubjectOverAll %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[10].SubjectGOverAll</p>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <div class="rightBox">
+                    @if (SemIList.Count > 5)
+                    {
+                        <table>
+                            <tr valign="top">
+                                <td colspan="2" style="width: 750px; color: #a92245;">
+                                    <p style="text-align: center">@SemIList[5].SubjectName</p>
+                                </td>
+                                <td rowspan="5">
+                                    @for (int i = 0; i < SemIList[5].SubjectStarGrade; i++)
+                                    {
+                                        <div style="float: left; margin: 2px;">
+                                            <img src="../../Images/PDF%20Images/Star.png" width="45px" /></div>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        HW&nbsp;&nbsp;&nbsp;: @SemIList[5].SubjectEffort %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[5].SubjectGEffort</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        FA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[5].SubjectFA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[5].SubjectGFA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        SA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[5].SubjectSA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[5].SubjectGSA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        OSP : @SemIList[5].SubjectOverAll %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[5].SubjectGOverAll</p>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+                <div class="leftBox">
+                    @if (SemIList.Count > 11)
+                    {
+                        <table>
+                            <tr valign="top">
+                                <td rowspan="5" style="width: 270px;">
+                                    @for (int i = 0; i < SemIList[11].SubjectStarGrade; i++)
+                                    {
+                                        <div style="float: left; margin: 2px;">
+                                            <img src="../../Images/PDF%20Images/Star.png" width="45px" /></div>
+                                    }
+                                </td>
+                                <td colspan="2" style="width: 750px; color: #0a9c88;">
+                                    <p style="text-align: center">@SemIList[11].SubjectName</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        HW&nbsp;&nbsp;&nbsp;: @SemIList[11].SubjectEffort %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[11].SubjectGEffort</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        FA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[11].SubjectFA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[11].SubjectGFA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        SA&nbsp;&nbsp;&nbsp;&nbsp;: @SemIList[11].SubjectSA %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[11].SubjectGSA</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        OSP : @SemIList[11].SubjectOverAll %</p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Grade : @SemIList[11].SubjectGOverAll</p>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <center>
+                    <div style="width: 800px; left: 900px; height: 400px;">
+                        <p>
+                            Overall Term Result: @Model.SemIOverAll<br />
+                            Assess360 Points: @Model.Assess360Marks<br />
+                            Effort - HW - HomeWorks<br />
+                            Skill - FA - Formative Assessment<br />
+                            Skill- SA - Summative Assessment<br />
+                            Overall Subject Performance - OSP
+                        </p>
+                    </div>
+                </center>
+            </td>
+        </tr>
+    </table>
+}

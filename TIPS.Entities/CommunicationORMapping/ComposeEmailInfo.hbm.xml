@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.CommunictionEntities.ComposeEmailInfo" namespace="TIPS.Entities.CommunictionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.CommunictionEntities.ComposeEmailInfo, TIPS.Entities" table="ComposeEmailInfo" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="BulkReqId" column="BulkReqId" type="string"></property>
+    <property name="UserId" column="UserId" type="string" not-null ="false"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>
+    <property name="AdmissionStatus" column="AdmissionStatus" type="string"></property>
+    <property name="StudentName" column="StudentName" type="string"></property>
+    <property name="NewId" column="NewId" type="string"></property>
+    <property name="FeeStructYear" column="FeeStructYear" type="string"></property>
+    <property name="IsHosteller" column="IsHosteller" type="string"></property>
+    <property name="Father" column="Father" type="bool"></property>
+    <property name="Mother" column="Mother" type="bool"></property>
+    <property name="General" column="General" type="bool"></property>
+    <property name="Subject" column="Subject" type="string"></property>
+    <property name="Attachment" column="Attachment" type="bool"></property>
+    <property name="Message" column="Message" type="string"></property>
+    <property name="IsSaveList" column="IsSaveList" type="bool"></property>
+    <property name="Suspend" column="Suspend" type="string"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="Reason" column="Reason" type="string"></property>
+    <property name="AlternativeEmailId" column="AlternativeEmailId" type="string"></property>
+    <property name="AlternatPassword" column="AlternatPassword" type="string"></property>
+    <property name="BulkEmailAdded" column="BulkEmailAdded" type="bool"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"></property>
+    <property name="VanNo" column="VanNo" type="string"></property>
+    <property name="AppliedFromDate" column="AppliedFromDate" type="date"></property>
+    <property name="AppliedToDate" column="AppliedToDate" type="date"></property>
+
+    <property name="MailDate" column="MailDate" type="string"></property>
+    <property name="ExpiryDate" column="ExpiryDate" type="string"></property>
+    <property name="StudentPortal" column="StudentPortal" type="bool"></property>
+    <property name="ParentPortal" column="ParentPortal" type="bool"></property>
+    
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,105 @@
+﻿@using TIPS.Entities.Assess
+@model FAReportForAllPrint_vw
+@if (Model.FAMarkNameList != null && Model.FAMarkNameList.Count>0)
+{
+    foreach (var item in Model.FAMarkNameList)
+    {
+    <br />
+    <table cellpadding="1" cellspacing="0" style="font-family: sans-serif; font-size: 10px;">
+        <tr>
+            <td align="right" width="15%">
+                <img width="120" height="50" style="float:right" src="@Model.TipsNaceLogo" alt="Tips Logo" />
+            </td>
+            <td align="center" width="70%">
+                <b style="font-size: 15px;">@Model.TipsName</b><br />
+                <br />
+                <b>@Model.Exam</b>
+            </td>
+            <td align="center" width="15%">
+                <img width="120" height="50" style="float:left"  src="@Model.TipsLogo" alt="Tips Logo" />
+            </td>
+        </tr>
+    </table>
+    <table cellpadding="1" cellspacing="0" style="font-family: sans-serif; font-size: 10px;">
+        <tr>
+            <td align="right">
+                <span style="float: right; padding-bottom: 10px">@String.Format("{0:dd-MMM-yyyy}", DateTime.Now)</span>
+            </td>
+        </tr>
+    </table>
+    <table cellpadding="1" cellspacing="0" style="font-family: sans-serif; font-size: 10px;">
+        <tr>
+            <td>
+                <span style="float: left"><b>Name of the student:@item.Name</b></span>
+                <br />
+                <span style="float: right"><b>Grade:@item.Grade & @item.Section</b></span>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <br />
+    <table border="1" cellpadding="1" cellspacing="0" style="font-family: sans-serif; font-size: 10px; height: 400px; width: 200px">
+        <tr>
+            <td rowspan="2">
+                <b>Subject</b>
+            </td>
+            <td colspan="12" align="center">
+                <b>Month</b>
+            </td>
+        </tr>
+        <tr>
+            <td>Jan</td>
+            <td>Feb</td>
+            <td>Mar</td>
+            <td>April</td>
+            <td>May</td>
+            <td>June</td>
+            <td>July</td>
+            <td>Aug</td>
+            <td>Sept</td>
+            <td>Oct</td>
+            <td>Nov</td>
+            <td>Dec</td>
+        </tr>
+        @if (Model.FAMarkList != null && Model.FAMarkList.Count>0)
+        {
+            foreach (var FAitem in (from n in Model.FAMarkList
+                                  where n.AssessId == item.Id
+                                  select n).ToList())
+            {
+            <tr>
+                <td>
+                    @FAitem.Subject
+                </td>
+                <td>@FAitem.Jan
+                </td>
+                <td>@FAitem.Feb
+                </td>
+                <td>@FAitem.Mar
+                </td>
+                <td>@FAitem.Apr
+                </td>
+                <td>@FAitem.May
+                </td>
+                <td>@FAitem.Jun
+                </td>
+                <td>@FAitem.Jul
+                </td>
+                <td>@FAitem.Aug
+                </td>
+                <td>@FAitem.Sep
+                </td>
+                <td>@FAitem.Oct
+                </td>
+                <td>@FAitem.Nov
+                </td>
+                <td>@FAitem.Dec
+                </td>
+            </tr> 
+            }
+        }
+    </table>
+     <br />
+    <br />
+    }
+}

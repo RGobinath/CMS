@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.HostelMgntEntities.ChangeRoomAllotment" namespace="TIPS.Entities.HostelMgntEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.HostelMgntEntities.ChangeRoomAllotment, TIPS.Entities" table="ChangeRoomAllotment" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+
+    <property name="Before_HostDts_Id" column="Before_HostDts_Id" type="Int64"/>
+    <property name="Before_HstlMst_Id" column="Before_HstlMst_Id" type="Int64"/>
+    <property name="Before_HostelName" column="Before_HostelName" type="string"/>
+    <property name="Before_HostelType" column="Before_HostelType" type="string"/>
+    <property name="Before_Floor" column="Before_Floor" type="string"/>
+    <property name="Before_Campus" column="Before_Campus" type="string"/>
+    <property name="Before_RoomMst_Id" column="Before_RoomMst_Id" type="Int64"/>
+    <property name="Before_RoomNumber" column="Before_RoomNumber" type="string"/>
+    <property name="Before_BedMst_Id" column="Before_BedMst_Id" type="Int64"/>
+    <property name="Before_BedNumber" column="Before_BedNumber" type="string"/>
+    <property name="Stud_Id" column="Stud_Id" type="Int64"/>
+    <property name="Before_AcademicYear" column="Before_AcademicYear" type="string"/>
+    <property name="CreatedBy" column="CreatedBy" type="string"/>
+    <property name="DateCreated" column="DateCreated" type="DateTime"/>
+    <property name="Before_Grade" column="Before_Grade" type="string"/>
+    <property name="Before_Section" column="Before_Section" type="string"/>
+    <property name="Before_BoardingType" column="Before_BoardingType" type="string"/>
+  </class>
+</hibernate-mapping>

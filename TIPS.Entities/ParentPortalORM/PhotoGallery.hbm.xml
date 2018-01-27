@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.ParentPortalEntities.PhotoGallery" namespace="TIPS.Entities.ParentPortalEntities" >
+  <class name="TIPS.Entities.ParentPortalEntities.PhotoGallery, TIPS.Entities" table="PhotoGallery" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"/>
+    </id>
+    <property name="PGPreId" column="PGPreId" type="Int64"/>
+    <property name="Campus" column="Campus" type="string" />
+    <property name="Grade" column="Grade" type="string" />
+    <property name="AlbumName" column="AlbumName" type="string" />
+    <property name="Description" column="Description" type="string" />
+    <property name="Performer" column="Performer" type="string" />
+    <property name="CreatedOn" column="CreatedOn" type="string" />
+    <property name="PublishedTo" column="PublishedTo" type="string" />
+    <property name="Status" column="Status" type="string" />
+    <property name="IsActive" column="IsActive" type="bool"/>
+    <property name="ParentRefId" column="ParentRefId" type="Int64"/>
+    <property name="FolderName" column="FolderName" type="string" />
+    <!--<property name="Folder_Id" column="Folder_Id" type="Int64"/>
+    <property name="OrderNo" column="OrderNo" type="Int64"/>-->
+  </class>
+</hibernate-mapping>

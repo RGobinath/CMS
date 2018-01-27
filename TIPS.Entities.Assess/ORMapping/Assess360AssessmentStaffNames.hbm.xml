@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Assess360AssessmentStaffNames" table="Assess360AssessmentStaffNames_vw" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="Staff" column="Staff" type="string" />  
+    <property name="Campus" column="Campus" type="string" />
+    <property name="Section" column="Section" type="string" />
+    <property name="Grade" column="Grade" type="string" />
+    <property name="AssessCompGroup" column="AssessCompGroup" type="Int32" />
+  </class>
+</hibernate-mapping>

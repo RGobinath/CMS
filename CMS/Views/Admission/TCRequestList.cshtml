@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "TCRequestList";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<div class="page-content">
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Criteria
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                       <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Year</b></label>
+                                            @Html.DropDownList("Acadyear", new SelectList(new[] { 
+                                                                          new { Text = "", Value = "SelectOne" },
+                                                                          new { Text = "01/01/2015,31/12/2015", Value = "2015"},
+                                                                          new { Text = "01/01/2016,31/12/2016", Value = "2016"},
+                                                                          new { Text = "01/01/2017,31/12/2017", Value = "2017" },
+                                                                          new { Text = "01/01/2018,31/12/2018", Value = "2018" }
+                                                                          }, "Text", "Value", "Seleced"), new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b></label>
+                                            @Html.DropDownList("Campus", new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Grade</b></label>
+                                            @Html.DropDownList("ddlgrade", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                        </div>
+                                       <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>TC Type</b></label>
+                                            @Html.DropDownList("tctype", new SelectList(new[] { 
+                                                                          new { Text = "", Value = "OverAll" },
+                                                                          new { Text = "normaltc", Value = "Normal TC" },
+                                                                          new { Text = "Course Completed", Value = "Graduated TC" }
+                                                                         
+                                                                          }, "Text", "Value", "Seleced"), new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Status</b></label>
+                                            @Html.DropDownList("ddlstatus", new SelectList(new[] { 
+                                                                          new { Text = "", Value = "SelectOne",Seleced = ""  },
+                                                                          new { Text = "InProgress", Value = "In Progress", Seleced = "True" },
+                                                                          new { Text = "Completed", Value = "Completed", Seleced = "false" }
+                                                                          }, "Text", "Value", "Seleced"), new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>With Dues</b></label>
+                                            @Html.DropDownList("ddltc", new SelectList(new[] { 
+                                                                          new { Text = "", Value = "SelectOne",Seleced = ""  },
+                                                                          new { Text = "True", Value = "Yes", Seleced = "True" },
+                                                                          new { Text = "False", Value = "No", Seleced = "false" }
+                                                                          }, "Text", "Value", "Seleced"), new { @Class = "form-control select-sm" })
+                                        </div>
+                                         @*<div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>From Date</b></label>
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBox("fromdate", "", new { @Class = "form-control input-sm from_date",id="fromdate" })
+                                                <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>*@
+                                        @*<div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>To Date</b></label>
+                                            <div class="input-group input-group-sm">
+                                                @Html.TextBox("todate", "", new { @Class = "form-control input-sm to_date",id="todate" })
+                                                <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>*@
+
+                                        <div class="col-sm-1">
+                                            <div class="space-10">
+                                            </div>
+                                            <button class="btn btn-success btn-block btn-sm" id="btnSearch" value="Search" type="button"
+                                                name="Search">
+                                                <i class="ace-icon fa fa-search white"></i>Search</button>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <div class="space-10">
+                                            </div>
+                                            <button class="btn btn-danger btn-block btn-sm" id="btnReset" value="Reset">
+                                                <i class="ace-icon fa fa-undo white"></i>&nbsp;Reset
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="space-2"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="TCRequestList">
+                </table>
+                <div id="TCRequestListPager">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="@Url.Content("~/Scripts/AdmissionScripts/TCRequestList.js")" type="text/javascript"></script>

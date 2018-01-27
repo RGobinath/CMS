@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="AssessGroupMaster" table="AssessGroupMaster" lazy="true" >
+    <id name="Id" column="Id" type="Int32">
+      <generator class="native" />
+    </id>
+    <property name="GroupName" column="GroupName" type="AnsiString" not-null="false" />
+    <property name="GroupCode" column="GroupCode" type="AnsiString" not-null="false" />
+    <property name="Description" column="Description" type="AnsiString" not-null="false" />
+    <property name="Grade" column="Grade" type="AnsiString" not-null="false" />
+    <property name="Weightage" column="Weightage" type="Int32" not-null="false" />
+  </class>
+</hibernate-mapping>

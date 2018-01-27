@@ -1,0 +1,120 @@
+﻿@model TIPS.Entities.TransportEntities.DistanceCoveredDetails
+@{
+    ViewBag.Title = "ShowVehicleDistanceCovered";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnBack").click(function () {
+            window.location.href = '@Url.Action("DistanceCoveredBulkEntry", "Transport")';
+        });
+
+        var Id = $("#Id").val();
+        jQuery("#DistanceCoveredList").jqGrid({
+            url: '@Url.Content("~/Transport/DistanceCoveredListBulkEntryJqGrid")?RefId=' + Id,
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'RefId', 'Vehicle Id', 'Type', 'Vehicle No', 'Route', 'Source', 'Destination', 'Distance Covered', 'Trip Date', 'Driver Name'],
+            colModel: [
+            //if any column added need to check formateadorLink
+             {name: 'Id', index: 'Id', hidden: true, key: true },
+             { name: 'RefId', width: 30, index: 'RefId', hidden: true },
+             { name: 'VehicleId', width: 30, index: 'VehicleId', hidden: true },
+             { name: 'Type', index: 'Type' },
+             { name: 'VehicleNo', index: 'VehicleNo' },
+             { name: 'Route', index: 'Route' },
+             { name: 'Source', index: 'Source' },
+             { name: 'Destination', index: 'Destination' },
+             { name: 'DistanceCovered', index: 'DistanceCovered' },
+             { name: 'TripDate', index: 'TripDate', width: 170 },
+             { name: 'DriverName', index: 'DriverName' },
+             ],
+            pager: '#DistanceCoveredListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: '230',
+            width: 1225,
+            shrinktofit: true,
+            viewrecords: true,
+            caption: 'Distance Covered List'
+        });
+        $("#DistanceCoveredList").navGrid('#DistanceCoveredListPager', { add: false, edit: false, del: false, search: false, refresh: false });
+    });
+</script>
+<h3>
+    Show Vehicle Distance Covered</h3>
+@using (Html.BeginForm("VehicleDistanceCovered", "Transport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table width="100%" class="WithBorderOnly">
+        <tr class="PanelHeading">
+            <td colspan="6" class="PanelHeading">
+                Basic Details
+            </td>
+        </tr>
+        <tr>
+            <td width="15%">
+                <label class="lblheader">
+                    Campus</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Created Date</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Created By</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    User Role</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Status</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Model.Campus
+                @Html.HiddenFor(m => m.Campus)
+                @Html.HiddenFor(m => m.Id)
+            </td>
+            <td>
+                @Model.CreatedDate
+                @Html.HiddenFor(m => m.CreatedDate)
+            </td>
+            <td>
+                @Model.ProcessedBy
+                @Html.HiddenFor(m => m.ProcessedBy)
+            </td>
+            <td>
+                @Model.UserRole
+                @Html.HiddenFor(m => m.UserRole)
+            </td>
+            <td>
+                @Model.Status
+                @Html.HiddenFor(m => m.Status)
+            </td>
+        </tr>
+        <tr>
+            <td width="15%">
+                <label class="lblheader">
+                    Description</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                 @Html.TextAreaFor(m => m.Description, new { id = "txtDescription", rows = 2, cols = 50, @class = "CSSTextArea", @disabled=true })
+            </td>
+            <td>
+                <input type="button" id="btnBack" value="Back to Inbox" />
+            </td>
+        </tr>
+    </table>
+}
+<table id="DistanceCoveredList" class="InnerTable" width="100%">
+</table>
+<div id="DistanceCoveredListPager">
+</div>

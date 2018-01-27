@@ -1,0 +1,494 @@
+﻿@model TIPS.Entities.Assess.ReportCardClasses.ReportCardRequest
+@{
+    ViewBag.Title = "ReportCardCBSE";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script src="@Url.Content("~/Scripts/Assess360/ReportCardCBSE.js")" type="text/javascript"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        if ($("#TabFree").val() == "Yes") {
+            $('#tabs li:eq(3) a').tab('show')
+            $("#languagelbl").hide();
+            ReqId = $("#Id").val();
+            Cam = $("#Campus").val();
+            Grd = $("#Grade").val();
+            Sec = $("#Section").val();
+            AcY = $("#AcademicYear").val();
+            NofDaysTerm1 = $("#txtWorkingDayTerm1").val();
+            NofDaysTerm2 = $("#txtWorkingDayTerm2").val();
+            CommonEntry1(ReqId, Cam, Grd, Sec, AcY, NofDaysTerm1);
+            CommonEntry2(ReqId, Cam, Grd, Sec, AcY, NofDaysTerm2);
+        }
+        else {
+            $('#tabs li:eq(0) a').tab('show')
+            $("#ddlSubject").val('@Model.Subject');
+            $("#ddllanguage").val('@Model.Language');
+            ReqId = $("#Id").val();
+            Cam = $("#Campus").val();
+            Grd = $("#Grade").val();
+            Sec = $("#Section").val();
+            AcY = $("#AcademicYear").val();
+            NofDaysTerm1 = $("#txtWorkingDayTerm1").val();
+            NofDaysTerm2 = $("#txtWorkingDayTerm2").val();
+            if ('@Model.Subject' == "Language") {
+                $("#languagelbl").show();
+                Sub = '@Model.Language';
+            }
+            else {
+                $("#languagelbl").hide();
+                Sub = '@Model.Subject';
+            }
+            FormativeAssessment1(ReqId, Cam, Grd, Sec, AcY, Sub);
+            FormativeAssessment2(ReqId, Cam, Grd, Sec, AcY, Sub);
+            SummativeAssessment1(ReqId, Cam, Grd, Sec, AcY, Sub);
+            CommonEntry1(ReqId, Cam, Grd, Sec, AcY, NofDaysTerm1);
+            FormativeAssessment3(ReqId, Cam, Grd, Sec, AcY, Sub);
+            FormativeAssessment4(ReqId, Cam, Grd, Sec, AcY, Sub);
+            SummativeAssessment2(ReqId, Cam, Grd, Sec, AcY, Sub);
+            CommonEntry2(ReqId, Cam, Grd, Sec, AcY, NofDaysTerm2);
+            OverAllAssessment(ReqId, Cam, Grd, Sec, AcY, Sub);
+        }
+
+        $('#tabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            if ($('#ddlSubject').val() == "") {
+                if ($(e.target).attr('href') == "#FA1" || ($(e.target).attr('href') == "#FA2") || ($(e.target).attr('href') == "#FA3") || ($(e.target).attr('href') == "#FA4")
+            || ($(e.target).attr('href') == "#SA1") || ($(e.target).attr('href') == "#SA2") || ($(e.target).attr('href') == "#OverAll"))
+                { ErrMsg("Please fill the Subject"); }
+                //if($(e.target).is('#my-chart-tab')) drawChartNow();
+            }
+        })
+
+
+    });
+  
+</script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        @Html.Hidden("IsEdit", "", new { id = "IsEdit", @Value = ViewBag.AppEdit })
+        @Html.Hidden("BackUrl", Url.Action("ReportCardRequest", "Assess360"))
+        @Html.Hidden("TabFree", "", new { id = "TabFree", @Value = ViewBag.TabFreez })
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            &nbsp;<i class="fa fa-info"></i>&nbsp;Reoprt Card Request Info</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 5px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label>
+                                            <b>Campus</b></label><br />
+                                        @Html.HiddenFor(m => m.Id)
+                                        @Html.HiddenFor(m => m.RequestNo)
+                                        <label>@Html.DisplayFor(m => m.Campus)</label>
+                                        @Html.HiddenFor(m => m.Campus)
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label>
+                                            <b>Grade</b>
+                                        </label>
+                                        <br />
+                                        <label>@Html.DisplayFor(m => m.Grade)</label>
+                                        @Html.HiddenFor(m => m.Grade)
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label>
+                                            <b>Section</b>
+                                        </label>
+                                        <br />
+                                        <label>@Html.DisplayFor(m => m.Section)</label>
+                                        @Html.HiddenFor(m => m.Section)
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label><b>Academic Year</b></label>
+                                        <br />
+                                        <label>@Html.DisplayFor(m => m.AcademicYear)</label>
+                                        @Html.HiddenFor(m => m.AcademicYear)
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label><b>Subject</b></label>
+                                        <br />
+                                        @Html.DropDownListFor(m => m.Subject, new SelectList(Enumerable.Empty<SelectListItem>()), new { id = "ddlSubject", @Class = "form-control select-sm" })
+                                        @Html.HiddenFor(m => m.Subject)
+                                    </div>
+                                    <div class="col-sm-2" id="languagelbl" style="padding: 0px;">
+                                        <label style="padding: 0px;">
+                                            <b>Language</b>
+                                        </label>
+                                        @Html.DropDownListFor(m => m.Language, new SelectList(Enumerable.Empty<SelectListItem>()), new { id = "ddllanguage", @Class = "form-control select-sm" })
+                                        @Html.HiddenFor(m => m.Language)
+                                        @Html.HiddenFor(m => m.CreatedBy)
+                                        @Html.HiddenFor(m => m.CreatedDate)
+                                        @Html.HiddenFor(m => m.ModifiedBy)
+                                        @Html.HiddenFor(m => m.ModifiedDate)
+                                    </div>
+                                    <div class="space-12">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-block btn-primary" id="btnBack">
+                                            <i class="fa fa-arrow-circle-left" style="vertical-align: middle"></i>&nbsp;Back
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="tabbable">
+                    <ul id="tabs" class="nav nav-tabs tab-color-blue background-blue">
+                        <li><a href="#FA1" id="link1" data-toggle="tab">FA1 Term-I</a></li>
+                        <li><a href="#FA2" data-toggle="tab">FA2 Term-I</a></li>
+                        <li><a href="#SA1" data-toggle="tab">SA1 Term-I</a></li>
+                        <li><a href="#Common1" data-toggle="tab">Common Term-I</a></li>
+                        <li><a href="#FA3" data-toggle="tab">FA3 Term-II</a></li>
+                        <li><a href="#FA4" data-toggle="tab">FA4 Term-II</a></li>
+                        <li><a href="#SA2" data-toggle="tab">SA2 Term-II</a></li>
+                        <li><a href="#Common2" data-toggle="tab">Common Term-II</a></li>
+                        <li><a href="#CoScholastic" data-toggle="tab">CoScholastic</a></li>
+                        <li><a href="#OverAll" data-toggle="tab">Over All</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        @if (ViewBag.TabFreez != "Yes")
+                        {
+                            <div class="tab-pane" id="FA1">
+                                <table id="JqGridFA1">
+                                </table>
+                                <div id="JqGridFA1Pager">
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="FA2">
+                                <table id="JqGridFA2">
+                                </table>
+                                <div id="JqGridFA2Pager">
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="SA1">
+                                <table id="JqGridSA1">
+                                </table>
+                                <div id="JqGridSA1Pager">
+                                </div>
+                            </div>
+                        }
+                        <div id="Common1" class="tab-pane">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                    </div>
+                                    <div class="col-sm-3" align="right">
+                                        <label>
+                                            <b>Total no of working day for Term I</b>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-2" style="padding: 0px;">
+                                        @Html.TextBoxFor(m => m.TofWorkingDayT1, new { id = "txtWorkingDayTerm1", @Class = "form-control input-sm" })
+                                        @Html.HiddenFor(m => m.TofWorkingDayT1)
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-mini btn-success" id="saveWorkingDayTerm1">
+                                            <i class="fa fa-check" style="vertical-align: middle"></i>&nbsp;Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="JqGridCommonTerm1">
+                            </table>
+                            <div id="JqGridCommonTerm1Pager">
+                            </div>
+                        </div>
+                        @if (ViewBag.TabFreez != "Yes")
+                        {
+                            <div id="FA3" class="tab-pane">
+                                <table id="JqGridFA3">
+                                </table>
+                                <div id="JqGridFA3Pager">
+                                </div>
+                            </div>
+                            <div id="FA4" class="tab-pane">
+                                <table id="JqGridFA4">
+                                </table>
+                                <div id="JqGridFA4Pager">
+                                </div>
+                            </div>
+                            <div id="SA2" class="tab-pane">
+                                <table id="JqGridSA2">
+                                </table>
+                                <div id="JqGridSA2Pager">
+                                </div>
+                            </div>
+                        }
+                        <div id="Common2" class="tab-pane">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                    </div>
+                                    <div class="col-sm-3" align="right">
+                                        <label>
+                                            <b>Total no of working day for Term II</b>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-2" style="padding: 0px;">
+                                        @Html.TextBoxFor(m => m.TofWorkingDayT2, new { id = "txtWorkingDayTerm2", @Class = "form-control input-sm" })
+                                        @Html.HiddenFor(m => m.TofWorkingDayT2)
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-mini btn-success" id="saveWorkingDayTerm2">
+                                            <i class="fa fa-check" style="vertical-align: middle"></i>&nbsp;Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="JqGridCommonTerm2">
+                            </table>
+                            <div id="JqGridCommonTerm2Pager">
+                            </div>
+                        </div>
+                        @if (ViewBag.TabFreez != "Yes")
+                        {
+                            <div id="OverAll" class="tab-pane">
+                                <table id="JqGridOverAll">
+                                </table>
+                                <div id="JqGridOverAllPager">
+                                </div>
+                            </div>
+                        }
+                        <div id="CoScholastic" class="tab-pane">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2" align="right">
+                                        CoScholastic   
+                                    </div>
+                                    <div class="col-sm-3" align="left">
+                                        @Html.DropDownList("ddlCoScholastic", new SelectList(@ViewBag.CoScholastic, "CoScholasticCode", "CoScholasticName"), "--Select One--", new { @Class = "form-control select-sm" })
+                                    </div>
+                                      <div class="col-sm-2" align="right">
+                                        Term
+                                    </div>
+                                    <div class="col-sm-2" align="left">
+                                         @Html.DropDownList("ddlTerm", new SelectList(new[] { 
+                                                new { Value = "", Text= "Select" },
+                                                new { Value = "Term1",Text = "Term1" },
+                                                new { Value = "Term2",Text = "Term2" }
+                                        }, "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                    </div>
+                                     <div class="col-sm-2" align="right">
+                                        <button type="button" class="btn btn-mini btn-success" id="getCoScholastic">
+                                            <i class="fa fa-check" style="vertical-align: middle"></i>&nbsp;Get
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tabbable" id="lifeSkill">
+                                <ul id="lifeSkillTabs" class="nav nav-tabs tab-color-blue background-blue">
+                                    <li class="active"><a href="#LA1" style="font-size: 1.1em" data-toggle="tab">2(A)-(1)SA</a></li>
+                                    <li><a href="#LA2" data-toggle="tab">2(A)-(2)PS</a></li>
+                                    <li><a href="#LA3" data-toggle="tab">2(A)-(3)DM</a></li>
+                                    <li><a href="#LA4" data-toggle="tab">2(A)-(4)CriT</a></li>
+                                    <li><a href="#LA5" data-toggle="tab">2(A)-(5)CreT</a></li>
+                                    <li><a href="#LA6" data-toggle="tab">2(A)-(6)IR</a></li>
+                                    <li><a href="#LA7" data-toggle="tab">2(A)-(7)EC</a></li>
+                                    <li><a href="#LA8" data-toggle="tab">2(A)-(8)Emp</a></li>
+                                    <li><a href="#LA9" data-toggle="tab">2(A)-(9)ME</a></li>
+                                    <li><a href="#LA10" data-toggle="tab">2(A)-(10)MwthS</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane tab-pane in active" id="LA1">
+                                        <table id="JqGridLS_SA">
+                                        </table>
+                                        <div id="JqGridLS_SAPager">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="LA2">
+                                        <table id="JqGridLS_PS">
+                                        </table>
+                                        <div id="JqGridLS_PSPager">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="LA3">
+                                        <table id="JqGridLS_DM">
+                                        </table>
+                                        <div id="JqGridLS_DMPager">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="LA4">
+                                        <table id="JqGridLS_CriT">
+                                        </table>
+                                        <div id="JqGridLS_CriTPager">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="LA5">
+                                        <table id="JqGridLS_CreT">
+                                        </table>
+                                        <div id="JqGridLS_CreTPager">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="LA6">
+                                        <table id="JqGridLS_IR">
+                                        </table>
+                                        <div id="JqGridLS_IRPager">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="LA7">
+                                        <table id="JqGridLS_EC">
+                                        </table>
+                                        <div id="JqGridLS_ECPager">
+                                        </div>
+                                    </div>
+                                    <div id="LA8" class="tab-pane">
+                                        <table id="JqGridLS_Emp">
+                                        </table>
+                                        <div id="JqGridLS_EmpPager">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="LA9">
+                                        <table id="JqGridLS_ME">
+                                        </table>
+                                        <div id="JqGridLS_MEPager">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="LA10">
+                                        <table id="JqGridLS_MwthS">
+                                        </table>
+                                        <div id="JqGridLS_MwthSPager">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="workeducation" class="tab-pane">
+                                <table id="JqGridWorkEdu">
+                                </table>
+                                <div id="JqGridWorkEduPager">
+                                </div>
+                            </div>
+                            <div class="tabbable" id="visualperformingart">
+                                <ul id="visualperformingartTabs" class="nav nav-tabs tab-color-blue background-blue">
+                                    <li class="active"><a href="#VandART1" data-toggle="tab">2(C)-(1)Visual</a></li>
+                                    <li><a href="#VandART2" data-toggle="tab">2(C)-(2)PA</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="VandART1" class="tab-pane in active">
+                                        <table id="JqGridVisualArts">
+                                        </table>
+                                        <div id="JqGridVisualArtsPager">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="VandART2">
+                                        <table id="JqGridPerformingArts">
+                                        </table>
+                                        <div id="JqGridPerformingArtsPager">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tabbable" id="attitude">
+                                <ul id="attitudeTabs" class="nav nav-tabs tab-color-blue background-blue">
+                                    <li class="active"><a href="#ATT1" data-toggle="tab">2(D)-(1)AToT</a></li>
+                                    <li><a href="#ATT2" data-toggle="tab">2(D)-(2)AToSM</a></li>
+                                    <li><a href="#ATT3" data-toggle="tab">2(D)-(3)AToSP&E</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane in active" id="ATT1">
+                                        <table id="JqGridAT_AToT">
+                                        </table>
+                                        <div id="JqGridAT_AToTPager">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="ATT2">
+                                        <table id="JqGridAT_AToSM">
+                                        </table>
+                                        <div id="JqGridAT_AToSMPager">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="ATT3">
+                                        <table id="JqGridAT_AToSPE">
+                                        </table>
+                                        <div id="JqGridAT_AToSPEPager">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tabbable" id="values">
+                                <ul id="valuesTabs" class="nav nav-tabs tab-color-blue background-blue">
+                                    <li class="active"><a href="#VAL1" data-toggle="tab">2(D)-(4)ToABC</a></li>
+                                    <li><a href="#VAL2" data-toggle="tab">2(D)-(5)ToCFNI</a></li>
+                                    <li><a href="#VAL3" data-toggle="tab">2(D)-(6)ToUPSUI</a></li>
+                                    <li><a href="#VAL4" data-toggle="tab">2(D)-(7)ToRNSWCU</a></li>
+                                    <li><a href="#VAL5" data-toggle="tab">2(D)-(8)ToPHUB</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane in active" id="VAL1">
+                                        <table id="JqGridVS_ToABC">
+                                        </table>
+                                        <div id="JqGridVS_ToABCPager">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="VAL2">
+                                        <table id="JqGridVS_ToCFNI">
+                                        </table>
+                                        <div id="JqGridVS_ToCFNIPager">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="VAL3">
+                                        <table id="JqGridVS_ToUPSUI">
+                                        </table>
+                                        <div id="JqGridVS_ToUPSUIPager">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="VAL4">
+                                        <table id="JqGridVS_ToRNSWCU">
+                                        </table>
+                                        <div id="JqGridVS_ToRNSWCUPager">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="VAL5">
+                                        <table id="JqGridVS_ToPHUB">
+                                        </table>
+                                        <div id="JqGridVS_ToPHUBPager">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="litandcreskills">
+                                <table id="JqGridLitandCreSkill">
+                                </table>
+                                <div id="JqGridLitandCreSkillPager">
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="ICT">
+                                <table id="JqGridICT">
+                                </table>
+                                <div id="JqGridICTPager">
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="ScientificSkills">
+                                <table id="JqGridSciSkills">
+                                </table>
+                                <div id="JqGridSciSkillsPager">
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="healthandpet">
+                                <table id="JqGridHealthPET">
+                                </table>
+                                <div id="JqGridHealthPETPager">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

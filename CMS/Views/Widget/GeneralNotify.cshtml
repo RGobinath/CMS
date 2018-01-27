@@ -1,0 +1,45 @@
+﻿<style type="text/css">
+
+.ui-jqgrid .ui-pg-input
+{
+    width:30px;
+}
+.ui-jqgrid .ui-pg-selbox
+{
+    width:50px;
+   height:25px;
+}
+</style>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#GeneralNotify').jqGrid({
+            url: '/Widget/GeneralNotifyjqgrid',
+            datatype: 'Json',
+            type: 'GET',
+            width: 350,
+            height: 140,
+            colNames: ['Id','Topic', 'PublishTo', 'NoteType', 'Campus'],
+            colModel: [
+               { name: 'Id', index: 'Id', hidden: true },
+            { name: 'Topic', index: 'Topic', width: 100 },
+            { name: 'PublishTo', index: 'PublishTo', width: 60 },
+            { name: 'NoteType', index: 'NoteType', width: 70 },
+            { name: 'Campus', index: 'Campus', width: 70}],
+            rowNum: 6,
+            rowList: [6, 10, 20],
+            sortorder: 'Asc',
+            sortname: 'Topic',
+            pager: 'GeneralNotifyPager'
+        });
+        $('#GeneralNotify').jqGrid('filterToolbar', { searchOnEnter: true, enableClear: false });
+    });
+</script>
+<div id="GeneralNotifyDetails">
+    <table id="GeneralNotify">
+    </table>
+    <div id="GeneralNotifyPager">
+    </div>
+</div>

@@ -1,0 +1,333 @@
+﻿@model TIPS.Entities.ParentPortalEntities.PhotoGallery
+@{
+    ViewBag.Title = "PhotoGallery";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<h3>
+    Photo Gallery</h3>
+    <script src="../../Scripts/MasterPageScript.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        
+        window.onbeforeunload = function (e) { processBusy.dialog('open'); $(".ui-dialog-titlebar").hide(); };
+        
+        $(".ui-dialog-titlebar").hide();
+
+        if ($("#SuccessPGMsg").val() != null & $("#SuccessPGMsg").val() != "") {
+            InfoMsg("PhotoGallery Album Created Successfully.", function () { $("#SuccessPGMsg").val(""); });
+        }
+
+        $("#File").click(function () {
+
+            var ddlCampus = $("#ddlBranchCode").val();
+            var txtAlbumName = $("#txtAlbumName").val();
+            var ddlPublishedTo = $("#ddlPublishedTo").val();
+
+            if (ddlCampus == "" || ddlCampus==null || txtAlbumName == "" || txtAlbumName == null || ddlPublishedTo == "" || ddlPublishedTo == null) {
+                ErrMsg("Please Fill Required Details.");
+                return false;
+            }
+        });
+
+
+        $.getJSON("/Notify/FillCampusList",
+     function (fillbc) {
+         var ddlbc = $("#ddlBranchCode");
+         ddlbc.empty();
+         ddlbc.append($('<option/>',
+        {
+            value: "",
+            text: "Select One"
+
+        }));
+
+         $.each(fillbc, function (index, itemdata) {
+             if (itemdata.Text == '@Model.Campus') {
+                 ddlbc.append("<option value='" + itemdata.Value + "' selected='selected'>" + itemdata.Text + "</option>");
+             }
+             else {
+                 ddlbc.append($('<option/>',
+                 {
+                     value: itemdata.Value,
+                     text: itemdata.Text
+                 }));
+             }
+         });
+     });
+
+
+        $("#Submit").click(function () {
+
+            var ddlCampus = $("#ddlBranchCode").val();
+            var txtAlbumName = $("#txtAlbumName").val();
+            var ddlPublishedTo = $("#ddlPublishedTo").val();
+
+            if (ddlCampus == "" || ddlCampus == null || txtAlbumName == "" || txtAlbumName == null || ddlPublishedTo == "" || ddlPublishedTo == null) {
+
+                ErrMsg("Please Fill Required Details.");
+                return false;
+            }
+
+        });
+
+        jQuery("#PhotoGalleryList").jqGrid({
+            url: '@Url.Content("/Notify/PhotoGalleryListJqGrid")',
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'Campus', 'Album Name', 'Description', 'Publish To', 'Performer', 'Created On', 'Status',''],
+            colModel: [
+              {name: 'Id', index: 'Id', hidden: true, editable: true, key: true, width: 50 },
+              { name: 'Campus', index: 'Campus', width: 90, editable: true, sortable: true },
+              { name: 'AlbumName', index: 'AlbumName', width: 90, editable: true, sortable: true },
+              { name: 'Description', index: 'Description', width: 120, editable: true, sortable: true },
+              { name: 'PublishedTo', index: 'PublishedTo', width: 70, editable: true, sortable: true },
+              { name: 'CreatedUserName', index: 'CreatedUserName', width: 70, editable: true, sortable: true },
+              { name: 'CreatedOn', index: 'CreatedOn', width: 70, editable: true, sortable: true },
+              { name: 'Status', index: 'Status', width: 70, hidden: true, editable: true, sortable: true },
+              { name: 'Performer', index: 'Performer', editable: true, hidden: true }
+              ],
+           
+            rowNum: 10,
+            rowList: [5, 10, 20, 50, 100, 150, 200 ],
+            pager: '#PhotoGalleryListPager',
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: 200,
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: 'Photo Gallery List',
+            forceFit: true,
+            multiselect: true,
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                $("#PhotoGalleryList").editGridRow(rowid, prmGridDialog);
+            },
+            loadError: function (xhr, status, error) {
+                $("#PhotoGalleryList").clearGridData();
+                ErrMsg($.parseJSON(xhr.responseText).Message);
+            }
+
+        });
+        jQuery("#PhotoGalleryList").navGrid('#PhotoGalleryListPager', { add: false, edit: false, del: true, search: false },
+
+            {},        //edit options
+            {},
+            { url: '/Notify/DeletePhotoGallery/' });
+
+    });
+
+    var splitstr = "";
+
+    function resethtml2() {
+        //    alert('hre');
+        $('#clear2').html($('#clear2').html());
+        var div = document.getElementById('Uploadedfiles');
+        div.innerHTML = 'Uploaded Files : &nbsp;&nbsp;&nbsp;  ';
+        $.ajax({
+            url: '/Notify/PhotoGalleryDeleteUploadedFiles/',
+            type: 'POST',
+            dataType: 'json',
+            traditional: true
+        });
+    }
+
+    var totFsize = 0;
+
+    function Checkfiles() {
+
+        var inp = document.getElementById('File');
+
+        var imgCount = inp.files.length;
+
+        var cnt = 0;
+
+        for (var i = 0; i < inp.files.length; i++) {
+
+            var fname = inp.files.item(i).name;
+           // alert("here is a file name: " + fname);
+
+            if (fname != "") {
+                // code to get File Extension..
+                var arr1 = new Array;
+                arr1 = fname.split("\\");
+                var len = arr1.length;
+                var img1 = arr1[len - 1];
+                var filext = img1.substring(img1.lastIndexOf(".") + 1);
+                // Checking Extension
+                if (filext == "jpg" || filext == "jpeg" || filext == "gif" || filext == "bmp" || filext == "png" || filext == "JPG" || filext == "JPEG" || filext == "BMP" || filext == "GIF" || filext == "PNG") {
+                    cnt++;
+                }
+                else {
+                    ErrMsg("Invalid Image File Selected");
+                    return false;
+                }
+            }
+
+        }
+
+        if (imgCount == cnt) {
+            return true;
+        }
+    }
+
+    function uploaddoc2() {
+
+        if (document.getElementById("File").value == "") {
+            ErrMsg("Please Browse a Photo");
+        }
+        else if (Checkfiles()==false)
+        {
+            ErrMsg("Invalid Image File Selected");
+        }
+        else{
+          
+            splitstr = splitstr + $('#File').val().split('\\');
+            
+            var files = document.getElementById("File").files;
+            
+            for (var i = 0; i < files.length; i++) {
+
+                totFsize = totFsize + parseInt(files[i].size);
+
+            }
+
+            // 1048576 -1 MB, 5242880 - 5MB , 4194304 - 4MB 
+
+            if (totFsize < Number(4194304)) {
+
+                $.ajaxFileUpload({
+
+                    url: '/Notify/PhotoGalleryFilesUpload?PGPreId=' + '@Model.PGPreId',
+                    secureuri: false,
+                    fileElementId: 'File',
+                    dataType: 'json',
+                    success: function (data, success) {
+
+                        var div = document.getElementById('Uploadedfiles');
+
+                        if ((div.innerHTML == 'Uploaded Files &nbsp;&nbsp;&nbsp;  ')) {
+                            div.innerHTML = div.innerHTML + data.result;
+                        }
+                        else {
+                            div.innerHTML = div.innerHTML + ', ' + data.result;
+                        }
+                    }
+                });
+
+                $('#clear2').html($('#clear2').html());
+                totFsize = 0;
+            }
+            else {
+                ErrMsg("file size must be less than 4 MB");
+                $('#clear2').html($('#clear2').html());
+                totFsize = 0;
+            }
+           
+        }
+    }
+
+    
+</script>
+
+@using (Html.BeginForm("PhotoGallery", "Notify", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table width="100%" border="1" cellspacing="2" cellpadding="3" class="WithBorderOnly">
+        <tr class="PanelHeading">
+            <td class="PanelHeading">
+                <b>Photo Gallery Details</b>
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.PGPreId)
+                @Html.Hidden("SuccessPGMsg", "", new { id = "SuccessPGMsg", @Value = @TempData["SuccessPGCreation"] })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table border="0" cellspacing="2" cellpadding="0" width="100%">
+                    <tr>
+                        <td width="15%"> <b>Campus &nbsp;<span style="color: red">*</span></b> </td>
+                        <td width="15%">
+                         <b> Album Name &nbsp;<span style="color: red">*</span></b> 
+                        </td>
+                        <td width="20%">
+                            <b>Description</b>
+                        </td>
+                        <td width="15%">
+                            <b>Publish To &nbsp; <span style="color: red">*</span></b>
+                        </td>
+                        <td width="35%">
+                            <b>Upload Photos</b> &nbsp;@* &nbsp; <span>Maximum upload limit 4 MB !</span>*@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top"> 
+                         @if (Model != null)
+                         {
+                            @Html.DropDownListFor(model => model.Campus, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlBranchCode", @Class = "CSSDropDownList" })
+                         }
+                        </td>
+                        <td valign="top">
+                            @if (Model != null)
+                            {
+                                @Html.TextBoxFor(model => model.AlbumName, new { id = "txtAlbumName", @Class = "CSSTextBox" })
+                            }
+                        </td>
+                        <td valign="top">
+                            @if (Model != null)
+                            {
+                                @Html.TextAreaFor(model => model.Description, new { rows = 3, id = "txtDescription", @class = "CSSTextArea", @style = "width:90%" })
+                            }
+                        </td>
+                        <td valign="top">
+                            @if (Model != null)
+                            {
+                                @Html.DropDownListFor(model => model.PublishedTo, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              //new{Value="General",Text="General"},
+                                              new{Value="Parent",Text="Parent"},
+                                              new{Value="Student",Text="Student"},
+                                              //new{Value="Staff",Text="Staff"}
+                                          },
+                          "Value", "Text", ""), new { id = "ddlPublishedTo", @Class = "CSSDropDownList", style = "width:145px;" })
+                            }
+                        </td>
+                        <td valign="top">
+                        
+                             <div id="clear2">
+                           <input type="file" name="File" id="File" multiple="multiple" >
+                               @* <input type="file" name="file2[]" id="file2" value="Browse" style="height: 22px" multiple />*@
+                                <input type="button" value="Upload" onclick="uploaddoc2()" />
+                                <input type="button" value="Clear" onclick="resethtml2()" />
+                            </div>
+                            <div id="Uploadedfiles">
+                                Uploaded Files : &nbsp&nbsp&nbsp
+                            </div>
+                       <div id="filesList"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <center>
+                                <button type="submit" name="btnSubmit" id="Submit" value="Submit">
+                                    Submit</button>
+                                <input type="reset" id="cancel" value="Cancel" class="CSSButton" />
+                            </center>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    
+    <table class="WithBorderOnly" width="100%">
+        <tr>
+            <td>
+                <table id="PhotoGalleryList" width="100%">
+                </table>
+                <div id="PhotoGalleryListPager">
+                </div>
+            </td>
+        </tr>
+    </table>
+}

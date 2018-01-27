@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.VehicleElectricalMaintenance_Vw" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.VehicleElectricalMaintenance_Vw, TIPS.Entities" table="VehicleElectricalMaintenance_Vw" lazy="true" >
+    <id name="Id" column="Id" type="Int32">
+      <generator class="native"/>
+    </id>
+    <property name="VehicleId">
+      <column name="VehicleId" sql-type="int" not-null="true" />
+    </property>
+    <property name="VehicleNo">
+      <column name="VehicleNo" />
+    </property>
+    <property name="Campus">
+      <column name="Campus" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="EDateOfService">
+      <column name="EDateOfService" sql-type="date" not-null="false" />
+    </property>
+    <property name="EServiceProvider">
+      <column name="EServiceProvider" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="EServiceCost">
+      <column name="EServiceCost" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="EBillNo">
+      <column name="EBillNo" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="ESparePartsUsed">
+      <column name="ESparePartsUsed" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="EDescription">
+      <column name="EDescription" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="CreatedDate">
+      <column name="CreatedDate" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="CreatedBy">
+      <column name="CreatedBy" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="EM_SparePartsUsedfile">
+      <column name="EM_SparePartsUsedfile" sql-type="nvarchar" not-null="false" />
+    </property>
+ 
+  </class>
+</hibernate-mapping>

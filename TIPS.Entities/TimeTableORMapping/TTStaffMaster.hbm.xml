@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.TimeTableEntities.TTStaffMaster" namespace="TIPS.Entities.TTStaffMaster" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TimeTableEntities.TTStaffMaster,TIPS.Entities" table="TT_StaffMaster" lazy="true">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="StaffName" column="StaffName" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>
+  </class>
+</hibernate-mapping>

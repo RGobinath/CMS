@@ -1,0 +1,122 @@
+﻿<script type="text/javascript" language="javascript">
+    var brUrl1 = '@Url.Content("/Assess360/GetStudentDetails")?IdNo=' + $('#StdntIdNo').val()
+            + '&Name=' + $('#StdntName').val()
+            + '&Campus=' + $('#StdntCampus').val()
+            + '&Grade=' + $('#StdntGrade').val()
+            + '&Section=' + $('#StdntSection').val();
+    $(function () {
+        InitStudentGrid();
+
+        /*enter key press event*/
+        function defaultFunc(e) {
+            if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                $('#btnStdntSearch').click();
+                return false;
+            }
+            return true;
+        };
+
+        $('#StdntIdNo').keypress(function (event) { if (isEmptyorNull($('#StdntIdNo').val())) { return true; } else { return defaultFunc(event); } });
+        $('#StdntName').keypress(function (event) { if (isEmptyorNull($('#StdntName').val())) { return true; } else { return defaultFunc(event); } });
+        $('#StdntGrade').keypress(function (event) { if (isEmptyorNull($('#StdntGrade').val())) { return true; } else { return defaultFunc(event); } });
+        $('#StdntSection').keypress(function (event) { if (isEmptyorNull($('#StdntSection').val())) { return true; } else { return defaultFunc(event); } });
+
+        /*enter key press event*/
+
+        $("#StdntCampus").attr("readonly", true).css("background-color", "#F5F5F5");
+
+        $("#btnStdntSearch").click(function () {
+            // 
+            if (!isEmptyorNull($("#StdntIdNo").val()) || !isEmptyorNull($("#StdntName").val())
+            || !isEmptyorNull($("#StdntGrade").val()) || !isEmptyorNull($("#StdntSection").val())
+            ) {
+                $('#StudentList').clearGridData();
+                // 
+                LoadSetGridParam($('#StudentList'), '@Url.Content("/Assess360/GetStudentDetails")?IdNo=' + $('#StdntIdNo').val()
+            + '&Name=' + $('#StdntName').val()
+            + '&Campus=' + $('#StdntCampus').val()
+            + '&Grade=' + $('#StdntGrade').val()
+            + '&Section=' + $('#StdntSection').val());
+            } else {
+                ErrMsg('Please enter the fields', function () { $("#StdntName").focus(); });
+                return false;
+            }
+        });
+
+        $("#btnStdntReset").click(function () {
+            // 
+            $('#StudentList').clearGridData();
+            $('#StdntIdNo').val("");
+            $('#StdntName').val("");
+            $('#StdntGrade').val("");
+            $('#StdntSection').val("");
+            LoadSetGridParam($('#StudentList'), '@Url.Content("/Assess360/GetStudentDetails")?Campus=' + $('#StdntCampus').val());
+        });
+    });
+
+</script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12" id="srchKeyPress">
+                            <div class="col-sm-2">
+                                <label for="form-field-mask-1">
+                                    <b>Student ID</b></label>
+                                @Html.TextBox("StdntIdNo", null, new { @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-mask-1">
+                                    <b>Student Name</b></label>
+                                @Html.TextBox("StdntName", null, new { @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-mask-1">
+                                    <b>Section</b></label>
+                                @Html.TextBox("StdntSection", null, new { @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-mask-1">
+                                    <b>Campus</b></label>
+                                @Html.TextBox("StdntCampus", null, new { @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-mask-1">
+                                    <b>Grade</b></label>
+                                @Html.TextBox("StdntGrade", null, new { @Class = "form-control input-sm" })
+                            </div>
+                            <div class="space-10">
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-primary btn-sm" id="btnStdntSearch" value="Search"
+                                    tabindex="2">
+                                    <i class="fa fa-search"></i><span class="bigger-110">&nbsp;Search</span>
+                                </button>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-danger btn-sm" id="btnStdntReset" value="Reset"
+                                    tabindex="3">
+                                    <i class="fa fa-undo"></i><span class="bigger-110">&nbsp;Reset</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2"></div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="StudentList">
+                </table>
+                <div id="StudentPager">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

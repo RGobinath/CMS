@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   namespace="TIPS.Entities.TransportEntities"
+                   assembly="TIPS.Entities.TransportEntities.FuelRefillDetails">
+
+  <class name="TIPS.Entities.TransportEntities.FuelRefillDetails, TIPS.Entities" table="FuelRefillDetails" dynamic-update="true">
+    <cache usage="read-write"/>
+    <id name="Id" column="Id" type="Int32">
+      <generator class="native"/>
+    </id>
+    <property name="RefNo"/>
+    <property name="ProcessedBy"/>
+    <property name="UserRole"/>
+    <property name="Status"/>
+    <property name="Campus"/>
+    <property name="CreatedDate"/>
+    <property name="Description"/>
+  </class>
+</hibernate-mapping>
+

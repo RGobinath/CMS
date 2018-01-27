@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.DriverAttendanceMonthReport" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.DriverAttendanceMonthReport, TIPS.Entities" table="DriverAttendanceMonthReport_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"></property>
+    <property name="DriverName" column="DriverName" type="string"></property>
+    <property name="DriverIdNo" column="DriverIdNo" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Leave" column="Leave" type="Int32"></property>
+    <property name="Absent" column="Absent" type="Int32"></property>
+    <property name="TotalLandA" column="TotalLandA" type="Int32"></property>
+    <property name="AbMonth" column="AbMonth" type="Int32"></property>
+    <property name="AbYear" column="AbYear" type="Int32"></property>
+    <property name="AbsentDate" column="AbsentDate" type="string"></property>
+    <property name="TotalWorkingDay" column="TotalWorkingDay" type="Int32"></property>
+    <property name="NoOfPre" column="NoOfPre" type="Int32"></property>
+  </class>
+</hibernate-mapping>

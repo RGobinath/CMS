@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.ReportEntities.CampusWiseModuleUsageReport_vw" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.ReportEntities.CampusWiseModuleUsageReport_vw,TIPS.Entities" table="CampusWiseModuleUsageReport_vw" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+
+    <property name="Module"  column ="Module" type="string"/>
+
+    <!--<property name="MCS_ANTHIYUR"  column ="MCS_ANTHIYUR" type="Int64"/>
+    <property name="MHSS_ANTHIYUR"  column ="MHSS_ANTHIYUR" type="Int64"/>
+    <property name="MMS_ANTHIYUR"  column ="MMS_ANTHIYUR" type="Int64"/>
+    <property name="MCOE_ANTHIYUR"  column ="MCOE_ANTHIYUR" type="Int64"/>
+    <property name="MTTI_ANTHIYUR"  column ="MTTI_ANTHIYUR" type="Int64"/>
+    <property name="RPS_KOTAGIRI"  column ="RPS_KOTAGIRI" type="Int64"/>-->
+
+
+    <property name="IBMain"  column ="IBMain" type="Int64"/>
+    <property name="IBKG"  column ="IBKG" type="Int64"/>
+    <property name="ChennaiMain"  column ="ChennaiMain" type="Int64"/>
+    <property name="ChennaiCity"  column ="ChennaiCity" type="Int64"/>
+    <property name="Ernakulam"  column ="Ernakulam" type="Int64"/>
+    <property name="ErnakulamKG"  column ="ErnakulamKG" type="Int64"/>
+    <property name="Karur"  column ="Karur" type="Int64"/>
+    <property name="KarurKG"  column ="KarurKG" type="Int64"/>
+    <property name="Tirupur"  column ="Tirupur" type="Int64"/>
+    <property name="TirupurKG"  column ="TirupurKG" type="Int64"/>
+    <property name="TipsSaran"  column ="TipsSaran" type="Int64"/>
+
+  </class>
+</hibernate-mapping>

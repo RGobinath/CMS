@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.DistanceCovered_Vw" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.DistanceCovered_Vw, TIPS.Entities" table="DistanceCovered_Vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="Type" column="Type" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="VehicleNo" column="VehicleNo" type="string"></property>
+    <property name="Year" column="Year" type="Int32"></property>
+    <property name="Month" column="Month" type="Int32"></property>
+    <property name="DistanceCovered" column="DistanceCovered" type="Decimal"></property>
+    <property name="LastTripDate" column="LastTripDate" type="datetime"></property>
+  </class>
+</hibernate-mapping>

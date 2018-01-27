@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "SubjectDetails";
+    Layout = null;
+}
+
+
+@System.Web.Optimization.Scripts.Render("~/bundlesJS/AceExtra")
+
+
+<div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+    <div class="col-xs-12">
+        <div class="row">
+            @Html.Hidden("start", "", new { id = "start", @Value = ViewBag.start })
+            @Html.Hidden("end", "", new { id = "end", @Value = ViewBag.end })
+             @Html.Hidden("start", "", new { id = "Campus", @Value = ViewBag.Campus })
+            @Html.Hidden("end", "", new { id = "Grade", @Value = ViewBag.Grade })
+             @Html.Hidden("start", "", new { id = "Section", @Value = ViewBag.Section })
+            <div class="col-xs-12">
+                <div class="col-sm-2">
+                    <b>Subject</b>
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBox("newSubject", "", new { id = "newSubject", @Class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-3">
+                    <b>Staff Name</b>
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextBox("StaffName", "",  new { id = "StaffName", @Class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-sm-8"></div>
+                <div class="col-sm-2">
+                    <button class="btn btn-success btn-sm  btn-round" type="button" id="btnAdd">
+                        <i class="fa fa-plus"></i>&nbsp;Add</button>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-danger btn-sm  btn-round" type="button" id="btnCancel">
+                        <i class="fa fa-times"></i>&nbsp;Cancel</button>
+                </div>
+            </div>
+            <div class="space-2"></div>
+        </div>
+    </div>
+</div>
+<script src="~/assets/js/uncompressed/jquery-ui.js"></script>
+
+
+<script type="text/javascript">
+    // A $( document ).ready() block.
+    $(document).ready(function () {
+        $("#newSubject").autocomplete({
+            source: function (request, response) {
+                $.getJSON('/TimeTable/RetrieveSubjectLst?term=' + request.term, function (data) {
+                    response(data);
+                });
+            },
+            minLength: 1,
+            delay: 1,
+            height: 50
+        });
+        $("#StaffName").autocomplete({
+            source: function (request, response) {
+                $.getJSON('/TimeTable/RetrieveStaffLst?term=' + request.term, function (data) {
+                    response(data);
+                });
+            },
+            minLength: 1,
+            delay: 1,
+            height: 50
+        });
+        var subject = "";
+        var start = "";
+        var end = "";
+        var staff = "";
+        var Campus = $('#Campus').val();
+        var Grade = $('#Grade').val();
+        var Section = $('#Section').val();
+      //  $('#DivNewSubject').dialog({ modal: false });
+        $("#btnAdd").click(function () {
+            subject = $('#newSubject').val();
+            staff = $('#StaffName').val();
+            start = $('#start').val();
+            end = $('#end').val();
+
+           
+            if (subject == "") {
+                ErrMsg("Enter valid subject");
+                return false;
+            }
+            if (staff == "") {
+                ErrMsg("Enter valid Staff Name");
+                return false;
+            }
+            $.ajax({
+                url: '/TimeTable/ValidStaff?staff=' + staff,
+                //data: 'title=' + title + '&start=' + start1 + '&end=' + end1,
+                type: "POST",
+                success: function (result) {
+                    if (result == false)
+                    {
+                        ErrMsg("Enter valid Staff Name");
+                        $("input[type=text], textarea, select").val("");
+                        return false;
+                    }
+                }
+            });
+            $.ajax({
+                url: '/TimeTable/ValidSubject?subject=' + subject,
+                //data: 'title=' + title + '&start=' + start1 + '&end=' + end1,
+                type: "POST",
+                success: function (result) {
+                    if (result == true) {
+                        $.ajax({
+                            url: '/TimeTable/AddPeriod?Subject=' + subject + '&start=' + start + '&end=' + end + '&staff=' + staff + '&Campus=' + Campus + '&Grade=' + Grade + '&Section=' + Section,
+                            //data: 'title=' + title + '&start=' + start1 + '&end=' + end1,
+                            type: "POST",
+                            success: function (result) {
+                                debugger;
+                                if (result == "") {
+
+                                    window.location.href = '/TimeTable/TimeTable';
+                                }
+                                else
+                                    alert(result);
+                            }
+                        });
+                    }
+                    else {
+                        $("input[type=text], textarea, select").val("");
+                        ErrMsg("Enter valid subject");
+                        return false;
+                    }
+                  
+                }
+            });
+         
+        });
+        $("#btnCancel").click(function () {
+            $("input[type=text], textarea, select").val("");
+        });
+
+    });
+</script>

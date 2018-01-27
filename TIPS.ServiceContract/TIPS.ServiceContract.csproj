@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{695CF9FC-EE0A-4B03-9926-E7B810D50DBF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TIPS.ServiceContract</RootNamespace>
+    <AssemblyName>TIPS.ServiceContract</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IActivitiesServiceSC.cs" />
+    <Compile Include="IAdminTemplateService.cs" />
+    <Compile Include="IAdmissionManagementSC.cs" />
+    <Compile Include="IAssess360SC.cs" />
+    <Compile Include="IAssetService.cs" />
+    <Compile Include="IAttendanceSC.cs" />
+    <Compile Include="ICallManagementSC.cs" />
+    <Compile Include="ICanteenServiceSC.cs" />
+    <Compile Include="ICommentsService.cs" />
+    <Compile Include="ICommunicationSC.cs" />
+    <Compile Include="IDocumentsSC.cs" />
+    <Compile Include="IEnquiryService.cs" />
+    <Compile Include="IHostelMgnt.cs" />
+    <Compile Include="IHRManagementSC.cs" />
+    <Compile Include="IInboxService.cs" />
+    <Compile Include="IIssueCountServiceSC.cs" />
+    <Compile Include="ILMSService.cs" />
+    <Compile Include="IMasterDataServiceSC.cs" />
+    <Compile Include="IMastersSC.cs" />
+    <Compile Include="IParentPortalSC.cs" />
+    <Compile Include="IProcessFlowSC.cs" />
+    <Compile Include="IReportCardService.cs" />
+    <Compile Include="IStaffIssuesSC.cs" />
+    <Compile Include="IStaffManagementSC.cs" />
+    <Compile Include="IStoreServiceSc.cs" />
+    <Compile Include="IStudentsReportSC.cs" />
+    <Compile Include="ITimeTablesSC.cs" />
+    <Compile Include="ITransportServiceSc.cs" />
+    <Compile Include="IUserServiceSC.cs" />
+    <Compile Include="IWidgetSC.cs" />
+    <Compile Include="MenuServiceSC.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TIPS.Component\TIPS.Component.csproj">
+      <Project>{B9ECD974-B198-4EBE-9721-65B3C162DE48}</Project>
+      <Name>TIPS.Component</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TIPS.Entities.Assess\TIPS.Entities.Assess.csproj">
+      <Project>{FEBE2D61-D72A-49AA-9F10-C83FB6A096C7}</Project>
+      <Name>TIPS.Entities.Assess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TIPS.Entities.TicketingSystem\TIPS.Entities.TicketingSystem.csproj">
+      <Project>{5DD86482-99BB-4E64-B5B4-D81076B9F65E}</Project>
+      <Name>TIPS.Entities.TicketingSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TIPS.Entities\TIPS.Entities.csproj">
+      <Project>{924034CE-9FCB-472F-847F-DF216EA9A584}</Project>
+      <Name>TIPS.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.Application" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Application, TIPS.Entities" table="Application" lazy="false" >
+    <id name="Id" column="Id" type="Int32">
+      <generator class="identity" />
+    </id>
+    <property name="AppCode">
+      <column name="AppCode" sql-type="nvarchar" not-null="true" />
+    </property>
+    <property name="AppName">
+      <column name="AppName" sql-type="nvarchar" not-null="true" />
+    </property>
+    <property name="CreatedBy" column="CreatedBy" type="string"/>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"/>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"/>
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"/>
+  </class>
+</hibernate-mapping>

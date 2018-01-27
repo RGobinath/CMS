@@ -1,0 +1,10 @@
+﻿@model TIPS.Entities.AdmissionEntities.UploadedFiles
+
+@{
+    ViewBag.Title = "Upload";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+
+<h2>Upload</h2>
+@*<img src='/Admission/Upload/t-mobile-logo-vector-01' alt="" /> *@
+<img src="@Url.Action("Upload", "Admission", new { id = ViewData["imageid"] })" alt="Category Image" />

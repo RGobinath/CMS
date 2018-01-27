@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="SemesterMaster" table="SemesterMaster" lazy="true" >
+    <id name="SemesterMasterId" column="SemesterMasterId" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="Campus" column="Campus" type="string" />
+    <property name="Grade" column="Grade" type="string"  />
+
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    <property name="Sem" column="Sem" type="string"  />
+
+    <property name="FromDate" column="FromDate" type="DateTime" />
+    <property name="ToDate" column="ToDate" type="DateTime"  />
+    <property name="ExamDate" column="ExamDate" type="DateTime"  />
+
+    <property name="CreatedBy" column="CreatedBy" type="string" />
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"  />
+
+    <property name="ModifiedBy" column="ModifiedBy" type="string" />
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"  />
+    
+  </class>
+</hibernate-mapping>

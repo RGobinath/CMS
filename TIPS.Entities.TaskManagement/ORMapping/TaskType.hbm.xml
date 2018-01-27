@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.TaskManagement" namespace="TIPS.Entities.TaskManagement" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TaskType" table="TaskType" lazy="true" >
+    <id name="TaskTypeId" column="TaskTypeId" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="TaskTypeCode" column="TaskTypeCode" type="AnsiString" not-null="false" />
+    <property name="TaskTypeName" column="TaskTypeName" type="AnsiString" not-null="false" />
+  </class>
+</hibernate-mapping>

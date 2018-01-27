@@ -1,0 +1,88 @@
+﻿@model TIPS.Entities.TransportEntities.DriverMaster
+@{
+    ViewBag.Title = "Driver Attendance Reports";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Criteria
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownList("Campus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Name</b></label>
+                                        @Html.TextBoxFor(Model => Model.Name, new { @class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Driver No.</b></label>
+                                        @Html.TextBoxFor(Model => Model.DriverIdNo, new { @class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1"><b>Month</b></label>
+
+                                        @Html.DropDownList("ddlSearchType", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                       
+                                        <label for="form-field-selct-1"><b>Year</b></label>
+                                        @Html.DropDownList("ddlyear", new SelectList(new[] { new { Text = "", Value = "", Selected = "True" },
+              new { Text = "2012", Value = "2012",Selected = "false"},
+       new { Text = "2013", Value = "2013", Selected = "false" },
+       new { Text = "2014", Value = "2014", Selected = "false" },
+       new { Text = "2015", Value = "2015", Selected = "false" },
+       new { Text = "2016", Value = "2016", Selected = "false" },
+       new { Text = "2017", Value = "2017", Selected = "false" },
+       new { Text = "2018", Value = "2018", Selected = "false" },
+       new { Text = "2019", Value = "2019", Selected = "false" }}, "Text", "Value", "Selected"), new { @Class = "form-control select-sm" })
+
+                                    </div>
+                                    <div class="space-2"></div>
+                                    <div class="col-sm-2">
+                                        <br />
+                                        <button type="submit" class="btn btn-primary btn-sm" id="btnGetReport">
+                                            <i class="ace-icon fa fa-search"></i>Get Attendance Reports
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="DriverAttendanceReportList">
+                </table>
+                <div id="DriverAttendanceReportListPager">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/Transport/DriverAttendanceReports.js"></script>

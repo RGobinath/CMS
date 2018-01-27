@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.ParentPortalEntities.FoodNameMaster" namespace="TIPS.Entities.ParentPortalEntities" >
+  <class name="TIPS.Entities.ParentPortalEntities.FoodNameMaster, TIPS.Entities" table="FoodNameMaster" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"/>
+    </id>
+    <property name="FoodName" column="FoodName" type="string" />
+    <property name="Campus" column="Campus" type="string"/>
+    <property name="FoodType" column="FoodType" type="string" />
+    <property name="Performer" column="Performer" type="string" />
+    <property name="CreatedOn" column="CreatedOn" type="string" />
+  </class>
+</hibernate-mapping>

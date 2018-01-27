@@ -1,0 +1,289 @@
+﻿@{
+    ViewBag.Title = "Test";
+    Layout = "~/Views/Shared/AdminTemplateMaster.cshtml";
+}
+@*<script src="../../Content/AdminTemplate/Content/FusionCharts/Charts/FusionCharts.HC.Charts.js"></script>
+<script src="../../Content/AdminTemplate/Content/FusionCharts/Charts/FusionCharts.jqueryplugin.js"></script>
+<script src="../../Content/AdminTemplate/Content/FusionCharts/Charts/FusionCharts.HC.js"></script>*@
+<script src="../../Content/AdminTemplate/Content/FusionCharts/Charts/FusionCharts.js"></script>
+
+@*<script src="../../Content/AdminTemplate/Content/Chart1/AC_RunActiveContent.js"></script>*@
+
+@*<script src="../../Content/AdminTemplate/Content/fusioncharts.js"></script>*@
+@*<script type="text/javascript">
+    $(document).ready(function () {
+        CylinderChart();
+        //TestChart();
+        $.ajax({
+            type: 'Get',
+            async: false,
+            url: '@Url.Content("~/AdminTemplate/TestChart/")',
+            success: function (data) {
+                var chart = new FusionCharts("../../Content/AdminTemplate/Content/FusionCharts/Charts/FCF_Line.swf", "Example", "400", "300");
+                chart.setDataXML(data);
+                chart.render("TestChart");
+            }
+          });
+    });
+    function CylinderChart() {
+        var T1 = 12;
+        var T2 = 54;
+        var T3 = 33;
+
+        var Charactercylinder = "<chart manageResize='1' bgColor='FFFFFF' bgAlpha='0' showBorder='0' lowerLimit='0' upperLimit='20' showTickMarks='1' showTickValues='1' showLimits='1' decmials='0' cylFillColor='#01DF01' baseFontColor='CC0000' chartLeftMargin='10' chartRightMargin='10' chartTopMargin='10'>";
+        Charactercylinder += "<value>" + T3 + "</value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+        Charactercylinder += "</annotationGroup></annotations></chart>";
+
+        var Characterchart = new FusionCharts("../../Charts/Cylinder.swf", "Assess 360", "100", "200");
+        Characterchart.setDataXML(Charactercylinder);
+        Characterchart.render("CharacterChart");
+    }
+</script>*@
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var T1 = 10;
+        var T2 = 2;
+        var T3 = 13;
+        var T4 = 46;
+
+        //var CampusChart1 = "<graph caption='2014-2015' xAxisName='' yAxisName='' decimalPrecision='0' showNames='1' rotatenames='1' showValues='1' bgColor='FFFFFF' divlinecolor='F79708' shadow='0'>";
+        //var CampusChart1 = "<chart caption='Test' linethickness='1' showvalues='0' ishollow='0' issliced='1' labeldistance='8' usesameslantangle='1' formatnumberscale='0' anchorradius='2' divlinecolor='666666' divlinealpha='30' divlineisdashed='1' labelstep='2' bgcolor='FFFFFF' showalternatehgridcolor='0' labelpadding='10' canvasborderthickness='1' legendiconscale='1.5' legendshadow='0' legendborderalpha='0' legendposition='right' canvasborderalpha='50' numvdivlines='5' vdivlinealpha='20' showborder='0'>";
+        //var CampusChart1 = "<graph caption='Test Funnel' showpercentvalues='0' decimalPrecision='0' decimals='1' basefontsize='11' issliced='1' slicingDistance='10' funnelBaseWidth='40' fillAlpha='50' showborder='1' showhovercap='1' hoverCapBgColor='ffffff' useSameSlantAngle='1' isHollow='0' nameDistance='50'>";
+        var CampusChart1 = "<graph caption='Test Funnel' showpercentvalues='0' decimalPrecision='0' decimals='1' showLegend='1' legendPosition='RIGHT' basefontsize='11' issliced='1' slicingDistance='10' funnelBaseWidth='40' fillAlpha='50' showborder='1' showhovercap='1' hoverCapBgColor='ffffff' useSameSlantAngle='1' isHollow='0' nameDistance='50'>";
+        CampusChart1 = CampusChart1 + " <set name='Test1' value='" + T1 + "' color='008ee4'/>";
+        CampusChart1 = CampusChart1 + " <set name='Test2' value='" + T2 + "' color='f8bd19'/>";
+        CampusChart1 = CampusChart1 + " <set name='Test2' value='" + T3 + "' color='6baa01'/>";
+        CampusChart1 = CampusChart1 + " <set name='Test3' value='" + T4 + "' color='e44a00'/>";
+        //CampusChart1 = CampusChart1 + "<styles>";
+        //CampusChart1 = CampusChart1 + "<definition>";
+        //CampusChart1 = CampusChart1 + "<style type='font' name='captionFont' size='15' />";
+        //CampusChart1 = CampusChart1 + "</definition>";
+        //CampusChart1 = CampusChart1 + "<application>";
+        //CampusChart1 = CampusChart1 + "<apply toObject='CAPTION' styles='captionFont' />";
+        //CampusChart1 = CampusChart1 + "</application>";
+        //CampusChart1 = CampusChart1 + "</styles>";
+        CampusChart1 = CampusChart1 + " </graph>";
+        var chart = new FusionCharts("../../Content/AdminTemplate/Content/FusionCharts/Charts/FCF_Funnel.swf", "Example", "400", "300");
+        //var chart = new FusionCharts("../../Content/AdminTemplate/Content/Chart1/charts_library/cl3d.swf", "Example", "400", "300");
+        chart.setDataXML(CampusChart1);
+        chart.render("CampusChart1");
+
+        //var StackedColumn = "<graph bgcolor='ffffff' caption='Daily Sales' numberprefix='$' xaxisname='Day' useroundedges='1' showvalues='0' legendborderalpha='0' showsum='1' showalternatehgridcolor='0' divlineisdashed='1' decimals='0' showborder='0'>";
+
+        //var StackedColumn = "<graph caption='Test' xAxisName='Days' usehovercolor='1' hover='CCCCCC' hoverfillcolor='CCCCCC'  showcategories='1' yAxisName='Counts' useroundedges='1' decimalPrecision='0' forceDecimals='0' formatNumberScale='0' yAxisName='' animation='1' showNames='1' showValues='0' divlinecolor='d3d3d3' distance='5' angle='45' rotateNames='0'>";
+        //StackedColumn = StackedColumn + "<categories>";
+        //StackedColumn = StackedColumn + "<category label='1' />";
+        //StackedColumn = StackedColumn + "<category label='2' />";
+        //StackedColumn = StackedColumn + "<category label='3' />";
+        //StackedColumn = StackedColumn + "</categories>";
+        ////StackedColumn = StackedColumn + "";
+        //StackedColumn = StackedColumn + "<dataset seriesname='Apples' color='f8bd19'>";
+        //StackedColumn = StackedColumn + "<set value='57000'/>";
+        //StackedColumn = StackedColumn + "<set value='1000'/>";
+        //StackedColumn = StackedColumn + "<set value='4000'/>";
+        //StackedColumn = StackedColumn + "</dataset>";
+        //StackedColumn = StackedColumn + "<dataset seriesname='Orange' color='008ee4'>";
+        //StackedColumn = StackedColumn + "<set value='1600'/>";
+        //StackedColumn = StackedColumn + "<set value='1800'/>";
+        //StackedColumn = StackedColumn + "<set value='4440'/>";
+        //StackedColumn = StackedColumn + "</dataset>";
+        //StackedColumn = StackedColumn + "</graph>";
+        //var chart = new FusionCharts("../../Content/AdminTemplate/Content/FusionCharts/Charts/FCF_StackedArea2D.swf", "Example", "400", "300");
+        //chart.setDataXML(StackedColumn);
+        //chart.render("StackedColumn");
+
+        //var ColumnAndLine = "<graph caption='Test' xAxisName='Days' showcategories='1' yAxisName='Counts'  decimalPrecision='0' forceDecimals='0' formatNumberScale='0' yAxisName='' animation='1' showNames='1' showValues='0' divlinecolor='d3d3d3' distance='5' angle='45' rotateNames='0'>";
+        //ColumnAndLine = ColumnAndLine + "<categories>";
+        //ColumnAndLine = ColumnAndLine + "<category label='1' />";
+        //ColumnAndLine = ColumnAndLine + "<category label='2' />";
+        //ColumnAndLine = ColumnAndLine + "<category label='3' />";
+        //ColumnAndLine = ColumnAndLine + "</categories>";
+        ////StackedColumn = StackedColumn + "";
+        //ColumnAndLine = ColumnAndLine + "<dataset seriesname='Apples' color='f8bd19'>";
+        //ColumnAndLine = ColumnAndLine + "<set value='57000'/>";
+        //ColumnAndLine = ColumnAndLine + "<set value='1000'/>";
+        //ColumnAndLine = ColumnAndLine + "<set value='4000'/>";
+        //ColumnAndLine = ColumnAndLine + "</dataset>";
+        //ColumnAndLine = ColumnAndLine + "<dataset seriesname='Orange' color='008ee4'>";
+        //ColumnAndLine = ColumnAndLine + "<set value='1600'/>";
+        //ColumnAndLine = ColumnAndLine + "<set value='1800'/>";
+        //ColumnAndLine = ColumnAndLine + "<set value='4440'/>";
+        //ColumnAndLine = ColumnAndLine + "</dataset>";
+
+        //ColumnAndLine = ColumnAndLine + "<dataset seriesname='Banana' color='00ffff' parentyaxis='S' renderas='Line'>";
+        //ColumnAndLine = ColumnAndLine + "<set value='1600'/>";
+        //ColumnAndLine = ColumnAndLine + "<set value='1800'/>";
+        //ColumnAndLine = ColumnAndLine + "<set value='4440'/>";
+        //ColumnAndLine = ColumnAndLine + "</dataset>";
+
+        //ColumnAndLine = ColumnAndLine + "</graph>";
+        //var chart = new FusionCharts("../../Content/AdminTemplate/Content/FusionCharts/Charts/FCF_MSColumn3DLineDY.swf", "Example", "400", "300");
+        //chart.setDataXML(ColumnAndLine);
+        //chart.render("ColumnAndLine");
+
+        ///---------------- Candle chart------------------/
+        //var CandleChart="<chart palette='1' numPDivLines='5' caption='XYZ - 3 Months' numberPrefix='$' bearBorderColor='E33C3C' bearFillColor='E33C3C' bullBorderColor='1F3165' PYAxisName='Price' VYAxisName='Volume (In Millions)' >";
+        //CandleChart=CandleChart+" <categories>";
+        //CandleChart=CandleChart+"<category label='2006' x='1' />";
+        //CandleChart=CandleChart+"<category label='Feb' x='31' />";
+        //CandleChart=CandleChart+"<category label='March' x='59' />";
+        //CandleChart=CandleChart+"</categories>";
+        //CandleChart=CandleChart+"<dataset>";
+        //CandleChart=CandleChart+"<set open='28.19' high='28.28' low='28.07' close='28.24' x='56' volume='98558872'/>";
+        //CandleChart=CandleChart+"<set open='27.73' high='28.18' low='27.72' close='28.14' x='57' volume='44217363'/>";
+        //CandleChart=CandleChart+"<set open='27.58' high='27.77' low='27.33' close='27.45' x='58' volume='82623424'/>";
+        //CandleChart=CandleChart+"<set open='27.42' high='27.55' low='27.23' close='27.37' x='59' volume='49621258'/>";
+        //CandleChart=CandleChart+"<set open='27.41' high='27.55' low='27.4'  close='27.52' x='60' volume='96426955'/>";
+        //CandleChart=CandleChart+"<set open='27.21' high='27.53' low='27.16' close='27.46' x='61' volume='45226989'/>";
+        //CandleChart=CandleChart+"<set open='27.05' high='27.25' low='27'    close='27.21' x='62' volume='45226989'/>";
+        //CandleChart=CandleChart+"</dataset>";
+        //CandleChart = CandleChart + "</chart>";
+        //var chart = new FusionCharts("../../Content/AdminTemplate/Content/FusionCharts/Charts/FCF_Candlestick.swf", "Example", "400", "300");
+        //chart.setDataXML(CandleChart);
+        //chart.render("CandleChart");
+
+
+        ///----------------------Pareto chart------------------/
+        //var ParetoChart="<graph showvalues='0' caption='Hardware Defects' linethickness='10' linedashed='1' showcanvasbg='0' showcanvasbase='0' canvasbasedepth='5' linedashlen='10' anchorradius='3' anchorsides='10' anchoralpha='0' outcnvbasefontcolor='2D4230' bgcolor='FFFFFF' linecolor='6DA81E' showshadow='0' animation='0' showborder='0'>";
+        //var ParetoChart="<set value='87' color='#F6BC33' label='Hard Disk' />";
+        //var ParetoChart="<set value='79' color='#F6BC33' label='PCB' />";
+        //var ParetoChart="<set value='37' color='#F6BC33' label='Printer'/>";
+        //var ParetoChart="<set value='62' color='#F6BC33' label='Keyboard' />";
+        //var ParetoChart="<set value='43' color='#F6BC33' label='CDROM' />";
+        //var ParetoChart = "</graph>";
+
+        //var chart = new FusionCharts("../../Content/AdminTemplate/Content/FusionCharts/Charts/Pareto2D.swf", "Example", "400", "300");
+        //chart.setDataXML(ParetoChart);
+        //chart.render("ParetoChart");
+
+
+        ///------------------------------------------Gauge Charts-----------------------------------------------/
+        //var GaugeChart=" <chart manageresize='1' origw='340' origh='340' bgcolor='FFFFFF' upperlimit='100' lowerlimit='0' showlimits='1' basefontcolor='666666' majortmnumber='11' majortmcolor='666666' majortmheight='8' minortmnumber='5' minortmcolor='666666' minortmheight='3' pivotradius='20' showgaugeborder='0' gaugeouterradius='100' gaugeinnerradius='90' gaugeoriginx='170' gaugeoriginy='170' gaugestartangle='250' gaugeendangle='-70' placevaluesinside='1' gaugefillmix='' pivotfillmix='{F0EFEA}, {BEBCB0}' pivotbordercolor='BEBCB0' pivotfillratio='80,20' showshadow='0' showborder='0'>";
+        //GaugeChart=GaugeChart+"<colorrange>";
+        //GaugeChart=GaugeChart+"<color minvalue='0' maxvalue='80' code='00FF00' alpha='0' />";
+        //GaugeChart=GaugeChart+"<color minvalue='80' maxvalue='100' code='FF0000' alpha='50' />";
+        //GaugeChart=GaugeChart+"</colorrange>";
+        //GaugeChart=GaugeChart+"<dials>";
+        //GaugeChart=GaugeChart+"<dial value='65' bordercolor='FFFFFF' bgcolor='bebcb0, f0efea, bebcb0' borderalpha='0' basewidth='10' topwidth='3' />";
+        //GaugeChart=GaugeChart+"</dials>";
+        //GaugeChart=GaugeChart+"<annotations>";
+        //GaugeChart=GaugeChart+"<annotationgroup x='170' y='170'>";
+        //GaugeChart=GaugeChart+"<annotation type='circle' x='0' y='0' radius='150' bordercolor='bebcb0' fillasgradient='1' fillcolor='f0efea, bebcb0' fillratio='85,15' />";
+        //GaugeChart=GaugeChart+"<annotation type='circle' x='0' y='0' radius='120' fillcolor='bebcb0, f0efea' fillratio='85,15' />";
+        //GaugeChart=GaugeChart+"<annotation type='circle' x='0' color='FFFFFF' y='0' radius='100' bordercolor='f0efea' />";
+        //GaugeChart=GaugeChart+"</annotationgroup>";
+        //GaugeChart=GaugeChart+"</annotations>";
+        //GaugeChart = GaugeChart + "</chart>";
+
+        ////var chart = new FusionCharts("../../Content/AdminTemplate/Content/FusionCharts/Charts/worldsalesbyregions.swf", "Example", "700", "500");
+        //var chart = new FusionCharts("../../Content/AdminTemplate/Content/FusionCharts/Charts/MonthlySalesAnalytic.swf", "Example", "700", "500");
+        //chart.setDataXML(GaugeChart);
+        //chart.render("GaugeChart");
+
+
+        //var TestChart="<chart>";
+
+        //TestChart=TestChart+"<axis_category size='16' alpha='85' shadow='medium' />";
+        //TestChart=TestChart+"<axis_ticks value_ticks='false' category_ticks='true' major_thickness='2' minor_thickness='1' minor_count='1' minor_color='222222' position='inside' />";
+        //TestChart=TestChart+"<axis_value shadow='medium' min='-40' size='10' color='ffffff' alpha='65' steps='6' show_min='false' />";
+	
+        //TestChart=TestChart+"<chart_data>";
+        //TestChart=TestChart+"<row>";
+        //TestChart=TestChart+"<null/>";
+        //TestChart=TestChart+"<string>2006</string>";
+        //TestChart=TestChart+"<string>2007</string>";
+        //TestChart=TestChart+"<string>2008</string>";
+        //TestChart=TestChart+"<string>2009</string>";
+        //TestChart=TestChart+"</row>";
+        //TestChart=TestChart+"<row>";
+        //TestChart=TestChart+"<string>region 1</string>";
+        //TestChart=TestChart+"<number shadow='medium' tooltip='$48 Million'>48</number>";
+        //TestChart=TestChart+"<number tooltip='$55 Million' note='Ad Campaign'>55</number>";
+        //TestChart=TestChart+"<number tooltip='$80 Million'>80</number>";
+        //TestChart=TestChart+"<number tooltip='$100 Million'>100</number>";
+        //TestChart=TestChart+"</row>";
+        //TestChart=TestChart+"<row>";
+        //TestChart=TestChart+"<string>region 2</string>";
+        //TestChart=TestChart+"<number shadow='low' tooltip='$-12 Million'>-12</number>";
+        //TestChart=TestChart+"<number tooltip='$10 Million'>10</number>";
+        //TestChart=TestChart+"<number tooltip='$55 Million'>55</number>";
+        //TestChart=TestChart+"<number tooltip='$65 Million'>65</number>";
+        //TestChart=TestChart+"</row>";
+        //TestChart=TestChart+"<row>";
+        //TestChart=TestChart+"<string>region 3</string>";
+        //TestChart=TestChart+"<number shadow='low' tooltip='$27 Million'>27</number>";
+        //TestChart=TestChart+"<number tooltip='$-20 Million'>-20</number>";
+        //TestChart=TestChart+"<number tooltip='$15 Million'>15</number>";
+        //TestChart=TestChart+"<number tooltip='$80 Million'>80</number>";
+        //TestChart=TestChart+"</row>";
+        //TestChart=TestChart+"</chart_data>";
+        //TestChart=TestChart+"<chart_grid_h alpha='10' thickness='1' />";
+        //TestChart=TestChart+"<chart_guide horizontal='true' vertical='true' thickness='1' alpha='25' type='dashed' text_h_alpha='0' text_v_alpha='0' />";
+        //TestChart=TestChart+"<chart_note type='flag' size='11' color='000000' alpha='70' x='-10' y='-36' background_color_1='ffffaa' background_color_2='ccff00' background_alpha='90' shadow='medium' bevel='note' />";
+        //TestChart=TestChart+"<chart_pref line_thickness='2' point_shape='circle' point_size='7' fill_shape='false' />";
+        //TestChart=TestChart+"<chart_rect x='90' y='100' width='320' height='150' positive_color='ffffee' positive_alpha='65' negative_color='ff8888' negative_alpha='65' bevel='bg' shadow='high' />";
+        //TestChart=TestChart+"<chart_transition type='slide_left' delay='.5' duration='1' order='series' />";
+        //TestChart=TestChart+"<chart_type>Line</chart_type>";
+	
+        //TestChart=TestChart+"<draw>";
+        //TestChart=TestChart+"<rect layer='background' x='0' y='0' width='480' height='300' fill_color='ff7733' />";
+        //TestChart=TestChart+"<text shadow='high' transition='dissolve' delay='0' duration='0.5' alpha='10' size='48' x='48' y='8' width='400' height='75' h_align='center' v_align='bottom'>annual report</text>";
+        //TestChart=TestChart+"<image transition='dissolve' delay='1' url='images/full_screen.swf' x='380' y='225' width='20' height='15' alpha='90' />";
+        //TestChart=TestChart+"</draw>";
+        //TestChart=TestChart+"<filter>";
+        //TestChart=TestChart+"<shadow id='low' distance='2' angle='45' alpha='20' blurX='5' blurY='5' />";
+        //TestChart=TestChart+"<shadow id='medium' distance='2' angle='45' alpha='40' blurX='7' blurY='7' />";
+        //TestChart=TestChart+"<shadow id='high' distance='5' angle='45' alpha='25' blurX='10' blurY='10' />";
+        //TestChart=TestChart+"<bevel id='bg' angle='45' blurX='15' blurY='15' distance='5' highlightAlpha='25' shadowAlpha='50' type='outer' />";
+        //TestChart=TestChart+"<bevel id='note' angle='45' blurX='10' blurY='10' distance='3' highlightAlpha='60' shadowAlpha='15' />";
+        //TestChart=TestChart+"</filter>";
+   
+        //TestChart=TestChart+"<legend shadow='low' transition='dissolve' delay='0' duration='0.5' x='90' y='75' width='320' height='5' layout='horizontal' margin='5' bullet='line' size='13' color='ffffff' alpha='75' fill_color='000000' fill_alpha='10' line_color='000000' line_alpha='0' line_thickness='0' />";
+	
+        //TestChart = TestChart + "<link>";
+        //TestChart=TestChart+"<area x='380' y='225' width='20' height='15' target='toggle_fullscreen' tooltip='Screen Mode' />";
+        //TestChart=TestChart+"</link>";
+        //TestChart=TestChart+"<tooltip color='FFFFFF' alpha='90' background_color_1='8888FF' background_alpha='90' shadow='medium' />";
+    
+        //TestChart=TestChart+"<context_menu save_as_bmp='true' save_as_jpeg='true' save_as_png='true' />";
+    
+        //TestChart=TestChart+"<series_color>";
+        //TestChart=TestChart+"<color>ff4422</color>";
+        //TestChart=TestChart+"<color>ffee00</color>";
+        //TestChart=TestChart+"<color>8844ff</color>";
+        //TestChart=TestChart+"</series_color>";
+        //TestChart=TestChart+"<series_explode>";
+        //TestChart=TestChart+"<number>400</number>";
+        //TestChart=TestChart+"</series_explode>";
+        //TestChart=TestChart+"</chart>";
+
+        //var chart = new AC_FL_RunContent("../../Content/AdminTemplate/Content/Chart1/charts_library/cl3d.swf", "Example", "700", "500");
+        //chart.setDataXML(GaugeChart);
+        //chart.render("GaugeChart");
+
+    });
+</script>
+@*<div id="GaugeChart"></div>*@
+<div id="CampusChart1"></div>
+@*<div class="row">
+    
+    <div class="col-lg-6 col-sm-6 col-xs-12">
+        <div id="CampusChart1"></div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-xs-12">
+        <div id="GaugeChart1"></div>
+    </div>
+</div>*@
+@*<div class="col-sm-12 infobox-container">
+    <div class="infobox infobox-DarkGreen">
+        <div class="infobox-icon">
+            <img src="../../Content/AdminTemplate/Content/images/Ace_TipsLogo.PNG"  style="float: right; height: 55px; width: 47px"  />
+        </div>
+
+        <div class="infobox-data">
+            <span class="infobox-data-number">12</span>
+            <div class="infobox-content" style="font-size: 9px;">First Rank</div>
+        </div>
+    </div>
+</div>*@

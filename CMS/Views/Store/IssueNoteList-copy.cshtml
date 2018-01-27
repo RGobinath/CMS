@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "IssueNoteList";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        function formateadorLink(cellvalue, options, rowObject) {
+            return "<a href=/Store/ShowMaterialIssueNote?Id=" + rowObject[0] + ">" + cellvalue + "</a>";
+        }
+        jQuery("#IssueNoteList").jqGrid({
+            url: '/Store/IssueNoteListJqGrid',
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['IssNoteId', 'Issue Note Number', 'Processed By', 'Required For Campus','Required For Store','Required From Store', 'Requested Date', 'Issue Date', 'Issued By', 'Request Status', 'Delivered Through', 'Delivery Details', 'Delivery Date'],
+            colModel: [
+              { name: 'IssNoteId', index: 'IssNoteId', hidden: true, key: true },
+              { name: 'IssNoteNumber', index: 'IssNoteNumber', formatter: formateadorLink },
+              { name: 'ProcessedBy', index: 'ProcessedBy' },
+              { name: 'RequiredForCampus', index: 'RequiredForCampus' },
+              { name: 'RequiredForStore', index: 'RequiredForStore' },
+              { name: 'RequiredFromStore', index: 'RequiredFromStore' },
+              { name: 'RequestedDate', index: 'RequestedDate', width: 90, sortable: true, hidden: false },
+              { name: 'IssueDate', index: 'IssueDate', width: 90, sortable: true, hidden: false },
+              { name: 'IssuedBy', index: 'IssuedBy', width: 90, sortable: true },
+              { name: 'RequestStatus', index: 'RequestStatus', width: 90, sortable: true },
+              { name: 'DeliveredThrough', index: 'DeliveredThrough', width: 90, sortable: true },
+              { name: 'DeliveryDetails', index: 'DeliveryDetails', width: 90, sortable: true },
+              { name: 'DeliveryDate', index: 'DeliveryDate', width: 90, sortable: true }
+              ],
+            pager: '#IssueNoteListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'IssNoteId',
+            sortorder: 'Desc',
+            height: '230',
+            width: 1225,
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: 'Issue Note List',
+            forceFit: true
+        });
+
+        $("#IssueNoteList").jqGrid('filterToolbar', { stringResult: false, searchOnEnter: true, beforeSearch: function () {
+            $('#IssueNoteList').clearGridData();
+            return false;
+        }
+        });
+        $("#btnBack").click(function () {
+            window.location.href = '@Url.Action("MaterialRequestList", "Store")';
+        });
+    });
+</script>
+@using (Html.BeginForm("IssueNoteList", "Store", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h3>
+    Issue Note List</h3>
+    <br />
+    <table id="IssueNoteList">
+    </table>
+    <div id="IssueNoteListPager">
+    </div>  
+    <table>
+        <tr>
+            <td colspan="1">
+                <input type="button" id="btnBack" value="Back To Inbox" />
+            </td>
+        </tr>
+    </table>
+}

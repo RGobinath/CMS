@@ -1,0 +1,41 @@
+﻿<html>
+<head>
+</head>
+<body>
+    <table>
+        <tr>
+        <tr>
+            <td style="font-weight: bold">
+                <label>
+                    Document Type</label>
+            </td>
+            <td style="font-weight: bold">
+                <label>
+                    Document Name</label>
+            </td>
+            <td id="nam0" style="font-weight: bold; visibility: hidden">
+                <label>
+                    Name</label>
+            </td>
+            <td id="phn0" style="font-weight: bold; visibility: hidden">
+                <label>
+                    Phone No.</label>
+            </td>
+        </tr>
+        <tr>
+            @*<td>
+                              @Html.DropDownListFor(Model => Model.DocumentType, new SelectList(ViewBag.documentddl, "DocumentType", "DocumentType"), "Select One", new { id = "doctype", @Class = "CSSDropDownList" })
+                            </td>*@
+            <td>
+                <input type="file" name="file1" id="file1" value="Browse" />
+            </td>
+            <td>
+                <input type="submit" name="DocUpload" value="Upload" id="Upload" onclick="return(uploadvalidate());" />
+                <input type="button" value="Cancel" />
+            </td>
+            <td>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

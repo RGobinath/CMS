@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+  <hibernate-mapping assembly="TIPS.Entities.AdmissionEntities.StudentTemplateView" namespace="TIPS.Entities.AdmissionEntities" xmlns="urn:nhibernate-mapping-2.2">
+    <class name="TIPS.Entities.AdmissionEntities.StudentTemplateView, TIPS.Entities" table="StudentTemplate" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+      <property name="PreRegNum" column="PreRegNum" type="Int64" not-null ="false"></property>
+      
+      <property name="Name" column="Name" type="string" not-null ="false" length="50"></property>
+      <property name="Gender" column="Gender" type="string" not-null ="false"></property>
+      <property name="FeeStructYear" column="FeeStructYear" type="string"></property>
+      <property name="Status" column="Status" type="string"></property>
+      <property name="Status1" column="Status1" type="string"></property>
+      
+      <property name="AdmissionStatus" column="AdmissionStatus" type="string"></property>
+      <property name="Section" column="Section" type="string"></property>
+      <property name="NewId" column="NewId" type="string"></property>
+
+      <property name="DOB" column="DOB" type="string"  length="30"></property>
+      <property name="Transport" column="Transport" type="bool" not-null ="false" length="30"></property>
+      <property name="Food" column="Food" type="bool" not-null ="false" length="30"></property>
+      
+      <property name="BoardingType" column="BoardingType" type="string" not-null ="false"></property>
+      <property name="EducationGoalYesorNo" column="EducationGoalYesorNo" type="bool" not-null ="false"></property>
+      <property name="EducationGoals" column="EducationGoals" type="string" not-null ="false"></property>
+      <property name="AcademicYear" column="AcademicYear" type="string" not-null ="false"></property>
+      <property name="JoiningAcademicYear" column="JoiningAcademicYear" type="string" not-null ="false"></property>
+      <property name="Campus" column="Campus" type="string" not-null ="false"></property>
+      <property name="Grade" column="Grade" type="string" not-null ="false"></property>
+      <property name="ApplicationNo" column="ApplicationNo" type="string"></property>
+      <property name="FoodPreference" column="FoodPreference" type="string"></property>
+      <property name="BGRP" column="BGRP" type="string"></property>
+      <property name="AnnualIncome" column="AnnualIncome" type="string"></property>
+      <property name="EmailId" column="EmailId" type="string"></property>
+      <property name="LanguagesKnown" column="LanguagesKnown" type="string"></property>
+      <property name="CreatedDate" column="CreatedDate" type="string"></property>
+      <property name="CreatedDateNew" column="CreatedDateNew" type="date"></property>
+      <property name="CreatedTime" column="CreatedTime" type="string"></property>
+      <property name="IsHosteller" column="IsHosteller" type="boolean"></property>
+      <property name="VanNo" column="VanNo" type="string"></property>
+      <property name="EntryFrom" column="EntryFrom" type="string"></property>
+      <!--Added by micheal-->
+      <property name="Initial" column="Initial" type="string"></property>
+    <property name="MobileNo" column="MobileNo" type="string"></property>
+      <property name="RouteId" column="RouteId" type="string"></property>
+      <property name="LocationName" column="LocationName" type="string"></property>
+      
+      
+    </class>
+</hibernate-mapping>

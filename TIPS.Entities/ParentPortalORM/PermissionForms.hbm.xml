@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.ParentPortalEntities.PermissionForms" namespace="TIPS.Entities.ParentPortalEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.ParentPortalEntities.PermissionForms, TIPS.Entities" table="PermissionForms" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="PermissionNumber" column="PermissionNumber" type="string"/>
+    <property name="PermissionAppliedOn" column="PermissionAppliedOn" type="datetime" />
+    <property name="PermissionDate" column="PermissionDate" type="datetime" />
+    <property name="PermissionHours" column="PermissionHours" type="Int64" />
+    <property name="Reason" column="Reason" type="string" />
+    <property name="CreatedBy" column="CreatedBy" type="string" />
+    <property name="StudentName" column="StudentName" type="string" />
+    <property name="StPreRegNum" column="StPreRegNum" type="Int64" />
+    <property name="StudentNumber" column="StudentNumber" type="string" />
+    <property name="Campus" column="Campus" type="string"/>
+    <property name="Grade" column="Grade" type="string" />
+    <property name="Section" column="Section" type="string" />
+    <property name="EmailID" column="EmailID" type="string" />
+    <property name="ContactNo" column="ContactNo" type="string" />
+    <property name="UserType" column="UserType" type="string" />
+    <property name="Status" column="Status" type="string" />
+    <property name="InstanceId" column="InstanceId" type="Int64" />
+    <property name="IsPermissionCompleted" column="IsPermissionCompleted" type="boolean" />
+    <property name="ActivityFullName" column="ActivityFullName" type="string" />
+  </class>
+</hibernate-mapping>

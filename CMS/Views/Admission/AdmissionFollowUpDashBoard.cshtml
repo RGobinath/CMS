@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "FollowUp DashBoard";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row" style="padding-top: 3px;">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-book"></i>&nbsp;Student Enquiry FollowUp
+                             @Html.Hidden("Campus", "", new { @Value = ViewBag.Campus })
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownList("ddlCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "", new { @Class = "form-control select-sm" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="row">
+                                <div class="space-4"></div>
+                                <div class="col-xs-12 infobox-container">
+                                    <div class="col-sm-8">
+                                        <div class="row" id="allcampus">
+                                            <div class="infobox infobox-red">
+                                                <div class="infobox-icon">
+                                                    <i class="ace-icon fa fa-male"></i>
+                                                </div>
+                                                <div class="infobox-data">
+                                                    <span class="infobox-data-number">@ViewBag.YesterdayFlwUpCount</span>
+                                                    <div class="infobox-content">
+                                                        <a class="Yday" onclick='return callFollowUpPage("Yday",@ViewBag.YesterdayFlwUpCount,"all")'>Yesterday FollowUp</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="infobox infobox-orange">
+                                                <div class="infobox-icon">
+                                                    <i class="ace-icon fa fa-male"></i>
+                                                </div>
+                                                <div class="infobox-data">
+                                                    <span class="infobox-data-number">@ViewBag.TodayFlwUpCount</span>
+                                                    <div class="infobox-content">
+                                                        Today FollowUp
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="infobox infobox-DarkGreen">
+                                                <div class="infobox-icon">
+                                                    <i class="ace-icon fa fa-male"></i>
+                                                </div>
+                                                <div class="infobox-data">
+                                                    <span class="infobox-data-number">@ViewBag.TomorrowFlwUpCount</span>
+                                                    <div class="infobox-content">
+                                                        <a class="tomorrow" onclick='return callFollowUpPage("tomorrow",@ViewBag.TomorrowFlwUpCount,"all")'>Tomorrow FollowUp</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" id="singlecampus">
+                                            <div class="infobox infobox-red">
+                                                <div class="infobox-icon">
+                                                    <i class="ace-icon fa fa-male"></i>
+                                                </div>
+                                                <div class="infobox-data">
+                                                    <span class="infobox-data-number" id="Yday"></span>
+                                                    <div class="infobox-content">
+                                                        <a class="Yday" onclick='return callFollowUpPage("Yday",@ViewBag.YesterdayFlwUpCount,"")'>Yesterday FollowUp</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="infobox infobox-orange">
+                                                <div class="infobox-icon">
+                                                    <i class="ace-icon fa fa-male"></i>
+                                                </div>
+                                                <div class="infobox-data">
+                                                    <span class="infobox-data-number" id="today"></span>
+                                                    <div class="infobox-content">
+                                                        Today FollowUp
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="infobox infobox-DarkGreen">
+                                                <div class="infobox-icon">
+                                                    <i class="ace-icon fa fa-male"></i>
+                                                </div>
+                                                <div class="infobox-data">
+                                                    <span class="infobox-data-number" id="tomorrow"></span>
+                                                    <div class="infobox-content">
+                                                        <a class="tomorrow" onclick='return callFollowUpPage("tomorrow",@ViewBag.TomorrowFlwUpCount,"")'>Tomorrow FollowUp</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <table id="TodayFollowupGrid">
+                                                </table>
+                                                <div id="TodayFollowupGridPager">
+                                                </div>
+                                            </div>
+                                            @* <div id="FollowUpcount"></div>*@
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div id="FollowupCampuswiseChart">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-4"></div>
+
+                            </div>
+                            <div class="space-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/AdmissionScripts/AdmissionFollowUpDashBoard.js" type="text/javascript"></script>

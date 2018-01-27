@@ -1,0 +1,332 @@
+﻿@model TIPS.Entities.EnquiryEntities.EnquiryDetails
+<script src="../../Scripts/ui.dropdownchecklist-1.4-min.js" type="text/javascript"></script>
+<style type="text/css">
+    #Enquirydetailscode
+    {
+        background-color: #DFEFFC;
+    }
+</style>
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+        // Validation set numeric value only...
+        $("#EnquirerMobileNo").keydown(function (event) { // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 || // Allow: Ctrl+A
+            (event.keyCode == 65 && event.ctrlKey === true) || // Allow: home, end, left, right
+            (event.keyCode >= 35 && event.keyCode <= 39)) {// let it happen, don't do anything
+                return;
+            }
+            else {// Ensure that it is a number and stop the keypress
+                if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+                    event.preventDefault();
+                }
+            }
+        });
+        // $('#DOB').datepicker();
+        $(".calagedatepicker").datepicker({
+
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            //showOn: "button",
+            maxDate: '+0d',
+            // buttonImage: "../../Images/date.gif",
+            // buttonImageOnly: true,
+            onSelect: function (value, ui) {
+                debugger;
+                var now = new Date();
+                bD = value.split('/');
+                if (bD.length == 3) {
+                    born = new Date(bD[2], bD[1] * 1 - 1, bD[0]);
+                    years = Math.floor((now.getTime() - born.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
+                    $("#Age").val(years);
+                }
+            }
+        });
+        if ('@ViewBag.hidevalue' == "hide") {
+
+            $('#DOB').datepicker().datepicker('setDate', null);
+            $('#EnquiredDate').datepicker().datepicker('setDate', null);
+            $('#FollowupDate').datepicker().datepicker('setDate', null);
+        } else {
+            $('#DOB').datepicker().datepicker('setDate', $('#DOB').val());
+            $('#EnquiredDate').datepicker().datepicker('setDate', $('#EnquiredDate').val());
+            $('#FollowupDate').datepicker().datepicker('setDate', $('#FollowupDate').val());
+        }
+        $.getJSON("/Base/FillAllBranchCode",
+     function (fillig) {
+         var ddlig = $("#ddlcampus");
+         ddlig.empty();
+         ddlig.append($('<option/>',{value: "",text: "Select One"}));
+            $.each(fillig, function (index, itemdata) {
+             if ('@Model' != null && itemdata.Text == '@Model.Campus') {
+                 ddlig.append("<option value='" + itemdata.Value + "' selected='selected'>" + itemdata.Text + "</option>");
+             }
+             else {ddlig.append($('<option/>',{value: itemdata.Value,text: itemdata.Text}));
+             }
+         });
+     });
+    });
+</script>
+<div>
+        <div id="EnquiryStudentDetails">
+            <table width="100%">
+                <tr>
+                    <th colspan="5" class="ui-widget-header">
+                       &nbsp;&nbsp;General Details
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <table style="width: 100%; height: 100%">
+                            <tr>
+                                <td style="width: 100%; float: left;" align="left">
+                                    <table style="padding: 1px 6px; height: 241px;" align="center">
+                                        <tr>
+                                            <th width="22%">
+                                                <label>
+                                                    Parent Name</label>
+                                                <span style="color: Red; font-size: medium">*</span>
+                                            </th>
+                                            <th width="22%">
+                                                <label>
+                                                    Student Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Initial
+                                                </label>
+                                                <span style="color: Red; font-size: medium">*</span>
+                                            </th>
+                                            <th width="22%">
+                                                <label>
+                                                    Gender</label><span style="color: Red; font-size: medium">*</span>
+                                            </th>
+                                            <th width="21%">
+                                                <label>
+                                                    Date of Birth&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Age</label><span
+                                                        style="color: Red; font-size: medium">*</span>
+                                            </th>
+                                            <th width="13%">
+                                                <label>
+                                                    Language Known</label>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @if (ViewBag.Studentmgmt == "yes")
+                                                {
+                                                    @Html.TextBoxFor(model => model.ParentName, new { id = "parntname", @Class = "CSSTextBox", @maxlength = "80", @Readonly = "Readonly" }) 
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(model => model.ParentName, new { id = "parntname", @Class = "CSSTextBox", @maxlength = "40" }) 
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.Studentmgmt == "yes")
+                                                {
+                                                    @Html.TextBoxFor(model => model.StudentName, new { id = "studntname", @Class = "CSSTextBox", @maxlength = "15", @Readonly = "Readonly", @style = "border: 1px solid #006699;width: 127px;height:20px;" })
+                                                    @Html.TextBoxFor(model => model.Initial, new { id = "initial", @Class = "CSSTextBox", @maxlength = "15", @Readonly = "Readonly", @style = "border: 1px solid #006699;width: 25px;height:20px;" })
+                                                }
+                                                else
+                                                {                                 
+                                                    @Html.TextBoxFor(model => model.StudentName, new { id = "studntname", @Class = "CSSTextBox", @maxlength = "15", @style = "border: 1px solid #006699;width: 127px;height:20px;" })
+                                                     @Html.TextBoxFor(model => model.Initial, new { id = "initial", @Class = "CSSTextBox", @maxlength = "5",@style = "margin-left:2px; border: 1px solid #006699;width: 25px;height:20px;" })
+                                                }
+                                            </td>
+                                             
+                                            <td>
+                                                @if (ViewBag.Studentmgmt == "yes")
+                                                {                              
+                                                    @Html.TextBoxFor(model => model.Gender, new { id = "gender", @Class = "CSSTextBox", @maxlength = "20", @Readonly = "Readonly" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(model => model.Gender, new SelectList(new[]
+                                                    {
+                                                        new{Value="",Text="Select One"},
+                                                        new{Value="Male",Text="Male"},
+                                                        new{Value="Female",Text="Female"}
+                                                    },
+                                                    "Value", "Text", ""), new { id = "gender", @Class = "CSSDropDownList" })
+
+                                                }
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.DOB, new { id = "DOB", @Class = "calagedatepicker", @maxlength = "15", @style = "border: 1px solid #006699;width: 127px;height:20px;" })
+                                                @Html.TextBoxFor(model => model.Age, new { id = "Age", @Class = "CSSTextBox", @style = "border: 1px solid #006699;width: 25px;height:20px;" })
+                                            </td>
+                                            <td>
+
+                                             @if (ViewBag.Studentmgmt == "yes")
+                                             {
+                                                    @Html.TextBoxFor(model => model.LanguagesKnown, new { id = "languageKnown", @Class = "CSSTextBox", @Readonly = "Readonly" })
+                                             }
+                                             else
+                                             {                                 
+                                                    @Html.TextBoxFor(model => model.LanguagesKnown, new { id = "languageKnown", @Class = "CSSTextBox" })
+                                             }
+                                               
+                                               
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <label>
+                                                    Enquired Date</label><span style="color: Red; font-size: medium">*</span>
+                                            </th>
+                                            <th>
+                                                <label>
+                                                    FollowUp Date
+                                                </label>
+                                                <span style="color: Red; font-size: medium">*</span>
+                                            </th>
+                                            <th>
+                                                <label>
+                                                    Board</label><span style="color: Red; font-size: medium">*</span>
+                                            </th>
+                                            <th>
+                                                <label>
+                                                    Campus
+                                                </label>
+                                            </th>
+                                            <th>
+                                                <label>
+                                                    Enquiry Status</label>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.EnquiredDate, new { id = "EnquiredDate", @Class = "datepicker1 CSSTextBox", @maxlength = "20" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.FollowupDate, new { id = "FollowupDate", @Class = "datepicker2 CSSTextBox", @maxlength = "20" })
+                                            </td>
+                                            <td>
+                                                @Html.DropDownListFor(model => model.Board, new SelectList(new[]
+                                                {
+                                                    new{Value="",Text="Select One"},
+                                                    new{Value="CBSE",Text="CBSE"},
+                                                    new{Value="ICSE",Text="ICSE"},
+                                                    new{Value="STATE BOARD",Text="STATE BOARD"}
+                                                },
+                                                "Value", "Text", ""), new { id = "Board", @Class = "CSSDropDownList" })
+                                            </td>
+                                             <td>
+                                                @Html.DropDownListFor(model => model.Campus, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlcampus", @Class = "CSSDropDownList" })
+                                            </td>
+                                            <td>
+                                                @Html.DropDownListFor(model => model.EnquiryStatus, new SelectList(new[]
+                                                {
+                                                    new{Value="Opened",Text="Opened"},
+                                                    new{Value="Progress",Text="Progress"},
+                                                    new{Value="Pending",Text="Pending"},
+                                                    new{Value="Completed",Text="Completed"}
+                                                },
+                                                "Value", "Text", ""), new { id = "EnquiryStatus", @Class = "CSSDropDownList" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <label>
+                                                    Enquiry Through</label>
+                                            </th>
+                                            <th>
+                                                <label>
+                                                    Location</label>
+                                            </th>
+                                            <th>
+                                                <label>
+                                                    Enquiry Details Code</label>
+                                            </th>
+                                            <th>
+                                                <label>
+                                                    Phone
+                                                </label>
+                                                <span style="color: Red; font-size: medium">*</span>
+                                            </th>
+                                            <th>
+                                                <label>
+                                                    Check if sms required</label>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.DropDownListFor(model => model.EnquiryThrough, new SelectList(new[]
+                                                 {
+                                                     new{Value="",Text="Select One"},
+                                                     new{Value="InPerson",Text="In Person"},
+                                                     new{Value="Phone",Text="Phone"},
+                                                     new{Value="Email",Text="Email"}
+                                                 },
+                                                "Value", "Text", ""), new { id = "EnquiryThrough", @Class = "CSSDropDownList" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.Location, new { id = "location", @Class = "CSSTextBox", @maxlength = "48" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.EnquiryDetailsCode, new { id = "Enquirydetailscode", @Class = "CSSTextBox", @maxlength = "40", @readonly = true })
+                                            </td>
+                                             <td>
+                                                @Html.TextBoxFor(model => model.EnquirerMobileNo, new { id = "EnquirerMobileNo", @Class = "CSSTextBox", @maxlength = "10" })
+                                            </td>
+                                            <td>
+                                                @Html.CheckBox("SendMessage", @Model.SendMessage)
+                                            </td>
+                                           
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            
+                                            <th>
+                                                <label>
+                                                    Email Id
+                                                </label>
+                                                <span style="color: Red; font-size: medium">*</span>
+                                            </th>
+                                            <th colspan="3">
+                                                <label>
+                                                    Additional Information
+                                                </label>
+                                            </th>
+                                        </tr>
+                                        <tr valign="top">
+                                            
+                                            <td>
+                                                @Html.TextBoxFor(model => model.EnquirerEmailId, new { id = "Email", @Class = "CSSTextBox", @maxlength = "48" })
+                                            </td>
+                                            <td colspan="3">
+                                                @Html.TextAreaFor(model => model.EnquirerComments, new { id = "EnquirerComments", @Class = "CSSTextArea", row = 30, cols = 60 })
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>

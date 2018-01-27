@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.TransportVendorMaster" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.TransportVendorMaster, TIPS.Entities" table="TransportVendorMaster" lazy="true" >
+    <id name="Id" column="Id">
+      <generator class="identity" />
+    </id>
+    <property name="Name">
+      <column name="Name" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="DealerType">
+      <column name="DealerType" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="VendorType">
+      <column name="VendorType" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="VendorFor">
+      <column name="VendorFor" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="PAN">
+      <column name="PAN" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="TIN">
+      <column name="TIN" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="FAX">
+      <column name="FAX" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="ContactName">
+      <column name="ContactName" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="ContactNo">
+      <column name="ContactNo" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Email">
+      <column name="Email" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Website">
+      <column name="Website" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="ReasonForSelecting">
+      <column name="ReasonForSelecting" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="CreditDays">
+      <column name="CreditDays" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="ApplicableForTDS">
+      <column name="ApplicableForTDS" sql-type="bit" not-null="false" />
+    </property>
+    <property name="BankName">
+      <column name="BankName" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="BankBranch">
+      <column name="BankBranch" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="AccountName">
+      <column name="AccountName" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="AccountType">
+      <column name="AccountType" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="AccountNo">
+      <column name="AccountNo" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="PIN">
+      <column name="PIN" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Add1">
+      <column name="Add1" sql-type="nchar" not-null="false" />
+    </property>
+    <property name="Add2">
+      <column name="Add2" sql-type="nchar" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

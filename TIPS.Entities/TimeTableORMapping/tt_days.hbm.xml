@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.TimeTableEntities.tt_days" namespace="TIPS.Entities.TimeTableEntities" xmlns="urn:nhibernate-mapping-2.2">
+	<class name="TIPS.Entities.TimeTableEntities.tt_days,TIPS.Entities" table="tt_days" lazy="true">
+
+		<id name="day_id" column="day_id" type="Int64">
+
+			<generator class="native"/>
+		</id>
+		<property name="day_name" column="day_name" type="string"></property>
+		<property name="day_code" column="day_code" type="string"></property>
+		<property name="day_date" column="day_date" type="date"></property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,12 @@
+﻿@model TIPS.Entities.HRManagementEntities.LeaveRequest
+@{
+    ViewBag.Title = "LeaveApprovePage";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+
+<h2>LeaveApprovePage</h2>
+
+@using (Html.BeginForm("LeaveApprovePage", "HRManagement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="button" name="subbutton" value="Testing Button" />
+}

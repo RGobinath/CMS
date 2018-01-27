@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.ParentPortalEntities.ParentLeaveRequest" namespace="TIPS.Entities.ParentPortalEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.ParentPortalEntities.ParentLeaveRequest, TIPS.Entities" table="ParentLeaveRequest" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="LeaveReqNo" column="LeaveReqNo" type="Int64" />
+    <property name="LeaveAppliedOn" column="LeaveAppliedOn" type="datetime"/>
+    <property name="LeaveType" column="LeaveType" type="string" />
+    <property name="LeaveFrom" column="LeaveFrom" type="datetime" />
+    <property name="LeaveTo" column="LeaveTo" type="datetime" />
+    <property name="Reason" column="Reason" type="string" />
+    <property name="Status" column="Status" type="string" />
+    <property name="StPreRegNum" column="StPreRegNum" type="Int64" />
+    <property name="Performer" column="Performer" type="string" />
+    <property name="InstanceId" column="InstanceId" type="Int64"/>
+  </class>
+</hibernate-mapping>

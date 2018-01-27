@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.TimeTableEntities.tt_Search" namespace="TIPS.Entities.TimeTableEntities" xmlns="urn:nhibernate-mapping-2.2">
+	<class name="TIPS.Entities.TimeTableEntities.tt_Search,TIPS.Entities" table="tt_Search" lazy="true">
+		<id name="Id" column="Id" type="Int64">
+			<generator class="native"/>
+		</id>
+		<property name="SearchId" column="SearchId" type="Int64"></property>
+		<property name="SearchCampus" column="SearchCampus" type="string"></property>
+		<property name="SearchGrade" column="SearchGrade" type="string"></property>
+		<property name="SearchSection" column="SearchSection" type="string"></property>
+	</class>
+</hibernate-mapping>

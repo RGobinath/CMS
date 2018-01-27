@@ -1,0 +1,42 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplateView
+
+@{
+    Layout = null;
+}
+
+<script type="text/javascript">
+    function validate1() {
+
+        if ((document.getElementById('Father1').checked == false) && (document.getElementById('Mother1').checked == false) && (document.getElementById('General1').checked == false)) {
+            ErrMsg("Please Check To Whom Do You Want To Send The Mail!");
+            return false;
+        }
+    }
+</script>
+
+@using (Html.BeginForm("Pointchartmail", "Assess360", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<html>
+<head>    
+    <title>CampusEmail</title>
+</head>
+<body>
+<div style="height:5px"></div>
+<div>
+       <table class="WithBorderOnly" style="border:none" width="100%">
+                    <tr>
+                        <th align="left">
+                           Send To &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp @Html.CheckBoxFor(model => model.Father, new { id = "Father1" }) &nbsp <strong>Father</strong> &nbsp&nbsp @Html.CheckBoxFor(model => model.Mother, new { id = "Mother1" }) &nbsp <strong>Mother</strong>&nbsp&nbsp @Html.CheckBoxFor(model => model.General, new { id = "General1" }) &nbsp <strong>General</strong>
+                        </th>
+                    </tr>          
+        </table>
+ </div>    
+    
+    <div style="height:15px"></div>
+    <div>
+    <input type="submit" value="Send Email" onclick="return(validate1());" id="emailbtn" />
+    </div>
+          <table id="StudentList"></table>
+</body>
+</html>
+}

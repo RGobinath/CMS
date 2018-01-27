@@ -1,0 +1,71 @@
+﻿@if (Session["UserId"] != null)
+{
+    var username = Session["UserName"].ToString();
+   // <span id="Inbox" class="label label-purple"><a style="color: #fff;" href="/Inbox/Inbox"><i class="fa fa-comments icon-animated-vertical"></i>&nbsp;<label id="AppInbox"></label></a></span>  
+   <span id="Inbox" class="label label-danger"><a style="color: #fff;" href="/Inbox/Inbox"><i class="fa fa-envelope">&nbsp;<label id="AppInbox"></label></i></a></span>  
+
+    var Appcode = Session["Role"] as IEnumerable<string>;
+    if (Appcode!=null && Appcode.Contains("QA"))
+    {
+    <span id="QACount" class="label label-purple"><a style="color: #fff;" href="/QA/QAIndex"><i class="fa fa-comments icon-animated-vertical"></i>&nbsp;<label id="QAInbox"></label></a></span>  
+    }
+ 
+    <span class="label label-success">@username</span>
+    <span class="label label-warning">@String.Format("{0:dd-MMM-yyyy }", System.DateTime.Now)</span>
+    <span class="label label-inverse"><a style="color: #fff;" href="/Account/CustomChangePassword">Change Password</a></span>
+    <span class="label label-info"><a style="color: #fff;" href="/Account/LogOff">LogOff</a></span>
+    @Html.Hidden("roles", "", new { @Values = Session["Role"] as IEnumerable<string> })
+}
+&nbsp&nbsp&nbsp
+<script>
+    var seconds = null;
+    var ticker = null;
+    function startTimer() {
+        seconds = -1;
+        ticker = setInterval("tick( )", 1000);
+        tick();
+    }
+    function tick() {
+        ++seconds;
+        var secs = seconds;
+        var hrs = Math.floor(secs / 3600);
+        secs %= 3600;
+        var mns = Math.floor(secs / 60);
+        secs %= 60;
+        var pretty = (hrs < 10 ? "0" : "") + hrs
+               + ":" + (mns < 10 ? "0" : "") + mns
+               + ":" + (secs < 10 ? "0" : "") + secs;
+        document.getElementById("ELAPSED").innerHTML = pretty;
+
+    }
+    if ("@Session" == null) {
+        window.location = '@Url.Action("LogOff", "Account")';
+    }
+    $(document).ready(function () {
+        QANotificationCount();
+        InboxCount();
+    });
+    function QANotificationCount() {
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            traditional: true,
+            url: '@Url.Content("~/QA/QAQuestionCount")',
+            success: function (data) {
+                $('#QAInbox').html(data[0]);
+            }
+        });
+    }
+    function InboxCount() {
+      //  debugger;
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            traditional: true,
+            url: '@Url.Content("~/Inbox/GetInboxCount")',
+            success: function (data) {
+                $('#AppInbox').html(data[0]);
+            }
+        });
+    }
+</script>

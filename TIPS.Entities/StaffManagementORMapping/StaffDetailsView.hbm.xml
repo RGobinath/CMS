@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.StaffDetailsView" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.StaffDetailsView, TIPS.Entities" table="StaffDetails" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="PreRegNum" column="PreRegNum" type="Int64"  not-null ="false"></property>
+    <property name="Name" column="Name" type="string" ></property>
+    <property name="StaffUserName" column="StaffUserName" type="string" ></property>
+    <property name="IdNumber" column="IdNumber" type="string" ></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Designation" column="Designation" type="string"></property>
+    <property name="Department" column="Department" type="string"></property>
+    <property name="DateOfJoin" column="DateOfJoin" type="string"></property>
+    <property name="ReportingManager" column="ReportingManager" type="string"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="StaffType" column="StaffType" type="string"></property>
+    <property name="DOB" column="DOB" type="string"></property>
+    <property name="Age" column="Age" type="Int32"></property>
+    <property name="BGRP" column="BGRP" type="string"></property>
+    <property name="BankName" column="BankName" type="string"></property>
+    <property name="Gender" column="Gender" type="string"></property>
+
+    <property name="EmailId" column="EmailId" type="string"></property>
+    <property name="PhoneNo" column="PhoneNo" type="string"></property>
+    <property name="FatherName" column="FatherName" type="string"></property>
+
+    <property name="SpouseName" column="SpouseName" type="string"></property>
+    <property name="MotherName" column="MotherName" type="string"></property>
+    <property name="EmergencyContactPerson" column="EmergencyContactPerson" type="string"></property>
+    <property name="EmergencyContactNo" column="EmergencyContactNo" type="string"></property>
+    <property name="InsuranceDetails" column="InsuranceDetails" type="string"></property>
+    <property name="MaritalStatus" column="MaritalStatus" type="string"></property>
+    <property name="NativeState" column="NativeState" type="string"></property>
+    <property name="ChildrenIfAny" column="ChildrenIfAny" type="string"></property>
+    <property name="LanguagesKnown" column="LanguagesKnown" type="string"></property>
+    <property name="BankAccountNumber" column="BankAccountNumber" type="string"></property>
+    <property name="PermanantAddress" column="PermanantAddress" type="string"></property>
+    <property name="AlternateAddress" column="AlternateAddress" type="string"></property>
+    <property name="Add1" column="Add1" type="string"></property>
+
+    <property name="Add2" column="Add2" type="string"></property>
+    <property name="City" column="City" type="string"></property>
+    <property name="State" column="State" type="string"></property>
+    <property name="Country" column="Country" type="string"></property>
+    <property name="Pin" column="Pin" type="string"></property>
+    <property name="PFNo" column="PFNo" type="string"></property>
+    <property name="ESINo" column="ESINo" type="string"></property>
+
+    <property name="TotalYearsOfExp" column="TotalYearsOfExp" type="string"></property>
+    <property name="TotalYearsOfTeachingExp" column="TotalYearsOfTeachingExp" type="string"></property>
+    <property name="SyllabusHandled" column="SyllabusHandled" type="string"></property>
+    <property name="SubjectsTaught" column="SubjectsTaught" type="string"></property>
+    <property name="GradesTaught" column="GradesTaught" type="string"></property>
+    
+    <property name="Achievments" column="Achievments" type="string" ></property>
+    <property name="AnyOtherSignificant" column="AnyOtherSignificant" type="string" ></property>
+    <property name="SpecialInterests" column="SpecialInterests" type="string"></property>
+    <property name="HowYouKnowVacancy" column="HowYouKnowVacancy" type="string"></property>
+    <property name="BeenShortListedBefore" column="BeenShortlistedBefore" type="bool" not-null ="false"></property>
+    <property name="ShortlistedWhy" column="ShortlistedWhy" type="string"></property>
+    <property name="RelativeWorkingWithUs" column="RelativeWorkingWithUs" type="bool" not-null ="false"></property>
+    <property name="RelativeDetails" column="RelativeDetails" type="string"></property>
+    <property name="CommitTimeWithTIPS" column="CommitTimeWithTIPS" type="string"></property>
+    <property name="CareerGrowthExpectation" column="CareerGrowthExpectation" type="string"></property>
+    <property name="WillingToTravel" column="WillingToTravel" type="string"></property>
+    <property name="WillingForRelocation" column="WillingForRelocation" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="string"></property>
+    <property name="CreatedTime" column="CreatedTime" type="string"></property>
+
+    <!--Added By Gobi For Employment Form-->
+    <property name="AltPhoneNo" column="AltPhoneNo" type="string"></property>
+    <property name="Written_LanguagesKnown" column="Written_LanguagesKnown" type="string"></property>
+    <property name="FatherOccupation" column="FatherOccupation" type="string"></property>
+    <property name="SpouseOccupation" column="SpouseOccupation" type="string"></property>
+
+    <property name="ExpectedSalary" column="ExpectedSalary" type="string"></property>
+    <property name="LastDrawnGrossSalary" column="LastDrawnGrossSalary" type="string"></property>
+    <property name="LastDrawnNettSalary" column="LastDrawnNettSalary" type="string"></property>
+    <property name="JoiningDateOrDays" column="JoiningDateOrDays" type="string"></property>
+    <property name="WorkingType" column="WorkingType" type="string"></property>
+    <property name="StaffGroup" column="StaffGroup" type="string"></property>
+    <property name="StaffSubGroup" column="StaffSubGroup" type="string"></property>
+    <property name="OfficialEmailId" column="OfficialEmailId" type="string"></property>
+    <property name="Programme" column="Programme" type="string"></property>
+    <property name="StaffBioMetricId" column="StaffBioMetricId" type="Int64"></property>
+    <property name="SubDepartment" column="SubDepartment" type="string"></property>
+    <property name="TempEmailId" column="TempEmailId" type="string"></property>
+    <property name="IsReportingManager" column="IsReportingManager" type="bool"></property>
+    <many-to-one name="StaffProgrammeMaster" column="StaffProgrammeMatserId" class="TIPS.Entities.StaffManagementEntities.StaffProgrammeMaster, TIPS.Entities" fetch="join"> </many-to-one>
+    <!--<property name="IdKeyValue" column="Id" type="Int64"></property>-->
+    <property name="StaffCategoryForAttendane" column="StaffCategoryForAttendane" type="string"></property>
+    <!--Added By John Naveen For Status Change-->
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="DateOfLongLeaveAndResigned" column="DateOfLongLeaveAndResigned" type="datetime"></property>
+    <property name="Remarks" column="Remarks" type="string"></property>
+    <property name="CurrentStatus" column="CurrentStatus" type="string"></property>
+  </class>
+</hibernate-mapping>
+

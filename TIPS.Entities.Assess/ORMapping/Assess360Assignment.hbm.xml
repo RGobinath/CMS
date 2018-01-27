@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Assess360Assignment" table="Assess360Assignment_vw" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <!--<property name="Name" column="Name" type="String" />-->
+    <property name="Campus" column="Campus" type="string" />
+    <property name="Grade" column="Grade" type="string" />
+    <property name="Section" column="Section" type="string" />
+    <property name="Subject" column="Subject" type="AnsiString" />
+    <property name="AssessCompGroup" column="AssessCompGroup" type="Int32" />
+    <property name="AssignmentName" column="AssignmentName" type="string" />
+    <property name="Staff" column="Staff" type="String" />
+    <property name="Entered" column="Entered" type="Int32" />
+    
+    <!--<property name="EnteredBy" column="EnteredBy" type="String" />-->
+    <!--<property name="Mark" column="Mark"  type="decimal"  />-->
+    <property name="NotEntered" column="NotEntered" type="Int32" />
+    <property name="TotalStudents" column="TotalStudents" type="Int32" />
+    <property name="AcademicYear" column="AcademicYear" type="String" />
+    <property name="Semester" column="Semester" type="String" />
+  </class>
+</hibernate-mapping>

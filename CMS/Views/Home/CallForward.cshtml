@@ -1,0 +1,265 @@
+﻿@model TIPS.Entities.CallManagement
+@{
+    ViewBag.Title = "Issue Details";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+@using (Html.BeginForm("CallForward", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    
+    <div class="page-content">
+        <!-- /section:settings.box -->
+        <div class="page-content-area">
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            @Html.Hidden("BackUrl", Url.Action("CallManagement", "Home"))
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue collapsed">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                &nbsp;<i class="fa fa-globe"></i> Basic Details</div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Issue Number</b></label><br />
+                                            @Model.IssueNumber
+                                            @Html.HiddenFor(model => model.Id)
+                                            @Html.HiddenFor(model => model.IssueNumber, "")
+                                            @Html.HiddenFor(model => model.Description, "")
+                                            @Html.HiddenFor(model => model.CallPhoneNumber, "")
+                                            @Html.HiddenFor(model => model.StudentName, "")
+                                            @Html.HiddenFor(model => model.CallFrom, "")
+                                            @Html.HiddenFor(model => model.StudentNumber, "")
+                                            @Html.HiddenFor(model => model.StudentType, "")
+                                            @Html.HiddenFor(model => model.School, "")
+                                            @Html.HiddenFor(model => model.Section, "")
+                                            @Html.HiddenFor(model => model.Approver, "")
+                                            @Html.HiddenFor(model => model.InstanceId, "")
+                                            @Html.HiddenFor(model => model.Email, "")
+                                            @Html.HiddenFor(model => model.UserInbox, "")
+                                            @Html.HiddenFor(model => model.IssueDate, "")
+                                            @Html.HiddenFor(model => model.UserRoleName, "")
+                                            @Html.HiddenFor(model => model.Grade, "")
+                                            @Html.Hidden("hidStatus", "", new { id = "hidStatus", @Value = ViewBag.status })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Date</b></label><br />
+                                            @String.Format("{0:dd-MMM-yyyy }", @Model.IssueDate)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Processed By</b></label><br />
+                                            @Model.UserInbox
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>User Role</b></label><br />
+                                            @Model.UserRoleName
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Issue Status</b></label><br />
+                                            @Model.ActivityFullName
+                                            @Html.HiddenFor(model => model.Status, new { id = "Status", @Value = Model.Status })
+                                            @Html.HiddenFor(model => model.ActivityFullName)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding: 0px">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                &nbsp;<i class="fa fa-user-md"></i> Issue Details</div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Campus</b></label><br />
+                                            @Model.BranchCode
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Information For</b>
+                                            </label>
+                                            <br />
+                                            @Model.InformationFor
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Leave Type</b>
+                                            </label>
+                                            <br />
+                                            @Model.LeaveType
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Issue Group</b>
+                                            </label>
+                                            <br />
+                                            @Model.IssueGroup
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Issue Type</b>
+                                            </label>
+                                            <br />
+                                            @Model.IssueType
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Issue Mode</b>
+                                            </label>
+                                            <br />
+                                            @Model.IssueMode
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Student Number</b></label><br />
+                                            @Model.StudentNumber
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Student Name</b></label><br />
+                                            @Model.StudentName
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Caller Phone Number</b></label><br />
+                                            @Model.CallPhoneNumber
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Call from</b></label><br />
+                                            @Model.CallFrom
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Caller Name</b></label><br />
+                                            @Model.CallerName
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>School</b></label><br />
+                                            @Model.School
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Grade</b></label>
+                                            <br />
+                                            @Model.Grade
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Section</b></label>
+                                            <br />
+                                            @Model.Section
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Boarding Type</b></label>
+                                            <br />
+                                            @Model.BoardingType
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Email</b></label><br />
+                                            @Model.Email
+                                        </div>
+                                        <div class="col-sm-2">
+                                        </div>
+                                        <div class="col-sm-2"><br />
+                                            <button class="btn btn-purble btn-sm" type="button" id="Back" value="Back to Inbox">
+                                                <i class="fa fa-arrow-left"></i>Back To Inbox</button><br />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+             <div class="row" style="padding: 0px;">
+                    <div class="col-xs-4 widget-container-col">
+                        <div class="widget-box widget-color-CustomizeBlue">
+                            <div class="widget-header widget-header-flat widget-header-small">
+                                <div class="PanelHeader">
+                                    <i class="fa fa-pencil-square-o"></i>&nbsp;Description Section
+                                </div>
+                                <div class="widget-toolbar">
+                                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main no-padding">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="col-sm-12">
+                                                <label for="form-field-mask-3">
+                                                    <b>Issue Description</b></label>
+                                                @Html.TextAreaFor(model => model.Description, new { rows = 1, cols = 60, id = "txtDescription", @class = "form-control select-sm", @readonly = "readonly" })
+                                                <label for="form-field-mask-3">
+                                                    <b>Issue Resolution Comments</b></label>
+                                                @Html.TextAreaFor(model => model.Resolution, new { rows = 1, cols = 60, id = "txtResolution", @class = "form-control select-sm", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="space-8">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-8">
+                    <div class="col-sm-12">
+                        <table id="DescriptionForSelectedId" class="WithBorderOnly">
+                        </table>
+                        <div id="DescriptionForSelectedIdpager">
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+                    <div class="col-xs-12">
+                        <div class="col-sm-12">
+                            <table id="Uploadedfileslist">
+                            </table>
+                            <div id="uploadedfilesgridpager">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+}
+<script src="../../Scripts/Home/CallForward.js" type="text/javascript"></script>

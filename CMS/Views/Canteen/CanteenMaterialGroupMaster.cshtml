@@ -1,0 +1,68 @@
+﻿@model TIPS.Entities.CanteenEntities.CanteenMaterialGroupMaster
+@{
+    ViewBag.Title = "Canteen Material Group Master";
+    Layout = "~/Views/Shared/PartialViewMaster.cshtml";
+}
+<style>
+.ui-widget-content
+        {
+            border: 0px solid #aaaaaa;
+            background: #ffffff url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x;
+           /* font-size: 0.8em;*/
+            color: #222222;
+        }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        jQuery("#CanteenMaterialGroupList").jqGrid({
+            url: '/Canteen/CanteenMaterialGroupMasterListJqGrid',
+            datatype: 'json',
+            mtype: 'GET',
+            height: '265',
+            width: '970',
+            //shrinkToFit: true,
+            colNames: ['Id', 'Material Group', 'Material Group Code'],
+            colModel: [
+                { name: 'Id', index: 'Id', width: 50, align: 'left', editable: true, hidden: true, edittype: 'text', key: true, sortable: false },
+                { name: 'MaterialGroup', index: 'MaterialGroup', width: 150, align: 'left', edittype: 'text', editable: true, hidden: false, sortable: true, editrules: { required: true }, editoptions: { maxlength: 50} },
+                { name: 'MatGrpCode', index: 'MatGrpCode', width: 150, align: 'left', edittype: 'text', editable: true, hidden: false, sortable: true, editrules: { required: true,custom: true, custom_func: checkvalid}, editoptions: { maxlength: 3} },
+                ],
+            pager: '#CanteenMaterialGroupListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200 ],
+            sortname: 'MaterialGroup',
+            sortorder: "",
+            labelswidth: 60,
+            viewrecords: true,
+            multiselect: true,
+            closeAfterEdit: true,
+            closeAfterAdd: true,
+            //  autowidth: true,
+            // loadonce: true, 
+            reloadAfterSubmit: true,
+            caption: 'Canteen Material Group List'
+        });
+        jQuery("#CanteenMaterialGroupList").navGrid('#CanteenMaterialGroupListPager', { add: true, edit: true, del: false, search: false, refresh: false },
+        { width: 'auto', url: '/Canteen/AddMaterialGroupMaster?test=edit' },
+        { width: 'auto', url: '/Canteen/AddMaterialGroupMaster' }
+                );
+        $("#CanteenMaterialGroupList").jqGrid('filterToolbar', { stringResult: false, searchOnEnter: true, beforeSearch: function () {
+            $('#CanteenMaterialGroupList').clearGridData();
+            return false;
+        }
+    });
+    function checkvalid(value, column) {
+        if (value.length != 3) {
+            return [false, column + ' Should be 3 characters in length'];
+        }
+        else {
+            return [true];
+        }
+    }
+    });
+</script>
+<table id="CanteenMaterialGroupList">
+</table>
+<div id="CanteenMaterialGroupListPager">
+</div>
+

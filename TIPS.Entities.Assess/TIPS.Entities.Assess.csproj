@@ -1,0 +1,406 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FEBE2D61-D72A-49AA-9F10-C83FB6A096C7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TIPS.Entities.Assess</RootNamespace>
+    <AssemblyName>TIPS.Entities.Assess</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assess360.cs" />
+    <Compile Include="Assess360AdminTemplate_vw.cs" />
+    <Compile Include="Assess360Assignment.cs" />
+    <Compile Include="Assess360AssessmentStaffNames.cs" />
+    <Compile Include="Assess360AssessmentSubgrids.cs" />
+    <Compile Include="Assess360BulkInsert.cs" />
+    <Compile Include="Assess360CompEnum.cs" />
+    <Compile Include="Assess360Component.cs" />
+    <Compile Include="Assess360MarkcalculationForChart_Vw.cs" />
+    <Compile Include="Assess360MarksCaluctionForAStudent_Vw.cs" />
+    <Compile Include="Assess360Point.cs" />
+    <Compile Include="Assess360StudentMarks.cs" />
+    <Compile Include="AssessCompMaster.cs" />
+    <Compile Include="AssessGroupMaster.cs" />
+    <Compile Include="ClassforIXAB.cs" />
+    <Compile Include="ClassforIXCD.cs" />
+    <Compile Include="ClassforVItoVIII.cs" />
+    <Compile Include="Assess360_ARC.cs" />
+    <Compile Include="Assess360Component_Old.cs" />
+    <Compile Include="ComparativeFAHWReport_Vw.cs" />
+    <Compile Include="ComparitiveFAReport_vw.cs" />
+    <Compile Include="ComparitiveSAReport_vw.cs" />
+    <Compile Include="FAReportForAllPrint_vw.cs" />
+    <Compile Include="FA_HW_Vw.cs" />
+    <Compile Include="FormattiveAssessmentPrint_vw.cs" />
+    <Compile Include="FormattiveAssessment_Vw.cs" />
+    <Compile Include="IXIGCSEWeightingsCalculation_Vw.cs" />
+    <Compile Include="ReportCardAchiveAward.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSECo_ScholasticNew.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSECo_Sch_SciSkills.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSENew.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSEPrintViewNew.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSETerm1.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSETerm2.cs" />
+    <Compile Include="ReportCardClasses\RptStudentDtlsViewNew.cs" />
+    <Compile Include="ReportCardFromAssess360VItoVIII.cs" />
+    <Compile Include="ReportCardClasses\CoSch_Item_Vw.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSECo_Scholastic.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSECo_ScholasticLifeSkills.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSECo_ScholasticVAndPA.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSECo_Sch_Attitude.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSECo_Sch_HealthAndPet.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSECo_Sch_ICT.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSECo_Sch_LitAndSkills.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSECo_Sch_Values.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSECo_Sch_WE.cs" />
+    <Compile Include="ReportCardSubjectMarks.cs" />
+    <Compile Include="RptCardAchievement.cs" />
+    <Compile Include="RptCardMarkWeightingMaster.cs" />
+    <Compile Include="SemesterMaster.cs" />
+    <Compile Include="ShowPastYearFinalResults_Vw.cs" />
+    <Compile Include="SumativeStudentDetailsIX_Vw.cs" />
+    <Compile Include="SumativeStudentDetails_Vw.cs" />
+    <Compile Include="SummativeAssessmentVIVII_vw.cs" />
+    <Compile Include="SummativeAssessment_vw.cs" />
+    <Compile Include="SummativeMarkAnalysisIX_Vw.cs" />
+    <Compile Include="SummativeMarkAnalysisVIVIII_Vw.cs" />
+    <Compile Include="SummativeMarkAnalysis_Vw.cs" />
+    <Compile Include="Vw_PastYearFinalResult.cs" />
+    <Compile Include="WeeklyTestForStud_Old.cs" />
+    <Compile Include="StudCopiedhomework_Old.cs" />
+    <Compile Include="StudHWAccuracy_Old.cs" />
+    <Compile Include="StudHwCompletion_Old.cs" />
+    <Compile Include="StudCharacterAssessment_Old.cs" />
+    <Compile Include="StudAttenPuncAssessment_Old.cs" />
+    <Compile Include="EnteredCount.cs" />
+    <Compile Include="FinalResult.cs" />
+    <Compile Include="FinalResultView.cs" />
+    <Compile Include="NotEnteredCount.cs" />
+    <Compile Include="MonthEnum.cs" />
+    <Compile Include="NotUsedAssignmentList.cs" />
+    <Compile Include="ReportCardClasses\CoSchCriteriaMaster.cs" />
+    <Compile Include="ReportCardClasses\CoScholasticItemMaster.cs" />
+    <Compile Include="ReportCardClasses\CoScholasticMaster.cs" />
+    <Compile Include="ReportCardClasses\CoScholasticStudentDetails_Vw.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSE.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSECommon.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSEFA1.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSEFA2.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSEFA3.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSEFA4.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSEPrintView.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSESA1.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSESA2.cs" />
+    <Compile Include="ReportCardClasses\ReportCardCBSEView.cs" />
+    <Compile Include="ReportCardClasses\ReportCardRequest.cs" />
+    <Compile Include="ReportCardClasses\RptCardFocus.cs" />
+    <Compile Include="ReportCardClasses\RptCardInBoxView.cs" />
+    <Compile Include="ReportCardClasses\RptCardMYP.cs" />
+    <Compile Include="ReportCardClasses\RptCardPYP.cs" />
+    <Compile Include="ReportCardClasses\RptCardPYPFirstGrade.cs" />
+    <Compile Include="ReportCardClasses\RptCoScholasticCBSE.cs" />
+    <Compile Include="ReportCardClasses\RptStudentDtlsView.cs" />
+    <Compile Include="ReportCardClasses\StudentDtlsView.cs" />
+    <Compile Include="ReportCardClasses\SubjectMarksForRptCard_Vw.cs" />
+    <Compile Include="ShowPastYearSubjectMarks.cs" />
+    <Compile Include="StaffsNamesForSubjectMarks.cs" />
+    <Compile Include="StudAttenPuncAssessment.cs" />
+    <Compile Include="StudCopiedhomework.cs" />
+    <Compile Include="StudentFinalResult_vw.cs" />
+    <Compile Include="StudHWAccuracy.cs" />
+    <Compile Include="StudHwCompletion.cs" />
+    <Compile Include="StudMonthlyReport.cs" />
+    <Compile Include="StudSLCAssessment.cs" />
+    <Compile Include="StudTempForAss360ReqCreation.cs" />
+    <Compile Include="StudTermAssessment.cs" />
+    <Compile Include="StudCharacterAssessment.cs" />
+    <Compile Include="SubjectMarks.cs" />
+    <Compile Include="SubjectStudentTemplate.cs" />
+    <Compile Include="Totalsemlist.cs" />
+    <Compile Include="Vw_FinalResult.cs" />
+    <Compile Include="WeeklyTestForStud.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaffMaster.cs" />
+    <Compile Include="StudentDetailsView.cs" />
+    <Compile Include="SubjectMaster.cs" />
+    <Compile Include="WeightingMasterCrossCheck_Vw.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Assess360.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudentDetailsView.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ORMapping\Assess360Component.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\SubjectMaster.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\StaffMaster.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\AssessCompMaster.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ORMapping\AssessGroupMaster.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\WeeklyTestForStud.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudTermAssessment.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudSLCAssessment.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudCharacterAssessment.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudAttenPuncAssessment.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudHwCompletion.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudHWAccuracy.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudCopiedhomework.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Assess360AssessmentStaffNames.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\Assess360AssessmentSubgrids.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Assess360Assignment.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\NotEnteredCount.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\EnteredCount.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Assess360BulkInsert.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ReportCardMapping\StudentDtlsView.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\FinalResult.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\FinalResultView.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudentFinalResult_vw.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\SubjectMarks.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\SubjectStudentTemplate.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ReportCardMapping\RptCardFocus.hbm.xml" />
+    <EmbeddedResource Include="ReportCardMapping\RptCardInBoxView.hbm.xml" />
+    <EmbeddedResource Include="ReportCardMapping\RptCardMYP.hbm.xml" />
+    <EmbeddedResource Include="ReportCardMapping\RptCardPYP.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ReportCardMapping\RptCardPYPFirstGrade.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\ClassforIXAB.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\ClassforIXCD.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Totalsemlist.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Vw_FinalResult.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudTempForAss360ReqCreation.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\ShowPastYearSubjectMarks.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\ClassforVItoVIII.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ReportCardMapping\SubjectMarksForRptCard_Vw.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\NotUsedAssignmentList.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StaffsNamesForSubjectMarks.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ReportCardMapping\ReportCardCBSE.hbm.xml" />
+    <EmbeddedResource Include="ReportCardMapping\ReportCardCBSECommon.hbm.xml" />
+    <EmbeddedResource Include="ReportCardMapping\ReportCardRequest.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ReportCardMapping\RptStudentDtlsView.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReportCardClasses\ReportCardFocus.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ReportCardMapping\CoScholasticItemMaster.hbm.xml" />
+    <EmbeddedResource Include="ReportCardMapping\CoScholasticMaster.hbm.xml" />
+    <EmbeddedResource Include="ReportCardMapping\CoScholasticStudentDetails_Vw.hbm.xml" />
+    <EmbeddedResource Include="ReportCardMapping\RptCoScholasticCBSE.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Assess360AdminTemplate_vw.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Assess360_Old.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Assess360Component_Old.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudAttenPuncAssessment_Old.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudCharacterAssessment_Old.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudHwCompletion_Old.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudHWAccuracy_Old.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\StudCopiedhomework_Old.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ReportCardMapping\ReportCardCBSECo_Scholastic.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ReportCardMapping\CoSchCriteriaMaster.hbm.xml" />
+    <EmbeddedResource Include="ReportCardMapping\CoSch_Item_Vw.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\SemesterMaster.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\RptCardAchievement.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\RptCardMarkWeightingMaster.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Assess360MarksCaluctionForAStudent_Vw.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Assess360MarkcalculationForChart_Vw.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\IXIGCSEWeightingsCalculation_Vw.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\ShowPastYearFinalResults_Vw.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\Vw_PastYearFinalResult.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\SummativeAssessment_vw.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\SummativeMarkAnalysis_Vw.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\ComparitiveSAReport_vw.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\SummativeAssessmentVIVII_vw.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\SummativeMarkAnalysisIX_Vw.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\SummativeMarkAnalysisVIVIII_Vw.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\SumativeStudentDetailsIX_Vw.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\SumativeStudentDetails_Vw.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\FormattiveAssessment_Vw.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\ComparitiveFAReport_vw.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\WeightingMasterCrossCheck_Vw.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ORMapping\ComparativeFAHWReport_Vw.hbm.xml" />
+    <EmbeddedResource Include="ORMapping\FA_HW_Vw.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ReportCardMapping\ReportCardCBSECo_ScholasticNew.hbm.xml" />
+    <EmbeddedResource Include="ReportCardMapping\ReportCardCBSENew.hbm.xml" />
+    <EmbeddedResource Include="ReportCardMapping\RptStudentDtlsViewNew.hbm.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

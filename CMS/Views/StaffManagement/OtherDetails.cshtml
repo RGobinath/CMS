@@ -1,0 +1,92 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="col-sm-4">
+            <label for="form-field-select-2">
+                <b>What Kind Of Growth Are Expecting In Your Career?</b></label>
+            @Html.TextBoxFor(model => model.CareerGrowthExpectation, new { id = "CareerGrowthExpectation", @class = "form-control input-sm", @maxlength = "50" })
+        </div>
+        <div class="col-sm-4">
+            <label for="form-field-select-2">
+                <b>Will You Be Willing To Travel On Need Basis?</b></label>
+            @Html.DropDownListFor(model => model.WillingToTravel, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select"},
+                                              new{Value="Yes",Text="Yes"},
+                                              new{Value="No",Text="No"}
+                                          }, "Value", "Text", ""), new { id = "WillingToTravel", @Class = "form-control select-sm" })
+        </div>
+        <div class="col-sm-4">
+            <label for="form-field-select-2">
+                <b>Will You Be Willing For A Growth Oriented Relocation In Future?</b></label>
+            @Html.DropDownListFor(model => model.WillingForRelocation, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select"},
+                                              new{Value="Yes",Text="Yes"},
+                                              new{Value="No",Text="No"}
+                                          }, "Value", "Text", ""), new { id = "WillingForRelocation", @Class = "form-control select-sm" })
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="col-sm-4">
+            <label for="form-field-select-2">
+                <b>Achievements</b></label>
+            @Html.TextAreaFor(model => model.Achievments, new { rows = 1, cols = 45, id = "achievments", @class = "form-control textarea", @maxlength = "250" })
+        </div>
+        <div class="col-sm-4">
+            <label for="form-field-select-2">
+                <b>Any Other Significant Details You Would Like To Furnish?</b></label>
+            @Html.TextAreaFor(model => model.AnyOtherSignificant, new { rows = 1, cols = 45, id = "significantdetails", @class = "form-control textarea", @maxlength = "250" })
+        </div>
+        <div class="col-sm-4">
+            <label for="form-field-select-2">
+                <b>Other Special Interests.</b></label>
+            @Html.TextAreaFor(model => model.SpecialInterests, new { rows = 1, cols = 45, id = "SpecialInterests", @class = "form-control textarea", @maxlength = "250" })
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-4">
+            <label for="form-field-select-2">
+                <b>BeenShortListedBefore</b></label>
+            @Html.DropDownListFor(model => model.BeenShortListedBefore, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select"},
+                                              new{Value="Yes",Text="Yes"},
+                                              new{Value="No",Text="No"}
+                                          },
+                   "Value", "Text", ""), new { id = "BeenShortListedBefore", @Class = "form-control select-sm" })
+        </div>
+        <div class="col-sm-4">
+            <label for="form-field-select-2">
+                <b>RelativeWorkingWithUs</b></label>
+            @Html.DropDownListFor(model => model.RelativeWorkingWithUs, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select"},
+                                              new{Value="Yes",Text="Yes"},
+                                              new{Value="No",Text="No"}
+                                          },
+                                     "Value", "Text", ""), new { id = "RelativeWorkingWithUs", @Class = "form-control select-sm" })
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="col-sm-4">
+            <label for="form-field-select-2">
+                <b>How you knew about this vacancy?</b></label>
+            @Html.TextAreaFor(model => model.HowYouKnowVacancy, new { rows = 1, cols = 45, id = "HowYouKnowVacancy", @class = "form-control textarea", @maxlength = "250" })
+        </div>
+        <div class="col-sm-4">
+            <label for="form-field-select-2">
+                <b>If Yes,Short Listed Why</b></label>
+            @Html.TextAreaFor(model => model.ShortlistedWhy, new { rows = 1, cols = 45, id = "ShortlistedWhy", @class = "form-control textarea", @maxlength = "250" })
+        </div>
+        <div class="col-sm-4">
+            <label for="form-field-select-2">
+                <b>If Yes,Relative Details</b></label>
+            @Html.TextAreaFor(model => model.RelativeDetails, new { rows = 1, cols = 45, id = "RelativeDetails", @class = "form-control textarea", @maxlength = "250" })
+        </div>
+    </div>
+</div>
+

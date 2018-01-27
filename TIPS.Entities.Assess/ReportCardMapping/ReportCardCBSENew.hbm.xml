@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess.ReportCardClasses" namespace="TIPS.Entities.Assess.ReportCardClasses" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.ReportCardClasses.ReportCardCBSENew,TIPS.Entities.Assess" table="ReportCardCBSENew" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="RptRequestId" column="RptRequestId " type="long" />
+    <property name="PreRegNum" column="PreRegNum" type="long" />
+    <property name="NewId" column="NewId" type="string" />
+    <property name="Name" column="Name" type="string" />
+    <property name="Campus" column="Campus" type="string" />
+    <property name="Grade" column="Grade" type="string" />
+    <property name="Section" column="Section" type="string" />
+    <property name="Subject" column="Subject" type="string" />
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    <property name="PA1" column="PA1" type="decimal" />
+    <property name="NoteBook1" column="NoteBook1" type="decimal" />
+    <property name="SEA1" column="SEA1" type="decimal" />
+    <property name="HalfYearly" column="HalfYearly" type="decimal" />
+    <property name="Term1Total" column="Term1Total" type="decimal" />
+    <property name="Term1Grade" column="Term1Grade" type="string" />
+    <property name="PA2" column="PA2" type="decimal" />
+    <property name="NoteBook2" column="NoteBook2" type="decimal" />
+    <property name="SEA2" column="SEA2" type="decimal" />
+    <property name="AnnualExam" column="AnnualExam" type="decimal" />
+    <property name="Term2Total" column="Term2Total" type="decimal" />
+    <property name="Term2Grade" column="Term2Grade" type="string" />
+    <property name="Absent" column="Absent" type="string" />
+    <property name="CreatedDate" column="CreatedDate" type="datetime" />
+    <property name="CreatedBy" column="CreatedBy" type="string" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string" />
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime" />
+  </class>
+</hibernate-mapping>

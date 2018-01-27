@@ -1,0 +1,107 @@
+﻿@model TIPS.Entities.TransportEntities.RouteMaster
+@{
+    ViewBag.Title = "RouteConfiguration";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+<script type="text/javascript">
+    google.maps.event.addDomListener(window, 'load', function () {
+        var places = new google.maps.places.Autocomplete(document.getElementById('LocationName'));
+        google.maps.event.addListener(places, 'place_changed', function () {
+            var place = places.getPlace();
+            var address = place.formatted_address;
+            var latitude = place.geometry.location.k;
+            var longitude = place.geometry.location.D;
+        });
+    });
+</script>
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa  fa-align-justify"></i>&nbsp;Add Location
+                </div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="space-6">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Campus</b></label>
+                                @Html.TextBoxFor(Model => Model.Campus, new { @readonly = "readonly", id = "Campus", @Class = "form-control input-sm" })
+                                @Html.HiddenFor(Model => Model.Id)
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Route No</b></label><br />
+                                @Html.TextBoxFor(Model => Model.RouteNo, new { @readonly = "readonly", id = "RouteNo", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Source</b></label><br />
+                                @Html.TextBoxFor(Model => Model.Source, new { @readonly = "readonly", id = "Source", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Destination</b></label><br />
+                                @Html.TextBoxFor(Model => Model.Destination, new { @readonly = "readonly", id = "Destination", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="form-field-select-1">
+                                    <b>Location Name</b></label><br />
+                                @Html.TextBoxFor(Model => Model.LocationName, new { id = "LocationName", @Class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-1">
+                                <label for="form-field-select-1">
+                                    <b>Stop No</b></label><br />
+                                @Html.TextBoxFor(Model => Model.StopOrderNumber, new { id = "StopOrderNumber", @Class = "form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="space-6">
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="col-sm-3">
+                                <button type="button" class="btn btn-xs btn-primary" name="btnAddLocations" id="btnAddLocations">
+                                    <i class="ace-icon fa fa-arrows"></i><span class="bigger-110">&nbsp;Add&nbsp;</span>
+                                </button>
+                                <button type="button" class="btn btn-xs btn-primary" name="btnBack" id="btnBack">
+                                    <i class="ace-icon fa fa-hand-o-left"></i><span class="bigger-110">&nbsp;Back&nbsp;</span>
+                                </button>
+                            </div>
+                            <div class="col-sm-2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-2">
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <table id="jqGridRouteConfiguration">
+        </table>
+        <div id="jqGridRouteConfigurationPager">
+        </div>
+        <script type="text/javascript">
+            var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+        </script>
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+    <!-- /.col -->
+</div>
+<script src="../../Scripts/Transport/RouteConfiguration.js"></script>

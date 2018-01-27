@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.HostelMgntEntities.HstMgnt_MaterialDamage" namespace="TIPS.Entities.HostelMgntEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.HostelMgntEntities.HstMgnt_MaterialDamage, TIPS.Entities" table="HstlMgmt_MaterialDamage" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+
+    <property name="Stud_Id" column="Stud_Id" type="Int64"/>
+
+    <property name="DateOfIncident" column="DateOfIncident" type="DateTime"/>
+    <property name="DetailsOfIncident" column="DetailsOfIncident" type="string"/>
+    <property name="Amount" column="Amount" type="Int64"/>
+    <property name="Remarks" column="Remarks" type="string"/>
+
+    <property name="CreatedBy" column="CreatedBy" type="string"/>
+    <property name="DateCreated" column="DateCreated" type="DateTime"/>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"/>
+    <property name="DateModified" column="DateModified" type="DateTime"/>
+
+  </class>
+</hibernate-mapping>

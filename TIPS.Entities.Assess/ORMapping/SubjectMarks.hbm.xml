@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="SubjectMarks" table="SubjectMarks" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+
+    <property name="PreRegNum" column="PreRegNum" type="Int64" />
+    <property name="Subject" column="Subject" type="string"/>
+    <property name="Semester" column="Semester" type="string" />
+    <property name="Test1" column="Test1" type="string" />
+    <property name="Test2" column="Test2" type="string" />
+    <property name="Test3" column="Test3" type="string" />
+    <property name="Project" column="Project" type="string" />
+    <property name="FATotal" column="FATotal" type="string" />
+    <property name="SATotal" column="SATotal" type="string" />
+    <property name="Outof" column="Outof" type="string" />
+    <property name="Fa1andFa2" column="Fa1andFa2" type="string" />
+    <property name="SEMGrade" column="SEMGrade" type="string" />
+    <property name="Campus" column="Campus" type="string" />
+    <property name="Section" column="Section" type="string" />
+    <property name="Grade" column="Grade" type="string" />
+    <property name="CreatedBy" column="CreatedBy" type="string" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string" />
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+
+    <property name="CreatedDate" column="CreatedDate" type="DateTime" />
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime" />
+     <property name="SecondLanguage" column="SecondLanguage" type="string" />
+
+  </class>
+</hibernate-mapping>

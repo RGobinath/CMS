@@ -1,0 +1,156 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+<div class="row">
+    <div class="col-xs-12 widget-container-col" id="divexpadd">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa fa-user-server"></i>&nbsp;Experience Details</div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Years Of Exp</b>
+                                </label>
+                                @Html.TextBoxFor(model => model.TotalYearsOfExp, new { id = "totalexp", @Class = "form-control input-sm", @maxlength = "10" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Years of Teach Exp</b></label>
+                                @Html.TextBoxFor(model => model.TotalYearsOfTeachingExp, new { id = "totalteachingexp", @Class = "form-control input-sm", @maxlength = "10" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Syllbuses Handled</b></label>
+                                @Html.TextBoxFor(model => model.SyllabusHandled, new { id = "syllabus", @Class = "form-control input-sm", @maxlength = "60" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Subjects Taught</b></label>
+                                @Html.TextBoxFor(model => model.SubjectsTaught, new { id = "subjects", @Class = "form-control input-sm", @maxlength = "60" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Grades Taught</b></label>
+                                @Html.TextBoxFor(model => model.GradesTaught, new { id = "grades", @Class = "form-control input-sm", @maxlength = "30" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Last Gross salary</b></label>
+                                @Html.TextBoxFor(model => model.LastDrawnGrossSalary, new { id = "totalexp", @Class = "form-control input-sm", @maxlength = "10" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Last Nett Salary</b>
+                                </label>
+                                @Html.TextBoxFor(model => model.LastDrawnNettSalary, new { id = "totalteachingexp", @Class = "form-control input-sm", @maxlength = "10" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Expected Salary</b></label>
+                                @Html.TextBoxFor(model => model.ExpectedSalary, new { id = "syllabus", @Class = "form-control input-sm", @maxlength = "60" })
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="form-field-select-1">
+                                    <b>If offer, how soon can you join us?</b></label>
+                                @Html.TextBoxFor(model => model.JoiningDateOrDays, new { id = "subjects", @Class = "form-control input-sm", @maxlength = "60" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 widget-container-col" id="divpreviousadd">
+        <div class="widget-box widget-color-CustomizeBlue collapsed">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa fa-building-o"></i>&nbsp;Previous Company Details</div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Organisation Name</b></label>
+                                @Html.TextBoxFor(model => model.StaffExperienceList[0].EmployerName, new { id = "empname", @Class = "CSSTextBox", @maxlength = "50" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Location</b></label>
+                                @Html.TextBoxFor(model => model.StaffExperienceList[0].Location, new { id = "location", @Class = "CSSTextBox", @maxlength = "40" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Start Date</b>
+                                </label>
+                                <div class="input-group input-group-sm">
+                                    @Html.TextBoxFor(model => model.StaffExperienceList[0].StartDate, new { id = "startdate", @Class = "form-control date-picker", @maxlength = "10" })
+                                    <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Till Date</b>
+                                </label>
+                                <div class="input-group input-group-sm">
+                                    @Html.TextBoxFor(model => model.StaffExperienceList[0].TillDate, new { id = "tilldate", @Class = "form-control date-picker", @maxlength = "10" })
+                                    <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="form-field-select-1">
+                                    <b>Last Designation</b></label><br />
+                                @Html.TextBoxFor(model => model.StaffExperienceList[0].LastDesignation, new { id = "lastdesignation", @Class = "CSSTextBox", @maxlength = "45" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="col-sm-4">
+                                <label for="form-field-select-1">
+                                    <b>Specific Reason For Leaving</b></label><br />
+                                @Html.TextBoxFor(model => model.StaffExperienceList[0].SpecificReasonForLeaving, new { id = "specificreasonforleaving", @Class = "CSSTextBox", @maxlength = "50" })
+                            </div>
+                            <div class="col-sm-1">
+                                <br />
+                                <button type="button" class="btn btn-primary btn-block btn-sm" id="ExpAdd">
+                                    <i class="ace-icon fa fa-plus white"></i>Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+        @Html.Hidden("ForPage", "", new { id = "ForPage", @Value = ViewBag.ForPage })
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        <table id="ExperienceList">
+        </table>
+        <div id="ExperienceListPager">
+        </div>
+        <script type="text/javascript">
+            var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+        </script>
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+<script src="../../Scripts/StaffManagementScripts/ExperienceDetails.js" type="text/javascript"></script>
+<script src="../../assets/js/AceJQMsg.js" type="text/javascript"></script>

@@ -1,0 +1,123 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+
+@{
+    Layout = null;
+}
+
+<script type="text/javascript">
+    function validate1() {
+        if (document.getElementById("EmailContent1").value == "") {
+            ErrMsg("Please Enter The Email Content!");
+            return false;
+        }
+        else if ((document.getElementById('Father1').checked == false) && (document.getElementById('Mother1').checked == false) && (document.getElementById('General1').checked == false)) {
+            ErrMsg("Please Check To Whom Do You Want To Send The Mail!");
+            return false;   
+        }
+    }
+
+    $(document).ready(function () {
+
+    });
+
+    var splitstr = "";
+
+    function resethtml1() {
+      //    alert('hre');
+        $('#clear1').html($('#clear1').html());
+        var div = document.getElementById('Attachfiles1');
+        div.innerHTML = 'Attached Files &nbsp;&nbsp;&nbsp;  ';
+        $.ajax({
+            url: '/Admission/DeleteAttachment/',
+            type: 'POST',
+            dataType: 'json',
+            traditional: true
+        });
+    }
+
+    function uploaddoc1() {
+        if (document.getElementById("file1").value == "") {
+            ErrMsg("Please Browse a Document!");
+        }
+        else {
+            splitstr = splitstr + $('#file1').val().split('\\');
+
+            $.ajaxFileUpload({
+                url: '/Admission/MailAttachments1',
+                secureuri: false,
+                fileElementId: 'file1',
+                dataType: 'json',
+                success: function (data, success) {
+                    var div = document.getElementById('Attachfiles1');
+                //    alert(div.innerHTML);
+                    if ((div.innerHTML == 'Attached Files &nbsp;&nbsp;&nbsp;  ')) {
+                        div.innerHTML = div.innerHTML + data.result;
+                    }
+                    else {
+                        div.innerHTML = div.innerHTML + ', ' + data.result;
+                    }
+                }
+            });
+            $('#clear1').html($('#clear1').html());
+        }
+    }
+</script>
+
+<!DOCTYPE html>
+@using (Html.BeginForm("StudentEmail", "Admission", new { Id = "form1" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<html>
+<head>
+    
+    <title>StudentEmail</title>
+</head>
+<body>
+<div style="height:5px"></div>
+<div>
+       <table class="WithBorderOnly" style="border:none" width="100%">
+                    <tr>
+                        <th align="left">
+                           Send To &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp @Html.CheckBoxFor(model => model.Father, new { id = "Father1" }) &nbsp <strong>Father</strong> &nbsp&nbsp @Html.CheckBoxFor(model => model.Mother, new { id = "Mother1" }) &nbsp <strong>Mother</strong>&nbsp&nbsp @Html.CheckBoxFor(model => model.General, new { id = "General1" }) &nbsp <strong>General</strong>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th align="left" >  
+                            Subject &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  @Html.TextBoxFor(model => model.Subject, new { id = "Subject1", @class = "CSSLengthyTextBox" })
+                        </th>
+                    </tr>
+                            <tr>
+                             <th>  <div id="clear1"> Attachment &nbsp&nbsp&nbsp
+                             <input type="file" name= "file1" id="file1" value="Browse" style="height:22px"/> 
+                               <input type="button" value="Upload" onclick="uploaddoc1()" />
+                              <input type="button" value="Clear" onclick="resethtml1()" /></div>
+                            </th>
+                            </tr>
+
+                          <tr>
+                         <th>   <div id="Attachfiles1">Attached Files &nbsp&nbsp&nbsp  </div> </th>  
+                         </tr>
+                    <tr>
+                        <th align="left">
+                            Email Content
+                        </th>
+                    </tr>
+                <tr>
+                  <td><div>
+                      @Html.TextAreaFor(model => model.Email, new { rows = 5, cols = 59, id = "EmailContent1", @class = "CSSTextArea" })
+                      @*@Html.ListBoxFor(model => model.Email, 
+                          new MultiSelectList(Model.Email, "Id", 
+                          "Name", Model.Email))*@
+                   </div></td>
+                    </tr>
+        </table>
+ </div>
+    
+    
+    <div style="height:15px"></div>
+    <div>
+    <input type="submit" value="Send Email" onclick="return(validate1());" id="emailbtn" />
+    </div>
+          <table id="StudentList"></table>
+</body>
+</html>
+}

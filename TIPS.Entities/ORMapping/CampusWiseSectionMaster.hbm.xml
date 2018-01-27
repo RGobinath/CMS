@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.CampusWiseSectionMaster" namespace="TIPS.Entities">
+  <class name="TIPS.Entities.CampusWiseSectionMaster, TIPS.Entities" table="CampusWiseSectionMaster" lazy="false">
+    <id name="CampusWiseSectionMasterId" column="CampusWiseSectionMasterId" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <many-to-one name="AcademicyrMaster" column="AcademicYearId" not-found="ignore" class="TIPS.Entities.AcademicyrMaster,TIPS.Entities" cascade="none" fetch="join"> </many-to-one>
+    <many-to-one name="CampusMaster" column="CampusId" not-found="ignore" class="TIPS.Entities.CampusMaster,TIPS.Entities" cascade="none" fetch="join"> </many-to-one>
+    <many-to-one name="CampusGradeMaster" column="GradeId" not-found="ignore" class="TIPS.Entities.CampusGradeMaster,TIPS.Entities" cascade="none" fetch="join"> </many-to-one>
+    <property name="Section" column="Section" type="string"/>
+    <property name="CreatedBy" column="CreatedBy" type="string"/>
+    <property name="CreatedDate" column="CreatedDate" type="datetime"/>
+    <property name="UpdateBy" column="UpdateBy" type="string"/>
+    <property name="UpdateDate" column="UpdateDate" type="datetime"/>
+    <property name="IsActive" column="IsActive" type="bool"/>
+    
+    
+  </class>
+</hibernate-mapping>
+
+

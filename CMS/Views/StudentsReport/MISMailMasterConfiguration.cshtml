@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "MISMailMasterConfiguration";
+    Layout = "~/Views/Shared/NewBootstrapMaster.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#MISMailMaster').jqGrid({
+            url: '/StudentsReport/MISMailMasterJqgrid',
+            datatype: 'Json',
+            type: 'GET',
+            autowidth: true,
+            height: 300,
+            colNames: ['Id', 'EmailType', 'RoleCode', 'EmailId', 'SentCategory'],
+            colModel: [
+            { name: 'Id', index: 'Id', hidden: true, key: true },
+            { name: 'EmailType', index: 'EmailType', editable: true, edittype: 'select', editoptions: { dataUrl: '/StudentsReport/GetEmailType' }, editrules: { required: true, custom: true, custom_func: checkvalid }, sortable: true },
+            //{ name: 'EmailType', index: 'EmailType', editable: true },
+            //{ name: 'RoleCode', index: 'RoleCode', editable: true },
+            { name: 'RoleCode', index: 'RoleCode', editable: true, edittype: 'select', editoptions: { dataUrl: '/StudentsReport/GetRoleCodes' }, editrules: { required: true, custom: true, custom_func: checkvalid }, sortable: true },
+            { name: 'EmailId', index: 'EmailId', editable: true },
+            { name: 'SentCategory', index: 'SentCategory', editable: true, edittype: 'select', editoptions: { dataUrl: '/StudentsReport/GetSentCategory' }, editrules: { required: true, custom: true, custom_func: checkvalid }, sortable: true },
+            //{ name: 'SentCategory', index: 'SentCategory', editable: true },
+            ],
+            rowNum: 20000,
+            rowList: [], // disable page size dropdown
+            pgbuttons: false, // disable page control like next, back button
+            pgtext: null, // disable pager text like 'Page 0 of 10'
+            sortname: 'Id',
+            sortorder: 'Asc',
+            pager: '#MISMailMasterPager',
+            multiselect: true,
+            viewrecords: true,
+            shrinktofit:true,
+            caption: '&nbsp;<i class="icon-th-list"></i>&nbsp;MIS Mail Master List'
+           
+        });
+        $('#MISMailMaster').jqGrid('filterToolbar', { searchOnEnter: true });
+        jQuery("#MISMailMaster").jqGrid('navGrid', '#MISMailMasterPager', { add: true, edit: true, del: true, search: false, refresh: true },
+        //Edit options
+            { width: 'auto', url: '/StudentsReport/EditMISMailMasterDetails/', left: '10%', top: '10%', height: '50%', width: 400 },
+        //Add options
+            { width: 'auto', url: '/StudentsReport/AddMISMailMasterDetails/', left: '10%', top: '10%', height: '50%', width: 400 },
+        //Delete options
+            //{width: 'auto', url: '/Masters/DeleteLocationMasterDetails/', left: '10%', top: '10%', height: '50%', width: 400, beforeShowForm: function (params) { var gsr = $("#LocationMaster").getGridParam('selrow'); var sdata = $("#LocationMaster").getRowData(gsr); return { Id: sdata.Id} } });
+                   {
+                       width: 'auto', url: '/StudentsReport/DeleteMISMailMasterDetails/', left: '10%', top: '10%', height: '50%', width: 400,
+                       beforeShowForm: function (params) { selectedrows = $("#MISMailMaster").jqGrid("getGridParam", "selarrrow"); return { Id: selectedrows } }
+               });
+    });
+    function checkvalid(value, column) {
+        if (value == 'nil') {
+            return [false, column + ": Field is Required"];
+        }
+        else {
+            return [true];
+        }
+    }
+</script>
+<br />
+<table width="100%">
+<tr>
+<td>
+<table id="MISMailMaster">
+</table>
+<div id="MISMailMasterPager">
+</div>
+</td>
+</tr>
+</table>

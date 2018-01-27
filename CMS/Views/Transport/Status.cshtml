@@ -1,0 +1,111 @@
+﻿@model TIPS.Entities.TransportEntities.VehicleDetails
+@{
+    ViewBag.Title = "Status";
+    Layout = "~/Views/Shared/NewAcePartialViewMaster.cshtml";
+}
+<div id="Status">
+
+    <div class="row">
+        <div class="col-xs-12 widget-container-col">
+            <div class="widget-box widget-color-CustomizeBlue ">
+                <div class="widget-header widget-header-flat widget-header-small">
+                    <div class="PanelHeader">
+                        Status
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                            <div class="col-xs-12">
+                                <div class="space-8">
+                                </div>
+                                <div class="space-8">
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-2">
+                                            <b>Vehicle No :</b></label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        @Model.VehicleNo
+                                    </div>
+                                </div>
+                                <div class="space-8">
+                                </div>
+                                <div class="space-8">
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-2">
+                                            <b>Campus :</b></label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        @Model.Campus
+                                    </div>
+                                </div>
+                                <div class="space-8">
+                                </div>
+                                <div class="space-8">
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-2">
+                                            <b>Fuel type:</b></label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        @Model.FuelType
+                                    </div>
+                                </div>
+                                <div class="space-8">
+                                </div>
+                                <div class="space-8">
+                                </div>
+                                 <div class="row">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-2">
+                                            <b>Status:</b></label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        @ViewBag.Status
+                                    </div>
+                                </div>
+                                <div class="space-8">
+                                </div>
+                                  <div class="space-8">
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-2">
+                                            <b>Status :</b></label>
+                                    </div>
+                                    <div class="col-sm-2">
+
+                                        @Html.DropDownListFor(model => model.IsActive, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Registered",Text="Registered"},
+                                              new{Value="Inactive",Text="Inactive"}                                              
+                                          },
+                            "Value", "Text", ""), new { id = "VecStatus", @Class = "form-control select-sm" })
+
+                                    </div>
+                                    <div class="col-sm-1 ">
+                                        <button class="btn btn-success btn-info btn-block btn-sm" id="btnSave" type="button" onclick="ChangeStatus(); return false;">
+                                            <i class="ace-icon fa fa-floppy-o bigger-120 white"></i>&nbsp Save
+                                        </button>
+                                    </div>
+                                </div>
+                                @Html.HiddenFor(model => model.Id, new { id = "hdnVehicleId" })
+                                @Html.HiddenFor(model => model.Campus, new { id = "hdnCampus" })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/Transport/AddVehicleDetails.js"></script>
+
+

@@ -1,0 +1,195 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+<script>
+   
+
+</script>
+<div class="row">
+    <div class="col-sm-12">
+        <div id="PersonalAccordion" class="accordion-style1 panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#PersonalAccordion"
+                            href="#GeneralDetails"><i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down"
+                                data-icon-show="ace-icon fa fa-angle-right"></i>&nbsp;General Details </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse in" id="GeneralDetails">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+
+
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Age</b></label><br />
+                                    @Html.HiddenFor(model => model.DOB, new { id = "DOB" })
+                                    @Model.Age
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Marital Status</b></label>
+                                    <br />@Model.MaritalStatus
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Blood Group</b></label>
+                                    <br />@Model.BGRP
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Phone No</b></label>
+                                    <br />@Model.PhoneNo
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Alt Phone No </b>
+                                    </label>
+                                    <br />@Model.AltPhoneNo
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Emrg Cont Person</b>
+                                    </label>
+                                    <br />@Model.EmergencyContactPerson
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-8"></div>
+                        <div class="row">
+                            <div class="col-xs-12">
+
+
+
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Emrg Cont No</b></label>
+                                    <br />@Model.EmergencyContactNo
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Native State</b></label>
+                                    <br />@Model.NativeState
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Lang Known Spkn</b></label>
+                                    <br />@Model.LanguagesKnown
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Lang Known Written</b></label>
+                                    <br />@Model.Written_LanguagesKnown
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Bank Name</b>
+                                    </label>
+                                    <br />@Model.BankName
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Bank A/C No</b></label>
+                                    <br />@Model.BankAccountNumber
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="space-8"></div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Insurance Details</b></label>
+                                    <br />@Model.InsuranceDetails
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>PF Number</b></label>
+                                    <br />@Model.PFNo
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="form-field-select-1">
+                                        <b>Permanant Address</b>
+                                    </label>
+                                    <br />@Model.PermanantAddress
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="form-field-select-1">
+                                        <b>Communication Address</b>
+                                    </label>
+                                    <br />@Model.AlternateAddress
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-8"></div>
+                        <div class="row">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#PersonalAccordion"
+                            href="#QualificationDetails"><i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down"
+                                data-icon-show="ace-icon fa fa-angle-right"></i>&nbsp;Qualification Details</a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="QualificationDetails">
+                    <div class="panel-body">
+
+                        <div class="space-4">
+                        </div>
+                        <div class="row">
+                            @Html.Hidden("ForPage", "", new { id = "ForPage", @Value = ViewBag.ForPage })
+                            <div class="col-xs-12">
+                                <table id="QualificationList">
+                                </table>
+                                <div id="QualificationListPager">
+                                </div>
+                                <script type="text/javascript">
+                                    var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+                                </script>
+                                <!-- PAGE CONTENT ENDS -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#PersonalAccordion"
+                            href="#DocumentDetails"><i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down"
+                                data-icon-show="ace-icon fa fa-angle-right"></i>&nbsp;Document Details</a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="DocumentDetails">
+                    <div class="space-4"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <table id="DocumentList">
+                            </table>
+                            <div id="DocumentListPager">
+                            </div>
+                            <script type="text/javascript">
+                                var $path_base = "..";
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+<script src="../../assets/js/AceJQMsg.js" type="text/javascript"></script>
+<script src="../../Scripts/StaffManagementScripts/QualificationDetails.js" type="text/javascript"></script>
+
+<script src="../../Scripts/StaffManagementScripts/WorkDetails.js" type="text/javascript"></script>

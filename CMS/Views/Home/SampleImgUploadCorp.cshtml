@@ -1,0 +1,133 @@
+﻿@{
+    ViewBag.Title = "SampleImgUploadCorp";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="../assets/css/jquery.gritter.css" />
+		<link rel="stylesheet" href="../assets/css/select2.css" />
+		@*<link rel="stylesheet" href="../assets/css/bootstrap-datepicker3.css" />
+		<link rel="stylesheet" href="../assets/css/bootstrap-editable.css" />*@
+
+<div>
+    <div id="user-profile-1" class="user-profile row">
+        <div class="col-xs-12 col-sm-3 center">
+            <div>
+                <!-- #section:pages/profile.picture -->
+                <span class="profile-picture">
+                    <img id="avatar" class="editable img-responsive" alt="Alex's Avatar" src="@Url.Action("uploaddisplay1", "Admission", new { id = 90 })" />
+                </span>
+                <!-- /section:pages/profile.picture -->
+                <div class="space-4"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- page specific plugin scripts -->
+@*<script src="../assets/js/jquery.ui.touch-punch.js"></script>*@
+<script src="../../assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="../../assets/js/jquery.gritter.min.js"></script>
+<script src="../../assets/js/bootbox.min.js"></script>
+@*<script src="../../assets/js/jquery.easypiechart.min.js"></script>*@
+@*<script src="../../assets/js/date-time/bootstrap-datepicker.js"></script>*@
+<script src="../../assets/js/jquery.hotkeys.min.js"></script>
+<script src="../../assets/js/bootstrap-wysiwyg.min.js"></script>
+@*<script src="../../assets/js/select2.min.js"></script>*@
+<script src="../../assets/js/fuelux/fuelux.spinner.min.js"></script>
+<script src="../../assets/js/x-editable/bootstrap-editable.min.js"></script>
+<script src="../../assets/js/x-editable/ace-editable.min.js"></script>
+<script src="../../assets/js/jquery.maskedinput.min.js"></script>
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        // *** editable avatar *** //
+        try {//ie8 throws some harmless exceptions, so let's catch'em
+
+            //first let's add a fake appendChild method for Image element for browsers that have a problem with this
+            //because editable plugin calls appendChild, and it causes errors on IE at unpredicted points
+            try {
+                document.createElement('IMG').appendChild(document.createElement('B'));
+            } catch (e) {
+                Image.prototype.appendChild = function (el) { }
+            }
+
+            var last_gritter
+            $('#avatar').editable({
+                type: 'image',
+                name: 'avatar',
+                value: null,
+                //onblur: 'ignore',  //don't reset or hide editable onblur?!
+                image: {
+                    //specify ace file input plugin's options here
+                    btn_choose: 'Change Avatar',
+                    droppable: true,
+                    maxSize: 110000,//~100Kb
+
+                    //and a few extra ones here
+                    name: 'avatar',//put the field name here as well, will be used inside the custom plugin
+                    on_error: function (error_type) {//on_error function will be called when the selected file has a problem
+                        if (last_gritter) $.gritter.remove(last_gritter);
+                        if (error_type == 1) {//file format error
+                            last_gritter = $.gritter.add({
+                                title: 'File is not an image!',
+                                text: 'Please choose a jpg|gif|png image!',
+                                class_name: 'gritter-error gritter-center'
+                            });
+                        } else if (error_type == 2) {//file size rror
+                            last_gritter = $.gritter.add({
+                                title: 'File too big!',
+                                text: 'Image size should not exceed 100Kb!',
+                                class_name: 'gritter-error gritter-center'
+                            });
+                        }
+                        else {//other error
+                        }
+                    },
+                    on_success: function () {
+                        $.gritter.removeAll();
+                    }
+                },
+                url: function (params) {
+                    // ***UPDATE AVATAR HERE*** //
+                    //for a working upload example you can replace the contents of this function with 
+                    //examples/profile-avatar-update.js
+
+                    var deferred = new $.Deferred
+
+                    var value = $('#avatar').next().find('input[type=hidden]:eq(0)').val();
+                    if (!value || value.length == 0) {
+                        deferred.resolve();
+                        return deferred.promise();
+                    }
+
+
+                    //dummy upload
+                    setTimeout(function () {
+                        if ("FileReader" in window) {
+                            //for browsers that have a thumbnail of selected image
+                            var thumb = $('#avatar').next().find('img').data('thumb');
+                            if (thumb) $('#avatar').get(0).src = thumb;
+                        }
+
+                        deferred.resolve({ 'status': 'OK' });
+
+                        if (last_gritter) $.gritter.remove(last_gritter);
+                        last_gritter = $.gritter.add({
+                            title: 'Avatar Updated!',
+                            text: 'Uploading to server can be easily implemented. A working example is included with the template.',
+                            class_name: 'gritter-info gritter-center'
+                        });
+
+                    }, parseInt(Math.random() * 800 + 800))
+
+                    return deferred.promise();
+
+                    // ***END OF UPDATE AVATAR HERE*** //
+                },
+
+                success: function (response, newValue) {
+                }
+            })
+        } catch (e) { }
+    });
+</script>

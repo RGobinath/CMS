@@ -1,0 +1,104 @@
+﻿@model TIPS.Entities.StaffEntities.StaffIssueManagementReportPDF
+@{
+    Layout = null;
+}
+<style type="text/css">
+    .LineSpace {
+        line-height: 16px;
+    }
+
+    .OutTable {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+        font-family: Verdana;
+    }
+
+        /*.OutTable tr {
+            border: none;
+        }*/
+
+        .OutTable td {
+            border: none;
+        }
+    .trBrdr {
+        border: 1px solid black;
+    }
+    .page-break {
+        page-break-before: always;
+    }
+</style>
+@if (Model.StaffIssueManagementReportList.Count > 0)
+{    
+    <table border="0" cellpadding='1' width='95%' cellspacing='0' style="font-family: Verdana; border: medium; margin-top: 10px; border-collapse: collapse;" align="center">
+        <tr border="0" style='height: 45px; font-size: 19px; color: black'>
+            <td colspan="14" style='border: 1px solid black; text-align: right; border-top: none; border-left: none; border-right: none'>@DateTime.Now.ToString("dd/MM/yyyy")</td>
+        </tr>
+        <tr border="0" style='border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 25px; color: black'>
+            <td colspan="14" style='border: 1px solid black; text-align: center'><b>STAFF ISSUE MANAGEMENT DATEWISE COUNT REPORT</b></td>
+        </tr>
+        <tr border="0" style='border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 19px; color: black'>
+            <td colspan="2" style='border: 1px solid black;'>
+                <b>Campus:</b>
+                @if (ViewBag.Campus != null)
+                {
+                    @ViewBag.Campus
+                }
+            </td>
+            <td colspan="2" style='border: 1px solid black;'>
+                <b>Performer:</b>
+            @if (ViewBag.Performer != null)
+            {
+                @ViewBag.Performer
+            }
+            <td colspan="2" style='border: 1px solid black;'>
+                <b>Issue Group:</b>
+                @if (ViewBag.IssueGroup != null)
+                {
+                    @ViewBag.IssueGroup
+                }
+            </td>
+        </tr>
+        <tr border="0" style='border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 19px; color: black'>
+            <td colspan="2" style='border: 1px solid black;'>
+                <b>Issue Type:</b>
+                @if (ViewBag.IssueType != null)
+                {
+                    @ViewBag.IssueType
+                }
+            </td>
+            <td colspan="2" style='border: 1px solid black;'>
+                <b>From Date:</b>
+            @if (ViewBag.FromDate != null)
+            {
+                @ViewBag.FromDate
+            }
+            <td colspan="2" style='border: 1px solid black;'>
+                <b>To Date:</b>
+                @if (ViewBag.ToDate != null)
+                {
+                    @ViewBag.ToDate
+                }
+            </td>
+        </tr>        
+        <tr border="0" style='border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 19px; color: black'>
+            <td style='border: 1px solid black;text-align:center'><b>Sl. No</b></td>
+            <td style='border: 1px solid black;text-align:center'><b>Performer</b></td>
+            <td style='border: 1px solid black;text-align:center'><b>Available</b></td>
+            <td style='border: 1px solid black;text-align:center'><b>Assigned</b></td>
+            <td style='border: 1px solid black;text-align:center'><b>Resolved</b></td>
+            <td style='border: 1px solid black;text-align:center'><b>Total</b></td>            
+        </tr>
+        @foreach (var List in @Model.StaffIssueManagementReportList)
+        {                   
+            <tr border="0" style="border: 1px solid black; border-collapse: collapse; height: 45px; font-size: 19px; color: black">
+                <td style='border: 1px solid black;text-align:center'>@List.Id</td>
+                <td style='border: 1px solid black;text-align:center'>@List.Performer</td>
+                <td style='border: 1px solid black;text-align:center'>@List.Available</td>
+                <td style='border: 1px solid black;text-align:center'>@List.Assigned </td>
+                <td style='border: 1px solid black;text-align:center'>@List.Resolved </td>
+                <td style='border: 1px solid black;text-align:center'>@List.TotalCount</td>                                                
+            </tr>
+        }
+    </table>
+}

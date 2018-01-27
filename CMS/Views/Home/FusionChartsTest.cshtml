@@ -1,0 +1,41 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FusionChartsTest</title>
+    <script src="../../Scripts/FusionCharts1/FusionCharts.js" type="text/javascript"></script>
+    @*<script src="../../Scripts/FusionCharts.js" type="text/javascript"></script>*@
+    <script src="../../Scripts/jquery-1.7.2.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            
+            //             var dataString = '<chart yAxisName="" caption="Standard Shipment Usage " numberPrefix="" showBorder="1" imageSave="1" >\n\
+            //                    	<set label="Asia Pacific" value=23 /> \n\
+            //                    	<set label="Europe" value=4 /> \n\
+            //                    	<set label="Middle East" value=56 /> \n\
+            //                    	<set label="Americas" value=78 /> \n\
+            //                    	 \n\
+            //                    \n\
+            //                    </chart>';
+
+            var dataString = "<graph caption='Monthly Unit Sales' xAxisName='Month' yAxisName='Units' decimalPrecision='0' formatNumberScale='0' >";
+            dataString = dataString + "<set name='Jan' value='462' color='AFD8F8' />";
+            dataString = dataString + " <set name='Feb' value='857' color='F6BD0F' />";
+            dataString = dataString + " <set name='Mar' value='671' color='8BBA00' />";
+            dataString = dataString + "  <set name='Apr' value='494' color='FF8E46' />";
+            dataString = dataString + " <set name='May' value='761' color='08E8E' />";
+            dataString = dataString + " <set name='Jun' value='960' color='D64646' /></graph>";
+
+            var chart = new FusionCharts("../../Charts/FCF_Bar2D.swf", "productSales", "560", "400");
+            chart.setDataXML(dataString);
+            chart.render("BarChart");
+
+        });
+    </script>
+</head>
+<body>
+    <div id="BarChart"></div>
+</body>
+</html>

@@ -1,0 +1,386 @@
+﻿@{
+    ViewBag.Title = "New Home Page";
+    Layout = "~/Views/Shared/NewBootstrapMaster.cshtml";
+            //Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script src="../../Content/cheef-jquery-ace/Others/ace.js"></script>
+<script src="../../Content/cheef-jquery-ace/Others/ace.min.js"></script>
+<link href="../../Content/cheef-jquery-ace/Others/ace.min.css" rel="stylesheet" />
+<link href="../../Content/cheef-jquery-ace/Others/bootstrap.min.css" rel="stylesheet" />
+<script src="../../Content/cheef-jquery-ace/jquery/jquery-1.8.3.min.js"></script>
+
+<script src="../../Content/cheef-jquery-ace/jquery/jquery-1.10.2.js"></script>
+<link href="../../Content/cheef-jquery-ace/jquery/jquery-ui.css" rel="stylesheet" />
+<script src="../../Content/cheef-jquery-ace/jquery/jquery-ui.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        IssueCountByStatus();
+        StudentTemplateStatuss();
+
+        $("#accordion").accordion({
+            autoHeight: false,
+            navigation: true
+        });
+    });
+    function IssueCountByStatus() {
+        debugger;
+        var urlink = '/Home/GetIssueCountByStatus1';
+        $.ajax({
+            type: 'GET',
+            async: false,
+            dataType: "json",
+            url: urlink,
+            success: function (result) {
+                //alert(result);
+                var LogIssCnt = 0;
+                var ResRejIssCnt = 0;
+                var log_ResRejIssCnt = 0;
+                var ResIssCnt = 0;
+                var AppRejCnt = 0;
+                var res_apprejcnt = 0;
+                var AppRejIssCnt = 0;
+                var AppIssCnt = 0;
+                var AppIssTotCnt = 0;
+                var TobeCmpltdcnt = 0;
+                var CmpltdCnt = 0;
+                var totalIssueCnt = 0;
+                $.each(result, function (index, itemdata) {
+                    if (itemdata.Status == "LogIssue") {
+                        LogIssCnt++;
+                    }
+                    else if (itemdata.Status == "ResolveIssueRejection") {
+                        ResRejIssCnt++;
+                    }
+                    else if (itemdata.Status == "ResolveIssue") {
+                        ResIssCnt++;
+                    }
+                    else if (itemdata.Status == "ApproveIssueRejection") {
+                        AppRejCnt++;
+                    }
+                    else if (itemdata.Status == "ApproveIssue") {
+                        AppIssCnt++;
+                    }
+                    else if (itemdata.Status == "Complete") {
+                        TobeCmpltdcnt++;
+                    }
+                    else if (itemdata.Status == "Completed") {
+                        CmpltdCnt++;
+                    }
+                    else { }
+
+                    totalIssue = LogIssCnt + ResRejIssCnt + ResIssCnt + AppRejCnt + AppIssCnt + TobeCmpltdcnt + CmpltdCnt;
+                    log_ResRejIssCnt = LogIssCnt + ResRejIssCnt;
+                    res_apprejcnt = ResIssCnt + AppRejCnt;
+                    AppIssTotCnt = AppIssCnt + TobeCmpltdcnt;
+                });
+                if (log_ResRejIssCnt == 0) {
+                    log_ResRejIssCnt = "";
+                }
+                if (res_apprejcnt == 0) {
+                    res_apprejcnt = "";
+                }
+                if (AppIssTotCnt == 0) {
+                    AppIssTotCnt = "";
+                }
+                if (CmpltdCnt == 0) {
+                    CmpltdCnt = "";
+                }
+
+                var FunnelChart = "<graph caption='' xAxisName='' yAxisName='' decimalPrecision='0' showNames='0'  showValues='0'>";
+                FunnelChart = FunnelChart + " <set name='Log Issue' value='" + LogIssCnt + "' color='cc99ff' />";
+                FunnelChart = FunnelChart + " <set name='Resolve Issue' value='" + ResIssCnt + "' color='FF8533' />";
+                FunnelChart = FunnelChart + " <set name='Resolved Rejecton' value='" + ResRejIssCnt + "' color='cccc00' />";
+                FunnelChart = FunnelChart + " <set name='Approve Issue' value='" + AppIssCnt + "' color='66C2E0' />";
+                FunnelChart = FunnelChart + " <set name='Resolve Issue Rejected' value='" + AppRejCnt + "' color='666699' />";
+                FunnelChart = FunnelChart + " <set name='Complete Issue' value='" + TobeCmpltdcnt + "' color='AD8533' />";
+                FunnelChart = FunnelChart + " <set name='Closed Issue' value='" + CmpltdCnt + "' color='19A319' />";
+                FunnelChart = FunnelChart + " <set name='Total Issue' value='" + totalIssue + "' color='FF0066' />";
+                FunnelChart = FunnelChart + " <set name='Approve Issue Total' value='" + AppIssTotCnt + "' color='cc9900' /></graph>";
+                var chart = new FusionCharts("../../Charts/FCF_Funnel.swf", "Issue Status", "300", "300");
+                chart.setDataXML(FunnelChart);
+                chart.render("IssueCountByStatusPieChart");
+            }
+        });
+    }
+
+    function StudentTemplateStatuss() {
+        debugger;
+        var NewEnquiry = parseInt('@(ViewBag.NewEnquiry)');
+        var Discontinued = parseInt('@(ViewBag.Discontinued)');
+        var NewReg = parseInt('@(ViewBag.NewReg)');
+        var Declined = parseInt('@(ViewBag.Declined)');
+        var SentApproval = parseInt('@(ViewBag.SentApproval)');
+        var Registered = parseInt('@(ViewBag.Registered)');
+
+        var FunnelChart = "<graph caption='' xAxisName='' yAxisName='' decimalPrecision='0' showNames='0'  showValues='0'>";
+        FunnelChart = FunnelChart + " <set name='New Enquiry' value='" + NewEnquiry + "' color='3399ff' />";
+        FunnelChart = FunnelChart + " <set name='Discontinued' value='" + Discontinued + "' color='f00' />";
+        FunnelChart = FunnelChart + " <set name='NewReg' value='" + NewReg + "' color='009900' />";
+        FunnelChart = FunnelChart + " <set name='Declined' value='" + Declined + "' color='336699' />";
+        FunnelChart = FunnelChart + " <set name='SentApproval' value='" + SentApproval + "' color='cc0099' />";
+        FunnelChart = FunnelChart + " <set name='Registered' value='" + Registered + "' color='ff9900' /></graph>";
+        var chart = new FusionCharts("../../Charts/FCF_Pie2D.swf", "Student Template", "380", "330");
+        chart.setDataXML(FunnelChart);
+        chart.render("StudentTemplateChart");
+    }
+</script>
+
+
+<br />
+<div id="accordion">
+    <h4><a href="#CallManagement" style="color:blue; font-size: 0.8em">Call Management</a></h4>
+    <div id="CallManagement">
+        <div class="col-md-8">
+            <br />
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color: #cc99ff;">
+                        <table width="150" border="0" height="40">
+                            <tr>
+                                <td rowspan="2"><i class="fa fa-ticket fa-2x" style="color: #ffffff;"></i></td>
+                                <td><font color="#ffffff">@ViewBag.LogIssCnt</font></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px;"><font color="#ffffff">Log Issue</font></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color: #FF8533;">
+                        <table width="150" border="0" height="40">
+                            <tr>
+                                <td rowspan="2"><i class="ace-icon fa fa-edit fa-2x" style="color: #ffffff;"></i></td>
+                                <td><font color="#ffffff">@ViewBag.ResIssCnt</font></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px;"><font color="#ffffff">Resolve Issue</font></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color: #cccc00;">
+                        <table width="150" border="0" height="40">
+                            <tr>
+                                <td rowspan="2"><i class="fa fa-comments fa-2x" style="color: #ffffff;"></i></td>
+                                <td><font color="#ffffff">@ViewBag.ResRejIssCnt</font></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px;"><font color="#ffffff">Resolve Rejection</font></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color: #66C2E0;">
+                        <table width="150" border="0" height="40">
+                            <tr>
+                                <td rowspan="2"><i class="fa fa-eye fa-2x" style="color: #ffffff;"></i></td>
+                                <td><font color="#ffffff">@ViewBag.AppIssCnt</font></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px;"><font color="#ffffff">Approve Issue</font></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color: #666699;">
+                        <table width="150" border="0" height="40">
+                            <tr>
+                                <td rowspan="2"><i class="fa fa-mail-reply-all fa-2x" style="color: #ffffff;"></i></td>
+                                <td><font color="#ffffff">@ViewBag.AppRejCnt</font></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px;"><font color="#ffffff">Approve Rejection</font></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color: #AD8533;">
+                        <table width="150" border="0" height="40">
+                            <tr>
+                                <td rowspan="2"><i class="fa fa-check-square-o fa-2x" style="color: #ffffff;"></i></td>
+                                <td><font color="#ffffff">@ViewBag.TobeCmpltdcnt</font></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px;"><font color="#ffffff">Complete</font></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color: #19A319;">
+                        <table width="150" border="0" height="40">
+                            <tr>
+                                <td rowspan="2"><i class="fa fa-thumbs-o-up fa-2x" style="color: #ffffff;"></i></td>
+                                <td><font color="#ffffff">@ViewBag.CmpltdCnt</font></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px;"><font color="#ffffff">Close</font></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color: #cc9900;">
+                        <table width="150" border="0" height="40">
+                            <tr>
+                                <td rowspan="2"><i class="fa fa-inbox fa-2x" style="color: #ffffff;"></i></td>
+                                <td><font color="#ffffff">@ViewBag.AppIssTotCnt</font></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px;"><font color="#ffffff">Approved Issue</font></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color: #FF0066;">
+                        <table width="150" border="0" height="40">
+                            <tr>
+                                <td rowspan="2"><i class="fa fa-smile-o fa-2x" style="color: #ffffff;"></i></td>
+                                <td><font color="#ffffff">@ViewBag.TotalIssueCnt</font></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px;"><font color="#ffffff">Total</font></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" align="center">
+            @*<div class="col-md-8" style="margin-top: 2px;">*@
+            <div id="IssueCountByStatusPieChart">
+            </div>
+            @*</div>*@
+        </div>
+    </div>
+    <h4><a href="#StudentTemplate" style="color:blue; font-size: 0.8em">Student Template</a></h4>
+    <div id="StudentTemplate">
+        <div class="col-md-8">
+            <br />
+            <br />
+            <br />
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color: #3399ff;">
+                        <table width="150" border="0" height="40">
+                            <tr>
+                                <td rowspan="2"><i class="ace-icon fa fa-phone fa-2x" style="color: #ffffff;"></i></td>
+                                <td><font color="#ffffff">@ViewBag.NewEnquiry</font></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px;"><font color="#ffffff">New Enquiry</font></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color: #009900;">
+                        <table width="150" border="0" height="40">
+                            <tr>
+                                <td rowspan="2"><i class="fa fa-male fa-2x" style="color: #ffffff;"></i></td>
+                                <td><font color="#ffffff">@ViewBag.NewReg</font></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px;"><font color="#ffffff">New Registration</font></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color: #cc0099;">
+                        <table width="150" border="0" height="40">
+                            <tr>
+                                <td rowspan="2"><i class="fa fa-pencil fa-2x" style="color: #ffffff;"></i></td>
+                                <td><font color="#ffffff">@ViewBag.SentApproval</font></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px;"><font color="#ffffff">Sent Approval</font></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color: #ff9900;">
+                        <table width="150" border="0" height="40">
+                            <tr>
+                                <td rowspan="2"><i class="fa fa-edit fa-2x" style="color: #ffffff;"></i></td>
+                                <td><font color="#ffffff">@ViewBag.Registered</font></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px;"><font color="#ffffff">Registered</font></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color: #336699;">
+                        <table width="150" border="0" height="40">
+                            <tr>
+                                <td rowspan="2"><i class="fa fa-comments-o fa-2x" style="color: #ffffff;"></i></td>
+                                <td><font color="#ffffff">@ViewBag.Declined</font></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px;"><font color="#ffffff">Declined</font></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color: #f00;">
+                        <table width="150" border="0" height="40">
+                            <tr>
+                                <td rowspan="2"><i class="fa fa-warning fa-2x" style="color: #ffffff;"></i></td>
+                                <td><font color="#ffffff">@ViewBag.Discontinued</font></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px;"><font color="#ffffff">Discontinued</font></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" align="center">
+            @*<div class="col-md-6" style="margin-top: 2px;">*@
+                <div id="StudentTemplateChart">
+                </div>
+            @*</div>*@
+        </div>
+    </div>
+</div>

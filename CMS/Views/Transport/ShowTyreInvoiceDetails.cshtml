@@ -1,0 +1,183 @@
+﻿@model TIPS.Entities.TransportEntities.TyreInvoiceDetails
+@{
+    ViewBag.Title = "ShowTyreInvoiceDetails";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        jQuery("#TyreDetailsList").jqGrid({
+            url: '/Transport/TyreDetailsListJqGrid?InvoiceId=' + $("#Id").val(),
+            datatype: 'json',
+            mtype: 'POST',
+            colNames: ['Id', 'Invoice Id', 'Tyre No', 'Make', 'Model', 'Size', 'Type', 'Tube Cost', 'Tyre Cost', 'Total Cost'],
+            colModel: [
+              { name: 'Id', index: 'Id', hidden: true, key: true },
+              { name: 'InvoiceId', index: 'InvoiceId', hidden: true },
+              { name: 'TyreNo', index: 'TyreNo' },
+              { name: 'Make', index: 'Make' },
+              { name: 'Model', index: 'Model' },
+              { name: 'Size', index: 'Size', editable: true },
+              { name: 'Type', index: 'Type' },
+              { name: 'TubeCost', index: 'TubeCost' },
+              { name: 'TyreCost', index: 'TyreCost' },
+              { name: 'TotalCost', index: 'TotalCost' },
+               ],
+            pager: '#TyreDetailsListPager',
+            rowNum: '50',
+            rowList: [50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: 'asc',
+            height: '230',
+            width: 1225,
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: 'Tyre Details',
+            forceFit: true,
+            gridview: true,
+            multiselect: true,
+            footerrow: true,
+            loadComplete: function () {
+                debugger;
+                var $self = $(this),
+                //                a = $self.jqGrid("getCol", "TubeCost");
+                //                alert(a);
+                TubeCost = parseFloat($self.jqGrid("getCol", "TubeCost", false, "sum")).toFixed(2);
+                TyreCost = parseFloat($self.jqGrid("getCol", "TyreCost", false, "sum")).toFixed(2);
+                TotalCost = parseFloat($self.jqGrid("getCol", "TotalCost", false, "sum")).toFixed(2);
+                // TotalQtySum = parseFloat($self.jqGrid("getCol", "IssuedQty", false, "sum")).toFixed(2);
+                //                amtrcv = parseFloat($self.jqGrid("getCol", "AmountReceived", false, "sum")).toFixed(2);
+                //                balpay = parseFloat($self.jqGrid("getCol", "BalancePayable", false, "sum")).toFixed(2);
+                $self.jqGrid("footerData", "set", { '': '', '': '', '': '', '': '', '': '', '': '', '': '', TubeCost: TubeCost, TyreCost: TyreCost, TotalCost: TotalCost });
+            }
+        });
+        $("#btnBack").click(function () {
+            window.location.href = '@Url.Action("TyreManagement", "Transport")';
+        });
+    });
+</script>
+@using (Html.BeginForm("TyreInvoiceDetails", "Transport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h3>
+        Show Tyre Invoice Details</h3>
+    <table width="100%" class="WithBorderOnly">
+        <tr class="PanelHeading">
+            <td colspan="7" class="PanelHeading">
+                Invoice Details
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <label class="lblheader">
+                    Ref No</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    Campus</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    Purchase Date</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    Purchased From</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    Purchased By</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    Invoice No</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    Status</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Model.RefNo
+                @Html.HiddenFor(m=>m.Id)
+            </td>
+            <td>
+                @Model.Campus
+            </td>
+            <td>
+                @Model.PurchasedDate
+            </td>
+            <td>
+                @Model.PurchasedFrom
+            </td>
+            <td>
+                @Model.PurchasedBy
+            </td>
+            <td>
+                @Model.InvoiceNo
+            </td>
+            <td>
+                @Model.Status
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="lblheader">
+                    Payment Type</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Total Cost</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Tax %</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Tax Amount</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Other Expenses</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Round Off Cost</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Model.PaymentType
+            </td>
+            <td>
+                @Model.TotalCost
+            </td>
+            <td>
+                @Model.TaxPercentage
+            </td>
+            <td>
+                @Model.TaxAmount
+            </td>
+            <td>
+                @Model.OtherExpenses
+            </td>
+            <td>
+                @Model.RoundedOffCost
+            </td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                <table id="TyreDetailsList" class="WithBorderOnly" width="100%">
+                </table>
+                <div id="TyreDetailsListPager">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" id="btnBack" value="Back to Inbox" />
+            </td>
+        </tr>
+    </table>
+}

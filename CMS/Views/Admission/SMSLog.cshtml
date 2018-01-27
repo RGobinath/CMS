@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "SMSLog";
+}
+<h3>
+    SMSLog</h3>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#search").click(function () {
+            var smssuccess = $('#txtSuccessNos').val();
+            var smsfaild = $('#txtFaildNos').val();
+            var message = $('#txtMessage').val();
+            var date = $('#txtSmsDate').val();
+            var ddlflag = $('#ddlflag').val();
+            var name = $('#txtName').val();
+            var newid = $('#txtNewId').val();
+
+            $("#SMSLogGrid").setGridParam(
+                             {
+                                 datatype: "json",
+                                 url: '@Url.Content("~/Admission/SMSLogGrid/")',
+                                 type: 'POST',
+                                 postData: { SuccessSMSNos: smssuccess, FailedSMSNos: smsfaild, Message: message, CreatedDate: date, Flag: ddlflag, StudName: name, NewId: newid },
+                                 page: 1
+                             }).trigger("reloadGrid");
+
+        });
+
+        $("#reset").click(function () {
+            window.location.href = '@Url.Action("SMSLog", "Admission")';
+        });
+
+        function loadgrid() {
+            jQuery("#SMSLogGrid").jqGrid({
+                mtype: 'GET',
+                url: '/Admission/SMSLogGrid',
+                datatype: 'json',
+                colNames: ['Id', 'Student Name', 'New Id', 'SuccessSMSNos', 'FailedSMSNos', 'Message', 'SMSDateTime'],
+                colModel: [
+                { name: 'Id', index: 'Id', sortable: false, hidden: true },
+                { name: 'StudName', index: 'StudName', width: 90, align: 'left', sortable: true },
+                { name: 'NewId', index: 'NewId', width: 90, align: 'left', sortable: true },
+                { name: 'SuccessSMSNos', index: 'SuccessSMSNos', width: 90, align: 'left', sortable: true },
+                { name: 'FailedSMSNos', index: 'FailedSMSNos', width: 40, align: 'left', sortable: false },
+                { name: 'Message', index: 'Message', width: 90, align: 'left', sortable: false },
+                { name: 'CreatedDate', index: 'CreatedDate', width: 30, align: 'left', sortable: false }
+                ],
+                pager: '#SMSLogGridPager',
+                rowNum: '10',
+                rowList: [5, 10, 20, 50],
+                sortname: 'Id',
+                sortorder: 'desc',
+                viewrecords: true,
+                multiselect: true,
+                height: '320',
+                width: '1225',
+                caption: 'SMS Log'
+            });
+            $("#SMSLogGrid").navGrid('#SMSLogGridPager', { add: false, edit: false, del: false, search: false, refresh: false });
+        }
+        window.onload = loadgrid();
+    });
+</script>
+<table style="width: 100%" class="WithBorderOnly">
+    <tr class="PanelHeading">
+        <th colspan="6">
+            Search Criteria
+        </th>
+    </tr>
+    <tr>
+        <td>
+            Student Name
+        </td>
+        <td>
+            Student Id Number
+        </td>
+        <td>
+            Success SMS Nos
+        </td>
+        <td>
+            Failed SMS Nos
+        </td>
+        <td>
+            Message
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.TextBox("txtName", "", new { @style = "border: #006699 1px solid;" })
+        </td>
+        <td>
+            @Html.TextBox("txtNewId", "", new { @style = "border: #006699 1px solid;" })
+        </td>
+        <td>
+            @Html.TextBox("txtSuccessNos", "", new { @style = "border: #006699 1px solid;" })
+        </td>
+        <td>
+            @Html.TextBox("txtFaildNos", "", new { @style = "border: #006699 1px solid;" })
+        </td>
+        <td>
+            @Html.TextBox("txtMessage", "", new { @style = "border: #006699 1px solid;" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Status
+        </td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DropDownList("ddlflag",
+                    new SelectList(new[] { 
+                        new { Text = "", Value = "Select", Seleced = "True" },
+                        new { Text = "success", Value = "Success", Seleced = "false" },
+                        new { Text = "failed", Value = "Failed", Seleced = "false" }
+               }, "Text", "Value", "Seleced"),
+               new { @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            <input type="button" id="search" name="Search" value="Search" />&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="button" id="reset" name="reset" value="Reset" />
+        </td>
+    </tr>
+</table>
+<table width="100%">
+    <tr>
+        <td>
+            <table id="SMSLogGrid" width="100%">
+            </table>
+            <div id="SMSLogGridPager">
+            </div>
+        </td>
+    </tr>
+</table>

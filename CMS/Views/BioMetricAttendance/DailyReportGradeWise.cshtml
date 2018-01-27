@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "DailyReportGradeWise";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <b>Grade</b>
+                                        @Html.DropDownList("Grade", new SelectList(new[] { 
+                                        new { Value = "",Text = "Select"},
+                                        new { Value = "VI",Text = "VI" },
+                                        new { Value = "VII",Text = "VII" },
+                                        new { Value = "IX",Text = "IX" },
+                                        }, "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>Grade</b>
+                                        @Html.DropDownList("deviceddl", new SelectList(ViewBag.devices, "DeviceId", "DeviceFName"), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>Report From Date</b>
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBox("txtFromDate", "", new { @Class = "form-control from_date" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <b>Report To Date</b>
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBox("txtToDate", "", new { @Class = "form-control to_date" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button type="button" class="btn btn-success btn-block btn-sm" id="btnSearch">
+                                            <i class="ace-icon fa fa-search white"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button type="button" class="btn btn-danger btn-block btn-sm" id="btnReset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-2"></div>
+<div class="row">
+    <div class="col-xs-12">
+        <table id="Grid">
+        </table>
+        <div id="Pager">
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/BioMetricAttendance/DailyReportGradeWise.js"></script>
+<script src="../../assets/js/AceJQMsg.js" type="text/javascript"></script>

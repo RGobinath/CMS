@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.VehicleOverviewReport_SP" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.VehicleOverviewReport_SP, TIPS.Entities" table="VehicleOverviewReport_SP" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="VehicleNo" column="VehicleNo" type="string"></property>
+    <property name="Campus" column="Campus" type="string" ></property>    
+    <property name="Purpose" column="Purpose" type="string"></property>
+    <property name="FuelType" column="FuelType" type="string" ></property>
+    <property name="Type" column="Type" type="string"></property>
+    <property name="VehicleTypeId" column="VehicleTypeId" type="Int64"></property>
+    <property name="VehicleType" column="VehicleType" type="string"></property>
+    <property name="TypeOrder" column="TypeOrder" type="Int64"></property>
+    <property name="TotalNoOfTrip" column="TotalNoOfTrip" type="Int64"></property>
+    <property name="TotalDistance" column="TotalDistance" type="Int64"></property>
+    <property name="Fuel" column="Fuel" type="decimal"></property>
+    <property name="FC" column="FC" type="decimal"></property>
+    <property name="DriverOt" column="DriverOt" type="decimal"></property>
+    <property name="HelperOt" column="HelperOt" type="decimal"></property>
+    <property name="Others" column="Others" type="decimal"></property>
+    <property name="Maintenance" column="Maintenance" type="decimal"></property>
+    <property name="Service" column="Service" type="decimal"></property>
+    <property name="Expenses" column="Expenses" type="decimal"></property>
+  </class>
+<sql-query name="GetVehicleOverviewReport_SPList" callable="true">
+    <query-param name="Campus" type="string"/>
+    <query-param name="VehicleNo" type="string"/>
+    <query-param name="VehicleType" type="string"/>
+    <query-param name="FromDate" type="datetime"/>
+    <query-param name="ToDate" type="datetime"/>
+    <query-param name="page" type="Int32"/>
+    <query-param name="size" type="Int32"/>
+    <query-param name="sidx" type="string"/>
+    <query-param name="sord" type="string"/>  
+  <return class="TIPS.Entities.TransportEntities.VehicleOverviewReport_SP, TIPS.Entities">
+      <return-property name="Id" column="Id" />
+      <return-property name="VehicleNo" column="VehicleNo" />
+      <return-property name="Campus" column="Campus"/>
+      <return-property name="Purpose" column="Purpose"/>
+      <return-property name="FuelType" column="FuelType"/>
+      <return-property name="Type" column="Type"/>
+      <return-property name="VehicleTypeId" column="VehicleTypeId"/>
+      <return-property name="VehicleType" column="VehicleType"/>
+      <return-property name="TypeOrder" column="TypeOrder"/>
+      <return-property name="TotalNoOfTrip" column="TotalNoOfTrip"/>
+      <return-property name="TotalDistance" column="TotalDistance"/>
+      <return-property name="Fuel" column="Fuel" />
+      <return-property name="FC" column="FC" />
+      <return-property name="DriverOt" column="DriverOt"/>
+      <return-property name="HelperOt" column="HelperOt"/>
+      <return-property name="Others" column="Others"/>
+      <return-property name="Maintenance" column="Maintenance"/>
+      <return-property name="Service" column="Service"/>
+      <return-property name="Expenses" column="Expenses"/>
+    </return>
+    <![CDATA[ 
+     EXEC [VehicleOverviewReport_SP] @SPCampus=:Campus
+     ,@SPVehicleNo=:VehicleNo
+     ,@SPVehicleType=:VehicleType     
+     ,@SPFromDate=:FromDate
+     ,@SPToDate=:ToDate
+     ,@page=:page
+     ,@size=:size
+     ,@sidx=:sidx
+     ,@sord=:sord
+     ]]>
+  </sql-query>
+</hibernate-mapping>

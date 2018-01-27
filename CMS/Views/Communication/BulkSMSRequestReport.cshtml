@@ -1,0 +1,200 @@
+﻿@model TIPS.Entities.CommunictionEntities.ComposeSMSInfo
+@{
+    ViewBag.Title = "BulkSMSRequestReport";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+@*<link href="../../Content/BootStrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="../../Content/FontAwesome/css/font-awesome.css" rel="stylesheet" type="text/css" />*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#idback').click(function () {
+            window.location.href = '@Url.Action("SMSSendingLog", "Communication")';
+        });
+        $.ajax({
+            type: 'Get',
+            url: '@Url.Content("~/Communication/GetSMSStatusReportChart/")',
+            data: { ComposeId: '@Model.Id' },
+            success: function (data) {
+                var chart = new FusionCharts("../../Charts/FCF_Pie2D.swf", "SMS Report Details", "250", "250");
+                chart.setDataXML(data);
+                chart.render("SMSReportPieChartDiv");
+            },
+            async: false,
+            dataType: "text"
+        });
+    });
+        
+</script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="fa fa-lg fa-dashboard"></i>&nbsp;Bulk SMS Request Report</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>SMSRequest Id</b></label>
+                                    <div class="space-1">
+                                    </div>
+                                    @Html.DisplayFor(model => model.SMSReqId)
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Campus</b></label>
+                                    <div class="space-1">
+                                    </div>
+                                    @Html.DisplayFor(model => model.Campus)
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>SMS Status</b></label>
+                                    <div class="space-1">
+                                    </div>
+                                    @Html.DisplayFor(model => model.Status)
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Total Receipients</b></label>
+                                    <div class="space-1">
+                                    </div>
+                                    @Html.DisplayFor(model => model.Total)
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Request Created By</b></label>
+                                    <div class="space-1">
+                                    </div>
+                                    @Html.DisplayFor(model => model.CreatedBy)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2"></div>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="fa fa-lg fa-dashboard"></i>&nbsp;Bulk SMS Request Report</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="col-xs-12">
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="space-18">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <i class="fa fa-paper-plane fa-4x" style="color: #007a00;"></i>
+                                                    @Html.DisplayFor(model => model.Sent)
+                                                    Sent
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <i class="fa fa-times-circle-o fa-4x" style="color: #ff0000;"></i>
+                                                    @Html.DisplayFor(model => model.Failed)
+                                                    Failed
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-6">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <i class="fa fa-warning fa-4x" style="color: #4a0093;"></i>
+                                                    @Html.DisplayFor(model => model.NotValid)
+                                                    Not Valid
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <i class="fa fa-thumbs-down fa-4x" style="color: #0066ff;"></i>
+                                                    @Html.DisplayFor(model => model.UnDelivered)
+                                                    Not Delivered
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-6">
+                                            <div class="col-md-8" style="margin-top: 2px;">
+                                                <div id="SMSReportPieChartDiv">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="space-4">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h3>
+                                                <img src="../../Images/SMSReport/CompletedCount.jpg" />&nbsp;-&nbsp;Sent<br />
+                                            </h3>
+                                            <h3>
+                                                <img src="../../Images/SMSReport/AvailableCount.jpg" />&nbsp;-&nbsp;Failed<br />
+                                            </h3>
+                                            <h3>
+                                                <img src="../../Images/SMSReport/ResolvedCount.JPG" />&nbsp;-&nbsp;Not Valid<br />
+                                            </h3>
+                                            <h3>
+                                                <img src="../../Images/SMSReport/AssignedCount.JPG" />&nbsp;-&nbsp;Not Delivered<br />
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2"></div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-sm-5">
+                </div>
+                <div class="col-sm-1">
+                    <button type="button" name="btnSubmit" id="idback" value="Back To List" class="btn btn-purple btn-sm">
+                        <i class="fa fa-arrow-left white"></i>&nbsp; Back To List</button>
+                </div>
+            </div>
+        </div>
+        <div class="space-2">
+        </div>
+    </div>
+</div>

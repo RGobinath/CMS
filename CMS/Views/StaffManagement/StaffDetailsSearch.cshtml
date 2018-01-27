@@ -1,0 +1,145 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+@{
+    Layout = null;
+}
+<script type="text/javascript">
+    var campus = "";
+    var designation = "";
+    var department = "";
+    var appname = "";
+    var idno = "";
+    var stat = "";
+
+    $(document).ready(function () {
+        $("#Search").click(function () {
+            $("#StaffList2").GridUnload();
+
+            var e = document.getElementById("ddlcampus1");
+            campus = e.options[e.selectedIndex].value;
+            //   alert(campus);
+            designation = document.getElementById("designation1").value;
+
+            appname = document.getElementById('name1').value;
+
+            idno = document.getElementById("idno1").value;
+            // alert(stats);
+            gridload();
+        });
+
+        $("#Reset1").click(function () {
+            $("#StaffList2").GridUnload();
+            campus = "";
+            designation = "";
+            department = "";
+            appname = "";
+            idno = "";
+            stat = "";
+            //var cname = document.getElementById('ddlcampus1').value;
+            document.getElementById('idno1').value = "";
+            document.getElementById('name1').value = "";
+            document.getElementById('designation1').value = "";
+            document.getElementById('ddlcampus1').value = "";
+            gridload();
+        });
+
+        window.onload = gridload();
+    });
+
+    function gridload() {
+        jQuery("#StaffList2").jqGrid({
+            mtype: 'GET',
+            url: '/StaffManagement/StaffListPopupJqGrid',
+            postData: { campus: campus, designation: designation, appname: appname, idno: idno, type: 'old' },
+            datatype: 'json',
+            colNames: ['Request No', 'Name', 'Id Number', 'Campus', 'Designation'],
+            colModel: [
+              { name: 'PreRegNum', index: 'PreRegNum', width: 10, align: 'left', hidden: true },
+              { name: 'Name', index: 'Name', width: 30, align: 'left' },
+              { name: 'IdNumber', index: 'IdNumber', width: 20, align: 'left' },
+              { name: 'Campus', index: 'Campus', width: 20, align: 'left', sortable: true },
+              { name: 'Designation', index: 'Designation', width: 20, align: 'left', sortable: true }
+            //              { name: 'Department', index: 'Department', width: 50, align: 'left', sortable: true },
+            //              { name: 'Gender', index: 'Gender', width: 30, align: 'left', sortable: true },
+            //              { name: 'Status', index: 'Status', width: 50, align: 'left', sortable: true, formatter: ChangetoActive },
+            //               { name: 'Id', index: 'Id', width: '30%', align: 'left', sortable: false, hidden: true, key: true }
+              ],
+            pager: '#StaffPager2',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50],
+            multiselect: false,
+            viewrecords: true,
+            height: '220',
+            width: '550',
+            caption: 'Inbox',
+            onSelectRow: function (rowid) {
+
+                if (rowid == null) {
+                    var ret2 = jQuery("#StaffList2").jqGrid('getRowData', rowid);
+                    // alert(ret2.Name);
+                    $('#reportingmanager').val(ret2.Name);
+                    $('#DivStaffSearch').dialog('close');
+
+                } else {
+                    var ret3 = jQuery("#StaffList2").jqGrid('getRowData', rowid);
+                    //alert(ret3.Name);
+                    $('#reportingmanager').val(ret3.Name);
+                    $('#DivStaffSearch').dialog('close');
+                }
+            }
+        });
+    }
+
+</script>
+<table class="WithBorderOnly" width="100%">
+    <tr>
+        <th style="width: 80px">
+            Staff ID
+        </th>
+        <th style="width: 80px">
+            Staff Name
+        </th>
+        <th style="width: 80px">
+            Campus
+        </th>
+        <th style="width: 80px">
+            Designation
+        </th>
+    </tr>
+    <tr id="srchKeyPress">
+        <td>
+            <input type="text" id="idno1" class="CSSTextBox" style="width: 80px" />
+        </td>
+        <td>
+            <input type="text" id="name1" class="CSSTextBox" style="width: 80px" />
+        </td>
+        <td>
+            @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus1", @Class = "CSSDropDownList" })
+        </td>
+        <td>
+            @Html.DropDownListFor(Model => Model.Designation, new SelectList(ViewBag.designationddl, "Designation", "Designation"), "Select One", new { id = "designation1", @Class = "CSSDropDownList" })
+        </td>
+        @*        <td>
+            <input type="text" id="campus" class="CSSTextBox" style="width: 80px" />
+        </td>
+        <td>
+            <input type="text" id="designation" class="CSSTextBox" style="width: 80px" />
+        </td>*@
+    </tr>
+    <tr>
+        <td>
+            <input type="button" value="Search" id="Search" />
+        </td>
+        <td>
+            <input type="button" value="Reset" id="Reset1" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6">
+            <br />
+            <table id="StaffList2">
+            </table>
+            <div id="StaffPager2">
+            </div>
+        </td>
+    </tr>
+</table>

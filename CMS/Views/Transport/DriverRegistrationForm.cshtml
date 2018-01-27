@@ -1,0 +1,186 @@
+﻿@model TIPS.Entities.TransportEntities.DriverMaster
+@{
+    ViewBag.Title = "Application Form";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<div class="page-content">
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        @using (Html.BeginForm("DriverRegistrationForm", "Transport", FormMethod.Post, new { enctype = "multipart/form-data", test = "wew" }))
+        {
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-user"></i>&nbsp;Basic Details</div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Request Number</b>
+                                            </label>
+                                            <br />
+                                           @ViewBag.DriverRegNo
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Date</b></label>
+                                            <br />
+                                            @ViewBag.Date
+                                            @Html.HiddenFor(x => x.CreatedDate)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Time</b></label>
+                                            <br />
+                                            @ViewBag.Time
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Processed By</b></label>
+                                            <br />
+                                            @ViewBag.processby
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>User Role</b></label>
+                                            <br />
+                                            @ViewBag.userrole
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Registration Status</b></label>
+                                            <br />
+                                            @ViewBag.Registerstatus
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <!-- PAGE CONTENT BEGINS -->
+                    <div class="tabbable tabs-left">
+                        <ul id="myTab" class="nav nav-tabs">
+                            <li class="active"><a href="#Employment" data-toggle="tab"><i class="ace-work fa fa-dashboard"></i>&nbsp;Employment Details</a> </li>
+                            <li><a data-toggle="tab" href="#family"><i class="fa fa-users"></i>&nbsp;Family Details</a></li>
+                            <li><a data-toggle="tab" href="#Personal"><i class="ace-icon fa fa-tags"></i>&nbsp;Personal Details</a></li>
+                            <li><a data-toggle="tab" href="#other"><i class="ace-icon fa fa-tags"></i>&nbsp;Other Details</a></li>
+                            @if (Session["staffapproverrole"].ToString() == "STM-APP")
+                            {
+                                <li><a data-toggle="tab" href="#ApproveDetails"><i class="ace-icon fa fa-mobile"></i>&nbsp;Approve</a></li>
+                            }
+                        </ul>
+                        <div class="tab-content col-xs-6.col-sm-10">
+                            <div class="tab-pane in active" id="Employment">
+                                @Html.Partial("DriverWorkDetails")
+                            </div>
+                            <div class="tab-pane" id="Personal">
+                                @Html.Partial("DriverPersonalDetails")
+                            </div>
+
+                            <div class="tab-pane" id="other">
+                                @Html.Partial("DriverOtherDetails")
+                            </div>
+                            <div class="tab-pane" id="family">
+                                @Html.Partial("DriverFamilyDetails")
+                            </div>
+                            @*<div class="tab-pane" id="Training">
+                                @Html.Partial("TrainingDetails")
+                            </div>
+                            <div class="tab-pane" id="Reference">
+                                @Html.Partial("ReferenceDetails")
+                            </div>
+                            <div class="tab-pane" id="Other">
+                                @Html.Partial("OtherDetails")
+                            </div>*@
+
+                            @if (Session["staffapproverrole"].ToString() == "STM-APP")
+                            {
+                                <div class="tab-pane" id="ApproveDetails">
+                                    @Html.Partial("Approve")
+                                </div>
+                            }
+
+                            @*Html.HiddenFor(model => model.DocCheck, new { id = "doccheck" })
+                            @Html.HiddenFor(model => model.QualCheck, new { id = "qualcheck" })*@
+                        </div>
+                    </div>
+                    <!-- PAGE CONTENT ENDS -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <div class="row" style="padding-top: 10px;">
+                <div class="col-xs-3">
+                </div>
+                <div class="col-xs-9">
+                    @if ((ViewBag.Registerstatus == "New Registration") || (ViewBag.Registerstatus == "Registered"))
+                    {
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-primary btn-block btn-sm" value="Save" id="btnSave"
+                                name="btnSave" onclick="return(validate1());">
+                                <i class="ace-icon fa fa-plus-square-o white"></i>Save
+                            </button>
+                        </div>
+                    }
+                    @if ((ViewBag.Registerstatus == "New Registration") && (ViewBag.initialpage != "yes"))
+                    {
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-info btn-block btn-sm" value="Send For Approval"
+                                name="btnsentforapproval" onclick="return(validate1());" style="font-size: 10px;">
+                                <i class="ace-icon fa fa-check white"></i>Send For Approval
+                            </button>
+                        </div>
+                    }
+                    @if ((Session["staffapproverrole"].ToString() == "STM-APP") && ViewBag.Registerstatus == "Sent For Approval")
+                    {
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-success btn-block btn-sm" id="Approve" name="btnapprove" value="Approve"
+                                onclick="return(validate2());">
+                                <i class="ace-icon fa fa-check-square-o white"></i>Approve
+                            </button>
+                        </div>
+                    }
+                    @if (ViewBag.Registerstatus == "Registered" || ViewBag.Registerstatus == "Inactive")
+                    {
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-purple btn-block btn-sm" value="Back to Inbox"
+                                id="Back1">
+                                <i class="ace-icon fa fa-arrow-left white"></i>Back to Inbox
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-purple btn-block btn-sm" value="Back to Inbox"
+                                id="Back">
+                                <i class="ace-icon fa fa-arrow-left white"></i>Back to Inbox
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <!-- /.page-content-area -->
+</div>
+<div id="ImgCaptureDiv"></div>
+<script src="../../Scripts/Transport/DriverRegistrationForm.js" type="text/javascript"></script>
+<div>
+    @Html.Hidden("DriverRegNo", "", new { id = "DriverRegNo", @Value = ViewBag.DriverRegNo })
+    @Html.Hidden("doccheck", "", new { id = "doccheck", @Value = ViewBag.doccheck })
+    @Html.Hidden("qualcheck", "", new { id = "qualcheck", @Value = ViewBag.qualcheck })
+</div>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.StaffReferenceDetails" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+	<class name="TIPS.Entities.StaffManagementEntities.StaffReferenceDetails, TIPS.Entities" table="StaffReferenceDetails" lazy="false" >
+		<id name="Id" column="Id" type="Int64">
+			<generator class="identity"></generator>
+		</id>
+		<property name="PreRegNum" column="PreRegNum" type="Int32"  not-null ="false"></property>
+		<property name="RefName" column="RefName" type="string" ></property>
+		<property name="RefContactNo" column="RefContactNo" type="string" ></property>
+		<property name="RefHowKnow" column="RefHowKnow" type="string"></property>
+		<property name="RefHowLongKnow" column="RefHowLongKnow" type="string"></property>
+	</class>
+</hibernate-mapping>

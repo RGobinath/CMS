@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StoreEntities.MaterialIssueList" namespace="TIPS.Entities.StoreEntities">
+  <class name="TIPS.Entities.StoreEntities.MaterialIssueList, TIPS.Entities" table="MaterialIssueList" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="MRLId" column="MRLId" type="Int64"></property>
+    <property name="RequestQty" column="RequestQty" type="Int32"></property>
+    <property name="ApprovedQty" column="ApprovedQty" type="Int32"></property>
+    <property name="PrevIssdQty" column="PrevIssdQty" type="Int32"></property>
+    <property name="IssueQty" column="IssueQty" type="Int32"></property>
+    <property name="TotalIssued" column="TotalIssued" type="Int32"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="IssNoteId" column="IssNoteId" type="Int64"></property>
+
+    <property name="UnitPrice" column="UnitPrice" type="decimal"></property>
+    <property name="TotalPrice" column="TotalPrice" type="decimal"></property>
+    
+  </class>
+</hibernate-mapping>

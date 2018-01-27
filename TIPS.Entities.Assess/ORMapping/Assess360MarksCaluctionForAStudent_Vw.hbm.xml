@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Assess360MarksCaluctionForAStudent_Vw" table="Assess360MarksCaluctionForAStudent_Vw" lazy="true" >
+    <id name="UniqId" column="UniqId" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="Id" column="Id" type="Int64" />
+    <property name="StudentId" column="StudentId" type="Int64" />
+    <property name="IdNo" column="IdNo" type="AnsiString" />
+    <property name="Name" column="Name" type="AnsiString" />
+    <property name="Campus" column="Campus" type="AnsiString" />
+    <property name="Section" column="Section" type="AnsiString" />
+    <property name="Grade" column="Grade" type="AnsiString" />
+    <property name="GroupName" column="GroupName" type="AnsiString"/>
+    <property name="Subject" column="Subject" type="AnsiString" />
+    <property name="Semester" column="Semester" type="AnsiString"  />
+    <property name="AcademicYear" column="AcademicYear" type="AnsiString"  />
+    <property name="SumOfMarks" column="SumOfMarks" type="decimal"  />
+    <property name="CountOfMarks" column="CountOfMarks" type="Int64"  />
+    <property name="OverAllMrks" column="OverAllMrks" type="decimal"  />
+  </class>
+</hibernate-mapping>

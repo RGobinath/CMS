@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.TimeTableEntities.tt_timetable" namespace="TIPS.Entities.TimeTableEntities" xmlns="urn:nhibernate-mapping-2.2">
+	<class name="TIPS.Entities.TimeTableEntities.tt_timetable, TIPS.Entities" table="tt_timetable" lazy="false" >
+		<id name="timetable_id" column="timetable_id" type="Int64">
+			<generator class="identity"></generator>
+		</id>
+		<!--<property name="WeekDay_Id" column="WeekDay_Id" type="string" ></property>-->
+		<property name="allotment_id" column="allotment_id" type="Int64" ></property>
+		<property name="teacher_id" column="teacher_id" type="Int64"  not-null ="false"></property>
+		<property name="subject_id" column="subject_id" type="Int64" ></property>
+		<property name="division_id" column="division_id" type="Int64" ></property>
+		<property name="lab_division_id" column="lab_division_id" type="string"></property>
+		<property name="day_id" column="day_id" type="Int64"></property>
+		<property name="combined_master_id" column="combined_master_id" type="string"></property>
+		<property name="bifurcation_master_id" column="bifurcation_master_id" type="string"></property>
+		<property name="period_no" column="period_no" type="Int32"></property>
+		<property name="block" column="block" type="bool" ></property>
+		<!--<property name="lock" column="lock" type="bool" ></property>-->
+		<property name="description" column="description" type="string" ></property>
+	</class>
+</hibernate-mapping>

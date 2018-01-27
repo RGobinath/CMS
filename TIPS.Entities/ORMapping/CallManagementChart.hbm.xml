@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities" namespace="TIPS.Entities" >
+  <class name="CallManagementChart" table="CallManagementChart_vw" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"/>
+    </id>
+    <property name="ProcessRefId" column="ProcessRefId" type="Int64"/>
+    <property name="IssueGroup" column="IssueGroup" type="string"/>
+    <property name="Status" column="Status" type="string"/>
+    <property name="Performer" column="Performer" type="string"/>
+    <property name="IsInformation" column="IsInformation" type="boolean"/>
+    <property name="IssueDate" column="IssueDate" type="datetime"/>
+    <property name="InformationFor" column="InformationFor" type="string"/>
+    <property name="BranchCode" column="BranchCode" type="string"/>
+    
+  </class>
+</hibernate-mapping>

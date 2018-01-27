@@ -1,0 +1,140 @@
+﻿@model TIPS.Entities.EmployeeEntities.EmployeeOTDetails
+@{
+    ViewBag.Title = "EmployeeOT";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-sm-3">
+                    <div class="row">
+                        <div class="col-xs-12 widget-container-col">
+                            <div class="widget-box widget-color-CustomizeBlue">
+                                <div class="widget-header widget-header-flat widget-header-small">
+                                    <div class="PanelHeader">
+                                        <i class="ace-icon fa fa-pencil-square-o"></i>&nbsp;Add Pannel
+                                    </div>
+                                    <div class="widget-toolbar">
+                                        <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main no-padding">
+                                        <div class="row">
+                                            <div class="col-xs-12" style="padding-top: 15px;">
+                                                <div class="col-sm-5">
+                                                    <label for="form-field-select-1">
+                                                        <b>Campus</b></label>
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { @Class = "form-control select-sm" })
+                                                    @Html.Hidden("SuccessMsg", "", new { id = "SuccessMsg", @Value = ViewBag.Success })
+                                                    @Html.HiddenFor(Model => Model.PreRegNum)
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12" style="padding-top: 20px;">
+                                                <div class="col-sm-5">
+                                                    <label for="form-field-select-1">
+                                                        <b>Employee Name</b></label>
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    @Html.TextBoxFor(Model => Model.EmployeeName, new { @class = "form-control input-sm", id = "gs_EmployeeName" })
+
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12" style="padding-top: 20px;">
+                                                <div class="col-sm-5">
+                                                    <label for="form-field-select-1">
+                                                        <b>Employee ID No</b></label>
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    @Html.TextBoxFor(Model => Model.EmployeeIdNo, new { @class = "form-control input-sm" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12" style="padding-top: 20px;">
+                                                <div class="col-xs-5">
+                                                    <label for="form-field-select-1">
+                                                        <b>Date of OT</b></label>
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    <div class="row">
+                                                        <div class="col-xs-11">
+                                                            @Html.TextBoxFor(Model => Model.OTDate, new { id = "OTDate", @Class = "form-control datepicker" })
+                                                        </div>
+                                                        <div class="col-xs-1" style="margin-left: -20px;">
+                                                            <i class="ace-icon fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12" style="padding-top: 20px;">
+                                                <div class="col-sm-5">
+                                                    <label for="form-field-select-1">
+                                                        <b>Type of OT</b></label>
+                                                </div>
+                                                <div class="col-sm-7">
+
+
+                                                    @Html.DropDownListFor(Model => Model.OTType, new SelectList(new[]
+                                          {
+                                             new { Text = "Select", Value = "Select", Seleced = "True" },
+                                                new { Text = "Remedial Trip", Value = "Remedial Trip", Seleced = "false" },
+                                                new { Text = "Cleaning", Value = "Cleaning", Seleced = "false" },
+                                                 new { Text = "Field trip", Value = "Field trip", Seleced = "false" },
+                                                   new { Text = "Field trip Stay", Value = "Field trip Stay", Seleced = "false" },
+                                                     new { Text = "Function duty", Value = "Function duty", Seleced = "false" },
+                                                       new { Text = "MD residence", Value = "MD residence", Seleced = "false" },
+                                                        new { Text = "Public holidays", Value = "Public holidays", Seleced = "false" },
+                                                         new { Text = "Week-Off", Value = "Week-Off", Seleced = "false" },
+                                          },
+                   "Value", "Text", ""), new { id = "OTType", @Class = "form-control select-sm" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12" style="padding-top: 20px;">
+                                                <div class="col-sm-5">
+                                                    <label for="form-field-select-1">
+                                                        <b>OT Allowance</b></label>
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    @Html.TextBoxFor(m => m.Allowance, new { @class = "form-control input-sm", @readonly = true })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12" style="padding-top: 29px; padding-bottom: 47px;">
+                                                <div class="col-sm-6">
+                                                    <button type="submit" class="btn btn-primary btn-block btn-sm" id="btnSelect" onclick="EmployeeOT(); return false;">
+                                                        <i class="ace-icon fa fa-check-circle white"></i>Add
+                                                    </button>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <button type="button" class="btn btn-danger btn-block btn-sm" id="btnReset">
+                                                        <i class="ace-icon fa fa-undo white"></i>Reset
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <table id="EmpOTDetailsList">
+                    </table>
+                    <div id="EmpOTDetailsListPager">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="../../Scripts/Employee/EmployeeOT.js"></script>

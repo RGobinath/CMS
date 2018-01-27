@@ -1,0 +1,271 @@
+﻿@model TIPS.Entities.TransportEntities.DriverOTDetails
+@{
+    ViewBag.Title = "DriverOTDetailsReport";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var Month = "@ViewBag.CurMonth";
+        var Year = "@ViewBag.CurYear";
+        $("#ddlyear").val(Year);
+        $.getJSON("/Base/FillMonth",
+             function (fillig) {
+                 var mior = $("#ddlmonth");
+                 mior.empty();
+                 mior.append("<option value=' '> Select </option>");
+                 $.each(fillig, function (index, itemdata) {
+                     if (itemdata.Value != Month) {
+                         mior.append($('<option/>',
+                         {
+                             value: itemdata.Value,
+                             text: itemdata.Text
+                         }));
+                     }
+                     else {
+                         mior.append($('<option/>',
+                     {
+                         value: itemdata.Value,
+                         text: itemdata.Text,
+                         selected: "Selected"
+
+                     }));
+                     }
+                 });
+             });
+
+        $("#Campus").change(function () {
+            $.getJSON("/Transport/GetDriverByCampus?Campus=" + $(this).val(),
+             function (fillig) {
+                 var Dri = $("#DriverName");
+                 Dri.empty();
+                 Dri.append($('<option/>',
+                {
+                    value: "",
+                    text: "Select One"
+
+                }));
+                 $.each(fillig, function (index, itemdata) {
+                     Dri.append($('<option/>',
+                         {
+                             value: itemdata.Value,
+                             text: itemdata.Text
+                         }));
+                 });
+
+             });
+        });
+
+        $("#DriverName").change(function () {
+            var Campus = $("#Campus").val();
+            var DriverName = $(this).val();
+            $.ajax({
+                type: 'POST',
+                url: "/Transport/GetDriverDetailsByNameAndCampus",
+                data: { Campus: Campus, DriverName: DriverName },
+                success: function (data) {
+                    // alert(data);
+                    $("#DriverIdNo").val(data.DriverIdNo);
+                }
+            });
+        });
+        $("#btnSearch").click(function () {
+            var Campus = $("#Campus").val();
+            var DriverName = $('#DriverName').val();
+            var DriverIdNo = $('#DriverIdNo').val();
+            var OTType = $("#OTType").val();
+            Year = $("#ddlyear").val();
+            Month = $("#ddlmonth").val();
+            $("#DriverOTDetailsReportList").clearGridData();
+            $("#DriverOTDetailsReportList").setGridParam(
+                {
+                    datatype: "json",
+                    url: '@Url.Content("~/Transport/DriverOTDetailsReportListJqGrid/")',
+                    postData: { Campus: Campus, DriverName: DriverName, DriverIdNo: DriverIdNo, OTType: OTType, CurrMonth: Month, CurrYear: Year },
+                    page: 1
+                }).trigger("reloadGrid");
+        });
+
+        $("#DriverOTDetailsReportList").jqGrid({
+            url: '@Url.Content("~/Transport/DriverOTDetailsReportListJqGrid")?CurrMonth=' + Month + '&CurrYear=' + Year,
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Campus', 'Driver Name', 'Driver Id No', 'OT Type', 'OT Count', 'OT Allowance', 'Month', 'Year'],
+            colModel: [
+            //  {name: 'Id', index: 'Id', hidden: true, key: true },
+             { name: 'Campus', index: 'Campus' },
+             { name: 'DriverName', index: 'DriverName' },
+             { name: 'DriverIdNo', index: 'DriverIdNo' },
+             { name: 'OTType', index: 'OTType' },
+             { name: 'OTCount', index: 'OTCount' },
+             { name: 'Allowance', index: 'Allowance' },
+             { name: 'Month', index: 'Month', width: 170 },
+             { name: 'Year', index: 'Year', width: 170 },
+             ],
+            pager: '#DriverOTDetailsReportListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'DriverName',
+            sortorder: 'asc',
+            height: '230',
+            width: 750,
+            //shrinktofit: true,
+            autowidth: true,
+            viewrecords: true,
+            caption: 'Driver OT Detials Report'
+            //  multiselect: true
+        });
+        $("#DriverOTDetailsReportList").navGrid('#DriverOTDetailsReportListPager', { add: false, edit: false, del: false, search: false, refresh: false });
+        $("#DriverOTDetailsReportList").jqGrid('navButtonAdd', '#DriverOTDetailsReportListPager', { caption: "Export Excel", buttonicon: "ui-icon-print",
+            onClickButton: function () {
+                var Campus = $("#Campus").val();
+                var DriverName = $('#DriverName').val();
+                var DriverIdNo = $('#DriverIdNo').val();
+                var OTType = $("#OTType").val();
+                Year = $("#ddlyear").val();
+                Month = $("#ddlmonth").val();
+                var ExportType = "Excel";
+                window.open("/Transport/DriverOTDetailsReportListJqGrid" + '?ExportType=' + ExportType + '&Campus=' + Campus + '&DriverName=' + DriverName + '&DriverIdNo=' + DriverIdNo +
+                 '&OTType=' + OTType + '&CurrMonth=' + Month + '&CurrYear=' + Year + '&rows=9999');
+            }
+        });
+
+
+        //   Autocomplete Search Example....
+        $("#DriverName").autocomplete({
+            source: function (request, response) {
+                var Campus = $("#Campus").val();
+                $.getJSON('/Transport/GetAutoCompleteDriverNamesByCampus?term=' + request.term + '&Campus=' + Campus, function (data) {
+                    response(data);
+                });
+            },
+            select: function (event, ui) {
+                debugger;
+                FillDriverIdNo(ui.item.value);
+            },
+            minLength: 1,
+            delay: 100
+        });
+
+
+
+    });
+
+    function FillDriverIdNo(DriverName) {
+        debugger;
+        var Campus = $("#Campus").val();
+        $.ajax({
+            type: 'POST',
+            url: "/Transport/GetDriverDetailsByNameAndCampus",
+            data: { Campus: Campus, DriverName: DriverName },
+            success: function (data) {
+                $("#DriverIdNo").val(data.DriverIdNo);
+            }
+        });
+    }
+
+</script>
+<br />
+@using (Html.BeginForm("DriverOTDetailsReport", "Transport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table width="100%" class="InnerTable">
+        <tr class="PanelHeading">
+            <td colspan="7" class="PanelHeading">
+                Driver OT Details
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" valign="top">
+                <table>
+                    <tr>
+                        <td width="15%" >
+                            <label class="lblheader">
+                                Campus</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { @Class = "CSSDropDownList" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="15%">
+                            <label class="lblheader">
+                                Driver Name</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                          @Html.TextBoxFor(m => m.DriverName, new { @class = "CSSTextBox" })
+                            @*@Html.DropDownListFor(m => m.DriverName, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CssDropDownList" })*@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="15%">
+                            <label class="lblheader">
+                                Driver ID Number</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.TextBoxFor(m => m.DriverIdNo, new { @class = "CSSTextBox" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="15%">
+                            <label class="lblheader">
+                                OT Type</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DropDownList("OTType", new SelectList(new[]
+                                          {
+                                             new{Value="",Text="Select"},
+                                             new{Value="Evening",Text="Evening"},
+                                             new{Value="Night",Text="Night"},
+                                             new{Value="Out Station",Text="Out Station"},
+                                             new{Value="Holiday",Text="Holiday"},
+                                             new{Value="Remedial Trip",Text="Remedial Trip"},
+                                          },
+          "Value", "Text", ""), new { @Class = "CSSDropDownList", style = "width:145px;" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="15%">
+                            <label class="lblheader">
+                                Month</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DropDownList("ddlmonth", new SelectList(Enumerable.Empty<SelectListItem>()), "----Select----", new { @Class = "CSSDropDownList" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="15%">
+                            <label class="lblheader">
+                                Year</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DropDownList("ddlyear", new SelectList(ViewBag.Years, "", ""), "Select One", new { @Class = "CSSDropDownList" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" id="btnSearch" value="Search" />
+                            <input type="reset" value="Reset" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td width="80%" valign="top">
+                <table id="DriverOTDetailsReportList">
+                </table>
+                <div id="DriverOTDetailsReportListPager">
+                </div>
+            </td>
+        </tr>
+    </table>
+}

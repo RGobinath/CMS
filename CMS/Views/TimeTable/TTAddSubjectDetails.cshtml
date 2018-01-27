@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "TTAddSubjectDetails";
+}
+
+<script src="../../Scripts/TimeTable/GenerateTT.js"></script>
+
+
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="fa fa-plus-square-o"></i>&nbsp;Add Subjects
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                       @Html.DropDownList("TTCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Subject</b></label>
+                                        @Html.TextBox("Subject", "", new { @class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Academic Year</b></label>
+                                          @Html.DropDownList("AcaYear",
+                                            new SelectList(new[] { 
+                                                new { Text = "Select", Value = "Select", Seleced = "True" },
+                                                new { Text = "2015-2016", Value = "2015-2016", Seleced = "false" },
+                                                new { Text = "2016-2017", Value = "2016-2017", Seleced = "false" },
+                                                new { Text = "2017-2018", Value = "2017-2018", Seleced = "false" },
+                                       }, "Text", "Value", "Seleced"),
+                                       new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button type="submit" class="btn btn-primary btn-block btn-sm" id="btnSearch" onclick="AddSubject(); return false;">
+                                            <i class="ace-icon fa fa-plus-square-o white"></i>Add
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button type="button" class="btn btn-danger btn-block btn-sm" id="btnReset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <table id="TTSubject">
+                </table>
+                <div id="TTSubjectPager">
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.page-content-area -->
+</div>
+
+<div id="Activities1"></div>
+
+<div id="SubDetails"></div>

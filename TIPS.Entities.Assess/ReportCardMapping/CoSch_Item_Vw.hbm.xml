@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess.ReportCardClasses" namespace="TIPS.Entities.Assess.ReportCardClasses" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.ReportCardClasses.CoSch_Item_Vw,TIPS.Entities.Assess" table="CoSch_Item_Vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="Campus" column="Campus" type="string" />
+    <property name="Grade" column="Grade" type="string" />
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    <property name="CoScholasticCode" column="CoScholasticCode" type="Int64"  />
+    <property name="CoScholasticSection" column="CoScholasticSection" type="string" />
+    <property name="CoScholasticName" column="CoScholasticName" type="string" />
+    <property name="Parameter" column="Parameter" type="string" />
+    <property name="DescriptiveIndicator" column="DescriptiveIndicator" type="string" />
+    <property name="CoSchCriteriaCode" column="CoSchCriteriaCode" type="string" />
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.AdmissionEntities.IdGeneration" namespace="TIPS.Entities.AdmissionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AdmissionEntities.IdGeneration, TIPS.Entities" table="IdGeneration" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+     <property name="PreRegNum" column="PreRegNum" type="Int64" not-null ="false"></property>
+
+    <property name="NewId" column="NewId" type="string"></property>
+    <property name="Name" column="Name" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="FeeStructureYear" column="FeeStructureYear" type="string"></property>
+  </class>
+</hibernate-mapping>
+

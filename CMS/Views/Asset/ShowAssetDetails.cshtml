@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Show Asset Details";
+    Layout = null;
+}
+@Html.Hidden("viewbagAssetType", "", new { @Value = ViewBag.AssetType })
+@Html.Hidden("viewbagTransactionType", "", new { @Value = ViewBag.TransactionType })
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        <table id="ShowAssetDetailsList">
+        </table>
+        <div id="ShowAssetDetailsListPager">
+
+        </div>
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+<script src="../../Scripts/Asset/ShowAssetDetails.js"></script>
+

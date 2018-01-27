@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "ChooseTransportVendor";
+    //Layout = "~/Views/Shared/PartialViewMaster.cshtml";
+    Layout = null;
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        jQuery("#TransportVendorList").jqGrid({
+            url: '/Transport/TransportVendorMasterListJqGrid',
+            datatype: 'json',
+            mtype: 'GET',
+            height: '265',
+            width: '970',
+            // shrinkToFit: true,
+            colNames: ['Name', 'Dealer Type', 'Vendor Type', 'Vendor For', 'PAN', 'TIN', 'FAX', 'Contact Name', 'Contact No', 'Email', 'Website', 'Reason For Selecting', 'Credit Days', 'Applicable For TDS', 'Bank Name', 'Bank Branch', 'Account Name', 'Account Type', 'Account No', 'PIN', 'Add1', 'Add2', 'Id'],
+            colModel: [
+            { name: 'Name', index: 'Name', editable: true, formoptions: { elmsuffix: ' *', rowpos: 1, colpos: 1} },
+            { name: 'DealerType', index: 'DealerType', editable: true, formoptions: { elmsuffix: ' *', rowpos: 1, colpos: 2} },
+            { name: 'VendorType', index: 'VendorType', editable: true, edittype: 'select', editoptions: { value: ":Select;Sale:Sale;Service:Service" }, formoptions: { elmsuffix: ' *', rowpos: 1, colpos: 3} },
+            { name: 'VendorFor', index: 'VendorFor', editable: true, formoptions: { elmsuffix: ' *', rowpos: 2, colpos: 1} },
+            { name: 'PAN', index: 'PAN', editable: true, formoptions: { elmsuffix: ' *', rowpos: 2, colpos: 2} },
+            { name: 'TIN', index: 'TIN', editable: true, formoptions: { elmsuffix: ' *', rowpos: 2, colpos: 3} },
+            { name: 'FAX', index: 'FAX', editable: true, formoptions: { elmsuffix: ' *', rowpos: 3, colpos: 1} },
+            { name: 'ContactName', index: 'ContactName', editable: true, formoptions: { elmsuffix: ' *', rowpos: 3, colpos: 2} },
+            { name: 'ContactNo', index: 'ContactNo', editable: true, formoptions: { elmsuffix: ' *', rowpos: 3, colpos: 3} },
+            { name: 'Email', index: 'Email', editable: true, formoptions: { elmsuffix: ' *', rowpos: 4, colpos: 1} },
+            { name: 'Website', index: 'Website', editable: true, formoptions: { elmsuffix: ' *', rowpos: 4, colpos: 2} },
+            { name: 'ReasonForSelecting', index: 'ReasonForSelecting', editable: true, formoptions: { elmsuffix: ' *', rowpos: 4, colpos: 3} },
+            { name: 'CreditDays', index: 'CreditDays', editable: true, formoptions: { elmsuffix: ' *', rowpos: 5, colpos: 1} },
+            { name: 'ApplicableForTDS', index: 'ApplicableForTDS', editable: true, edittype: 'select', editoptions: { value: ":Select;True:Yes;False:No" }, formoptions: { elmsuffix: ' *', rowpos: 5, colpos: 2} },
+            { name: 'BankName', index: 'BankName', editable: true, formoptions: { elmsuffix: ' *', rowpos: 5, colpos: 3} },
+            { name: 'BankBranch', index: 'BankBranch', editable: true, formoptions: { elmsuffix: ' *', rowpos: 6, colpos: 1} },
+            { name: 'AccountName', index: 'AccountName', editable: true, formoptions: { elmsuffix: ' *', rowpos: 6, colpos: 2} },
+            { name: 'AccountType', index: 'AccountType', editable: true, formoptions: { elmsuffix: ' *', rowpos: 6, colpos: 3} },
+            { name: 'AccountNo', index: 'AccountNo', editable: true, formoptions: { elmsuffix: ' *', rowpos: 7, colpos: 1} },
+            { name: 'PIN', index: 'PIN', editable: true, formoptions: { elmsuffix: ' *', rowpos: 7, colpos: 2} },
+            { name: 'Add1', index: 'Add1', editable: true, edittype: 'textarea', editoptions: { rows: "4", cols: "20", maxlength: 4000 }, formoptions: { elmsuffix: ' *', rowpos: 8, colpos: 1} },
+            { name: 'Add2', index: 'Add2', editable: true, edittype: 'textarea', editoptions: { rows: "4", cols: "20", maxlength: 4000 }, formoptions: { elmsuffix: ' *', rowpos: 8, colpos: 2} },
+            { name: 'Id', index: 'Id', editable: true, hidden: true, key: true },
+            ],
+            pager: '#TransportVendorListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: "Desc",
+            labelswidth: 60,
+            viewrecords: true,
+           // multiselect: true,
+            closeAfterEdit: true,
+            closeAfterAdd: true,
+            reloadAfterSubmit: true,
+            caption: 'Transport Vendor List',
+            beforeShowForm: function () {
+                //                var $tr = $("#tr_SupplierName"), // name' is the column name
+                //                $label = $tr.children("td.CaptionTD"),
+                //                $data = $tr.children("td.DataTD");
+                //                $data.attr("colspan", "5");
+                //                $data.children("input").css("width", "95%");
+                //                $label.css("width", "20%");
+            },
+            onSelectRow: function (rowid) {
+                ret1 = jQuery("#TransportVendorList").jqGrid('getRowData', rowid);
+                $("#PurchasedFrom").val(ret1.Name);
+                $('#DivVendorSearch').dialog('close');
+            }
+        });
+
+    });
+</script>
+<table id="TransportVendorList" class="WithBorderOnly" width="100%" cellspacing="8">
+</table>
+<div id="TransportVendorListPager">
+</div>

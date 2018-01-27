@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.StaffBDayWishesMaster" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+	<class name="TIPS.Entities.StaffManagementEntities.StaffBDayWishesMaster, TIPS.Entities" table="StaffBDayWishesMaster" lazy="false" >
+		<id name="Id" column="Id" type="Int64">
+			<generator class="identity"></generator>
+		</id>
+		<property name="GreetingCardImageURL" column="GreetingCardImageURL" type="string"></property>
+		<property name="GreetingMessage" column="GreetingMessage" type="string"></property>
+		<property name="IsUsed" column="IsUsed" type="bool"></property>
+		<property name="Subject" column="Subject" type="string"></property>
+	</class>
+</hibernate-mapping>

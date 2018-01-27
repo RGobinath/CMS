@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StaffDepartmentMaster" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffDepartmentMaster, TIPS.Entities" table="StaffDepartmentMaster" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="Campus" column="Campus" type="string"/>
+    <property name="Department" column="Department" type="string" />
+    <property name="GroupName" column="GroupName" type="string" />
+  </class>
+</hibernate-mapping>

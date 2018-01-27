@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.AdmissionEntities.PaymentDetails" namespace="TIPS.Entities.AdmissionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AdmissionEntities.PaymentDetails, TIPS.Entities" table="PaymentDetails" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="StudentId" column="StudentId" type="Int64" not-null ="false"></property>
+    <property name="PreRegNum" column="PreRegNum" type="Int64" not-null ="false"></property>
+
+    <property name="AcademicYear" column="AcademicYear" type="string"  length="50"></property>
+    <property name="ApplicationDate" column="ApplicationDate" type="string" ></property>
+    <property name="ApplicationNo" column="ApplicationNo" type="string" length="30"></property>
+    <property name="AppliedCampus" column="AppliedCampus" type="string" length="30"></property>
+    <property name="AppliedGrade" column="AppliedGrade" type="string" length="30"></property>
+    <property name="ModeOfPayment" column="ModeOfPayment" type="string" ></property>
+    <property name="Amount" column="Amount" type="string" ></property>
+    <property name="FeeType" column="FeeType" type="string" ></property>
+    <property name="ReferenceNo" column="ReferenceNo" type="string" ></property>
+    <property name="ChequeDate" column="ChequeDate" type="datetime" ></property>
+    <property name="BankName" column="BankName" type="string" ></property>
+    <property name="Remarks" column="Remarks" type="string" ></property>
+    <property name="PaidDate" column="PaidDate" type="datetime" ></property>
+    <property name="ClearedDate" column="ClearedDate" type="datetime" ></property>
+    <property name="FeePaidStatus" column="FeePaidStatus" type="string" ></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime" ></property>
+    <property name="CreatedBy" column="CreatedBy" type="string" ></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime" ></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string" ></property>
+    </class>
+</hibernate-mapping>

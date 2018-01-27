@@ -1,0 +1,206 @@
+﻿@model TIPS.Entities.Assess.Assess360
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript">
+        $(function () {
+            var lastsel3;
+            $("#btnStaffPopup").button({ icons: { primary: "ui-icon-search" },
+                text: false
+            });
+
+            $('#AssessmentNtv').attr("tabindex", 2);
+            $('#AssessmentPtv').attr("tabindex", 3);
+
+            $('#OtherMarks').hide();
+
+            if ($('#loggedInUserType').val() == "Staff") {
+                $('#Staff').val($('#loggedInUserName').val());
+                $('#btnStaffPopup').hide();
+            }
+
+            $('#btnStaffPopup').click(function () {
+                GetStaffPopup();
+            });
+
+            $(".datepicker").datepicker({
+                showOn: "button",
+                buttonImage: "../../Images/date.gif",
+                buttonImageOnly: true
+            });
+
+            $('.datepicker').datepicker('option', 'dateFormat', 'dd-M-yy');
+
+            $('#AssessmentNtv, #AssessmentPtv').attr('checked', false);
+
+            $("#AssessmentNtv").click(function () {
+                if ($(this).is(":checked")) {
+                    $('#AssessmentPtv').attr("checked", false);
+                    $('#AssessmentNtv').attr("checked", true);
+                    $('#Assessment').val($(this).val());
+                    $('#hdnIsCredit').val($(this).val());
+                    GetIssueType('IssuesCredits', '1');
+                    $('#Marks').empty();
+                    $('#Marks').append("<option value=''> Select </option>");
+                }
+            });
+
+            $("#AssessmentPtv").click(function () {
+                if ($(this).is(":checked")) {
+                    $('#AssessmentNtv').attr("checked", false);
+                    $('#AssessmentPtv').attr("checked", true);
+                    $('#Assessment').val($(this).val());
+                    $('#hdnIsCredit').val($(this).val());
+                    GetIssueType('IssuesCredits', '1');
+                    $('#Marks').empty();
+                    $('#Marks').append("<option value=''> Select </option>");
+                }
+            });
+
+            $('#IssuesCredits').change(function () {
+                // 
+                if ($('#IssuesCredits option:selected').text() == "Others") {
+                    $('#OtherMarks').show();
+                    $('#Marks').val('').hide();
+                } else {
+                    $('#OtherMarks').val('').hide();
+                    var arrMarks = new Array();
+                    arrMarks = $('#IssuesCredits option:selected').attr('Marks').split(',');
+                    $('#Marks').empty(); $('#Marks').show();
+                    $('#Marks').append("<option value=''> Select </option>");
+                    for (var i = 0; i < arrMarks.length; i++) {
+                        $('#Marks').append("<option value='" + arrMarks[i] + "'>" + arrMarks[i] + "</option>");
+                    }
+                }
+            });
+
+            function frmtrUpdate(cellvalue, options, rowdata) {
+                var saveBtn = "";
+                if (rowdata[12] == $('#loggedInUserId').val()) {
+                    saveBtn = "<span class='ui-icon ui-icon-pencil T1CompUpdate' id='T1btnUpdate_" + options.rowId + "' rowid='" + options.rowId + "' title='Update'></span>";
+                }
+                return saveBtn;
+            }
+            function frmtrDel(cellvalue, options, rowdata) {
+                var delBtn = "";
+                if (rowdata[12] == $('#loggedInUserId').val()) {
+                    delBtn = "<span id='T1btnDel_" + options.rowId + "'class='ui-icon ui-icon-trash T1CompDel' rowid='" + options.rowId + "' title='Delete'></span>";
+                }
+                return delBtn;
+            }
+            $("#CharacterBehaviourList").jqGrid({
+                mtype: 'GET',
+                url: '/Assess360/GetAssess360ComponentListWithPagingAndCriteria',
+                postData: { Assess360Id: $('#Id').val(), tab: 1 },
+                datatype: 'json',
+                height: '150',
+                width: '1190',
+                shrinkToFit: true,
+                colNames: ['Id', 'Assess360Id', 'AssessmentCompGroup', 'Assessment', 'Assessment Name', 'Subject', 'Staff', 'Incident Date', 'Mark Details', 'Assignment Name', 'Description', 'Created Date', 'Entered By', '', ''],
+                colModel: [
+                          { name: 'Id', index: 'Id', hidden: true, key: true },
+                          { name: 'Assess360Id', index: 'Assess360Id', hidden: true },
+                          { name: 'AssessCompGroup', index: 'AssessCompGroup', sortable: false, hidden: true },
+                          { name: 'IsCredit', index: 'IsCredit', hidden: false },
+                          { name: 'GroupName', index: 'GroupName', sortable: false },
+                          { name: 'Subject', index: 'Subject', sortable: false, hidden: true },
+                          { name: 'Staff', index: 'Staff', sortable: false },
+                          { name: 'IncidentDate', index: 'IncidentDate', sortable: false },
+                          { name: 'MarkDetails', index: 'MarkDetails', sortable: false },
+                          { name: 'AssignmentName', index: 'AssignmentName', sortable: false, hidden: true },
+                          { name: 'Description', index: 'Description', sortable: false },
+                          { name: 'DateCreated', index: 'DateCreated', sortable: false },
+                          { name: 'EnteredBy', index: 'EnteredBy', sortable: false, hidden: true },
+
+                          { name: 'Update', index: 'Update', width: 30, align: 'center', sortable: false, formatter: frmtrUpdate },
+                          { name: 'Delete', index: 'Delete', width: 30, align: "center", sortable: false, formatter: frmtrDel }
+                          ],
+                pager: '#CharacterBehaviourPage',
+                rowNum: '10',
+                rowList: [5, 10, 20, 50, 100, 150, 200],
+                viewrecords: true,
+                sortname: 'Id',
+                sortorder: 'Desc',
+                gridComplete: function () {
+                    var rdata = $("#CharacterBehaviourList").getRowData();
+                    if (rdata.length > 0) {
+                        $('.T1CompUpdate').click(function () { UpdateComponentDtls($(this).attr('rowid')); });
+                        $('.T1CompDel').click(function () { DeleteComponentDtls($(this).attr('rowid')); });
+                    }
+                }
+            });
+        });
+
+        $('#btnReset').click(function () {
+            $('#Assess360ComponentId').val('');
+            $('#A360CompCreatedDate').val('');
+            $('#CharacterBehaviour').click();
+        });
+
+        function DeleteComponentDtls(id) {
+            if (confirm("Are you sure you want to delete this item?")) {
+                DeleteComponentIds(
+                '/Assess360/DeleteAssess360Component?Assess360ComponentIds=' + id, //delURL, 
+                '/Assess360/GetAssess360ComponentListWithPagingAndCriteria?Assess360Id=' + $('#Id').val() + '&tab=1', //reloadURL, 
+                $("#CharacterBehaviourList") //GridId, 
+                );
+            }
+        }
+
+        function UpdateComponentDtls(id) {
+            $('#btnAddChrtr').val('Update');
+            $('#btnReset').show();
+            var rowData = $("#CharacterBehaviourList").getRowData(id);
+            $('#Staff').val(rowData.Staff);
+
+            if (rowData.IsCredit && rowData.IsCredit == 'Credit') {
+                $('#AssessmentPtv').attr("checked", true);
+                $('#AssessmentPtv').click();
+            } else {
+                $('#AssessmentNtv').attr("checked", true);
+                $('#AssessmentNtv').click();
+            }
+            var cmps = document.getElementById("IssuesCredits");
+            for (i = 0; i < cmps.options.length; i++) {
+                if (cmps.options[i].text == rowData.GroupName) {
+                    cmps.selectedIndex = i;
+                    $('#IssuesCredits').change();
+                }
+            }
+
+            if (rowData.GroupName == "Others") {
+                $('#OtherMarks').show();
+                $('#Marks').val('').hide();
+                $('#OtherMarks').val(rowData.MarkDetails);
+            } else {
+                //$('#OtherMarks').val('').hide();
+                //$('#Marks').empty().show();
+                var mrks = document.getElementById("Marks");
+                for (i = 0; i < mrks.options.length; i++) {
+                    if (parseFloat(mrks.options[i].value) == parseFloat(rowData.MarkDetails)) {
+                        mrks.selectedIndex = i;
+                    }
+                }
+            }
+
+            $('#IncidentDate').val(rowData.IncidentDate);
+            $('#Description').val(rowData.Description);
+            $('#Assess360ComponentId').val(rowData.Id);
+            $('#A360CompCreatedDate').val(rowData.DateCreated);
+        }
+
+        $('#btnAddChrtr').click(function () {
+            SaveOrUpdateAssess360Component('CharacterBehaviour');
+        });
+    </script>
+</head>
+<body style="width: 100%">
+    <div id="CharacterBehaviour">
+        <br />
+        <table id="CharacterBehaviourList">
+        </table>
+        <div id="CharacterBehaviourPage">
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+﻿@model TIPS.Entities.TransportEntities.VehicleDetails
+@{
+    ViewBag.Title = "FuelRefill";
+    Layout = null;
+}
+@using (Html.BeginForm("FuelRefill", "Transport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-xs-12 widget-container-col">
+            <div class="widget-box widget-color-CustomizeBlue">
+                <div class="widget-header widget-header-flat widget-header-small">
+                    <div class="PanelHeader">
+                        <i class="ace-icon fa fa-tint"></i>&nbsp;Fuel Details</div>
+                    <div class="widget-toolbar">
+                        <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <div class="row" style="margin-top: 10px; margin-bottom: 5px;">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Fuel Type</b></label>
+                                    @Html.TextBoxFor(m => m.FuelType, new { @class = "form-control input-sm Fuel" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Fuel Qty(ltrs)</b></label>
+                                    @Html.TextBox("FuelQuantity", "", new { @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Litre Price</b></label>
+                                    @Html.TextBox("LitrePrice", "", new { @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Total Price</b></label>
+                                    @Html.TextBox("TotalPrice", "", new { @class = "form-control input-sm", @readonly = true })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Filled Date</b></label>
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBox("FilledDate", "", new { @class = "form-control date-picker" })
+                                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Filled By</b></label>
+                                    @Html.TextBox("FilledBy", "", new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Bunk Name</b></label>
+                                    <br />
+                                    @Html.TextBox("BunkName", "", new { @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Fuel Fill Type</b></label><br />
+                                    @Html.DropDownList("FuelFillType", new SelectList(new[]
+                                          {
+                                             new {Value="",Text="Select"},
+                                              new{Value="Full Tank",Text="Full Tank"},
+                                              new{Value="Partial",Text="Partial"},
+                                          }, "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Last MM Reading(kms)</b></label>
+                                    @Html.TextBox("LastMiloMeterReading", "", new { @class = "form-control input-sm", @readonly = true })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Current MM Reading(kms)</b></label>
+                                    @Html.TextBox("CurrentMiloMeterReading", "", new { @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-1">
+                                    <label for="form-field-select-1">
+                                        <b>Distance</b><br />
+                                        <span id="Distance"></span>
+                                    </label>
+                                </div>
+                                <div class="col-sm-1">
+                                    <label for="form-field-select-1">
+                                        <b>Mileage(kmpl)</b> <span id="Mileage"></span>
+                                    </label>
+                                </div>
+                                <div class="col-sm-2">
+                                    <br />
+                                    <button type="button" class="btn btn-success btn-info btn-block btn-sm" id="btnSave"
+                                        onclick="FuelRefillCreate();return false;">
+                                        <i class="ace-icon fa fa-floppy-o bigger-120 white"></i>Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+           @* <div class="col-sm-8">*@
+                <table id="FuelRefillListGrid">
+                </table>
+                <div id="FuelRefillListGridPager">
+                </div>
+           @* </div>
+            <div class="col-sm-4">
+                <div id="VehicleFuelChart">
+                </div>
+            </div>*@
+        </div>
+    </div>
+}
+<script src="@Url.Content("~/assets/js/AceJQMsg.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Transport/FuelRefill.js")" type="text/javascript"></script>

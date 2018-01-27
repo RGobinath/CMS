@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.ParentPortalEntities.NoteEmailLog" namespace="TIPS.Entities.ParentPortalEntities" >
+  <class name="TIPS.Entities.ParentPortalEntities.NoteEmailLog, TIPS.Entities" table="EmailLog" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"/>
+    </id>
+    <property name="EmailTo" column="EmailTo" type="string"/>
+    <property name="EmailCC" column="EmailCC" type="string" />
+    <property name="EmailBCC" column="EmailBCC" type="string" />
+    <property name="BCC_Count" column="BCC_Count" type="Int64" />
+    <property name="Subject" column="Subject" type="string" />
+    <property name="Message" column="Message" type="string" />
+    <property name="Attachment" column="Attachment" type="string" />
+    <property name="EmailDateTime" column="EmailDateTime" type="string" />
+    <property name="Module" column="Module" type="string" />
+  </class>
+</hibernate-mapping>

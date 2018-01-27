@@ -1,0 +1,774 @@
+﻿@model TIPS.Entities.Assess.Assess360_ARC
+@{
+    ViewBag.Title = "Assess 360";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<style type="text/css">
+    #Access360Tab
+    {
+        padding: 0px;
+        background: none;
+        border-width: 0px;
+    }
+    #Access360Tab .ui-tabs-nav
+    {
+        padding-left: 0px;
+        background: transparent;
+        border-width: 0px 0px 1px 0px;
+        -moz-border-radius: 0px;
+        -webkit-border-radius: 0px;
+        border-radius: 0px;
+    }
+    #Access360Tab .ui-tabs-panel
+    {
+        background: url(images/ui-bg_highlight-hard_100_f5f3e5_1x100.png) repeat-x scroll 50% top white;
+        border-width: 0px 1px 1px 1px;
+    }
+    
+    #partialPlaceHolder .ui-tabs-nav
+    {
+        padding-left: 0px;
+        background: transparent;
+        border-width: 0px 0px 1px 0px;
+        -moz-border-radius: 0px;
+        -webkit-border-radius: 0px;
+        border-radius: 0px;
+    }
+    
+    #partialPlaceHolder .ui-tabs-panel
+    {
+        background: url(images/ui-bg_highlight-hard_100_f5f3e5_1x100.png) repeat-x scroll 50% top white;
+        border-width: 0px 1px 1px 1px;
+    }
+    
+    #Documents .ui-tabs-nav
+    {
+        padding-left: 0px;
+        background: transparent;
+        border-width: 0px 0px 1px 0px;
+        -moz-border-radius: 0px;
+        -webkit-border-radius: 0px;
+        border-radius: 0px;
+    }
+    #Documents .ui-tabs-panel
+    {
+        background: url(images/ui-bg_highlight-hard_100_f5f3e5_1x100.png) repeat-x scroll 50% top white;
+        border-width: 0px 1px 1px 1px;
+    }
+    
+    
+    .ui-tabs .ui-tabs-panel
+    {
+        display: block;
+        border-width: 0;
+        background: none;
+    }
+</style>
+<script type="text/javascript" language="javascript">
+    $(function () {
+        $.getJSON("/Base/FillBranchCode",
+     function (fillig) {
+         var ddlcam = $("#Campus");
+         ddlcam.empty();
+         ddlcam.append($('<option/>',
+        {
+            value: "",
+            text: "Select One"
+
+        }));
+
+         $.each(fillig, function (index, itemdata) {
+             ddlcam.append($('<option/>',
+                 {
+                     value: itemdata.Value,
+                     text: itemdata.Text
+                 }));
+         });
+     });
+        /*student & Staff details popup code*/
+        $("#btnStdnPopup").button({ icons: { primary: "ui-icon-search" },
+            text: false
+        });
+
+        if ($('#Id').val() > 0) {
+            $('#Campus').attr('disabled', true);
+            GetAssess360MarksForAStudent($('#Id').val());
+        }
+
+        $("#btnAssessBack2Inbox").click(function () {
+            window.location.href = '@Url.Action("Assess360ReportList", "Assess360")';
+        });
+
+        $("#btnStdnPopup").click(function () {
+            var c_name = $('#Campus option:selected').val();
+            if (isEmptyorNull(c_name)) {
+                ErrMsg('Please select Campus', function () { $("#Campus").focus(); });
+                return false;
+            } else {
+                LoadPopupDynamicaly(
+            "/Assess360/loadPartialView?PartialViewName=StudentPopup",
+            $('#DivStudentSearch'),
+            function () {
+                $('#StdntCampus').val(c_name);
+                LoadSetGridParam($('#StudentList'), "/Assess360/GetStudentDetails?Campus=" + c_name);
+            },
+            function (rdata) {
+                $('#Name').val(rdata.Name);
+                $('#IdNo').val(rdata.IdNo);
+                $('#Grade').val(rdata.Grade);
+                $('#Section').val(rdata.Section);
+                $('#StudentId').val(rdata.Id);
+                $('#AcademicYear').val(rdata.AcademicYear);
+            })
+            }
+        });
+        /*student & Staff details popup code*/
+
+        /* tab related code */
+        function loadTabDynamically(PartialViewName, CallBackfun) {
+            $('#partialPlaceHolder').empty();
+            /* Request the partial view with .get request. */
+            $.ajax({
+                url: '/Assess360/loadPartialView?PartialViewName=' + PartialViewName,
+                type: 'GET',
+                async: false,
+                dataType: 'html', // <-- to expect an html response
+                success: function (data) {
+                    /* data is the pure html returned from action method, load it to your page */
+                    $('#partialPlaceHolder').html(data);
+                    /* do the call function */
+                    if (CallBackfun != undefined && CallBackfun) {
+                        CallBackFunction(CallBackfun);
+                    }
+                }
+            });
+        }
+
+        $('#CharacterBehaviour').click(function () {
+            if ($('#Id').val() > 0) {
+                $('#partialPlaceHolder').empty();
+                loadTabDynamically('CharacterBehaviourReport');
+            }
+        });
+        $('#HomeWorkRelated').click(function () {
+            if ($('#Id').val() > 0) {
+                $('#partialPlaceHolder').empty();
+                loadTabDynamically('HomeWorkRelatedReport');
+                GetIssueType('HWRAssmntType', '2');
+                GetSubjectsByGrade('HWRSubject');
+                /*
+                This method added by Lee on 22-Jun-2013, 
+                Earlier this is a free text, 
+                now it has been turned to Master data.
+                */
+               // GetAssignmentName('HWRAssmntName', null);
+            }
+        });
+        $('#TestsAssessments').click(function () {
+            if ($('#Id').val() > 0) {
+                $('#partialPlaceHolder').empty();
+                loadTabDynamically('TestsAssessmentsReport');
+                GetIssueType('TAAssmntType', '3');
+                GetSubjectsByGrade('TASubject');
+                /*
+                This method added by Lee on 22-Jun-2013, 
+                Earlier this is a free text, 
+                now it has been turned to Master data.
+                */
+              //  GetAssignmentName('TAAssmntName', null);
+            }
+        });
+        $('#StudentMarksTab').click(function () {
+            if ($('#Id').val() > 0) {
+                $('#partialPlaceHolder').empty();
+                loadTabDynamically('StudentMarksReport');
+                GetConsolidatedMarksForAStudent($('#Id').val());
+            }
+        });
+
+        function GetConsolidatedMarksForAStudent(Assess360Id) {
+            $.ajax({
+                url: '/Assess360/GetConsolidatedMarksForAStudent?Assess360Id=' + Assess360Id,
+                type: 'GET',
+                dataType: 'json',
+                traditional: true,
+                success: function (data) {
+                    var compArry = new Array();
+                    compArry = data.split(',');
+
+                    $('#MarksAwarded').html(compArry[0]);
+                    $('#StudentTotalMarksObtn').val(compArry[0].substring(0, compArry[0].lastIndexOf("/")));
+                    $('#StudentTotalMarks').val(compArry[0].substring(compArry[0].lastIndexOf("/") + 1, compArry[0].length));
+                    var stntTtlMrksObtn = $('#StudentTotalMarksObtn').val();
+                    var stntTtlMrks = $('#StudentTotalMarks').val();
+                    var CharactercylinderVal = compArry[1] == null ? 20 : compArry[1]; // (compArry[1] > 20 ? 20 : compArry[1]);
+                    var APcylinderVal = compArry[2] == null ? 10 : compArry[2]; // (compArry[2] > 10 ? 10 : compArry[2]);
+                    var HCcylinderVal = compArry[3] == null ? 5 : compArry[3]; //(compArry[3] > 5 ? 5 : compArry[3]);
+                    var HAcylinderVal = compArry[4] == null ? 15 : compArry[4]; // (compArry[4] > 15 ? 15 : compArry[4]);
+                    var WCTcylinderVal = compArry[5] == null ? 20 : compArry[5]; //: (compArry[5] > 20 ? 20 : compArry[5]);
+                    var SPAcylinderVal = compArry[6] == null ? 5 : compArry[6]; // (compArry[6] > 5 ? 5 : compArry[6]);
+                    var TAcylinderVal = compArry[7] == null ? 25 : compArry[7]; // (compArry[7] > 25 ? 25 : compArry[7]);
+
+                    $("#progressbar").slider({
+                        range: "min",
+                        value: 0,
+                        min: 1,
+                        max: 100
+                    });
+                    // 
+                    var prgsClr = "yellow";
+                    if (stntTtlMrksObtn < 75) {
+                        prgsClr = "red";
+                    } else if (stntTtlMrksObtn < 100) {
+                        prgsClr = "yellow";
+                    } else {
+                        prgsClr = "green";
+                    }
+
+                    //                    $("#progressbar").css({
+                    //                        "background": prgsClr
+                    //                    });
+
+                    $("#progressbar").slider("disable");
+                    $("#progressbar").slider({ value: stntTtlMrksObtn, max: stntTtlMrks });
+                   
+                    var Charactercylinder = "<chart manageResize='1' bgColor='FFFFFF' bgAlpha='0' showBorder='0' lowerLimit='0' upperLimit='20' showTickMarks='1' showTickValues='1' showLimits='1' decmials='0' cylFillColor='#01DF01' baseFontColor='CC0000' chartLeftMargin='10' chartRightMargin='10' chartTopMargin='10'>";
+                    Charactercylinder += "<value>" + CharactercylinderVal + "</value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+                    //Charactercylinder += "<value> <a id='CompId1'> " + CharactercylinderVal + "</a></value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+                    Charactercylinder += "</annotationGroup></annotations></chart>";
+
+
+                    var Characterchart = new FusionCharts("../../Charts/Cylinder.swf", "Assess 360", "100", "200");
+                    Characterchart.setDataXML(Charactercylinder);
+                    Characterchart.render("CharacterChart");
+
+                    /* Attendnce Punctuality Chart */
+                    var APcylinder = "<chart manageResize='1' bgColor='FFFFFF' bgAlpha='0' showBorder='0' lowerLimit='0' upperLimit='10' showTickMarks='1' showTickValues='1' showLimits='1' decmials='0' cylFillColor='#FA58D0' baseFontColor='CC0000' chartLeftMargin='10' chartRightMargin='10' chartTopMargin='10'>";
+                    APcylinder += "<value>" + APcylinderVal + "</value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+                    APcylinder += "</annotationGroup></annotations></chart>";
+
+                    var APchart = new FusionCharts("../../Charts/Cylinder.swf", "Assess 360", "100", "200");
+                    APchart.setDataXML(APcylinder);
+                    APchart.render("AttendncePunctualityChart");
+
+                    /* Homework Completion */
+                    var HCcylinder = "<chart manageResize='1' bgColor='FFFFFF' bgAlpha='0' showBorder='0' lowerLimit='0' upperLimit='5' showTickMarks='1' showTickValues='1' showLimits='1' decmials='0' cylFillColor='#FACC2E' baseFontColor='CC0000' chartLeftMargin='10' chartRightMargin='10' chartTopMargin='10'>";
+                    HCcylinder += "<value>" + HCcylinderVal + "</value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+                    HCcylinder += "</annotationGroup></annotations></chart>";
+
+                    var HCchart = new FusionCharts("../../Charts/Cylinder.swf", "Assess 360", "100", "200");
+                    HCchart.setDataXML(HCcylinder);
+                    HCchart.render("HomeworkCompletionChart");
+
+                    /* Homework Accuracy */
+                    var HAcylinder = "<chart manageResize='1' bgColor='FFFFFF' bgAlpha='0' showBorder='0' lowerLimit='0' upperLimit='15' showTickMarks='1' showTickValues='1' showLimits='1' decmials='0' cylFillColor='#81F7F3' baseFontColor='CC0000' chartLeftMargin='10' chartRightMargin='10' chartTopMargin='10'>";
+                    HAcylinder += "<value>" + HAcylinderVal + "</value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+                    HAcylinder += "</annotationGroup></annotations></chart>";
+
+                    var HAchart = new FusionCharts("../../Charts/Cylinder.swf", "Assess 360", "100", "200");
+                    HAchart.setDataXML(HAcylinder);
+                    HAchart.render("HomeworkAccuracyChart");
+
+                    /* Weekly / Chapter Tests */
+                    var WCTcylinder = "<chart manageResize='1' bgColor='FFFFFF' bgAlpha='0' showBorder='0' lowerLimit='0' upperLimit='20' showTickMarks='1' showTickValues='1' showLimits='1' decmials='0' cylFillColor='#8181F7' baseFontColor='CC0000' chartLeftMargin='10' chartRightMargin='10' chartTopMargin='10'>";
+                    WCTcylinder += "<value>" + WCTcylinderVal + "</value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+                    WCTcylinder += "</annotationGroup></annotations></chart>";
+
+                    var WCTchart = new FusionCharts("../../Charts/Cylinder.swf", "Assess 360", "100", "200");
+                    WCTchart.setDataXML(WCTcylinder);
+                    WCTchart.render("WeeklyChapterTestsChart");
+
+                    /*SLC Parent Assessment */
+                    var SPAcylinder = "<chart manageResize='1' bgColor='FFFFFF' bgAlpha='0' showBorder='0' lowerLimit='0' upperLimit='5' showTickMarks='1' showTickValues='1' showLimits='1' decmials='0' cylFillColor='#FA5858' baseFontColor='CC0000' chartLeftMargin='10' chartRightMargin='10' chartTopMargin='10'>";
+                    SPAcylinder += "<value>" + SPAcylinderVal + "</value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+                    SPAcylinder += "</annotationGroup></annotations></chart>";
+
+                    var SPAchart = new FusionCharts("../../Charts/Cylinder.swf", "Assess 360", "100", "200");
+                    SPAchart.setDataXML(SPAcylinder);
+                    SPAchart.render("SLCParentAssessmentChart");
+
+                    /*Terms Assessment */
+                    var TAcylinder = "<chart manageResize='1' bgColor='FFFFFF' bgAlpha='0' showBorder='0' lowerLimit='0' upperLimit='25' showTickMarks='1' showTickValues='1' showLimits='1' decmials='0' cylFillColor='#A4A4A4' baseFontColor='CC0000' chartLeftMargin='10' chartRightMargin='10' chartTopMargin='10'>";
+                    TAcylinder += "<value>" + TAcylinderVal + "</value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+                    TAcylinder += "</annotationGroup></annotations></chart>";
+
+                    var TAchart = new FusionCharts("../../Charts/Cylinder.swf", "Assess 360", "100", "200");
+                    TAchart.setDataXML(TAcylinder);
+                    TAchart.render("TermsAssessmentChart");
+
+                },
+                error: function (xhr, status, error) {
+                    ErrMsg($.parseJSON(xhr.responseText).Message);
+                }
+            });
+        }
+
+        $("#Access360Tab").tabs();
+        var tablst = null;
+        $("#Access360Tab").find('a').click(function () {
+            if (tablst) {
+                tablst.tabs("enable");
+                $("#Access360Tab ul li a").removeClass("selected-link"); //Remove any "selected-link" class
+                $(this).find("a").addClass("selected-link");
+            }
+            $(this).tabs("disable");
+            tablst = $(this);
+        });
+        setTimeout(function () { tablst = $("#CharacterBehaviour").click().tabs('disable'); }, 200);
+        /* tab related code */
+
+        /* Form submission code */
+        $('#btnAssessSave').click(function () {
+            // 
+            if ($('#StudentId').val() > 0) {
+                var objAssess360 = {
+                    //RequestNo: $('#RequestNo').val(),
+                    DateCreated: $('#DateCreated').val(),
+                    CreatedBy: $('#CreatedBy').val(),
+                    UserRole: $('#UserRole').val(),
+                    Status: $('#Status').val(),
+                    StudentId: $('#StudentId').val(),
+                    Name: $('#Name').val(),
+                    Campus: $('#Campus').val(),
+                    Section: $('#Section').val(),
+                    Grade: $('#Grade').val(),
+                    AcademicYear: $('#AcademicYear').val(),
+                    IdNo: $('#IdNo').val()
+                };
+                $.ajax({
+                    url: '/Assess360/SaveAssess360',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: objAssess360,
+                    traditional: true,
+                    success: function (data) {
+                        $('#RequestNo').val(data);
+                        $('#Id').val(data.substring(data.lastIndexOf("-") + 1, data.length));
+                        $('#btnStdnPopup').hide();
+                        $('#btnAssessSave').hide();
+                        $('#CharacterBehaviour').click();
+                        InfoMsg("Assess 360 request created successful, Request No : " + data, function () { });
+                    },
+                    error: function (xhr, status, error) {
+                        ErrMsg($.parseJSON(xhr.responseText).Message);
+                    }
+                });
+            } else {
+                ErrMsg('Please select Student from popup.', function () { $("#Campus").focus(); });
+                return false;
+            }
+        });
+        /* Form submission code */
+    });
+
+    function GetAssess360MarksForAStudent(Assess360Id) {
+        $.ajax({
+            url: '/Assess360/GetAssess360MarksForAStudent?Assess360Id=' + Assess360Id,
+            type: 'GET',
+            dataType: 'json',
+            traditional: true,
+            success: function (data) {
+                $('#Assess360MarksAwarded').html(data);
+            },
+            error: function (xhr, status, error) {
+                ErrMsg($.parseJSON(xhr.responseText).Message);
+            }
+        });
+    }
+
+    function DeleteComponentIds(delURL, reloadURL, GridId) {
+        $.ajax({
+            url: delURL,
+            type: 'POST',
+            dataType: 'json',
+            traditional: true,
+            success: function (data) {
+                LoadSetGridParam(GridId, reloadURL);
+                InfoMsg(data, function () { });
+            },
+            loadError: function (xhr, status, error) {
+                msgError = $.parseJSON(xhr.responseText).Message;
+                ErrMsg(msgError, function () { });
+            }
+        });
+    }
+    /* saving of component detials */
+    function SaveOrUpdateAssess360Component(MstrComp) {
+        // 
+        var isSuccess = false, objAssess360Cmpnt = '', IsCredit = $('#hdnIsCredit').val(), AssessCompGroup = '', IncidentDateVal = '';
+        var Subject = '', AssignmentName = '', MarksOutOff = '', GroupName = '', MarksVal = '', DescriptionVal = '';
+        var Staff = $('#Staff').val(), tab = 3;
+        var IncidentDateValdt = new Date();
+        if (MstrComp == "CharacterBehaviour") {
+            tab = 1;
+            IsCredit = $('#Assessment').val(),
+            AssessCompGroup = $('#IssuesCredits option:selected').val();
+            IncidentDateVal = $('#IncidentDate').val(), MarksVal = $('#Marks').val(), DescriptionVal = $('#Description').val();
+            GroupName = $('#IssuesCredits option:selected').text();
+
+            if (AssessCompGroup != "Select" && !isEmptyorNull(GroupName) && GroupName == "Others" && !isEmptyorNull(IsCredit) && !isEmptyorNull(IncidentDateVal) &&
+                !isEmptyorNull($('#OtherMarks').val()) && !isEmptyorNull(DescriptionVal) && !isEmptyorNull(Staff)) {
+                MarksVal = $('#OtherMarks').val();
+                isSuccess = true;
+            } else if (AssessCompGroup != "Select" && !isEmptyorNull(GroupName) && GroupName != "Others" && !isEmptyorNull(IsCredit) && !isEmptyorNull(IncidentDateVal) &&
+                !isEmptyorNull(MarksVal) && !isEmptyorNull(DescriptionVal) && !isEmptyorNull(Staff)) {
+                isSuccess = true;
+            }
+        } else if (MstrComp == "HomeWorkRelated") {
+            tab = 2;
+            AssessCompGroup = $('#HWRAssmntType option:selected').val(), Subject = $('#HWRSubject option:selected').text();
+            AssignmentName = $('#HWRAssmntName option:selected').val(), MarksOutOff = $('#HWRTotalMarks').val(), MarksobtnVal = $('#HWRobtainedMarks').val();
+            IncidentDateVal = $('#HWRDatofAssgn').val(), MarksVal = $('#HWRMarks option:selected').val();
+            GroupName = $('#HWRAssmntType option:selected').text();
+            if (AssessCompGroup != "Select" && GroupName == "Homework score" && Subject != 'Select' && !isEmptyorNull(IncidentDateVal) &&
+                !isEmptyorNull(MarksVal) && !isEmptyorNull(AssignmentName) && !isEmptyorNull(Staff) && !isEmptyorNull(MarksobtnVal)
+                && !isEmptyorNull(MarksOutOff)) {
+                isSuccess = true;
+                MarksVal = MarksobtnVal;
+                if ((MarksOutOff - MarksVal) < 0) {
+                    ErrMsg("Please enter the obtained marks less then or equal to total marks.", function () { $('#TAobtainedMarks').focus(); });
+                    return false;
+                }
+            } else if (AssessCompGroup != "Select" && Subject != 'Select' && !isEmptyorNull(IncidentDateVal) &&
+                MarksVal != "Select" && !isEmptyorNull(MarksVal) && !isEmptyorNull(GroupName) && !isEmptyorNull(AssignmentName) && !isEmptyorNull(Staff)) {
+                isSuccess = true;
+            }
+        } else if (MstrComp == "TestsAssessments") {
+            tab = 3;
+            AssessCompGroup = $('#TAAssmntType option:selected').val(), Subject = $('#TASubject option:selected').text();
+            AssignmentName = $('#TAAssmntName option:selected').val(), MarksOutOff = $('#TATotalMarks').val();
+            IncidentDateVal = $('#TADatofAssgn').val(), MarksVal = $('#TAobtainedMarks').val();
+            GroupName = $('#TAAssmntType option:selected').text();
+            if (GroupName != "SLC Assessment" && AssessCompGroup != "Select" && Subject != 'Select' && !isEmptyorNull(IncidentDateVal) && !isEmptyorNull(Staff) &&
+                !isEmptyorNull(MarksVal) && !isEmptyorNull(GroupName) && !isEmptyorNull(AssignmentName) && !isEmptyorNull(MarksOutOff)) {
+                isSuccess = true;
+            } else if (GroupName == "SLC Assessment" && AssessCompGroup != "Select" && !isEmptyorNull(IncidentDateVal) &&
+                !isEmptyorNull(MarksVal) && !isEmptyorNull(GroupName) && !isEmptyorNull(AssignmentName) && !isEmptyorNull(MarksOutOff)) {
+                Staff = "Parent";
+                Subject = '';
+                isSuccess = true;
+            }
+            // 
+            if (isSuccess && ((MarksOutOff - MarksVal) < 0)) {
+                ErrMsg("Please enter the obtained marks less then or equal to total marks.", function () { $('#TAobtainedMarks').focus(); });
+                return false;
+            }
+        }
+        
+        if (isSuccess) {
+            objAssess360Cmpnt = {
+                Assess360Id: $('#Id').val(),
+                Id: $('#Assess360ComponentId').val(),
+                DateCreated: $('#A360CompCreatedDate').val(),
+                AssessCompGroup: AssessCompGroup,
+                IsCredit: IsCredit,
+                IncidentDate: IncidentDateVal.toString(),
+                Mark: MarksVal,
+                Description: DescriptionVal,
+                GroupName: GroupName,
+                Subject: Subject,
+                AssignmentName: AssignmentName,
+                MarksOutOff: MarksOutOff,
+                Staff: Staff,
+                EnteredBy: $('#loggedInUserId').val()
+            };
+        } else {
+            ErrMsg('Please enter all the values.');
+            return false;
+        }
+        var refreshGrid = '/Assess360/GetAssess360ComponentListWithPagingAndCriteria?Assess360Id=' + $('#Id').val() + "&tab=" + tab;
+        $.ajax({
+            url: '/Assess360/SaveOrUpdateAssess360Component?StudentName=' + $('#Name').val() + '&StudentId=' + $('#StudentId').val(),
+            type: 'POST',
+            dataType: 'json',
+            data: objAssess360Cmpnt,
+            traditional: true,
+            success: function (data) {
+                // 
+                if (data && data > 0) {
+                    GetAssess360MarksForAStudent($('#Id').val());
+                    if (parseInt($('#Assess360ComponentId').val()) > 0) {
+                        InfoMsg("Update sucessfully");
+                    } else {
+                        InfoMsg("Saved sucessfully");
+                    }
+                    $('#Assess360ComponentId').val('');
+                    $('#A360CompCreatedDate').val('');
+                    if (MstrComp == "CharacterBehaviour") {
+                        $('#CharacterBehaviour').click();
+                    } else if (MstrComp == "HomeWorkRelated") {
+                        $('#HomeWorkRelated').click();
+                    } else if (MstrComp == "TestsAssessments") {
+                        $('#TestsAssessments').click();
+                    }
+                }
+            },
+            error: function (xhr, status, error) { ErrMsg($.parseJSON(xhr.responseText).Message); }
+        });
+    };
+    /* saving of component detials */
+
+    function GetIssueType(drpdwnId, AssessCompGrp, SelVal) {
+        // 
+        var IssueCredits = $('#hdnIsCredit').val();
+        $.ajax({
+            type: 'GET',
+            async: false,
+            dataType: "json",
+            url: '@Url.Content("~/Assess360/GetAssess360CompMasterListByName")?tab=' + AssessCompGrp + '&IssueCredits=' + IssueCredits,
+            success: function (data) {
+                $('#' + drpdwnId).empty();
+                $('#' + drpdwnId).append("<option value='' IsCredit='' Marks=''> Select </option>");
+                for (var i = 0; i < data.rows.length; i++) {
+                    if (SelVal) {
+                        $('#' + drpdwnId).append("<option value='" + data.rows[i].Value + "' IsCredit='" + data.rows[i].IsCredit + "' Marks='" + data.rows[i].Marks + "' selected='selected'>" + data.rows[i].Text + "</option>");
+                     } else {
+                        $('#' + drpdwnId).append("<option value='" + data.rows[i].Value + "' IsCredit='" + data.rows[i].IsCredit + "' Marks='" + data.rows[i].Marks + "'>" + data.rows[i].Text + "</option>");
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+                ErrMsg($.parseJSON(xhr.responseText).Message);
+            }
+        });
+    }
+
+    function GetSubjectsByGrade(drpdwnId) {
+        $.ajax({
+            type: 'GET',
+            async: false,
+            dataType: "json",
+            url: '@Url.Content("~/Assess360/GetSubjectsByGrade")?Campus=' + $('#Campus').val() + '&Grade=' + $('#Grade').val(),
+            success: function (data) {
+                $('#' + drpdwnId).empty();
+                $('#' + drpdwnId).append("<option value=''> Select </option>");
+                for (var i = 0; i < data.rows.length; i++) {
+                    $('#' + drpdwnId).append("<option value='" + data.rows[i].Value + "'>" + data.rows[i].Text + "</option>");
+                }
+            },
+            error: function (xhr, status, error) {
+                ErrMsg($.parseJSON(xhr.responseText).Message);
+            }
+        });
+    }
+    /*
+    This method added by Lee on 22-Jun-2013, 
+    Earlier this is a free text, 
+    now it has been turned to Master data.
+    */
+    function GetAssignmentName(drpdwnId, SelVal) {
+        //;
+        $.ajax({
+            type: 'GET',
+            async: false,
+            dataType: "json",
+            url: '@Url.Content("~/Assess360/GetAssignmentName")',
+            success: function (data) {
+                //;
+                $('#' + drpdwnId).empty();
+                $('#' + drpdwnId).append("<option value=''> Select </option>");
+                for (var i = 0; i < data.rows.length; i++) {
+                    if (SelVal != null && data.rows[i].Value == SelVal) {
+                        $('#' + drpdwnId).append("<option value='" + data.rows[i].Value + "' selected='selected'>" + data.rows[i].Text + "</option>");
+                    } else {
+                        $('#' + drpdwnId).append("<option value='" + data.rows[i].Value + "'>" + data.rows[i].Text + "</option>");
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+                ErrMsg($.parseJSON(xhr.responseText).Message);
+            }
+        });
+    }
+    function GetAssignmentNameByCampusGradeSubject(drpdwnId, SelVal, cam, gra, sub) {
+        $.ajax({
+            type: 'GET',
+            async: false,
+            url: '@Url.Content("~/Assess360/GetAssignmentNameByCampusGradeSubject")?cam=' + cam + '&gra=' + gra + '&sub=' + sub,
+            success: function (data) {
+                $('#' + drpdwnId).empty();
+                $('#' + drpdwnId).append("<option value=''> Select </option>");
+                for (var i = 0; i < data.rows.length; i++) {
+                    if (SelVal != null && data.rows[i].Value == SelVal) {
+                        $('#' + drpdwnId).append("<option value='" + data.rows[i].Value + "' selected='selected'>" + data.rows[i].Text + "</option>");
+                    } else {
+                        $('#' + drpdwnId).append("<option value='" + data.rows[i].Value + "'>" + data.rows[i].Text + "</option>");
+                    }
+                }
+            },
+            dataType: "json"
+        });
+    }
+
+    function GetMarksbyCompName(drpdwnId, strMarks, IsCredit) {
+        var arrMarks = new Array();
+        arrMarks = strMarks.split(',');
+        $('#' + drpdwnId).empty();
+        $('#' + drpdwnId).append("<option value=''> Select </option>");
+        $('#hdnIsCredit').val(IsCredit);
+        for (var i = 0; i < arrMarks.length; i++) {
+            $('#' + drpdwnId).append("<option value='" + arrMarks[i] + "'>" + arrMarks[i] + "</option>");
+        }
+    }
+
+    function GetStaffPopup() {
+        var grade = ''; // $('#Grade').val();
+        LoadPopupDynamicaly(
+            "/Assess360/loadPartialView?PartialViewName=StaffMasterPopup",
+            $('#DivStaffMasterSearch'),
+            function () {
+                $('#StaffGrade').val(grade);
+                LoadSetGridParam($('#StaffMasterList'), "/Assess360/GetStaffMasterDetails?Grade=" + grade);
+            },
+            function (rdata) {
+                $('#StaffId').val(rdata.Id);
+                $('#Staff').val(rdata.StaffName);
+            },
+            400)
+    }
+</script>
+@using (Html.BeginForm("Assess360Report", "Assess360", FormMethod.Post, new { id = "innerForm", enctype = "multipart/form-data" }))
+{
+    <h3>
+        Assess 360
+    </h3>
+    
+    <table width="100%" class="WithBorderOnly" id="Assess360BasicDtls">
+        <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+            <td colspan="5">
+                Basic Details
+            </td>
+        </tr>
+        <tr>
+            <th width="20%">
+                Request Number
+            </th>
+            <th width="20%">
+                Created Date & Time
+            </th>
+            <th width="20%">
+                Processed By
+            </th>
+            <th width="20%">
+                User Role
+            </th>
+            <td width="20%">
+            @if (@Model != null && @Model.Id > 0)
+            {
+                    <b><span>Marks Awarded</span></b>
+                }
+            </td>
+        </tr>
+        <tr style="font-weight: bold;">
+            <td width="20%">
+                @Html.TextBox("RequestNo", null, new { @class = "CSSTextBox", style = "width: 90%", @Readonly = "Readonly" })
+            </td>
+            <td width="20%">
+                @Html.TextBox("DateCreated", null, new { @class = "CSSTextBox", style = "width: 90%", @Readonly = "Readonly" })
+            </td>
+            <td width="20%">
+                @Html.TextBox("CreatedUserName", null, new { @class = "CSSTextBox", style = "width: 90%", @Readonly = "Readonly" })
+                @Html.Hidden("CreatedBy")
+            </td>
+            <td width="20%">
+                @Html.TextBox("UserRole", null, new { @class = "CSSTextBox", style = "width: 90%", @Readonly = "Readonly" })
+            </td>
+            <td width="20%">
+                @if (@Model != null && @Model.Id > 0)
+                {
+                    <b><span id="Assess360MarksAwarded" style="color:red; background-color:white;"></span></b>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th width="20%">
+                Campus
+            </th>
+            <th width="20%">
+                Student Name
+            </th>
+            <th width="20%">
+                ID Number
+            </th>
+            <th width="20%">
+                Grade
+            </th>
+            <th width="20%">
+                Section
+            </th>
+        </tr>
+        <tr style="font-weight: bold;">
+            <td width="20%">
+                 @Html.DropDownListFor(model => Model.Campus, new SelectList(Enumerable.Empty<SelectListItem>()), "----Select----", new { @Class = "CSSDropDownList", style = "width:145px;" })
+            </td>
+            <td width="20%">
+                @Html.TextBox("Name", null, new { @Class = "CSSTextBox", style = "width: 80%", @Readonly = "Readonly" })
+                @if (@Model.Id == 0 || @Model.Id == null)
+                {
+                    <a id="btnStdnPopup">...</a> <span style="color: Red">*</span>
+                }
+            </td>
+            <td width="20%">
+                @Html.TextBox("IdNo", null, new { @Class = "CSSTextBox", style = "width: 90%", @Readonly = "Readonly" })
+            </td>
+            <td width="20%">
+                @Html.TextBox("Grade", null, new { @Class = "CSSTextBox", style = "width: 90%", @Readonly = "Readonly" })
+            </td>
+            <td width="20%">
+                @Html.TextBox("Section", null, new { @Class = "CSSTextBox", style = "width: 90%", @Readonly = "Readonly" })
+            </td>
+        </tr>
+    </table>
+    
+    <table class="InnerTable" width="100%" style="height: 90%" id="Assess360ComponentsDtls">
+        <tr>
+            <td>
+                <div id="Access360Tab">
+                    <ul>
+                        <li><a href="#partialPlaceHolder" id="CharacterBehaviour" style="font-size: 1.1em">Character
+                            / Behaviour</a></li>
+                        <li><a href="#partialPlaceHolder" id="HomeWorkRelated" style="font-size: 1.1em">Homework
+                            Related</a></li>
+                        <li><a href="#partialPlaceHolder" id="TestsAssessments" style="font-size: 1.1em">Tests
+                            / Assessments</a></li>
+                        <li><a href="#partialPlaceHolder" id="StudentMarksTab" style="font-size: 1.1em">Student
+                            Marks</a></li>
+                    </ul>
+                    <div id="partialPlaceHolder" style="height:328;width:100%">
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    
+    <table width="100%">
+        <tr>
+            @Html.Hidden("Id")
+            @Html.Hidden("StudentId")
+            @Html.Hidden("loggedInUserId")
+            @Html.Hidden("loggedInUserType")
+            @Html.Hidden("loggedInUserName")
+            @Html.Hidden("hdnIsCredit")
+            @Html.Hidden("AcademicYear")
+            @Html.Hidden("StudentTotalMarks")
+            @Html.Hidden("StudentTotalMarksObtn")
+
+            @*for Component Edit option hidden values*@
+            @Html.Hidden("Assess360ComponentId")
+            @Html.Hidden("A360CompCreatedDate")
+             @Html.HiddenFor(m => m.Campus, new { id = "hdnCampus" })
+        </tr>
+        <tr align="center">
+            <td colspan="5">
+                @if (@Model.Id == 0 || @Model.Id == null)
+                {
+                    <input type="button" value="Save" id="btnAssessSave" /> 
+                }
+                &nbsp;
+                <input type="button" value="Back to Inbox" id="btnAssessBack2Inbox" />
+            </td>
+        </tr>
+    </table>
+}
+<div id="DivStudentSearch"></div>
+<div id="DivStaffMasterSearch"></div>

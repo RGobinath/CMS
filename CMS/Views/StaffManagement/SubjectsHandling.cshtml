@@ -1,0 +1,19 @@
+﻿@{
+    Layout = null;
+}
+@Html.Hidden("StaffPreRegNumber", "", new { id = "StaffPreRegNumber", @Value = ViewBag.RequestNum })
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="ShowCampusBasedStaffDetailsGrid">
+                </table>
+                <div id="ShowCampusBasedStaffDetailsGridPager">
+                </div>
+            </div>
+        </div>
+        <div class="space-6"></div>
+    </div>
+</div>
+<script src="../../Scripts/StaffManagementScripts/SubjectHandling.js"></script>

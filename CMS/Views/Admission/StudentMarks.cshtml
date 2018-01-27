@@ -1,0 +1,290 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+<html>
+<head>
+    <title></title>
+    <style type="text/css">
+        .red .ui-slider-range {
+            background: #ef2929;
+        }
+
+        .red .ui-slider-handle {
+            border-color: #ef2929;
+        }
+
+        u .ui-progressbar.beginning .ui-progressbar-value {
+            background: red;
+        }
+
+        .ui-progressbar.middle .ui-progressbar-value {
+            background: yellow;
+        }
+
+        .ui-progressbar.end .ui-progressbar-value {
+            background: green;
+        }
+    </style>
+    <script type="text/javascript" language="javascript">
+        function loadStudentMarksDtlsLst(CompId) {
+            return false;
+            $('#StudentMarksDtlsLst').clearGridData();
+            if ($('#StudentMarksDtlsLst').hide()) {
+                $('#StudentMarksDtlsLst').show();
+            }
+            LoadSetGridParam($('#StudentMarksDtlsLst'),
+                 "/Assess360/GetAssess360ComponentListWithPagingAndCriteria?Assess360Id=" + $('#Id').val() + "&compId=" + CompId);
+        }
+
+        $('#StuMarksTab').click(function () {
+            if ($('#StuID').val() > 0) {
+                GetConsolidatedMarksForAStudent($('#StuID').val());
+            }
+        });
+
+        function GetConsolidatedMarksForAStudent(StuID) {
+            $.ajax({
+                url: '/Assess360/GetConsolidatedMarksForAStudentByStudentId?StuId=' + StuID,
+                type: 'GET',
+                dataType: 'json',
+                traditional: true,
+                success: function (data) {
+                    var compArry = new Array();
+                    compArry = data.split(',');
+                    $('#MarksAwarded').html(compArry[0]);
+                    $('#StudentTotalMarksObtn').val(compArry[0].substring(0, compArry[0].lastIndexOf("/")));
+                    $('#StudentTotalMarks').val(compArry[0].substring(compArry[0].lastIndexOf("/") + 1, compArry[0].length));
+                    var stntTtlMrksObtn = $('#StudentTotalMarksObtn').val();
+                    var stntTtlMrks = $('#StudentTotalMarks').val();
+                    var CharactercylinderVal = compArry[1] == null ? 20 : compArry[1]; // (compArry[1] > 20 ? 20 : compArry[1]);
+                    var APcylinderVal = compArry[2] == null ? 10 : compArry[2]; // (compArry[2] > 10 ? 10 : compArry[2]);
+                    var HCcylinderVal = compArry[3] == null ? 5 : compArry[3]; //(compArry[3] > 5 ? 5 : compArry[3]);
+                    var HAcylinderVal = compArry[4] == null ? 15 : compArry[4]; // (compArry[4] > 15 ? 15 : compArry[4]);
+                    var WCTcylinderVal = compArry[5] == null ? 20 : compArry[5]; //: (compArry[5] > 20 ? 20 : compArry[5]);
+                    var SPAcylinderVal = compArry[6] == null ? 5 : compArry[6]; // (compArry[6] > 5 ? 5 : compArry[6]);
+                    var TAcylinderVal = compArry[7] == null ? 25 : compArry[7]; // (compArry[7] > 25 ? 25 : compArry[7]);
+
+                    $("#progressbar").slider({
+                        range: "min",
+                        value: 0,
+                        min: 1,
+                        max: 100
+                    });
+                    // 
+                    var prgsClr = "yellow";
+                    if (stntTtlMrksObtn < 75) {
+                        prgsClr = "red";
+                    } else if (stntTtlMrksObtn < 100) {
+                        prgsClr = "yellow";
+                    } else {
+                        prgsClr = "green";
+                    }
+
+
+                    $("#progressbar").slider("disable");
+                    $("#progressbar").slider({ value: stntTtlMrksObtn, max: stntTtlMrks });
+                    //HLinearGauge.swf
+
+                    /* Character Chart */
+                    var Charactercylinder = "<chart manageResize='1' bgColor='FFFFFF' bgAlpha='0' showBorder='0' lowerLimit='0' upperLimit='20' showTickMarks='1' showTickValues='1' showLimits='1' decmials='0' cylFillColor='#01DF01' baseFontColor='CC0000' chartLeftMargin='10' chartRightMargin='10' chartTopMargin='10'>";
+                    Charactercylinder += "<value>" + CharactercylinderVal + "</value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+                    //Charactercylinder += "<value> <a id='CompId1'> " + CharactercylinderVal + "</a></value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+                    Charactercylinder += "</annotationGroup></annotations></chart>";
+
+
+                    var Characterchart = new FusionCharts("../../Charts/Cylinder.swf", "Assess 360", "100", "200");
+                    Characterchart.setDataXML(Charactercylinder);
+                    Characterchart.render("CharacterChart");
+
+                    /* Attendnce Punctuality Chart */
+                    var APcylinder = "<chart manageResize='1' bgColor='FFFFFF' bgAlpha='0' showBorder='0' lowerLimit='0' upperLimit='10' showTickMarks='1' showTickValues='1' showLimits='1' decmials='0' cylFillColor='#FA58D0' baseFontColor='CC0000' chartLeftMargin='10' chartRightMargin='10' chartTopMargin='10'>";
+                    APcylinder += "<value>" + APcylinderVal + "</value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+                    APcylinder += "</annotationGroup></annotations></chart>";
+
+                    var APchart = new FusionCharts("../../Charts/Cylinder.swf", "Assess 360", "100", "200");
+                    APchart.setDataXML(APcylinder);
+                    APchart.render("AttendncePunctualityChart");
+
+                    /* Homework Completion */
+                    var HCcylinder = "<chart manageResize='1' bgColor='FFFFFF' bgAlpha='0' showBorder='0' lowerLimit='0' upperLimit='5' showTickMarks='1' showTickValues='1' showLimits='1' decmials='0' cylFillColor='#FACC2E' baseFontColor='CC0000' chartLeftMargin='10' chartRightMargin='10' chartTopMargin='10'>";
+                    HCcylinder += "<value>" + HCcylinderVal + "</value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+                    HCcylinder += "</annotationGroup></annotations></chart>";
+
+                    var HCchart = new FusionCharts("../../Charts/Cylinder.swf", "Assess 360", "100", "200");
+                    HCchart.setDataXML(HCcylinder);
+                    HCchart.render("HomeworkCompletionChart");
+
+                    /* Homework Accuracy */
+                    var HAcylinder = "<chart manageResize='1' bgColor='FFFFFF' bgAlpha='0' showBorder='0' lowerLimit='0' upperLimit='15' showTickMarks='1' showTickValues='1' showLimits='1' decmials='0' cylFillColor='#81F7F3' baseFontColor='CC0000' chartLeftMargin='10' chartRightMargin='10' chartTopMargin='10'>";
+                    HAcylinder += "<value>" + HAcylinderVal + "</value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+                    HAcylinder += "</annotationGroup></annotations></chart>";
+
+                    var HAchart = new FusionCharts("../../Charts/Cylinder.swf", "Assess 360", "100", "200");
+                    HAchart.setDataXML(HAcylinder);
+                    HAchart.render("HomeworkAccuracyChart");
+
+                    /* Weekly / Chapter Tests */
+                    var WCTcylinder = "<chart manageResize='1' bgColor='FFFFFF' bgAlpha='0' showBorder='0' lowerLimit='0' upperLimit='20' showTickMarks='1' showTickValues='1' showLimits='1' decmials='0' cylFillColor='#8181F7' baseFontColor='CC0000' chartLeftMargin='10' chartRightMargin='10' chartTopMargin='10'>";
+                    WCTcylinder += "<value>" + WCTcylinderVal + "</value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+                    WCTcylinder += "</annotationGroup></annotations></chart>";
+
+                    var WCTchart = new FusionCharts("../../Charts/Cylinder.swf", "Assess 360", "100", "200");
+                    WCTchart.setDataXML(WCTcylinder);
+                    WCTchart.render("WeeklyChapterTestsChart");
+
+                    /*SLC Parent Assessment */
+                    var SPAcylinder = "<chart manageResize='1' bgColor='FFFFFF' bgAlpha='0' showBorder='0' lowerLimit='0' upperLimit='5' showTickMarks='1' showTickValues='1' showLimits='1' decmials='0' cylFillColor='#FA5858' baseFontColor='CC0000' chartLeftMargin='10' chartRightMargin='10' chartTopMargin='10'>";
+                    SPAcylinder += "<value>" + SPAcylinderVal + "</value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+                    SPAcylinder += "</annotationGroup></annotations></chart>";
+
+                    var SPAchart = new FusionCharts("../../Charts/Cylinder.swf", "Assess 360", "100", "200");
+                    SPAchart.setDataXML(SPAcylinder);
+                    SPAchart.render("SLCParentAssessmentChart");
+
+                    /*Terms Assessment */
+                    var TAcylinder = "<chart manageResize='1' bgColor='FFFFFF' bgAlpha='0' showBorder='0' lowerLimit='0' upperLimit='25' showTickMarks='1' showTickValues='1' showLimits='1' decmials='0' cylFillColor='#A4A4A4' baseFontColor='CC0000' chartLeftMargin='10' chartRightMargin='10' chartTopMargin='10'>";
+                    TAcylinder += "<value>" + TAcylinderVal + "</value><annotations><annotationGroup showBelow='1'><annotation type='rectangle' x='60' y='60' toX='60' toY='60' color='FFFFFF' alpha='20' showBorder='1' borderColor='CC0000' borderThickness='2' radius='10'/>";
+                    TAcylinder += "</annotationGroup></annotations></chart>";
+
+                    var TAchart = new FusionCharts("../../Charts/Cylinder.swf", "Assess 360", "100", "200");
+                    TAchart.setDataXML(TAcylinder);
+                    TAchart.render("TermsAssessmentChart");
+
+                },
+                error: function (xhr, status, error) {
+                    ErrMsg($.parseJSON(xhr.responseText).Message);
+                }
+            });
+        }
+    </script>
+</head>
+<body >
+    <div id="StuMarksTab">
+        <div class="page-content">
+            <!-- /section:settings.box -->
+            <div class="page-content-area">
+                <div class="row">
+                    <div class="col-xs-12 widget-container-col">
+                        <div class="widget-box widget-color-CustomizeBlue">
+                            <div class="widget-header widget-header-flat widget-header-small">
+                                <div class="PanelHeader">
+                                    <i class="fa fa-list-alt"></i>&nbsp;Student Marks
+                                </div>
+                                <div class="widget-toolbar">
+                                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            @Html.HiddenFor(Model => Model.Id, new { id = "StuID"})
+                            <div class="widget-body">
+                                <div class="widget-main no-padding">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-12">
+                                            <label for="form-field-mask-1">
+                                                <b>Marks Awarded :</b></label>
+                                            <b><span id="MarksAwarded" style="color: red; background-color: white;"></span></b>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-1">
+                                        </div>
+                                        <div class="col-sm-11">
+                                            <div id="progressbar" class="red" style="width: 90%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-2"></div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-5">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="col-sm-4">
+                                                        <center>
+                                                            <a onclick="return loadStudentMarksDtlsLst(1)">Character/ Behaviour
+                                                                <br />
+                                                                (20)</a>
+                                                            <div id="CharacterChart">
+                                                            </div>
+                                                        </center>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <center>
+                                                            <a onclick="return loadStudentMarksDtlsLst(2)">Attendnce/ Punctuality<br />
+                                                                (10)</a>
+                                                            <div id="AttendncePunctualityChart">
+                                                            </div>
+                                                        </center>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <center>
+                                                            <a onclick="return loadStudentMarksDtlsLst(3)">Homework Completion<br />
+                                                                (05)</a>
+                                                            <div id="HomeworkCompletionChart">
+                                                            </div>
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="col-sm-4">
+                                                        <center>
+                                                            <a onclick="return loadStudentMarksDtlsLst(4)">Homework Accuracy
+                                                                <br />
+                                                                (15)</a>
+                                                            <div id="HomeworkAccuracyChart">
+                                                            </div>
+                                                        </center>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <center>
+                                                            <a onclick="return loadStudentMarksDtlsLst(5)">Weekly/Chapter Tests
+                                                                <br />
+                                                                (20)</a>
+                                                            <div id="WeeklyChapterTestsChart">
+                                                            </div>
+                                                        </center>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <center>
+                                                            <a onclick="return loadStudentMarksDtlsLst(7)">Terms Assessment
+                                                                <br />
+                                                                (25)</a>
+                                                            <div id="TermsAssessmentChart">
+                                                            </div>
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <center>
+                                                <a onclick="return loadStudentMarksDtlsLst(6)">SLC Parent Assessment
+                                                    <br />
+                                                    (05)</a>
+                                                <div id="SLCParentAssessmentChart">
+                                                </div>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+@Html.Hidden("StudentTotalMarks")
+@Html.Hidden("StudentTotalMarksObtn")
+</html>
+<script src="../../Scripts/FusionCharts/FusionCharts.js" type="text/javascript"></script>
+@*<script src="@Url.Content("/Scripts/Assess360/Assess360.js")" type="text/javascript"></script>*@

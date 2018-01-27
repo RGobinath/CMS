@@ -1,0 +1,226 @@
+﻿@model TIPS.Entities.StoreEntities.StockTransaction
+@{
+    ViewBag.Title = "DirectStockUpdate";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#Qty").keydown(function (event) {
+
+            if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
+(event.keyCode == 65 && event.ctrlKey === true) ||
+(event.keyCode >= 35 && event.keyCode <= 39)) {
+                return;
+            }
+            else {
+                if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+                    event.preventDefault();
+                }
+            }
+        });
+        $.getJSON("/Store/FillAllStore",
+             function (fillig) {
+                 var sto = $("#Store");
+                 sto.empty();
+                 sto.append($('<option/>',
+                {
+                    value: "",
+                    text: "Select One"
+                }));
+                 $.each(fillig, function (index, itemdata) {
+                     sto.append($('<option/>',
+                         {
+                             value: itemdata.Value,
+                             text: itemdata.Text
+                         }));
+                 });
+             });
+
+        // Autocomplete Search Example....
+        $("#txtMaterial").autocomplete({
+            source: function (request, response) {
+                ;
+                $.getJSON('/Store/GetMaterials?term=' + request.term, function (data) {
+                    response(data.slice(0, 10));
+                });
+            },
+            minLength: 1,
+            delay: 100
+        });
+
+        $("#btnSave").click(function () {
+            var mat = $("#txtMaterial").val();
+            var sto = $("#Store").val();
+            var trantype = $("#TransactionType").val();
+            var qty = $("#Qty").val();
+            var trancmnts = $("#TransactionComments").val();
+            if (mat == "") {
+                ErrMsg("Please type Material");
+                $("#txtMaterial").focus();
+                return false;
+            }
+            if (sto == "") {
+                ErrMsg("Please select Store");
+                $("#Store").focus();
+                return false;
+            }
+            if (trantype == "") {
+                ErrMsg("Please select TransactionType");
+                $("#TransactionType").focus();
+                return false;
+            }
+            if (qty == "") {
+                ErrMsg("Please type qty");
+                $("#qty").focus();
+                return false;
+            }
+            if (trancmnts == "") {
+                ErrMsg("Please type Transaction Comments");
+                $("#TransactionComments").focus();
+                return false;
+            }
+            if (fnNumberOnly(parseInt(qty)) == false) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        });
+
+        $("#btnReset").click(function () {
+            window.location.href = '@Url.Action("DirectStockUpdate", "Store")';
+        });
+
+        if ($("#SubmitSuccessMsg").val() != null & $("#SubmitSuccessMsg").val() != "") {
+            InfoMsg("Stock Updated Successfully.", function () { $("#SubmitSuccessMsg").val(""); $("#btnReset").click(); });
+        }
+
+        function fnNumberOnly(qty) {
+
+            if (qty == '') {
+                return [false, qty + ": Field is Required"];
+            }
+            else if (!$.isNumeric(qty)) {
+                return [false, qty + 'Should be numeric'];
+            }
+            else if (parseInt(qty) < 0) {
+                return [false, qty + 'Should be 0 or greater.'];
+            }
+            else {
+                return [true];
+            }
+        }
+        jQuery("#StockList").jqGrid({
+            url: '/Store/StockListJqGrid',
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'ItemId', 'ItemCode', 'Store', 'Material Group', 'Material Sub Group', 'Material', 'Units', 'Stock'],
+            colModel: [
+              { name: 'Id', index: 'Id', hidden: true },
+              { name: 'ItemId', index: 'ItemId', width: 90, sortable: true },
+              { name: 'ItemCode', index: 'ItemCode', width: 90, sortable: true },
+              { name: 'Store', index: 'Store', width: 90, sortable: true },
+              { name: 'MaterialGroup', index: 'MaterialGroup', width: 90, sortable: true },
+              { name: 'MaterialSubGroup', index: 'MaterialSubGroup', width: 90, sortable: true },
+              { name: 'Material', index: 'Material', width: 90, sortable: true },
+              { name: 'Units', index: 'Units', width: 90, sortable: true },
+              { name: 'ClosingBalance', index: 'ClosingBalance', width: 90, sortable: true, cellattr: function (rowId, cellValue, rawObject, cm, rdata) {
+                  if (cellValue == 0) {
+                      // alert(cellValue);
+                      return 'class="ui-state-error ui-state-error-text"';
+                  }
+              } 
+              },
+              ],
+            pager: '#StockListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: '230',
+            width: 1225,
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: 'Stock List',
+            forceFit: true,
+            multiselect: true
+        });
+        jQuery("#StockList").navGrid('#StockListPager', { add: false, edit: false, del: false, search: false, refresh: false });
+    });
+</script>
+@using (Html.BeginForm("DirectStockUpdate", "Store", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h3>
+        Direct Stock Update</h3>
+    <table class="WithBorderOnly" width="100%">
+        <tr class="PanelHeading">
+            <td colspan="6" class="PanelHeading">
+                @Html.Hidden("SubmitSuccessMsg", "", new { id = "SubmitSuccessMsg", @Value = TempData["SubmitSuccessMsg"] })
+                Stock Details
+            </td>
+        </tr>
+        <tr>
+            <td width="15%">
+                <label class="lblheader">
+                    Material</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Store</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Transaction Type</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Quantity</label>
+            </td>
+            <td width="20%">
+                <label class="lblheader">
+                    Transaction Comments</label>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                @Html.TextBox("txtMaterial", "", new { @class = "CSSTextBox" })
+                <span style="color: Red">*</span>
+            </td>
+            <td valign="top">
+                @Html.DropDownListFor(model => model.Store, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList" })
+                @Html.HiddenFor(m => m.Store)
+                <span style="color: Red">*</span>
+            </td>
+            <td valign="top">
+                @Html.DropDownListFor(m => m.TransactionType, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Material Inward",Text="Material Inward"},
+                                              new{Value="Material Issue",Text="Material Issue"},
+                                          },
+   "Value", "Text", ""), new { @Class = "CSSDropDownList" })
+                @Html.HiddenFor(m => m.TransactionType)
+                <span style="color: Red">*</span>
+            </td>
+            <td valign="top">
+                @Html.TextBoxFor(m => m.Qty, new { @class = "CSSTextBox" })
+                <span style="color: Red">*</span>
+            </td>
+            <td>
+                @Html.TextAreaFor(m => m.TransactionComments, new { rows = 2, cols = 25, @class = "CSSTextArea" })
+                <span style="color: Red">*</span>
+                @Html.HiddenFor(m => m.TransactionComments)
+            </td>
+            <td>
+                <input type="submit" id="btnSave" value="Save" />
+                <input type="button" id="btnReset" value="Reset" />
+            </td>
+        </tr>
+    </table>
+    <table id="StockList">
+    </table>
+    <div id="StockListPager">
+    </div>
+}

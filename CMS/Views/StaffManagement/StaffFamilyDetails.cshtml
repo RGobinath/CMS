@@ -1,0 +1,79 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+        <div class="row">
+            @Html.Hidden("ForPage", "", new { id = "ForPage", @Value = ViewBag.ForPage })
+            <div class="col-xs-12 widget-container-col" id="DivAddFamily">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-tasks"></i>&nbsp;Training Details</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Name</b>
+                                    </label>
+                                    @Html.TextBoxFor(model => model.StaffFamilyDetailsList[0].Name, new { id = "FamilyName", @Class = "form-control input-sm", @maxlength = "100" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Occupation</b>
+                                    </label>
+                                    @Html.TextBoxFor(model => model.StaffFamilyDetailsList[0].Occupation, new { id = "FamilyOccupation", @Class = "form-control input-sm", @maxlength = "100" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Age(Years)</b></label>
+                                    @Html.TextBoxFor(model => model.StaffFamilyDetailsList[0].Age, new { id = "FamilyAge", @Class = "form-control input-sm", @maxlength = "90" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Relationship</b></label>
+                                    @Html.TextBoxFor(model => model.StaffFamilyDetailsList[0].Relationship, new { id = "FamilyRelationship", @Class = "form-control input-sm", @maxlength = "90" })
+                                </div>
+                                <div class="col-sm-1">
+                                    <br />
+                                    <button type="button" class="btn btn-success btn-block btn-sm" id="btnAddFamilyData">
+                                        <i class="ace-icon fa fa-plus white"></i>Add
+                                    </button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-8">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <table id="FamilyDetailsList">
+                </table>
+                <div id="FamilyDetailsPager">
+                </div>
+                <script type="text/javascript">
+                    var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+                </script>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <div class="space-6">
+        </div>
+        <div class="space-6">
+        </div>
+        <div class="space-6">
+        </div>
+        <div class="space-6">
+        </div>
+
+<script src="../../Scripts/StaffManagementScripts/FamilyDetails.js" type="text/javascript"></script>
+<script src="../../assets/js/AceJQMsg.js" type="text/javascript"></script>

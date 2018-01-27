@@ -1,0 +1,766 @@
+﻿@model TIPS.Entities.Assess.Assess360
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript">
+        var lastSel2;
+        function SBCValidation() {
+            if (!isEmptyorNull($("#SBCSection").val()) && !isEmptyorNull($("#SBCGrade").val()) && !isEmptyorNull($("#SBCCampus").val()) && $('#SBCAssmntType option:selected').val() != 'Select' &&
+                    $('#SBCAssmntType option:selected').val() == 'SLC Assessment' && !isEmptyorNull($('#SBCDatofAssgn').val()) && !isEmptyorNull($('#SBCAssmntName').val())) {
+                return true;
+            } else if (!isEmptyorNull($("#SBCSection").val()) && !isEmptyorNull($("#SBCGrade").val()) && !isEmptyorNull($("#SBCCampus").val()) && $('#SBCAssmntType option:selected').val() != 'Select' &&
+                    $('#SBCAssmntType option:selected').val() != 'SLC Assessment' && !isEmptyorNull($('#SBCDatofAssgn').val()) && $('#SBCSubject option:selected').val() != 'Select' && !isEmptyorNull($('#SBCAssmntName').val()) && !isEmptyorNull($('#SBCStaff').val())) {
+                return true;
+            }
+            ErrMsg('Please enter all the values.');
+            return false;
+        }
+        $(function () {
+            semhideshow("hide");
+            $("#SBCSubject").change(function () {
+                GetAssignmentNameByCampusGradeSubject();
+                GetTermtestMarkWeightings();
+            });
+            $("#SBCAssmntName").change(function () {
+                GetTermtestMarkWeightings();
+            });
+            $.getJSON("/Base/FillBranchCode", function (fillbc) {
+                var ddlbc = $("#SBCCampus");
+                ddlbc.empty();
+                ddlbc.append($('<option/>', { value: "", text: "Select One" }));
+                $.each(fillbc, function (index, itemdata) {
+                    ddlbc.append($('<option/>', { value: itemdata.Value, text: itemdata.Text }));
+                });
+            });
+            $("#btnSBCStaffPopup").button({ icons: { primary: "ui-icon-search" },
+                text: false
+            });
+
+            if ($('#loggedInUserType').val() == "SBCStaff") {
+                $('#SBCStaff').val($('#loggedInUserName').val());
+                $('#btnSBCStaffPopup').hide();
+            }
+
+            $('#btnSBCStaffPopup').click(function () {
+                GetStaffPopup();
+            });
+
+            $(".datepicker").datepicker({
+                showOn: "button",
+                buttonImage: "../../Images/date.gif",
+                buttonImageOnly: true
+            });
+
+            $('.datepicker').datepicker('option', 'dateFormat', 'dd-M-yy');
+
+            var SBCGrd = $("#blkCompSaveLst");
+
+            $("#SBCCampus").change(function () {
+                if ($("#SBCCampus").val() == "IB MAIN") {
+                    semhideshow("show");
+                    GetTermtestMarkWeightings();
+                }
+                else {
+                    semhideshow("hide");
+                }
+                GetSubjectsByGrade('SBCSubject');
+                GetIssueType('SBCAssmntType', '23');
+            });
+            $('#SBCGrade').change(function () {
+                if ($("#SBCGrade").val() != "Select") {
+                    //GetIssueType('SBCAssmntType', '23');
+                    GetSubjectsByGrade('SBCSubject');
+                    GetTermtestMarkWeightings();
+                }
+            });
+
+            $("#btnGetStdntLst").click(function () {
+
+                var isValid = false;
+                if ($('#SBCAssmntType option:selected').val() != 'Select' && $('#SBCAssmntType option:selected').text() == 'SLC Assessment' && !isEmptyorNull($('#SBCDatofAssgn').val()) && !isEmptyorNull($('#SBCAssmntName').val()) && !isEmptyorNull($('#totalmks').val())) {
+                    isValid = true;
+                } else if ($('#SBCAssmntType option:selected').val() != 'Select' && $('#SBCAssmntType option:selected').text() != 'SLC Assessment' && !isEmptyorNull($('#SBCDatofAssgn').val()) && $('#SBCSubject option:selected').val() != '' &&
+                    !isEmptyorNull($('#SBCAssmntName').val()) && !isEmptyorNull($('#SBCStaff').val()) && !isEmptyorNull($('#totalmks').val())) {
+                    if ($("#SBCCampus").val() != "IB MAIN") {
+                        isValid = true;
+                    }
+                    else { if (!isEmptyorNull($('#SBCSemester').val())) { isValid = true; } }
+                }
+                if (isValid == true) {
+                    // 
+                    SBCGrd.clearGridData();
+                    debugger;
+                    // alert($('#SBCSubject option:selected').text());
+                    var term = encodeURIComponent($('#SBCSemester option:selected').text()); // $('#SBCSemester').val();
+                    var subj = encodeURIComponent($('#SBCSubject option:selected').text());
+                    LoadSetGridParam(SBCGrd, '@Url.Content("/Assess360/GetBulkAssess360Inbox")?campus=' + $("#SBCCampus").val() + '&grade=' + $("#SBCGrade").val() + '&section=' + $("#SBCSection").val() + '&IncidentDate=' + $("#SBCDatofAssgn").val() + '&AssessCompGroupId=' + $("#SBCAssmntType option:selected").val() + '&AssignmentName=' + $("#SBCAssmntName").val() + '&EnteredBy=' + $("#lgdUserId").val() + '&GroupName=' + $("#SBCAssmntType option:selected").text() + '&Staff=' + $("#SBCStaff").val() + '&Subject=' + subj + '&totalmks=' + $("#totalmks").val() + '&semterm=' + term);
+                } else {
+                    ErrMsg('Please select the grade and enter all values.', function () { $("#SBCGrade").focus(); });
+                    return false;
+                }
+            });
+
+            $("#btnSaveSST").click(function () {
+                if (isEmptyorNull($('#NameSSTName').val())) {
+                    ErrMsg('Please enter search teplate name', function () { $("#NameSSTName").focus(); });
+                    return false;
+                }
+                //  alert($('#SBCCampus option:selected').val());
+                var varDtCrd = $('#SSTDateCreated').val();
+                var varSavedSearch = //"RequestNo->" + $('#RequestNo').val() +
+                                                "Campus->" + $('#SBCCampus option:selected').val() +
+                                                "##Staff->" + $('#SBCStaff').val() +
+                                                "##Section->" + $('#SBCSection option:selected').val() +
+                                                "##AssessmentType->" + $('#SBCAssmntType option:selected').text() +
+                                                "##Grade->" + $('#SBCGrade option:selected').val() +
+                                                "##Subject->" + $('#SBCSubject option:selected').val() +
+                                                "##DateOfAssignment->" + $('#SBCDatofAssgn').val() +
+                                                "##AssignmentName->" + $('#SBCAssmntName option:selected').val() +
+                                                "##TotalMarks->" + $('#totalmks').val();
+                var ObjSvSrchTmplt = {
+                    Id: $('#varSSTId').val(),
+                    UserId: $('#lgdUserId').val(),
+                    SearchName: $('#NameSSTName').val(),
+                    Application: 'Assess360BulkEntry',
+                    SavedSearch: varSavedSearch,
+                    IsDefault: $('#IsDefaultSST').val(),
+                    DateCreated: varDtCrd,
+                    CreatedBy: $('#lgdUserId').val()
+                };
+                $.ajax({
+                    url: '/Assess360/SaveorUpdateSearchTemplate',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: ObjSvSrchTmplt,
+                    traditional: true,
+                    success: function (data) {
+                        GetSearchTemplate();
+                        InfoMsg("Search template saved successfully", function () { });
+                    },
+                    error: function (xhr, status, error) {
+                        ErrMsg($.parseJSON(xhr.responseText).Message);
+                    }
+                });
+            });
+            $('#SavedSearchTempl').change(function () {
+                if ($('#SavedSearchTempl option:selected').text() == 'Select') {
+                    $('#btnReset').click();
+                } else {
+                    //    alert('fdfdf');
+                    var stempl = new Array();
+                    stempl = $('#SavedSearchTempl option:selected').attr('SavedSearch').split('##');
+
+                    if ($('#SavedSearchTempl option:selected').attr('IsDefault') == 'true') {
+                        $('#IsDefaultSST').attr("checked", true);
+                        $('#SSTIsDefault').val('true');
+                    } else {
+                        $('#IsDefaultSST').attr("checked", false);
+                        $('#SSTIsDefault').val('false');
+                    }
+
+                    GetIssueType('SBCAssmntType', '23');
+                    //GetSubjectsByGrade('SBCSubject');
+
+                    for (var i = 0; i < stempl.length; i++) {
+                        var Search = stempl[i].split('->');
+                        // alert($.trim(Search[0]));
+                        if ($.trim(Search[0]) == 'DateOfAssignment')
+                        { $('#SBCDatofAssgn').val(Search[1]); }
+                        else if ($.trim(Search[0]) == 'Staff')
+                        { $('#SBCStaff').val(Search[1]); }
+                        else if ($.trim(Search[0]) == 'TotalMarks')
+                        { $('#totalmks').val(Search[1]); }
+                        else if ($.trim(Search[0]) == 'Campus') {
+                            var vCampus = document.getElementById("SBCCampus");
+                            for (var j = 0; j < vCampus.options.length; j++) {
+                                if (vCampus.options[j].text == Search[1]) {
+                                    vCampus.selectedIndex = j;
+                                    if (Search[1] == "IB MAIN") { semhideshow("show"); }
+                                    else { semhideshow("hide"); }
+                                }
+                            }
+                        }
+                        else if ($.trim(Search[0]) == 'Section') {
+                            var vSection = document.getElementById("SBCSection");
+                            for (var k = 0; k < vSection.options.length; k++) {
+                                if (vSection.options[k].text == Search[1]) {
+                                    vSection.selectedIndex = k;
+                                }
+                            }
+                        }
+                        else if ($.trim(Search[0]) == 'Grade') {
+                            var vGrade = document.getElementById("SBCGrade");
+                            for (var g = 0; g < vGrade.options.length; g++) {
+                                if (vGrade.options[g].text == Search[1]) {
+                                    vGrade.selectedIndex = g;
+                                }
+                            }
+                            GetSubjectsByGrade('SBCSubject');
+                        }
+                        else if ($.trim(Search[0]) == 'Subject') {
+                            var vSubject = document.getElementById("SBCSubject");
+                            for (var g = 0; g < vSubject.options.length; g++) {
+                                if (vSubject.options[g].text == Search[1]) {
+                                    vSubject.selectedIndex = g;
+                                }
+                            }
+                        }
+                        else if ($.trim(Search[0]) == 'AssessmentType') {
+                            var vAssesmentType = document.getElementById("SBCAssmntType");
+                            for (var g = 0; g < vAssesmentType.options.length; g++) {
+                                if (vAssesmentType.options[g].text == Search[1]) {
+                                    vAssesmentType.selectedIndex = g;
+                                }
+                            }
+                        }
+                        else if ($.trim(Search[0]) == 'AssignmentName') {
+                            var vAsmntName = document.getElementById("SBCAssmntName");
+                            for (var g = 0; g < vAsmntName.options.length; g++) {
+                                if (vAsmntName.options[g].text == Search[1]) {
+                                    vAsmntName.selectedIndex = g;
+                                }
+                            }
+                        }
+                    }
+                    //  $('#btnGetStdntLst').click();
+                    SBCGrd.clearGridData();
+                    var term = $('#SBCSemester option:selected').text();
+                    var subj = encodeURIComponent($('#SBCSubject option:selected').text());
+                    LoadSetGridParam(SBCGrd, '@Url.Content("/Assess360/GetBulkAssess360Inbox")?campus=' + $("#SBCCampus").val() + '&grade=' + $("#SBCGrade").val() + '&section=' + $("#SBCSection").val() + '&IncidentDate=' + $("#SBCDatofAssgn").val() + '&AssessCompGroupId=' + $("#SBCAssmntType option:selected").val() + '&AssignmentName=' + $("#SBCAssmntName").val() + '&EnteredBy=' + $("#lgdUserId").val() + '&GroupName=' + $("#SBCAssmntType option:selected").text() + '&Staff=' + $("#SBCStaff").val() + '&Subject=' + subj + '&totalmks=' + $("#totalmks").val(), '&Term=' + term);
+                }
+            });
+            /*Save Search Template Code*/
+
+            $('#btnReset').click(function () {
+                var IssueCredits = $('#hdnIsCredit').val();
+                $('#blkCompSaveLst').clearGridData();
+                //    $('#RequestNo').val('');
+                $('#SBCDatofAssgn').val('');
+                $('#SBCCampus').val('');
+                $('#SBCSection').val('Select');
+                $('#SBCGrade').val('Select');
+                $('#SavedSearchTempl').val('Select');
+                $('#IsDefaultSST').attr("checked", false);
+                $('#SSTIsDefault').val('false');
+
+                $('#SBCStaff').val('');
+                $('#SBCSubject').val('Select');
+                semhideshow("hide");
+                $('#SBCAssmntName').val('Select');
+                $('#totalmks').val('');
+                $('#SBCAssmntType').val('Select');
+                // LoadSetGridParam($('#blkCompSaveLst'), "/Assess360/GetAssess360CompMasterListByName?tab=&IssueCredits=" + IssueCredits);
+                SBCGrd.clearGridData();
+            });
+
+            var AssignmentName = $('#SBCAssmntName').val();
+            //   alert(AssignmentName);
+            var obtndmrks = '';
+            var totalmks = '';
+            function checkvalid(value, column) {
+                obtndmrks = value;
+                //  alert(rowId);
+                //  var GridIdList = $(this).jqGrid('getRowData', rowid);
+
+                if (value == '') {
+                    //   ErrMsg(column + 'Field is Required');
+                    return [false, column + ": Field is Required"];
+                }
+                else if (!$.isNumeric(value)) {
+                    //  ErrMsg(column + 'Should be numeric');
+                    return [false, column + 'Should be numeric'];
+                }
+                else if (parseInt(obtndmrks) > parseInt($("#totalmks").val())) {
+                    //    alert(parseInt(obtndmrks) + ',' + value);
+                    //  ErrMsg(column + 'Should be numeric');
+                    return [false, column + ' Should be lesser than Obtained marks'];
+                }
+                else {
+                    return [true];
+                }
+            }
+
+            function checkvalid1(value, column) {
+                // alert(obtndmrks + ',' + value);
+                if (value == '') {
+                    //   ErrMsg(column + 'Field is Required');
+                    return [false, column + ": Field is Required"];
+                }
+                else if (!$.isNumeric(value)) {
+                    //  ErrMsg(column + 'Should be numeric');
+                    return [false, column + 'Should be numeric'];
+                }
+                else if (parseInt(value) < 1) {
+                    //  ErrMsg(column + 'Should be numeric');
+                    return [false, column + 'Should be Greater than 0'];
+                }
+                else if (parseInt(obtndmrks) > value) {
+                    //    alert(parseInt(obtndmrks) + ',' + value);
+                    //  ErrMsg(column + 'Should be numeric');
+                    return [false, column + ' Should be greater than Obtained marks'];
+                }
+                else {
+                    return [true];
+                }
+                $('#blkCompSaveLst').jqGrid('getCell', row_id, 'column_name');
+            }
+
+            function nildata(cellvalue, options, rowObject) {
+                if ((cellvalue == '') || (cellvalue == null)) {
+                    return ''
+                }
+                else {
+                    cellvalue = cellvalue.replace('&', 'and');
+                    //str = str.replace(/\&lt;/g, '<');
+                    return cellvalue
+                }
+            }
+
+            function nildata1(cellvalue, options, rowObject) {
+                document.getElementById('totalmks').value = cellvalue; // to assign values to total mks textbox
+                if ((cellvalue == '') || (cellvalue == null)) {
+                    return ''
+                }
+                else {
+                    cellvalue = cellvalue.replace('&', 'and');
+                    //str = str.replace(/\&lt;/g, '<');
+                    return cellvalue
+                }
+            }
+            GetSearchTemplate();
+            $("#blkCompSaveLst").jqGrid({
+                mtype: 'POST',
+                // url: '/Assess360/GetBulkAssess360Inbox?grade=No Grade',
+                //    datatype: 'json',
+                height: '300',
+                width: '1225',
+                shrinkToFit: true,
+                colNames: ['Id', 'RequestNo', 'Academic Year', 'Campus Name', 'Id No', 'Name', 'Section', 'Grade',
+                            'Consolidated Marks', 'Date Created', 'A360CompId', 'Obtained Marks', 'Total Marks'],
+                colModel: [
+                          { name: 'Id', index: 'Id', hidden: true, key: true },
+                          { name: 'RequestNo', index: 'RequestNo' },
+                          { name: 'AcademicYear', index: 'AcademicYear', hidden: true },
+                          { name: 'Campus', index: 'Campus' },
+                          { name: 'IdNo', index: 'IdNo', sortable: false },
+                          { name: 'Name', index: 'Name', editable: false, sortable: false },
+                          { name: 'Section', index: 'Section' },
+                          { name: 'Grade', index: 'Grade' },
+                          { name: 'ConsolidatedMarks', index: 'ConsolidatedMarks', hidden: true },
+                          { name: 'DateCreated', index: 'DateCreated', hidden: true },
+                          { name: 'A360CompId', index: 'A360CompId', edithidden: true, hidden: true },
+                          { name: 'ObtainedMarks', index: 'ObtainedMarks', editable: true, edittype: 'text', editrules: { custom: true, custom_func: checkvalid }, formatter: nildata },
+                          { name: 'TotalMarks', index: 'TotalMarks', editrules: { custom: true, custom_func: checkvalid1 }, formatter: nildata1 }
+                          ],
+                pager: '#blkCompSavePage',
+                rowNum: '30',
+                sortname: 'Name',
+                sortorder: 'asc',
+                rowList: [30, 50, 70, 100],
+                viewrecords: true,
+                onSelectRow: function (id) {
+                    if (lastSel2) {
+                        $("#blkCompSaveLst").jqGrid('restoreRow', lastSel2);
+                    }
+                    if (id && id !== lastSel2) {
+                        compId = $("#blkCompSaveLst").getRowData(id).A360CompId == "" ? 0 : $("#blkCompSaveLst").getRowData(id).A360CompId;
+                        $("#blkCompSaveLst").editRow(id, true, null, checksaveNew, null, { A360CompId: compId });
+                        lastSel2 = id;
+                    }
+                },
+                editurl: "/Assess360/SaveBulkA360Components"
+            });
+            $("#blkCompSaveLst").navGrid('#blkCompSavePage', { add: false, edit: false, del: false, search: false, refresh: false });
+            jQuery("#blkCompSaveLst").jqGrid('navButtonAdd', '#blkCompSavePage', {
+                caption: "Export To Excel",
+                onClickButton: function () {
+                    debugger;
+                    var ExportType = 'Excel';
+                    window.open("GetBulkAssess360Inbox" + '?campus=' + $("#SBCCampus").val() + '&grade=' + $("#SBCGrade").val() + '&section=' + $("#SBCSection").val() + '&IncidentDate=' + $("#SBCDatofAssgn").val() + '&AssessCompGroupId=' + $("#SBCAssmntType option:selected").val() + '&AssignmentName=' + $("#SBCAssmntName").val() + '&EnteredBy=' + $("#lgdUserId").val() + '&GroupName=' + $("#SBCAssmntType option:selected").text() + '&Staff=' + $("#SBCStaff").val() + '&Subject=' + $("#SBCSubject").val() + '&totalmks=' + $("#totalmks").val(), '&Term=' + $("#SBCSemester").val() + '&ExportType=' + ExportType + '&rows=9999');
+                }
+            });
+            jQuery("#blkCompSaveLst").jqGrid('navButtonAdd', '#blkCompSavePage', {
+                caption: "Export To PDF",
+                onClickButton: function () {
+                    debugger;
+                    var ExportType = 'PDF';
+                    window.open("GetBulkAssess360Inbox" + '?campus=' + $("#SBCCampus").val() + '&grade=' + $("#SBCGrade").val() + '&section=' + $("#SBCSection").val() + '&IncidentDate=' + $("#SBCDatofAssgn").val() + '&AssessCompGroupId=' + $("#SBCAssmntType option:selected").val() + '&AssignmentName=' + $("#SBCAssmntName").val() + '&EnteredBy=' + $("#lgdUserId").val() + '&GroupName=' + $("#SBCAssmntType option:selected").text() + '&Staff=' + $("#SBCStaff").val() + '&Subject=' + $("#SBCSubject").val() + '&totalmks=' + $("#totalmks").val(), '&Term=' + $("#SBCSemester").val() + '&ExportType=' + ExportType + '&rows=9999');
+                }
+            });
+
+            function checksaveNew(data, status) {
+                if (data.status == 200) {
+                    var vA360CompId = data.responseText;
+                    $("#blkCompSaveLst").jqGrid("setCell", lastSel2, 'A360CompId', vA360CompId);
+                    $("#blkCompSaveLst").trigger("reloadGrid");
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            $('#SBCAssmntType').change(function () {
+                $('#hdnIsCredit').val($('#SBCAssmntType option:selected').attr('IsCredit'));
+                if ($('#SBCAssmntType option:selected').text() == "SLC Assessment") {
+                    $('#SBCSubject').attr('disabled', 'disabled');
+                    $('#btnSBCStaffPopup').hide();
+                    $('#SBCStaff').val('');
+                    if ($("#SBCCampus").val() == "IB MAIN") {
+                        semhideshow("hide");
+                    }
+                    else {
+                        semhideshow("show");
+                    }
+                    $("#SBCAssmntName").empty();
+                    $("#SBCAssmntName").append("<option value=''> Select One </option>");
+                    for (var i = 1; i < 6; i++) {
+                        $("#SBCAssmntName").append("<option value='SLC Asessment" + i + "'>SLC Asessment" + i + "</option>");
+                    }
+                } else {
+                    $('#SBCSubject').removeAttr('disabled');
+                    $('#btnSBCStaffPopup').show();
+                    if ('@Session["AdminRole"].ToString()' != "All") {
+                        $('#SBCStaff').val('@Session["UserId"].ToString()');
+                    }
+                    if ($("#SBCCampus").val() == "IB MAIN") {
+                        semhideshow("show");
+                        GetTermtestMarkWeightings();
+                    }
+                    else {
+                        semhideshow("hide");
+                    }
+                }
+            });
+        });
+        function semhideshow(value) {
+            if (value == "show") {
+                $('#tdSBCSemheading').show();
+                $('#tdSBCSemester').show();
+            } else {
+                $('#tdSBCSemheading').hide();
+                $('#tdSBCSemester').hide();
+            }
+        }
+        function GetIssueType(drpdwnId, AssessCompGrp, SelVal) {
+            var IssueCredits = $('#hdnIsCredit').val();
+            $.ajax({
+                type: 'GET',
+                async: false,
+                dataType: "json",
+                url: '@Url.Content("~/Assess360/GetAssess360CompMasterListByName")?tab=' + AssessCompGrp + '&IssueCredits=' + IssueCredits,
+                success: function (data) {
+                    $('#' + drpdwnId).empty();
+                    $('#' + drpdwnId).append("<option value='' IsCredit='' Marks=''> Select </option>");
+                    var varval = "";
+                    for (var i = 0; i < data.rows.length; i++) {
+                        varval = data.rows[i].Value;
+                        if (varval == "3" || varval == "4" || varval == "5" || varval == "6" || varval == "7" || ($("#SBCCampus").val() == "IB MAIN" && (varval == "8" || varval == "9" || varval == "10"))) {
+                            $('#' + drpdwnId).append("<option value='" + varval + "' IsCredit='" + data.rows[i].IsCredit + "' Marks='" + data.rows[i].Marks + "'>" + data.rows[i].Text + "</option>");
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    ErrMsg($.parseJSON(xhr.responseText).Message);
+                }
+            });
+        }
+
+        function GetSubjectsByGrade(drpdwnId) {
+            if (!isEmptyorNull($('#SBCCampus').val()) && !isEmptyorNull($('#SBCGrade').val())) {
+                $.ajax({
+                    type: 'GET',
+                    async: false,
+                    dataType: "json",
+                    url: '@Url.Content("~/Assess360/GetSubjectsByGrade")?Campus=' + $("#SBCCampus").val() + '&Grade=' + $('#SBCGrade').val(),
+                    success: function (data) {
+                        $('#' + drpdwnId).empty();
+                        $('#' + drpdwnId).append("<option value=''> Select </option>");
+                        for (var i = 0; i < data.rows.length; i++) {
+                            $('#' + drpdwnId).append("<option value='" + data.rows[i].Value + "'>" + data.rows[i].Text + "</option>");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        ErrMsg($.parseJSON(xhr.responseText).Message);
+                    }
+                });
+            }
+        }
+
+        function GetStaffPopup() {
+            var grade = ''; // $('#Grade').val();
+            LoadPopupDynamicaly(
+            "/Assess360/loadPartialView?PartialViewName=StaffMasterPopup",
+            $('#DivStaffMasterSearch'),
+            function () {
+                $('#StaffGrade').val(grade);
+                LoadSetGridParam($('#StaffMasterList'), "/Assess360/GetStaffMasterDetails?Grade=" + grade);
+            },
+            function (rdata) { $('#SBCStaff').val(rdata.StaffName); }, 400)
+        }
+
+        function GetSearchTemplate() {
+            //     alert($('#lgdUserId').val());
+            var varlgdUserId = $('#lgdUserId').val();
+            var drpdwnId = 'SavedSearchTempl';
+            $.ajax({
+                type: 'GET',
+                async: true,
+                dataType: "json",
+                url: '@Url.Content("~/Assess360/GetSavedSearchTemplate")?UserId=' + varlgdUserId,
+                success: function (data) {
+                    $('#' + drpdwnId).empty();
+                    $('#' + drpdwnId).append("<option value='Select' DateCreated='' IsDefault='' SavedSearch='' > Select </option>");
+                    for (var i = 0; i < data.rows.length; i++) {
+                        if (data.rows[i].IsDefault == true) {
+                            $('#' + drpdwnId).append("<option value='" + data.rows[i].Value + "' DateCreated='" + data.rows[i].DateCreated + "' IsDefault='" + data.rows[i].IsDefault + "' SavedSearch='" + data.rows[i].SavedSearch + "' selected='selected'>" + data.rows[i].Text + "</option>");
+                            $('#SavedSearchTempl').change();
+                        } else {
+                            $('#' + drpdwnId).append("<option value='" + data.rows[i].Value + "' DateCreated='" + data.rows[i].DateCreated + "' IsDefault='" + data.rows[i].IsDefault + "' SavedSearch='" + data.rows[i].SavedSearch + "'>" + data.rows[i].Text + "</option>");
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    ErrMsg($.parseJSON(xhr.responseText).Message);
+                }
+            });
+        }
+        function GetAssignmentNameByCampusGradeSubject() {
+            var cam = $("#SBCCampus").val();
+            var gra = $("#SBCGrade").val();
+            var sub = $("#SBCSubject").val();
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '@Url.Content("~/Assess360/GetAssignmentNameByCampusGradeSubject")?cam=' + cam + '&gra=' + gra + '&sub=' + encodeURIComponent(sub),
+                success: function (data) {
+
+                    $("#SBCAssmntName").empty();
+                    $("#SBCAssmntName").append("<option value=''> Select One </option>");
+
+                    for (var i = 0; i < data.rows.length; i++) {
+                        $("#SBCAssmntName").append("<option value='" + data.rows[i].Value + "'>" + data.rows[i].Text + "</option>");
+                    }
+                },
+                dataType: "json"
+            });
+        }
+        function GetTermtestMarkWeightings() {
+            var cam = $("#SBCCampus").val();
+            var gra = $("#SBCGrade").val();
+            var sub = $("#SBCSubject").val();
+            var assmntname = $("#SBCAssmntName").val();
+            debugger;
+            if (!isEmptyorNull(cam) && gra == "IX" && !isEmptyorNull(sub) && !isEmptyorNull(assmntname) && assmntname != 'select' && $('#SBCAssmntType option:selected').text() == "Term Assessment") {
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    dataType: "json",
+                    url: '@Url.Content("~/Assess360/GetMarkWeightingsbyCampusGrade")?Campus=' + cam + '&Grade=' + gra + '&Subject=' + sub + '&AssignmntName=' + assmntname,
+                    success: function (data) {
+                        if (data != null) {
+                            $("#totalmks").val(data);
+                            $('#totalmks').attr('disabled', 'disabled');
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body style="width: 100%" class="WithBorderOnly">
+    @* Assess360 Bulk Entry Screen*@
+    <br />
+    <div id="SaveBulkComponent">
+        <table width="100%">
+            <tr>
+                <td width="15%">
+                    Campus
+                </td>
+                <td width="15%">
+                    Grade
+                </td>
+                <td width="15%">
+                    Section
+                </td>
+                <td width="15%">
+                    <label>
+                        Staff<span style="color: Red">*</span>
+                    </label>
+                </td>
+                <td width="15%">
+                    <label>
+                        Assessment Type<span style="color: Red">*</span>
+                    </label>
+                </td>
+                <td width="15%">
+                    <label>
+                        Subject<span style="color: Red">*</span>
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td width="15%">
+                    @* @Html.DropDownList("SBCCampus",
+                    new SelectList(new[] { 
+                        new { Text = "Select", Value = "Select", Seleced = "True" },
+                        new { Text = "IB Main", Value = "IB Main", Seleced = "false" },
+                        new { Text = "IB KG", Value = "IB KG", Seleced = "false" },
+                        new { Text = "Ernakulam", Value = "Ernakulam", Seleced = "false" },
+                        new { Text = "Chennai", Value = "Chennai", Seleced = "false" },
+                        new { Text = "Karur", Value = "Karur", Seleced = "false" }
+               }, "Text", "Value", "Seleced"),
+               new { @Class = "CSSDropDownList" })*@
+                    @Html.DropDownList("SBCCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "SBCCampus", @Class = "CSSDropDownList" })
+                </td>
+                <td width="15%">
+                    @Html.DropDownList("SBCGrade",
+                    new SelectList(new[] { 
+                        new { Text = "Select", Value = "Select", Seleced = "True" },
+                        new { Text = "VI", Value = "VI", Seleced = "false" },
+                        new { Text = "VII", Value = "VII", Seleced = "false" },
+                        new { Text = "VIII", Value = "VIII", Seleced = "false" },
+                        new { Text = "IX", Value = "IX", Seleced = "false" },
+                        new { Text = "X", Value = "X", Seleced = "false" }
+               }, "Text", "Value", "Seleced"),
+               new { @Class = "CSSDropDownList" })
+                </td>
+                <td width="15%">
+                    @Html.DropDownList("SBCSection",
+                    new SelectList(new[] { 
+                        new { Text = "Select", Value = "Select", Seleced = "True" },
+                        new { Text = "A", Value = "A", Seleced = "false" },
+                        new { Text = "B", Value = "B", Seleced = "false" },
+                        new { Text = "C", Value = "C", Seleced = "false" },
+                        new { Text = "D", Value = "D", Seleced = "false" },
+                        new { Text = "E", Value = "E", Seleced = "false" },
+                        new { Text = "F", Value = "F", Seleced = "false" }
+               }, "Text", "Value", "Seleced"),
+               new { @Class = "CSSDropDownList" })
+                </td>
+                <td>
+                    @if (Session["AdminRole"].ToString() == "All")
+                    {
+                        @Html.TextBox("SBCStaff", " ", new { @Class = "CSSTextBox", @Readonly = "Readonly", @tabindex = "2" });
+@*<a id="btnSBCStaffPopup">...</a>*@
+                        <a id="btnSBCStaffPopup" style="cursor: pointer;"><i class="fa fa-search fa-2x"></i></a>
+                    }
+                    else
+                    {
+                        @Html.TextBox("SBCStaff", " ", new { @Class = "CSSTextBox", @Readonly = "Readonly", @tabindex = "2", @Value = Session["UserId"].ToString() });
+                    }
+                </td>
+                <td>
+                    @Html.DropDownList("SBCAssmntType", new SelectList(new[] { new { Text = "Select", Value = "Select", Seleced = "True" } }, "Text", "Value", "Selected"), new { @Class = "CSSDropDownList", style = "width: 80%", @tabindex = "3" })
+                </td>
+                <td>
+                    @Html.DropDownList("SBCSubject", new SelectList(new[] { new { Text = "Select", Value = "Select", Seleced = "True" } }, "Text", "Value", "Selected"), new { @Class = "CSSDropDownList", @tabindex = "4" })
+                </td>
+            </tr>
+            <tr>
+                <td width="20%" id="tdSBCSemheading">
+                    <label>
+                        Semester Type <span style="color: Red">*</span>
+                    </label>
+                </td>
+                <td width="20%">
+                    <label>
+                        Date of Assignment <span style="color: Red">*</span>
+                    </label>
+                </td>
+                <td width="20%">
+                    <label>
+                        Assignment Name<span style="color: Red">*</span>
+                    </label>
+                </td>
+                <td width="20%">
+                    <label>
+                        Total Marks<span style="color: Red">*</span>
+                    </label>
+                </td>
+                <td colspan="3" width="20%">
+                </td>
+            </tr>
+            <tr>
+                <td id="tdSBCSemester">
+                    @Html.DropDownList("SBCSemester",
+                    new SelectList(new[] { 
+                        new { Text = "", Value = "Select", Seleced = "True" },
+                        new { Text = "Sem I", Value = "Sem I", Seleced = "false" },
+                        new { Text = "Sem II", Value = "Sem II", Seleced = "false" },
+                        new { Text = "Sem III", Value = "Sem III", Seleced = "false" },
+               }, "Text", "Value", "Seleced"), new { @Class = "CSSDropDownList" })
+                </td>
+                <td>
+                    @Html.TextBox("SBCDatofAssgn", "", new { @Class = "datepicker", @Readonly = "Readonly", @tabindex = "6" })
+                </td>
+                <td>
+                    @Html.DropDownList("SBCAssmntName", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "CSSDropDownList" })
+                    @* @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.AssignmentName, "AssignmentName", "AssignmentName"), "Select One", new { id = "SBCAssmntName", @Class = "CSSDropDownList", @tabindex = "5" })                  *@
+                    @*     @Html.TextBox("SBCAssmntName", "", new { @Class = "CSSTextBox", style = "width: 80%", @maxlength = "100", @tabindex = "5" })*@
+                    @*<a id="redirectmaster" href="#" >Add Assignment Name</a>*@ @*@Html.ActionLink("AssignmentName", "Masters", "Home" )*@
+                </td>
+                <td>
+                    @Html.TextBox("totalmks", "", new { @Class = "CSSTextBox", @tabindex = "7" })
+                </td>
+                <td width="20%">
+                    <input type="button" value="Get Student List" id="btnGetStdntLst" />&nbsp
+                    <input type="button" id="btnReset" value="Reset" name="Reset" />
+                </td>
+                <td colspan="2" width="20%">
+                    @Html.Hidden("loggedInUserType")
+                    @Html.Hidden("hdnIsCredit")
+                    @Html.Hidden("lgdUserId")
+                    @Html.Hidden("SSTId")
+                    @Html.Hidden("SSTSearchName")
+                    @Html.Hidden("SSTSavedSearch")
+                    @Html.Hidden("SSTIsDefault")
+                    @Html.Hidden("SSTDateCreated")
+                </td>
+            </tr>
+            <tr>
+                <td width="15%">
+                    Search Template Name
+                </td>
+                <td width="15%">
+                    Default
+                </td>
+                <td width="15%">
+                    New Template Name
+                </td>
+                <td width="15%">
+                </td>
+                <td width="15%">
+                </td>
+                <td width="25%">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DropDownList("SavedSearchTempl", new SelectList(new[] { new { Text = "Select", Value = "Select", Seleced = "True" } }, "Text", "Value", "Seleced"), new { @Class = "CSSDropDownList" })
+                </td>
+                <td>
+                    @Html.CheckBox("IsDefaultSST")
+                </td>
+                <td>
+                    @Html.TextBox("NameSSTName", null, new { @class = "CSSTextBox" })
+                </td>
+                <td>
+                    <input type="button" id="btnSaveSST" value="Save Search Template" />&nbsp @*<input type="button" id="btnDelSST" value="Delete Search Template" />&nbsp*@
+                </td>
+                <td colspan="2">
+                    <label>
+                        <span style="color: Red">* Please Do not add sample entries! if added, they cannot be
+                            roled back here. Contact support team for further clarification.</span>
+                    </label>
+                </td>
+            </tr>
+        </table>
+        <table id="blkCompSaveLst">
+        </table>
+        <div id="blkCompSavePage">
+        </div>
+    </div>
+</body>
+</html>
+<div id="DivStaffMasterSearch">
+</div>

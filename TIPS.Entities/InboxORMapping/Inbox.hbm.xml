@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   namespace="TIPS.Entities.InboxEntities"
+                   assembly="TIPS.Entities.InboxEntities.Inbox">
+
+  <class name="TIPS.Entities.InboxEntities.Inbox, TIPS.Entities " table="Inbox" dynamic-update="true">
+    <cache usage="read-write"/>
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="UserId" column="UserId" type="string"/>
+    <property name="PreRegNum" column="PreRegNum" type="Int64" not-null ="false"></property>
+    <property name="Campus" column="Campus" type="string"/>
+    <property name="Module" column="Module" type="string"></property>
+    <property name="InformationFor" column="InformationFor" type="string"></property>
+    <property name="RefNumber" column="RefNumber" type="Int64"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime"></property>
+    <property name="IsRead" column="IsRead" type="bool" not-null ="false"></property>
+  </class>
+</hibernate-mapping>

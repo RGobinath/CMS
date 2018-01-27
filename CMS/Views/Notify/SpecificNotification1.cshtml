@@ -1,0 +1,238 @@
+﻿@model TIPS.Entities.ParentPortalEntities.Notification
+@{
+    ViewBag.Title = "Specific Notification";
+    Layout = null;
+}
+<script src="../../Scripts/Notification/nicEdit.js" type="text/javascript"></script>
+<script type="text/javascript">
+/*
+   bkLib.onDomLoaded(function () {
+
+        nicEditors.allTextAreas({ maxHeight: 100, fullPanel: true });
+        new nicEditor({ maxHeight: 100 }).panelInstance('txtMessage');
+    });
+    */
+</script>
+<script type="text/javascript">
+        $(document).ready(function () {
+
+            new nicEditor({ maxHeight: 150, fullPanel: true }).panelInstance('txtMessage1');
+
+            $(".datepicker2").datepicker({
+                dateFormat: 'dd-m-yy',
+                changeMonth: true,
+                changeYear: true,
+                minDate: 0,
+                onSelect: function (selected) {
+                    $("#txtExpireDate1").datepicker("option", "minDate", selected)
+                }
+            });
+
+        
+         });
+        var splitstr = "";
+
+        $("#file3").click(function () {
+
+            var txtTopic = $("#txtTopic").val();
+            var txtPublishDate = $("#txtPublishDate1").val();
+            var txtExpireDate = $("#txtExpireDate1").val();
+            var ddlNoteType = $("#ddlNoteType").val();
+           // var txtMessage = $("#txtMessage").val();
+
+            if (txtTopic == "" || txtTopic == null || txtPublishDate == "" || txtPublishDate == null || txtExpireDate == "" || txtExpireDate == null || ddlNoteType == "" || ddlNoteType == null ) {
+                ErrMsg("Please Fill Required Notification Details.");
+                return false;
+            }
+        });
+
+        $("#Submit").click(function () {
+
+            var txtTopic = $("#txtTopic").val();
+            var txtPublishDate = $("#txtPublishDate1").val();
+            var txtExpireDate = $("#txtExpireDate1").val();
+            var ddlNoteType = $("#ddlNoteType").val();
+           // var txtMessage = $("#txtMessage").val();
+
+            if (txtTopic == "" || txtTopic == null || txtPublishDate == "" || txtPublishDate == null || txtExpireDate == "" || txtExpireDate == null || ddlNoteType == "" || ddlNoteType == null ) {
+                ErrMsg("Please Fill Required Notification Details.");
+                return false;
+            }
+        });
+
+      function resethtml2() {
+         // $('#file3').val() = "";
+
+            //    alert('hre');
+            $('#clear2').html($('#clear2').html());
+            var div = document.getElementById('Attachfiles2');
+            div.innerHTML = 'Attached Files &nbsp;&nbsp;&nbsp;  ';
+            $.ajax({
+                url: '/Notify/DeleteAttachment/',
+                type: 'POST',
+                dataType: 'json',
+                traditional: true
+            });
+        }
+
+        function uploaddoc2() {
+            if (document.getElementById("file3").value == "") {
+                ErrMsg("Please Browse a Document");
+            }
+            else {
+                splitstr = splitstr + $('#file3').val().split('\\');
+                 
+
+                $.ajaxFileUpload({
+
+                    url: '/Notify/MailAttachments3?NotePreId=' + '@Model.NotePreId',
+                    secureuri: false,
+                    fileElementId: 'file3',
+                    dataType: 'json',
+                    success: function (data, success) {
+                        var div = document.getElementById('Attachfiles2');
+
+                        if ((div.innerHTML == 'Attached Files &nbsp;&nbsp;&nbsp;  ')) {
+                            div.innerHTML = div.innerHTML + data.result;
+                        }
+                        else {
+                            div.innerHTML = div.innerHTML + ', ' + data.result;
+                        }
+                    }
+                });
+                $('#clear2').html($('#clear2').html());
+
+            }
+        }
+</script>
+<style type="text/css">
+    .datepicker2
+    {
+        border: #006699 1px solid; /*border-style: groove;
+    border-color: ButtonHighlight;*/
+        color: #666666;
+        font: normal 11px Verdana,Arial,sans-serif; /* height: 22px;*/
+        width: 155px;
+    }
+</style>
+
+@using (Html.BeginForm("SpecificNotification", "Notify", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+      @Html.HiddenFor(model => model.NotePreId)
+      @Html.HiddenFor(model => model.PublishTo)
+       @Html.HiddenFor(model => model.Campus, new { id = "campus" }) 
+      @Html.HiddenFor(model => model.NewIds, new { id = "NewIds" })
+      @Html.HiddenFor(model => model.PreRegNos, new { id = "preregnos" }) 
+
+ <div class="row">
+        <div class="col-xs-12 widget-container-col">
+            <div class="widget-box widget-color-CustomizeBlue">
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-3">
+                                <label for="form-field-select-1">
+                                    <b>Topic</b></label>
+                                @if (Model != null)
+                                {  
+                                    
+                                    @Html.TextBoxFor(model => model.Topic, new { id = "txtTopic", @Class = "form-control input-sm" })
+                                    
+                                }
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="form-field-select-1">
+                                    <b>Publish Date</b></label>
+                                @if (Model != null)
+                                {  
+                                    
+                                    @Html.TextBoxFor(model => model.PublishDate, new { id = "txtPublishDate1", @Class = "form-control txtPublishDate" })
+                                  
+                                }
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="form-field-select-1">
+                                    <b>Expire Date</b></label>
+                                @if (Model != null)
+                                {  
+                                    
+                                    @Html.TextBoxFor(model => model.ExpireDate, new { id = "txtExpireDate1", @Class = "form-control txtExpireDate" })
+                                    
+                                }
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="form-field-select-1">
+                                    <b>Notification Type</b></label>
+                                @if (Model != null)
+                                {
+                                    @Html.DropDownListFor(model => model.NoteType, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="GradeLevel",Text="Grade Level"},
+                                              new{Value="Individual",Text="Individual"},
+                                              
+                                          },
+                               "Value", "Text", ""), new { id = "ddlNoteType", @Class = "form-control select-sm" })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-4">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-6">
+                                <label for="form-field-select-1">
+                                    <b>Message</b></label>
+                                @if (Model != null)
+                                {
+        
+                                    @Html.TextAreaFor(model => model.Message, new { rows = 3, id = "txtMessage1", @class = "form-control textarea" })
+                                }
+                                <div id="counter">
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="form-field-select-1">
+                                    <b>Document Upload</b></label>
+                                <input type="file" name="file3" id="file3" value="Browse" style="height: 22px" />
+                                <div id="Attachfiles2" style="width: 370px;">
+                                    Attached Files:&nbsp
+                                </div>
+                                <div id="clear2">
+                                    <div class="space-30">
+                                    </div>
+                                    <div class="col-sm-6" style="padding-top: 2px">
+                                        <button class="btn btn-warning" type="button" onclick="uploaddoc2()" value="Upload">
+                                            <i class="ace-icon fa fa-upload"></i>&nbsp;Upload</button>
+                                    </div>
+                                    <div class="col-sm-6" style="padding-top: 2px">
+                                        <button type="button" class="btn btn-grey" value="Clear" onclick="resethtml2()">
+                                            <i class="fa fa-undo"></i>&nbsp;Clear</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-70">
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="space-18">
+                                </div>
+                                <div class="col-sm-6" style="padding-top: 2px">
+                                    <button class="btn btn-success" name="btnSubmit" type="submit" id="Submit" value="Submit">
+                                        <i class="ace-icon fa fa-save"></i>Submit</button></div>
+                                <div class="col-sm-6" style="padding-top: 2px">
+                                    <button class="btn btn-blcck btn-danger" type="reset" id="cancel" value="Cancel">
+                                        <i class="ace-icon fa fa-times"></i>Cancel</button></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

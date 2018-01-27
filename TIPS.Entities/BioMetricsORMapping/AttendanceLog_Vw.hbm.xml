@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="TIPS.Entities.BioMetricsEntities" assembly="TIPS.Entities.BioMetricsEntities.AttendanceLog_Vw">
+  <class name="TIPS.Entities.BioMetricsEntities.AttendanceLog_Vw, TIPS.Entities" table="AttendanceLog_Vw" dynamic-update="true">
+    <cache usage="read-write"/>
+    <id name="Id" column="Id" type="Int32">
+      <generator class="native"/> 
+    </id> 
+    <property name="EmployeeName" column="EmployeeName" type="string" />
+    <property name="EmployeeCode" column="EmployeeCode" type="Int64"/>
+    <property name="Gender" column="Gender" type="string" />
+    <property name="CompanyFName" column="CompanyFName" type="string" />
+    <property name="CompanyId" column="CompanyId" type="Int64"/>
+    <property name="DepartmentFName" column="DepartmentFName" type="string" />
+    <property name="DepartmentId" column="DepartmentId" type="Int64"/>
+    <property name="Designation" column="Designation" type="string" />
+    <property name="CategoryName" column="CategoryName" type="string" />
+    <property name="CategoryId" column="CategoryId" type="Int64"/>
+    <property name="EmployementType" column="EmployementType" type="string" />
+    <property name="Status" column="Status" type="string" />
+    <property name="ShiftGroupName" column="ShiftGroupName" type="string" />
+    <property name="ShiftGroupId" column="ShiftGroupId" type="Int64"/>
+    <property name="ShiftType" column="ShiftType" type="string" />
+    <property name="MultiShiftGroupFName" column="MultiShiftGroupFName" type="string" />
+    <property name="MultiShiftGroupId" column="MultiShiftGroupId" type="Int64"/>
+    <property name="AttendanceDate" column="AttendanceDate" type="date" />
+    <property name="AttendanceStatus" column="AttendanceStatus" type="string" />
+    <property name="InTime" column="InTime" type="string" />
+    <property name="OutTime" column="OutTime" type="string" />
+  </class>
+</hibernate-mapping>

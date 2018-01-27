@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.AssetEntities.AssetDistributionStudent_vw" namespace="TIPS.Entities.AssetEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssetEntities.AssetDistributionStudent_vw, TIPS.Entities" table="AssetDistributionStudent_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="Id" column="Id" type="Int64"></property>
+    <property name="NewId" column="NewId" type="string"></property>
+    <property name="Name" column="Name" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="AdmissionStatus" column="AdmissionStatus" type="string"></property>
+    <property name="AcademicYear" column="AcademicYear" type="string"></property> 
+  </class>
+</hibernate-mapping>

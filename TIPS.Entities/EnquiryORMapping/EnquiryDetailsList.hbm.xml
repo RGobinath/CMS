@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="Entities.EnquiryEntities" namespace="Entities.EnquiryEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Entities.EnquiryEntities.EnquiryDetailsList,Entities" table="EnquiryDetails" lazy="true" >
+    <id name="EnquiryDetailsId" column="EnquiryDetailsId" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="EnquiryDetailsCode" column="EnquiryDetailsCode" type="string"/>
+    <property name="Board" column="Board" type="string"/>
+    <property name="CourseTrack" column="CourseTrack" type="string"/>
+    <property name="StudentName" column="StudentName" type="string"/>
+    <property name="ParentName" column="ParentName" type="string"/>
+    <property name="EnquirerMobileNo" column="EnquirerMobileNo" type="string"/>
+    <property name="EnquirerEmailId" column="EnquirerEmailId" type="string"/>
+    <property name="EnquirerComments" column="EnquirerComments" type="string"/>
+    <property name="EnquiredDate" column="EnquiredDate" type="DateTime"/>
+    <property name="EnquiryStatus" column="EnquiryStatus" type="string"/>
+    <property name="AdmittedRefNo" column="AdmittedRefNo" type="string"/>
+    <property name="AdmittedDate" column="AdmittedDate" type="DateTime"/>
+    <property name="FollowupDate" column="FollowupDate" type="DateTime"/>
+    <property name="DOB" column="DOB" type="DateTime"/>
+
+    <!--newly added-->
+    <property name="Gender" column="Gender" type="string"/>
+    <property name="School" column="School" type="string"/>
+    <property name="KnownThrough" column="KnownThrough" type="string"/>
+    <property name="SpecificIllness" column="SpecificIllness" type="string"/>
+    <property name="CaseofAllergies" column="CaseofAllergies" type="string"/>
+    <property name="DocName" column="DocName" type="string"/>
+    <property name="DocTeleNo" column="DocTeleNo" type="string"/>
+    <property name="EmergencyNo" column="EmergencyNo" type="string"/>
+    <property name="Enrolled" column="Enrolled" type="string"/>
+    <property name="BGRP" column="BGRP" type="string"/>
+    <property name="LanguagesKnown" column="LanguagesKnown" type="string"/>
+    <property name="ReciveEmail" column="ReciveEmail" type="string"/>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Program" column="Program" type="string"></property>
+    <property name="Course" column="Course" type="string"></property>
+    <property name="CourseType" column="CourseType" type="string"></property>
+    <property name="Batch" column="Batch" type="string"></property>
+    <property name="Timing" column="Timing" type="string"></property>
+    <property name="Phone" column="Phone" type="string"></property>
+
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"></property>
+
+    <property name="Subjects" column="Subjects" type="string"></property>
+    <property name="EnquiryThrough" column="EnquiryThrough" type="string"></property>
+    <property name="SendMessage" column="SendMessage" type="boolean"></property>
+    <property name="Age" column="Age" type="Int32"></property>
+    <property name="Location" column="Location" type="string"></property>
+
+    <!--<bag batch-size="20" name="AddressDetailsList" lazy="false" cascade="all">
+      <key column="StudentId"/>
+      <one-to-many class="TheJomaya.Entities.AdmissionEntities.AddressDetails,TheJomaya.Entities.AdmissionEntities"/>
+    </bag>-->
+
+    <!--<bag batch-size="20" name="FamilyDetailsList" lazy="false" cascade="none">
+      <key column="StudentId"/>
+      <one-to-many class="TheJomaya.Entities.AdmissionEntities.FamilyDetails,TheJomaya.Entities.AdmissionEntities"/>
+    </bag>-->
+  </class>
+</hibernate-mapping>

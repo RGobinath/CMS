@@ -1,0 +1,40 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+@{
+    ViewBag.Title = "CertificateComponents";
+    Layout = null;
+}
+@{
+    string ViewPg = @ViewBag.Flag;
+    switch (ViewPg)
+    {
+        case "AddressProofLetter":
+    @Html.Partial("AddressProofLetter")
+break;
+        case "BonafideCertificate":
+    @Html.Partial("BonafideCertificate")
+break;
+        case "NOCLetter":
+    @Html.Partial("NOCLetter")
+break;
+        case "RedesignationLetter":
+    @Html.Partial("RedesignationLetter")
+break;
+        case "RelievingLSCertificate":
+    @Html.Partial("RelievingLSCertificate")
+break;
+        case "SalaryAppraisalLetter":
+    @Html.Partial("SalaryAppraisalLetter")
+break;
+        case "SalaryCertificate":
+    @Html.Partial("SalaryCertificate")
+break;
+        case "AppointmentLetter":
+    @Html.Partial("AppointmentLetter")
+break;
+        case "TransferLetter":
+    @Html.Partial("TransferLetter")
+break;
+        default:
+break;
+    }
+}

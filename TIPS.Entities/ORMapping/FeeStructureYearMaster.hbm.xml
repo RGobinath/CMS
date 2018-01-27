@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.FeeStructureYearMaster" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.FeeStructureYearMaster, TIPS.Entities" table="FEESTRUCTUREMASTER" lazy="false" >
+    <id name="FormId" column="FormId">
+      <generator class="identity" />
+    </id>
+    <property name="FormCode" column="FormCode" type="string" not-null="true" />
+    <property name="FeeStructureYear" column="fstr" type="string" not-null="true" />
+    <property name="FeeStructureYeardesc" column="fstrdesc" type="string" not-null="true" />
+    <property name="AcademicYear" column="AcademicYear" type="string" not-null="true" />
+  </class>
+</hibernate-mapping>
+

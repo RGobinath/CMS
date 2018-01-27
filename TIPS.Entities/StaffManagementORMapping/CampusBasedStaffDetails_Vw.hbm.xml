@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.CampusBasedStaffDetails_Vw" namespace="TIPS.Entities.StaffManagementEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.CampusBasedStaffDetails_Vw,TIPS.Entities" table="CampusBasedStaffDetails_Vw" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="StaffPreRegNumber" column="StaffPreRegNumber" type="Int64"></property>
+    <property name="StaffName" column="StaffName" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Department" column="Department" type="string"></property>
+    <property name="SubDepartment" column="SubDepartment" type="string"></property>
+    <property name="Programme" column="Programme" type="string"></property>
+    <property name="Designation" column="Designation" type="string"></property>
+    <property name="StaffType" column="StaffType" type="string"></property>
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>
+    <property name="ConfigurationStatus" column="ConfigurationStatus" type="string"></property>
+    <property name="ReportingHeads" column="ReportingHeads" type="string"></property>
+  </class>
+</hibernate-mapping>

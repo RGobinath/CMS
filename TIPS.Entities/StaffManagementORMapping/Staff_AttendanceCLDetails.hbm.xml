@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.StaffManagementEntities.Staff_AttendanceCLDetails" namespace="TIPS.Entities.Staff_AttendanceCLDetails" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StaffManagementEntities.Staff_AttendanceCLDetails,TIPS.Entities" table="Staff_AttendanceCLDetails" lazy="true" >
+    <id name="Staff_AttendanceCLBalance_Id" column="Staff_AttendanceCLBalance_Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"/>
+    <property name="Month" column="Month" type="Int64" />
+    <property name="Year" column="Year" type="Int64"></property>
+    <property name="OpeningCLBalance" column="OpeningCLBalance" type="decimal"/>
+    <property name="AllotedCL" column="AllotedCL" type="decimal" />
+    <property name="TotalAvailableBalane" column="TotalAvailableBalane" type="decimal"></property>
+    <property name="NoOfLeavesTaken" column="NoOfLeavesTaken" type="decimal"></property>
+    <property name="ClosingBalance" column="ClosingBalance" type="decimal"/>
+    <property name="IsActive" column="IsActive" type="bool"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"/>
+    <property name="CreatedDate" column="CreatedDate" type="datetime" />
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="datetime"></property>
+    <property name="LeaveToBeCalculated" column="LeaveToBeCalculated" type="decimal"></property>
+    <property name="Remarks" column="Remarks" type="string"></property>
+  </class>
+</hibernate-mapping>

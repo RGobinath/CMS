@@ -1,0 +1,26 @@
+﻿@model TIPS.Entities.Assess.EnteredCount
+@{
+    ViewBag.Title = "MarksEntered";
+    Layout = "~/Views/Shared/NewAcePartialViewMaster.cshtml";
+}
+<script src="@Url.Content("~/Scripts/Assess360/MarksEntered.js")" type="text/javascript"></script>
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-body">
+            <div class="widget-main no-padding">
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <table id="EnteredList">
+                            </table>
+                            <div id="EnteredListPager">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

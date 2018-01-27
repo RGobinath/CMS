@@ -1,0 +1,114 @@
+﻿@model TIPS.Entities.TransportEntities.RouteStudentListConfigView
+@{
+    ViewBag.Title = "RouteStudentConfigurationForm";
+    //Layout = "~/Views/Shared/NewAceMaster.cshtml";
+    Layout = null;
+}
+@*<link href="../../timeliner-responsive/inc/colorbox.css" rel="stylesheet" />*@
+<link href="../../timeliner-responsive/css/screen.css" rel="stylesheet" />
+<script src="../../timeliner-responsive/inc/colorbox.js"></script>
+<script src="../../timeliner-responsive/js/timeliner.min.js"></script>
+<div class="page-content">
+    <div class="page-content-area">
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa  fa-cogs"></i>&nbsp;Configured Student List
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="container">
+                                    <div id="timelineContainer">
+                                        <div class="timelineToggle">
+                                            <p>
+                                                <a class="expandAll">+ expand all</a></p>
+                                        </div>
+                                        <br class="clear">
+                                        @if (@Model.StudentDetailsList.Count > 0)
+                                        {
+                                            for (int i = 0; i < @Model.StudentDetailsList.Count; i++)
+                                            {
+                                                if (@Model.StudentDetailsList[i] != null)
+                                                { 
+
+                                            <div class="timelineMajor">
+                                                <h2 class="timelineMajorMarker">
+                                                    <span class="label label-info arrowed-in-right arrowed">&nbsp;@Model.StudentDetailsList[i].LocationName</span></h2>
+                                                <dl class="timelineMinor">
+                                                    <dt>
+                                                        <label for="form-field-select-1">
+                                                            <b><a>Students List</a></b></label></dt>
+                                                    @if (@Model.StudentDetailsList[i].StudTempList.Count > 0)
+                                                    {
+                                                        <dd class="timelineEvent" style="display: none;">
+                                                            <div class="alert alert-info col-xs-12">
+                                                                    <div class="col-sm-4">
+                                                                        <label for="form-field-select-1">
+                                                                            <b>Name</b></label><br />
+                                                                        @for (int j = 0; j < @Model.StudentDetailsList[i].StudTempList.Count; j++)
+                                                                        {
+                                                                            @Model.StudentDetailsList[i].StudTempList[j].Name<br />}
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        <label for="form-field-select-1">
+                                                                            <b>Grade</b></label><br />
+                                                                        @for (int j = 0; j < @Model.StudentDetailsList[i].StudTempList.Count; j++)
+                                                                        {
+                                                                            @Model.StudentDetailsList[i].StudTempList[j].Grade<br />}
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        <label for="form-field-select-1">
+                                                                            <b>Section</b></label><br />
+                                                                        @for (int j = 0; j < @Model.StudentDetailsList[i].StudTempList.Count; j++)
+                                                                        {
+                                                                            @Model.StudentDetailsList[i].StudTempList[j].Section<br />}
+                                                                    </div>
+                                                            </div>
+                                                        </dd>
+                                                    }
+                                                    else
+                                                    {
+                                                        <dd class="timelineEvent" style="display: none;">
+                                                            <div class="alert alert-danger">
+                                                                No Students allotted for this location
+                                                            </div>
+                                                            <br class="clear">
+                                                        </dd>
+                                                    }
+                                                </dl>
+                                                <!-- /.timelineMinor -->
+                                            </div>          
+                                                }
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div class="alert alert-danger">
+                                                No Locations available for this route
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    jQuery(function () {
+        debugger;
+        $.timeliner({
+        //startOpen: ['#19550828EX', '#19630828EX']
+    });
+    // Colorbox Modal
+    $(".CBmodal").colorbox({ inline: true, initialWidth: 100, maxWidth: 682, initialHeight: 100, transition: "elastic", speed: 750 });
+});
+</script>

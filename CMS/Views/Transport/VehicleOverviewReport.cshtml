@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Vehicle Overview Report";
+    Layout = null;
+}
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                </div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Campus</b></label>
+                                @Html.DropDownList("ddlrptCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlrptCampus", @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Vehicle Type</b></label>
+                                @Html.DropDownList("ddlrptVehicleType", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlrptVehicleType", @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Vehicle No</b></label>
+                                @Html.TextBox("txtrptVehicleNo","", new { id = "txtrptVehicleNo", @class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Month Year</b></label>
+                                @Html.TextBox("txtrptMonthYear","", new { id = "txtrptMonthYear", @class = "form-control input-sm" })
+                            </div>
+                            <div class="col-sm-2" id="financeyear">
+                                <label for="form-field-select-1">
+                                    <b>Finance Year</b></label>                                
+                                    @if (DateTime.Now.Month > 3)
+                                    {
+                                        <label>April  @DateTime.Now.Year-March @(DateTime.Now.Year+1)</label>
+                                    }
+                                    else
+                                    { 
+                                        <label>April  @(DateTime.Now.Year-1)-March @DateTime.Now.Year</label>
+                                    }                                
+                            </div>                            
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <br />
+                                <button class="btn btn-success btn-block btn-sm" id="btnrptSearch">
+                                    <i class="ace-icon fa fa-search white"></i>Search
+                                </button>
+                            </div>
+                            <div class="col-sm-2">
+                                <br />
+                                <button class="btn btn-danger btn-block btn-sm" id="btnrptReset">
+                                    <i class="ace-icon fa fa-undo white"></i>Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-2"></div>
+<div class="row">
+    <div class="col-xs-12">
+        <table id="VehicleOverviewReportListJqGrid">
+        </table>
+        <div id="VehicleOverviewReportListJqGridPager">
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/Transport/VehicleOverviewReport.js"></script>

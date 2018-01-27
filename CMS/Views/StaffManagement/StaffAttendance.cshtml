@@ -1,0 +1,220 @@
+﻿@{
+    ViewBag.Title = "StaffAttendance";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-offset-3 col-xs-6 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-signal"></i>&nbsp;Attendance
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    @*<div class="col-sm-3">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownList("ddlcampus", new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus", @Class = "form-control select-sm" })
+                                    </div>*@
+                                    <div class="col-sm-3">
+                                        <label for="form-field-select-1">
+                                            <b>Id Number</b></label>
+                                        @Html.Hidden("StaffPreRegNum")
+                                        @Html.TextBox("txtStaffIdNumber", "", new { @title = "Type Search Text", @Class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <br />
+                                        <button type="button" class="btn btn-primary btn-block btn-sm" id="search">
+                                            <i class="ace-icon fa fa-search white"></i>Get Details
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <br />
+                                        <button type="button" class="btn btn-danger btn-block btn-sm" id="reset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-offset-3 col-xs-6 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Staff Details
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="space-2"></div>
+
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <td rowspan="2" width="150">
+                                            <canvas id="canvas" width="130" height="130"
+                                                style="background-color: #fff"></canvas>
+                                        </td>
+                                        <td>
+                                            <p style="text-align: center; font-weight: bold">
+                                                STAFF ATTENDANCE                                                    
+                                            </p>
+                                            <p style="text-align: center; font-weight: bold">@(DateTime.Today.ToString("dd'/'MM'/'yyyy"))</p>
+                                            <p style="text-align: center; font-weight: bold">@(DateTime.Today.DayOfWeek)</p>
+                                            <br />
+                                        </td>
+                                    </tr>
+                                    @*<tr>
+                                        <td>
+                                            <p style="text-align: center;">The purpose of art is washing the dust of daily life off our souls.</p>
+                                        </td>
+                                    </tr>*@
+                                </table>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-condensed">
+                                    <tr>
+                                        <td rowspan="4" width="150">
+                                            <img src="../Images/no_image.jpg" id="myImage" class="img-thumbnail" width="150" height="150" /></td>
+                                        <td width="150"><b>Campus</b></td>
+                                        <td>
+                                            <label id="lbl_Campus"></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Id Number</b></td>
+                                        <td>
+                                            <label id="lbl_IdNumber"></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Name</b></td>
+                                        <td>
+                                            <label id="lbl_Name"></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Department</b></td>
+                                        <td>
+                                            <label id="lbl_Department"></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button class="btn btn-success btn-block btn-sm" id="btncheckin">
+                                                <i class="ace-icon fa fa-save white"></i>&nbsp;Check In
+                                            </button>
+                                            <button class="btn btn-success btn-block btn-sm" id="btncheckout">
+                                                <i class="ace-icon fa fa-save white"></i>&nbsp;Check Out
+                                            </button>
+                                        </td>
+                                        <td><b>Designation</b></td>
+                                        <td>
+                                            <label id="lbl_Designation"></label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="space-2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2"></div>
+    </div>
+</div>
+<script src="../../Scripts/StaffManagementScripts/StaffAttendance.js" type="text/javascript"></script>
+<script>
+    $("#search").click(function () {
+        var IdNumber = $("#txtStaffIdNumber").val();
+        var PreRegNum = $("#StaffPreRegNum").val();
+        //if ($("#ddlcampus").val() == "") {
+        //    ErrMsg("Please Select Campus");
+        //    return false;
+        //}
+        //else
+        if ($.trim(IdNumber).length == 0) {
+            ErrMsg("Please Enter Your IdNumber");
+            return false;
+        }
+        else if ($.trim(IdNumber).length > 0 && (isNaN(PreRegNum) == true || $.trim(PreRegNum).length == 0 || parseInt(PreRegNum) == 0)) {
+            ErrMsg("Id Number is Not Valid.Please Contact Support Desk.");
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                traditional: true,
+                async: false,
+                url: '/StaffManagement/GetStaffDetailsByPreRegNum?PreRegNum=' + $("#StaffPreRegNum").val(),
+                success: function (data) {
+                    if (data != "") {
+                        if (data.checkinval == "completed") {
+                            $("#btncheckin").hide();
+                            $("#btncheckout").hide();
+                            InfoMsg("You have completed your today check In and Check Out.");
+                            $("#lbl_Name").text('');
+                            $("#lbl_Campus").text('');
+                            $("#lbl_Department").text('');
+                            $("#lbl_Designation").text('');
+                            $("#lbl_IdNumber").text('');
+                            $("#StaffPreRegNum").val('');
+                            $("#txtStaffIdNumber").val('TIPS-');
+                            document.getElementById("myImage").src = "/Images/no_image.jpg";
+                            return false;
+
+                        }
+                        else if (data.checkinval == "") {
+                            $("#btncheckin").hide();
+                            $("#btncheckout").hide();
+                        }
+                        else if (data.checkinval == "true") {
+                            $("#btncheckin").show();
+                            $("#btncheckout").hide();
+                        }
+                        else if (data.checkinval == "false") {
+                            $("#btncheckin").hide();
+                            $("#btncheckout").show();
+                        }
+                        $("#lbl_Name").text(data.Name != null ? data.Name : "");
+                        $("#lbl_Campus").text(data.Campus != null ? data.Campus : "");
+                        $("#lbl_Department").text(data.Department != null ? data.Department : "");
+                        $("#lbl_Designation").text(data.Designation != null ? data.Designation : "");
+                        $("#lbl_IdNumber").text(data.IdNumber != null ? data.IdNumber : "");
+                        var url = '@Url.Action("uploaddisplay1", "StaffManagement")?Id=' + $("#StaffPreRegNum").val();
+                        document.getElementById("myImage").src = url;
+                    }
+                    else {
+                        ErrMsg("Sorry.Data Not Found.Please Contact Support Desk.");
+                        return false;
+                    }
+                }
+            });
+        }
+    });
+</script>

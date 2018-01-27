@@ -1,0 +1,172 @@
+﻿@{
+    ViewBag.Title = "CandidateStatusChange";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script src="../../Scripts/ajaxfileupload.js" type="text/javascript"></script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue ">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-th-list"></i>&nbsp;Search Panel
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b>
+                                        </label>
+                                        @Html.DropDownList("ddlCampus", new SelectList(ViewBag.Campus, "Name", "Name"), "Select", new { id = "ddlCampus", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Interview Date</b></label>
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBox("txtDate", "", new { @class = "form-control date-picker" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                    @*<div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Department</b></label>
+                                        @Html.DropDownList("ddlDepartment", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlDepartment", @Class = "form-control select-sm" })
+                                    </div>                                     
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Designation</b></label>
+                                        @Html.DropDownList("ddlDesignation", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlDesignation", @Class = "form-control select-sm" })
+                                    </div>*@
+
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Qualification</b></label>
+                                        @Html.TextBox("txtQualification", "", new { id = "txtQualification", @Class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Subjects</b></label>
+                                        @Html.TextBox("txtSubjects", "", new { id = "txtSubjects", @Class = "form-control input-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Status</b></label>
+                                        @Html.DropDownList("ddlStatus", new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="New",Text="New"},
+                                              new{Value="Selected",Text="Selected"},
+                                              new{Value="On Board",Text="On Board"},
+                                              new{Value="Rejected",Text="Rejected"},
+                                              new{Value="On Hold",Text="On Hold"}
+                                          }, "Value", "Text", ""), new { id = "ddlStatus", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-primary btn-info btn-block btn-sm" id="btnSearch">
+                                            <i class="ace-icon fa fa-search white"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-danger btn-warning btn-block btn-sm" id="btnReset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                    @*<div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-success btn-info btn-block btn-sm" id="btnOverview">
+                                            <i class="ace-icon fa fa-search white"></i>Overview
+                                        </button>
+                                    </div>*@
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <table id="grid-table"></table>
+                <div id="grid-pager">
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-sm-2">
+                    <label for="form-field-select-1">
+                        <b>Status</b></label>
+                    @Html.DropDownList("ddlStatusChange", new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Selected",Text="Selected"},
+                                              new{Value="On Board",Text="On Board"},
+                                              new{Value="Rejected",Text="Rejected"},
+                                              new{Value="On Hold",Text="On Hold"}
+                                          }, "Value", "Text", ""), new { id = "ddlStatus", @Class = "form-control select-sm" })
+                </div>
+                <div class="col-sm-2">
+                    <label for="form-field-select-1">
+                        <b>Campus</b>
+                    </label>
+                    @Html.DropDownList("ddlStatusCampus", new SelectList(ViewBag.Campus, "Name", "Name"), "Select", new { id = "ddlStatusCampus", @Class = "form-control select-sm" })
+                </div>
+                <div class="col-sm-2">
+                    <label for="form-field-select-1">
+                        <b>Selected Position</b>
+                    </label>
+                     @Html.TextBox("txtQualification", "", new { id = "txtSelectedPosition", @Class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-5">
+                    <label for="form-field-select-1">
+                        <b>Remarks</b></label>
+                    @Html.TextBox("txtRemarks", "", new { id = "txtRemarks", @Class = "form-control input-sm" })
+                </div>
+                <div class="col-sm-1">
+                    <br />
+                    <button class="btn btn-danger  btn-info btn-block btn-sm" id="btnUpdate">
+                        @*<i class="ace-icon fa fa-search white"></i>*@
+                        <i class="fa fa-pencil-square-o"></i>
+
+                        Update
+                    </button>
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <div class="space-2">
+            <div id="CandidateDtls"></div>
+            <div id="CandidateOnboardDtls"></div>
+        </div>
+    </div>
+</div>
+<script src="~/assets/js/AceJQMsg.js" type="text/javascript"></script>
+<script src="~/Scripts/StaffManagementScripts/CandidateStatusChange.js" type="text/javascript"></script>
+<style>
+    .ui-jqgrid-sortable {
+        margin-top: 10px;
+    }
+
+    .grid-col {
+        padding-left: 10px !important;
+    }
+
+    .ui-jqgrid .ui-jqgrid-sdiv .footrow {
+        height: 30px;
+    }
+</style>

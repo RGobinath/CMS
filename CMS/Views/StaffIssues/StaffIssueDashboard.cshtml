@@ -1,0 +1,357 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+
+        $.getJSON("/Home/FillBranchCode",
+     function (fillig) {
+         var ddlcam = $("#ddlCampus");
+         ddlcam.empty();
+         ddlcam.append($('<option/>',
+        {
+            value: "",
+            text: "Select One"
+
+        }));
+
+         $.each(fillig, function (index, itemdata) {
+             ddlcam.append($('<option/>',
+                 {
+                     value: itemdata.Value,
+                     text: itemdata.Text
+                 }));
+         });
+     });
+        var cam = $("#ddlCampus").val();
+        call(cam);
+
+        $("#ddlCampus").change(function () {
+            var cam = $("#ddlCampus").val();
+            call(cam);
+        });
+    });
+
+    function call(cam) {
+
+        $.getJSON('/StaffIssues/NonCompletedSlaStatusChart?cam=' + cam,
+            function (result1) {
+                var below24 = 0;
+                var bet24to48 = 0;
+                var slaBreached = 0;
+                var i = 0;
+
+                $.each(result1, function (index, itemdata) {
+
+                    if (itemdata.Hours <= 24) {
+                        below24++;
+                    }
+                    else if (itemdata.Hours > 24 && itemdata.Hours <= 48) {
+                        bet24to48++;
+                    }
+                    else if (itemdata.Hours > 48) {
+                        slaBreached++;
+                    }
+                    else { }
+                    i++;
+
+                });
+                if (below24 == 0) {
+                    below24 = "";
+                }
+                if (bet24to48 == 0) {
+                    bet24to48 = "";
+                }
+                if (slaBreached == 0) {
+                    slaBreached = "";
+                }
+                var ColumnChart = "<graph caption='' xAxisName='Hours' yAxisName='Issue Count' decimalPrecision='0' formatNumberScale='0' rotateNames='1' >";
+                ColumnChart = ColumnChart + " <set name='Below 24' value='" + below24 + "' color='AFD8F8' link='/StaffIssues/StaffIssueList?NonCompletedSLA=below24&amp;cam=" + cam + "'/>";
+                ColumnChart = ColumnChart + " <set name='24-48' value='" + bet24to48 + "' color='F6BD0F' link='/StaffIssues/StaffIssueList?NonCompletedSLA=24-48&amp;cam=" + cam + "'/>";
+                ColumnChart = ColumnChart + " <set name='SLA Breached' value='" + slaBreached + "' color='8BBA00' link='/StaffIssues/StaffIssueList?NonCompletedSLA=breached&amp;cam=" + cam + "'/></graph>";
+                var chart = new FusionCharts("../../Charts/FCF_Column3D.swf", "productSales", "250", "230");
+                chart.setDataXML(ColumnChart);
+                chart.render("ColumnChartDiv");
+            });
+
+            $.getJSON('/StaffIssues/CompletedSlaStatusChart?cam=' + cam,
+            function (result1) {
+                var below24 = 0;
+                var bet24to48 = 0;
+                var slaBreached = 0;
+                var i = 0;
+
+                $.each(result1, function (index, itemdata) {
+
+                    if (itemdata.Hours <= 24) {
+                        below24++;
+                    }
+                    else if (itemdata.Hours > 24 && itemdata.Hours <= 48) {
+                        bet24to48++;
+                    }
+                    else if (itemdata.Hours > 48) {
+                        slaBreached++;
+                    }
+                    else { }
+                    i++;
+
+                });
+                if (below24 == 0) {
+                    below24 = "";
+                }
+                if (bet24to48 == 0) {
+                    bet24to48 = "";
+                }
+                if (slaBreached == 0) {
+                    slaBreached = "";
+                }
+                var ColumnChart = "<graph caption='' xAxisName='Hours' yAxisName='Issue Count' decimalPrecision='0' formatNumberScale='0' rotateNames='1' >";
+                ColumnChart = ColumnChart + " <set name='Below 24' value='" + below24 + "' color='AFD8F8' link='/StaffIssues/StaffIssueList?CompletedSLA=below24&amp;cam=" + cam + "'/>";
+                ColumnChart = ColumnChart + " <set name='24-48' value='" + bet24to48 + "' color='F6BD0F' link='/StaffIssues/StaffIssueList?CompletedSLA=24-48&amp;cam=" + cam + "'/>";
+                ColumnChart = ColumnChart + " <set name='SLA Breached' value='" + slaBreached + "' color='8BBA00' link='/StaffIssues/StaffIssueList?CompletedSLA=breached&amp;cam=" + cam + "'/></graph>";
+                // ColumnChart = ColumnChart + " <set name='Completed' value='671' color='8BBA00' />
+                var chart = new FusionCharts("../../Charts/FCF_Column3D.swf", "productSales", "250", "230");
+                chart.setDataXML(ColumnChart);
+                chart.render("CompletedSlaStatusChartDiv");
+            });
+
+            $.getJSON('/StaffIssues/GetIssueCountByIssueGroup?cam=' + cam,
+
+                  function (result) {
+                      var aca = 0;
+                      var admn = 0;
+                      var adms = 0;
+                      var accfnc = 0;
+                      var hstl = 0;
+                      var hr = 0;
+                      var trns = 0;
+                      var it = 0;
+                      $.each(result, function (index, itemdata) {
+                          if (itemdata.IssueGroup == "Academics") {
+                              aca++;
+                          }
+                          else if (itemdata.IssueGroup == "Administrative") {
+                              admn++;
+                          }
+                          else if (itemdata.IssueGroup == "Admission") {
+                              adms++;
+                          }
+                          else if (itemdata.IssueGroup == "Accounts/Finance") {
+                              accfnc++;
+                          }
+                          else if (itemdata.IssueGroup == "Hostel") {
+                              hstl++;
+                          }
+                          else if (itemdata.IssueGroup == "HR") {
+                              hr++;
+                          }
+                          else if (itemdata.IssueGroup == "Transport") {
+                              trns++;
+                          }
+                          else if (itemdata.IssueGroup == "IT") {
+                              it++;
+                          }
+                          else
+                          { }
+                      });
+                      if (aca == 0) {
+                          aca = "";
+                      }
+                      if (admn == 0) {
+                          admn = "";
+                      }
+                      if (adms == 0) {
+                          adms = "";
+                      }
+                      if (accfnc == 0) {
+                          accfnc = "";
+                      }
+                      if (hstl == 0) {
+                          hstl = "";
+                      }
+                      if (hr == 0) {
+                          hr = "";
+                      }
+                      if (trns == 0) {
+                          trns = "";
+                      }
+                      if (it == 0) {
+                          it = "";
+                      }
+                      var FunnelChart = "<graph caption='' xAxisName='Issue Group' yAxisName='Issue Count' decimalPrecision='0' formatNumberScale='0' showNames='1' rotateNames='1'>";
+                      FunnelChart = FunnelChart + " <set name='Academics' value='" + aca + "' color='AFD8F8' link='/StaffIssues/StaffIssueList?IssueGroup=Academics&amp;cam=" + cam + "' />";
+                      FunnelChart = FunnelChart + " <set name='Administrative' value='" + admn + "' color='F6BD0F' link='/StaffIssues/StaffIssueList?IssueGroup=Administrative&amp;cam=" + cam + "'/>";
+                      FunnelChart = FunnelChart + " <set name='Admission' value='" + adms + "' color='8BBA00' link='/StaffIssues/StaffIssueList?IssueGroup=Admission&amp;cam=" + cam + "'/>";
+                      FunnelChart = FunnelChart + " <set name='Accounts/Finance' value='" + accfnc + "' color='FF8E46' link='/StaffIssues/StaffIssueList?IssueGroup=Fees / Finance&amp;cam=" + cam + "'/>";
+                      FunnelChart = FunnelChart + " <set name='Hostel' value='" + hstl + "' color='08E8E' link='/StaffIssues/StaffIssueList?IssueGroup=Hostel&amp;cam=" + cam + "' />";
+                      FunnelChart = FunnelChart + " <set name='HR' value='" + hr + "' color='D64646' link='/StaffIssues/StaffIssueList?IssueGroup=HR&amp;cam=" + cam + "' />";
+                      FunnelChart = FunnelChart + " <set name='Transport' value='" + trns + "' color='FF8E46' link='/StaffIssues/StaffIssueList?IssueGroup=Transport&amp;cam=" + cam + "'/>";
+                      FunnelChart = FunnelChart + " <set name='IT' value='" + it + "' color='08E8E' link='/StaffIssues/StaffIssueList?IssueGroup=IT&amp;cam=" + cam + "'/></graph>";
+                      var chart = new FusionCharts("../../Charts/FCF_Column3D.swf", "productSales", "350", "230");
+                      chart.setDataXML(FunnelChart);
+                      chart.render("FunnelChartDiv");
+                  });
+
+                  $.getJSON('/StaffIssues/GetIssueCountByStatus?cam=' + cam,
+
+                  function (result) {
+                      var LogIssCnt = 0;
+                      var ResRejIssCnt = 0;
+                      var log_ResRejIssCnt = 0;
+                      var ResIssCnt = 0;
+                      var AppRejCnt = 0;
+                      var res_apprejcnt = 0;
+                      var AppRejIssCnt = 0;
+                      var AppIssCnt = 0;
+                      var AppIssTotCnt = 0;
+                      var TobeCmpltdcnt = 0;
+                      var CmpltdCnt = 0;
+                      var totalIssueCnt = 0;
+
+                      $.each(result, function (index, itemdata) {
+                          if (itemdata.Status == "LogIssue") {
+                              LogIssCnt++;
+                          }
+                          else if (itemdata.Status == "ResolveIssueRejection") {
+                              ResRejIssCnt++;
+                          }
+                          else if (itemdata.Status == "ResolveIssue") {
+                              ResIssCnt++;
+                          }
+                          else if (itemdata.Status == "ApproveIssueRejection") {
+                              AppRejCnt++;
+                          }
+                          else if (itemdata.Status == "ApproveIssue") {
+                              AppIssCnt++;
+                          }
+                          else if (itemdata.Status == "Complete") {
+                              TobeCmpltdcnt++;
+                          }
+
+                          else if (itemdata.Status == "Completed") {
+                              CmpltdCnt++;
+                          }
+                          else
+                          { }
+
+                          totalIssue = LogIssCnt + ResRejIssCnt + ResIssCnt + AppRejCnt + AppIssCnt + TobeCmpltdcnt + CmpltdCnt;
+                          log_ResRejIssCnt = LogIssCnt + ResRejIssCnt;
+                          res_apprejcnt = ResIssCnt + AppRejCnt;
+                          AppIssTotCnt = AppIssCnt + TobeCmpltdcnt;
+                      });
+                      if (log_ResRejIssCnt == 0) {
+                          log_ResRejIssCnt = "";
+                      }
+                      if (res_apprejcnt == 0) {
+                          res_apprejcnt = "";
+                      }
+                      if (AppIssTotCnt == 0) {
+                          AppIssTotCnt = "";
+                      }
+                      if (CmpltdCnt == 0) {
+                          CmpltdCnt = "";
+                      }
+                      var PieChart = "<graph caption='' xAxisName='Month' yAxisName='Units' decimalPrecision='0' showNames='1'>";
+                      PieChart = PieChart + " <set name='Log Issue' value='" + log_ResRejIssCnt + "'  color='AFD8F8' link='/StaffIssues/vIssueList?status=LogIssue&amp;cam=" + cam + "' />";
+                      PieChart = PieChart + " <set name='Resolve Issue' value='" + res_apprejcnt + "' color='F6BD0F' link='/StaffIssues/StaffIssueList?status=ResolveIssue&amp;cam=" + cam + "' />";
+                      PieChart = PieChart + " <set name='Approve Issue' value='" + AppIssTotCnt + "' color='8BBA00' link='/StaffIssues/StaffIssueList?status=ApproveIssue&amp;cam=" + cam + "'/>";
+                      PieChart = PieChart + " <set name='Completed' value='" + CmpltdCnt + "' color='FF8E46' link='/StaffIssues/StaffIssueList?status=Completed&amp;cam=" + cam + "'/></graph>";
+                      var chart = new FusionCharts("../../Charts/FCF_Pie3D.swf", "productSales", "330", "220");
+                      chart.setDataXML(PieChart);
+                      chart.render("PieChartDiv");
+                  });
+
+        $.ajax({
+            type: 'Get',
+            url: '@Url.Content("~/StaffIssues/StaffWeeklyIssueStatus/")',
+            data: { cam: cam },
+            success: function (data) {
+                var chart = new FusionCharts("../../Charts/FCF_MSLine.swf", "ChartId", "280", "230");
+                chart.setDataXML(data);
+                chart.render("WeeklyIssueStatus1Div");
+                if ($("#processDiv").closest('.ui-dialog').is(':visible')) {
+                    processBusy.dialog('close');
+                }
+            },
+            async: false,
+            dataType: "text"
+        });
+
+        
+    }
+</script>
+@using (Html.BeginForm("StaffIssueDashboard", "StaffIssues"))
+{
+   @* <h3>Staff Issue Dashboard</h3>*@
+    <table width="100%">
+        <tr>
+            <td>
+                <table width="100%">
+                    <tr>
+                        <td width="3%">
+                            <label id="lblCampus">
+                                Campus:</label>
+                        </td>
+                        <td>
+                            @Html.DropDownList("ddlCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "----Select----", new { id = "ddlCampus", @Class = "CSSDropDownList", style = "width:145px;" })
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr style="text-align: center; font-size: smaller; font-weight: bolder">
+            <td width="20%">
+                <h5>
+                    Non Completed Issue Count</h5>
+            </td>
+            <td width="30%">
+                <h5>
+                    Completed Issue Count</h5>
+            </td>
+            <td width="30%">
+                <h5>
+                    Issue Count by Issue Group</h5>
+            </td>
+        </tr>
+        <tr>
+            <td id="chart2" width="30%">
+                <div id="ColumnChartDiv">
+                </div>
+            </td>
+            <td id="CompletedSlaStatus" width="30%">
+                <div id="CompletedSlaStatusChartDiv">
+                </div>
+            </td>
+            <td id="chart1" width="30%">
+                <div id="FunnelChartDiv">
+                </div>
+            </td>
+        </tr>
+        <tr style="text-align: center; font-size: smaller; font-weight: bolder">
+            <td width="30%">
+                <br />
+                <h5>
+                    Issue Count by Status</h5>
+            </td>
+            <td width="30%">
+                <h5>
+                    Weekly Issue Status</h5>
+            </td>
+            
+        </tr>
+        <tr>
+            <td id="Column3DLineDY" width="30%">
+                <div id="PieChartDiv">
+                </div>
+            </td>
+            <td width="30%">
+                <div id="WeeklyIssueStatus1Div">
+                </div>
+            </td>
+           
+        </tr>
+    </table>
+
+}
+

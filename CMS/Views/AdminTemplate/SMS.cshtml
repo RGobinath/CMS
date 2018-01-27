@@ -1,0 +1,192 @@
+﻿@{
+    Layout = "~/Views/Shared/NewAcePartialViewMaster.cshtml";
+}
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<script type="text/javascript">
+    try { ace.settings.check('main-container', 'fixed') } catch (e) { }
+</script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <div class="row" style="padding-top: 3px; padding-left:50px;">
+            <p style="font-family: Verdana; font-size: 10px; font-weight: bold;">
+                Campus Wise SMS Sent Report for @ViewBag.AcademicYear Academic Year</p>
+                <div class="row" style="padding-top: 3px;">
+                    <div class="col-xs-12 infobox-container">
+                        <div class="col-sm-2">
+                            <div class="infobox infobox-red">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-book"></i>
+                                </div>
+                                <div class="infobox-data">
+                                    <span class="infobox-data-number">@ViewBag.SMS_IBKGCount</span>
+                                    <div class="infobox-content">
+                                        IB KG</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="infobox infobox-DarkGreen">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-book"></i>
+                                </div>
+                                <div class="infobox-data">
+                                    <span class="infobox-data-number">@ViewBag.SMS_IBMAINCount</span>
+                                    <div class="infobox-content">
+                                        IB MAIN</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="infobox infobox-indigo">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-book"></i>
+                                </div>
+                                <div class="infobox-data">
+                                    <span class="infobox-data-number">@ViewBag.SMS_KARURKGCount</span>
+                                    <div class="infobox-content">
+                                        Karur KG</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="infobox infobox-emerald">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-book"></i>
+                                </div>
+                                <div class="infobox-data">
+                                    <span class="infobox-data-number">@ViewBag.SMS_KARURCount</span>
+                                    <div class="infobox-content">
+                                        Karur Main</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="infobox infobox-orange2">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-book"></i>
+                                </div>
+                                <div class="infobox-data">
+                                    <span class="infobox-data-number">@ViewBag.SMS_TIRUPURKGCount</span>
+                                    <div class="infobox-content">
+                                        Tirupur KG</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-2"></div>
+                <div class="row">
+                    <div class="col-xs-12 infobox-container">
+                        <div class="col-sm-2">
+                            <div class="infobox infobox-DarkMegenta">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-book"></i>
+                                </div>
+                                <div class="infobox-data">
+                                    <span class="infobox-data-number">@ViewBag.SMS_TIRUPURCount</span>
+                                    <div class="infobox-content">
+                                        Tirupur Main</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="infobox infobox-brown">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-book"></i>
+                                </div>
+                                <div class="infobox-data">
+                                    <span class="infobox-data-number">@ViewBag.SMS_ERNAKULAMKGCount</span>
+                                    <div class="infobox-content">
+                                        Ernakulam Kg</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="infobox infobox-DeepPink">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-book"></i>
+                                </div>
+                                <div class="infobox-data">
+                                    <span class="infobox-data-number">@ViewBag.SMS_ERNAKULAMCount</span>
+                                    <div class="infobox-content">
+                                        Ernakulam Main</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="infobox infobox-Teal">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-book"></i>
+                                </div>
+                                <div class="infobox-data">
+                                    <span class="infobox-data-number">@ViewBag.SMS_CHENNAICITYCount</span>
+                                    <div class="infobox-content">
+                                        Chennai City</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="infobox infobox-orange">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-book"></i>
+                                </div>
+                                <div class="infobox-data">
+                                    <span class="infobox-data-number">@ViewBag.SMS_CHENNAIMAINCount</span>
+                                    <div class="infobox-content">
+                                        Chennai Main</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-2"></div>
+                <div class="row" style="padding-top: 3px;">
+                    <div class="col-sm-12 infobox-container">
+                        <div class="infobox infobox-OrangeRed infobox-small infobox-dark">
+                            <div class="infobox-icon">
+                                <i class="ace-icon fa fa-book"></i>
+                            </div>
+                            <div class="infobox-data">
+                                <div class="infobox-content">
+                                    Erode</div>
+                                <div class="infobox-content">@ViewBag.SMS_TIPSERODECount</div>
+                            </div>
+                        </div>
+                        <div class="infobox infobox-green infobox-small infobox-dark">
+                            <div class="infobox-icon">
+                                <i class="ace-icon fa fa-book"></i>
+                            </div>
+                            <div class="infobox-data">
+                                <div class="infobox-content">
+                                    Salem</div>
+                                <div class="infobox-content">@ViewBag.SMS_TIPSSALEMCount</div>
+                            </div>
+                        </div>
+                        <div class="infobox infobox-blue infobox-small infobox-dark">
+                            <div class="infobox-icon">
+                                <i class="ace-icon fa fa-book"></i>
+                            </div>
+                            <div class="infobox-data">
+                                <div class="infobox-content">
+                                    Saran</div>
+                                <div class="infobox-content">@ViewBag.SMS_TIPSSARANCount</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="row" style="padding-top: 5px;">
+                <div id="SMSCampusChart" align="center" style="padding-left: 20px;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.page-content-area -->
+</div>
+<script type="text/javascript">    if ('ontouchstart' in document.documentElement)
+        document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>"); </script>
+<!-- inline scripts related to this page -->
+<script src="../../Scripts/AdminTemplateScripts/SMS.js" type="text/javascript"></script>

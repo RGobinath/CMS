@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
+                   assembly="TIPS.Entities.TransportEntities.RouteMasterLog" 
+                   namespace="TIPS.Entities.TransportEntities">
+  <class name="TIPS.Entities.TransportEntities.RouteMasterLog, TIPS.Entities" table="RouteMasterLog" lazy="false">
+    <cache usage="read-write"/>
+    <id name="RouteLogId" column="RouteLogId" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="Id" column="Id" type="Int64"></property>
+    <property name="RouteId" column="RouteId" type="string"></property>
+    <property name="RouteNo" column="RouteNo" type="string"></property>
+    <property name="VehicleNo" column="VehicleNo" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Source" column="Source" type="string"></property>
+    <property name="Destination" column="Destination" type="string"></property>
+    <property name="Via" column="Via" type="string"></property>
+    <property name="ToRouteNo" column="ToRouteNo" type="string"></property>
+    <property name="ToVehicleNo" column="ToVehicleNo" type="string"></property>
+    <property name="ToCampus" column="ToCampus" type="string"></property>
+    <property name="ToSource" column="ToSource" type="string"></property>
+    <property name="ToDestination" column="ToDestination" type="string"></property>
+    <property name="ToVia" column="ToVia" type="string"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="datetime"></property>
+  </class>
+</hibernate-mapping>

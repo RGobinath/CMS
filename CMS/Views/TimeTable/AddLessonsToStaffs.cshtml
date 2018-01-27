@@ -1,0 +1,98 @@
+﻿<div id="AddLessonsPager">
+</div>
+<table id="AddLessons">
+
+    <div class="page-content">
+        <!-- /section:settings.box -->
+        <div class="page-content-area">
+            <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-road"></i>&nbsp; Add Lessons
+                            </div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-3">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b></label>
+                                                 @Html.DropDownList("LessCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label for="form-field-select-1">
+                                                <b>Staff Name</b></label>
+                                              @Html.DropDownList("LessStaffName", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label for="form-field-select-1">
+                                                <b>Grade</b></label>
+                                               @Html.DropDownList("LessGrade", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label for="form-field-select-1">
+                                                <b>Section</b></label>
+                                            @Html.TextBox("LessSection", "", new { @class = "form-control input-sm" })
+                                        </div>
+                                       
+                                    </div>
+                                    <div class="space-4">
+                                    </div>
+                                    <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                        <div class="col-xs-12">
+                                             <div class="col-sm-3">
+                                            <label for="form-field-select-1">
+                                                <b>Subject</b></label>
+                                            @Html.TextBox("LessSubject", "", new { @class = "form-control input-sm" })
+                                        </div>
+                                            <div class="col-sm-3">
+                                                <label for="form-field-select-1">
+                                                    <b>Total Hours</b></label>
+                                                @Html.DropDownList("LssTotalHours", new SelectList(new[]
+                                          {
+                                             new{Value="",Text="Select"},
+                                             new{Value="1",Text="1"},
+                                             new{Value="2",Text="2"},
+                                             new{Value="3",Text="3"},
+                                          },
+                   "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label for="form-field-select-1">
+                                                    <b>Lessons/Week</b></label>
+                                                @Html.DropDownList("Lssweek", new SelectList(new[]
+                                          {
+                                             new{Value="",Text="Select"},
+                                             new{Value="Single",Text="Single"},
+                                             new{Value="Double",Text="Double"},
+                                             new{Value="Triple",Text="Triple"},
+                                          },
+                   "Value", "Text", ""), new { @Class = "form-control select-sm" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <br />
+                                                <button class="btn btn-success btn-block btn-sm" id="btnSave" onclick="SaveSubjectDetails(); return false;">
+                                                    <i class="ace-icon fa fa-save white"></i>&nbsp;save
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</table>
+

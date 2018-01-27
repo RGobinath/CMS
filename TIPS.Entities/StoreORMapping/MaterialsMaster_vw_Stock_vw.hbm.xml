@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StoreEntities.MaterialsMaster_vw_Stock_vw" namespace="TIPS.Entities.StoreEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StoreEntities.MaterialsMaster_vw_Stock_vw, TIPS.Entities" table="MaterialsMaster_vw_Stock_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="MaterialGroupId" column="MaterialGroupId" type="Int64"></property>
+    <property name="MaterialSubGroupId" column="MaterialSubGroupId" type="Int64"></property>
+    <property name="MaterialId" column="MaterialId" type="Int64"></property>
+    <property name="Material" column="Material" type="string"></property>
+    <property name="ItemCode" column="ItemCode" type="string"></property>
+    <property name="Notes" column="Notes" type="string"></property>
+    <property name="ItemLocation" column="ItemLocation" type="string"></property>
+    <property name="MaterialGroup" column="MaterialGroup" type="string"></property>
+    <property name="MaterialSubGroup" column="MaterialSubGroup" type="string"></property>
+    <property name="IsActive" column="IsActive" type="bool"></property>
+    <property name="UnitCode" column="UnitCode" type="string"></property>
+    <property name="ClosingBalance" column="ClosingBalance" type="Int32"></property>
+    <property name="Store" column="Store" type="string"></property>
+  </class>
+</hibernate-mapping>

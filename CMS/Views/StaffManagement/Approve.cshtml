@@ -1,0 +1,110 @@
+﻿@model TIPS.Entities.StaffManagementEntities.StaffDetails
+<div class="row">
+    <div class="col-sm-2">
+        <label for="form-field-select-2">
+            <b>Name :</b></label>
+    </div>
+    <div class="col-sm-2">
+        @ViewBag.nam
+    </div>
+    <div class="col-sm-2">
+        <input type="hidden" id="grade" value="@ViewBag.grade" />
+        <input type="hidden" id="nam" value="@ViewBag.nam" />
+    </div>
+</div>
+<div class="space-8">
+</div>
+<div class="space-8">
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <label for="form-field-select-2">
+            <b>Id Number :</b></label>
+    </div>
+    @if (@ViewBag.idnum == null)
+    {
+        <div class="col-sm-2">            
+            @Html.TextBoxFor(model => model.IdNumber, "",new { id = "sidno1", @Class = "form-control input-sm" })           
+        </div>                     
+    }
+    else
+    {
+        <div class="col-sm-2">
+            @ViewBag.idnum
+        </div>
+    }
+</div>
+<div class="space-8">
+</div>
+<div class="space-8">
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <label for="form-field-select-2">
+            <b>Designation :</b></label>
+    </div>
+    <div class="col-sm-2">
+        @ViewBag.desig
+    </div>
+</div>
+<div class="space-8">
+</div>
+<div class="space-8">
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <label for="form-field-select-2">
+            <b>Campus :</b></label>
+    </div>
+    <div class="col-sm-2">
+        @ViewBag.campus
+    </div>
+</div>
+<div class="space-8">
+</div>
+<div class="space-8">
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <label for="form-field-select-2">
+            <b>Status :</b></label>
+    </div>
+    <div class="col-sm-2">
+        @if ((ViewBag.admissionstatus == "Registered") || (ViewBag.admissionstatus == "Declined") || (ViewBag.admissionstatus == "Inactive"))
+        {
+            @Html.DropDownListFor(Model => Model.Status, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Registered",Text="Registered"},
+                                              new{Value="Inactive",Text="Inactive"}                                              
+                                          },
+                            "Value", "Text", ""), new { id = "Status", @Class = "form-control select-sm" })
+        }
+        else if ((ViewBag.admissionstatus == "Discontinued"))
+        {
+            @Html.DropDownListFor(Model => Model.Status, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Discontinued",Text="Discontinued"}                                       
+                                          },
+                            "Value", "Text", ""), new { id = "Status", @Class = "form-control select-sm" })
+        }
+        else
+        {                                                                 
+            @Html.DropDownListFor(Model => Model.Status, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Registered",Text="Registered"},
+                                              new{Value="On Hold",Text="On Hold"},
+                                              new{Value="Declined",Text="Declined"},
+                                              new{Value="Call For Interview",Text="Call For Interview"},
+                                              new{Value="Inactive",Text="Inactive"}
+                                          },
+                            "Value", "Text", ""), new { id = "Status", @Class = "form-control select-sm" })
+        }
+    </div>
+</div>
+<div class="space-8">
+</div>
+<div class="space-8">
+</div>

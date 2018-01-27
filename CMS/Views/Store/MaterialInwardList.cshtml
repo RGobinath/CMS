@@ -1,0 +1,111 @@
+﻿@model TIPS.Entities.StoreEntities.MaterialInward
+@{
+    ViewBag.Title = "MaterialInwardList";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Criteria</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Supplier</b></label>
+                                        @Html.TextBoxFor(m => m.Supplier, new { @class = "form-control select-sm" })
+                                        @Html.Hidden("NewMINUrl", Url.Action("MaterialInward", "Store"))
+                                        @Html.Hidden("BackUrl", Url.Action("MaterialInwardList", "Store"))
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Supplier Ref</b></label>
+                                        @Html.TextBoxFor(m => m.SuppRefNo, new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Invoice Date</b></label>
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBox("InvoiceDate", "", new { @Class = "form-control date-picker" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>DC Date</b></label>
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBox("DCDate", "", new { @Class = "form-control date-picker" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>PO Number</b></label>
+                                        @Html.TextBoxFor(m => m.PONumber, new { @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Status</b></label>
+                                        @Html.DropDownList("ddlStatus", new SelectList(new[] {
+                                              new{Value="Open",Text="Open"},
+                                              new{Value="Completed",Text="Completed"},
+                                                                                           
+                                          },
+                                          "Value", "Text", "Open"), new { @Class = "form-control select-sm" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2"></div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-1">
+                                    <button type="submit" class="btn btn-primary btn-block btn-sm" id="btnSearch">
+                                        <i class="ace-icon fa fa-search white"></i>Search
+                                    </button>
+                                </div>
+                                <div class="col-sm-1">
+                                    <button type="button" class="btn btn-danger btn-block btn-sm" id="btnReset">
+                                        <i class="ace-icon fa fa-undo white"></i>Reset
+                                    </button>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="button" class="btn btn-success btn-block btn-sm" id="btnNewMaterialInward">
+                                        <i class="ace-icon fa fa-plus white"></i>New Material Inward
+                                    </button>
+                                </div>
+                                <div class="col-sm-7">
+                                </div>
+                            </div>
+                             <div class="space-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+    <div class="col-xs-12">
+        <table id="MaterialInwardList">
+        </table>
+        <div id="MaterialInwardListPager">
+        </div>
+        <script type="text/javascript">
+            var $path_base = ".."; //in Ace demo this will be used for edit url parameter
+        </script>
+    </div>
+</div>
+    </div>
+</div>
+<script src="@Url.Content("~/assets/js/AceJQMsg.js")"></script>
+<script src="@Url.Content("~/Scripts/Store/MaterialInwardList.js")" type="text/javascript"></script>

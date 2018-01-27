@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "FinalResult";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script src="@Url.Content("/Scripts/Assess360/FinalResult.js")" type="text/javascript"></script>
+
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        @Html.Hidden("BackUrl", Url.Action("FinalResult", "Assess360"))
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Criteria</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Campus</b></label>
+                                            @Html.DropDownList("Campus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Grade</b></label>
+                                            @Html.DropDownList("Grade", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Section</b></label>
+                                            @Html.DropDownList("Section",
+                    new SelectList(new[] { 
+                        new { Text = "Select", Value = "Select", Seleced = "True" },
+                        new { Text = "A", Value = "A", Seleced = "false" },
+                        new { Text = "B", Value = "B", Seleced = "false" },
+                        new { Text = "C", Value = "C", Seleced = "false" },
+                        new { Text = "D", Value = "D", Seleced = "false" },
+                        new { Text = "E", Value = "E", Seleced = "false" },
+                        new { Text = "F", Value = "F", Seleced = "false" }
+               }, "Text", "Value", "Seleced"),
+                        new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <div class="space-10">
+                                            </div>
+                                            <button class="btn btn-success btn-block btn-sm" id="search" value="Search"
+                                                type="button">
+                                                <i class="ace-icon fa fa-search white"></i>Search</button></div>
+                                        <div class="col-sm-1">
+                                            <div class="space-10">
+                                            </div>
+                                            <button class="btn btn-danger btn-block btn-sm" id="reset" value="Reset">
+                                                <i class="ace-icon fa fa-undo white"></i>&nbsp;Reset
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-4"></div>
+                                    </div>
+                                </div>
+                                <div class="space-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-1">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="Grid">
+                </table>
+                <div id="Pager">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

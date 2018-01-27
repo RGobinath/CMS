@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.CommunictionEntities.SMSCount_SP" namespace="TIPS.Entities.CommunictionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.CommunictionEntities.SMSCount_SP, TIPS.Entities" table="SMSCount_SP" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Sent" column="Sent" type="Int64"></property>
+    <property name="Failed" column="Failed" type="Int64"></property>
+    <property name="NotDelivered" column="NotDelivered" type="Int64"></property>
+    <property name="NotValid" column="NotValid" type="Int64"></property>
+    <property name="DNDApplied" column="DNDApplied" type="Int64"></property>
+    <property name="Total" column="Total" type="Int64"></property>
+  </class>
+  <sql-query name="GetSMSCountList" callable="true">
+    <query-param name="Campus" type="string"/>
+    <query-param name="FromDate" type="datetime"/>
+    <query-param name="ToDate" type="datetime"/>    
+    <return class="TIPS.Entities.CommunictionEntities.SMSCount_SP, TIPS.Entities">
+      <return-property name="Id" column="Id" />
+      <return-property name="Campus" column="Campus" />
+      <return-property name="Sent" column="Sent" />
+      <return-property name="Failed" column="Failed" />
+      <return-property name="NotDelivered" column="NotDelivered" />
+      <return-property name="NotValid" column="NotValid" />
+      <return-property name="DNDApplied" column="DNDApplied" />
+      <return-property name="Total" column="Total" />
+    </return>
+    <![CDATA[ 
+     EXEC [SMSCount_SP] @SPCampus=:Campus,@SPFromDate=:FromDate,@SPToDate=:ToDate
+     ]]>
+  </sql-query>
+</hibernate-mapping>

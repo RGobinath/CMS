@@ -1,0 +1,129 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>    
+    <style  type="text/css">
+    .pagebreak { page-break-after: always; }
+</style>
+
+    <style type="text/css" media="screen">
+  .noPrint{ display: block; }
+  .yesPrint{ display: block !important; }
+</style>
+
+<style type="text/css" media="print">
+  .noPrint{ display: none; }
+  .yesPrint{ display: block !important; }
+</style>
+    <script type="text/javascript">
+        function printpage(elem) {
+            window.print();
+        }
+
+        function Popup(data) {            
+            var mywindow = window.open('', 'my div', 'height=400,width=600');
+            document.write('<html><head><title>my div</title>');
+            /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+            //mywindow.document.write('<div>dsfdsfsd</div>');
+            document.write('</head><body><div>HTML TAG </div>');
+            document.write(data);
+            document.write('</body></html>');
+            mywindow.print();
+            mywindow.close();
+            return true;
+        }
+
+        $(document).ready(function () {
+            //  alert('here');
+        });
+        function back() {
+            window.location.href = "/Admission/AdmissionManagement?pagename=PRF";
+        }
+    </script>
+</head>
+<body>
+                      <div class="noPrint"><label style=" font-weight:bold"></label>
+<input type="button" value="Print this page" onclick="printpage()" /> &nbsp&nbsp&nbsp&nbsp&nbsp <input type="button" value="Back" onclick="back()"/>
+</div>
+<div class="yesPrint" id="TagPrint" style='padding-left:50px'>
+@*        <table style="font-size:x-large" >
+        <tr>
+        <td rowspan="2"style=" padding-top:0px;"><img src='../../Images/logonace.JPG' height='90';width='50' /> 
+        </td>          
+        <td colspan="1" style=" font-weight:bold; padding-top:0px;font-size:xx-large"> THE INDIAN PUBLIC SCHOOL</td> 
+        <td rowspan="2" style=" padding-top:0px;"><img src='../../Images/Tips Logo.JPG' height='90';width='50' /> 
+        </td>          
+        <td style=" padding-top:0px;"> No.: 74413</td>
+        </tr>
+        <tr><td colspan="2">  PRE-REGISTRATION for the year 2012-2013 </td>
+
+        <td rowspan="5" >   <img src="../../Images/no_image.jpg"  height='210';width='50' /></td>
+        </tr>         
+        <tr><td colspan="3" style=" padding-left:70px">Standard Applied for: 4  <label style=" margin-left:120px">Date of Birth</label></td>       
+        </tr>
+        <tr><td colspan="3" >Name of child :   bjbjbjbjbjj kjnjbjbjbj</td></tr>
+        <tr><td colspan="3" >Gender : Girl  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; School transport required : Yes &nbsp&nbsp&nbsp (Only for Pre-KG to UKG)</td></tr>
+        <tr><td colspan="3" >Boarding :</td></tr>
+        <tr><td colspan="4" >Residential Address :</td></tr>
+                <tr><td colspan="2">Father's Name :  </td> <td colspan="2">Education :</td> </tr>
+        <tr><td colspan="2">Occupation : </td><td colspan="2">Mobile :</td> </tr>
+        <tr><td colspan="4"> Company Name & Address : </td></tr>
+        <tr><td colspan="4">&nbsp</td></tr>
+                <tr><td colspan="2" >Mother's Name :  </td> <td colspan="2">Education :</td></tr>
+        <tr><td colspan="2" >Occupation :  </td> <td colspan="2">Mobile :</td></tr>
+        <tr><td colspan="4"> Company Name & Address : </td></tr>
+        <tr><td colspan="4">&nbsp</td></tr>
+        <tr><td colspan="4">Annual Family Income : </td></tr>
+        <tr><td colspan="4"> Languages spoken at home :</td></tr>
+        <tr><td colspan="4"> Previous Schools attended by applicant child :</td></tr>
+        <tr><td colspan="4"><table border="1"> 
+        <tr><td style="width:16%">Years: From-To</td><td style="width:16%"> Grade level attended </td> <td style="width:16%">School name & city</td></tr>
+        <tr><td>&nbsp</td><td>&nbsp</td> <td>&nbsp</td></tr>
+        <tr><td>&nbsp</td><td>&nbsp</td> <td>&nbsp</td></tr>
+        <tr><td>&nbsp</td><td>&nbsp</td> <td>&nbsp</td></tr>
+        </table></td></tr>   
+
+        <tr><td colspan="4">Other members of the child living with the child :</td></tr>
+
+                <tr><td colspan="4"><table border="1"> 
+        <tr><td style="width:19%">Relationship with Child</td><td style="width:19%"> Name </td> <td style="width:19%"> Age </td><td style="width:19%"> Occupation </td></tr>
+        <tr><td>&nbsp</td><td>&nbsp</td> <td>&nbsp</td><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td><td>&nbsp</td> <td>&nbsp</td><td>&nbsp</td></tr>
+        <tr><td>&nbsp</td><td>&nbsp</td> <td>&nbsp</td><td>&nbsp</td></tr>
+        </table></td></tr>   
+
+        <tr><td colspan="4">Education Goals for my child :</td></tr>
+        <tr><td colspan="4">&nbsp</td></tr>
+        <tr><td colspan="4">&nbsp</td></tr>
+        <tr><td colspan="4"> I hereby apply for the admission of my child(name) __hihihihihihihiih hbih_____ to</td></tr>
+        <tr><td colspan="4"> The Indian Public School, Coimbatore and agree to abide by the rules,regulations and all management decisions thereof.</td></tr>
+        <tr><td colspan="4">All fees paid are non-refundable and non-transferable and pre-registration does not guarantee admission.</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td>Place: Coimbatore</td></tr>
+        <tr><td>&nbsp</td></tr>
+        <tr><td colspan="3">Date :</td><td>Signature of  Parent</td></tr>
+
+        <tr><td colspan="4">-------------------------------------------------------------------------------------------------------------------------------------------------------</td></tr>
+                <tr>
+        <td ><img src='../../Images/logonace.JPG' height='90';width='50'>
+        </td>              
+        <td colspan="1" style=" font-weight:bold;font-size:xx-large"> THE INDIAN PUBLIC SCHOOL </td> 
+        <td ><img src='../../Images/Tips Logo.JPG' height='90';width='50'></td>  
+        <td> Date : _______</td>
+        </tr>
+        <tr><td colspan="4">  PRE-REGISTRATION No : 121212 <label style=" margin-left:120px">Standard Applied for: VIII </label></td> </td>@*<td colspan="2"></td>        
+        </tr>
+        <tr><td colspan="4">Name of Child : bhjbhjggjhg jhjhjhjhv</td></tr>
+        <tr><td colspan="4">Pre-registration fee received : Rs. ______</td></tr>
+        <tr><td colspan="4">&nbsp</td></tr>
+        <tr><td colspan="3">&nbsp</td> <td>Authorised Signatory</td></tr>
+        <tr><td colspan="4" style="font-size:medium">All fees paid are non-refundable and non transferable and pre-registration does not guarantee admission.</td></tr>
+        </table>*@
+        @Html.Raw(ViewBag.PRGhtmltag)
+</div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+﻿@model TIPS.Entities.StoreEntities.MaterialIssue
+@{
+    ViewBag.Title = "Show Store to Store";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#MaterialIssueList").jqGrid({
+            url: '/Store/StoreToStoreMaterialIssueListJqGrid?Id=' + $("#Id").val(),
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'Issue Id', 'Material', 'Material Group', 'Material Sub Group', 'Units', 'Issued Qty', 'Total Price'],
+            colModel: [
+                     { name: 'Id', index: 'Id', hidden: true, key: true },
+                     { name: 'IssueId', index: 'IssueId' },
+                     { name: 'Material', index: 'Material', width: 90 },
+                     { name: 'MaterialGroup', index: 'MaterialGroup' },
+                     { name: 'MaterialSubGroup', index: 'MaterialSubGroup' },
+                     { name: 'Units', index: 'Units', width: 40 },
+                     { name: 'IssuedQty', index: 'IssuedQty', width: 50 },
+                     { name: 'TotalPrice', index: 'TotalPrice', width: 50 },
+                    ],
+            pager: '#MaterialIssueListPager',
+            rowNum: '50',
+            rowList: [50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: '230',
+            width: 1225,
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: 'Materials Issued List',
+            forceFit: true
+        });
+    });
+</script>
+@using (Html.BeginForm("ShowStoreToStore", "Store", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h3>
+        Show Store to Store</h3>
+    <table class="WithBorderOnly" width="100%">
+        <tr>
+            <td class="Store">
+                <label class="lblheader">
+                    Issue Number</label>
+            </td>
+            <td class="Store">
+                <label class="lblheader">
+                    From Store</label>
+            </td>
+            <td class="Store">
+                <label class="lblheader">
+                    To Store</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Delivered through</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Delivery details</label>
+            </td>
+            <td>
+                <label class="lblheader">
+                    Delivery date</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Model.IssueNumber
+            </td>
+            <td>
+                @Model.FromStore
+                @Html.HiddenFor(m => m.Id)
+            </td>
+            <td>
+                @Model.ToStore
+            </td>
+            <td>
+                @Model.DeliveredThrough
+            </td>
+            <td>
+                @Model.DeliveryDetails
+            </td>
+            <td>
+                @Model.DeliveryDate
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                <table id="MaterialIssueList">
+                </table>
+                <div id="MaterialIssueListPager">
+                </div>
+            </td>
+        </tr>
+    </table>
+}

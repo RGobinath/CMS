@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.StoreEntities.UOM_ConversionMatrix" namespace="TIPS.Entities.StoreEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StoreEntities.UOM_ConversionMatrix, TIPS.Entities" table="UOM_ConversionMatrix" lazy="false" >
+    <id name="Id" column="Id" type="Int32">
+      <generator class="identity"></generator>
+    </id>
+    <property name="BaseQuantity" column="BaseQuantity" type="Int32"></property>
+    <property name="BaseUnit" column="BaseUnit" type="string"></property>
+    <property name="ConversionQuantity" column="ConversionQuantity" type="Int32"></property>
+    <property name="ConversionUnit" column="ConversionUnit" type="string"></property>
+  </class>
+</hibernate-mapping>

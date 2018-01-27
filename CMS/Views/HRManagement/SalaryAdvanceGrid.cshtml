@@ -1,0 +1,394 @@
+﻿@{
+    ViewBag.Title = "SalaryAdvanceGrid";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script src="../../Scripts/datepicker1.js" type="text/javascript"></script>
+<script language="javascript" type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        var status = $("#ddlStatus").val();
+
+        // Salary Advance Request Created Message...
+        if ($("#SubmitSuccessMsg").val() != null & $("#SubmitSuccessMsg").val() != "") {
+            InfoMsg("Salary Advance Request created successfully.\n Request Number is:" + $("#SubmitSuccessMsg").val(), function () { $("#SubmitSuccessMsg").val(""); });
+        }
+
+        // Reset Button Details...
+        $("#reset").click(function () {
+            window.location.href = '@Url.Action("SalaryAdvanceGrid", "HRManagement")';
+        });
+
+        // hide the create Salary Advance Request Button...
+        var value = "@ViewBag.count";
+        var value1 = "@ViewBag.count1";
+        if (value == 1) {
+            $("#btnCreate").hide();
+        }
+        else if (value1 == 1) {
+            $("#btnCreate").hide();
+            $("#btnbulkApprove").hide();
+        }
+        else {
+            $("#btnbulkApprove").hide();
+        }
+
+        //create Button Details...
+        $("#btnCreate").click(function () {
+            window.location.href = '@Url.Action("SalaryAdvance", "HRManagement")';
+        });
+
+        // Status Details...
+        $("#ddlStatus").change(function () {
+            var status = $("#ddlStatus").val();
+            $("#Search").click();
+        });
+
+        // Search Button Details...
+        $("#Search").click(function () {
+            $("#HRSalaryAdvanceGrid").clearGridData();
+            var txtSearch = $("#txtSearch").val();
+            var ddlSearchBy = $("#ddlSearchBy").val();
+            var fromDate = $("#txtFromDate").val();
+            var status = $("#ddlStatus").val();
+
+            $("#HRSalaryAdvanceGrid").setGridParam(
+                {
+                    datatype: "json",
+                    url: '@Url.Content("~/HRManagement/SalaryAdvanceJqGrid/")',
+                    postData: { txtSearch: txtSearch, ddlSearchBy: ddlSearchBy, fromDate: fromDate, status: status },
+                    page: 1
+                }).trigger("reloadGrid");
+        });
+
+        // SearchBy Label details...
+        $("#ddlSearchBy").change(function () {
+            if ($("#ddlSearchBy").val() == "") {
+                $("#txtSearch").val("");
+                $("#txtSearch").attr("disabled", true);
+            }
+            else {
+                $("#txtSearch").attr("disabled", false);
+            }
+        });
+
+        $("#ddlStaffSearchBy").change(function () {
+            if ($("#ddlStaffSearchBy").val() == "") {
+                $("#txtSearch").val("");
+                $("#txtSearch").attr("disabled", true);
+            }
+            else {
+                $("#txtSearch").attr("disabled", false);
+            }
+        });
+
+        // Bulk Complete Details...
+        $("#btnbulkApprove").click(function () {
+            ;
+            var GridIdList = $("#HRSalaryAdvanceGrid").jqGrid('getGridParam', 'selarrrow');
+            var Template = "";
+            var userId = "";
+            var rowData = [];
+            var rowData1 = [];
+            var activityName = [];
+            var findString = "";
+            //            var recepient = [];
+            var Resolution = [];
+            var IssueId = [];
+
+            var i = 0;
+            if (GridIdList.length > 0) {
+
+                for (i; i < GridIdList.length; i++) {
+                    rowData[i] = $("#HRSalaryAdvanceGrid").jqGrid('getRowData', GridIdList[i]);
+                    rowData1[i] = rowData[i].Id;
+                    //                    recepient[i] = rowData[i].Email;
+                    //                    IssueId[i] = rowData[i].IssueId;
+                    activityName[i] = rowData[i].ActivityFullName;
+                    if (activityName[i] != "Approve Request") {
+                        ErrMsg("Please select Approve Request items only to Approve");
+                        return false;
+                    }
+                }
+                $.ajax({
+                    url: '@Url.Content("~/HRManagement/BankAccountBulkApprove/")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { ActivityId: rowData1, Template: Template, userId: userId },
+                    traditional: true,
+                    // page: 1,
+                    success: function (data) {
+
+                        if (data == true) {
+                            $("#HRSalaryAdvanceGrid").clearGridData();
+                            var txtSearch = $("#txtSearch").val();
+                            var ddlSearchBy = $("#ddlSearchBy").val();
+                            var fromDate = $("#txtFromDate").val();
+                            var status = $("#ddlStatus").val();
+                            $("#HRSalaryAdvanceGrid").setGridParam(
+                             {
+                                 datatype: "json",
+                                 url: '@Url.Content("~/HRManagement/SalaryAdvanceJqGrid/")',
+                                 type: 'POST',
+                                 postData: { txtSearch: txtSearch, ddlSearchBy: ddlSearchBy, fromDate: fromDate, status: status },
+                                 page: 1
+                             }).trigger("reloadGrid");
+                        }
+                        InfoMsg("Salary Advance Request Approved Successfully");
+                    }
+                });
+            }
+            if (rowData1 == "") {
+                ErrMsg("Please select atleast one row to Approve Request.");
+                return false;
+            }
+
+        });
+
+        // Grid Details...
+        jQuery("#HRSalaryAdvanceGrid").jqGrid({
+            mtype: 'GET',
+            url: '@Url.Content("~/HRManagement/SalaryAdvanceJqGrid")?status=' + status,
+            datatype: 'json',
+            mtype: 'GET',
+            height: '250',
+            width: '1200',
+            shrinkToFit: true,
+
+            colNames: ['Id', 'Request Number', 'Created Date', 'Status', 'Staff Name', 'Staff Id Number', 'Campus', 'Date Amount Needed', 'Department', 'History', 'SLA Status'],
+            colModel: [
+            { name: 'Id', index: 'Id', hidden: true },
+            { name: 'RequestNo', index: 'RequestNo', width: 90, align: 'left', sortable: false },
+            { name: 'CreateDate', index: 'CreateDate', align: 'left', width: 140, formatter: DateChangeDetails, sortable: false },
+            { name: 'ActivityFullName', index: 'ActivityFullName', align: 'left', width: 120, sortable: false },
+            { name: 'StaffName', index: 'StaffName', align: 'left', width: 120, sortable: false },
+            { name: 'StaffIdNumber', index: 'StaffIdNumber', align: 'left', width: 120, sortable: false },
+            { name: 'BranchCode', index: 'BranchCode', align: 'left', width: 90, sortable: false },
+            { name: 'DateAmountNeeded', index: 'DateAmountNeeded', align: 'left', width: 90, sortable: false },
+            { name: 'Department', index: 'Department', align: 'left', width: 120, sortable: false },
+            { name: 'History', index: 'History', width: 50, align: 'center', sortable: false },
+            { name: 'Stat', index: 'Stat', width: 40, align: 'center', formatter: statusimage, resizable: true, sortable: false },
+                     ],
+            pager: '#HRSalaryAdvanceGridPagger',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200 ],
+            sortname: 'Id',
+            sortorder: "Desc",
+            multiselect: true,
+            viewrecords: true,
+            caption: 'Salary Advance Details',
+
+            loadError: function (xhr, status, error) {
+                $("#HRSalaryAdvanceGrid").clearGridData();
+                ErrMsg($.parseJSON(xhr.responseText).Message);
+            }
+        });
+
+    });
+
+    function DateChangeDetails(cellvalue, options, rowObject) {
+        var Date = cellvalue.split(" ");
+        var dd = Date[0];
+        var time = Date[1];
+        var value = Date[0].split("/");
+        var mm = value[0];
+        var dd1 = value[1];
+        var yy = value[2];
+        var resultField = dd1 + "/" + mm + "/" + yy + " " + time;
+        return resultField;
+
+    }
+
+    function statusimage(cellvalue, options, rowObject) {
+        var i;
+        var cellValueInt = parseInt(cellvalue);
+        var cml = $("#HRSalaryAdvanceGrid").jqGrid();
+        for (i = 0; i < cml.length; i++) {
+            if ((rowObject[6] != "" || rowObject[5] != null) && rowObject[8] == "") {
+                return '<img src="../../Images/blue.jpg" height="12px" width="12px" />'
+            }
+            else if (rowObject[8] != "") {
+                if (cellValueInt <= 24) {
+                    return '<img src="../../Images/yellow.jpg" height="10px" width="10px" alt=' + cellvalue + ' title=' + cellvalue + ' />'
+                }
+                else if (cellValueInt > 24 && cellValueInt <= 48) {
+                    return '<img src="../../Images/orange.jpg" height="10px" width="10px"  alt=' + cellvalue + ' title=' + cellvalue + ' />'
+                }
+                else if (cellValueInt > 48) {
+                    return '<img src="../../Images/redblink3.gif" height="10px" width="10px" alt=' + cellvalue + ' title=' + cellvalue + ' />'
+                }
+                else if (cellvalue == 'Completed') {
+                    return '<img src="../../Images/green.jpg" height="12px" width="12px" alt=' + cellvalue + ' title=' + cellvalue + ' />'
+                }
+            }
+        }
+
+    }
+    function ShowComments(ActivityId) {
+        modalid = $('#Activities');
+        $('#ActivitiesList').clearGridData();
+        LoadPopupDynamicaly("/HRManagement/LoadUserControl/Activities", modalid, function () {
+            LoadSetGridParam($('#ActivitiesList'), "/HRManagement/SalaryAdvanceActivitiesListJqGrid?Id=" + ActivityId);
+        });
+    }
+    function LoadSetGridParam(GridId, brUrl) {
+        GridId.setGridParam({
+            url: brUrl,
+            datatype: 'json',
+            mtype: 'GET',
+            page: 1
+        }).trigger("reloadGrid");
+    }
+    var clbPupGrdSel = null;
+    function LoadPopupDynamicaly(dynURL, ModalId, loadCalBack, onSelcalbck, width) {
+        if (width == undefined) { width = 800; }
+        if (ModalId.html().length == 0) {
+            $.ajax({
+                url: dynURL,
+                type: 'GET',
+                async: false,
+                dataType: 'html', // <-- to expect an html response
+                success: function (data) {
+                    ModalId.dialog({
+                        height: 'auto',
+                        width: width,
+                        modal: true,
+                        title: 'History',
+                        buttons: {}
+                    });
+                    ModalId.html(data);
+                }
+            });
+        }
+        clbPupGrdSel = onSelcalbck;
+        ModalId.dialog('open');
+        CallBackFunction(loadCalBack);
+    }
+
+
+</script>
+@using (Html.BeginForm("SalaryAdvanceGrid", "HRManagement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h3>
+        Salary Advance Request Details</h3>
+    <table class="InnerTable" width="100%">
+        <tr>
+            <td colspan="5">
+                @Html.Hidden("SubmitSuccessMsg", "", new { id = "SubmitSuccessMsg", @Value = TempData["SalaryAdvanceId"] })
+                <table width="100%" class="WithBorderOnly">
+                    <tr class="PanelHeading">
+                        <th colspan="7">
+                            Search Criteria
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Search By
+                        </th>
+                        <th>
+                            Search Text
+                        </th>
+                        <th>
+                            From Date
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                    </tr>
+                    <tr>
+                        @if (@ViewBag.count == "1" || @ViewBag.count1 == "1")
+                        {
+                            <td>
+                                @Html.DropDownList("ddlSearchBy", new SelectList(new[]
+                                          {
+                                              new {Value="",Text="--Select One--"},
+                                              new{Value="StaffName",Text="Staff Name"},
+                                              new{Value="StaffIdNumber",Text="Staff Id Number"},
+                                              new{Value="ActivityFullName",Text="Status"},
+                                              new{Value="BranchCode",Text="Campus"},
+                                          },
+                            "Value", "Text", ""), new { @Class = "CSSDropDownList", style = "width:145px;" })
+                            </td>
+                        }
+                        else
+                        {
+            
+                            <td>
+                                @Html.DropDownList("ddlSearchBy", new SelectList(new[]
+                                          {
+                                              new {Value="",Text="--Select One--"},
+                                              new{Value="RequestNo",Text="Request Number"},
+                                              new{Value="ActivityFullName",Text="Status"},
+                                             // new{Value="CreateDate",Text="Created Date"},
+                                              //new{Value="BranchCode",Text="Campus"},
+                                          },
+                            "Value", "Text", ""), new { @Class = "CSSDropDownList", style = "width:145px;" })
+                            </td>
+                        }
+                        <td>
+                            @Html.TextBox("txtSearch", "", new { @title = "Type Search Text", @Class = "CSSTextBox", @disabled = true })
+                        </td>
+                        <td>
+                            @Html.TextBox("txtFromDate", " ", new { @Class = "datepicker1", style = "border: #006699 1px solid;" })
+                        </td>
+                        <td>
+                            @Html.DropDownList("ddlStatus", new SelectList(new[]
+                                          {
+                                              new{Value="Available",Text="Available"},
+                                              new{Value="Assigned",Text="Assigned"},
+                                              new{Value="Sent",Text="Sent"},
+                                              new{Value="Completed",Text="Completed"},
+                                                                                           
+                                          },
+                                   "Value", "Text", "Available"), new { @Class = "CSSDropDownList", style = "width:145px;" })
+                        </td>
+                        <td>
+                            <input type="button" id="Search" value="Search" />
+                        </td>
+                        <td align="left">
+                            <input type="button" value="Reset" id="reset" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <input type="button" name="btnCreate" id="btnCreate" value="Salary Advance Request" />
+                <input type="button" id="btnbulkApprove" value="Bulk Account Approve" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="10">
+                <br />
+                <table id="HRSalaryAdvanceGrid" class="InnerTable" width="100%">
+                </table>
+                <div id="HRSalaryAdvanceGridPagger">
+                </div>
+            </td>
+        </tr>
+        <tr style="float: right;">
+            <td>
+                <img src="../../Images/blue.jpg" alt="" height="12px" width="12px" /><label style="font-size: x-small">&nbsp
+                    Information
+                </label>
+                &nbsp&nbsp&nbsp
+                <img src="../../Images/yellow.jpg" alt="" height="10px" width="10px" /><label style="font-size: x-small">&nbsp
+                    Below 24 hrs
+                </label>
+                &nbsp&nbsp&nbsp
+                <img src="../../Images/orange.jpg" alt="" height="10px" width="10px" /><label style="font-size: x-small">&nbsp
+                    24-48 hrs</label>
+                &nbsp&nbsp&nbsp
+                <img src="../../Images/redblink3.gif" alt="" height="10px" width="10px" /><label
+                    style="font-size: x-small">&nbsp SLA Breached
+                </label>
+                &nbsp&nbsp&nbsp
+                <img src="../../Images/green.jpg" alt="" height="12px" width="12px" /><label style="font-size: x-small">&nbsp
+                    Completed</label>
+            </td>
+        </tr>
+    </table>
+}
+<div id="Activities"></div>

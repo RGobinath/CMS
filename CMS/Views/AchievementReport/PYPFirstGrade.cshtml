@@ -1,0 +1,3612 @@
+﻿@model TIPS.Entities.Assess.ReportCardClasses.RptCardPYPFirstGrade
+@{
+    ViewBag.Title = "PYPFirstGrade";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<h3>
+    PYPFirstGrade</h3>
+<style type="text/css">
+    table.AchmntRpt
+    {
+        background-color: transparent;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    table.AchmntRpt th, table.AchmntRpt td
+    {
+        text-align: center;
+        border: 1px solid black;
+        padding: 5px;
+        font-size: smaller;
+    }
+    table.AchmntRpt td
+    {
+        text-align: left;
+    }
+    table.AchmntRpt th
+    {
+        background-color: #B6B6B6;
+    }
+    table.AchmntRpt td:first-child
+    {
+        width: 20%;
+    }
+</style>
+<script type="text/javascript">
+
+    $(function () {
+        
+        if ($.trim($("#PYPSaveAlrtMsg").val()) != "") { InfoMsg($("#PYPSaveAlrtMsg").val()); }
+
+        if ('@ViewBag.status' == "Closed") {
+            
+            $('input,select,textarea,button').attr('disabled', true);
+            $('#Action').removeAttr("disabled");
+            $('#btnbkInbox').removeAttr("disabled");
+            $('.ui-state-default').removeAttr("disabled");
+            $('.ui-datepicker-trigger').hide();
+
+            //  $("#ReportTabs").tabs({ show: { effect: "none"} });
+        }
+
+        $("#btnCmpltRpt").click(function () {
+            $('#Action').val('Complete');
+        });
+
+        $("#btnSaveRpt").click(function () {
+            $('#Action').val('Save');
+        });
+        $("#btnbkInbox").click(function () {
+            $('#Action').val('Back');
+            window.location.href = '@Url.Action("ReportCardMainAction", "AchievementReport")';
+        });
+
+        $(".RptCarddatepicker").datepicker({
+            showOn: "button",
+            buttonImage: "../../Images/date.gif",
+            buttonImageOnly: true
+        });
+
+        $("#ReportTabs").tabs({
+            collapsible: true
+        });
+        GetCampus();
+        function GetCampus() {
+            var ddlcam = $("#ddCampus");
+            //
+            $.ajax({
+                type: 'GET',
+                async: false,
+                dataType: "json",
+                url: '@Url.Content("~/AchievementReport/FillCampusCode")',
+                success: function (data) {
+                    ddlcam.empty();
+                    ddlcam.append("<option value=''> Select </option>");
+                    for (var i = 0; i < data.length; i++) {
+                        if ($('#Campus').val() == data[i].Value) {
+                            ddlcam.append("<option value='" + data[i].Value + "' selected='selected'>" + data[i].Text + "</option>");
+                        } else {
+                            ddlcam.append("<option value='" + data[i].Value + "'>" + data[i].Text + "</option>");
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    ErrMsg($.parseJSON(xhr.responseText).Message);
+                }
+            });
+
+            if ($('#Id').val() > 0) {
+                $('#ReportTabs').show();
+                $('#1stSemester').attr('disabled', true);
+                $('#2ndSemester').attr('disabled', true);
+            } else {
+                $('#ReportTabs').hide();
+            }
+
+            bindSelectedVal(document.getElementById("ddCampus"), $('#Campus').val());
+        }
+
+        function bindSelectedVal(DrpDwnObj, SelVal) {
+            
+            for (var g = 0; g < DrpDwnObj.options.length; g++) {
+                if (DrpDwnObj.options[g].text == SelVal) {
+                    DrpDwnObj.selectedIndex = g;
+                    $('#ddCampus').attr('disabled', true);
+                }
+            }
+        }
+
+        $('#ddCampus').change(function () {
+            $('#Campus').val($('#ddCampus option:selected').text());
+        });
+
+        $("#1stSemester").click(function () {
+            if ($(this).is(":checked")) {
+                $('#Semester').val(1);
+                $('#1stSemester').attr("checked", true);
+                $('#2ndSemester').attr("checked", false);
+            }
+        });
+
+        $("#2ndSemester").click(function () {
+            if ($(this).is(":checked")) {
+                $('#Semester').val(2);
+                $('#1stSemester').attr("checked", false);
+                $('#2ndSemester').attr("checked", true);
+            }
+        });
+        if ($('#Semester').val() == "1") {
+            $('#1stSemester').attr("checked", true);
+            $('#2ndSemester').attr("checked", false);
+        }
+        else if ($('#Semester').val() == "2") {
+            $('#1stSemester').attr("checked", false);
+            $('#2ndSemester').attr("checked", true);
+        }
+
+        $("#btnARStdnPopup").button({ icons: { primary: "ui-icon-search" },
+            text: false
+        });
+
+
+        window.onload = function () {
+            var txts = document.getElementsByTagName('TEXTAREA')
+
+            for (var i = 0, l = txts.length; i < l; i++) {
+                if (/^[0-9]+$/.test(txts[i].getAttribute("maxlength"))) {
+                    var func = function () {
+                        var len = parseInt(this.getAttribute("maxlength"), 10);
+
+                        if (this.value.length > len) {
+                            //alert('Maximum length exceeded: ' + len);
+                            this.value = this.value.substr(0, len);
+                            return false;
+                        }
+                    }
+
+                    txts[i].onkeyup = func;
+                    txts[i].onblur = func;
+                }
+            }
+        }
+
+        $("#btnARStdnPopup").click(function () {
+            
+            var c_name = $('#Campus').val();
+            var Semstr = $('#Semester').val();
+            var Grade = $('#Grade').val();
+            if (isEmptyorNull(c_name) || isEmptyorNull(Semstr) || isEmptyorNull(Grade)) {
+                ErrMsg('Please select Campus,Semeter and Grade', function () { $("#ddCampus").focus(); });
+                return false;
+            } else {
+                LoadPopupDynamicaly(
+            "/AchievementReport/loadPartialView?PartialViewName=StudentPopup",
+            $('#DivStudentSearch'),
+            function () {
+                $('#StdntCampus').val(c_name);
+                LoadSetGridParam($('#StudentList'), "/AchievementReport/GetStudentDtls?Grade=I&Campus=" + c_name);
+            },
+            function (rdata) {
+                $('#Name').val(rdata.Name);
+                $('#IdNo').val(rdata.IdNo);
+                $('#Grade').val(rdata.Grade);
+                $('#Section').val(rdata.Section);
+                $('#PreRegNum').val(rdata.PreRegNum);
+                $('#AcademicYear').val(rdata.AcademicYear);
+                $('#ReportTabs').show();
+            })
+            }
+        });
+
+        /*all check box vallidation */
+        $('.chkbx input:checkbox').live('change', function () {
+            
+            //var n = $(this).siblings('input:checkbox');
+            var n = $(this).closest('tr').find(':checkbox');
+            if ($(this).attr('checked')) {
+                n.attr('checked', false); //.attr('disabled', true);
+                $(this).attr('checked', true); //.attr('disabled', false);
+            } else {
+                n.attr('checked', false); //.attr('disabled', false);
+            }
+        });
+        /**/
+
+    });
+
+</script>
+@using (Html.BeginForm("PYPFirstGrade", "AchievementReport", FormMethod.Post, new { id = "innerForm", enctype = "multipart/form-data" }))
+{
+
+    <table width="100%" class="WithBorderOnly" id="AchievementReportHdr">
+        <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+            <td colspan="6">
+                I-Semester III-Grade Achievement Report(PYP)
+            </td>
+        </tr>
+    </table>
+    <table width="100%" class="WithBorderOnly" id="AchievementReport">
+        <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+            <td colspan="8">
+                Basic Details
+            </td>
+        </tr>
+        <tr style="height: 15px">
+            <td style="width: 20%">
+                <b>Request No</b>
+            </td>
+            <td style="width: 20%">
+                <b>Campus</b>
+            </td>
+            <td style="width: 20%">
+                <b>Semester</b>
+            </td>
+            <td style="width: 20%">
+                <b>Grade</b>
+            </td>
+            <td style="width: 20%">
+                <b>Name</b>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 20%">
+                @Html.TextBox("RequestNo", @Model.RequestNo, new { @class = "CSSTextBox", @style = "width: 90%", @Readonly = "Readonly" })
+                @*  @Html.Hidden("StudentId", @Model.StudentId)*@
+                @Html.Hidden("AcademicYear", @Model.AcademicYear)
+                @Html.Hidden("Id", @Model.Id)
+                @Html.Hidden("PreRegNum", @Model.PreRegNum)
+                @Html.Hidden("PYPSaveAlrtMsg", TempData["PYPSaveAlrtMsg"])
+                @Html.Hidden("RptCardCreatedBy")
+                @Html.Hidden("RptCardModifiedBy")
+            </td>
+            <td style="width: 20%">
+                @Html.Hidden("Campus")
+                @Html.DropDownList("ddCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select Campus", new { @Class = "CSSDropDownList", style = "width:80%;" })
+            </td>
+            <td style="width: 20%">
+                @Html.RadioButton("Semester", "1", new { id = "1stSemester", @style = "width: 10%", name = "Semester", @class = "RdSem" })
+                <label for="1stSemester" style="width: 30%">
+                    I Sem
+                </label>
+                @Html.RadioButton("Semester", "2", new { id = "2ndSemester", @style = "width: 10%", name = "Semester", @class = "RdSem" })
+                <label for="2ndSemester" style="width: 30%">
+                    II Sem
+                </label>
+                @Html.Hidden("Semester")
+            </td>
+            @*<td style="width: 20%">
+                @Html.TextBox("Grade", @Model.Grade, new { @class = "CSSTextBox", @style = "width: 60%", @Readonly = "Readonly" })
+            </td>*@
+            <td style="width: 20%">
+                @Html.DropDownList("Grade",
+                    new SelectList(new[] { 
+                        new { Text = "", Value = "--Select--", Seleced = "false" },
+                        new { Text = "I", Value = "I", Seleced = "false" },
+                        new { Text = "II", Value = "II", Seleced = "false" },
+                        new { Text = "III", Value = "III", Seleced = "false" },
+                        new { Text = "IV", Value = "IV", Seleced = "false" },
+                        new { Text = "V", Value = "V", Seleced = "false" },
+               }, "Text", "Value", "Seleced"),
+               new { @Class = "CSSDropDownList" })
+            </td>
+            <td style="width: 20%">
+                @Html.TextBox("Name", @Model.Name, new { @class = "CSSTextBox", @style = "width: 80%", @Readonly = "Readonly" })
+                @if (@Model.Id == 0 || @Model.Id == null)
+                {
+                    <a id="btnARStdnPopup">...</a> <span style="color: Red">*</span>
+                }
+            </td>
+        </tr>
+        <tr style="height: 15px; vertical-align: bottom">
+            <td style="width: 20%">
+                <b>Id Number</b>
+            </td>
+            <td style="width: 20%">
+                <b>Section</b>
+            </td>
+            <td style="width: 20%">
+                <b>Teacher Name </b>
+            </td>
+            <td style="width: 20%">
+                <b>Date</b>
+            </td>
+            <td style="width: 20%">
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 20%">
+                @Html.TextBox("IdNo", @Model.IdNo, new { @class = "CSSTextBox", @style = "width: 90%", @Readonly = "Readonly" })
+            </td>
+            <td style="width: 20%">
+                @Html.TextBox("Section", @Model.Section, new { @class = "CSSTextBox", @style = "width: 90%", @Readonly = "Readonly" })
+            </td>
+            <td style="width: 20%">
+                @Html.TextBox("TeacherName", @Model.TeacherName, new { @class = "CSSTextBox", @style = "width: 90%" })
+            </td>
+            <td style="width: 20%">
+                @Html.TextBox("RptDate", @Model.RptDate, new { @class = "RptCarddatepicker", @Readonly = "Readonly", @style = "width: 60%;border: 1px solid #006699;color: #666666;" })
+            </td>
+            <td align="center">
+                <button type="submit" id="btnSaveRpt" value="Save">
+                    <b>Save</b></button>&nbsp;
+                <button type="submit" id="btnCmpltRpt" value="Complete">
+                    Complete</button>&nbsp;
+                <input type="button" id="btnbkInbox" value="Back" name="Back" />
+                @Html.Hidden("Action")
+            </td>
+        </tr>
+    </table>
+
+    <div id="ReportTabs">
+        <ul>
+            <li><a href="#tabs-English">English</a></li>
+            <li><a href="#tabs-Language">Language</a></li>
+            <li><a href="#tabs-TamilorHindi">Tamil/Hindi</a></li>
+            <li><a href="#tabs-Maths">Mathematics</a></li>
+            <li><a href="#tabs-TWOO">Theme – How we organize ourselves</a></li>
+            <li><a href="#tabs-TWWA">Theme – Who we are</a></li>
+            <li><a href="#tabs-THWEO">Theme – How we express ourselves</a></li>
+            <li><a href="#tabs-AC">Applied Computers</a></li>
+            <li><a href="#tabs-PEC">Physical Education Cycling</a></li>
+            <li><a href="#tabs-SW">Swimming</a></li>
+            <li><a href="#tabs-TAF">Track and Field</a></li>
+            <li><a href="#tabs-PAM">Performing Arts Music</a></li>
+            <li><a href="#tabs-WD">Western Dance</a></li>
+            <li><a href="#tabs-CD">Classical Dance</a></li>
+        </ul>
+        <div id="tabs-English">
+            <table width="100%">
+                <tr style="height: 25px">
+                    <td colspan="5" align="center">
+                        <h3>
+                            <span><b><u>ENGLISH</u></b></span></h3>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="Reading" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Strands
+                    </th>
+                    <th style="width: 10%">
+                        Key Elements
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="3" style="text-align: center">
+                        READING
+                    </td>
+                    <td>
+                        Confidence
+                    </td>
+                    <td>
+                        Able to read the given text independently
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ER_Conf_Accom", @Model.ER_Conf_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ER_Conf_Prog", @Model.ER_Conf_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ER_Conf_Encour", @Model.ER_Conf_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Fluency
+                    </td>
+                    <td>
+                        Able to read with accurate pronunciation of individual sounds, intonation and rhythm
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ER_Flu_Accom", @Model.ER_Flu_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ER_Flu_Prog", @Model.ER_Flu_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ER_Flu_Encour", @Model.ER_Flu_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Comprehension
+                    </td>
+                    <td>
+                        Able to relate and respond to the reading with personal understanding
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ER_Com_Accom", @Model.ER_Com_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ER_Com_Prog", @Model.ER_Com_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ER_Com_Encour", @Model.ER_Com_Encour)
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="LSFiction" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Strands
+                    </th>
+                    <th style="width: 10%">
+                        Key Elements
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="6" style="text-align: center">
+                        LISTENING &
+                        <br />
+                        SPEAKING<br />
+                        <br />
+                        FICTION
+                    </td>
+                    <td>
+                        Beginning
+                    </td>
+                    <td>
+                        Able to tell how the story begins
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Beg_Accom", @Model.ELSF_Beg_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Beg_Prog", @Model.ELSF_Beg_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Beg_Encour", @Model.ELSF_Beg_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Setting
+                    </td>
+                    <td>
+                        Able to identify the setting of the story
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Sett_Accom", @Model.ELSF_Sett_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Sett_Prog", @Model.ELSF_Sett_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Sett_Encour", @Model.ELSF_Sett_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Character
+                    </td>
+                    <td>
+                        Able to identify the main characters of the story and their importance
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Char_Accom", @Model.ELSF_Char_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Char_Prog", @Model.ELSF_Char_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Char_Encour", @Model.ELSF_Char_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Problem
+                    </td>
+                    <td>
+                        Able to identify the problem in the story
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Pro_Accom", @Model.ELSF_Pro_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Pro_Prog", @Model.ELSF_Pro_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Pro_Encour", @Model.ELSF_Pro_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Sequence
+                    </td>
+                    <td>
+                        Able to understand the order of events in the story
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Seq_Accom", @Model.ELSF_Seq_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Seq_Prog", @Model.ELSF_Seq_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Seq_Encour", @Model.ELSF_Seq_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Resolution
+                    </td>
+                    <td>
+                        Able to know how the problem is solved / the story ends
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Res_Accom", @Model.ELSF_Res_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Res_Prog", @Model.ELSF_Res_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSF_Res_Encour", @Model.ELSF_Res_Encour)
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="LSNonFiction" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Strands
+                    </th>
+                    <th style="width: 10%">
+                        Key Elements
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="5">
+                        LISTENING &
+                        <br />
+                        SPEAKING<br />
+                        <br />
+                        NON-FICTION
+                    </td>
+                    <td>
+                        Topic
+                    </td>
+                    <td>
+                        Able to understand the topic of the book
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSNF_Top_Accom", @Model.ELSNF_Top_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSNF_Top_Prog", @Model.ELSNF_Top_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSNF_Top_Encour", @Model.ELSNF_Top_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Main idea(s) and details
+                    </td>
+                    <td>
+                        Able to recall all the details linked to the main idea(s)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSNF_Idea_Accom", @Model.ELSNF_Idea_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSNF_Idea_Prog", @Model.ELSNF_Idea_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSNF_Idea_Encour", @Model.ELSNF_Idea_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Organization
+                    </td>
+                    <td>
+                        Able to know how the book is organized
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSNF_Org_Accom", @Model.ELSNF_Org_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSNF_Org_Prog", @Model.ELSNF_Org_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSNF_Org_Encour", @Model.ELSNF_Org_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Command of vocabulary
+                    </td>
+                    <td>
+                        Able to use key vocabulary from the book
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSNF_voc_Accom", @Model.ELSNF_voc_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSNF_voc_Prog", @Model.ELSNF_voc_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSNF_voc_Encour", @Model.ELSNF_voc_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Accuracy
+                    </td>
+                    <td>
+                        Able to retell the facts accurately
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSNF_Acc_Accom", @Model.ELSNF_Acc_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSNF_Acc_Prog", @Model.ELSNF_Acc_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("ELSNF_Acc_Encour", @Model.ELSNF_Acc_Encour)
+                    </td>
+                </tr>
+            </table>
+            <br />
+        </div>
+        <div id="tabs-Language">
+            <table width="100%">
+                <tr style="height: 25px">
+                    <td colspan="5" align="center">
+                        <h3>
+                            <span><b><u>Language</u></b></span></h3>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="Language" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Strands
+                    </th>
+                    <th style="width: 10%">
+                        Key Elements
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Capitalization
+                    </td>
+                    <td>
+                        Capital letter
+                    </td>
+                    <td>
+                        Able to identify and use capital letters in a sentence
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Cap_Capl_Accom", @Model.LS_Cap_Capl_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Cap_Capl_Prog", @Model.LS_Cap_Capl_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Cap_Capl_Encour", @Model.LS_Cap_Capl_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="2" style="text-align: center">
+                        Plurals
+                    </td>
+                    <td>
+                        Regular plural nouns
+                    </td>
+                    <td>
+                        Able to make plural of nouns by adding -s
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Plu_regp_Accom", @Model.LS_Plu_regp_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Plu_regp_Prog", @Model.LS_Plu_regp_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Plu_regp_Encour", @Model.LS_Plu_regp_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Irregular plural nouns
+                    </td>
+                    <td>
+                        Able to recognize and use common irregular plural nouns
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Plu_Irrp_Accom", @Model.LS_Plu_Irrp_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Plu_Irrp_Prog", @Model.LS_Plu_Irrp_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Plu_Irrp_Encour", @Model.LS_Plu_Irrp_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Alphabetical order
+                    </td>
+                    <td>
+                        ABC order
+                    </td>
+                    <td>
+                        Able to arrange words alphabetically based on the first letter of the word
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Alpo_Accom", @Model.LS_Alpo_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Alpo_Prog", @Model.LS_Alpo_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Alpo_Encour", @Model.LS_Alpo_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Homophones
+                    </td>
+                    <td>
+                        Right word
+                    </td>
+                    <td>
+                        Able to use words that sound alike but have different spelling and meaning
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Homp_Accom", @Model.LS_Homp_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Homp_Prog", @Model.LS_Homp_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Homp_Encour", @Model.LS_Homp_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Antonyms
+                    </td>
+                    <td>
+                        Opposite word
+                    </td>
+                    <td>
+                        Able to identify and write opposite meanings for the words given
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Ant_Accom", @Model.LS_Ant_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Ant_Prog", @Model.LS_Ant_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Ant_Encour", @Model.LS_Ant_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="4" style="text-align: center">
+                        Nouns
+                    </td>
+                    <td>
+                        Nouns
+                    </td>
+                    <td>
+                        Able to identify and sort nouns into categories of people, place, and thing
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_NN_Accom", @Model.LS_NN_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_NN_Prog", @Model.LS_NN_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_NN_Encour", @Model.LS_NN_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Common nouns
+                    </td>
+                    <td>
+                        Able to identify common noun in a sentence
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_N_Comon_Accom", @Model.LS_N_Comon_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_N_Comon_Prog", @Model.LS_N_Comon_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_N_Comon_Encour", @Model.LS_N_Comon_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Proper nouns
+                    </td>
+                    <td>
+                        Able to identify proper noun in a sentence
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_N_Propn_Accom", @Model.LS_N_Propn_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_N_Propn_Prog", @Model.LS_N_Propn_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_N_Propn_Encour", @Model.LS_N_Propn_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Pronouns
+                    </td>
+                    <td>
+                        Able to identify and change a noun into a pronoun
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_N_Pron_Accom", @Model.LS_N_Pron_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_N_Pron_Prog", @Model.LS_N_Pron_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_N_Pron_Encour", @Model.LS_N_Pron_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="3" style="text-align: center">
+                        Verbs
+                    </td>
+                    <td>
+                        Action verbs
+                    </td>
+                    <td>
+                        Able to identify and use action verbs in a sentence
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_V_Acv_Accom", @Model.LS_V_Acv_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_V_Acv_Prog", @Model.LS_V_Acv_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_V_Acv_Encour", @Model.LS_V_Acv_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Tenses of action verbs
+                    </td>
+                    <td>
+                        Able to identify and use appropriate past, and present verb tenses in a sentence
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_V_Tav_Accom", @Model.LS_V_Tav_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_V_Tav_Prog", @Model.LS_V_Tav_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_V_Tav_Encour", @Model.LS_V_Tav_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Linking verbs
+                    </td>
+                    <td>
+                        Able to identify and use appropriate linking verbs in a sentence
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_V_Linv_Accom", @Model.LS_V_Linv_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_V_Linv_Prog", @Model.LS_V_Linv_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_V_Linv_Encour", @Model.LS_V_Linv_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="2" style="text-align: center">
+                        Adjectives
+                    </td>
+                    <td>
+                        Describing words
+                    </td>
+                    <td>
+                        Able to identify and write adjectives in a sentence
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Adj_Dw_Accom", @Model.LS_Adj_Dw_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Adj_Dw_Prog", @Model.LS_Adj_Dw_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Adj_Dw_Encour", @Model.LS_Adj_Dw_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Comparative adjectives
+                    </td>
+                    <td>
+                        Able to use comparative adjective form in a sentence
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Adj_Coma_Accom", @Model.LS_Adj_Coma_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Adj_Coma_Prog", @Model.LS_Adj_Coma_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Adj_Coma_Encour", @Model.LS_Adj_Coma_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="2" style="text-align: center">
+                        Writing sentences
+                    </td>
+                    <td>
+                        Capital letters and Period
+                    </td>
+                    <td>
+                        Able to follow the sentence rules while writing a sentence
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Ws_Clp_Accom", @Model.LS_Ws_Clp_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Ws_Clp_Prog", @Model.LS_Ws_Clp_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Ws_Clp_Encour", @Model.LS_Ws_Clp_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Complete thoughts
+                    </td>
+                    <td>
+                        Able to make a complete sentence by using the given words in the right order
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Ws_comt_Accom", @Model.LS_Ws_comt_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Ws_comt_Prog", @Model.LS_Ws_comt_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("LS_Ws_comt_Encour", @Model.LS_Ws_comt_Encour)
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="tabs-TamilorHindi">
+            <table width="100%">
+                <tr style="height: 25px">
+                    <td colspan="5" align="center">
+                        <h3>
+                            <span><b><u>Tamil/English</u></b></span></h3>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="TEReading" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Strands
+                    </th>
+                    <th style="width: 10%">
+                        Key Elements
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="5" style="text-align: center">
+                        READING
+                    </td>
+                    <td>
+                        Confidence
+                    </td>
+                    <td>
+                        Able to read confidently
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Red_Conf_Accom", @Model.TH_Red_Conf_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Red_Conf_Prog", @Model.TH_Red_Conf_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Red_Conf_Encour", @Model.TH_Red_Conf_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Fluency
+                    </td>
+                    <td>
+                        Able to read fluently
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Red_Flu_Accom", @Model.TH_Red_Flu_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Red_Flu_Prog", @Model.TH_Red_Flu_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Red_Flu_Encour", @Model.TH_Red_Flu_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Tone and intonation
+                    </td>
+                    <td>
+                        Able to convey the emotion fairly well and musical
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Red_Toi_Accom", @Model.TH_Red_Toi_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Red_Toi_Prog", @Model.TH_Red_Toi_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Red_Toi_Encour", @Model.TH_Red_Toi_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Pronunciation
+                    </td>
+                    <td>
+                        Able to pronounce clearly
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Red_Pron_Accom", @Model.TH_Red_Pron_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Red_Pron_Prog", @Model.TH_Red_Pron_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Red_Pron_Encour", @Model.TH_Red_Pron_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Understanding
+                    </td>
+                    <td>
+                        Able to understand the concepts well
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Red_Und_Accom", @Model.TH_Red_Und_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Red_Und_Prog", @Model.TH_Red_Und_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Red_Und_Encour", @Model.TH_Red_Und_Encour)
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="TEReading1" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Strands
+                    </th>
+                    <th style="width: 10%">
+                        Key Elements
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="6" style="text-align: center">
+                        WRITING
+                    </td>
+                    <td>
+                        Spelling
+                    </td>
+                    <td>
+                        Able to write without spelling mistakes
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Spel_Accom", @Model.TH_Wri_Spel_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Spel_Prog", @Model.TH_Wri_Spel_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Spel_Encour", @Model.TH_Wri_Spel_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Vocabulary
+                    </td>
+                    <td>
+                        Able to use appropriate vocabulary while writing
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Voc_Accom", @Model.TH_Wri_Voc_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Voc_Prog", @Model.TH_Wri_Voc_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Voc_Encour", @Model.TH_Wri_Voc_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Punctuation
+                    </td>
+                    <td>
+                        Able to punctuate appropriately
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Punc_Accom", @Model.TH_Wri_Punc_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Punc_Prog", @Model.TH_Wri_Punc_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Punc_Encour", @Model.TH_Wri_Punc_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Grammar
+                    </td>
+                    <td>
+                        Able to use grammar appropriately
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Gra_Accom", @Model.TH_Wri_Gra_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Gra_Prog", @Model.TH_Wri_Gra_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Gra_Encour", @Model.TH_Wri_Gra_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Ideas and content
+                    </td>
+                    <td>
+                        Able to use the main ideas to convey his / her understanding
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Idec_Accom", @Model.TH_Wri_Idec_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Idec_Prog", @Model.TH_Wri_Idec_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Idec_Encour", @Model.TH_Wri_Idec_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Neatness and handwriting
+                    </td>
+                    <td>
+                        Able to present the writing neatly
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Neh_Accom", @Model.TH_Wri_Neh_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Neh_Prog", @Model.TH_Wri_Neh_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Wri_Neh_Encour", @Model.TH_Wri_Neh_Encour)
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="TEReading2" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Strands
+                    </th>
+                    <th style="width: 10%">
+                        Key Elements
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="5" style="text-align: center">
+                        LISTENING & SPEAKING
+                    </td>
+                    <td>
+                        Confidence
+                    </td>
+                    <td>
+                        Able to speak confidently
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Ls_Conf_Accom", @Model.TH_Ls_Conf_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Ls_Conf_Prog", @Model.TH_Ls_Conf_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Ls_Conf_Encour", @Model.TH_Ls_Conf_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Fluency
+                    </td>
+                    <td>
+                        Able to speak with intonation and rhythm
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Ls_Flu_Accom", @Model.TH_Ls_Flu_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Ls_Flu_Prog", @Model.TH_Ls_Flu_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Ls_Flu_Encour", @Model.TH_Ls_Flu_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Pronunciation
+                    </td>
+                    <td>
+                        Able to speak with accurate pronunciation of individual sounds
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Ls_Pron_Accom", @Model.TH_Ls_Pron_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Ls_Pron_Prog", @Model.TH_Ls_Pron_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Ls_Pron_Encour", @Model.TH_Ls_Pron_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Understanding
+                    </td>
+                    <td>
+                        Able to convey his / her understanding clearly
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Ls_Und_Accom", @Model.TH_Ls_Und_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Ls_Und_Prog", @Model.TH_Ls_Und_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Ls_Und_Encour", @Model.TH_Ls_Und_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Vocabulary
+                    </td>
+                    <td>
+                        Able to use appropriate vocabulary while speaking
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Ls_Voc_Accom", @Model.TH_Ls_Voc_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Ls_Voc_Prog", @Model.TH_Ls_Voc_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("TH_Ls_Voc_Encour", @Model.TH_Ls_Voc_Encour)
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="tabs-Maths">
+            <table width="100%">
+                <tr style="height: 25px">
+                    <td colspan="5" align="center">
+                        <h3>
+                            <span><b><u>Mathematics</u></b></span></h3>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="MNum" width="100%">
+                <tr>
+                    <th colspan="2" style="width: 10%">
+                        Strands
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="5" style="text-align: center">
+                        Numbers to 10
+                    </td>
+                    <td rowspan="2">
+                        Counting to 10
+                    </td>
+                    <td>
+                        Able to count from 0 to 10 objects
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_N_Coun_obj_Accom", @Model.M_N_Coun_obj_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_N_Coun_obj_Prog", @Model.M_N_Coun_obj_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_N_Coun_obj_Encour", @Model.M_N_Coun_obj_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Able to read and write 0-10 in numbers and words
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_N_Coun_wor_Accom", @Model.M_N_Coun_wor_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_N_Coun_wor_Prog", @Model.M_N_Coun_wor_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_N_Coun_wor_Encour", @Model.M_N_Coun_wor_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="2">
+                        Comparing numbers
+                    </td>
+                    <td>
+                        Able to compare two sets of objects using one-to-one correspondence
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_N_compn_corr_Accom", @Model.M_N_compn_corr_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_N_compn_corr_Prog", @Model.M_N_compn_corr_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_N_compn_corr_Encour", @Model.M_N_compn_corr_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Able to identify the number that is greater than or less than another number
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_N_compn_idnum_Accom", @Model.M_N_compn_idnum_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_N_compn_idnum_Prog", @Model.M_N_compn_idnum_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_N_compn_idnum_Encour", @Model.M_N_compn_idnum_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Making number patterns
+                    </td>
+                    <td>
+                        Able to make number patterns
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_N_Mnp_amnp_Accom", @Model.M_N_Mnp_amnp_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_N_Mnp_amnp_Prog", @Model.M_N_Mnp_amnp_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_N_Mnp_amnp_Encour", @Model.M_N_Mnp_amnp_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Number bonds
+                    </td>
+                    <td>
+                        Number bonds
+                    </td>
+                    <td>
+                        Able to find different number bonds for numbers to 10
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Nb_Nb_Accom", @Model.M_Nb_Nb_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Nb_Nb_Prog", @Model.M_Nb_Nb_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Nb_Nb_Encour", @Model.M_Nb_Nb_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="4" style="text-align: center">
+                        Addition Facts to 10
+                    </td>
+                    <td rowspan="2">
+                        Ways to add
+                    </td>
+                    <td>
+                        Able to count on to add
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Af_wa_aca_Accom", @Model.M_Af_wa_aca_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Af_wa_aca_Prog", @Model.M_Af_wa_aca_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Af_wa_aca_Encour", @Model.M_Af_wa_aca_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Able to use number bonds to add in any order
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Af_wa_aar_Accom", @Model.M_Af_wa_aar_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Af_wa_aar_Prog", @Model.M_Af_wa_aar_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Af_wa_aar_Encour", @Model.M_Af_wa_aar_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Making addition stories
+                    </td>
+                    <td>
+                        Able to write and solve addition sentences
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Af_Mas_Accom", @Model.M_Af_Mas_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Af_Mas_Prog", @Model.M_Af_Mas_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Af_Mas_Encour", @Model.M_Af_Mas_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Real world problems: Addition
+                    </td>
+                    <td>
+                        Able to solve real- world problems
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Af_Radd_Accom", @Model.M_Af_Radd_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Af_Radd_Prog", @Model.M_Af_Radd_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Af_Radd_Encour", @Model.M_Af_Radd_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="7" style="text-align: center">
+                        Subtraction facts to 10
+                    </td>
+                    <td rowspan="4">
+                        Ways to subtract
+                    </td>
+                    <td>
+                        Able to take away to subtract
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Ws_aas_Accom", @Model.M_Sf_Ws_aas_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Ws_aas_Prog", @Model.M_Sf_Ws_aas_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Ws_aas_Encour", @Model.M_Sf_Ws_aas_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Able to count back to subtract
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Ws_cbs_Accom", @Model.M_Sf_Ws_cbs_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Ws_cbs_Prog", @Model.M_Sf_Ws_cbs_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Ws_cbs_Encour", @Model.M_Sf_Ws_cbs_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Able to use number bonds to subtract
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Ws_nbs_Accom", @Model.M_Sf_Ws_nbs_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Ws_nbs_Prog", @Model.M_Sf_Ws_nbs_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Ws_nbs_Encour", @Model.M_Sf_Ws_nbs_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Able to write and solve subtraction sentences
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Ws_sss_Accom", @Model.M_Sf_Ws_sss_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Ws_sss_Prog", @Model.M_Sf_Ws_sss_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Ws_sss_Encour", @Model.M_Sf_Ws_sss_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Real world problems: Subtraction
+                    </td>
+                    <td>
+                        Able to solve real- world word problems
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Rs_wwp_Accom", @Model.M_Sf_Rs_wwp_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Rs_wwp_Prog", @Model.M_Sf_Rs_wwp_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Rs_wwp_Encour", @Model.M_Sf_Rs_wwp_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="2">
+                        Making fact families
+                    </td>
+                    <td>
+                        Able to recognize related addition and subtraction sentences
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Mff_arss_Accom", @Model.M_Sf_Mff_arss_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Mff_arss_Prog", @Model.M_Sf_Mff_arss_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Mff_arss_Encour", @Model.M_Sf_Mff_arss_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Able to use fact families to solve real-world problems
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Mff_asrwp_Accom", @Model.M_Sf_Mff_asrwp_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Mff_asrwp_Prog", @Model.M_Sf_Mff_asrwp_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("M_Sf_Mff_asrwp_Encour", @Model.M_Sf_Mff_asrwp_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="7" style="text-align: center">
+                        Shapes and Patterns
+                    </td>
+                    <td rowspan="2">
+                        Exploring plane shapes
+                    </td>
+                    <td>
+                        Able to identify, classify and describe plane shapes
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_Eps_dps_Accom", @Model.Msp_Sp_Eps_dps_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_Eps_dps_Prog", @Model.Msp_Sp_Eps_dps_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_Eps_dps_Encour", @Model.Msp_Sp_Eps_dps_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Able to describe the whole as the sum of its parts
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_Eps_sip_Accom", @Model.Msp_Sp_Eps_sip_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_Eps_sip_Prog", @Model.Msp_Sp_Eps_sip_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_Eps_sip_Encour", @Model.Msp_Sp_Eps_sip_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Exploring solid shapes
+                    </td>
+                    <td>
+                        Able to identify, classify and sort solid shapes
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_Ess_Accom", @Model.Msp_Sp_Ess_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_Ess_Prog", @Model.Msp_Sp_Ess_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_Ess_Encour", @Model.Msp_Sp_Ess_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Making pictures and models with shapes
+                    </td>
+                    <td>
+                        Able to combine and separate plane and solid shapes
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_mws_Accom", @Model.Msp_Sp_mws_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_mws_Prog", @Model.Msp_Sp_mws_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_mws_Encour", @Model.Msp_Sp_mws_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Seeing shapes around us
+                    </td>
+                    <td>
+                        Able to identify plane and solid shapes in real life
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_sau_Accom", @Model.Msp_Sp_sau_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_sau_Prog", @Model.Msp_Sp_sau_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_sau_Encour", @Model.Msp_Sp_sau_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Making patterns with plane shapes
+                    </td>
+                    <td>
+                        Able to use plane shapes to identify, extend and create patterns
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_wps_Accom", @Model.Msp_Sp_wps_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_wps_Prog", @Model.Msp_Sp_wps_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_wps_Encour", @Model.Msp_Sp_wps_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Making patterns with solid shapes
+                    </td>
+                    <td>
+                        Able to use solid shapes to identify, extend and create patterns
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_wss_Accom", @Model.Msp_Sp_wss_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_wss_Prog", @Model.Msp_Sp_wss_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Sp_wss_Encour", @Model.Msp_Sp_wss_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="2">
+                        Ordinal numbers and position
+                    </td>
+                    <td>
+                        Ordinal numbers
+                    </td>
+                    <td>
+                        Able to use ordinal numbers
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Onp_on_Accom", @Model.Msp_Onp_on_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Onp_on_Prog", @Model.Msp_Onp_on_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Onp_on_Encour", @Model.Msp_Onp_on_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Position words
+                    </td>
+                    <td>
+                        Able to use position words to name relative positions
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Onp_pw_Accom", @Model.Msp_Onp_pw_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Onp_pw_Prog", @Model.Msp_Onp_pw_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Msp_Onp_pw_Encour", @Model.Msp_Onp_pw_Encour)
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="tabs-TWOO">
+            <table width="100%">
+                <tr style="height: 25px">
+                    <td colspan="5" align="center">
+                        <h3>
+                            <span><b><u>Theme – How we organize ourselves</u></b></span></h3>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="Peopledevelopskills" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Lines Of Inquiry
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Purpose of skills, and attitudes
+                    </td>
+                    <td>
+                        Able to exhibit skills, and attitudes while taking responsible actions
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_psa_Accom", @Model.Prog_psa_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_psa_Prog", @Model.Prog_psa_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_psa_Encour", @Model.Prog_psa_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Qualities of responsible learners
+                    </td>
+                    <td>
+                        Able to demonstrate a positive attitude towards learning
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_qrl_Accom", @Model.Prog_qrl_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_qrl_Prog", @Model.Prog_qrl_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_qrl_Encour", @Model.Prog_qrl_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Making contributions as a learner
+                    </td>
+                    <td>
+                        Able to recognize how his or her choices and behavior affect learning in the classroom
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_mcl_Accom", @Model.Prog_mcl_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_mcl_Prog", @Model.Prog_mcl_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_mcl_Encour", @Model.Prog_mcl_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx" style="height: 25px">
+                    <td>
+                        Comments:
+                    </td>
+                    <td colspan="5">
+                        @Html.TextArea("Prog_Com", new { rows = 4, cols = 150, @class = "CSSTextArea", @maxlength = "200" })
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="DevelopmentofSkills" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Social Skills
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Cooperating
+                    </td>
+                    <td>
+                        Able to work cooperatively in a group; be courteous to others; share materials;
+                        take turns
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dos_Coo_Accom", @Model.Prog_Dos_Coo_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dos_Coo_Prog", @Model.Prog_Dos_Coo_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dos_Coo_Encour", @Model.Prog_Dos_Coo_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Group decision making
+                    </td>
+                    <td>
+                        Able to listen to others' ideas; discuss ideas; ask questions; work towards and
+                        obtain consensus
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dos_Gdm_Accom", @Model.Prog_Dos_Gdm_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dos_Gdm_Prog", @Model.Prog_Dos_Gdm_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dos_Gdm_Encour", @Model.Prog_Dos_Gdm_Encour)
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="DevelopmentofSkills1" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Self-Mangement Skills
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Organization
+                    </td>
+                    <td>
+                        Able to plan and carry out activities effectively
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dos_Org_Accom", @Model.Prog_Dos_Org_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dos_Org_Prog", @Model.Prog_Dos_Org_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dos_Org_Encour", @Model.Prog_Dos_Org_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Time management
+                    </td>
+                    <td>
+                        Able to use time effectively and appropriately
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dos_Tm_Accom", @Model.Prog_Dos_Tm_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dos_Tm_Prog", @Model.Prog_Dos_Tm_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dos_Tm_Encour", @Model.Prog_Dos_Tm_Encour)
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="Attitudes" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Attitudes Addressed
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Cooperation
+                    </td>
+                    <td>
+                        Able to cooperate, collaborate, and lead or follow as situation demands
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Att_Co_Accom", @Model.Prog_Att_Co_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Att_Co_Prog", @Model.Prog_Att_Co_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Att_Co_Encour", @Model.Prog_Att_Co_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Integrity
+                    </td>
+                    <td>
+                        Able to be honest and demonstrate a sense of fairness
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Att_Int_Accom", @Model.Prog_Att_Int_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Att_Int_Prog", @Model.Prog_Att_Int_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Att_Int_Encour", @Model.Prog_Att_Int_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Empathy
+                    </td>
+                    <td>
+                        Able to imagine themselves in another's situation so as to be open-minded and reflective
+                        about the perspectives of others
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Att_Emp_Accom", @Model.Prog_Att_Emp_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Att_Emp_Prog", @Model.Prog_Att_Emp_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Att_Emp_Encour", @Model.Prog_Att_Emp_Encour)
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="DevelopmentofLearnerProfile" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Strives To Be
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Principled
+                    </td>
+                    <td>
+                        Able to be honest, respect others, take responsibility for their own actions & its
+                        consequences
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dlp_pri_Accom", @Model.Prog_Dlp_pri_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dlp_pri_Prog", @Model.Prog_Dlp_pri_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dlp_pri_Encour", @Model.Prog_Dlp_pri_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Caring
+                    </td>
+                    <td>
+                        Able to show empathy, show compassion towards the feelings of others
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dlp_Car_Accom", @Model.Prog_Dlp_Car_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dlp_Car_Prog", @Model.Prog_Dlp_Car_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Prog_Dlp_Car_Encour", @Model.Prog_Dlp_Car_Encour)
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="tabs-TWWA">
+            <table width="100%">
+                <tr style="height: 25px">
+                    <td colspan="5" align="center">
+                        <h3>
+                            <span><b><u>Theme – Who we are</u></b></span></h3>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="Whoweare" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Lines Of Inquiry
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Concept of home
+                    </td>
+                    <td>
+                        Able to express his or her understanding of what a home is and present the type
+                        of home that reflects who he or she is
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_ch_Accom", @Model.Wwa_ch_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_ch_Prog", @Model.Wwa_ch_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_ch_Encour", @Model.Wwa_ch_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Homes in different culture
+                    </td>
+                    <td>
+                        Able to research and compare homes in different cultures
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_hdc_Accom", @Model.Wwa_hdc_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_hdc_Prog", @Model.Wwa_hdc_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_hdc_Encour", @Model.Wwa_hdc_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Circumstances that determine where people live
+                    </td>
+                    <td>
+                        Able to identify factors that influence where people live and what their homes are
+                        like
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_dwpl_Accom", @Model.Wwa_dwpl_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_dwpl_Prog", @Model.Wwa_dwpl_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_dwpl_Encour", @Model.Wwa_dwpl_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx" style="height: 25px">
+                    <td>
+                        Comments:
+                    </td>
+                    <td colspan="5">
+                        @Html.TextArea("Wwa_Com", new { rows = 4, cols = 150, @class = "CSSTextArea", @maxlength = "200" })
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="DevelopmentofSkills2" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Social Skills
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Respecting others
+                    </td>
+                    <td>
+                        Able to listen sensitively to others, recognize that others' beliefs, viewpoints,
+                        religions and ideas may differ from one's own
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Ds_res_Accom", @Model.Wwa_Ds_res_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Ds_res_Prog", @Model.Wwa_Ds_res_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Ds_res_Encour", @Model.Wwa_Ds_res_Encour)
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="DevelopmentofSkills3" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Research Skills
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Collecting data
+                    </td>
+                    <td>
+                        Able to gather information from a variety of first-and second-hand sources such
+                        as maps, surveys, direct observation, books, people and ICT
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Ds_col_Accom", @Model.Wwa_Ds_col_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Ds_col_Prog", @Model.Wwa_Ds_col_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Ds_col_Encour", @Model.Wwa_Ds_col_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Organizing data
+                    </td>
+                    <td>
+                        Able to sort and categorize information, arrange into understandable form
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Ds_ord_Accom", @Model.Wwa_Ds_ord_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Ds_ord_Prog", @Model.Wwa_Ds_ord_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Ds_ord_Encour", @Model.Wwa_Ds_ord_Encour)
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="Attitudes1" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Attitudes Addressed
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Respect
+                    </td>
+                    <td>
+                        Able to respect themselves, others and the world around them
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Att_resp_Accom", @Model.Wwa_Att_resp_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Att_resp_Prog", @Model.Wwa_Att_resp_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Att_resp_Encour", @Model.Wwa_Att_resp_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Tolerance
+                    </td>
+                    <td>
+                        Able to be sensitive about differences and diversity in the world
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Att_Tol_Accom", @Model.Wwa_Att_Tol_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Att_Tol_Prog", @Model.Wwa_Att_Tol_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Att_Tol_Encour", @Model.Wwa_Att_Tol_Encour)
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="DevelopmentofLearnerProfile1" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Strives To Be
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Open-minded
+                    </td>
+                    <td>
+                        Able to be open to the perspectives, values and traditions of other individuals
+                        and communities
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Dlp_Om_Accom", @Model.Wwa_Dlp_Om_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Dlp_Om_Prog", @Model.Wwa_Dlp_Om_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Dlp_Om_Encour", @Model.Wwa_Dlp_Om_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Reflective
+                    </td>
+                    <td>
+                        Able to give thoughtful consideration to their own learning and experience
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Dlp_Ref_Accom", @Model.Wwa_Dlp_Ref_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Dlp_Ref_Prog", @Model.Wwa_Dlp_Ref_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wwa_Dlp_Ref_Encour", @Model.Wwa_Dlp_Ref_Encour)
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="tabs-THWEO">
+            <table width="100%">
+                <tr style="height: 25px">
+                    <td colspan="5" align="center">
+                        <h3>
+                            <span><b><u>Theme – How we express ourselves</u></b></span></h3>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="Howweexpressourselves" width="100%">
+                <tr>
+                    <th style="width: 30%">
+                        Lines Of Inquiry
+                    </th>
+                    <th style="width: 40%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Ideas through facial expressions
+                    </td>
+                    <td>
+                        Able to use appropriate mudras and expressions to convey a message
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_ife_Accom", @Model.Hwe_ife_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_ife_Prog", @Model.Hwe_ife_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_ife_Encour", @Model.Hwe_ife_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Combining music and dance movements to tell a story
+                    </td>
+                    <td>
+                        Able to express the five elements of nature through mudras and saptaswaras
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_mts_Accom", @Model.Hwe_mts_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_mts_Prog", @Model.Hwe_mts_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_mts_Encour", @Model.Hwe_mts_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Different music and dance forms
+                    </td>
+                    <td>
+                        Able to identify different forms of dance and music
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_mdf_Accom", @Model.Hwe_mdf_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_mdf_Prog", @Model.Hwe_mdf_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_mdf_Encour", @Model.Hwe_mdf_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx" style="height: 25px">
+                    <td>
+                        Comments:
+                    </td>
+                    <td colspan="5">
+                        @Html.TextArea("Hwe_Com", new { rows = 4, cols = 150, @class = "CSSTextArea", @maxlength = "200" })
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="DevelopmentofSkills4" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Communication Skills
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Speaking
+                    </td>
+                    <td>
+                        Able to express ideas clearly and logically
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Ds_Sp_Accom", @Model.Hwe_Ds_Sp_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Ds_Sp_Prog", @Model.Hwe_Ds_Sp_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Ds_Sp_Encour", @Model.Hwe_Ds_Sp_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Non-verbal communication
+                    </td>
+                    <td>
+                        Able to recognize the meaning of visual and kinesthetic communication
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Ds_Nvc_Accom", @Model.Hwe_Ds_Nvc_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Ds_Nvc_Prog", @Model.Hwe_Ds_Nvc_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Ds_Nvc_Encour", @Model.Hwe_Ds_Nvc_Encour)
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="DevelopmentofSkills5" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Self - Management Skill
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Gross motor skills
+                    </td>
+                    <td>
+                        Able to exhibit skills in which groups of large muscles are used
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Ds_Gms_Accom", @Model.Hwe_Ds_Gms_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Ds_Gms_Prog", @Model.Hwe_Ds_Gms_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Ds_Gms_Encour", @Model.Hwe_Ds_Gms_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Organization
+                    </td>
+                    <td>
+                        Able to plan and carry out activities effectively
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Ds_Org_Accom", @Model.Hwe_Ds_Org_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Ds_Org_Prog", @Model.Hwe_Ds_Org_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Ds_Org_Encour", @Model.Hwe_Ds_Org_Encour)
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="Attitudes3" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Attitudes Addressed
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Creativity
+                    </td>
+                    <td>
+                        Able to be creative and imaginative in their thinking and in their approach
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Att_Cre_Accom", @Model.Hwe_Att_Cre_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Att_Cre_Prog", @Model.Hwe_Att_Cre_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Att_Cre_Encour", @Model.Hwe_Att_Cre_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Appreciation
+                    </td>
+                    <td>
+                        Able to appreciate the wonder and beauty of the world and its people
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Att_App_Accom", @Model.Hwe_Att_App_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Att_App_Prog", @Model.Hwe_Att_App_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Att_App_Encour", @Model.Hwe_Att_App_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Confidence
+                    </td>
+                    <td>
+                        Able to feel confident in their actions as learners
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Att_Conf_Accom", @Model.Hwe_Att_Conf_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Att_Conf_Prog", @Model.Hwe_Att_Conf_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Att_AppHwe_Att_Conf_Encour_Encour", @Model.Hwe_Att_Conf_Encour)
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="DevelopmentofLearnerProfile3" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Strives To Be
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Risk-taker
+                    </td>
+                    <td>
+                        Able to approach unfamiliar situations with courage and forethought
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Dlp_Rt_Accom", @Model.Hwe_Dlp_Rt_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Dlp_Rt_Prog", @Model.Hwe_Dlp_Rt_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Dlp_Rt_Encour", @Model.Hwe_Dlp_Rt_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Communicator
+                    </td>
+                    <td>
+                        Able to understand and express ideas and information confidently and creatively
+                        using a variety of modes of communication
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Dlp_Com_Accom", @Model.Hwe_Dlp_Com_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Dlp_Com_Prog", @Model.Hwe_Dlp_Com_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Hwe_Dlp_Com_Encour", @Model.Hwe_Dlp_Com_Encour)
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="tabs-AC">
+            <table width="100%">
+                <tr style="height: 25px">
+                    <td colspan="5" align="center">
+                        <h3>
+                            <span><b><u>Applied Computers</u></b></span></h3>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="AppliedComputers" width="100%">
+                <tr>
+                    <th colspan="2" style="width: 10%">
+                        Module : PC
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Software Application
+                    </td>
+                    <td>
+                        Microsoft Paint
+                    </td>
+                    <td>
+                        Able to identify the parts of computer in addition to mouse skills
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Ac_Sa_Accom", @Model.Ac_Sa_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Ac_Sa_Prog", @Model.Ac_Sa_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Ac_Sa_Encour", @Model.Ac_Sa_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Technical skills
+                    </td>
+                    <td>
+                        Graphics
+                    </td>
+                    <td>
+                        Able to identify the tools in Microsoft Paint and use them appropriately
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Ac_Ts_Accom", @Model.Ac_Ts_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Ac_Ts_Prog", @Model.Ac_Ts_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Ac_Ts_Encour", @Model.Ac_Ts_Encour)
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="tabs-PEC">
+            <table width="100%">
+                <tr style="height: 25px">
+                    <td colspan="5" align="center">
+                        <h3>
+                            <span><b><u>Physical Education Cycling </u></b></span>
+                        </h3>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="PhysicalEducationCycling" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Key Elements
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Starting
+                    </td>
+                    <td>
+                        Able to place legs astride the cycle and sit on the saddle with one foot on the
+                        ground
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pec_Sta_Accom", @Model.Pec_Sta_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pec_Sta_Prog", @Model.Pec_Sta_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pec_Sta_Encour", @Model.Pec_Sta_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Stopping
+                    </td>
+                    <td>
+                        Able to apply the brakes evenly, bringing the cycle to a smooth stop, with one foot
+                        resting on the ground
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pec_Stop_Accom", @Model.Pec_Stop_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pec_Stop_Prog", @Model.Pec_Stop_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pec_Stop_Encour", @Model.Pec_Stop_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Riding
+                    </td>
+                    <td>
+                        Able to ride the cycle on a smooth path in the direction that it is steered without
+                        having to leave the sitting position on the seat
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pec_Rid_Accom", @Model.Pec_Rid_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pec_Rid_Prog", @Model.Pec_Rid_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pec_Rid_Encour", @Model.Pec_Rid_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Looking
+                    </td>
+                    <td>
+                        Able to look back over the left shoulder while being careful not to run into any
+                        obstacles
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pec_Loo_Accom", @Model.Pec_Loo_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pec_Loo_Prog", @Model.Pec_Loo_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pec_Loo_Encour", @Model.Pec_Loo_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Riding One Handed
+                    </td>
+                    <td>
+                        Able to ride on a smooth surface with one hand on the handle bar and using the other
+                        hand to show signals
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pec_Roh_Accom", @Model.Pec_Roh_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pec_LPec_Roh_Progoo_Prog", @Model.Pec_Roh_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pec_Roh_Encour", @Model.Pec_Roh_Encour)
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="tabs-SW">
+            <table width="100%">
+                <tr style="height: 25px">
+                    <td colspan="5" align="center">
+                        <h3>
+                            <span><b><u>Swimming</u></b></span></h3>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="Swimming" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Key Elements
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Bobbing
+                    </td>
+                    <td>
+                        Able to go under the surface of the water, touch the bottom with the feet and push
+                        back up to the surface
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Sw_bob_Accom", @Model.Sw_bob_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Sw_bob_Prog", @Model.Sw_bob_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Sw_bob_Encour", @Model.Sw_bob_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Leg beat holding the wall
+                    </td>
+                    <td>
+                        Able to hold the wall, with the body in streamline position and slow alternate leg
+                        movement
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Sw_lbhw_Accom", @Model.Sw_lbhw_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Sw_lbhw_Prog", @Model.Sw_lbhw_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Sw_lbhw_Encour", @Model.Sw_lbhw_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Leg beat without holding the wall
+                    </td>
+                    <td>
+                        Able to do leg movement without holding the wall with the body in streamline position
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Sw_lbwoh_Accom", @Model.Sw_lbwoh_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Sw_lbwoh_Prog", @Model.Sw_lbwoh_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Sw_lbwoh_Encour", @Model.Sw_lbwoh_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Floating
+                    </td>
+                    <td>
+                        Able to push-off the wall and float low in the water with body in stream line position
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Sw_flo_Accom", @Model.Sw_flo_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Sw_flo_Prog", @Model.Sw_flo_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Sw_flo_Encour", @Model.Sw_flo_Encour)
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="tabs-TAF">
+            <table width="100%">
+                <tr style="height: 25px">
+                    <td colspan="5" align="center">
+                        <h3>
+                            <span><b><u>Track and Field</u></b></span></h3>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="TrackandField" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Key Elements
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Sprint
+                    </td>
+                    <td>
+                        Able to cover a short distance at top speed with minimum timing
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Tf_Sp_Accom", @Model.Tf_Sp_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Tf_Sp_Prog", @Model.Tf_Sp_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Tf_Sp_Encour", @Model.Tf_Sp_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Hurdle
+                    </td>
+                    <td>
+                        Able to jump a series of barriers without breaking of stride with proper clearance
+                        of hurdle
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Tf_Hur_Accom", @Model.Tf_Hur_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Tf_Hur_Prog", @Model.Tf_Hur_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Tf_Hur_Encour", @Model.Tf_Hur_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Shot put
+                    </td>
+                    <td>
+                        Able to cover maximum distance by throwing the shot put as far as possible with
+                        proper style
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Tf_Shp_Accom", @Model.Tf_Shp_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Tf_Shp_Prog", @Model.Tf_Shp_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Tf_Shp_Encour", @Model.Tf_Shp_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Relay
+                    </td>
+                    <td>
+                        Able to receive and pass the baton within the group and cover the distance with
+                        speed
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Tf_Rel_Accom", @Model.Tf_Rel_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Tf_Rel_Prog", @Model.Tf_Rel_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Tf_Rel_Encour", @Model.Tf_Rel_Encour)
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="tabs-PAM">
+            <table width="100%">
+                <tr style="height: 25px">
+                    <td colspan="5" align="center">
+                        <h3>
+                            <span><b><u>Performing Arts Music </u></b></span>
+                        </h3>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="PerformingArtsMusic" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Key Elements
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Adhara sruthi
+                    </td>
+                    <td>
+                        Able to sing Adhara sruthi in an appropriate manner and learn the basics of music
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pam_As_Accom", @Model.Pam_As_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pam_As_Prog", @Model.Pam_As_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pam_As_Encour", @Model.Pam_As_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Saptha swaras
+                    </td>
+                    <td>
+                        Able to sing saptha swaras with sruthi and talam with breath control in two different
+                        tempos
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pam_Ss_Accom", @Model.Pam_Ss_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pam_Ss_Prog", @Model.Pam_Ss_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pam_Ss_Encour", @Model.Pam_Ss_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Practicing integrated songs
+                    </td>
+                    <td>
+                        Able to sing a song in group or individually
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pam_Pis_Accom", @Model.Pam_Pis_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pam_Pis_Prog", @Model.Pam_Pis_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pam_Pis_Encour", @Model.Pam_Pis_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Practicing theme songs
+                    </td>
+                    <td>
+                        Able to understand the meaning of the song and sing
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pam_Pts_Accom", @Model.Pam_Pts_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pam_Pts_Prog", @Model.Pam_Pts_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Pam_Pts_Encour", @Model.Pam_Pts_Encour)
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="tabs-WD">
+            <table width="100%">
+                <tr style="height: 25px">
+                    <td colspan="5" align="center">
+                        <h3>
+                            <span><b><u>Western Dance</u></b></span>
+                        </h3>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="Western Dance" width="100%">
+                <tr>
+                    <th style="width: 10%">
+                        Key Elements
+                    </th>
+                    <th style="width: 50%">
+                        Expectations
+                    </th>
+                    <th style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th style="width: 10%">
+                        Progressing
+                    </th>
+                    <th style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Body Movements
+                    </td>
+                    <td>
+                        Able to move their body to their right, left, forward and backward
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wd_Bm_Accom", @Model.Wd_Bm_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wd_Bm_Prog", @Model.Wd_Bm_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wd_Bm_Encour", @Model.Wd_Bm_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Combination of moves
+                    </td>
+                    <td>
+                        Able to do combination of moves with hands and kick, jump kick, jump and raise
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wd_Cm_Accom", @Model.Wd_Cm_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wd_Cm_Prog", @Model.Wd_Cm_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wd_Cm_Encour", @Model.Wd_Cm_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        8 and 16 count movements
+                    </td>
+                    <td>
+                        Able to perform 8 and 16 count dance moves
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wd_acm_Accom", @Model.Wd_acm_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wd_acm_Prog", @Model.Wd_acm_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wd_acm_Encour", @Model.Wd_acm_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Dance for music and song
+                    </td>
+                    <td>
+                        Able to perform a dance to the music and song
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wd_Dms_Accom", @Model.Wd_Dms_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wd_Dms_Prog", @Model.Wd_Dms_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Wd_Dms_Encour", @Model.Wd_Dms_Encour)
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="tabs-CD">
+            <table width="100%">
+                <tr style="height: 25px">
+                    <td colspan="5" align="center">
+                        <h3>
+                            <span><b><u>Classical Dance</u></b></span>
+                        </h3>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="AchmntRpt" id="ClassicalDance" width="100%">
+                <tr>
+                    <th colspan="2" style="width: 10%">
+                        Key Elements
+                    </th>
+                    <th rowspan="2" style="width: 50%">
+                        Expectations
+                    </th>
+                    <th rowspan="2" style="width: 10%">
+                        Accomplished
+                    </th>
+                    <th rowspan="2" style="width: 10%">
+                        Progressing
+                    </th>
+                    <th rowspan="2" style="width: 10%">
+                        Needs<br />
+                        Encouragement
+                    </th>
+                </tr>
+                <tr class="AchmntRpt">
+                    <th style="text-align: center; background-color: #B6B6B6;">
+                        Practical
+                    </th>
+                    <th class="AchmntRpt">
+                        Theory
+                    </th>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="3" style="text-align: center">
+                        Body Movements
+                    </td>
+                    <td rowspan="3">
+                        Asamyuktha Hastham & meaning
+                    </td>
+                    <td>
+                        Able to move the body according to the talam
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Bm_Ahm_Amba_Accom", @Model.Cd_Bm_Ahm_Amba_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Bm_Ahm_Amba_Prog", @Model.Cd_Bm_Ahm_Amba_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Bm_Ahm_Amba_Encour", @Model.Cd_Bm_Ahm_Amba_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Able to show 21 mudras
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Bm_Asm_Accom", @Model.Cd_Bm_Asm_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Bm_Asm_Prog", @Model.Cd_Bm_Asm_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Bm_Asm_Encour", @Model.Cd_Bm_Asm_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Able to explain 5 mudras
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Bm_Aem_Accom", @Model.Cd_Bm_Aem_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Bm_Aem_Prog", @Model.Cd_Bm_Aem_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Bm_Aem_Encour", @Model.Cd_Bm_Aem_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td rowspan="2" style="text-align: center">
+                        Basic steps (lesson 1&2)
+                    </td>
+                    <td rowspan="2">
+                        Poses (karanas)
+                    </td>
+                    <td>
+                        Able to do half sitting with proper hand mudras and facial expressions
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Bm_Po_Afe_Accom", @Model.Cd_Bm_Po_Afe_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Bm_Po_Afe_Prog", @Model.Cd_Bm_Po_Afe_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Bm_Po_Afe_Encour", @Model.Cd_Bm_Po_Afe_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td>
+                        Able to show different poses of Lord Siva
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Bm_Po_Pls_Accom", @Model.Cd_Bm_Po_Pls_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Bm_Po_Pls_Prog", @Model.Cd_Bm_Po_Pls_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Bm_Po_Pls_Encour", @Model.Cd_Bm_Po_Pls_Encour)
+                    </td>
+                </tr>
+                <tr class="chkbx">
+                    <td style="text-align: center">
+                        Folk steps
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        Able to present folk dance steps with appropriate music
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Fs_Accom", @Model.Cd_Fs_Accom)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Fs_Prog", @Model.Cd_Fs_Prog)
+                    </td>
+                    <td style="text-align: center">
+                        @Html.CheckBox("Cd_Fs_Encour", @Model.Cd_Fs_Encour)
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <table class="AchmntRpt" width="100%" id="AchievementUOI">
+        <tr style="background-color: #B6B6B6; height: 25px; color: White;">
+            <td colspan="2">
+                Grade level scale:
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 5%">
+                Accomplished
+            </th>
+            <td style="width: 95%">
+                Performance level and accomplishments far exceed the expectations. The student demonstrates
+                consistent clarity and quality in the thought process and work. The student consistently
+                meets all the core criteria and demonstrates complete understanding of the concepts
+                learned.
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 5%">
+                Progressing
+            </th>
+            <td style="width: 95%">
+                Performance level and accomplishments exceed the overall expectations. The student
+                meets all of the core criteria and demonstrates better than average level of understanding.
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 5%">
+                Needs Encouragement
+            </th>
+            <td style="width: 95%">
+                Performance level and accomplishments do not meet the overall expectations. The
+                student needs improvement in understanding of several core criteria. The student
+                requires further support in understanding and retention of the concepts learned.
+            </td>
+        </tr>
+    </table>
+
+
+}
+<div id="DivStudentSearch"></div>

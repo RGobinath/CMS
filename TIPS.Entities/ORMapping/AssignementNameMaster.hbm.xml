@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.AssignmentNameMaster" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AssignmentNameMaster, TIPS.Entities" table="AssignmentNameMaster" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <!--<property name="AssignmentName" column="AssignmentName" sql-type="nvarchar(200)" />-->
+    <property name="AssignmentName" type="string">
+      <column name="AssignmentName" sql-type="nvarchar(200)"/>
+    </property>
+    <property name="AssignmentCode" column="AssignmentCode" type="string" />
+    <property name="Description" column="Description" type="string" />
+    <property name="CreatedBy" column="CreatedBy" type="string"  />
+    <property name="CreatedDate" column="CreatedDate" type="string" />
+    <property name="UpdatedBy" column="UpdatedBy" type="string"  />
+    <property name="UpdatedDate" column="UpdatedDate" type="string" />
+    <property name="Campus" column="Campus" type="string" />
+    <property name="Grade" column="Grade" type="string" />
+    <property name="Subject" column="Subject" type="string" />
+    <property name="AcademicYear" column="AcademicYear" type="string" />
+    <property name="AssignmentType" column="AssignmentType" type="string" />
+  </class>
+</hibernate-mapping>

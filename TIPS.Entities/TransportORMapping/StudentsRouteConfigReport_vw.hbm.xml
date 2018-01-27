@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.TransportEntities.StudentsRouteConfigReport_vw" namespace="TIPS.Entities.TransportEntities">
+  <class name="TIPS.Entities.TransportEntities.StudentsRouteConfigReport_vw, TIPS.Entities" table="StudentsRouteConfigReport_vw" lazy="false">
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="TransportRequiredMale" column="TransportRequiredMale" type="Int64"></property>
+    <property name="TransportRequiredFemale" column="TransportRequiredFemale" type="Int64"></property>
+    <property name="TransportRequired" column="TransportRequired" type="Int64"></property>
+    
+    <property name="TransportNotRequiredMale" column="TransportNotRequiredMale" type="Int64"></property>
+    <property name="TransportNotRequiredFeMale" column="TransportNotRequiredFeMale" type="Int64"></property>
+    <property name="TransportNotRequired" column="TransportNotRequired" type="Int64"></property>
+
+    <property name="RouteAllocatedMale" column="RouteAllocatedMale" type="Int64"></property>
+    <property name="RouteAllocatedFeMale" column="RouteAllocatedFeMale" type="Int64"></property>
+    <property name="RouteAllocated" column="RouteAllocated" type="Int64"></property>
+
+    <property name="RouteNotAllocatedMale" column="RouteNotAllocatedMale" type="Int64"></property>
+    <property name="RouteNotAllocatedFeMale" column="RouteNotAllocatedFeMale" type="Int64"></property>
+    <property name="RouteNotAllocated" column="RouteNotAllocated" type="Int64"></property>
+  </class>
+</hibernate-mapping>

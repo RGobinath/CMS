@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "Performer Wise Issue Count Report";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Campus</b></label>
+                                        @Html.DropDownList("ddlCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlCampus", @Class = "form-control select-sm" })
+                                    </div>                                    
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Performer</b></label>
+                                        @Html.Hidden("viewbagPerformer","", new {@Value = ViewBag.UserId })
+                                        @Html.DropDownList("ddlPerformer", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlPerformer", @Class = "form-control select-sm" })
+                                    </div>                                                                        
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>From Date</b></label>
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBox("txtFromDate", "", new { @Class = "form-control" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>To Date</b></label>
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBox("txtToDate", "", new { @Class = "form-control" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-primary btn-info btn-block btn-sm" type="button" id="btnSearch">
+                                            <i class="ace-icon fa fa-search white"></i>Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <br />
+                                        <button class="btn btn-danger btn-warning btn-block btn-sm" type="reset" id="btnReset">
+                                            <i class="ace-icon fa fa-undo white"></i>Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-2">
+        </div>
+    </div>
+</div>
+<div class="row">
+
+    <!-- PAGE CONTENT BEGINS -->
+    @*<div class="col-sm-6" id="StaffIssueReportChartEmpty">
+            You Must Select Performer to View the Chart.
+        </div>*@
+    <div class="col-sm-8">
+        <table id="PerformerWiseIssueCountReportList">
+        </table>
+        <div id="PerformerWiseIssueCountReportListPager">
+        </div>
+    </div>
+    <div class="col-sm-4" id="StaffIssueReportChart">
+        @Html.Partial("PerformerWiseIssueCountReportChart")
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+
+</div>
+@*<div id="ShowCallDetails"></div>*@
+<script src="../../Scripts/Home/PerformerWiseIssueCountReport.js"></script>
+<script src="../../Content/flot/jquery.flot.js"></script>
+<script src="../../Content/flot/jquery.flot.pie.js"></script>
+<script src="../../Content/flot/jquery.flot.orderBars.js"></script>

@@ -1,0 +1,167 @@
+﻿@model TIPS.Entities.Assess.Assess360
+<html>
+<head>
+    <title></title>
+    <style type="text/css">
+        .red .ui-slider-range
+        {
+            background: #ef2929;
+        }
+        .red .ui-slider-handle
+        {
+            border-color: #ef2929;
+        }u
+        
+        .ui-progressbar.beginning .ui-progressbar-value
+        {
+            background: red;
+        }
+        .ui-progressbar.middle .ui-progressbar-value
+        {
+            background: yellow;
+        }
+        .ui-progressbar.end .ui-progressbar-value
+        {
+            background: green;
+        }
+    </style>
+    <script type="text/javascript" language="javascript">
+        function loadStudentMarksDtlsLst(CompId) {
+            return false;
+            $('#StudentMarksDtlsLst').clearGridData();
+            if ($('#StudentMarksDtlsLst').hide()) {
+                $('#StudentMarksDtlsLst').show();
+            }
+            LoadSetGridParam($('#StudentMarksDtlsLst'),
+                 "/Assess360/GetAssess360ComponentListWithPagingAndCriteria?Assess360Id=" + $('#Id').val() + "&compId=" + CompId);
+        }
+    </script>
+</head>
+<body style="width: 100%">
+    <div id="StudentMarksTab">
+        <div class="page-content">
+            <!-- /section:settings.box -->
+            <div class="page-content-area">
+                <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+                <div class="row">
+                    <div class="col-xs-12 widget-container-col">
+                        <div class="widget-box widget-color-CustomizeBlue">
+                            <div class="widget-header widget-header-flat widget-header-small">
+                                <div class="PanelHeader">
+                                    <i class="fa fa-list-alt"></i>&nbsp;Student Marks</div>
+                                <div class="widget-toolbar">
+                                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main no-padding">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-12">
+                                            <label for="form-field-mask-1">
+                                                <b>Marks Awarded :</b></label>
+                                            <b><span id="MarksAwarded" style="color: red; background-color: white;"></span></b>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-1">
+                                        </div>
+                                        <div class="col-sm-11">
+                                            <div id="progressbar" class="red" style="width: 90%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-2"></div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-5">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="col-sm-4">
+                                                        <center>
+                                                            <a onclick="return loadStudentMarksDtlsLst(1)">Character/ Behaviour
+                                                                <br />
+                                                                (20)</a>
+                                                            <div id="CharacterChart">
+                                                            </div>
+                                                        </center>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <center>
+                                                            <a onclick="return loadStudentMarksDtlsLst(2)">Attendnce/ Punctuality<br />
+                                                                (10)</a>
+                                                            <div id="AttendncePunctualityChart">
+                                                            </div>
+                                                        </center>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <center>
+                                                            <a onclick="return loadStudentMarksDtlsLst(3)">Homework Completion<br />
+                                                                (05)</a>
+                                                            <div id="HomeworkCompletionChart">
+                                                            </div>
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="col-sm-4">
+                                                        <center>
+                                                            <a onclick="return loadStudentMarksDtlsLst(4)">Homework Accuracy
+                                                                <br />
+                                                                (15)</a>
+                                                            <div id="HomeworkAccuracyChart">
+                                                            </div>
+                                                        </center>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <center>
+                                                            <a onclick="return loadStudentMarksDtlsLst(5)">Weekly/Chapter Tests
+                                                                <br />
+                                                                (20)</a>
+                                                            <div id="WeeklyChapterTestsChart">
+                                                            </div>
+                                                        </center>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <center>
+                                                            <a onclick="return loadStudentMarksDtlsLst(7)">Terms Assessment
+                                                                <br />
+                                                                (25)</a>
+                                                            <div id="TermsAssessmentChart">
+                                                            </div>
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <center>
+                                                <a onclick="return loadStudentMarksDtlsLst(6)">SLC Parent Assessment
+                                                    <br />
+                                                    (05)</a>
+                                                <div id="SLCParentAssessmentChart">
+                                                </div>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="../../Scripts/FusionCharts/FusionCharts.js" type="text/javascript"></script>

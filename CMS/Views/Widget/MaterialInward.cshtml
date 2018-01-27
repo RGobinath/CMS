@@ -1,0 +1,41 @@
+﻿<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#MaterialInward').jqGrid({
+            url: '/Widget/MaterialInwardjqgrid',
+            datatype: 'Json',
+            type: 'GET',
+            width: 350,
+            height: 140,
+            colNames: ['Id', 'InwardNumber', 'Items Count', 'Supplier', 'ReceivedBy','Status'],
+            colModel: [
+            { name: 'Id', index: 'Id', hidden: true,key:true },
+            { name: 'InwardNumber', index: 'InwardNumber', width: 100, align: "center", formatter: formateadorLink },
+            { name: 'TotalCount', index: 'TotalCount', width: 70, align: "center" },
+            { name: 'Supplier', index: 'Supplier', width: 70 },
+            { name: 'ReceivedBy', index: 'ReceivedBy', width: 70,hidden: true },
+            { name: 'Status', index: 'Status', width: 70 }, ],
+            rowNum: 7,
+            rowList: [7, 10, 20],
+            sortorder: 'Asc',
+            sortname: 'InwardNumber',
+            pager: 'MaterialInwardPager'
+        });
+        $('#MaterialInward').jqGrid('filterToolbar', { searchOnEnter: true, enableClear: false });
+    });
+    function formateadorLink(cellvalue, options, rowObject) {
+        if (rowObject[5] == "Open") {
+            return "<a href=/Store/MaterialInward?Id=" + rowObject[0] + ">" + cellvalue + "</a>";
+        }
+        else {
+            return "<a href=/Store/ShowMaterialInward?Id=" + rowObject[0] + ">" + cellvalue + "</a>";
+        }
+    }
+</script>
+<div id="MaterialInwardDetails">
+    <table id="MaterialInward">
+    </table>
+    <div id="MaterialInwardPager">
+    </div>
+</div>

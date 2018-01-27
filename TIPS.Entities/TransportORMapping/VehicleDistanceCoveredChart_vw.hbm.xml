@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.VehicleDistanceDoveredChart_vw" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.VehicleDistanceCoveredChart_vw, TIPS.Entities" table="VehicleDistanceCoveredChart_vw" lazy="true" >
+    <cache usage="read-write"/>
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="Type"><column name="Type" sql-type="nvarchar" /></property>
+    <property name="VehicleNo"><column name="VehicleNo" sql-type="nvarchar" /></property>
+    <property name="VehicleId"><column name="VehicleId" sql-type="nvarchar" /></property>
+    <property name="Year"><column name="Year" sql-type="int" /> </property>
+    <property name="Jan"><column name="Jan" sql-type="decimal"/></property>
+    <property name="Feb"><column name="Feb" sql-type="decimal"/></property>
+    <property name="Mar"><column name="Mar" sql-type="decimal"/></property>
+    <property name="Apr"><column name="Apr" sql-type="decimal"/></property>
+    <property name="May"><column name="May" sql-type="decimal"/></property>
+    <property name="Jun"><column name="Jun" sql-type="decimal"/></property>
+    <property name="Jul"><column name="Jul" sql-type="decimal"/></property>
+    <property name="Aug"><column name="Aug" sql-type="decimal"/></property>
+    <property name="Sep"><column name="Sep" sql-type="decimal"/></property>
+    <property name="Oct"><column name="Oct" sql-type="decimal"/></property>
+    <property name="Nov"><column name="Nov" sql-type="decimal"/></property>
+    <property name="Dec"><column name="Dec" sql-type="decimal"/></property>
+    <property name="TotalDistance"><column name="TotalDistance" sql-type="decimal" /></property>
+  </class>
+</hibernate-mapping>

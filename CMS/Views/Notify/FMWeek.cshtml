@@ -1,0 +1,229 @@
+﻿@model TIPS.Entities.ParentPortalEntities.FMWeeks
+@{
+    ViewBag.Title = "Campus Food Menu";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<h3>
+    Campus Food Menu</h3>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#addNFM").click(function () {
+            window.location.href = "/Notify/AddNewFoodMenu";
+        });
+
+        $.getJSON("/Notify/FillCampusList",
+     function (fillbc) {
+         var ddlbc = $("#ddlBranchCode");
+         ddlbc.empty();
+         ddlbc.append($('<option/>',
+        {
+            value: "",
+            text: "Select One"
+
+        }));
+
+         $.each(fillbc, function (index, itemdata) {
+             if (itemdata.Text == '@Model.Campus') {
+                 ddlbc.append("<option value='" + itemdata.Value + "' selected='selected'>" + itemdata.Text + "</option>");
+             }
+             else {
+                 ddlbc.append($('<option/>',
+                 {
+                     value: itemdata.Value,
+                     text: itemdata.Text
+                 }));
+             }
+         });
+     });
+
+        jQuery("#FoodMenuList").jqGrid({
+
+            url: '@Url.Content("/Notify/FoodMenuListJqGrid")',
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'Campus', 'Month', 'Week', 'Day', 'BreakFast', 'LunchNonVeg', 'LunchVeg', 'Snacks', 'Notes', 'CreatedOn'],
+            colModel: [
+              { name: 'Id', index: 'Id', width: 70, hidden: true, key: true },
+              { name: 'Campus', index: 'Campus', width: 70 },
+              { name: 'Months', index: 'Months', width: 70 },
+              { name: 'Week', index: 'Week', width: 70 },
+              { name: 'Day', index: 'Day', width: 70 },
+              { name: 'BreakFast', index: 'BreakFast', width: 150 },
+              { name: 'LunchNonVeg', index: 'LunchNonVeg', width: 150 },
+              { name: 'LunchVeg', index: 'LunchVeg', width: 150 },
+              { name: 'Snacks', index: 'Snacks', width: 100 },
+              { name: 'Notes', index: 'Notes', width: 70 },
+              { name: 'CreatedOn', index: 'CreatedOn', width: 70 }
+              ],
+            pager: '#FoodMenuListPager',
+            rowNum: '20',
+            rowList: [5, 10, 20, 50, 100],
+            sortname: 'Id',
+            sortorder: 'asc',
+            height: '220',
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: ' FoodMenu List'
+        });
+        jQuery("#FoodMenuList").navGrid('#FoodMenuListPager', { add: false, edit: false, del: true, search: false },
+        {},
+        //  { url: '/Notify/EditFoodMenu/', left: '10%', top: '10%', height: '50%', width: 400, labelswidth: 60, closeAfterEdit: true, beforeSubmit: validate_edit, closeOnEscape: true, reloadAfterSubmit: true },        //edit options
+            {},
+            { url: '/Notify/DeleteFoodMenuList/' });
+        $("#FoodMenuList").jqGrid('navButtonAdd', '#FoodMenuListPager', {
+            caption: "Export To PDF",
+            onClickButton: function () {
+                window.open("FoodMenuListJqGrid" + '?rows=9999' +
+                         '&page=1' +
+                         '&sidx=Id' +
+                         '&sord=asc' +
+                         '&campus=' + $('#ddlBranchCode').val() +
+                         '&month=' + $('#ddlmonth').val() +
+                         '&week=' + $('#ddlWeek').val() +
+                         '&academicyear=' + $('#ddlacademicyear').val() +
+                         '&ExportType=PDF'
+                         );
+
+            }
+        });
+
+
+
+
+        $('#search').click(function () {
+
+            var campus = $('#ddlBranchCode').val();
+            var month = $('#ddlmonth').val();
+            var week = $('#ddlWeek').val();
+            var academicyear = $('#ddlacademicyear').val();
+
+            if (campus == "") { ErrMsg("Please fill the Campus"); return false; }
+            if (month == "") { ErrMsg("Please fill the Month"); return false; }
+            if (week == "") { ErrMsg("Please fill the week"); return false; }
+            if (academicyear == "") { ErrMsg("Please fill the Academic Year"); return false; }
+
+            $("#FoodMenuList").setGridParam(
+                {
+                    datatype: "json",
+                    url: '@Url.Content("~/Notify/FoodMenuListJqGrid")',
+                    postData: { campus: campus, month: month, week: week, academicyear: academicyear },
+                    page: 1
+                }).trigger("reloadGrid");
+        });
+        $('#reset').click(function () { window.location.href = '@Url.Action("FMWeek", "Notify")'; });
+
+
+
+    });
+
+</script>
+@using (Html.BeginForm())
+{
+    <table width="100%" border="1" cellspacing="2" cellpadding="3" class="WithBorderOnly">
+        <tr class="PanelHeading">
+            <td colspan="6" class="PanelHeading">
+                <b>Food Menu</b>
+                @Html.Hidden("SuccessNotifyMsg", "", new { id = "SuccessNotifyMsg", @Value = @TempData["SuccessNotifyCreation"] })
+                @Html.Hidden("SuccessNotifyMsgUpdate", "", new { id = "UpdateSuccessMsg", @Value = TempData["SuccessNotifyUpdate"] })
+                @Html.HiddenFor(model => model.Campus)
+                @Html.HiddenFor(model => model.Month)
+                @Html.HiddenFor(model => model.Notes)
+                @Html.HiddenFor(model => model.AcademicYear)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Campus
+            </td>
+            <td>
+                Month
+            </td>
+            <td>
+                AcademicYear
+            </td>
+            <td>
+                Week
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @if (Model != null)
+                {
+                    @Html.DropDownListFor(model => model.Campus, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "ddlBranchCode", @Class = "CSSDropDownList" })
+                    
+                }
+            </td>
+            <td>
+                @Html.DropDownList("month", new SelectList(new[] 
+                                            { 
+                                              new{Value="",Text="Select One"},
+                                              new{Value="January",Text="January"},
+                                              new{Value="February",Text="February"},
+                                              new{Value="March",Text="March"},
+                                              new{Value="April",Text="April"},
+                                              new{Value="May",Text="May"},
+                                              new{Value="June",Text="June"},
+                                              new{Value="July",Text="July"},
+                                              new{Value="August",Text="August"},
+                                              new{Value="September",Text="September"},
+                                              new{Value="October",Text="October"},
+                                              new{Value="November",Text="November"},
+                                              new{Value="December",Text="December"}
+               }, "Value", "Text", "Seleced"),
+           new { id = "ddlmonth", @Class = "CSSDropDownList" })
+            </td>
+            <td>
+                <select class="CSSDropDownList" id="ddlacademicyear">
+                    @foreach (var datelist in ViewBag.acadddl)
+                    {
+                        <option value="@datelist">@datelist</option>
+                    }
+                </select>
+               
+            </td>
+            <td>
+                @Html.DropDownList("weeks", new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Week1",Text="Week 1"},
+                                              new{Value="Week2",Text="Week 2"},
+                                              new{Value="Week3",Text="Week 3"},
+                                              new{Value="Week4",Text="Week 4"}
+                                          },
+                               "Value", "Text", "Seleced"), new { id = "ddlWeek", @Class = "CSSDropDownList" })
+            </td>
+            <td>
+                <button type="button" name="search" id="search" value="Search">
+                    Search
+                </button>
+            </td>
+            <td>
+                <button type="button" name="reset" id="reset" value="Reset">
+                    Reset
+                </button>
+            </td>
+        </tr>
+    </table>
+    <button type="button" name="btnAddNFM" id="addNFM" value="Add New Food Menu">
+        Add New Food Menu</button>
+    <br />
+    <table class="WithBorderOnly" width="100%">
+        <tr>
+            <td>
+                <table id="FoodMenuList" width="100%">
+                </table>
+                <div id="FoodMenuListPager">
+                </div>
+            </td>
+        </tr>
+    </table>
+}
+@*<div id="DivFoodMenuDays" title="Campus Food Menu">
+</div>
+*@

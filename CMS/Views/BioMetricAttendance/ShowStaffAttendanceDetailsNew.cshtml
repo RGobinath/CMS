@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "ShowStaffAttendanceDetails";
+    Layout = null;
+}
+
+@Html.Hidden("IdNumber", "", new { id = "PopUpIdNumber", @Value = ViewBag.IdNumber })
+@Html.Hidden("AttendanceFromDate", "", new { id = "PopUpAttendanceFromDate", @Value = ViewBag.AttendanceFromDate })
+@Html.Hidden("AttendanceToDate", "", new { id = "PopUpAttendanceToDate", @Value = ViewBag.AttendanceToDate })
+<div class="row">
+    <div class="col-sm-12">
+        <table id="StaffDailyAttendanceIOSummaryNewGrid">
+        </table>
+        <div id="StaffDailyAttendanceIOSummaryNewGridPager">
+        </div>
+    </div>
+</div>
+<div id="PopUpStaffAttendanceInOutDetails"></div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/BioMetricAttendance/ShowStaffAttendanceDetailsNew.js")"></script>

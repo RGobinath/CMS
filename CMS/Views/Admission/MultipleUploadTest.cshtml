@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "MultipleUploadTest";
+}
+
+
+<html>
+
+<head><title></title>
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                $("#submit").click(function () {
+
+                    var files = document.getElementById("uploadedFile").files;
+                    ;
+                    alert(files.filename);
+                    $.ajaxFileUpload({
+                        url: '/Admission/UploadDocuments',
+                        secureuri: false,
+                        fileElementId: 'uploadedFile',
+                        dataType: 'json',
+                        success: function (data, status) {
+
+                            jQuery("#DocumentList").setGridParam({ url: '/StaffManagement/Documentsjqgrid' }).trigger("reloadGrid");
+                            //                    $('#doctype').val('');
+                            //                    if (typeof data.result != 'undefined' && data.result != '') {
+                            //                        if (typeof data.success != 'undefined' && data.success == true) {
+                            //                            InfoMsg(data.result);
+                            //                        } else {
+                            //                            ErrMsg(data.result);
+                            //                        }
+                            //                    }
+                        },
+                        error: function (data, status, e) {
+                            //  grdDoc.setGridParam({ url: '/Assess360/DocumentsList' });
+                            //  $('#doctype').val('');
+                        }
+                    });
+                });
+            });
+        </script>
+</head>
+
+<body>
+@using (Html.BeginForm("MultipleUploadTest", "Admission", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+        <div class="row fileupload-buttonbar">
+            <div class="span7">
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="btn btn-success fileinput-button">
+                    <i class="icon-plus icon-white"></i>
+                    <span>Add files...</span>
+                    <input type="file" name="uploadedFile" id="uploadedFile" multiple="multiple" >
+                </span>
+                <button type="button" id="submit" class="btn btn-primary start">
+                    <i class="icon-upload icon-white"></i>
+                    <span>Start upload</span>
+                </button>
+                <button type="reset" class="btn btn-warning cancel">
+                    <i class="icon-ban-circle icon-white"></i>
+                    <span>Cancel upload</span>
+                </button>
+                <button type="button" class="btn btn-danger delete">
+                    <i class="icon-trash icon-white"></i>
+                    <span>Delete</span>
+                </button>
+                <input type="checkbox" class="toggle">
+            </div>
+            <!-- The global progress information -->
+            <div class="span5 fileupload-progress fade">
+                <!-- The global progress bar -->
+                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                    <div class="bar" style="width:0%;"></div>
+                </div>
+                <!-- The extended global progress information -->
+                <div class="progress-extended">&nbsp;</div>
+            </div>
+        </div>
+        <!-- The loading indicator is shown during file processing -->
+        <div class="fileupload-loading"></div>
+}
+
+
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="C:/Users/Vijay/Downloads/jQuery-File-Upload-jquery-ui/jQuery-File-Upload-jquery-ui/js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="C:/Users/Vijay/Downloads/jQuery-File-Upload-jquery-ui/jQuery-File-Upload-jquery-ui/js/jquery.fileupload.js"></script>
+<!-- The File Upload file processing plugin -->
+<script src="C:/Users/Vijay/Downloads/jQuery-File-Upload-jquery-ui/jQuery-File-Upload-jquery-ui/js/jquery.fileupload-fp.js"></script>
+<!-- The File Upload user interface plugin -->
+<script src="C:/Users/Vijay/Downloads/jQuery-File-Upload-jquery-ui/jQuery-File-Upload-jquery-ui/js/jquery.fileupload-ui.js"></script>
+<!-- The File Upload jQuery UI plugin -->
+<script src="C:/Users/Vijay/Downloads/jQuery-File-Upload-jquery-ui/jQuery-File-Upload-jquery-ui/js/jquery.fileupload-jui.js"></script>
+<!-- The main application script -->
+<script src="C:/Users/Vijay/Downloads/jQuery-File-Upload-jquery-ui/jQuery-File-Upload-jquery-ui/js/main.js"></script>
+
+</body>
+</html>

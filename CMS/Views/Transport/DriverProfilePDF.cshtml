@@ -1,0 +1,297 @@
+﻿@using TIPS.Entities.TransportEntities
+@model PrintDriverProfile
+@{
+    ViewBag.Title = " Application Form";
+    Layout = null;
+}
+<br />
+<style type="text/css">
+    .tbl_WithOutBrdr {
+        font-family: Verdana;
+        font-size: 15px;
+    }
+
+    .tbl_WithThickBrdr {
+        font-family: Calibri;
+        font-size: 15px;
+        border-collapse: collapse;
+        border: 2px solid black;
+        /*padding:1px 2px 1px 4px;*/
+        /*line-height: 20px;*/
+    }
+
+    .tr_BtmBrdr {
+        border-bottom: 2px solid black;
+    }
+
+    .tr_TopBrdr {
+        border-top: 2px solid black;
+    }
+
+    .tr_Brdr {
+        border-top: 2px solid black;
+        border-bottom: 2px solid black;
+    }
+
+    .page-break {
+        page-break-before: always;
+    }
+    /*.td_VerAlign
+    {
+        vertical-align: top;
+    }
+    td
+    {
+        padding-left:5px;
+        padding-right:4px;
+    }*/
+</style>
+
+
+<br />
+<br />
+<br />
+
+<table width="90%" align="center" class="tbl_WithOutBrdr">
+    <tr>
+        <td colspan="2">
+            <img width="100" height="50" src="@Model.TipsNaceLogo" alt="Tips Logo" />
+        </td>
+        <td style="font-size: 34px;" align="center">
+            <strong><b>The Indian Public School</b><br />
+            </strong>
+        </td>
+        <td width="89">
+            <img width="120" height="60" src="@Model.TipsLogo" alt="Tips Logo" />
+        </td>
+    </tr>
+</table>
+
+<br />
+<br />
+<br />
+<table width="100%" style="font-family: sans-serif; font-size: 25px;">
+    <tr>
+        <td bgcolor="#ccccb3" align="center" height="46"><b>Driver Profile</b></td>
+    </tr>
+</table>
+<br />
+<br />
+<table width="90%" border="1" align="center" class="tbl_WithThickBrdr" style="font-family: sans-serif; font-size: 18px;">
+
+    <tr bgcolor="#ECECEC" align="center" class="tr_BtmBrdr" >
+        <td colspan="8" height="40">
+            <b>PERSONAL DETAILS</b>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="7" height="45">
+            <b>Name:</b> @Model.Name<br />
+        </td>
+        <td width="204" rowspan="7" align="center">
+            <img src="@Url.Action("uploaddisplay1", "Transport", new { id = @Model.DriverRegNo })" id="image1" width= "150px" height="150px"/>
+        </td>
+    </tr>
+    <tr>
+        <td height="45" colspan="2"><b>Gender: </b> @Model.Gender
+        </td>
+        <td colspan="5">
+          <b>Date of Joining :</b>  @Model.DateOfJoin 
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="2">Contact Number
+        </td>
+        <td width="239" height="45"><b>Mobile#  :</b>@Model.PhoneNo
+        </td>
+        <td colspan="5">&nbsp;<b>ESI# :</b> @Model.ESINo
+        </td>
+    </tr>
+    <tr>
+        <td height="45"><b>Alternative# :</b> @Model.AltPhoneNo
+        </td>
+        <td colspan="5">&nbsp;<b>PF# :</b>  @Model.PFNo
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" height="45"><b>Native State:</b>@Model.NativeState
+        </td>
+        <td colspan="5" height="45"><b>Email Id:</b>@Model.EmailId
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" height="45"><b>Blood Group: </b>@Model.BGRP
+        </td>
+        <td colspan="5" height="45"><b>Marital Status: </b>@Model.MaritalStatus
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" height="45"><b>Date of Birth</b> @Model.Dob
+        </td>
+        <td colspan="5" height="45"><b>Age: </b>@Model.Age
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="3"><b>License Details</b>
+        </td>
+        <td colspan="7" height="45">
+            <b>License No :</b> @Model.LicenseNo
+        </td>
+    </tr>
+    <tr>
+        <td colspan="7" height="45">
+            <b>License Valid Date: </b>@Model.LicenseValDate
+        </td>
+    </tr>
+    <tr>
+        <td colspan="7" height="45">
+            <b>HTV Date: </b>@Model.NonTraLicenseValDate
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4" height="45"><b>Driver ID:</b> &nbsp @Model.DriverIdNo
+        </td>
+        <td colspan="4" height="45"><b>Driver Campus:</b> &nbsp @Model.Campus
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4" height="45">
+            <b>Bank Name :</b> @Model.BankName
+        </td>
+        <td colspan="4" height="45">
+            <b>Bank Account #:</b> @Model.BankAccountNumber
+        </td>
+    </tr>
+    <tr align="center" style="height: 10px;">
+        <td colspan="4" height="30">
+            <p><b>Present Address</b></p>
+        </td>
+        <td colspan="4" height="30">
+            <b>Permanent Address</b>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4" height="70">
+            @Model.PresentAddress
+        </td>
+        <td colspan="4" height="70">
+            @Model.PermanentAddress
+        </td>
+    </tr>
+    <tr>
+        <td width="134"><b>Emergency<br />
+            Contact  Person</b>
+            <br />
+
+        </td>
+        <td colspan="3">&nbsp;@Model.EmergencyContactPerson
+        </td>
+        <td width="119"><b>Emergency<br />
+            Contact No.<br /></b>
+
+        </td>
+        <td colspan="3">&nbsp;@Model.EmergencyContactNo
+        </td>
+    </tr>
+
+</table>
+<br />
+<br />
+<table width="100%" style="font-family: sans-serif; font-size: 25px;">
+    <tr>
+        <td bgcolor="#ccccb3" align="center" height="36"><b>Driver Family Details</b></td>
+    </tr>
+</table>
+<br />
+<br />
+<table width="90%"  border="1" align="center" class="tbl_WithThickBrdr" style="font-family: sans-serif; font-size: 19px;">
+
+    <tr bgcolor="#ECECEC" align="center" class="tr_BtmBrdr" style="height: 10px;">
+        <td bgcolor="#ECECEC" colspan="8" align="center" height="40">
+            <b>Family Details</b>
+        </td>
+    </tr>
+    <tr align="center" style="height: 36px;">
+        <td colspan="3" height="36px">Name
+        </td>
+        <td colspan="2" height="36px">Occupation
+        </td>
+        <td width="137" height="36px">Age(Years)
+        </td>
+        <td colspan="2" height="36px">Relationship
+        </td>
+    </tr>
+    @if (@Model.DriverFamilyDetailsList.Count > 0)
+    {
+        foreach (var @FamilyItem in @Model.DriverFamilyDetailsList)
+        {
+        <tr>
+            <td colspan="3" height="36" align="center">
+                @FamilyItem.FName
+            </td>
+            <td colspan="2" height="36" align="center">
+                @FamilyItem.FOccupation
+            </td>
+            <td height="36" align="center">
+                @FamilyItem.FAge
+            </td>
+            <td colspan="2" height="36" align="center">
+                @FamilyItem.FRelationship
+            </td>
+        </tr>
+        }
+    }
+    else
+    { 
+        <tr>
+            <td colspan="3">NILL
+            </td>
+            <td colspan="2">&nbsp;NILL
+            </td>
+            <td>&nbsp;NILL
+            </td>
+            <td colspan="2">&nbsp;NILL
+            </td>
+        </tr>
+    }
+</table>
+
+<br />
+<br />
+<br />
+<br />
+
+<table width="90%"  align="center" style="font-family: sans-serif; font-size: 15px;">
+    <tr bgcolor="#ECECEC" align="center" height="36">
+        <th width="30%" align="center" colspan="4">&nbsp&nbsp&nbsp&nbsp&nbsp 
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            Driver
+           
+        </th>
+       
+        <th width="30%" align="center" colspan="4">&nbsp&nbsp&nbsp&nbsp&nbsp
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            School Transport Officer
+        </th>
+        
+        <th width="30%" align="center" colspan="4">
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            Corporate Transport Officer
+        </th>
+    </tr>
+</table>

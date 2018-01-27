@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.CommunictionEntities.StaffSMSRecipientsInfo" namespace="TIPS.Entities.StaffSMSRecipientsInfo" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.CommunictionEntities.StaffSMSRecipientsInfo, TIPS.Entities" table="StaffSMSRecipientsInfo" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="SMSComposeId" column="SMSComposeId" type="Int64"></property>
+    <property name="Name" column="Name" type="string"></property>
+    <property name="IdNumber" column="IdNumber" type="string"></property>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Department" column="Department" type="string"></property>
+    <property name="Designation" column="Designation" type="string"></property>
+    <property name="Staff_Mobile" column="Staff_Mobile" type="string"></property>
+    <property name="SendSMS" column="SendSMS" type="bool"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="RecipientsCreatedDate" column="CreatedDate" type="DateTime"></property>
+    <property name="RecipientsModifiedDate" column="ModifiedDate" type="DateTime"></property>
+    <property name="MobileNumber" column="MobileNumber" type="string"></property>
+    <property name="SentSMSStatusWithTid" column="SentSMSStatusWithTid" type="string"></property>
+    <property name="SentSMSReportsWithStatus" column="SentSMSReportsWithStatus" type="string"></property>
+  </class>
+</hibernate-mapping>

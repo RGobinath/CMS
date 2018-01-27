@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "GridViewDynamicBinding";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <table id="grid-table">
+        </table>
+        <div id="grid-pager">
+        </div>
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+    <!-- /.col -->
+</div>
+<script type="text/javascript">
+    $.extend(
+$.jgrid.search,
+{
+    closeOnEscape: true,
+    closeAfterSearch: true,
+    //closeAfterReset:true,
+    overlay: 0,
+    Reset: "Reset",
+    Find: "Find"
+}
+);
+
+    var recordids = new Array();
+
+    jQuery(function ($) {
+        var grid_selector = "#grid-table";
+        var pager_selector = "#grid-pager";
+
+        //resize to fit page size
+        $(window).on('resize.jqGrid', function () {
+            $(grid_selector).jqGrid('setGridWidth', $(".page-content").width());
+        })
+        //resize on sidebar collapse/expand
+        var parent_column = $(grid_selector).closest('[class*="col-"]');
+        $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+            if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                setTimeout(function () {
+                    $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                }, 0);
+            }
+        })
+
+
+        var selaArrr = [];
+
+        jQuery(grid_selector).jqGrid({
+            multiselect: true,
+            url: "/TimeTable/GridRecords1",
+            datatype: "json",
+            //date: result,
+            height: 250,
+
+            //Here i need to bind the Controller Data,Column model,Column names dynamically But now i have to give 
+            colNames: ['ID', 'Institution Name'],
+            colModel: [
+            { name: 'institutionid',  sortable: true, sorttype: "int" },
+            { name: 'institutionname', sortable: true },
+            ],
+
+
+            viewrecords: true,
+            rowNum: 10,
+            height: '350px',
+            loadtext: "Processing pending request data please wait...",
+            rowList: [10, 20, 30],
+            pager: pager_selector,
+            reloadAfterSubmit: true,
+            altRows: true,
+            sortorder: "ASC",
+            loadonce: true,
+            //toppager: true,
+            scrollerbar: true,
+            //multikey: "ctrlKey",
+            multiboxonly: true,
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    //styleCheckbox(table);
+                    //updateActionIcons(table);
+                    //updatePagerIcons(table);
+                    //enableTooltips(table);
+                }, 0);
+            },
+            //editurl: "DeleteRecord",//nothing is saved
+            caption: "Registered Institutes"
+
+
+
+        });
+
+        $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+    });
+
+</script>

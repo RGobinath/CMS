@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.CommunictionEntities.ComposeSMSInfo" namespace="TIPS.Entities.CommunictionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.CommunictionEntities.ComposeSMSInfo, TIPS.Entities" table="ComposeSMSInfo" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="SMSReqId" column="SMSReqId" type="string"></property>
+    <property name="Father" column="Father" type="bool"></property>
+    <property name="Mother" column="Mother" type="bool"></property>
+    <property name="SMSTemplate" column="SMSTemplate" type="string"></property>
+    <property name="SMSTemplateValue" column="SMSTemplateValue" type="string"></property>
+    <property name="Message" column="Message" type="string"></property>
+    <property name="TemplateTerm" column="TemplateTerm" type="string"></property>
+    <property name="TemplateDate" column="TemplateDate" type="DateTime"></property>
+    <property name="Reason" column="Reason" type="string"></property>
+    <property name="Info" column="Info" type="string"></property>
+    <property name="Time" column="Time" type="string"></property>
+    <property name="ToDate" column="ToDate" type="DateTime"></property>
+    <property name="FromDate" column="FromDate" type="DateTime"></property>
+    <property name="IsSaveList" column="IsSaveList" type="bool"></property>
+    <property name="BulkSMSSent" column="BulkSMSSent" type="bool"></property>
+    <property name="Suspended" column="Suspended" type="bool"></property>
+    <property name="Status" column="Status" type="string"></property>
+    <property name="StudentName" column="StudentName" type="string"></property>
+    <property name="NewId" column="NewId" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="IsHosteller" column="IsHosteller" type="string"></property>
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>
+    <property name="AdmissionStatus" column="AdmissionStatus" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="ReasonForSuspend" column="ReasonForSuspend" type="string"></property>
+    <property name="CreatedBy" column="CreatedBy" type="string"></property>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"></property>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"></property>
+    <property name="ModifiedDate" column="ModifiedDate" type="DateTime"></property>
+    <property name="VanNo" column="VanNo" type="string"></property>
+    <property name="AppliedFromDate" column="AppliedFromDate" type="date"></property>
+	  <property name="AppliedToDate" column="AppliedToDate" type="date"></property>
+  </class>
+</hibernate-mapping>

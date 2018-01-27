@@ -1,0 +1,229 @@
+﻿@model TIPS.Entities.HRManagementEntities.LeaveRequest
+@{
+    ViewBag.Title = "ShowLeaveRequestDetails";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+
+        if ('@Model.Status' == "Complete" || '@Model.Status' == "Completed" || '@Model.Status' == "AcceptLeaveRequest" || '@Model.Status' == "LeaveRequestRejected") {
+            $('#txtDescription1').attr("disabled", true);
+            $('#txtResolutionDescription').attr("disabled", true);
+            $('#txtRejectionDetails').attr("disabled", true);
+            $('#txtDescription').attr("disabled", true);
+            $("#test").hide();
+        }
+
+
+        $("#CommentList").jqGrid({
+            url: '/HRManagement/LeaveRejectionGrid?Id=' + $('#Id').val(),
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Commented By', 'Commented On', 'Rejection Comments', 'Reply Comments'],
+            colModel: [
+            // { name: 'Issue Number', index: 'EntityRefId', sortable: false },
+              {name: 'CommentedBy', index: 'CommentedBy', sortable: false },
+              { name: 'CommentedOn', index: 'CommentedOn', sortable: false },
+              { name: 'RejectionComments', index: 'RejectionComments', sortable: false },
+              { name: 'ResolutionComments', index: 'ResolutionComments', sortable: false }
+             ],
+            rowNum: -1,
+            width: 610,
+            // autowidth: true,
+            height: 100,
+            sortname: 'EntityRefId',
+            sortorder: "desc",
+            viewrecords: true,
+            caption: 'Discussion Forum'
+        });
+
+        // go to the LeaveRequestGrid page...
+        $("#BacktoInbox").click(function () {
+            window.location.href = '@Url.Action("LeaveRequestGrid", "HRManagement")';
+        });
+    });
+
+</script>
+<h3>
+    Leave Request Details</h3>
+<table width="100%" class="WithBorderOnly">
+    <tr valign="top">
+        <td width="40%" valign="top">
+            <table width="100%" cellpadding="6" cellspacing="6">
+                <tr class="PanelHeading">
+                    <td colspan="2">
+                        Basic Details
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <label class="lblheader">
+                            Request Number</label>
+                    </td>
+                    <td>
+                        @Model.RequestNo
+                        @Html.HiddenFor(m => m.RequestNo)
+                        @Html.HiddenFor(m => m.Id)
+                        @Html.HiddenFor(m => m.InstanceId)
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <label class="lblheader">
+                            DateTime</label>
+                    </td>
+                    <td>
+                        @String.Format("{0:dd/MM/yyyy h:mm tt }", Model.CreateDate)
+                        @* // @Model.CreateDate*@
+                        @Html.HiddenFor(m => m.CreateDate)
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <label class="lblheader">
+                            Procesed By</label>
+                    </td>
+                    <td>
+                        @Model.ProcessedBy
+                        @Html.HiddenFor(m => m.ProcessedBy)
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <label class="lblheader">
+                            UserRole</label>
+                    </td>
+                    <td>
+                        @Model.UserRole
+                        @Html.HiddenFor(m => m.UserRole)
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <label class="lblheader">
+                            Status</label>
+                    </td>
+                    <td>@Model.Status
+                        @Html.HiddenFor(m => m.Status)
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <label class="lblheader">
+                            Staff Name</label>
+                    </td>
+                    <td>
+                        @Model.StaffName
+                        @Html.HiddenFor(m => m.StaffName)
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <label class="lblheader">
+                            Staff Id Number</label>
+                    </td>
+                    <td>
+                        @Model.StaffIdNumber
+                        @Html.HiddenFor(m => m.StaffIdNumber)
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <label class="lblheader">
+                            Campus</label>
+                    </td>
+                    <td>
+                        @Model.BranchCode
+                        @Html.HiddenFor(m => m.BranchCode)
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <label class="lblheader">
+                            Reporting Manager</label>
+                    </td>
+                    <td>@Model.ReportingManager
+                        @Html.HiddenFor(m => m.ReportingManager)
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <label class="lblheader">
+                            Type Of Leave</label>
+                    </td>
+                    <td>
+                        @Model.TypeOfLeave
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <label class="lblheader">
+                            Date Applying For Leave</label>
+                    </td>
+                    <td>
+                        From : @Model.DateFrom
+                        @Html.HiddenFor(m => m.DateFrom)&nbsp; To : @Model.DateTo
+                        @Html.HiddenFor(m => m.DateTo)
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <label class="lblheader">
+                            Total Number Of Leaves</label>
+                    </td>
+                    <td>@Model.NumberOfLeaves
+                        @Html.HiddenFor(m => m.NumberOfLeaves)
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td width="60%" valign="baseline">
+            <br />
+            <table width="90%">
+                <tr valign="top">
+                    <td width="40%">
+                        <label class="lblheader">
+                            Leave Description</label>
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.Description, new { rows = 3, cols = 65, id = "txtDescription", @class = "CSSTextArea", @readonly = "true" })
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <td width="40%">
+                        <label class="lblheader">
+                            Accept Comments</label>
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.ResolveComments, new { rows = 3, cols = 65, id = "txtResolutionDescription", @class = "CSSTextArea", @readonly = "true" })
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <td width="40%">
+                        <label class="lblheader">
+                            Rejection Comments</label>
+                    </td>
+                    <td>
+                        @Html.TextArea("txtRejectionDetails", new { rows = 3, cols = 65, id = "txtRejectionDetails", @class = "CSSTextArea", @readonly = "true" })
+                        <span style="color: Red">*</span>
+                        @Html.HiddenFor(m => m.RejectionDetails)
+                    </td>
+                </tr>
+                <tr valign="baseline">
+                    <td colspan="2">
+                        <table id="CommentList">
+                        </table>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <td width="40%">
+                    </td>
+                    <td width="100%" align="center">
+                        <input type="submit" id="BacktoInbox" name="btnBacktoInbox" value="Back to Inbox" />
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

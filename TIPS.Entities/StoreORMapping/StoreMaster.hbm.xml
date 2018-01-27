@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.StoreEntities.StoreMaster" namespace="TIPS.Entities.StoreEntities">
+  <class name="TIPS.Entities.StoreEntities.StoreMaster, TIPS.Entities" table="StoreMaster" lazy="false">
+    <id name="Id" column="Id" type="Int32">
+      <generator class="identity"></generator>
+    </id>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="Store" column="Store" type="string"></property>
+    <property name="MainStore" column="MainStore" type="string"></property>
+  </class>
+</hibernate-mapping>

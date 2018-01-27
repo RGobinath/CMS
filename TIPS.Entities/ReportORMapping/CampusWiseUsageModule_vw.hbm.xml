@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.ReportEntities.CampusWiseUsageModule_vw" namespace="TIPS.Entities.ReportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.ReportEntities.CampusWiseUsageModule_vw, TIPS.Entities" table="CampusWiseUsageModule_vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity" />
+    </id>
+    <property name="CampusWiseUsageModule_Id" column="CampusWiseUsageModule_Id" type="Int64"/>
+    <property name="Module" column="Module" type="string"/>
+    <property name="IBMain_Count" column="IBMain_Count" type="Int64"/>
+    <property name="IBMain" column="IBMain" type="bool"/>
+    <property name="IBKG_Count" column="IBKG_Count" type="Int64"/>
+    <property name="IBKG" column="IBKG" type="bool"/>
+    <property name="ChennaiMain_Count" column="ChennaiMain_Count" type="Int64"/>
+    <property name="ChennaiMain" column="ChennaiMain" type="bool"/>
+    <property name="ChennaiCity_Count" column="ChennaiCity_Count" type="Int64"/>
+    <property name="ChennaiCity" column="ChennaiCity" type="bool"/>
+    <property name="Ernakulam_Count" column="Ernakulam_Count" type="Int64"/>
+    <property name="Ernakulam" column="Ernakulam" type="bool"/>
+    <property name="ErnakulamKG_Count" column="ErnakulamKG_Count" type="Int64"/>
+    <property name="ErnakulamKG" column="ErnakulamKG" type="bool"/>
+    <property name="Karur_Count" column="Karur_Count" type="Int64"/>
+    <property name="Karur" column="Karur" type="bool"/>
+    <property name="KarurKG_Count" column="KarurKG_Count" type="Int64"/>
+    <property name="KarurKG" column="KarurKG" type="bool"/>
+    <property name="Tirupur_Count" column="Tirupur_Count" type="Int64"/>
+    <property name="Tirupur" column="Tirupur" type="bool"/>
+    <property name="TirupurKG_Count" column="TirupurKG_Count" type="Int64"/>
+    <property name="TirupurKG" column="TirupurKG" type="bool"/>
+    <property name="TipsSaran_Count" column="TipsSaran_Count" type="Int64"/>
+    <property name="TipsSaran" column="TipsSaran" type="bool"/>
+
+    
+    <!--<property name="MCS_ANTHIYUR_Count" column="MCS_ANTHIYUR_Count" type="Int64"/>
+    <property name="MCS_ANTHIYUR" column="MCS_ANTHIYUR" type="bool"/>
+    <property name="MHSS_ANTHIYUR_Count" column="MHSS_ANTHIYUR_Count" type="Int64"/>
+    <property name="MHSS_ANTHIYUR" column="MHSS_ANTHIYUR" type="bool"/>
+    <property name="MMS_ANTHIYUR_Count" column="MMS_ANTHIYUR_Count" type="Int64"/>
+    <property name="MMS_ANTHIYUR" column="MMS_ANTHIYUR" type="bool"/>
+    <property name="MCOE_ANTHIYUR_Count" column="MCOE_ANTHIYUR_Count" type="Int64"/>
+    <property name="MCOE_ANTHIYUR" column="MCOE_ANTHIYUR" type="bool"/>
+    <property name="MTTI_ANTHIYUR_Count" column="MTTI_ANTHIYUR_Count" type="Int64"/>
+    <property name="MTTI_ANTHIYUR" column="MTTI_ANTHIYUR" type="bool"/>
+    <property name="RPS_KOTAGIRI_Count" column="RPS_KOTAGIRI_Count" type="Int64"/>
+    <property name="RPS_KOTAGIRI" column="RPS_KOTAGIRI" type="bool"/>-->
+   </class>
+</hibernate-mapping>
+

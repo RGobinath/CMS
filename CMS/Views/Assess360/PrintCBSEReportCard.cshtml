@@ -1,0 +1,378 @@
+﻿@using TIPS.Entities.Assess.ReportCardClasses
+@model ReportCardCBSEPrintViewNew
+@if (Model.IsTerm == "Term1" || Model.IsTerm == "OverAll")
+{
+    <br />
+    <table cellpadding="1" cellspacing="0" background="../../Images/PDF%20Images/StartPage.jpg" width="760" style="font-family: sans-serif; font-size: 10px;">
+        <tr>
+            <td align="right" width="15%">
+                <img width="120" height="50" style="float:right" src="@Model.TipsNaceLogo" alt="Tips Logo" />
+            </td>
+            <td align="center" width="70%">
+                <b style="font-size: 17px;">THE INDIAN PUBLIC SCHOOL</b><br />
+                <b style="font-size: 12px;"> ( C.B.S.E. Affiliation no. 1930641 )</b><br/>
+            </td>
+            <td align="center" width="15%">
+                <img width="120" height="50" style="float:left"  src="@Model.TipsLogo" alt="Tips Logo" />
+            </td>
+        </tr>
+    </table>
+    <table cellpadding="1" cellspacing="0" background="../../Images/PDF%20Images/StartPage.jpg" width="760" style="font-family: sans-serif; font-size: 10px;">
+        <tr>
+            <td align="center" width="100%">
+                @Model.TipsAddress
+            </td>
+        </tr>
+        <tr>
+            <td align="center" width="100%">
+                <b style="font-size: 20px;">Report Card</b><br />
+                <b style="font-size: 14px;"> @Model.AcademicYear</b>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <table cellpadding="1" cellspacing="0" width="760" style="font-family: sans-serif; font-size: 10px;">
+        <tr>
+            <td width="24%">Name of the Student:
+            </td>
+            <td style="border: 1px solid black ;" width="24%">@Model.Name
+            </td>
+            <td width="24%">Father's Name:
+            </td>
+            <td style="border: 1px solid black ;" width="28%">@Model.FatherName
+            </td>
+        </tr>
+        <tr>
+            <td width="24%">Class:
+            </td>
+            <td style="border: 1px solid black ;" width="24%">@Model.Grade
+            </td>
+            <td width="24%">Mother's Name:
+            </td>
+            <td style="border: 1px solid black ;" width="28%">@Model.MotherName
+            </td>
+        </tr>
+        <tr>
+            <td width="24%">Section:
+            </td>
+            <td style="border: 1px solid black ;" width="24%">@Model.Section
+            </td>
+            <td rowspan="3" width="24%">Residential Address:
+            </td>
+            <td style="border: 1px solid black ;" rowspan="3" width="28%">@Model.Address
+            </td>
+        </tr>
+        <tr>
+            <td width="24%">Campus:
+            </td>
+            <td style="border: 1px solid black ;" width="24%">@Model.Campus
+            </td>
+        </tr>
+        <tr>
+            <td width="24%">Enrollment No:
+            </td>
+            <td style="border: 1px solid black ;" width="24%">@Model.NewId
+            </td>
+        </tr>
+        <tr>
+            <td width="24%">Date of Birth
+            </td>
+            <td style="border: 1px solid black ;" width="24%">@Model.DOB
+            </td>
+            <td width="24%">Telephone No:
+            </td>
+            <td style="border: 1px solid black ;" width="28%">@Model.MobileNumber
+            </td>
+        </tr>
+    </table>
+    <br />
+    <table cellpadding="1" cellspacing="0" width="760" style="font-family: sans-serif; font-size: 10px;">
+        <tr bgcolor="#999999">
+            <th width="40%" align="center">Attendance
+            </th>
+            <th width="30%" align="center">Term I
+            </th>
+            <th width="30%" align="center">Term II
+            </th>
+        </tr>
+        <tr>
+            <td width="40%" align="center">Total attendance of the Student
+            </td>
+            <td width="30%" align="center">
+                @Model.TotalAttendenceT1
+            </td>
+            <td width="30%" align="center">-
+            </td>
+        </tr>
+        <tr>
+            <td width="40%" align="center">Total Working Days
+            </td>
+            <td width="30%" align="center">
+                @Model.TofWorkingDayT1
+            </td>
+            <td width="30%" align="center">-
+            </td>
+        </tr>
+    </table>
+    <br />
+    <table cellpadding="1" cellspacing="0" width="760" style="font-family: sans-serif; font-size: 10px;"
+        border="1">
+        <tr bgcolor="#999999">
+            <th width="40%"></th>
+            <th width="30%" align="center">Term I
+            </th>
+            <th width="30%" align="center">Term II
+            </th>
+        </tr>
+        <tr>
+            <td width="40%" align="center">Height in cm
+            </td>
+            <td width="30%" align="center">
+                @Model.HeightT1
+            </td>
+            <td width="30%" align="center">-
+            </td>
+        </tr>
+        <tr>
+            <td width="40%" align="center">Weight in Kg
+            </td>
+            <td width="30%" align="center">
+                @Model.WeightT1
+            </td>
+            <td width="30%" align="center">-
+            </td>
+        </tr>
+    </table>
+    <newpage />
+    <table cellpadding="1" cellspacing="0" width="760" style="font-family: sans-serif; font-size: 10px;">
+        <tr>
+            <td colspan="2" align="center">Name: @Model.Name
+            </td>
+            <td align="center">Enrollment No: @Model.NewId
+            </td>
+            <td align="center">Class & Section: @Model.Grade & @Model.Section
+            </td>
+        </tr>
+    </table>
+    <table border="1" cellpadding="1" cellspacing="0" width="760" style="font-family: sans-serif; font-size: 10px;">
+        <tr bgcolor="#999999">
+            <th style="width: 25%" align="center"><b>Scholastic Area</b>
+            </th>
+            <th colspan="6" style="width: 25%" align="center">Term I
+            </th>
+            <th colspan="6" style="width: 25%" align="center">Term II
+            </th>
+            <th colspan="2" style="width: 25%" align="center">OverAll
+            </th>
+        </tr>
+        <tr>
+            <td align="center" style="width: 12%;">
+                Subject
+            </td>
+            <td align="center" style="width: 8%;">PA1(10)
+            </td>
+            <td align="center" style="width: 8%;">NoteBook(5)
+            </td>
+            <td align="center" style="width: 8%;">SEA(5)
+            </td>
+            <td align="center" style="width: 8%;">HalfYearly(80)
+            </td>
+            <td align="center" style="width: 8%;">Total(100)
+            </td>
+            <td align="center" style="width: 8%;">Grade
+            </td>
+            <td align="center" style="width: 8%;">PA2(10)
+            </td>
+            <td align="center" style="width: 8%;">NoteBook(5)
+            </td>
+            <td align="center" style="width: 8%;">SEA(5)
+            </td>
+            <td align="center" style="width: 8%;">Annual<br />Exam(80)
+            </td>
+            <td align="center" style="width: 8%;">Total(100)
+            </td>
+            <td align="center" style="width: 8%;">Grade
+            </td>
+            <td align="center" style="width: 8%;">T1+T2 Total
+            </td>
+            <td align="center" style="width: 8%;">T1+T2 Grade
+            </td>
+        </tr>
+        @if (@Model.RptCardObjList != null)
+        {
+            foreach (var item in @Model.RptCardObjList)
+            {
+           
+            }
+        }
+    </table>
+    <table style="font-family: sans-serif; font-size: 8px; text-align: center">
+        <tr>
+            <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First Term &nbsp;&nbsp;:&nbsp;&nbsp; FA1(10%)+FA2(10%)+SA1(30%)=50%
+            </td>
+            <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Formative Assessment &nbsp;&nbsp;: &nbsp;&nbsp; FA1(10%)+FA2(10%)+FA3(10%)+FA4(10%)=40%
+            </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Second Term &nbsp;&nbsp;:&nbsp;&nbsp; FA3(10%)+FA4(10%)+SA2(30%)=50%
+            </td>
+            <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Summative Assessment &nbsp;&nbsp;:&nbsp;&nbsp; SA1(30%)+SA2(30%)=60%
+            </td>
+        </tr>
+    </table>
+    <br />
+    <newpage />
+    <table>
+        <tr>
+            <td width="60%">
+                <table border="1" cellpadding="1" cellspacing="0" width="400" style="font-family: sans-serif; font-size: 10px;">
+                    <tr>
+                        <th colspan="3" align="center">
+                            <b>Scholastic Area (Grading on 9 Points scale)</b>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th align="center">Grade
+                        </th>
+                        <th align="center">Marks Range(100)
+                        </th>
+                        <th align="center">Marks Range(10)
+                        </th>
+                    </tr>
+                    <tr>
+                        <td align="center">A1
+                        </td>
+                        <td align="center">91-100
+                        </td>
+                        <td align="center">9.1-10
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">A2
+                        </td>
+                        <td align="center">81-90
+                        </td>
+                        <td align="center">8.1-9.0
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">B1
+                        </td>
+                        <td align="center">71-80
+                        </td>
+                        <td align="center">7.1-8.0
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">B2
+                        </td>
+                        <td align="center">61-70
+                        </td>
+                        <td align="center">6.1-7.0
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">C1
+                        </td>
+                        <td align="center">51-60
+                        </td>
+                        <td align="center">5.1-6.0
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">C2
+                        </td>
+                        <td align="center">41-50
+                        </td>
+                        <td align="center">4.1-5.0
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">D
+                        </td>
+                        <td align="center">31-40
+                        </td>
+                        <td align="center">3.1-4.0
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">E1
+                        </td>
+                        <td align="center">21-30
+                        </td>
+                        <td align="center">2.1-3.0
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">E2
+                        </td>
+                        <td align="center">00-20
+                        </td>
+                        <td align="center">0.0-2.0
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td width="40%">
+                <table border="2" style="border: medium" width="300">
+                    <tr>
+                        <td>
+                            <b style="font-size: 18px">OverAll Grade:</b>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+                <br />
+                <table border="1" cellpadding="1" cellspacing="0" width="300" style="font-family: sans-serif; font-size: 10px;">
+                    <tr>
+                        <td colspan="2" align="center">
+                            <b>Co-Scholastic Areas (Grading on 5 Points scale)</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">Grade
+                        </td>
+                        <td align="center">Grade Points
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">A
+                        </td>
+                        <td align="center">4.1-5.0
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">B
+                        </td>
+                        <td align="center">3.1-4.0
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">C
+                        </td>
+                        <td align="center">2.1-3.0
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">D
+                        </td>
+                        <td align="center">1.1-2.0
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">E
+                        </td>
+                        <td align="center">0.0-1.0
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+     
+}
+

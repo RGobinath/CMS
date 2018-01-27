@@ -1,0 +1,283 @@
+﻿@model TIPS.Entities.Assess.ReportCardClasses.ReportCardRequest
+@{
+    ViewBag.Title = "ReportCardCBSE";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script src="@Url.Content("~/Scripts/Assess360/ReportCardCBSENew.js")" type="text/javascript"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        GetSubject();
+        GetLanguage();
+        if ($("#TabFree").val() == "Yes") {
+            $('#tabs li:eq(1) a').tab('show')
+            $("#languageddl").hide();
+            $("#languagelbl").hide();
+            ReqId = $("#Id").val();
+            Cam = $("#Campus").val();
+            Grd = $("#Grade").val();
+            Sec = $("#Section").val();
+            AcY = $("#AcademicYear").val();
+            NofDaysTerm1 = $("#txtWorkingDayTerm1").val();
+            NofDaysTerm2 = $("#txtWorkingDayTerm2").val();
+            CommonEntry1(ReqId, Cam, Grd, Sec, AcY, NofDaysTerm1);
+            CommonEntry2(ReqId, Cam, Grd, Sec, AcY, NofDaysTerm2);
+        }
+        else {
+            $('#tabs li:eq(0) a').tab('show')
+            $("#ddlSubject").val('@Model.Subject');
+            $("#ddllanguage").val('@Model.Language');
+            ReqId = $("#Id").val();
+            Cam = $("#Campus").val();
+            Grd = $("#Grade").val();
+            Sec = $("#Section").val();
+            AcY = $("#AcademicYear").val();
+            NofDaysTerm1 = $("#txtWorkingDayTerm1").val();
+            NofDaysTerm2 = $("#txtWorkingDayTerm2").val();
+            if ('@Model.Subject' == "Language") {
+                $("#languageddl").show();
+                $("#languagelbl").show();
+                Sub = '@Model.Language';
+            }
+            else {
+                $("#languageddl").hide();
+                $("#languagelbl").hide();
+                Sub = '@Model.Subject';
+            }
+            FormativeAssessment1(ReqId, Cam, Grd, Sec, AcY, Sub);
+            FormativeAssessment2(ReqId, Cam, Grd, Sec, AcY, Sub);
+            CommonEntry1(ReqId, Cam, Grd, Sec, AcY, NofDaysTerm1);
+            CommonEntry2(ReqId, Cam, Grd, Sec, AcY, NofDaysTerm2);
+            OverAllAssessment(ReqId, Cam, Grd, Sec, AcY, Sub);
+        }
+
+        $('#tabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            if ($('#Subject').val() == "") {
+                if ($(e.target).attr('href') == "#FA1" || ($(e.target).attr('href') == "#FA2"))
+                { ErrMsg("Please fill the Subject"); }
+                //if($(e.target).is('#my-chart-tab')) drawChartNow();
+            }
+        })
+
+
+    });
+    function GetSubject() {
+        var campus = $("#Campus").val();
+        var grade = $("#Grade").val();
+        var section = $("#Section").val();
+        $.ajax({
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            url: '/Base/GetSubjectsByCampusGradeSecBoard?Campus=' + campus + '&Grade=' + grade + '&Section=' + section + '&Board=CBSE',
+            success: function (data) {
+                $("#ddlSubject").empty();
+                $("#ddlSubject").append("<option value=''>--Select Subject-- </option>");
+                for (var k = 0; k < data.rows.length; k++) {
+                    $("#ddlSubject").append("<option value='" + data.rows[k].Value + "'>" + data.rows[k].Text + "</option>");
+                }
+            }
+        });
+
+    }
+    function GetLanguage() {
+        var campus = $("#Campus").val();
+        $.ajax({
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            url: '/Base/GetLanguageByCampus?Campus=' + campus,
+            success: function (data) {
+                $("#ddllanguage").empty();
+                $("#ddllanguage").append("<option value=''>--Select Language-- </option>");
+                for (var k = 0; k < data.rows.length; k++) {
+                    $("#ddllanguage").append("<option value='" + data.rows[k].Value + "'>" + data.rows[k].Text + "</option>");
+                }
+            }
+        });
+    }
+  
+</script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        @Html.Hidden("IsEdit", "", new { id = "IsEdit", @Value = ViewBag.AppEdit })
+        @Html.Hidden("BackUrl", Url.Action("ReportCardRequestNew", "Assess360"))
+        @Html.Hidden("TabFree", "", new { id = "TabFree", @Value = ViewBag.TabFreez })
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            &nbsp;<i class="fa fa-info"></i>&nbsp;Reoprt Card Request Info</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row" style="margin-top: 5px; margin-left: 3px; margin-bottom: 5px;">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label>
+                                            <b>Campus</b></label><br />
+                                        @Html.HiddenFor(m => m.Id)
+                                        @Html.HiddenFor(m => m.RequestNo)
+                                        <label>@Html.DisplayFor(m => m.Campus)</label>
+                                        @Html.HiddenFor(m => m.Campus)
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label>
+                                            <b>Grade</b>
+                                        </label>
+                                        <br />
+                                        <label>@Html.DisplayFor(m => m.Grade)</label>
+                                        @Html.HiddenFor(m => m.Grade)
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label>
+                                            <b>Section</b>
+                                        </label>
+                                        <br />
+                                        <label>@Html.DisplayFor(m => m.Section)</label>
+                                        @Html.HiddenFor(m => m.Section)
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label><b>Academic Year</b></label>
+                                        <br />
+                                        <label>@Html.DisplayFor(m => m.AcademicYear)</label>
+                                        @Html.HiddenFor(m => m.AcademicYear)
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label><b>Subject</b></label>
+                                        <br />
+                                        @Html.DropDownListFor(m => m.Subject, new SelectList(Enumerable.Empty<SelectListItem>()), new { id = "ddlSubject", @Class = "form-control select-sm" })
+                                        @Html.HiddenFor(m => m.Subject)
+                                    </div>
+                                    <div class="col-sm-2" id="languagelbl" style="padding: 0px;">
+                                        <label style="padding: 0px;">
+                                            <b>Language</b>
+                                        </label>
+                                        @Html.DropDownListFor(m => m.Language, new SelectList(Enumerable.Empty<SelectListItem>()), new { id = "ddllanguage", @Class = "form-control select-sm" })
+                                        @Html.HiddenFor(m => m.Language)
+                                        @Html.HiddenFor(m => m.CreatedBy)
+                                        @Html.HiddenFor(m => m.CreatedDate)
+                                        @Html.HiddenFor(m => m.ModifiedBy)
+                                        @Html.HiddenFor(m => m.ModifiedDate)
+                                    </div>
+                                    <div class="space-12">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-block btn-primary" id="btnBack">
+                                            <i class="fa fa-arrow-circle-left" style="vertical-align: middle"></i>&nbsp;Back
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="tabbable">
+                    <ul id="tabs" class="nav nav-tabs tab-color-blue background-blue">
+                        <li><a href="#FA1" id="link1" data-toggle="tab">Term-I</a></li>
+                        <li><a href="#Common1" data-toggle="tab">Common Term-I</a></li>
+                        <li><a href="#FA2" data-toggle="tab">Term-II</a></li>
+                        <li><a href="#Common2" data-toggle="tab">Common Term-II</a></li>
+                        <li><a href="#CoScholastic" data-toggle="tab">CoScholastic</a></li>
+                        <li><a href="#OverAll" data-toggle="tab">Over All</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        @if (ViewBag.TabFreez != "Yes")
+                        {
+                            <div class="tab-pane" id="FA1">
+                                <table id="JqGridFA1">
+                                </table>
+                                <div id="JqGridFA1Pager">
+                                </div>
+                            </div>
+                        }
+                        <div id="Common1" class="tab-pane">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                    </div>
+                                    <div class="col-sm-3" align="right">
+                                        <label>
+                                            <b>Total no of working day for Term I</b>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-2" style="padding: 0px;">
+                                        @Html.TextBoxFor(m => m.TofWorkingDayT1, new { id = "txtWorkingDayTerm1", @Class = "form-control input-sm" })
+                                        @Html.HiddenFor(m => m.TofWorkingDayT1)
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-mini btn-success" id="saveWorkingDayTerm1">
+                                            <i class="fa fa-check" style="vertical-align: middle"></i>&nbsp;Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="JqGridCommonTerm1">
+                            </table>
+                            <div id="JqGridCommonTerm1Pager">
+                            </div>
+                        </div>
+                        @if (ViewBag.TabFreez != "Yes")
+                        {
+                            <div class="tab-pane" id="FA2">
+                                <table id="JqGridFA2"></table>
+                                <div id="JqGridFA2Pager">
+                                </div>
+                            </div>
+                          
+                        }
+                        <div id="Common2" class="tab-pane">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                    </div>
+                                    <div class="col-sm-3" align="right">
+                                        <label>
+                                            <b>Total no of working day for Term II</b>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-2" style="padding: 0px;">
+                                        @Html.TextBoxFor(m => m.TofWorkingDayT2, new { id = "txtWorkingDayTerm2", @Class = "form-control input-sm" })
+                                        @Html.HiddenFor(m => m.TofWorkingDayT2)
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-mini btn-success" id="saveWorkingDayTerm2">
+                                            <i class="fa fa-check" style="vertical-align: middle"></i>&nbsp;Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="JqGridCommonTerm2">
+                            </table>
+                            <div id="JqGridCommonTerm2Pager">
+                            </div>
+                        </div>
+                        @if (ViewBag.TabFreez != "Yes")
+                        {
+                            <div id="OverAll" class="tab-pane">
+                                <table id="JqGridOverAll">
+                                </table>
+                                <div id="JqGridOverAllPager">
+                                </div>
+                            </div>
+                        }
+                        <div id="CoScholastic" class="tab-pane">
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

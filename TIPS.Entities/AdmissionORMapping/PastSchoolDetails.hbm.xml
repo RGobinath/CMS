@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="TIPS.Entities.AdmissionEntities.PastSchoolDetails" namespace="TIPS.Entities.AdmissionEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.AdmissionEntities.PastSchoolDetails, TIPS.Entities" table="PastSchoolDetails" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="StudentId" column="StudentId" type="Int64" not-null ="false"></property>
+    <property name="PreRegNum" column="PreRegNum" type="Int64" not-null ="false"></property>
+
+    <property name="FromDate" column="FromDate" type="string"></property>
+    <property name="ToDate" column="ToDate" type="string"></property>
+
+    <property name="SchoolName" column="SchoolName" type="string"></property>
+    <property name="City" column="City" type="string"></property>
+    <property name="FromGrade" column="FromGrade" type="string"></property>
+    <property name="ToGrade" column="ToGrade" type="string"></property>
+  </class>
+</hibernate-mapping>
+

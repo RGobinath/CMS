@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.TransportEntities.Permit" namespace="TIPS.Entities.TransportEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.TransportEntities.Permit,TIPS.Entities" table="Permit" lazy="true" >
+    <id name="Id" column="Id" type="Int32">
+      <generator class="native"/>
+    </id>
+    <property name="VehicleId">
+      <column name="VehicleId" sql-type="int" not-null="false" />
+    </property>
+    <property name="VehicleNo">
+      <column name="VehicleNo" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="PermitNo">
+      <column name="PermitNo" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="ValidIn">
+      <column name="ValidIn" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="ValidFrom">
+      <column name="ValidFrom" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="ValidTo">
+      <column name="ValidTo" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="CreatedDate">
+      <column name="CreatedDate" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="CreatedBy">
+      <column name="CreatedBy" sql-type="string" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

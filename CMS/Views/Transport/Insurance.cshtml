@@ -1,0 +1,87 @@
+﻿@model TIPS.Entities.TransportEntities.VehicleDetails
+<div id="Insurance">
+    <!-- /section:settings.box -->
+    <div class="row">
+        <div class="col-xs-12 widget-container-col">
+            <div class="widget-box widget-color-CustomizeBlue ">
+                <div class="widget-header widget-header-flat widget-header-small">
+                    <div class="PanelHeader">
+                        Insurance Details</div>
+                    <div class="widget-toolbar">
+                        <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2 form-group has-info">
+                                    <label for="form-field-select-1">
+                                        <b>Insurance Date</b></label>
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBox("InsuranceDate", "", new { id = "Insurance_InsuranceDate", @class = "form-control date-picker" })
+                                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2 form-group has-info">
+                                    <label for="form-field-select-1">
+                                        <b>Next Insurance Date</b></label>
+                                    <div class="input-group input-group-sm">
+                                        @Html.TextBox("NextInsuranceDate", "", new { id = "Insurance_NextInsuranceDate", @class = "form-control date-picker" })
+                                        <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2 form-group has-info">
+                                    <label for="form-field-select-1">
+                                        <b>Insurance Provider</b></label>
+                                    @Html.TextBox("InsuranceProvider", "", new { id = "Insurance_InsuranceProvider", @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-3 form-group has-info">
+                                    <label for="form-field-select-1">
+                                        <b>Insurance Consultant Name</b></label>
+                                    @Html.TextBox("InsuranceConsultantName", "", new { id = "InsuranceConsultantName", @class = "form-control input-sm" })
+                                </div>
+                                 <div class="col-sm-2 form-group has-info">
+                                    <label for="form-field-select-1">
+                                        <b>Insurance Declared Value</b></label>
+                                    @Html.TextBox("InsuranceDeclaredValue", "", new { id = "Insurance_InsuranceDeclaredValue", @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                               
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Insurance Certificate</b></label>
+                                    <input type="file" name="ICertificate" id="ICertificate" value="Browse" />
+                                </div>
+                                <div class="col-sm-2 ">
+                                    <br />
+                                    <button class="btn btn-success btn-info btn-block btn-sm" id="btnSave" type="button"
+                                        onclick="InsuranceDetailsCreate();return false;">
+                                        <i class="ace-icon fa fa-floppy-o bigger-120 white"></i>&nbsp Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <table id="jqGridInsuranceJqGrid">
+            </table>
+            <div id="jqGridInsurancePager">
+            </div>
+            <!-- PAGE CONTENT ENDS -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- inline scripts related to this page -->
+<script src="@Url.Content("~/assets/js/AceJQMsg.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Transport/Insurance.js")" type="text/javascript"></script>

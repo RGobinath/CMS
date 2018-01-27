@@ -1,0 +1,242 @@
+﻿@model TIPS.Entities.StoreEntities.MaterialRequest
+@{
+    ViewBag.Title = "ActOnMaterialRequest";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+@using (Html.BeginForm("MaterialRequest", "Store", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="page-content">
+        <div class="page-content-area">
+            <span>
+                <ul class="breadcrumb">
+                    <li style="font family: verdana; font-size: 12px;">Store</li><li style="font family: verdana;
+                        font-size: 12px;"><b>Material Request Show Form</b></li></ul>
+            </span>
+            <div class="space-2">
+            </div>
+            <div class="row">
+                <div class="col-xs-12 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue collapsed">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-info-circle"></i>&nbsp;Basic Details</div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Request Number</b></label><br />
+                                            @Model.RequestNumber
+                                            @Html.HiddenFor(m => m.RequestNumber)
+                                            @Html.HiddenFor(m => m.Id)
+                                            @Html.HiddenFor(m => m.InstanceId)
+                                            @Html.HiddenFor(m => m.Campus)
+                                            @Html.Hidden("ActivityId")
+                                            @Html.Hidden("Role", new { id = "Flag", @Value = ViewBag.Role })
+                                            @*@Html.TextBox("RequestNumber", null, new { @Readonly = "Readonly", @Class = "form-control select-sm" })
+                                            @Html.HiddenFor(m => m.RequestNumber)
+                                            @Html.HiddenFor(m => m.Id)
+                                            @Html.HiddenFor(m => m.InstanceId)
+                                            @Html.Hidden("MatReqRefId")*@
+                                            @Html.Hidden("BackUrl", Url.Action("MaterialRequestList", "Store"))
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Requested Date</b></label><br />
+                                            @String.Format("{0:dd-MM-yyyy }", Model.RequestedDate)
+                                            @Html.HiddenFor(m => m.RequestedDate)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Procesed By</b></label>
+                                            @Model.CreatedUserName
+                                            @Html.HiddenFor(m => m.ProcessedBy)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>User Role</b></label><br />
+                                            @Model.UserRole
+                                            @Html.HiddenFor(m => m.UserRole)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Request Status</b></label><br />
+                                            @Model.RequestStatus
+                                            @Html.HiddenFor(m => m.RequestStatus)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Required for Campus</b></label><br />
+                                            @Model.RequiredForCampus
+                                            @Html.HiddenFor(m => m.RequiredForCampus)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px; margin-bottom: 5px;">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Department</b></label><br />
+                                            @Model.Department
+                                            @Html.HiddenFor(m => m.Department)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Required For Store</b></label>
+                                            @Model.RequiredForStore
+                                            @Html.HiddenFor(m => m.RequiredForStore)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-select-1">
+                                                <b>Required From Store</b></label>
+                                            @Model.RequiredFromStore
+                                            @Html.HiddenFor(m => m.RequiredFromStore)
+                                        </div>
+                                        <div class="col-sm-2">
+                                        </div>
+                                        <div class="col-sm-2">
+                                        </div>
+                                        <div class="col-sm-2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 widget-container-col">
+                    <div class="widget-box widget-color-CustomizeBlue">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <div class="PanelHeader">
+                                <i class="ace-icon fa fa-comment"></i>&nbsp;Discussion Details</div>
+                            <div class="widget-toolbar">
+                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-12">
+                                            <label for="form-field-select-1">
+                                                <b>Requestor Remarks</b>
+                                            </label>
+                                            @Html.TextAreaFor(m => m.RequestorDescription, new { rows = 1, cols = 55, @class = "form-control input-sm", @readonly = "readonly" })
+                                            @Html.HiddenFor(m => m.RequestorDescription)
+                                            @if (Model != null && (Model.RequestStatus == "ApproveMatRequest"))
+                                            {
+                                                <label for="form-field-select-1">
+                                                    <b>Rejection Comments</b>
+                                                </label>
+                                                @Html.TextArea("txtRejDescription", "", new { id = "txtRejDescription", rows = 1, cols = 55, @class = "form-control input-sm" })
+                                                <label for="form-field-select-1">
+                                                    <b>Approver Comments</b>
+                                                </label>
+                                                @Html.TextArea("txtResDescription", "", new { id = "txtResDescription", rows = 1, cols = 55, @class = "form-control input-sm" })
+                                                @Html.HiddenFor(m => m.ApproverComments)
+                                            }
+                                            @if (Model != null && (Model.RequestStatus == "ApproveMatRequestRejection" || Model.RequestStatus == "IssueMatRequestRejection"))
+                                            {
+                                                <label for="form-field-select-1">
+                                                    <b>Reply Comments</b>
+                                                </label>
+                                                @Html.TextArea("txtReplyDescription", "", new { id = "txtReplyDescription", rows = 1, cols = 55, @class = "form-control input-sm" })
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-6">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-8">
+                    <div class="row">
+                        <div class="col-xs-12" id="jqgrid">
+                            <table id="CommentList">
+                            </table>
+                            <div id="CommentListpager">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-4">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            @if (Model != null && (Model.RequestStatus == "ApproveMatRequest"))
+                            {
+                                <div class="col-sm-2">
+                                    <button type="button" class="btn btn-warning btn-block btn-sm" id="btnIdReject" name="btnReject"
+                                        value="Reject">
+                                        <i class="fa fa-times white">&nbsp;</i>Reject
+                                    </button>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="button" class="btn btn-success btn-block btn-sm" id="btnIdApprove"
+                                        name="btnApprove" value="Approve">
+                                        <i class="fa fa-check white">&nbsp;</i>Approve
+                                    </button>
+                                </div>
+@*<input type="button" id="btnIdReject" name="btnReject" value="Reject" />
+                                            <input type="button" id="btnIdApprove" name="btnApprove" value="Approve" />*@
+                            }
+                            @if (Model != null && (Model.RequestStatus == "ApproveMatRequestRejection" || Model.RequestStatus == "IssueMatRequestRejection"))
+                            {
+                                <div class="col-sm-2">
+                                    <button type="button" id="btnIdReply" class="btn btn-success btn-block btn-sm" name="btnReply" value="Reply">
+                                        <i class="fa fa-check white">&nbsp;</i> Submit
+                                    </button>
+                                </div>
+                            }
+                            @if (Model != null && (Model.RequestStatus == "Complete"))
+                            {
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-success btn-block btn-sm" id="btnIdComplete"
+                                        name="btnComplete" value="Approve">
+                                        <i class="fa fa-check white">&nbsp;</i>Complete
+                                    </button>
+                                </div>
+                            }
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-primary btn-block btn-sm" id="btnBack">
+                                    <i class="ace-icon fa fa-arrow-left white"></i>Back To Inbox
+                                </button>
+                            </div>
+                            @if (Model != null && (Model.RequestStatus == "ApproveMatRequestRejection"))
+                            {
+                                <div class="col-sm-2">
+                                    <label class="lblheader">
+                                        Add Material :</label>
+                                    <a id="MaterialSearch1" style="cursor: pointer;"><i class="fa fa-search"></i></a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table id="MaterialRequestList">
+                    </table>
+                    <div id="MaterialRequestListPager">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div id="DivStudentSearch">
+</div>
+<div id="DivMaterialSearch">
+</div>
+<script src="@Url.Content("~/Scripts/Store/ActOnMaterialRequest.js")" type="text/javascript"></script>

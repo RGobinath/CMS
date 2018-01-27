@@ -1,0 +1,281 @@
+﻿@model TIPS.Entities.StoreEntities.MaterialIssueNote
+@{
+    ViewBag.Title = "ShowMaterialIssueNote";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var Id = $("#IssNoteId").val();
+        jQuery("#MaterialRequestList").jqGrid({
+            url: '/Store/IssuedItemsList?Id=' + Id,
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'MRLId', 'Req.Type', 'Grade', 'Section', 'Req.For', 'Material', 'Material Group', 'Material Sub Group', 'Units', 'Req.Date', 'Status', 'Req.Qty', 'App.Qty', 'Iss.Qty'],
+            colModel: [
+              { name: 'Id', index: 'Id', hidden: true, key: true },
+              { name: 'MRLId', index: 'MRLId', width: 90, sortable: true },
+              { name: 'RequestType', index: 'RequestType', width: 90, sortable: true },
+              { name: 'RequiredForGrade', index: 'RequiredForGrade', width: 90, sortable: true },
+              { name: 'Section', index: 'Section', width: 60, sortable: true },
+              { name: 'RequiredFor', index: 'RequiredFor', width: 90, sortable: true },
+              { name: 'Material', index: 'Material', width: 90, sortable: true, cellattr: function (rowId, val, rawObject) { return 'title="' + 'Material Group:' + rawObject[7] + ', Material Sub Group:' + rawObject[8] + '"' } },
+              { name: 'MaterialGroup', index: 'MaterialGroup', width: 90, sortable: true, hidden: true },
+              { name: 'MaterialSubGroup', index: 'MaterialSubGroup', width: 90, sortable: true, hidden: true },
+              { name: 'Units', index: 'Units', width: 90, sortable: true },
+              { name: 'RequiredDate', index: 'RequiredDate', width: 90, sortable: false },
+              { name: 'Status', index: 'Status', width: 90, sortable: true },
+              { name: 'Quantity', index: 'Quantity', width: 90, sortable: true },
+              { name: 'ApprovedQty', index: 'ApprovedQty', width: 90, sortable: true },
+              { name: 'IssueQty', index: 'IssueQty', width: 90, sortable: true },
+              ],
+            pager: '#MaterialRequestListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: '230',
+            width: 1225,
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: 'Material Request List',
+            forceFit: true,
+            loadError: function (xhr, status, error) {
+                $("#MaterialRequestList").clearGridData();
+                ErrMsg($.parseJSON(xhr.responseText).Message);
+            }
+
+            //            subGrid: true,
+            //            subGridOptions: { "plusicon": "ui-icon-triangle-1-e",
+            //                "minusicon": "ui-icon-triangle-1-s",
+            //                "openicon": "ui-icon-arrowreturn-1-e",
+            //                // load the subgrid data only once // and the just show/hide 
+            //                "reloadOnExpand": false,
+            //                // select the row when the expand column is clicked 
+            //                "selectOnExpand": true
+            //            },
+            //            subGridRowExpanded: function (MatIssueList, Id) {
+            //                var MatIssueListTable, MatIssueListPager;
+            //                MatIssueListTable = MatIssueList + "_t";
+            //                MatIssueListPager = "p_" + MatIssueListTable;
+            //                $("#" + MatIssueList).html("<table id='" + MatIssueListTable + "' ></table><div id='" + MatIssueListPager + "' ></div>");
+            //                jQuery("#" + MatIssueListTable).jqGrid({
+            //                    url: '/Store/MaterialIssueListJqGrid?Id=' + Id,
+            //                    datatype: 'json',
+            //                    mtype: 'GET',
+            //                    colNames: ['Id', 'MRL Id', 'Iss Note Number', 'Issue Date', 'Issued Qty', 'Issued By', 'Status'],
+            //                    colModel: [
+            //                       { name: 'Id', index: 'Id', hidden: true },
+            //                       { name: 'MRLId', index: 'MRLId', width: 90, sortable: true, hidden: true },
+            //                       { name: 'IssNoteNumber', index: 'IssNoteNumber', width: 90, sortable: true },
+            //                       { name: 'IssueDate', index: 'IssueDate', width: 90, sortable: true },
+            //                       { name: 'IssueQty', index: 'IssueQty', width: 90, sortable: true },
+            //                       { name: 'IssuedBy', index: 'IssuedBy', width: 90, sortable: true },
+            //                       { name: 'Status', index: 'Status', width: 90, sortable: true },
+            //                       ],
+            //                    pager: MatIssueListPager,
+            //                    rowNum: '5',
+            //                    rowList: [5, 10, 20, 50, 100, 150, 200 ],
+            //                    sortname: 'Id',
+            //                    sortorder: "Asc",
+            //                    height: '130',
+            //                    width: 1225,
+            //                    autowidth: true,
+            //                    shrinkToFit: true,
+            //                    viewrecords: true,
+            //                    caption: 'Material Issue List',
+            //                    forceFit: true
+            //                });
+            //                jQuery("#" + MatIssueListTable).jqGrid('navGrid', "#" + MatIssueListPager, { edit: false, add: false, del: false })
+            //            }
+        });
+        $("#MaterialRequestList").navGrid('#MaterialRequestListPager', { add: false, edit: false, del: false, search: false, refresh: false });
+        jQuery("#MaterialRequestList").jqGrid('navButtonAdd', '#MaterialRequestListPager', {
+            caption: "Export To PDF",
+            onClickButton: function () {
+                var ExportType = "PDF";
+                //alert(Id);
+                window.open('IssuedItemsList' + '?Id=' + Id + '&rows=9999' + '&ExportType=' + ExportType);
+            }
+        });
+
+        $("#btnBack").click(function () {
+            window.location.href = '@Url.Action("MaterialRequestList", "Store")';
+        });
+        $("#btnGotoIssueNoteList").click(function () {
+            window.location.href = '@Url.Action("IssueNoteList", "Store")';
+        });
+
+
+    });
+</script>
+@using (Html.BeginForm("MaterialIssueNote", "Store", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h3>
+        Show Material Issue Note</h3>
+    <table class="WithBorderOnly" width="100%">
+        <tr class="PanelHeading">
+            <td colspan="7" class="PanelHeading">
+                Basic Details
+            </td>
+        </tr>
+        <tr>
+            <td width="15%">
+                <label class="lblheader">
+                    Issue Note Number</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Requested Date</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Procesed By</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    User Role</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Required For Campus</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Request Status</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Model.IssNoteNumber
+                @Html.HiddenFor(m => m.IssNoteId)
+            </td>
+            <td>
+                @String.Format("{0:dd-MM-yyyy hh:mm:ss tt}", Model.RequestedDate)
+                @Html.HiddenFor(m => m.RequestedDate)
+            </td>
+            <td>
+                @Model.ProcessedBy
+                @Html.HiddenFor(m => m.ProcessedBy)
+            </td>
+            <td>
+                @Model.UserRole
+                @Html.HiddenFor(m => m.UserRole)
+                @Html.HiddenFor(m => m.Campus)
+            </td>
+            <td>
+                @Model.RequiredForCampus
+                @Html.HiddenFor(m => m.RequiredForCampus)
+            </td>
+            <td>
+                @Model.RequestStatus
+                @Html.HiddenFor(m => m.RequestStatus)
+            </td>
+        </tr>
+        <tr>
+            <td width="15%">
+                <label class="lblheader">
+                    Request Number</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    DC Number</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Delivered through</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Delivery details</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Delivery date</label>
+            </td>
+            <td width="15%">
+                <label class="lblheader">
+                    Issue Date</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Model.RequestNumber
+                @Html.HiddenFor(m => m.RequestId)
+                @Html.HiddenFor(m => m.RequestNumber)
+            </td>
+            <td>
+                @Model.DCNumber
+                @Html.HiddenFor(m => m.DCNumber)
+            </td>
+            <td>
+                @Model.DeliveredThrough
+                @Html.HiddenFor(m => m.DeliveredThrough)
+            </td>
+            <td>
+                @Model.DeliveryDetails
+                @Html.HiddenFor(m => m.DeliveryDetails)
+            </td>
+            <td>
+                @String.Format("{0:dd-MM-yyyy}", Model.DeliveryDate)
+                @Html.HiddenFor(m => m.DeliveryDate)
+            </td>
+            <td>
+                @String.Format("{0:dd-MM-yyyy hh:mm:ss tt}", Model.IssueDate)
+                @Html.HiddenFor(m => m.IssueDate)
+            </td>
+        </tr>
+        <tr>
+            <td width="15%">
+                <label class="lblheader">
+                    Issued By</label>
+            </td>
+            <td width="14%">
+                <label class="lblheader">
+                    Required For Store</label>
+            </td>
+            <td width="14%">
+                <label class="lblheader">
+                    Required From Store</label>
+            </td>
+            <td width="14%">
+                <label class="lblheader">
+                     Requestor Remarks</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Model.IssuedBy
+                @Html.HiddenFor(m => m.IssuedBy)
+            </td>
+            <td>
+                @Model.RequiredForStore
+                @Html.HiddenFor(m => m.RequiredForStore)
+            </td>
+            <td>
+                @Model.RequiredFromStore
+                @Html.HiddenFor(m => m.RequiredFromStore)
+            </td>
+            <td>
+                 @Html.TextAreaFor(m => m.RequestorDescription, new { rows = 2, cols = 28, @readonly=true, @class = "CSSTextArea" })
+                @Html.HiddenFor(m => m.RequestorDescription)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                <table id="MaterialRequestList">
+                </table>
+                <div id="MaterialRequestListPager">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" id="btnBack" value="Back To Inbox" />
+            </td>
+            <td>
+                <input type="button" id="btnGotoIssueNoteList" value="Go to Issue Note List" />
+            </td>
+        </tr>
+    </table>
+}

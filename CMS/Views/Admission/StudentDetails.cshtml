@@ -1,0 +1,453 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+@using (Html.BeginForm())
+{
+    <div id="accordion" class="accordion-style1 panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        <i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down"
+                            data-icon-show="ace-icon fa fa-angle-right"></i>&nbsp;<i class="ace-icon fa  fa-align-justify"></i>&nbsp;General
+                        Details </a>
+                </h4>
+            </div>
+            <div class="panel-collapse collapse in" id="collapseOne">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-10" style="padding-right: 0px;">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-9" style="padding: -1px 2px;">
+                                                <label for="form-field-mask-1">
+                                                    <b>App Name</b></label>
+                                                @if (ViewBag.Studentmgmt == "yes")
+                                                {
+                                                    @Html.TextBoxFor(model => model.Name, new { id = "name", @Class = "form-control input-sm", @maxlength = "80", @Readonly = "Readonly" })
+                                                }
+                                                else
+                                                {                                 
+                                                    @Html.TextBoxFor(model => model.Name, new { id = "name", @Class = "form-control input-sm", @maxlength = "80" })   
+                                                }
+                                                @Html.HiddenFor(model => model.Id)
+                                                @Html.HiddenFor(Model => Model.JoiningAcademicYear)
+                                            </div>
+                                            <div class="col-xs-6 col-sm-3" style="padding: -1px;">
+                                                <label for="form-field-mask-2">
+                                                    <b>Initial</b></label>
+                                                @if (ViewBag.Studentmgmt == "yes")
+                                                {
+                                                    @Html.TextBoxFor(model => model.Initial, new { id = "initial", @Class = "form-control input-sm", @maxlength = "10", @Readonly = "Readonly" })
+                                                }
+                                                else
+                                                {  
+                                                    @Html.TextBoxFor(model => model.Initial, new { id = "initial", @Class = "form-control input-sm", @maxlength = "10" })
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-mask-3">
+                                            <b>App Number</b></label>
+                                        @if (ViewBag.Studentmgmt == "yes")
+                                        {
+                                            @Html.TextBoxFor(model => model.ApplicationNo, new { id = "applicationno", @Class = "form-control input-sm", @maxlength = "15", @Readonly = "Readonly" })
+                                        }
+                                        else
+                                        {                                 
+                                            @Html.TextBoxFor(model => model.ApplicationNo, new { id = "applicationno", @Class = "form-control input-sm", @maxlength = "15" })
+                                        }
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-mask-4">
+                                            <b>Gender</b></label>
+                                        @if (ViewBag.Studentmgmt == "yes")
+                                        {                              
+                                            @Html.TextBoxFor(model => model.Gender, new { id = "gender", @Class = "form-control select-sm", @maxlength = "15", @Readonly = "Readonly" })
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownListFor(model => model.Gender, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Male",Text="Male"},
+                                              new{Value="Female",Text="Female"}
+                                          }, "Value", "Text", ""), new { id = "gender", @Class = "form-control select-sm", @maxlength = "15" })
+
+                                        }
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-mask-5">
+                                            <b>Blood Group</b></label>
+                                        @Html.DropDownListFor(Model => Model.BGRP, new SelectList(ViewBag.bloodgrpddl, "BloodGroup", "BloodGroup"), "Select BloodGroup", new { id = "bgrp", @maxlength = "15", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-mask-6">
+                                            <b>Campus</b></label>
+                                        @if (ViewBag.Studentmgmt == "yes")
+                                        {
+                                            @Html.TextBoxFor(model => model.Campus, new { id = "ddlcampus", @Class = "form-control input-sm", @maxlength = "15", @Readonly = "Readonly", @style = "border-color: red;" })
+                                        }
+                                        else
+                                        {                                 
+                                            @Html.DropDownListFor(Model => Model.Campus, new SelectList(ViewBag.campusddl, "Name", "Name"), "Select One", new { id = "ddlcampus", @maxlength = "15", @Class = "form-control select-sm" })
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-6">
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-mask-2">
+                                            <b>Academic Year</b></label>
+                                        @if (ViewBag.Studentmgmt == "yes")
+                                        {
+                                            @Html.TextBoxFor(model => model.AcademicYear, new { id = "academicyear", @Class = "form-control input-sm", @Readonly = "Readonly" })
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownListFor(Model => Model.AcademicYear, new SelectList(ViewBag.acadyrddl, "AcademicYear", "AcademicYear"), "Select AcademicYear", new { id = "academicyear", @Class = "form-control select-sm" })    
+                                        }
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-mask-3">
+                                            <b>Grade</b></label>
+                                        @if (ViewBag.Studentmgmt == "yes")
+                                        {
+                                            @Html.TextBoxFor(model => model.Grade, new { id = "stdntgrade", @Class = "form-control input-sm", @maxlength = "10", @Readonly = "Readonly" })
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownListFor(Model => Model.Grade, new SelectList(ViewBag.gradeddl1, "gradcod", "gradcod"), "Select Grade", new { id = "stdntgrade", @Class = "form-control select-sm" })
+                                        }
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-mask-4">
+                                            <b>Date of Birth</b></label>
+                                        @if (Session["userrole"].ToString() != "ADM-APP")
+                                        {
+                                            @Html.HiddenFor(m => m.AdmissionStatus)
+                                        }
+                                        <div class="input-group input-group-sm">
+                                            @Html.TextBoxFor(model => model.DOB, new { id = "dob", @Class = "form-control date-picker" })
+                                            <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-mask-6">
+                                            <b>Boarding type</b></label>
+                                        @Html.DropDownListFor(model => model.BoardingType, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Day Scholar",Text="Day Scholar"},
+                                              new{Value="Residential",Text="Residential"},
+                                              new{Value="Week Boarder",Text="Week Boarder"}
+                                          }, "Value", "Text", ""), new { id = "boardingtype", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-mask-3">
+                                            <b>Van No</b></label>
+                                        @Html.DropDownListFor(model => model.VanNo, new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "vanno", @Class = "form-control select-sm" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-mask-5">
+                                            <b>Transport Required </b>
+                                        </label>
+                                        <label for="Transport_true">
+                                            @Html.RadioButtonFor(model => model.Transport, true, new { id = "Transport_true", @Class = "ace" })
+                                            <span class="lbl">Yes</span></label>
+                                        &nbsp;&nbsp;
+                                        <label for="Transport_false">
+                                            @Html.RadioButtonFor(model => model.Transport, false, new { id = "Transport_false", @Class = "ace" })
+                                            <span class="lbl">No</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-6">
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-mask-2">
+                                            <b>Food preferences&nbsp;&nbsp;&nbsp;&nbsp; </b>
+                                        </label>
+                                        @Html.DropDownListFor(model => model.FoodPreference, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Veg",Text="Veg"},
+                                              new{Value="NonVeg",Text="NonVeg"},
+                                              new{Value="Home Lunch",Text="Home Lunch"}
+                                          }, "Value", "Text", ""), new { id = "foodpre", @Class = "form-control select-sm", @maxlength = "15" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-mask-3">
+                                            <b>Email Id</b></label>
+                                        @Html.TextBoxFor(model => model.EmailId, new { id = "emailid", @Class = "form-control input-sm", @maxlength = "48" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-mask-4">
+                                            <b>Mobile No</b></label>
+                                        @Html.TextBoxFor(model => model.MobileNo, new { id = "phno", @Class = "form-control input-sm", @maxlength = "25", @onkeypress = "return isNumber(event)" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-mask-5">
+                                            <b>Annual Income</b></label>
+                                        @Html.DropDownListFor(model => model.AnnualIncome, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="Less than 1 Lakh",Text="Less than 1 Lakh"},
+                                              new{Value="1 Lakh to 2 Lakh",Text="1 Lakh to 2 Lakh"},
+                                              new{Value="More than 3 Lakhs",Text="More than 3 Lakhs"},
+                                              new{Value="More than 5 Lakhs",Text="More than 5 Lakhs"}
+                                          }, "Value", "Text", ""), new { @Class = "form-control select-sm", @maxlength = "30" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-mask-6">
+                                            <b>Languages Known</b></label>
+                                        @Html.TextBoxFor(model => model.LanguagesKnown, new { id = "language", @Class = "form-control input-sm", @maxlength = "40" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label for="form-field-mask-2">
+                                            <b>Applied Date&nbsp;&nbsp;&nbsp;&nbsp; </b>
+                                        </label>
+                                        @Html.TextBoxFor(model => model.CreatedDate, new { id = "createddate", @Class = "form-control date-picker", @maxlength = "20", @Readonly = "Readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            @if (ViewBag.Studentmgmt == "yes")
+                            {
+                                <div class="space-6">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Nationality</b></label>
+                                            @*@Html.TextBoxFor(Model=>Model.Nationality,  new { @class = "form-control input-sm" })*@
+                                            @Html.DropDownListFor(model => model.Nationality, new SelectList(ViewBag.Nationality, "Nationality", "Nationality"), "--Select One--", new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-4">
+                                                <b>Student Id</b></label>
+                                            @Html.TextBoxFor(model => model.NewId, new { id = "newid", @Class = "form-control input-sm", @maxlength = "20" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-5">
+                                                <b>Section</b></label>
+                                            @Html.TextBoxFor(model => model.Section, new { id = "section", @Class = "form-control input-sm", @maxlength = "20", @Readonly = "Readonly" })
+                                            @Html.HiddenFor(model => model.FeeStructYear)
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-2">
+                                                <b>Operational Year</b></label>
+                                            @Html.DropDownListFor(Model => Model.OperationalYear, new SelectList(ViewBag.acadyrddl, "AcademicYear", "AcademicYear"), "Select OperationalYear", new { @Class = "form-control select-sm" })
+                                            @Html.HiddenFor(model => model.OperationalYear)
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-2">
+                                                <b>Enquired Through</b></label>
+                                            @Html.TextBoxFor(model => model.EntryFrom, new { id = "entryfrm", @Class = "form-control select-sm", @maxlength = "15", @Readonly = "Readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            { 
+                                <div class="space-6">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-3">
+                                                <b>Nationality</b></label>
+                                            @Html.DropDownListFor(model => model.Nationality, new SelectList(ViewBag.Nationality, "Nationality", "Nationality"), "--Select One--", new { @Class = "form-control select-sm" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="form-field-mask-4">
+                                                <b>Enquiry Through</b></label>
+                                            @if (Model == null)
+                                            {                             
+                                                @Html.DropDownListFor(model => model.EntryFrom, new SelectList(new[]
+                                          {
+                                              new{Value="",Text="Select One"},
+                                              new{Value="School",Text="School"},
+                                              new{Value="Telephonic",Text="Telephonic"}
+                                          }, "Value", "Text", ""), new { id = "entryfrm", @Class = "form-control select-sm", @maxlength = "15" })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.EntryFrom, new { id = "entryfrm", @Class = "form-control select-sm", @maxlength = "15", @Readonly = "Readonly" })
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-xs-12 col-sm-2">
+                            <span class="profile-picture">@*<img src="@Url.Action("uploaddisplay1", "Admission", new { id = ViewBag.preregno })" id="image1" class="img-responsive" name="logoFile" style="display: block;/>*@
+                                <img id="image1" class="editable img-responsive" src="@Url.Action("uploaddisplay1", "Admission", new { id = ViewBag.preregno })" alt="Student Img" name="logoFile" style="display: block; height:160px; width:150px;" ></img>
+                            </span>
+                            <br />
+                           @*<input type="file" name="file1" id="file1" />
+                            <button class="btn btn-xs btn-primary" type="button" name="DocUpload" value="Upload" id="Upload" onclick="return (uploadvalidate());">
+                                <i class="ace-icon fa fa-upload"></i>Upload
+                            </button>*@
+                            <button type="button" class="btn btn-primary btn-sm" name="CaptureImg" id="CaptureImg" value="CaptureImage">
+                                <i class="ace-icon fa fa-save">&nbsp;</i>Capture
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion"
+                        href="#collapseTwo"><i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down"
+                            data-icon-show="ace-icon fa fa-angle-right"></i>&nbsp;<i class="ace-icon fa  fa-align-justify"></i>&nbsp;Address
+                        Details </a>
+                </h4>
+            </div>
+            <div class="panel-collapse collapse" id="collapseTwo">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xl-6 col-sm-6">
+                            <u><b>Primary Address</b></u>
+                            <div class="space-4">
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <b>Add1</b></label>
+                                        @Html.TextBoxFor(model => model.AddressDetailsList[0].Add1, new { id = "Address10", @Class = "form-control input-sm", @maxlength = "45" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <b>Add2</b></label>
+                                        @Html.TextBoxFor(model => model.AddressDetailsList[0].Add2, new { id = "Address20", @Class = "form-control input-sm", @maxlength = "45" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <b>Add3</b></label>
+                                        @Html.TextBoxFor(model => model.AddressDetailsList[0].Add3, new { id = "Address30", @Class = "form-control input-sm", @maxlength = "45" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-4">
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <b>City</b></label>
+                                        @Html.TextBoxFor(model => model.AddressDetailsList[0].City, new { id = "City0", @Class = "form-control input-sm", @maxlength = "40" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <b>State</b></label>
+                                        @Html.TextBoxFor(model => model.AddressDetailsList[0].State, new { id = "State0", @Class = "form-control input-sm", @maxlength = "40" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <b>Country</b></label>
+                                        @Html.TextBoxFor(model => model.AddressDetailsList[0].Country, new { id = "Country0", @Class = "form-control input-sm", @maxlength = "40" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-4">
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <b>Pin</b></label>
+                                        @Html.TextBoxFor(model => model.AddressDetailsList[1].Pin, new { id = "Pin0", @Class = "form-control input-sm", @maxlength = "10" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <b>Phone</b></label>
+                                        @Html.TextBoxFor(model => model.AddressDetailsList[1].Phone, new { id = "PhnNo0", @Class = "form-control input-sm", @maxlength = "40" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-sm-6">
+                            <u><b>Secondary Address</b></u>
+                            <div class="space-4">
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <b>Add1</b></label>
+                                        @Html.TextBoxFor(model => model.AddressDetailsList[1].Add1, new { id = "Address11", @Class = "form-control input-sm", @maxlength = "45" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <b>Add2</b></label>
+                                        @Html.TextBoxFor(model => model.AddressDetailsList[1].Add2, new { id = "Address21", @Class = "form-control input-sm", @maxlength = "45" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <b>Add3</b></label>
+                                        @Html.TextBoxFor(model => model.AddressDetailsList[1].Add3, new { id = "Address31", @Class = "form-control input-sm", @maxlength = "45" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-4">
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <b>City</b></label>
+                                        @Html.TextBoxFor(model => model.AddressDetailsList[1].City, new { id = "City1", @Class = "form-control input-sm", @maxlength = "40" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <b>State</b></label>
+                                        @Html.TextBoxFor(model => model.AddressDetailsList[1].State, new { id = "State1", @Class = "form-control input-sm", @maxlength = "40" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <b>Country</b></label>
+                                        @Html.TextBoxFor(model => model.AddressDetailsList[1].Country, new { id = "Country1", @Class = "form-control input-sm", @maxlength = "40" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-4">
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <b>Pin</b></label>
+                                        @Html.TextBoxFor(model => model.AddressDetailsList[1].Pin, new { id = "Pin1", @Class = "form-control input-sm", @maxlength = "10" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <b>Phone</b></label>
+                                        @Html.TextBoxFor(model => model.AddressDetailsList[1].Phone, new { id = "PhnNo1", @Class = "form-control input-sm", @maxlength = "40" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="../../Scripts/AdmissionScripts/StudentDetails.js" type="text/javascript"></script>
+<script src="@Url.Content("~/assets/js/AceJQMsg.js")" type="text/javascript"></script>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.Assess" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.SumativeStudentDetails_Vw, TIPS.Entities.Assess" table="SumativeStudentDetails_Vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native" />
+    </id>
+    <property name="Name" column="Name" type="AnsiString" />
+    <property name="Campus" column="Campus" type="AnsiString" />
+    <property name="Grade" column="Grade" type="AnsiString" />
+    <property name="Section" column="Section" type="AnsiString" />
+    <property name="AcademicYear" column="AcademicYear" type="AnsiString" />
+    <property name="Semester" column="Semester" type="AnsiString" />
+    <property name="Subject" column="Subject" type="AnsiString" />
+    <property name="Calculated" column="Calculated" type="Int64" />
+  </class>
+</hibernate-mapping>

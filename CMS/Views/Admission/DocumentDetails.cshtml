@@ -1,0 +1,65 @@
+﻿@model TIPS.Entities.AdmissionEntities.StudentTemplate
+<div class="row">
+    <div class="col-xs-12 widget-container-col">
+        <div class="widget-box widget-color-CustomizeBlue">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <div class="PanelHeader">
+                    <i class="ace-icon fa fa-upload"></i>&nbsp;Documents Details
+                </div>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Document Type</b></label><br>
+                                @Html.DropDownListFor(Model => Model.DocumentDetailsList[0].DocumentType, new SelectList(ViewBag.documentddl, "DocumentType", "DocumentType"), "Select One", new { id = "doctype", @Class = "form-control select-sm" })
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="form-field-select-1">
+                                    <b>Document Name</b></label>
+                                <input type="file" name="file1" id="file1" />
+                            </div>
+                            @*<div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Name</b></label>
+                                @Html.TextBoxFor(model => model.DocumentDetailsList[0].Name, new { id = "nam", @Class = "CSSTextBox", @maxlength = "40" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="form-field-select-1">
+                                    <b>Phone No.</b></label><br />
+                                @Html.TextBoxFor(model => model.DocumentDetailsList[0].Phone, new { id = "phn", @Class = "CSSTextBox", @maxlength = "40" })
+                            </div>*@
+                            <div class="col-sm-2">
+                                <div class="space-8"></div>
+                                <button class="btn btn-xs btn-primary" type="submit" name="DocUpload" value="Upload" id="Upload" onclick="return (uploadvalidate());">
+                                    <i class="ace-icon fa fa-upload"></i>
+                                    <span class="bigger-110">Upload&nbsp;&nbsp;&nbsp;</span>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                    @*<div class="space-6"></div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-2"></div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
+        <table id="Documents-grid-table">
+        </table>
+        <div id="Documents-grid-pager">
+        </div>
+    </div>
+</div>
+<div id="AddressDetailsDiv"></div>
+<script src="../../Scripts/AdmissionScripts/DocumentDetails.js"></script>

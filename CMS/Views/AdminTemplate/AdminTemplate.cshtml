@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "AdminTemplate";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<script type="text/javascript">
+    try { ace.settings.check('main-container', 'fixed') } catch (e) { }
+</script>
+<div class="page-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <div class="tabbable tabs-left">
+                    <ul id="myTab" class="nav nav-tabs">
+                        <li class="active"><a href="#Dashboard" data-toggle="tab"><i class="ace-icon fa fa-dashboard">
+                        </i>&nbsp;Dashboard</a> </li>
+                        <li><a data-toggle="tab" href="#Staff"><i class="ace-icon fa fa-user"></i>&nbsp;Staff</a></li>
+                        <li><a data-toggle="tab" href="#Admission"><i class="ace-icon fa fa-tags"></i>&nbsp;Admission</a></li>
+                        <li><a data-toggle="tab" href="#CallManagement"><i class="ace-icon fa fa-phone"></i>
+                            &nbsp;CallManagement</a></li>
+                        <li><a data-toggle="tab" href="#Students"><i class="ace-icon fa fa-user"></i>&nbsp;Students</a></li>
+                        <li><a data-toggle="tab" href="#Assessment"><i class="ace-icon fa fa-book"></i>&nbsp;Assessment</a></li>
+                        <li><a data-toggle="tab" href="#Email"><i class="ace-icon fa fa-envelope-square"></i>
+                            &nbsp;Email</a></li>
+                        <li><a data-toggle="tab" href="#SMS"><i class="ace-icon fa fa-mobile"></i>&nbsp;SMS</a></li>
+                        <li><a data-toggle="tab" href="#Store"><i class="ace-icon fa fa-shopping-cart"></i>&nbsp;Store</a></li>
+                        <li><a data-toggle="tab" href="#Transport"><i class="ace-icon fa fa-truck"></i>&nbsp;Transport</a></li>
+                        <li><a data-toggle="tab" href="#Users"><i class="ace-icon fa fa-users"></i>&nbsp;Users</a></li>
+                        <li><a data-toggle="tab" href="#LoginHistory"><i class="ace-icon fa fa-sign-in"></i>
+                            &nbsp;LoginHistory</a></li>
+                    </ul>
+                    <div class="tab-content col-xs-6.col-sm-10">
+                        <div class="tab-pane in active" id="Dashboard">
+                            @Html.Partial("DashBoardIndex")
+                        </div>
+                        <div class="tab-pane" id="Staff">
+                            @Html.Partial("StaffManagement")
+                        </div>
+                        <div class="tab-pane" id="Admission">
+                            @Html.Partial("AdmissionManagement")
+                        </div>
+                        <div class="tab-pane" id="CallManagement">
+                            @Html.Partial("CallManagement")
+                        </div>
+                        <div class="tab-pane" id="Students">
+                            @Html.Partial("Students")
+                        </div>
+                        <div class="tab-pane" id="Assessment">
+                            @Html.Partial("Assessment")
+                        </div>
+                        <div class="tab-pane" id="Email">
+                            @Html.Partial("Email")
+                        </div>
+                        <div class="tab-pane" id="SMS">
+                            @Html.Partial("SMS")
+                        </div>
+                        <div class="tab-pane" id="Store">
+                            @Html.Partial("Store")
+                        </div>
+                        <div class="tab-pane" id="Transport">
+                            @Html.Partial("Transport")
+                        </div>
+                        <div class="tab-pane" id="Users">
+                            @Html.Partial("Users")
+                        </div>
+                        <div class="tab-pane" id="LoginHistory">
+                            @Html.Partial("LoginHistory")
+                        </div>
+                    </div>
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+    </div>
+    <!-- /.page-content-area -->
+</div>
+<script type="text/javascript">
+    if ('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+</script>
+<!-- inline scripts related to this page -->

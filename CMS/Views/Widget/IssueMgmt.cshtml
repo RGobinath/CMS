@@ -1,0 +1,43 @@
+﻿<style type="text/css">
+    .ui-jqgrid .ui-pg-input
+    {
+        width: 30px;
+    }
+    .ui-jqgrid .ui-pg-selbox
+    {
+        width: 50px;
+        height: 25px;
+    }
+</style>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#Issue').jqGrid({
+            url: '/Widget/Issuejqgrid',
+            datatype: 'Json',
+            type: 'GET',
+            width: 350,
+            height: 140,
+            colNames: ['Id', 'Support No', 'Student Name', 'Campus', 'Issue Type'],
+            colModel: [
+            { name: 'Id', index: 'Id', hidden: true },
+            { name: 'IssueNumber', index: 'IssueNumber', width: 90, align: "center" },
+            { name: 'StudentName', index: 'StudentName', width: 80 },
+            { name: 'BranchCode', index: 'BranchCode', width: 50 },
+            { name: 'IssueType', index: 'IssueType', width: 100 }, ],
+            rowNum: 4,
+            rowList: [4, 10, 20],
+            sortorder: 'Asc',
+            sortname: 'Id',
+            pager: 'IssuePager'
+        });
+        $('#Issue').jqGrid('filterToolbar', { searchOnEnter: true, enableClear: false });
+    });
+</script>
+<div id="CallManagementDetails">
+    <table id="Issue">
+    </table>
+    <div id="IssuePager">
+    </div>
+</div>

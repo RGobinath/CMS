@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.HostelMgntEntities.HstlMgmt_HostelDetails" namespace="TIPS.Entities.HostelMgntEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.HostelMgntEntities.HstlMgmt_HostelDetails, TIPS.Entities" table="HstlMgmt_HostelDetails" lazy="false" >
+    <id name="HostDts_Id" column="HostDts_Id" type="Int64">
+      <generator class="native"/>
+    </id>
+
+    <property name="HstlMst_Id" column="HstlMst_Id" type="Int64"/>
+    <property name="HostelName" column="HostelName" type="string"/>
+    <property name="HostelType" column="HostelType" type="string"/>
+    <property name="Floor" column="Floor" type="string"/>
+    <property name="Campus" column="Campus" type="string"/>
+    <property name="RoomMst_Id" column="RoomMst_Id" type="Int64"/>
+    <property name="RoomNumber" column="RoomNumber" type="string"/>
+    <property name="BedMst_Id" column="BedMst_Id" type="Int64"/>
+    <property name="BedNumber" column="BedNumber" type="string"/>
+    <property name="Stud_Id" column="Stud_Id" type="Int64"/>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"/>
+    <property name="SIPNo" column="SIPNo" type="string"/>
+
+    <property name="InCharge" column="InCharge" type="string"/>
+    <property name="IsRoomAllocate" column="IsRoomAllocate" type="bool"/>
+    <property name="DateOfJoining" column="DateOfJoining" type="DateTime"/>
+    <property name="Name" column="Name" type="string"/>
+    <property name="NewId" column="NewId" type="string"/>
+    <property name="Grade" column="Grade" type="string"/>
+    <property name="Section" column="Section" type="string"/>
+    <property name="AcademicYear" column="AcademicYear" type="string"/>
+    <property name="BoardingType" column="BoardingType" type="string"/>
+
+    <property name="CreatedBy" column="CreatedBy" type="string"/>
+    <property name="DateCreated" column="DateCreated" type="DateTime"/>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"/>
+    <property name="DateModified" column="DateModified" type="DateTime"/>
+
+  </class>
+</hibernate-mapping>

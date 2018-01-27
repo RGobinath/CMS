@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.Assess.FA_HW_Vw" namespace="TIPS.Entities.Assess" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Assess.FA_HW_Vw, TIPS.Entities.Assess" table="FA_HW_Vw" lazy="false" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="identity"></generator>
+    </id>
+    <property name="AssessId" column="AssessId" type="Int64"></property>
+    <property name="StudentId" column="StudentId" type="Int64"></property>
+    <property name="IdNo" column="IdNo" type="string"></property>
+    <property name="Name" column="Name" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+    <property name="AcademicYear" column="AcademicYear" type="string"></property>
+    <property name="Section" column="Section" type="string"></property>
+    <property name="Grade" column="Grade" type="string"></property>
+    <property name="Subject" column="Subject" type="string"></property>
+    <property name="FAJan" column="FAJan" type="decimal"></property>
+    <property name="FAFeb" column="FAFeb" type="decimal"></property>
+    <property name="FAMar" column="FAMar" type="decimal"></property>
+    <property name="FAApr" column="FAApr" type="decimal"></property>
+    <property name="FAMay" column="FAMay" type="decimal"></property>
+    <property name="FAJun" column="FAJun" type="decimal"></property>
+    <property name="FAJul" column="FAJul" type="decimal"></property>
+    <property name="FAAug" column="FAAug" type="decimal"></property>
+    <property name="FASep" column="FASep" type="decimal"></property>
+    <property name="FAOct" column="FAOct" type="decimal"></property>
+    <property name="FANov" column="FANov" type="decimal"></property>
+    <property name="FADec" column="FADec" type="decimal"></property>
+    <property name="HWJan" column="HWJan" type="decimal"></property>
+    <property name="HWFeb" column="HWFeb" type="decimal"></property>
+    <property name="HWMar" column="HWMar" type="decimal"></property>
+    <property name="HWApr" column="HWApr" type="decimal"></property>
+    <property name="HWMay" column="HWMay" type="decimal"></property>
+    <property name="HWJun" column="HWJun" type="decimal"></property>
+    <property name="HWJul" column="HWJul" type="decimal"></property>
+    <property name="HWAug" column="HWAug" type="decimal"></property>
+    <property name="HWSep" column="HWSep" type="decimal"></property>
+    <property name="HWOct" column="HWOct" type="decimal"></property>
+    <property name="HWNov" column="HWNov" type="decimal"></property>
+    <property name="HWDec" column="HWDec" type="decimal"></property>
+  </class>
+</hibernate-mapping>

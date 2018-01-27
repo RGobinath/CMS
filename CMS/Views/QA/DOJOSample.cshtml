@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "DOJOSample";
+}
+
+<h2>DOJOSample</h2>
+<!DOCTYPE html>
+<html >
+
+@*	<link rel="stylesheet" href="../_static/js/dojo/../dijit/themes/claro/claro.css">*@
+	
+	<script>dojoConfig = {parseOnLoad: true}</script>
+
+<script src="../../Scripts/dojo.js"></script>
+	<script>
+require(["dijit/InlineEditBox", "dijit/form/Textarea", "dojo/domReady!"], function(InlineEditBox, Textarea){
+    var eb = new InlineEditBox({
+        editor: Textarea,
+        autoSave: false
+    }, "ieb").startup();
+});
+	</script>
+
+<body class="claro">
+    <div id="ieb">
+    When you click on this div you'll be able to edit it (in plain text).
+    The editor's size will initially match the size of the (original) text, but will expand/contract as you type.
+</div>
+</body>
+</html>

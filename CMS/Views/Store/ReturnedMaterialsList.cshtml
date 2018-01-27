@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "AcceptReturnedMaterials";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+
+
+<div class="page-content">
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                    <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Criteria</div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-sm-2">
+                                        <label for="form-field-select-1">
+                                            <b>Accept Status</b>
+                                        </label>
+                                        @Html.DropDownList("AcceptedStatus", new SelectList(new[]
+                                          {
+                                              new{Value="Open",Text="Open"},
+                                              new{Value="Completed",Text="Completed"},
+                                          }, "Value", "Text", "Open"), new { @Class = "form-control select-sm" })
+                                        @Html.Hidden("NewUrl", Url.Action("MaterialReturn", "Store"))
+                                    </div>
+                                    <div class="col-sm-10">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="MaterialReturn">
+                </table>
+                <div id="MaterialReturnPager">
+                </div>
+                <script type="text/javascript">
+                    var $path_base = ".."; //in Ace demo this will be used for editurl parameter
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<script src='@Url.Content("~/Scripts/Store/ReturnedMaterialsList.js")' type="text/javascript"></script>

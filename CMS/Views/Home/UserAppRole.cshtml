@@ -1,0 +1,282 @@
+﻿@model TIPS.Entities.UserAppRole
+@{
+    ViewBag.Title = "UserAppRole";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<html>
+<head>
+    <title></title>
+    <style type="text/css">
+        /* Component containers
+----------------------------------*//*.ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 1.1em; }*/.ui-widget .ui-widget
+        {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        /*.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button 
+{ font-family: Verdana,Arial,sans-serif; font-size: 1em; 
+  }*/.ui-widget-content
+        {
+            border: 0px solid #aaaaaa;
+            background: #ffffff url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x;
+            font-size: 0.8em;
+            color: #222222;
+        }
+        .ui-widget-content a
+        {
+            color: #222222;
+        }
+        .ui-widget-header
+        {
+            border: 1px solid #aaaaaa; /*background: #0C0436 url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x; color: #222222; font-weight: bold;*/
+            background-color: #B6B6B6;
+        }
+        .ui-widget-header a
+        {
+            color: #222222;
+        }
+        .ui-jqdialog-content .CaptionTD
+        {
+            text-align: left;
+            vertical-align: top;
+            border-left: 0 none;
+            border-right: 0 none;
+            border-bottom: 0 none;
+            padding: 1px;
+            white-space: nowrap;
+            height: 30px;
+        }
+        .ui-jqdialog .ui-jqdialog-titlebar
+        {
+            padding: .10em .10em;
+            position: relative;
+        }
+        
+        .ui-state-error
+{
+    font-size: 1.8em;
+    
+}
+    </style>
+</head>
+<body>
+</body>
+</html>
+@using (Html.BeginForm("UserAppRole", "Home", FormMethod.Post))
+{
+
+    <table style="height: 90%">
+        <tr>
+            <td style="padding-bottom: 10px">
+                <table class="WithBorderOnly" width="100%">
+                    <tr class="PanelHeading">
+                        <th colspan="5">
+                            User Creation
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            UserId
+                        </th>
+                        <th>
+                            Application Code
+                        </th>
+                        <th>
+                            Role Code
+                        </th>
+                        <th>
+                            Department Code
+                        </th>
+                        <th>
+                            Branch Code
+                        </th>
+                    </tr>
+                    <tr id="srchKeyPress">
+                        <td>
+                            <input type="text" id="userid" class="CSSTextBox" />
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.AppCode, new SelectList(ViewBag.appcodeddl, "Id", "AppCode"), "Select", new { id = "appcodeddl", @Class = "CSSDropDownList" })
+                        </td>
+                        <td>@Html.DropDownListFor(Model => Model.RoleCode, new SelectList(ViewBag.rolecodeddl, "Id", "RoleCode"), "Select", new { id = "rolecodeddl", @Class = "CSSDropDownList" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.DeptCode, new SelectList(ViewBag.deptcodeddl, "Id", "DeptCode"), "Select", new { id = "deptcodeddl", @Class = "CSSDropDownList" })
+                        </td>
+                        <td>@Html.DropDownListFor(Model => Model.BranchCode, new SelectList(Enumerable.Empty<SelectListItem>()), "----Select----", new { id = "branchcodeddl", @Class = "CSSDropDownList", style = "width:145px;" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" id="Search" value="Search" />&nbsp
+                            <input type="button" id="reset" value="Reset" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table id="list4">
+                </table>
+                <div id="gridpager"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            <div id="dialog" title="" style="font-size:1.1em; height:25px; display:none">
+	<p style="padding-left:20px; background-color:Lime">User Already Exists</p>
+</div>
+            <div id="dialog1" title="" style="font-size:1.1em; height:25px; display:none" >
+	<p style="padding-left:20px">User Sucessfully Created</p>
+</div>
+            </td>
+        </tr>
+    </table>       
+}
+<script type="text/javascript" language="javascript">
+
+    var column2 = "Region";
+    var column3 = "Action";
+
+
+    var usersrch = "";
+    var appcdsrch = "";
+    var rlcdsrch = "";
+    var depcdsrch = "";
+    var brncdsrch = "";
+
+    $(document).ready(function () {
+        $.getJSON("/Base/FillAllBranchCode",
+     function (fillcampus) {
+         var ddlcam = $("#branchcodeddl");
+         ddlcam.empty();
+         ddlcam.append($('<option/>',{value: "",text: "Select One"}));
+         $.each(fillcampus, function (index, itemdata) {
+             ddlcam.append($('<option/>',{value: itemdata.Value,text: itemdata.Text}));
+         });
+     });
+        function loadgrid() {
+            jQuery("#list4").jqGrid({
+                mtype: 'GET',
+                url: '/Home/UserAppRolejqgrid',
+                postData: { userid: usersrch, appcd: appcdsrch, rlcd: rlcdsrch, depcd: depcdsrch, brncd: brncdsrch },
+                datatype: 'json',
+                height: '230',
+                width: '1250',
+                shrinkToFit: true,
+                colNames: ['User Id', 'Application Code', 'Role Code', 'Department Code', 'Branch', 'Email Id', ''],
+                colModel: [
+                          { name: 'UserId', index: 'UserId', width: '40%', align: 'left', editable: true, edittype: 'text', editrules: { required: true }, editoptions: { style: " font-size: 0.9em" }, sortable: true },
+                          { name: 'AppCode', index: 'AppCode', width: '30%', align: 'left', editable: true, edittype: 'select', editoptions: { dataUrl: '/Home/AppCodeddl', style: "width: 150px; height: 20px; font-size: 0.9em" }, editrules: { custom: true, custom_func: checkvalid }, sortable: true },
+                          { name: 'RoleCode', index: 'RoleCode', width: '30%', align: 'left', editable: true, edittype: 'select', editoptions: { dataUrl: '/Home/RoleCodeddl', style: "width: 150px; height: 20px; font-size: 0.9em", dataEvents: [{ type: 'change', fn: function (frm) { if ($(frm.target).val() == 'CSE') { $('#DeptCode').attr('disabled', 'disabled'); } else { $('#DeptCode').attr('disabled', false); } } }] }, editrules: { custom: true, custom_func: checkvalid }, sortable: true },
+                          { name: 'DeptCode', index: 'DeptCode', width: '30%', align: 'left', editable: true, edittype: 'select', editoptions: { dataUrl: '/Home/DeptCodeddl', style: "width: 150px; height: 20px; font-size: 0.9em" }, editrules: { custom: true, custom_func: checkvalid1 }, sortable: true },
+                          { name: 'BranchCode', index: 'BranchCode', width: '30%', align: 'center', editable: true, edittype: 'select', editoptions: { dataUrl: '/Home/BranchCodeddl', style: "width: 150px; height: 20px; font-size: 0.9em" }, editrules: { custom: true, custom_func: checkvalid }, sortable: true },
+                          { name: 'Email', index: 'Email', width: 50, align: 'left', editable: true, edittype: 'text', editrules: { email: true }, sortable: true },
+                          { name: 'Id', index: 'Id', width: 50, align: 'left', editable: true, edittype: 'text', hidden: true, key: true, sortable: false }
+
+                          ],
+                pager: '#gridpager',
+                rowNum: '10',
+                rowList: [5, 10, 20, 50, 100, 150, 200],
+                sortname: 'Id',
+                sortorder: "Desc",
+                viewrecords: true,
+                caption: 'User Creation',
+                multiselect: true
+            });
+            jQuery("#list4").navGrid('#gridpager', { add: true, edit: true, del: false, search: true },
+
+            //        //  //edit options
+          {width: 'auto', url: '/Home/AddUserAppRole?test=edit', left: '10%', top: '10%', height: '50%', width: 400, beforeShowForm: function (frm) { $('#UserId').attr('readonly', 'readonly'); if ($('#RoleCode').val() == 'CSE') { $('#DeptCode').attr('disabled', 'disabled'); } else { $('#DeptCode').attr('disabled', false); } } },
+            //  //add options
+          {width: 'auto', url: '/Home/AddUserAppRole/', left: '10%', top: '10%', height: '50%', width: 400, beforeShowForm: function (frm) { $('#UserId').removeAttr('readonly'); $('#DeptCode').attr('disabled', false); }, closeAfterAdd: true }
+          );
+
+            //        //  //delete options
+            //  {url: '/Home/DeleteProduct/' })
+
+        }
+
+        window.onload = loadgrid;
+
+        $("#appcodeddl").change(function () {
+            $("#Search").click();
+        });
+        $("#rolecodeddl").change(function () {
+            $("#Search").click();
+        });
+        $("#deptcodeddl").change(function () {
+            $("#Search").click();
+        });
+        $("#branchcodeddl").change(function () {
+            $("#Search").click();
+        });
+
+        $("#Search").click(function () {
+            $("#list4").GridUnload();
+
+            usersrch = document.getElementById("userid").value;
+            var e = document.getElementById("appcodeddl");
+            appcdsrch = e.options[e.selectedIndex].text;
+            var f = document.getElementById("rolecodeddl");
+            rlcdsrch = f.options[f.selectedIndex].text;
+            var g = document.getElementById("deptcodeddl");
+            depcdsrch = g.options[g.selectedIndex].text;
+            var h = document.getElementById("branchcodeddl");
+            brncdsrch = h.options[h.selectedIndex].text;
+
+            loadgrid();
+        });
+
+        $("#reset").click(function () {
+            $("#list4").GridUnload();
+            usersrch = "";
+            appcdsrch = "";
+            rlcdsrch = "";
+            depcdsrch = "";
+            brncdsrch = "";
+
+
+            document.getElementById("userid").value = "";
+            document.getElementById("appcodeddl").value = "";
+            document.getElementById("rolecodeddl").value = "";
+            document.getElementById("deptcodeddl").value = "";
+            document.getElementById("branchcodeddl").value = "";
+            var e = document.getElementById("appcodeddl");
+            e.options[e.selectedIndex].val = "";
+
+            loadgrid();
+        });
+
+        function checkvalid(value, column) {
+
+            if (value == 'nil') {
+                return [false, column + ": Field is Required"];
+            }
+            else {
+                return [true];
+            }
+        }
+
+        function checkvalid1(value, column) {
+            if (value == 'nil') {
+                if ($('#RoleCode').val() == 'CSE' && $('#DeptCode').val() == 'nil') {
+                    //        alert($('#RoleCode').val());
+                    return [true];
+                }
+                else {
+                    //  return [false, column + ": Field is Required"];
+                    return [true];
+                }
+            }
+            else {
+                return [true];
+            }
+        }
+    });
+</script>

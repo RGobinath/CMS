@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.AdminTemplateEntities.AdminTemplateDashboardIndex_vw" namespace="TIPS.Entities.AdminTemplateEntities">
+	<class name="TIPS.Entities.AdminTemplateEntities.AdminTemplateDashboardIndex_vw, TIPS.Entities" table="AdminTemplateDashboardIndex_vw" lazy="false">
+		<id name="Id" column="Id" type="Int64">
+			<generator class="identity"></generator>
+		</id>
+		<property name="UserCount" column="UserCount" type="string"></property>
+		<property name="StaffCount" column="StaffCount" type="string"></property>
+		<property name="CampusCount" column="CampusCount" type="string"></property>
+		<property name="StudentsCount" column="StudentsCount" type="string"></property>
+		<property name="ViewersCount" column="ViewersCount" type="string"></property>
+		
+	</class>
+</hibernate-mapping>

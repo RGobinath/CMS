@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "StoreToStoreList";
+    Layout = "~/Views/Shared/NewMaster.cshtml";
+}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        function formateadorLink(cellvalue, options, rowObject) {
+            if (rowObject[9] == "Open") {
+                return "<a href=/Store/StoreToStore?Id=" + rowObject[0] + ">" + cellvalue + "</a>";
+            }
+            else {
+                return "<a href=/Store/ShowStoreToStore?Id=" + rowObject[0] + ">" + cellvalue + "</a>";
+            }
+        }
+        jQuery("#StoreToStoreList").jqGrid({
+            url: '/Store/StoreToStoreListJqGrid?Status=' + $("#Status").val(),
+            datatype: 'json',
+            mtype: 'GET',
+            colNames: ['Id', 'Issue Number', 'From Store', 'To Store', 'Delivered Through', 'Delivery Details', 'Delivery Date', 'Created By', 'Created Date', 'Status'],
+            colModel: [
+              { name: 'Id', index: 'Id', hidden: true, key: true },
+              { name: 'IssueNumber', index: 'IssueNumber', formatter: formateadorLink },
+              { name: 'FromStore', index: 'FromStore', width: 90 },
+              { name: 'ToStore', index: 'ToStore', width: 90 },
+              { name: 'DeliveredThrough', index: 'DeliveredThrough', width: 90 },
+              { name: 'DeliveryDetails', index: 'DeliveryDetails', width: 90 },
+              { name: 'DeliveryDate', index: 'DeliveryDate', width: 90 },
+              { name: 'CreatedBy', index: 'CreatedBy', width: 90 },
+              { name: 'CreatedDate', index: 'CreatedDate', width: 90 },
+              { name: 'Status', index: 'Status', width: 90 }
+              ],
+            pager: '#StoreToStoreListPager',
+            rowNum: '10',
+            rowList: [5, 10, 20, 50, 100, 150, 200],
+            sortname: 'Id',
+            sortorder: 'Desc',
+            height: '230',
+            width: 1225,
+            autowidth: true,
+            shrinkToFit: true,
+            viewrecords: true,
+            caption: 'Store to Store List',
+            forceFit: true
+        });
+        $("#btnNew").click(function () {
+            window.location.href = '@Url.Action("StoreToStore","Store")';
+        });
+
+        $("#Status").change(function () {
+            $("#btnSearch").click();
+        });
+
+        $("#btnSearch").click(function (Status) {
+            debugger;
+            $("#StoreToStoreList").clearGridData();
+            var Status = $("#Status").val();
+            $("#StoreToStoreList").setGridParam(
+                {
+                    datatype: "json",
+                    url: '@Url.Content("~/Store/StoreToStoreListJqGrid/")',
+                    postData: { Status: Status },
+                    page: 1
+                }).trigger("reloadGrid");
+        });
+    });
+</script>
+<h3>
+    Store To StoreList</h3>
+<table class="WithBorderOnly" width="100%">
+    <tr class="PanelHeading">
+        <th colspan="7">
+            Search Criteria
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <label class="lblheader">
+                Status
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DropDownList("Status", new SelectList(new[]
+                                          {
+                                              new{Value="Open",Text="Open"},
+                                              new{Value="Completed",Text="Completed"},
+                                                                                           
+                                          },
+                                            "Value", "Text", "Open"), new { @Class = "CSSDropDownList", style = "width:145px;" })
+                                            <input type="button" id="btnSearch" value="Search" />
+                                            <input type="button" id="btnNew" value="Create New" />
+        </td>
+        
+    </tr>
+    <tr>
+        <td>
+            <table id="StoreToStoreList" class="WithBorderOnly" width="100%">
+            </table>
+            <div id="StoreToStoreListPager">
+            </div>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,74 @@
+﻿@model TIPS.Entities.AdmissionEntities.Sports
+@{
+    Layout = null;
+}
+<style>
+    .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default
+    {
+        background: url("images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% #e6e6e6;
+        border: 1px solid #d3d3d3;
+        color: #555555;
+        font-weight: normal;
+    }
+</style>
+<script src="../../assets/js/bootstrap-multiselect.js" type="text/javascript"></script>
+<link href="../../assets/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+<div class="page-content">
+    <div class="page-content-area">
+        @using (Html.BeginForm("SportsPopup", "Admission", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-sm-8">
+                        <label for="form-field-select-1">
+                            <b>Event</b></label>
+                        @*@Html.ListBoxFor(m => m.Event, new SelectList(ViewBag.distinctsportseventddl), new { id = "events" })*@
+                        @Html.ListBox("events", new SelectList(ViewBag.distinctsportseventddl))
+                        @Html.HiddenFor(Model => Model.Event, new { id = "events1" })
+                    </div>
+                    <div class="space-10"></div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-primary" type="submit" id="sportssubmit" onclick="return(eventvalidate());">
+                            <i class="ace-icon fa fa-print bigger-110"></i>Print SC</button>@Html.HiddenFor(Model => Model.Preregno1, new { id = "sportspreregno1" })
+                    </div>
+                </div>
+            </div> 
+            
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#events').multiselect({
+            includeSelectAllOption: true,
+            selectAllText: ' Select all',
+            enableCaseInsensitiveFiltering: true,
+            enableFiltering: true,
+            maxHeight: '300',
+            numberDisplayed: 4,
+            includeSelectAllDivider: true
+        });
+        var values = "";
+       $('#events').dropdownchecklist({ width: 140,
+            onComplete: function (selector) {
+                for (i = 0; i < selector.options.length; i++) {
+                    if (selector.options[i].selected && (selector.options[i].value != "")) {
+                        if (values != "") values += ",";
+                        values += selector.options[i].value;
+                    }
+                }
+                document.getElementById('events1').value = values;
+                $('#events').multiselect('rebuild');
+            }
+           
+        });
+    });
+    function eventvalidate() {
+        if (document.getElementById("events").value == "") {
+            ErrMsg("Please Select Event!");
+            return false;
+        }
+        else { return true; }
+    }
+</script>

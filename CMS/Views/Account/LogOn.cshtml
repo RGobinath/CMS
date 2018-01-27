@@ -1,0 +1,189 @@
+﻿@model TIPS.Entities.User
+@{
+    ViewBag.Title = "Log On";
+    Layout = "~/Views/Shared/AccountMaster.cshtml"; 
+}
+@*<p>
+    Please enter your user name and password. @Html.ActionLink("Register", "CustomRegister")
+    if you don't have an account.
+</p>*@
+@using (Html.BeginForm())
+{
+    <table class="InnerTable" onloadeddata="noBack();" style="width: 100%;">
+        <tr>
+            <td style="text-align: left">
+                @Html.Hidden("SuccessPassChange", "", new { id = "SuccessPassChange", @Value = TempData["SuccessPassChange"] })
+                @Html.HiddenFor(m => m.Id, "")
+                <div>
+                    <fieldset>
+                        <center>
+                            <span class="label label-info">Account Information </span>
+                        </center>
+                        <table width="100%">
+                            <tr>
+                                <td style="width: 100%">
+                                    <div id="loginbox" style="margin-top: 0px;" class="mainbox col-md-12">
+                                        <div class="panel panel-info">
+                                            <div class="panel-heading">
+                                                <div class="panel-title">
+                                                    <i class="glyphicon glyphicon-home"></i><b>Sign In</b></div>
+                                            </div>
+                                            <div style="padding-top: 20px" class="panel-body">
+                                                <div style="display: none" id="login-alert" class="alert alert-danger col-sm-12">
+                                                </div>
+                                                <form id="loginform" class="form-horizontal" role="form">
+                                                <div style="margin-bottom: 10px" class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                    @Html.TextBoxFor(m => m.UserId, new { @Class = "form-control", placeholder = "Username is case sensitive" })
+                                                </div>
+                                                <div style="margin-bottom: 0px" class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                    @Html.PasswordFor(m => m.Password, new { @Class = "form-control", placeholder = "Password is case sensitive" })
+                                                </div>
+                                                @*<div class="input-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input id="login-remember" type="checkbox" name="remember" value="1" />
+                                                            <span>Remember me </span>
+                                                        </label>
+                                                    </div>
+                                                </div>*@
+                                                <br />
+                                                <div style="margin-top: 0px" class="form-group">
+                                                    <!-- Button -->
+                                                    <div class="col-sm-12 controls">
+                                                        <table>
+                                                            <tr>
+                                                                <td width="20%">
+                                                                </td>
+                                                                <td>
+                                                                    <center>
+                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        <button type="submit" class="btn btn-large btn-success" value="Log On" id="btnLogOn"
+                                                                            name="LogOn">
+                                                                            <i class="glyphicon glyphicon-log-in"></i><b>Log On</b></button></center>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <br />
+                                                <div class="col-md-12 control">
+                                                    <div style="border-down: 1px solid#888; padding-top: 15px; font-size: 100%">
+                                                        <div>@Html.ValidationSummary(true, "Please correct the errors and try again.")
+                                                            @*@Html.ValidationSummary(true, "Login was unsuccessful.")*@
+                                                            <left><a href="/Account/CustomForgotPassword"><b>Forgot Password?</b></a></left>
+                                                            &nbsp &nbsp &nbsp
+                                                        </div>
+                                                        @* <span style="color: #0000FF; font-size: 12px Arial;">User Id / Password is Case Sensitive</span>*@
+                                                    </div>
+                                                </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="width: 1%">
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <div>
+                <td width="40%">
+                    <table width="100%" class="InnerTable">
+                        <tr>
+                            <td width="100%">
+                            </td>
+                            <tr>
+                                <td style="text-align: center" width="80%">
+                                    <label>
+                                        supportdesk@@tipsglobal.org</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center" width="100%">
+                                    <label>
+                                        +91-422-647-3333</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center" width="100%">
+                                    @*<br />*@
+                                    <label>
+                                        tipsics@@tipsglobal.org</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center" width="100%">
+                                    <label>
+                                        +917207464869
+                                    </label>
+                                </td>
+                            </tr>
+                        </tr>
+                        <tr>
+                            <td>
+                                @*<br />*@
+                                <div style="background-color: #B6B6B6; height: 100%; width: 100%; font-style: italic;
+                                    text-align: center;">
+                                    <label>
+                                        Support Numbers & Id's</label>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </div>
+        </tr>
+    </table>
+}
+<script type="text/javascript">
+    if ("@ViewBag.User" == "Deactivated") {
+        ErrMsg("User Id is Deactivated.");
+    }
+    if ("@ViewBag.User" == "Case Sensitive") {
+        ErrMsg("User Id is Case Sensitive.");
+    }
+    if ("@ViewBag.User" == -1) {
+        ErrMsg("User Id or Password is incorrect.Please provide the registered UserId.");
+    }
+    $(function () {
+        debugger;
+        //$("#CustomRegisterDialog").dialog({
+        //    autoOpen: false, width: 450, height: 200, modal: true, bgiframe: true
+        //});
+
+        //$("#btnRegister").click(function () {
+        //    //  alert("a");
+        //    $("#CustomRegisterDialog").html("")
+        //         .dialog("option", "title", "Register")
+        //            .load('/Account/CustomRegister', function () {
+        //                $("#CustomRegisterDialog").dialog("open");
+        //            });
+        //});
+
+        $("#btnLogOn").click(function () {
+            var userId = $("#UserId").val();
+            var password = $("#Password").val();
+            if ($.trim(userId).length == 0) {
+                ErrMsg('UserId is Mandatory.');
+                return false;
+            }
+            if ($.trim(password).length == 0) {
+                ErrMsg('Password is Mandatory.');
+                return false;
+            }
+        });
+        if ($("#SuccessPassChange").val() == 1) {
+            InfoMsg("Password changed Successfully.\n Try to login with the new password", function () { $("#SuccessPassChange").val(""); });
+        }
+    });
+</script>
+@*<div id="CustomRegisterDialog" title="" style="display: none;"></div>*@ 

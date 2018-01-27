@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="TIPS.Entities.Sequence" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.Sequence, TIPS.Entities" table="Sequence" lazy="false" >
+    <id name="Id" column="Id">
+      <generator class="identity" />
+    </id>
+    <property name="Code" column="Code" type="string"/>
+    <property name="Name" column="Name" type="string"/>
+    <property name="Value" column="Value" type="Int64"/>
+    <property name="CreatedBy" column="CreatedBy" type="string"/>
+    <property name="CreatedDate" column="CreatedDate" type="DateTime"/>
+    <property name="ModifiedBy" column="ModifiedBy" type="string"/>
+    <property name="ModifiedDate" column="ModifiedDate" type="Int64"/>
+  </class>
+</hibernate-mapping>
+

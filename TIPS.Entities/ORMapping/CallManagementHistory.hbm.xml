@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities" namespace="TIPS.Entities" >
+  <class name="CallManagementHistory" table="CallManagementHistory" lazy="false">
+    <id name="CallManagement_TriggerId" column="CallManagement_TriggerId" type="Int64">
+      <generator class="identity"/>
+    </id>
+    <property name="Id" column="Id" type="Int64"/>
+    <property name="IssueNumber" column="IssueNumber" type="string"/>
+    <property name="Description" column="Description" type="string"/>
+    <property name="UserInbox" column="UserInbox" type="string"/>
+    <property name="InformationFor" column="InformationFor" type="string"/>
+    <property name="IssueGroup" column="IssueGroup" type="string"/>
+    <property name="IssueType" column="IssueType" type="string"/>
+    <property name="Status" column="Status" type="string"/>
+    <property name="ActivityFullName" column="ActivityFullName" type="string"/>
+    <property name="IssueDate" column="IssueDate" type="datetime"/>
+    <property name="School" column="School" type="string"/>
+    <property name="StudentName" column="StudentName" type="string"/>
+    <property name="Grade" column="Grade" type="string"/>
+    <property name="Section" column="Section" type="string"/>
+    <property name="IsHosteller" column="IsHosteller" type="boolean"  />
+    <property name="Email" column="Email" type="string"/>
+    <property name="IsIssueCompleted" column="IsIssueCompleted" type="boolean"/>
+    <property name="CallPhoneNumber" column="CallPhoneNumber" type="string"/>
+    <property name="CallFrom" column="CallFrom" type="string"/>
+    <property name="CallerName" column="CallerName" type="string"/>
+    <property name="StudentNumber"  column="StudentNumber" type="string"/>
+    <property name="StudentType" column="StudentType" type="string"/>
+    <property name="Receiver" column="Receiver" type="string"/>
+    <property name="ReceiverGroup" column="ReceiverGroup" type="string"/>
+    <property name="Approver" column="Approver" type="string"/>
+    <property name="InstanceId" column="InstanceId" type="Int64"/>
+    <property name="UserRoleName" column="UserRoleName" type="string"/>
+    <property name="Resolution" column="Resolution" type="string"/>
+    <property name="IsInformation" column="IsInformation" type="boolean"/>
+    <property name="BranchCode" column="BranchCode" type="string" />
+    <property name="DeptCode" column="DeptCode" type="string"/>
+    <property name="WaitingForParentCnfm" column="WaitingForParentCnfm" type="boolean"/>
+    <property name="LeaveType" column="LeaveType" type="string"  />
+    <property name="ActionDate" column="ActionDate" type="datetime"/>
+    <property name="Performer" column="Performer" type="string"  />
+    <property name="UserType" column="UserType" type="string"  />
+    <property name="BoardingType" column="BoardingType" type="string"  />
+    <property name="ActionName" column="ActionName" type="string"  />
+    <property name="TriggerDate" column="TriggerDate" type="datetime"  />
+    <property name="DeleteComments" column="DeleteComments" type="string"  />
+    <property name="RevertDate" column="RevertDate" type="datetime"  />
+    <property name="RevertComments" column="RevertComments" type="string"  />
+  </class>
+</hibernate-mapping>

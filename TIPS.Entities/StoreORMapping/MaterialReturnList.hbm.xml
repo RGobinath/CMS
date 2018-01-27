@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.StoreEntities" namespace="TIPS.Entities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.StoreEntities.MaterialReturnList, TIPS.Entities" table="MaterialReturnList" lazy="true" >
+    <id name="Id" column="Id" type="Int32">
+      <generator class="identity"></generator>
+    </id>
+    <property name="MatRetId">
+      <column name="MatRetId" sql-type="int" not-null="false" />
+    </property>
+    <property name="MaterialGroup">
+      <column name="MaterialGroup" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="MaterialSubGroup">
+      <column name="MaterialSubGroup" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Material">
+      <column name="Material" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Units">
+      <column name="Units" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="ReturnQty">
+      <column name="ReturnQty" sql-type="int" not-null="false" />
+    </property>
+    <property name="TotalPrice">
+      <column name="TotalPrice" sql-type="decimal" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

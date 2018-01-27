@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TIPS.Entities.TransportEntities.VehicleReport" namespace="TIPS.Entities.TransportEntities">
+  <class name="TIPS.Entities.TransportEntities.VehicleReport, TIPS.Entities" table="VehicleSubTypeMaster" lazy="false">
+    <id name="Id" column="Id" type="Int32">
+      <generator class="identity"></generator>
+    </id>
+    <property name="VehicleTypeId" column="VehicleTypeId" type="Int32"></property>
+    <property name="Type" column="Type" type="string"></property>
+    <property name="VehicleNo" column="VehicleNo" type="string"></property>
+    <property name="Campus" column="Campus" type="string"></property>
+
+    <many-to-one name="VehicleTypeMaster" class="TIPS.Entities.TransportEntities.VehicleTypeMaster, TIPS.Entities"
+                     column="VehicleTypeId" cascade="none" />
+  </class>
+</hibernate-mapping>

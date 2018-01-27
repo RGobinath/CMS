@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="TIPS.Entities.EmployeeEntities.EmployeeOTDetails" namespace="TIPS.Entities.EmployeeEntities" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="TIPS.Entities.EmployeeEntities.EmployeeOTDetails, TIPS.Entities" table="EmployeeOTDetails" lazy="true" >
+    <id name="Id" column="Id" type="Int64">
+      <generator class="native"/>
+    </id>
+    <property name="PreRegNum" column="PreRegNum" type="Int64"></property>
+    <property name="Campus">
+      <column name="Campus" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="EmployeeName">
+      <column name="EmployeeName" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="EmployeeIdNo">
+      <column name="EmployeeIdNo" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="OTDate">
+      <column name="OTDate" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="OTType">
+      <column name="OTType" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="Allowance">
+      <column name="Allowance" sql-type="decimal" not-null="false" />
+    </property>
+    <property name="CreatedDate">
+      <column name="CreatedDate" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="CreatedBy">
+      <column name="CreatedBy" sql-type="varchar" not-null="false" />
+    </property>
+    <property name="ModifiedDate">
+      <column name="ModifiedDate" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="ModifiedBy">
+      <column name="ModifiedBy" sql-type="varchar" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

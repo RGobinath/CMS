@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "Page History Report";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<script src="../../Scripts/StudentReport/PageHistoryReport.js"></script>
+@using (Html.BeginForm())
+{    
+    <div class="row">
+        <!-- Search Start -->
+        <div class="col-xs-12 widget-container-col">
+                <div class="widget-box widget-color-CustomizeBlue">
+                       <div class="widget-header widget-header-flat widget-header-small">
+                        <div class="PanelHeader">
+                            <i class="ace-icon fa fa-search"></i>&nbsp;Search Criteria
+                        </div>
+                        <div class="widget-toolbar">
+                            <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                            </a>
+                        </div>
+                    </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <div class="space-2"></div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2">
+                                    <label for="form-field-select-1">
+                                        <b>Campus </b>
+                                    </label>
+                                    @Html.DropDownList("Campus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select One", new { id = "Campus", @Class = "form-control select-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>
+                                        <b>ControllerName</b>
+                                    </label>
+                                    @Html.TextBox("ControllerName", "", new { Id = "ControllerName", @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>
+                                       <b>Action Name</b> 
+                                    </label>
+                                    @Html.TextBox("ActionName", "", new { Id = "ActionName", @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>
+                                       <b>Action Hit</b> 
+                                    </label>
+                                    @Html.TextBox("ActionHit", "", new { Id = "ActionHit", @class = "form-control input-sm" })
+                                </div>
+                                 <div class="col-sm-1">
+                                     <label>
+                                    </label>
+                                    <button type="button" id="btnSearch" class="btn btn-success btn-block btn-sm">
+                                        <i class="ace-icon fa fa-search white"></i>Search</button>
+
+                                </div>
+                                <div class="col-sm-1">
+                                         <label>
+                                    </label>
+                                    <button type="button" id="btnReset" class="btn btn-danger btn-block btn-sm ">
+                                        <i class="ace-icon fa fa-undo white"></i>Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-4"></div>
+                    </div>
+                    <div class="space-6"></div>
+                  
+                </div>
+            </div>
+            <div class="space-2"></div>
+
+            <table id="PageHistoryReportGrid">
+            </table>
+            <div id="PageHistoryReportPager">
+            </div>
+        </div>
+        <!-- Search End -->
+    </div>    
+    <script src="../../Scripts/StudentReport/PageHistoryReport.js"></script>   
+}
+

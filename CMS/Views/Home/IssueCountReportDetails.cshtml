@@ -1,0 +1,161 @@
+﻿@{
+    ViewBag.Title = "Issue Count Report Details";
+    Layout = "~/Views/Shared/NewAceMaster.cshtml";
+}
+<div class="page-content">
+    <div class="page-content-area">
+        <span>@Html.Raw(ViewBag.BreadCrumb)</span>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="tabbable tabs-top">
+                    <ul id="myTab" class="nav nav-tabs">
+                        <li class="active"><a href="#bycampus" data-toggle="tab"><i class="ace-icon fa fa-table"></i>&nbsp;By Campus</a> </li>
+                        <li><a data-toggle="tab" href="#byissuegroup"><i class="ace-icon fa fa-graduation-cap"></i>&nbsp;By Issue Group</a></li>
+                    </ul>
+                    <div class="tab-content col-xs-6.col-sm-10">
+                        <div class="tab-pane in active" id="bycampus">
+                            <div class="row">
+                                <div class="col-xs-12 widget-container-col">
+                                    <div class="widget-box widget-color-CustomizeBlue">
+                                        <div class="widget-header widget-header-flat widget-header-small">
+                                            <div class="PanelHeader">
+                                                <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                                            </div>
+                                            <div class="widget-toolbar">
+                                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="widget-body">
+                                            <div class="widget-main no-padding">
+                                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                                    <div class="col-xs-12">
+                                                        <div class="col-sm-2">
+                                                            <label>
+                                                                <b>Campus</b>
+                                                            </label>                                                            
+                                                            @Html.DropDownList("ddlCampus", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlCampus", @Class = "form-control select-sm" })
+                                                        </div>                                                                                                                
+                                                        <div class="col-sm-2">
+                                                            <label>
+                                                                <b>From Date</b></label>
+                                                            <div class="input-group input-group-sm">
+                                                                @Html.TextBox("txtFromDate", "", new { @Class = "form-control" })
+                                                                <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label>
+                                                                <b>To Date</b></label>
+                                                            <div class="input-group input-group-sm">
+                                                                @Html.TextBox("txtToDate", "", new { @Class = "form-control" })
+                                                                <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-1">
+                                                            <br />
+                                                            <button type="button" class="btn btn-mini btn-primary" id="btnsrch2">
+                                                                <i class="fa fa-search" style="vertical-align: middle"></i>&nbsp;Search
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-sm-1">
+                                                            <br />
+                                                            <button type="button" class="btn btn-mini btn-danger" id="btnreset2">
+                                                                <i class="fa fa-undo" style="vertical-align: middle"></i>&nbsp;Reset
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-2"></div>
+                            <table id="JqGridCampus">
+                            </table>
+                            <div id="JqGridCampusPager">
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="byissuegroup">
+                            <div class="row">
+                                <div class="col-xs-12 widget-container-col">
+                                    <div class="widget-box widget-color-CustomizeBlue">
+                                        <div class="widget-header widget-header-flat widget-header-small">
+                                            <div class="PanelHeader">
+                                                <i class="ace-icon fa fa-search"></i>&nbsp;Search Panel
+                                            </div>
+                                            <div class="widget-toolbar">
+                                                <a data-action="collapse" href="#"><i class="1 ace-icon fa fa-chevron-down fa-6x"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="widget-body">
+                                            <div class="widget-main no-padding">
+                                                <div class="row" style="margin-top: 10px; margin-left: 3px; margin-bottom: 5px;">
+                                                    <div class="col-xs-12">
+                                                        <div class="col-sm-2">
+                                                            <label>
+                                                                <b>Campus</b>
+                                                            </label>
+                                                            @*</div>
+                                                        <div class="col-sm-2" style="padding: 0px;">*@
+                                                            @Html.DropDownList("ddlCampus1", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlCampus1", @Class = "form-control select-sm" })
+                                                        </div> 
+                                                        <div class="col-sm-2">
+                                                            <label>
+                                                                <b>Issue Group</b>
+                                                            </label>                                                            
+                                                            @Html.DropDownList("ddlIssueGroup1", new SelectList(Enumerable.Empty<SelectListItem>()), "Select", new { id = "ddlIssueGroup1", @Class = "form-control select-sm" })
+                                                        </div>                                                        
+                                                        <div class="col-sm-2">
+                                                            <label>
+                                                                <b>From Date</b></label>
+                                                            <div class="input-group input-group-sm">
+                                                                @Html.TextBox("txtFromDate1", "", new { @Class = "form-control" })
+                                                                <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label>
+                                                                <b>To Date</b></label>
+                                                            <div class="input-group input-group-sm">
+                                                                @Html.TextBox("txtToDate1", "", new { @Class = "form-control" })
+                                                                <span class="input-group-addon"><i class="ace-icon fa fa-calendar"></i></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-1">
+                                                            <br />
+                                                            <button type="button" class="btn btn-mini btn-primary" id="btnsrch1">
+                                                                <i class="fa fa-search" style="vertical-align: middle"></i>&nbsp;Search
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-sm-1">
+                                                            <br />
+                                                            <button type="button" class="btn btn-mini btn-danger" id="btnreset1">
+                                                                <i class="fa fa-undo" style="vertical-align: middle"></i>&nbsp;Reset
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="JqGridIssueGroup">
+                            </table>
+                            <div id="JqGridIssueGroupPager">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/Home/IssueCountReportDetails.js"></script>

@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "FinalResultSearch";
+    Layout = null;
+    
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var PreRegNum = '@ViewBag.PreRegNum';
+
+        $("#FinalResultGrid").jqGrid({
+            url: '/Assess360/FinalResultListJqGrid?PreRegNum=' + PreRegNum,
+            datatype: 'json',
+            type: 'POST',
+            colNames: ['Sem I (100)', 'Sem II (100)', 'Total (100)', 'Grade', 'Sem I (100)', 'Sem II (100)', 'Total (100)', 'Grade', 'Sem I (100)', 'Sem II (100)', 'Total (100)', 'Grade', 'Sem I (100)', 'Sem II (100)', 'Total (100)', 'Grade', 'Sem I (100)', 'Sem II (100)', 'Total (100)', 'Grade', 'Sem I (100)', 'Sem II (100)', 'Total (100)', 'Grade', 'Sem I (100)', 'Sem II (100)', 'Total (100)', 'Grade', 'Sem I (100)', 'Sem II (100)', 'Total (100)', 'Grade', 'Grand Total (800)', '%', 'Grade'],
+            colModel: [
+            { name: 'EngSemI', index: 'EngSemI', align: 'center', width: 40, sortable: false },
+            { name: 'EngSemII', index: 'EngSemII', align: 'center', width: 40, sortable: false },
+            { name: 'EngTotal', index: 'EngTotal', align: 'center', width: 40, sortable: false },
+            { name: 'EngGrade', index: 'EngGrade', align: 'center', width: 40, sortable: false },
+            { name: 'LangSemI', index: 'LangSemI', align: 'center', width: 40, sortable: false },
+            { name: 'LangSemII', index: 'LangSemII', align: 'center', width: 40, sortable: false },
+            { name: 'LangTotal', index: 'LangTotal', align: 'center', width: 40, sortable: false },
+             { name: 'LangGrade', index: 'LangGrade', align: 'center', width: 40, sortable: false },
+            { name: 'HcSemI', index: 'HcSemI', align: 'center', width: 40, sortable: false },
+            { name: 'HcSemII', index: 'HcSemII', align: 'center', width: 40, sortable: false },
+            { name: 'HcTotal', index: 'HcTotal', align: 'center', width: 40, sortable: false },
+            { name: 'HcGrade', index: 'HcGrade', align: 'center', width: 40, sortable: false },
+            { name: 'MathsSemI', index: 'MathsSemI', align: 'center', width: 40, sortable: false },
+            { name: 'MathsSemII', index: 'MathsSemII', align: 'center', width: 40, sortable: false },
+            { name: 'MathsTotal', index: 'MathsTotal', align: 'center', width: 40, sortable: false },
+            { name: 'MathsGrade', index: 'MathsGrade', align: 'center', width: 40, sortable: false },
+            { name: 'BioSemI', index: 'BioSemI', align: 'center', width: 40, sortable: false },
+            { name: 'BioSemII', index: 'BioSemII', align: 'center', width: 40, sortable: false },
+            { name: 'BioTotal', index: 'BioTotal', align: 'center', width: 40, sortable: false },
+            { name: 'BioGrade', index: 'BioGrade', align: 'center', width: 40, sortable: false },
+            { name: 'PhySemI', index: 'PhySemI', align: 'center', width: 40, sortable: false },
+            { name: 'PhySemII', index: 'PhySemII', align: 'center', width: 40, sortable: false },
+            { name: 'PhyTotal', index: 'PhyTotal', align: 'center', width: 40, sortable: false },
+            { name: 'PhyGrade', index: 'PhyGrade', align: 'center', width: 40, sortable: false },
+            { name: 'CheSemI', index: 'CheSemI', align: 'center', width: 40, sortable: false },
+            { name: 'CheSemII', index: 'CheSemII', align: 'center', width: 40, sortable: false },
+            { name: 'CheTotal', index: 'CheTotal', align: 'center', width: 40, sortable: false },
+             { name: 'CheGrade', index: 'CheGrade', align: 'center', width: 40, sortable: false },
+            { name: 'IctSemI', index: 'IctSemI', align: 'center', width: 40, sortable: false },
+            { name: 'IctSemII', index: 'IctSemII', align: 'center', width: 40, sortable: false },
+            { name: 'IctTotal', index: 'IctTotal', align: 'center', width: 40, sortable: false },
+             { name: 'IctGrade', index: 'IctGrade', align: 'center', width: 40, sortable: false },
+             { name: 'GrandTotal', index: 'GrandTotal', align: 'center', width: 40, sortable: false },
+             { name: 'Percentage', index: 'Percentage', align: 'center', width: 40, sortable: false },
+             { name: 'OverallGrade', index: 'OverallGrade', align: 'center', width: 40, sortable: false },
+            ],
+            rowNum: 5,
+            rowList: [10, 20],
+            sordname: 'Id',
+            sordorder: 'Desc',
+            width: 1100,
+            height: 150,
+            pager: '#FinalResultPagger',
+            viewrecords: true,
+            caption: 'Final Result Sheet'
+
+        });
+        jQuery("#FinalResultGrid").navGrid('#FinalResultPagger', { add: false, edit: false, del: false, search: false });
+//        $("#FinalResultGrid").jqGrid('navButtonAdd', '#FinalResultPagger', {
+//            caption: "Export To Excel",
+//            onClickButton: function () {
+//                window.open("FinalResultListJqGrid" + '?rows=9999' +
+//                         '&page=1' +
+//                         '&sidx=Id' +
+//                         '&sord=desc' +
+//                         '&PreRegNum=' + PreRegNum +
+//                         '&grade=' + $('#Grade').val() +
+//                         '&section=' + $('#Section').val() +
+//                         '&ExportType=Excel'
+//                         );
+//            }
+//        });
+//        $("#FinalResultGrid").jqGrid('navButtonAdd', '#FinalResultPagger', {
+//            caption: "Export To PDF",
+//            onClickButton: function () {
+
+
+//                window.open("FinalResultListJqGrid" + '?rows=9999' +
+//                 '&page=1' +
+//                 '&sidx=Id' +
+//                 '&sord=desc' +
+//                 '&PreRegNum=' + PreRegNum +
+//                 '&grade=' + $('#Grade').val() +
+//                 '&section=' + $('#Section').val() +
+//                 '&ExportType=PDF'
+//                 );
+//            }
+//        });
+        jQuery("#FinalResultGrid").jqGrid('setGroupHeaders', {
+            useColSpanStyle: true,
+            groupHeaders: [
+                 { startColumnName: 'EngSemI', numberOfColumns: 4, titleText: '<em>English</em>' },
+                 { startColumnName: 'LangSemI', numberOfColumns: 4, titleText: '<em>Language</em>' },
+                 { startColumnName: 'HcSemI', numberOfColumns: 4, titleText: '<em>HC&G</em>' },
+                 { startColumnName: 'MathsSemI', numberOfColumns: 4, titleText: '<em>Mathematics</em>' },
+                 { startColumnName: 'BioSemI', numberOfColumns: 4, titleText: '<em>Biology</em>' },
+                 { startColumnName: 'PhySemI', numberOfColumns: 4, titleText: '<em>Physics</em>' },
+                 { startColumnName: 'CheSemI', numberOfColumns: 4, titleText: '<em>Chemistry</em>' },
+                 { startColumnName: 'IctSemI', numberOfColumns: 4, titleText: '<em>ICT</em>' },
+
+                ]
+        });
+
+    });
+
+</script>
+<table>
+    <tr>
+        <td>
+            <table id="FinalResultGrid">
+            </table>
+            <div id="FinalResultPagger">
+            </div>
+        </td>
+    </tr>
+</table>

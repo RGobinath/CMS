@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = " Consolidate MIS Report";
+    Layout = "~/Views/Shared/NewBootstrapMaster.cshtml";
+}
+<link href="../../Content/Table.css" rel="stylesheet" />
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+        var ChartName = '@ViewBag.Chartname';
+//            alert(ChartName);
+        $.ajax({
+            type: 'Get',
+            async: false,
+            url: '@Url.Content("~/StudentsReport/DateWiseConsolidateMISReportChart/")',
+            success: function (data) {
+                //alert(ChartName);
+                if (ChartName == "MultiSeriesColumnChart") {
+                    var chart = new FusionCharts("../../Charts/FCF_MSColumn2D.swf", "Campus List", "700", "430");
+                }
+                else {
+                    var chart = new FusionCharts("../../Charts/FCF_Column2D.swf", "Campus List", "700", "430");
+                }
+                chart.setDataXML(data);
+                chart.render("BarChartDiv");
+            }
+        });
+    });
+    function GetAllCampusConsolidateReport() {
+        window.location.href = "/StudentsReport/DateWiseConsolidateMISReport?Excel=AllCampusConsolidateReport";
+    }
+</script>
+<br />
+<table width="100%">
+    <tr>
+        <td width="40%">
+            <div class="CSSTableGenerator">
+                <table border="1">
+                    <tr>
+                        <td>Campus
+                        </td>
+                        <td>@ViewBag.PreviousDate
+                        </td>
+                        <td>@ViewBag.CurrentDate
+                        </td>
+                    </tr>
+                    @if (ViewBag.ShowList != null)
+                    {
+                        long Prev = 0;
+                        long Current = 0;
+                        foreach (var item in ViewBag.ShowList)
+                        {
+                        <tr>
+                            <td align="left">@item.Campus</td>
+                            <td align="center">
+                                @if (@item.PreviousToddlerTotal > 0)
+                                {
+                                    Prev = @item.PreviousTotal + @item.PreviousToddlerTotal;
+                                }
+                                else
+                                {
+                                    Prev = @item.PreviousTotal;
+                                }
+                                @Prev
+                            </td>
+                            <td align="center">
+                                @if (@item.CurrentToddlerTotal > 0)
+                                {
+                                    Current = @item.CurrentTotal + @item.CurrentToddlerTotal;
+                                }
+                                else
+                                {
+                                    Current = @item.CurrentTotal;
+                                }
+                                @Current
+                            </td>
+                        </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </td>
+        <td width="60%">
+            <div id="BarChartDiv">
+            </div>
+    </tr>
+    <tr>
+        <td align="center">
+            <div>
+                <button type="button" class="btn btn-primary" id="GetAllCampusConsolidateReport" onclick="GetAllCampusConsolidateReport()">
+                    <i class="fa fa-print fa-fw"></i>&nbsp;Generate Excel</button>&nbsp;&nbsp;&nbsp;
+            </div>
+        </td>
+        <td width="60%"></td>
+    </tr>
+</table>

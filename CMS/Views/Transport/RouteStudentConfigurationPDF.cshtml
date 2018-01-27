@@ -1,0 +1,194 @@
+﻿@model TIPS.Entities.TransportEntities.RouteStudentPDF
+@{
+    ViewBag.Title = "RouteStudent Configuration PDF";
+    Layout = null;
+}
+<style type="text/css">
+    .tbl_WithOutBrdr {
+        font-family: Verdana;
+        font-size: 15px;
+    }
+
+    .tbl_WithThickBrdr {
+        font-family: Calibri;
+        font-size: 15px;
+        border-collapse: collapse;
+        border: 2px solid black;
+        /*padding:1px 2px 1px 4px;*/
+        /*line-height: 20px;*/
+    }
+
+    .tr_BtmBrdr {
+        border-bottom: 2px solid black;
+    }
+
+    .tr_TopBrdr {
+        border-top: 2px solid black;
+    }
+
+    .tr_Brdr {
+        border-top: 2px solid black;
+        border-bottom: 2px solid black;
+    }
+
+    .page-break {
+        page-break-before: always;
+    }
+
+    .td_VerAlign {
+        vertical-align: top;
+    }
+
+    td {
+        padding-left: 5px;
+        padding-right: 4px;
+    }
+</style>
+<table width="90%" align="center" class="tbl_WithOutBrdr">
+    <tr>
+        <td colspan="2">
+            <img width="100" height="50" src="@Model.NaceLogo" alt="Tips Logo" />
+        </td>
+        <td colspan="5" style="font-size: 14px;">
+            <strong>The Indian Public School<br />
+                &nbsp;&nbsp;Route-Student List</strong>
+        </td>
+        <td width="89">
+            <img width="120" height="60" src="@Model.TipsLogo" alt="Tips Logo" />
+        </td>
+    </tr>
+</table>
+<table width="90%" border="1" align="center" class="tbl_WithThickBrdr">
+    <tr bgcolor="#ECECEC" align="center" class="tr_BtmBrdr" style="height: 35px;">
+        <td colspan="3">
+            <b>Campus Name</b>
+        </td>
+        <td colspan="3">
+            <b>Route No</b>
+        </td>
+        <td colspan="2">
+            <b>Total Students</b>
+        </td>
+        <td colspan="2">
+            <b>Date</b>
+        </td>
+    </tr>
+    @if (@Model.RouteConfigList != null && @Model.RouteConfigList[0].routeStudConfigPdfList != null)
+    {
+        if (@Model.RouteConfigList[0].routeStudConfigPdfList[0].Campus != null && @Model.RouteConfigList[0].routeStudConfigPdfList[0].RouteId != null)
+        {
+        <tr align="center" class="tr_BtmBrdr" style="height: 35px;">
+            <td colspan="3" align="center">@Model.RouteConfigList[0].routeStudConfigPdfList[0].Campus
+
+            </td>
+            <td colspan="3" align="center">Route-@Model.RouteConfigList[0].routeStudConfigPdfList[0].RouteId
+            </td>
+            <td colspan="2" align="center">@Model.RouteConfigList[0].routeStudConfigPdfList[0].NoOfStudents
+            </td>
+            <td colspan="2" align="center">@Model.Today
+            </td>
+        </tr>
+        }
+    }
+    <tr bgcolor="#ECECEC" align="center" class="tr_BtmBrdr" style="height: 35px;">
+        <td colspan="10">
+            <b>Student List</b>
+        </td>
+    </tr>
+</table>
+<table width="90%" border="1" align="center" class="tbl_WithThickBrdr" style="border-top: none;">
+    <tr bgcolor="#ECECEC" align="center" class="tr_BtmBrdr" style="height: 35px;">
+        <td colspan="2" rowspan="2">
+            <b>Location Name</b>
+        </td>
+        <td colspan="6"><b>Student Details</b></td>
+        <td colspan="12"><b>Days</b></td>
+    </tr>
+    <tr bgcolor="#ECECEC" align="center" class="tr_BtmBrdr" style="height: 35px;">
+        <td colspan="2">
+            <b>Name</b>
+        </td>
+        <td colspan="2">
+            <b>Grade</b>
+        </td>
+        <td colspan="2">
+            <b>Section</b>
+        </td>
+        <td colspan="2">
+            <b>Monday</b>
+        </td>
+        <td colspan="2">
+            <b>Tuesday </b>
+        </td>
+        <td colspan="2">
+            <b>Wednesday</b>
+        </td>
+        <td colspan="2">
+            <b>Thursday</b>
+        </td>
+        <td colspan="2">
+            <b>Friday</b>
+        </td>
+        <td colspan="2">
+            <b>Saturday</b>
+        </td>
+    </tr>
+    @if (@Model.RouteConfigList != null)
+    {
+        for (int i = 0; i < @Model.RouteConfigList.Count; i++)
+        {
+            if (@Model.RouteConfigList[0].routeStudConfigPdfList != null)
+            {
+                  
+        <tr align="center" class="tr_BtmBrdr" style="height: 35px;">
+            <td colspan="2" rowspan="@Model.RouteConfigList[i].routeStudConfigPdfList.Count">
+                @Model.RouteConfigList[i].routeStudConfigPdfList[0].LocationName<br />
+                (@Model.RouteConfigList[i].routeStudConfigPdfList[0].TamilDescription)
+
+                
+            </td>
+            <td colspan="2" align="left">
+                @Model.RouteConfigList[i].routeStudConfigPdfList[0].Name
+            </td>
+            <td colspan="2">
+                @Model.RouteConfigList[i].routeStudConfigPdfList[0].Grade
+            </td>
+            <td colspan="2">
+                @Model.RouteConfigList[i].routeStudConfigPdfList[0].Section
+            </td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+        </tr>
+                for (int j = 1; j < @Model.RouteConfigList[i].routeStudConfigPdfList.Count; j++)
+                {
+                    if (@Model.RouteConfigList[i].routeStudConfigPdfList[j].Name != null && @Model.RouteConfigList[i].routeStudConfigPdfList[j].Grade != null)
+                    {
+        <tr class="tr_BtmBrdr" style="height: 35px;">
+            <td colspan="2" aligin="left">
+                @Model.RouteConfigList[i].routeStudConfigPdfList[j].Name
+            </td>
+            <td colspan="2" align="center">
+                @Model.RouteConfigList[i].routeStudConfigPdfList[j].Grade
+            </td>
+            <td colspan="2" align="center">
+                @Model.RouteConfigList[i].routeStudConfigPdfList[j].Section
+            </td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+                </tr>   
+                        
+                    }
+                }
+            }
+        }
+    }
+</table>
+
